@@ -1,0 +1,304 @@
+import 'package:bubbles/App/app.dart';
+import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_bloc.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
+import 'package:bubbles/UI/Onboarding/Slider_Screeen/Sliderr.dart';
+import 'package:bubbles/core/Colors/constants.dart';
+import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:conditional_questions/conditional_questions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:collection/collection.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+class Intersets_screen extends StatefulWidget {
+  UsersData? Users;
+  Intersets_screen({this.Users});
+
+  @override
+  State<Intersets_screen> createState() => _Intersets_screenState();
+}
+
+class _Intersets_screenState extends State<Intersets_screen> {
+  List<int> IntersetID=[];
+  List<int>? array2;
+ final bloc2 = sl<SignUpBloc>();
+   late int sum;
+ @override
+  void initState() {
+    super.initState();
+    array2 = List.filled(
+        50,
+        0);
+
+
+bloc2.add(GetInterests());
+  }
+  // List<int> Array=[0];
+  @override
+  Widget build(BuildContext context) {
+    var h = MediaQuery
+        .of(context)
+        .size
+        .height;
+    var w = MediaQuery
+        .of(context)
+        .size
+        .width;
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    return  BlocBuilder(
+        bloc: bloc2,
+        builder: (BuildContext context, SignUpState state) {
+           return Scaffold(
+             resizeToAvoidBottomInset: false,
+
+        backgroundColor: AppColor,
+        body: SafeArea(
+          child: Column(
+              children: [
+                Container(
+                  width: w/1.2,
+                  margin: EdgeInsets.only(top: h/40),
+                  child: InkWell(
+                    onTap: (){
+                      WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                          Navigator.of(context).pop()
+                      );
+                    },
+                    child: Text('< Back',
+                        textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
+                            fontSize: 3.5 *
+                                SizeConfig
+                                    .blockSizeVertical!
+                                    .toDouble(),
+                            letterSpacing: 0.3,
+                            fontWeight: FontWeight.w300,
+                            height: 1
+                        )),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: h/17,bottom: h/35),
+                  child: Text('What are your interests?', textAlign: TextAlign.left,    style:_TextTheme.headlineLarge!.copyWith(
+                      fontSize: 3.5 *
+                          SizeConfig
+                              .blockSizeVertical!
+                              .toDouble(),
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white
+                  )),
+                ),
+
+                Container(
+                  width: w,
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        (state.success == true)
+                            ? Container(
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(5),
+                            topRight: Radius.circular(5),
+                            bottomLeft: Radius.circular(5),
+                            bottomRight: Radius.circular(5),
+                          ),
+                          color : AppColor
+                        ),
+                        width: w/1.1,
+                        height: h/1.6,
+                        child:  ScrollConfiguration(
+                            behavior: MyBehavior(),
+                            child: Center(
+                              child: Container(
+                                  child:  GridView.builder(
+                                      cacheExtent : 500,
+                                      shrinkWrap: true,
+                                      itemCount: state.GetInterests!.interests!.length,
+                                      gridDelegate:
+
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 3,
+                                        childAspectRatio: (5 / 5.5),
+                                      ),
+                                      itemBuilder: (context, index) {
+
+                                        return
+                                          InkWell(
+                                            onTap: (){
+                                              sum = array2!.sum;
+                                              if (array2![index]==1){
+                                                array2![index]=0;
+                                                IntersetID.remove(state.GetInterests!.interests![index].id!);
+                                              }else{
+                                                if (sum<5) {
+                                                  array2![index] = 1;
+                                                  IntersetID.add(state.GetInterests!.interests![index].id!);
+                                                }
+                                              }
+                                              sum = array2!.sum;
+                                              print(IntersetID);
+                                              setState(() { });
+                                              bloc2.add(ChangeSelected());
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.all(7),
+                                              width: 74.9187240600586,
+                                              height: 80.73765563964844,
+                                              decoration: BoxDecoration(
+                                                borderRadius : BorderRadius.only(
+                                                  topLeft: Radius.circular(5),
+                                                  topRight: Radius.circular(5),
+                                                  bottomLeft: Radius.circular(5),
+                                                  bottomRight: Radius.circular(5),
+                                                ),
+                                                color : Color.fromRGBO(255, 255, 255, 1),
+                                              ),
+                                              child:
+                                              Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                children: [
+                                                  Text(""),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        width: w/8,
+                                                        height: h/14.8,
+                                                        child: CachedNetworkImage(
+                                                          imageUrl:  state.GetInterests!.interests![index].image!,
+                                                          color: array2![index]==1? Color(0xffBA474D): null,
+                                                          fit: BoxFit.fill,
+                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                              CircularProgressIndicator(value: downloadProgress.progress),
+                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                        ),
+
+
+
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(state.GetInterests!.interests![index].title.toString(),
+                                                    textAlign: TextAlign.center,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                                        fontFamily: 'Sofia Pro',
+                                                        fontSize: 20,
+                                                        letterSpacing: 0.3 ,
+                                                        fontWeight: FontWeight.w500,
+                                                        height: 1
+                                                    ),)
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                      }
+                                  )
+                              ),
+                            )),
+                    )
+                            : state.isLoading == true
+                            ? Container(
+                            width: w/1.1,
+                            height: h/1.6,
+                            child: Center(child: listLoader(context: context)))
+                            : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Container(
+                                width: w / 1.1,
+                                height: h/2.01,
+                                child: const Text("Error Was Found"),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Text('Select Up to 5', textAlign: TextAlign.center, style: TextStyle(
+                    color: Color.fromRGBO(234, 234, 234, 1),
+                    fontFamily: 'Sofia Pro',
+                    fontSize: 11,
+                    letterSpacing: 0 ,
+                    fontWeight: FontWeight.normal,
+                    height: 1.3636363636363635
+                ),),
+
+                Container(
+                    margin: EdgeInsets.only(top: h/30),
+                      width: w/1.2,
+                      height: h/13.9,
+                      decoration:  BoxDecoration(
+                        borderRadius : BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                          bottomRight: Radius.circular(5),
+                        ),
+                        boxShadow : [BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                            offset: Offset(0,0),
+                            blurRadius: 6
+                        )],
+                        color :state.ChangeSelectedd! && (sum!=0)  ?
+
+
+                        Color.fromRGBO(207, 109, 56, 1)
+                            : Color(0xff939393),
+                      ),
+                      child: InkWell(
+                          onTap: (){
+                            sum = array2!.sum;
+                            if (sum!=0) {
+                              widget.Users!.SetInterests(IntersetID);
+                              WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>
+                                        slider(
+                                          Users:widget.Users ,
+
+                                        )),)
+                              );
+
+                            }
+                          },
+                          child:
+                       Center(
+                        child: Text('Next', textAlign: TextAlign.center,        style:
+                        _TextTheme.headline1!.copyWith(
+                            fontWeight: FontWeight.w600,
+                          fontSize: 3 *
+                              SizeConfig
+                                  .blockSizeVertical!
+                                  .toDouble(),
+                        ),),
+                      ))
+
+                  ),
+
+              ],
+            ),
+         
+        ),
+      );
+        });
+
+  }
+  Widget listLoader({context}) {
+    return const SpinKitThreeBounce(
+      color: Colors.blue,
+      size: 30.0,
+    );
+  }
+}
