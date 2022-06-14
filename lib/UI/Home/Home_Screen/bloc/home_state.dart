@@ -42,6 +42,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get ValueLOading;
   double? get NewValue;
 
+  bool? get MakeHimBEableTOSEtBubble;
+
 
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
@@ -59,6 +61,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetNewBubblesError = ""
       ..GetAllPrimeError = ""
       ..isLoading = false
+      ..MakeHimBEableTOSEtBubble = false
       ..GetNewBubblesIsloading = false
       ..GetAllPrimeIsloading = false
       ..GetAllBubblesIsloading = false

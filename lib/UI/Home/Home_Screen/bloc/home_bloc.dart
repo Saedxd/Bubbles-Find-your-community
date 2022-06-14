@@ -153,6 +153,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     }
 
+    if (event is OpenDoorTObeAbleTOsetBubble){
+      yield state.rebuild((b) => b
+        ..MakeHimBEableTOSEtBubble = event.MakeHimBEableTOSEtBubbles!
+      );
+    }
 
     if (event is GetAllBubbles) {
       try {

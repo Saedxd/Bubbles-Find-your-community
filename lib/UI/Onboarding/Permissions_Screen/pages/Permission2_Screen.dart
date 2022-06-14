@@ -81,10 +81,10 @@ at your location!""",
                             textAlign: TextAlign.left,
 
                             style:    _TextTheme  .headline1!.copyWith(
-                              letterSpacing: .5,
+                              letterSpacing: .1,
                               wordSpacing: 1,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 3.5 *
+                              fontWeight: FontWeight.w400,
+                              fontSize: 3.6 *
                                   SizeConfig
                                       .blockSizeVertical!
                                       .toDouble(),
@@ -139,7 +139,10 @@ at your location!""",
                         ),
                       ),
                       Text(""),
-                      InkWell(
+                      Container(
+                        margin: EdgeInsets.only(bottom: h/60),
+                        child:
+                        InkWell(
                           onTap: (){
                             _loginBloc.add(SetPermission((b) =>b
                               ..is_notify=0
@@ -165,7 +168,7 @@ at your location!""",
                               fontWeight: FontWeight.w300,
                               height: 1
                           ),)
-                      ),
+                      ),),
                       Text(""),
 
                     ],

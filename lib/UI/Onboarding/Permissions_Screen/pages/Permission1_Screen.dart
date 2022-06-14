@@ -24,7 +24,7 @@ class _Permission1_ScreenState extends State<Permission1_Screen> {
   Position? _currentPosition;
   double? Lat;
   double? Lng;
- //todo: some ui fixes
+
  Future<void> SetLatLng()async{
    await pref.SetLatLng(Lat!, Lng!);
  }
@@ -45,7 +45,7 @@ class _Permission1_ScreenState extends State<Permission1_Screen> {
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-    SetLocation();//TODO: Organize this code to if (granted){}
+    SetLocation();
   }
 
 
@@ -118,10 +118,10 @@ access them""",
           textAlign: TextAlign.left,
 
           style:    _TextTheme  .headline1!.copyWith(
-            letterSpacing: .5,
+            letterSpacing: .1,
             wordSpacing: 1,
-            fontWeight: FontWeight.w300,
-            fontSize: 3.5 *
+            fontWeight: FontWeight.w400,
+            fontSize: 3.8 *
                 SizeConfig
                     .blockSizeVertical!
                     .toDouble(),
@@ -191,14 +191,17 @@ access them""",
 
                   },
                   child:
-                  Text('Not Now', textAlign: TextAlign.center, style: TextStyle(
-                      color: Color.fromRGBO(47, 47, 47, 1),
-                      fontFamily: 'Red Hat Text',
-                      fontSize: 18,
-                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                      fontWeight: FontWeight.w300,
-                      height: 1
-                  ),)
+                  Container(
+                    margin: EdgeInsets.only(bottom: h/60),
+                    child: Text('Not Now', textAlign: TextAlign.center, style: TextStyle(
+                        color: Color.fromRGBO(47, 47, 47, 1),
+                        fontFamily: 'Red Hat Text',
+                        fontSize: 18,
+                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                        fontWeight: FontWeight.w300,
+                        height: 1
+                    ),),
+                  )
                 ),
                 Text(""),
 

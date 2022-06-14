@@ -137,3 +137,9 @@ abstract class ChangeSliderValue extends HomeEvent
   factory ChangeSliderValue([updates(ChangeSliderValueBuilder b)]) = _$ChangeSliderValue;
 }
 
+abstract class OpenDoorTObeAbleTOsetBubble extends HomeEvent
+    implements Built<OpenDoorTObeAbleTOsetBubble, OpenDoorTObeAbleTOsetBubbleBuilder> {
+bool? get MakeHimBEableTOSEtBubbles;
+  OpenDoorTObeAbleTOsetBubble._();
+  factory OpenDoorTObeAbleTOsetBubble([updates(OpenDoorTObeAbleTOsetBubbleBuilder b)]) = _$OpenDoorTObeAbleTOsetBubble;
+}

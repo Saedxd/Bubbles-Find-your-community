@@ -352,6 +352,7 @@ class _LoginState extends State<Login> {
                                                         TextInputAction.next,
                                                     controller:
                                                         _EmailController,
+                                                    cursorHeight: 20,
                                                     onChanged: (value) {
                                                     },
                                                     onFieldSubmitted:
@@ -370,6 +371,7 @@ class _LoginState extends State<Login> {
                                                         fontSize: 19,
                                                         fontWeight:
                                                             FontWeight.w500,
+                                                        height: 1.3,
                                                         color: Colors.brown),
                                                     decoration: InputDecoration(
                                                         errorStyle: TextStyle(
@@ -419,11 +421,7 @@ class _LoginState extends State<Login> {
                                                         ),
                                                         filled: true,
                                                         fillColor: Colors.white,
-                                                        contentPadding:
-                                                            EdgeInsets.symmetric(
-                                                                horizontal: h/58,
-                                                              vertical: 0
-                                                            ) ,
+                                                        contentPadding: EdgeInsets.only(left: h/100),
                                                         hintText: "Email",
                                                         hintStyle: _TextTheme.headline6!.copyWith(
                                                           fontSize: 3.6 *

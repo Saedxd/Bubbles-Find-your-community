@@ -962,4 +962,88 @@ class ChangeSliderValueBuilder
   }
 }
 
+class _$OpenDoorTObeAbleTOsetBubble extends OpenDoorTObeAbleTOsetBubble {
+  @override
+  final bool? MakeHimBEableTOSEtBubbles;
+
+  factory _$OpenDoorTObeAbleTOsetBubble(
+          [void Function(OpenDoorTObeAbleTOsetBubbleBuilder)? updates]) =>
+      (new OpenDoorTObeAbleTOsetBubbleBuilder()..update(updates))._build();
+
+  _$OpenDoorTObeAbleTOsetBubble._({this.MakeHimBEableTOSEtBubbles}) : super._();
+
+  @override
+  OpenDoorTObeAbleTOsetBubble rebuild(
+          void Function(OpenDoorTObeAbleTOsetBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  OpenDoorTObeAbleTOsetBubbleBuilder toBuilder() =>
+      new OpenDoorTObeAbleTOsetBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is OpenDoorTObeAbleTOsetBubble &&
+        MakeHimBEableTOSEtBubbles == other.MakeHimBEableTOSEtBubbles;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, MakeHimBEableTOSEtBubbles.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('OpenDoorTObeAbleTOsetBubble')
+          ..add('MakeHimBEableTOSEtBubbles', MakeHimBEableTOSEtBubbles))
+        .toString();
+  }
+}
+
+class OpenDoorTObeAbleTOsetBubbleBuilder
+    implements
+        Builder<OpenDoorTObeAbleTOsetBubble,
+            OpenDoorTObeAbleTOsetBubbleBuilder> {
+  _$OpenDoorTObeAbleTOsetBubble? _$v;
+
+  bool? _MakeHimBEableTOSEtBubbles;
+  bool? get MakeHimBEableTOSEtBubbles => _$this._MakeHimBEableTOSEtBubbles;
+  set MakeHimBEableTOSEtBubbles(bool? MakeHimBEableTOSEtBubbles) =>
+      _$this._MakeHimBEableTOSEtBubbles = MakeHimBEableTOSEtBubbles;
+
+  OpenDoorTObeAbleTOsetBubbleBuilder();
+
+  OpenDoorTObeAbleTOsetBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _MakeHimBEableTOSEtBubbles = $v.MakeHimBEableTOSEtBubbles;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(OpenDoorTObeAbleTOsetBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$OpenDoorTObeAbleTOsetBubble;
+  }
+
+  @override
+  void update(void Function(OpenDoorTObeAbleTOsetBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  OpenDoorTObeAbleTOsetBubble build() => _build();
+
+  _$OpenDoorTObeAbleTOsetBubble _build() {
+    final _$result = _$v ??
+        new _$OpenDoorTObeAbleTOsetBubble._(
+            MakeHimBEableTOSEtBubbles: MakeHimBEableTOSEtBubbles);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

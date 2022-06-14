@@ -144,12 +144,16 @@ class _NavigatorTopBarState extends State<NavigatorTopBar> {
                               child: Container(
                                   width: w / 1.7,
                                   height: h / 7,
-                                  child: SvgPicture.asset(
-                                      "Assets/images/Logo2.svg",
-                                      width: h / 3,
-                                      color:  state.Index1!
-                                          ? const Color(0xffCF6D38)
-                                          :ColorS.tertiary
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: h/30,top: h/100),
+                                        child: SvgPicture.asset(
+                                            "Assets/images/LGOOO.svg",
+                                            width: h / 6,
+                                        ),
+                                      ),
+                                    ],
                                   ))),
                           Container(
                             width: w / 3,

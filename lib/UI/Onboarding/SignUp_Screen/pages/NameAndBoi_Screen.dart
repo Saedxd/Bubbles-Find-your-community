@@ -251,6 +251,7 @@ print("---------------------------");
                                           style: TextStyle(
                                               fontSize: 19,
                                               fontWeight: FontWeight.w500,
+                                              height: 1.3,
                                               color: Colors.brown),
                                           decoration: InputDecoration(
                                               errorStyle:TextStyle(color: Colors.red,),
@@ -330,6 +331,7 @@ print("---------------------------");
                                           cursorColor: Colors.black,
                                           style: TextStyle(
                                               fontSize: 19,
+                                              height: 1.3,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.brown),
                                           decoration: InputDecoration(

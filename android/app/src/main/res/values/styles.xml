@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="facebook_client_token">6258ddd22fddb8f32e3da5229443f510</string>
     <string name="facebook_app_id">2590262397784969</string>
 
@@ -10,6 +11,7 @@
              Flutter draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
+
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- Theme applied to the Android Window as soon as the process has started.
          This theme determines the color of the Android Window while your
@@ -19,6 +21,6 @@
          This Theme is only used starting with V2 of Flutter's Android embedding. -->
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">?android:colorBackground</item>
-
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

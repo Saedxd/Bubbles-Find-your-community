@@ -530,8 +530,6 @@ bool Diditonce = false;
                                   ? ColorS = pickerColor.toString().substring(6, 16)
                                   : ColorS =
                                   pickerColor.toString().substring(33, 43);
-                              //TODO : CHECK THIS ON RELEASE MODE ON FLUTTER LOGS on terminal.
-
                               print(ColorS);
                               print(Base64Images);
                               print(widget.Dataa!.OrganizersId);

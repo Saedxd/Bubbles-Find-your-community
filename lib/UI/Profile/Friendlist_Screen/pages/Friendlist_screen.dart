@@ -490,7 +490,7 @@ int COUNTERDiditonce = 0;
 
                       ],
                     )
-                        :Container(child: Text("Loading.."),),//todo display custom loading rows and then delete the listloading its not important if this task is done
+                        :Container(child: Text("Loading.."),),
                     COUNTERDiditonce==0?
                          state.isLoading!
                         ? Container(

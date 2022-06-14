@@ -61,7 +61,7 @@ headline2:  TextStyle(//uSED FOR Headlines like Top onces like choose Avatar Hea
 
     headline1:TextStyle(
         color: Color.fromRGBO(255, 255, 255, 1),
-     //   fontFamily: 'Red Hat Text',
+    fontFamily: 'Red Hat Text',
         fontSize: 22,
         letterSpacing: 0.2 ,
         fontWeight: FontWeight.w600,

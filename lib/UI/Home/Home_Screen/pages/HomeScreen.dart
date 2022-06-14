@@ -133,7 +133,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    makeIcon();
     FocuseNODE = FocusNode();
      location =  Location();
     GetTHEME();
@@ -146,16 +145,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   }
 
-  makeIcon()async{
-          markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
-          doit= true;
-          setState(() {
-
-          });
-  }
+  // makeIcon()async{
+  //         markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
+  //         doit= true;
+  //         setState(() { });
+  //
+  //
+  // }
   //todo: make the create bubble thing only for creators.
-  //todo: unable to create bubble when map clicked unless buttonsheet slider opened
-  //todo: fix logo
 
   @override
   Widget build(BuildContext context) {
@@ -175,50 +172,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             bloc: _HomeBloc,
             builder: (BuildContext Context, HomeState state) {
 
-              //  void MakeBubble() async {
-              // final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
-              //    for(int i=0;i<state.GetBubbles!.data!.length;i++) {
-              //      if (state.GetBubbles!.data![i].draw_type!="polygon") {
-              //        LatLng latlng = LatLng(state.GetBubbles!.data![i].lat!,
-              //            state.GetBubbles!.data![i].lng!);
-              //        String Value = state.GetBubbles!.data![i].color!;
-              //        Value = Value.substring(1);
-              //        Value = "0xff$Value";
-              //        var myInt = int.parse(Value);
-              //        var BackgroundColor= myInt;
-              //        circle.add(Circle(
-              //            circleId: CircleId(state.GetBubbles!.data![i].id.toString()),
-              //            radius:
-              //          state.GetBubbles!.data![i].radius!.toDouble(),
-              //            zIndex: 2,
-              //            strokeColor: Colors.transparent,
-              //            center: latlng,
-              //            fillColor: Color(BackgroundColor).withAlpha(100)));
-              //        marker2.add(Marker(
-              //          markerId:  MarkerId((state.GetBubbles!.data![i].id!+1000).toString()),
-              //          position: latlng,
-              //          icon: BitmapDescriptor.fromBytes(markerIcon),
-              //        ));
-              //      }
-              //    }
               //
-              //    // marker2.add(
-              //    //   Marker(
-              //    //     //todo:
-              //    //     //what i just understood is when you make another marker2.add() of same id it will update the last one ok use this please
-              //    //     markerId: const MarkerId("UserLocation"),
-              //    //     position: UserLocation!,
-              //    //     icon:BitmapDescriptor.fromBytes(markerIcon),
-              //    //   ),
-              //    // );
-              //
-              //  }
-              int? length;
-              if (state.GetAllBubblesSuccess! && DiditOnces){
-                // MakeBubble();
-                DiditOnces = false;
-                length = state.GetBubbles!.data!.length;
-              }
+              // int? length;
+              // if (state.GetAllBubblesSuccess! && DiditOnces){
+              //   // MakeBubble();
+              //   DiditOnces = false;
+              //   length = state.GetBubbles!.data!.length;
+              // }
 
 
               return WillPopScope(
@@ -230,21 +190,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         children:[
 
 
-                          doit?
+
                           GoogleMap(
                             onCameraMove:(CameraPosition cameraPosition){
                               CameraZoom = cameraPosition.zoom;
                               print(CameraZoom);
                             },
                             onTap: (location){
+                            if (state.MakeHimBEableTOSEtBubble!) {
                               Lat = location.latitude;
                               Lng = location.longitude;
 
-                              _HomeBloc.add(CreateBubbless((b) => b
+                              _HomeBloc.add(CreateBubbless((b) =>
+                              b
                                 ..Radius = value
                                 ..lat = location.latitude
                                 ..lng = location.longitude
                               ));
+                            }
                             },
                             zoomControlsEnabled: false,
                             circles:state.GetAllBubblesIsloading!?Loading:state.circle!,
@@ -262,7 +225,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             },
                             myLocationEnabled: false,
                             zoomGesturesEnabled: true,
-                          ):Text(""),
+                          ),
                           Positioned(
                               bottom: h/50,
                               right: 0,
@@ -287,20 +250,31 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       child: IconButton(
                                           icon: SvgPicture.asset("Assets/images/Vector(4).svg"),
                                           onPressed:()async{
-                                            await getCenter();
-                                            print("clicked");
-                                            _HomeBloc.add(ShowDialoog());
-
-                                            MYcolor =Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-
-
-
-
-                                            _HomeBloc.add(CreateBubbless((b) => b
-                                              ..Radius = value
-                                              ..lat = centerLatLng!.latitude
-                                              ..lng = centerLatLng!.longitude
-                                            ));
+                                      if (state.MakeHimBEableTOSEtBubble!) {
+                                        _HomeBloc.add(OpenDoorTObeAbleTOsetBubble((b) =>
+                                        b..MakeHimBEableTOSEtBubbles = false
+                                        ));
+                                      }else{
+                                        _HomeBloc.add(OpenDoorTObeAbleTOsetBubble((b) =>
+                                        b..MakeHimBEableTOSEtBubbles = true
+                                        ));
+                                      }
+                                              await getCenter();
+                                              print("clicked");
+                                              _HomeBloc.add(ShowDialoog());
+                                              MYcolor = Color(
+                                                  (math.Random().nextDouble() *
+                                                      0xFFFFFF).toInt())
+                                                  .withOpacity(1.0);
+                                              // _HomeBloc.add(
+                                              //     CreateBubbless((b) =>
+                                              //     b
+                                              //       ..Radius = value
+                                              //       ..lat = centerLatLng!
+                                              //           .latitude
+                                              //       ..lng = centerLatLng!
+                                              //           .longitude
+                                              //     ));
                                           }
                                       ),
                                     ),
@@ -1232,26 +1206,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   void Function(void Function()) SetState){
                                 return Stack(
                                     children: [
-                                      // Positioned(
-                                      //
-                                      //   bottom: 0,
-                                      //   top: 0
-                                      //   ,right: 0,
-                                      //   left: 0,
-                                      //   child: Container(
-                                      //     child: Row(
-                                      //       mainAxisAlignment:
-                                      //       MainAxisAlignment.center,
-                                      //       children: [
-                                      //         CircleAvatar(
-                                      //           backgroundColor: Colors.transparent,
-                                      //           child:SvgPicture.asset("Assets/images/Bubble2.svg",fit: BoxFit.fill,color:MYcolor ),
-                                      //           radius:value*1.5,
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //   ),
-                                      // ),
                                       Positioned(
                                         bottom: 0,
                                         right: 0,
@@ -1332,6 +1286,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     children: [
                                                       InkWell(
                                                         onTap: () {
+                                                          _HomeBloc.add(OpenDoorTObeAbleTOsetBubble((b) =>
+                                                          b..MakeHimBEableTOSEtBubbles = false
+                                                          ));
                                                           _HomeBloc.add(
                                                               ShowDialoog());
                                                           _HomeBloc.add(DeleteBubble());

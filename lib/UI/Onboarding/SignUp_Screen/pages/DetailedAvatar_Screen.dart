@@ -75,6 +75,8 @@ class _DetailAvatarState extends State<DetailAvatar> {
             title: const Text('Pick a color!'),
             content: SingleChildScrollView(
               child: ColorPicker(
+
+         colorHistory: [],
                 pickerColor: pickerColor,
                 onColorChanged: changeColor,
               ),

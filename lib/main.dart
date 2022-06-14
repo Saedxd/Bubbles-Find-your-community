@@ -21,10 +21,8 @@ try {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  //todo : add this
-  //<array>
-  //     <string>UIInterfaceOrientationPortrait</string>
-  // </array>
+
+
 
 
 
@@ -46,8 +44,8 @@ try {
 //todo's : Fix the fonts on the normal message and the overflow on create account challenge
 //todo's :fix all font sizes with the new standerd.
 //todo's :look at trello for fixes
-//todo's : old color for onbaording which is pink
-//todo's :fix logo on 2ed login screen
+
+
 //todo : replace the image that placed in raw in options screen with svg
 //todo :handdle the screen of camera when access denyied
 //todo :check why the verify request takes time to proceed

@@ -57,30 +57,31 @@ class _ChallengesState extends State<Challenges> {
 
                     title: Container(
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircleAvatar(
                             radius: 45,
                           ),
-                          Container(
-                            margin: EdgeInsets.only(
-                                right: h / 40, left: h / 30),
-                            child: Text(
-                              state.GetChallenges!.challenges![index].title
-                                  .toString(),
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color.fromRGBO(47, 47, 47, 1),
-                                  fontFamily: 'Red Hat Display',
-                                  fontSize: 3.6 *
-                                      SizeConfig.blockSizeVertical!
-                                          .toDouble(),
-                                  letterSpacing: 0.1,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  right: h / 40, left: h / 30),
+                              child: Text(
+                                state.GetChallenges!.challenges![index].title
+                                    .toString(),
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Color.fromRGBO(47, 47, 47, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: 3.6 *
+                                        SizeConfig.blockSizeVertical!
+                                            .toDouble(),
+                                    letterSpacing: 0.1,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1),
+                              ),
                             ),
                           ),
-                          Text(""),
                         ],
                       ),
                     ),
@@ -174,11 +175,13 @@ class _ChallengesState extends State<Challenges> {
                          if (     state.GetChallenges!
                              .challengesStatus![index] ==
                              1) {
+                           _ChallengesBloc.add(GetChallenges());
                               _ChallengesBloc.add(GetPoints((b) => b
                               ..ChallengeId = state.GetChallenges!
                                   .challenges![index].id!
                                   .toInt()));
-                              _ChallengesBloc.add(GetChallenges());
+                           _ChallengesBloc.add(GetChallenges());
+
                               }
                          Navigator.pop(context);
 
@@ -221,7 +224,6 @@ class _ChallengesState extends State<Challenges> {
                     ],
                   );
                   //todo : fix the Create an Account textoverflow
-                  //todo :remove the Counter if it has no Count like Login Daily and Create an account
                   //todo : ask backend if user managed to get points twice he will get them doubled? or what happenes
                 });
           }
@@ -279,6 +281,7 @@ class _ChallengesState extends State<Challenges> {
                                 itemCount:
                                     state.GetChallenges!.challenges!.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  int NUMBERSWanted = state.GetChallenges!.values![index];
                                   return
                                     Container(
                                       width: w / 1.1,
@@ -324,18 +327,44 @@ class _ChallengesState extends State<Challenges> {
                                                     fontWeight: FontWeight.w600,
                                                     height: 1),
                                               ),
-                                              subtitle: Text(
-                                                '${state.GetChallenges!.challenges![index].point.toString()} points',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        96, 96, 96, 1),
-                                                    fontFamily:
-                                                        'Red Hat Display',
-                                                    fontSize: 15,
-                                                    letterSpacing: 0,
-                                                    fontWeight: FontWeight.w600,
-                                                    height: 1),
+                                              subtitle: Row(
+                                                children: [
+                                                  SvgPicture.asset(
+                                                    "Assets/images/BeCoins(1).svg",
+                                                    width: w / 15,
+                                                    height: h / 55,
+                                                  ),
+                                                  SizedBox(width: 3,),
+                                                  Text(
+                                                    '${state.GetChallenges!.challenges![index].point.toString()} points',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            96, 96, 96, 1),
+                                                        fontFamily:
+                                                            'Red Hat Display',
+                                                        fontSize: 15,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.w600,
+                                                        height: 1),
+                                                  ),
+                                                  SizedBox(width: 4,),
+                                                  index==2 || index==0
+                                                       ?Text("")
+                                                      : Text(
+                                                    '$NUMBERSWanted/'
+                                                        '${state.GetChallenges!.challenges![index].max_number.toString()}',
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(96, 96, 96, 1),
+                                                        fontFamily: 'Red Hat Display',
+                                                        fontSize: 2.5 *
+                                                            SizeConfig.blockSizeVertical!,
+                                                        letterSpacing: 0,
+                                                        fontWeight: FontWeight.w600,
+                                                        height: 1),
+                                                  )
+                                                ],
                                               ),
                                             ),
                                           ),
@@ -350,8 +379,11 @@ class _ChallengesState extends State<Challenges> {
                                                 bottomRight:
                                                     Radius.circular(50),
                                               ),
-                                              color: Color.fromRGBO(
-                                                  207, 109, 56, 1),
+                                              color:state.GetChallenges!
+                                                  .challengesStatus![index] ==
+                                                  1
+                                                  ? Color.fromRGBO(207, 109, 56, 1)
+                                                  : Color(0xff939393),
                                             ),
                                             child: InkWell(
                                               onTap: () {
@@ -382,7 +414,6 @@ class _ChallengesState extends State<Challenges> {
                                               child: Center(
                                                 child: Text(
                                                   'Claim',
-                                                  //todo: make the color here of Button not text as the message
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Color.fromRGBO(
@@ -406,7 +437,6 @@ class _ChallengesState extends State<Challenges> {
                                           ),
                                         ],
                                       ));
-
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {

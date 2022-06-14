@@ -46,6 +46,8 @@ class _$HomeState extends HomeState {
   @override
   final double? NewValue;
   @override
+  final bool? MakeHimBEableTOSEtBubble;
+  @override
   final GetPrimeBubblesModel? GetBubbles;
   @override
   final GetPrimeBubblesModel? GetPrimeBubbles;
@@ -75,6 +77,7 @@ class _$HomeState extends HomeState {
       this.circle,
       this.ValueLOading,
       this.NewValue,
+      this.MakeHimBEableTOSEtBubble,
       this.GetBubbles,
       this.GetPrimeBubbles,
       this.GetNewBubbles})
@@ -110,6 +113,7 @@ class _$HomeState extends HomeState {
         circle == other.circle &&
         ValueLOading == other.ValueLOading &&
         NewValue == other.NewValue &&
+        MakeHimBEableTOSEtBubble == other.MakeHimBEableTOSEtBubble &&
         GetBubbles == other.GetBubbles &&
         GetPrimeBubbles == other.GetPrimeBubbles &&
         GetNewBubbles == other.GetNewBubbles;
@@ -135,23 +139,23 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode),
-                                                                                Value.hashCode),
-                                                                            showDialogg.hashCode),
-                                                                        done.hashCode),
-                                                                    GetAllBubblesError.hashCode),
-                                                                GetAllBubblesIsloading.hashCode),
-                                                            GetAllBubblesSuccess.hashCode),
-                                                        GetAllPrimeError.hashCode),
-                                                    GetAllPrimeIsloading.hashCode),
-                                                GetAllPrimeSuccess.hashCode),
-                                            GetNewBubblesError.hashCode),
-                                        GetNewBubblesIsloading.hashCode),
-                                    GetNewBubblesSuccess.hashCode),
-                                marker2.hashCode),
-                            circle.hashCode),
-                        ValueLOading.hashCode),
-                    NewValue.hashCode),
+                                                                            $jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode),
+                                                                                showDialogg.hashCode),
+                                                                            done.hashCode),
+                                                                        GetAllBubblesError.hashCode),
+                                                                    GetAllBubblesIsloading.hashCode),
+                                                                GetAllBubblesSuccess.hashCode),
+                                                            GetAllPrimeError.hashCode),
+                                                        GetAllPrimeIsloading.hashCode),
+                                                    GetAllPrimeSuccess.hashCode),
+                                                GetNewBubblesError.hashCode),
+                                            GetNewBubblesIsloading.hashCode),
+                                        GetNewBubblesSuccess.hashCode),
+                                    marker2.hashCode),
+                                circle.hashCode),
+                            ValueLOading.hashCode),
+                        NewValue.hashCode),
+                    MakeHimBEableTOSEtBubble.hashCode),
                 GetBubbles.hashCode),
             GetPrimeBubbles.hashCode),
         GetNewBubbles.hashCode));
@@ -179,6 +183,7 @@ class _$HomeState extends HomeState {
           ..add('circle', circle)
           ..add('ValueLOading', ValueLOading)
           ..add('NewValue', NewValue)
+          ..add('MakeHimBEableTOSEtBubble', MakeHimBEableTOSEtBubble)
           ..add('GetBubbles', GetBubbles)
           ..add('GetPrimeBubbles', GetPrimeBubbles)
           ..add('GetNewBubbles', GetNewBubbles))
@@ -274,6 +279,11 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   double? get NewValue => _$this._NewValue;
   set NewValue(double? NewValue) => _$this._NewValue = NewValue;
 
+  bool? _MakeHimBEableTOSEtBubble;
+  bool? get MakeHimBEableTOSEtBubble => _$this._MakeHimBEableTOSEtBubble;
+  set MakeHimBEableTOSEtBubble(bool? MakeHimBEableTOSEtBubble) =>
+      _$this._MakeHimBEableTOSEtBubble = MakeHimBEableTOSEtBubble;
+
   GetPrimeBubblesModelBuilder? _GetBubbles;
   GetPrimeBubblesModelBuilder get GetBubbles =>
       _$this._GetBubbles ??= new GetPrimeBubblesModelBuilder();
@@ -316,6 +326,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _circle = $v.circle;
       _ValueLOading = $v.ValueLOading;
       _NewValue = $v.NewValue;
+      _MakeHimBEableTOSEtBubble = $v.MakeHimBEableTOSEtBubble;
       _GetBubbles = $v.GetBubbles?.toBuilder();
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
@@ -362,6 +373,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               circle: circle,
               ValueLOading: ValueLOading,
               NewValue: NewValue,
+              MakeHimBEableTOSEtBubble: MakeHimBEableTOSEtBubble,
               GetBubbles: _GetBubbles?.build(),
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
               GetNewBubbles: _GetNewBubbles?.build());

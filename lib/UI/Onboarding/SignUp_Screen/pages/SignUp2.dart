@@ -204,6 +204,7 @@ bool Selected = false;
                                                           fontSize: 19,
                                                           fontWeight: FontWeight
                                                               .w500,
+                                                          height: 1.3,
                                                           color: Colors.brown),
 
                                                       decoration: InputDecoration(
@@ -297,6 +298,9 @@ bool Selected = false;
                                                           fontSize: 19,
                                                           fontWeight: FontWeight
                                                               .w500,
+
+                                                          height: 1.3,
+
                                                           color: Colors.brown),
 
                                                       decoration: InputDecoration(

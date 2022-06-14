@@ -125,6 +125,7 @@ bool Selected = false;
           return SafeArea(
             child: Scaffold(
             //    resizeToAvoidBottomInset : false,
+
                 key: _scaffoldKey,
                 backgroundColor: AppColor,
                 body: Stack(children: [
@@ -137,393 +138,400 @@ bool Selected = false;
                     },
                     child:  SingleChildScrollView(
                       physics: NeverScrollableScrollPhysics(),
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: MediaQuery.of(context).size.width,
-                          minHeight: MediaQuery.of(context).size.height,
+                      child: Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom
                         ),
-                        child: IntrinsicHeight(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                                    Spacer(),
-                                    Container(
-                                      width: w / 1.34,
-                                      height: h / 13,
-                                      child: SvgPicture.asset(
-                                        "Assets/images/Logo.svg",
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                    Spacer(),
-                                    Column(
-                                      children: [
-                                        Container(
-                                            width: w / 1.30,
-                                            height: h/10,
-                                            child: Form(
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              key: _formkey1,
-                                              child: TextFormField(
-                                                keyboardAppearance: Brightness.dark,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                controller: _EmailController,
-                                                onChanged: (value) {
-                                                  Selected = true;
-                                                },
-                                                onFieldSubmitted: (value) {
-                                                  FoucesNodePass.requestFocus();
-                                                },
-
-                                                validator: MultiValidator([
-                                                  RequiredValidator(
-                                                      errorText: "Required"),
-                                                  EmailValidator(
-                                                      errorText:
-                                                          "Thats not an email")
-                                                ]),
-                                                cursorColor: Colors.black,
-                                                cursorHeight: h/30,
-                                                style: TextStyle(
-                                                    fontSize: 19,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.brown),
-
-                                                decoration: InputDecoration(
-                                                    errorStyle:TextStyle(color: Colors.red,),
-                                                    errorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    focusedErrorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(5)
-                                                    ),
-                                                  counterText: ' ',
-                                                  enabledBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  focusedBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 12),
-
-                                                  hintText: "Email",
-                                                    hintStyle: _TextTheme.headline6!.copyWith(
-                                                      fontSize: 6.2 *
-                                                          SizeConfig
-                                                              .blockSizeHorizontal!
-                                                              .toDouble(),
-                                                    )
-                                                ),
-                                                keyboardType: TextInputType.text,
-                                                // obscureText: SecureInput_pass,
-                                              ),
-                                            )),
-
-
-                                        Container(
-                                          width: w / 1.4,
-                                          child:  Center(
-                                              child: Text(
-                                            'You need to verify your email before using your account. We will send you a verification email.',
-                                            textAlign: TextAlign.center,
-                                            style: _TextTheme.headlineLarge!.copyWith(
-                                              fontSize: 13,
-                                              fontWeight: FontWeight.w300,
-                                              color: Color(0xffEAEAEA)
-                                            )
-                                          )),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Spacer(),
-                                    Column(
-                                      children: [
-                                        Form(
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              key: _formkey2,
-                                              child: Container(
-                                                width: w / 1.30,
-                                              height: h/10,
-                                              // height:Changed2?_formkey2.currentState!.validate()?h/13:h/10:h/13,
-                                                child: TextFormField(
-                                                keyboardAppearance: Brightness.dark,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                controller: _PassController,
-                                                onChanged: (value) {
-                                                  Selected = true;
-                                                },
-                                                onFieldSubmitted: (value) {
-                                                  FoucesNodeConfirm.requestFocus();
-                                                },
-                                                validator: MultiValidator([
-                                                  RequiredValidator(
-                                                      errorText: "Required"),
-                                                ]),
-                                                cursorColor: Colors.black,
-                                                  cursorHeight: h/30,
-                                                style: TextStyle(
-                                                    fontSize: 19,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.brown),
-                                                decoration: InputDecoration(
-                                                    errorStyle:TextStyle(color: Colors.red,),
-                                                    errorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    focusedErrorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(5)
-                                                    ),
-                                                  enabledBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  focusedBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          // vertical: Changed2
-                                                          //     ? _formkey2
-                                                          //             .currentState!
-                                                          //             .validate()
-                                                          //         ? h / 100
-                                                          //         : h / 70
-                                                          //     : h / 100),
-                                                      ),
-                                                  hintText: "Password",
-                                                    hintStyle: _TextTheme.headline6!.copyWith(
-                                                      fontSize: 6.2 *
-                                                          SizeConfig
-                                                              .blockSizeHorizontal!
-                                                              .toDouble(),
-                                                    )
-                                                ),
-                                                keyboardType: TextInputType.text,
-                                                obscureText: true,
-                                              ),
-                                            )),
-
-                                     Form(
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              key: _formkey3,
-                                              child:    Container(
-                                                margin: EdgeInsets.only(bottom: h/20),
-                                                width: w / 1.30,
-                                                child: TextFormField(
-                                                keyboardAppearance: Brightness.dark,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                controller: _ConfirmpassController,
-                                                autocorrect: true,
-                                                onChanged: (value) {
-                                                  Selected = true;
-                                                },
-                                                onFieldSubmitted: (value) {
-                                                },
-                                                validator: MultiValidator([
-                                                  RequiredValidator(
-                                                      errorText: "Required"),
-                                                ]),
-                                                cursorColor: Colors.black,
-                                                  cursorHeight: h/30,
-                                                style: TextStyle(
-                                                    fontSize: 19,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.brown),
-                                                decoration: InputDecoration(
-                                                    errorStyle:TextStyle(color: Colors.red,),
-                                                    errorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    focusedErrorBorder:  OutlineInputBorder(
-                                                      borderSide:  BorderSide(color: Colors.white, width: 0.0),
-                                                    ),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius: BorderRadius.circular(5)
-                                                    ),
-                                                  enabledBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  focusedBorder:
-                                                      UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: Colors.white),
-                                                        borderRadius: BorderRadius.circular(5),
-                                                  ),
-                                                  filled: true,
-                                                  fillColor: Colors.white,
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                       ),
-                                                  hintText: "Confirm Password",
-                                                    hintStyle: _TextTheme.headline6!.copyWith(
-                                                      fontSize: 6.2 *
-                                                          SizeConfig
-                                                              .blockSizeHorizontal!
-                                                              .toDouble(),
-                                                    )
-                                                ),
-                                                keyboardType: TextInputType.text,
-                                                obscureText: true,
-                                              ),
-                                            )),
-
-                                        InkWell(
-                                          onTap: ()async {
-
-                                            Changed2 = true;
-                                            Changed3 = true;
-                                            Changed = true;
-                                            if (_formkey1.currentState!.validate() &&
-                                                _formkey2.currentState!
-                                                    .validate() &&
-                                                _formkey3.currentState!
-                                                    .validate()) {
-                               bool result = await InternetConnectionChecker().hasConnection;
-                                    if (result == true) {
-                                      bloc2.add(CheckEmails((b) =>
-                                      b
-                                        ..Email = _EmailController.text
-                                      ));
-                                      Diditonce = true;
-                                    }else {
-                                      print('No internet :( Reason:');
-                                      Page2().method(
-                                          _scaffoldKey.currentContext!,
-                                          "Connection Failed",
-                                          """Something went Wrong 
-                                                                Check your internet Connection""",
-                                          "back");
-                                    }
-                                            }
-                                          },
-                                          child: Container(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width,
+                            minHeight: MediaQuery.of(context).size.height,
+                          ),
+                          child: IntrinsicHeight(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                      Spacer(),
+                                Container(
+                                  width: w / 1.39,
+                                  height: h / 13,
+                                  child: SvgPicture.asset(
+                                      "Assets/images/Logo.svg",
+                                      fit: BoxFit.fill),
+                                ),
+                                      Spacer(),
+                                      Column(
+                                        children: [
+                                          Container(
                                               width: w / 1.30,
-                                              height: h / 13.9,
-                                              decoration:  BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                  bottomLeft: Radius.circular(5),
-                                                  bottomRight: Radius.circular(5),
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: Color.fromRGBO(0, 0, 0,
-                                                          0.15000000596046448),
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 6)
-                                                ],
-                                                color:
-                                                Selected?
-                                                (_formkey1.currentState!.validate() &&
-                                                    _formkey2.currentState!
-                                                        .validate() &&
-                                                    _formkey3.currentState!
-                                                        .validate())?  Color.fromRGBO(207, 109, 56, 1)
-                                                    :   Color(0xff939393)
+                                              height: h/10,
+                                              child: Form(
+                                                autovalidateMode: AutovalidateMode
+                                                    .onUserInteraction,
+                                                key: _formkey1,
+                                                child: TextFormField(
+                                                  keyboardAppearance: Brightness.dark,
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  controller: _EmailController,
+                                                  onChanged: (value) {
+                                                    Selected = true;
+                                                  },
+                                                  onFieldSubmitted: (value) {
+                                                    FoucesNodePass.requestFocus();
+                                                  },
 
-                                                    :Color(0xff939393),
-                                              ),
-                                              child:  Center(
-                                                child: Text(
-                                                  'Sign Up',
-                                                  textAlign: TextAlign.center,
-                                                  style:
-                                                  _TextTheme.headline1!.copyWith(
-                                                      fontWeight: FontWeight.w600,
-                                                    fontSize: 3 *
-                                                        SizeConfig
-                                                            .blockSizeVertical!
-                                                            .toDouble(),
+                                                  validator: MultiValidator([
+                                                    RequiredValidator(
+                                                        errorText: "Required"),
+                                                    EmailValidator(
+                                                        errorText:
+                                                            "Thats not an email")
+                                                  ]),
+                                                  cursorColor: Colors.black,
+                                                  cursorHeight: h/30,
+                                                  style: TextStyle(
+                                                      fontSize: 19,
+                                                      fontWeight: FontWeight.w500,
+                                                      height: 1.3,
+                                                      color: Colors.brown),
+
+                                                  decoration: InputDecoration(
+                                                      errorStyle:TextStyle(color: Colors.red,),
+                                                      errorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      focusedErrorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(5)
+                                                      ),
+                                                    counterText: ' ',
+                                                    enabledBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    focusedBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12),
+
+                                                    hintText: "Email",
+                                                      hintStyle: _TextTheme.headline6!.copyWith(
+                                                        fontSize: 6.2 *
+                                                            SizeConfig
+                                                                .blockSizeHorizontal!
+                                                                .toDouble(),
+                                                      )
                                                   ),
+                                                  keyboardType: TextInputType.text,
+                                                  // obscureText: SecureInput_pass,
                                                 ),
                                               )),
-                                        ),
-                                        Text(""),
-                                        Container(
-                                          child: InkWell(
-                                            onTap: () {
-                                              WidgetsBinding.instance!
-                                                  .addPostFrameCallback((_) =>
-                                                      Navigator.of(context).pop());
+
+
+                                          Container(
+                                            width: w / 1.4,
+                                            child:  Center(
+                                                child: Text(
+                                              'You need to verify your email before using your account. We will send you a verification email.',
+                                              textAlign: TextAlign.center,
+                                              style: _TextTheme.headlineLarge!.copyWith(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w300,
+                                                color: Color(0xffEAEAEA)
+                                              )
+                                            )),
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Spacer(),
+                                      Column(
+                                        children: [
+                                          Form(
+                                                autovalidateMode: AutovalidateMode
+                                                    .onUserInteraction,
+                                                key: _formkey2,
+                                                child: Container(
+                                                  width: w / 1.30,
+                                                height: h/10,
+                                                // height:Changed2?_formkey2.currentState!.validate()?h/13:h/10:h/13,
+                                                  child: TextFormField(
+                                                  keyboardAppearance: Brightness.dark,
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  controller: _PassController,
+                                                  onChanged: (value) {
+                                                    Selected = true;
+                                                  },
+                                                  onFieldSubmitted: (value) {
+                                                    FoucesNodeConfirm.requestFocus();
+                                                  },
+                                                  validator: MultiValidator([
+                                                    RequiredValidator(
+                                                        errorText: "Required"),
+                                                  ]),
+                                                  cursorColor: Colors.black,
+                                                    cursorHeight: h/30,
+                                                  style: TextStyle(
+                                                      fontSize: 19,
+                                                      fontWeight: FontWeight.w500,
+                                                      height: 1.3,
+                                                      color: Colors.brown),
+                                                  decoration: InputDecoration(
+                                                      errorStyle:TextStyle(color: Colors.red,),
+                                                      errorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      focusedErrorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(5)
+                                                      ),
+                                                    enabledBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    focusedBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            // vertical: Changed2
+                                                            //     ? _formkey2
+                                                            //             .currentState!
+                                                            //             .validate()
+                                                            //         ? h / 100
+                                                            //         : h / 70
+                                                            //     : h / 100),
+                                                        ),
+                                                    hintText: "Password",
+                                                      hintStyle: _TextTheme.headline6!.copyWith(
+                                                        fontSize: 6.2 *
+                                                            SizeConfig
+                                                                .blockSizeHorizontal!
+                                                                .toDouble(),
+                                                      )
+                                                  ),
+                                                  keyboardType: TextInputType.text,
+                                                  obscureText: true,
+                                                ),
+                                              )),
+
+                                       Form(
+                                                autovalidateMode: AutovalidateMode
+                                                    .onUserInteraction,
+                                                key: _formkey3,
+                                                child:    Container(
+                                                  margin: EdgeInsets.only(bottom: h/20),
+                                                  width: w / 1.30,
+                                                  child: TextFormField(
+                                                  keyboardAppearance: Brightness.dark,
+                                                  textInputAction:
+                                                      TextInputAction.next,
+                                                  controller: _ConfirmpassController,
+                                                  autocorrect: true,
+                                                  onChanged: (value) {
+                                                    Selected = true;
+                                                  },
+                                                  onFieldSubmitted: (value) {
+                                                  },
+                                                  validator: MultiValidator([
+                                                    RequiredValidator(
+                                                        errorText: "Required"),
+                                                  ]),
+                                                  cursorColor: Colors.black,
+                                                    cursorHeight: h/30,
+                                                  style: TextStyle(
+                                                      fontSize: 19,
+                                                      height: 1.3,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.brown),
+                                                  decoration: InputDecoration(
+                                                      errorStyle:TextStyle(color: Colors.red,),
+                                                      errorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      focusedErrorBorder:  OutlineInputBorder(
+                                                        borderSide:  BorderSide(color: Colors.white, width: 0.0),
+                                                      ),
+                                                      border: OutlineInputBorder(
+                                                          borderRadius: BorderRadius.circular(5)
+                                                      ),
+                                                    enabledBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    focusedBorder:
+                                                        UnderlineInputBorder(
+                                                      borderSide: BorderSide(
+                                                          color: Colors.white),
+                                                          borderRadius: BorderRadius.circular(5),
+                                                    ),
+                                                    filled: true,
+                                                    fillColor: Colors.white,
+                                                    contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                         ),
+                                                    hintText: "Confirm Password",
+                                                      hintStyle: _TextTheme.headline6!.copyWith(
+                                                        fontSize: 6.2 *
+                                                            SizeConfig
+                                                                .blockSizeHorizontal!
+                                                                .toDouble(),
+                                                      )
+                                                  ),
+                                                  keyboardType: TextInputType.text,
+                                                  obscureText: true,
+                                                ),
+                                              )),
+
+                                          InkWell(
+                                            onTap: ()async {
+
+                                              Changed2 = true;
+                                              Changed3 = true;
+                                              Changed = true;
+                                              if (_formkey1.currentState!.validate() &&
+                                                  _formkey2.currentState!
+                                                      .validate() &&
+                                                  _formkey3.currentState!
+                                                      .validate()) {
+                                 bool result = await InternetConnectionChecker().hasConnection;
+                                      if (result == true) {
+                                        bloc2.add(CheckEmails((b) =>
+                                        b
+                                          ..Email = _EmailController.text
+                                        ));
+                                        Diditonce = true;
+                                      }else {
+                                        print('No internet :( Reason:');
+                                        Page2().method(
+                                            _scaffoldKey.currentContext!,
+                                            "Connection Failed",
+                                            """Something went Wrong 
+                                                                  Check your internet Connection""",
+                                            "back");
+                                      }
+                                              }
                                             },
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children:  [
-                                                Text(
-                                                  "Already have an account?",
-                                                  textAlign: TextAlign.center,
-                                                    style:  _TextTheme.headline1!.copyWith(
+                                            child: Container(
+                                                width: w / 1.30,
+                                                height: h / 13.9,
+                                                decoration:  BoxDecoration(
+                                                  borderRadius: BorderRadius.only(
+                                                    topLeft: Radius.circular(5),
+                                                    topRight: Radius.circular(5),
+                                                    bottomLeft: Radius.circular(5),
+                                                    bottomRight: Radius.circular(5),
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Color.fromRGBO(0, 0, 0,
+                                                            0.15000000596046448),
+                                                        offset: Offset(0, 0),
+                                                        blurRadius: 6)
+                                                  ],
+                                                  color:
+                                                  Selected?
+                                                  (_formkey1.currentState!.validate() &&
+                                                      _formkey2.currentState!
+                                                          .validate() &&
+                                                      _formkey3.currentState!
+                                                          .validate())?  Color.fromRGBO(207, 109, 56, 1)
+                                                      :   Color(0xff939393)
+
+                                                      :Color(0xff939393),
+                                                ),
+                                                child:  Center(
+                                                  child: Text(
+                                                    'Sign Up',
+                                                    textAlign: TextAlign.center,
+                                                    style:
+                                                    _TextTheme.headline1!.copyWith(
+                                                        fontWeight: FontWeight.w600,
+                                                      fontSize: 3 *
+                                                          SizeConfig
+                                                              .blockSizeVertical!
+                                                              .toDouble(),
+                                                    ),
+                                                  ),
+                                                )),
+                                          ),
+                                          Text(""),
+                                          Container(
+                                            child: InkWell(
+                                              onTap: () {
+                                                WidgetsBinding.instance!
+                                                    .addPostFrameCallback((_) =>
+                                                        Navigator.of(context).pop());
+                                              },
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children:  [
+                                                  Text(
+                                                    "Already have an account?",
+                                                    textAlign: TextAlign.center,
+                                                      style:  _TextTheme.headline1!.copyWith(
+                                                          fontSize: 17,
+                                                          letterSpacing: 0.3,
+                                                          fontWeight: FontWeight.w300,
+                                                          height: 1
+                                                      )
+                                                  ),
+                                                  Text(
+                                                    "Log In",
+
+
+                                                    textAlign: TextAlign.center,
+                                                    style: _TextTheme.headline1!.copyWith(
+                                                        decoration:
+                                                        TextDecoration.underline,
                                                         fontSize: 17,
                                                         letterSpacing: 0.3,
-                                                        fontWeight: FontWeight.w300,
+                                                        fontWeight: FontWeight.w500,
                                                         height: 1
                                                     )
-                                                ),
-                                                Text(
-                                                  "Log In",
-
-
-                                                  textAlign: TextAlign.center,
-                                                  style: _TextTheme.headline1!.copyWith(
-                                                      decoration:
-                                                      TextDecoration.underline,
-                                                      fontSize: 17,
-                                                      letterSpacing: 0.3,
-                                                      fontWeight: FontWeight.w500,
-                                                      height: 1
-                                                  )
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Spacer(),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Spacer(),
 
-                          ],
+                            ],
+                            )
                           )
-                        )
+                        ),
                       )
                         ),
                     ),

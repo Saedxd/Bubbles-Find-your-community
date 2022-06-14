@@ -34,7 +34,7 @@ class Login2 extends StatefulWidget {
   @override
   _Login2State createState() => _Login2State();
 }
-//todo: fix logo
+
 class _Login2State extends State<Login2> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _PassController = TextEditingController();
@@ -155,8 +155,6 @@ class _Login2State extends State<Login2> {
                     });
                     DiDitOnce = false;
                   } else if (state.data!.msg == "Email or password incorrect") {
-                    //todo Fix this not to be Static
-
                     Future.delayed(Duration.zero, () {
                       Page2().method(_scaffoldKey.currentContext!, "Error",
                           state.data!.msg!, "Back");
@@ -208,6 +206,7 @@ class _Login2State extends State<Login2> {
                                                       Brightness.dark,
                                                   textInputAction:
                                                       TextInputAction.next,
+
                                                   controller: _PassController,
                                                   onChanged: (value) {
                                                   },
@@ -217,13 +216,20 @@ class _Login2State extends State<Login2> {
                                                     RequiredValidator(
                                                         errorText: "Required"),
                                                   ]),
-                                                  cursorColor: Colors.black,
+                                                  // cursorColor: Colors.black,
+                                                  cursorHeight: 21,
+                                                  // cursorRadius:const Radius.circular(2),
+                                                //  textAlignVertical: TextAlignVertical.top,
+                                              //    textAlignVertical: TextAlignVertical.center,
                                                   style: const TextStyle(
                                                       fontSize: 19,
                                                       fontWeight:
                                                           FontWeight.w500,
+                                                      height: 1.3 //Add this
+                                                      ,
                                                       color: Colors.brown),
                                                   decoration: InputDecoration(
+
                                                       errorStyle: TextStyle(
                                                         color: Colors.red,
                                                       ),
@@ -267,11 +273,8 @@ class _Login2State extends State<Login2> {
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors.white,
-                                                      contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: h/58,
-                                                          vertical: 0
-                                                      ) ,
+
+                                                      contentPadding: EdgeInsets.only(left: h/100),
                                                       hintText: "Password",
                                                       hintStyle: _TextTheme.headline6!.copyWith(
                                                         fontSize: 3.6 *

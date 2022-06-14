@@ -195,35 +195,38 @@ thanks for your patients
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: h/60,top: h/60),
+                      margin: EdgeInsets.only(left: h/60),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                         Container(//todo: check ui here
-                                width: w / 10,
-                                height: h / 30,
-                                child: IconButton(
-                                  icon: SvgPicture.asset(
-                                      "Assets/images/Frame 11.svg",
-                                      width: 30,
-                                      color: COLOR.surface),
-                                  onPressed:(){
-                                    //todo : why when i click this i get black screen?
-                                    Navigator.pop(Context);
-                                    Navigator.pop(Context);
-                                    WidgetsBinding.instance!
-                                        .addPostFrameCallback((_) => Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>  NavigatorTopBar()),
-                                    ));
-                                  },
-                                )),
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: h / 100, right: h / 15),
+                              child: IconButton(
+                                icon: SvgPicture.asset(
+                                    "Assets/images/Frame 11.svg",
+                                    width: 30,
+                                    color: COLOR.surface),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  WidgetsBinding.instance!
+                                      .addPostFrameCallback((_) => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>  NavigatorTopBar()),
+                                  ));
+                                },
+                              )),
+
                           const Spacer(),
-                          Text('Upload image', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 23
-                          ),),
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: h / 100),
+                            child: Text('Upload image', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 23
+                            ),),
+                          ),
                           const Spacer(),
                           const Spacer(),
                           const Spacer(),

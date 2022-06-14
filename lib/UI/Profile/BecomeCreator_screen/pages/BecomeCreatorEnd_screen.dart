@@ -24,34 +24,15 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              margin: EdgeInsets.only(top: h/100),
+              margin: EdgeInsets.only(top: h/50,),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                      margin: EdgeInsets.only(
-                          right: h / 20),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                            "Assets/images/Frame 11.svg",
-                            width: 30,
-                            color: COLOR.surface),
-                        onPressed:(){
-                          WidgetsBinding.instance!
-                              .addPostFrameCallback((_) => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  NavigatorTopBar()),
-                          ));
 
-                        },
-                      )),//todo: remove the back button
                   Text('Become a Creator', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 23
                   ),),
-                  Text(""),
-                  Text(""),
 
                 ],
               ),
