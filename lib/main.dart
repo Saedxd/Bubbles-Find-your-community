@@ -87,3 +87,4 @@ try {
 // git push -u origin main
 
 
+//git lfs migrate import --include="*.bin"

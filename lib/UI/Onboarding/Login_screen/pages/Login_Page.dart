@@ -304,7 +304,8 @@ class _LoginState extends State<Login> {
               Scaffold(
                   resizeToAvoidBottomInset: false,
                   key: _scaffoldKey,
-                  backgroundColor: Color(0xff303030),
+                  backgroundColor: Color(0xff942657),
+
                   body: SafeArea(
                     child: Stack(
                       children: [
@@ -325,9 +326,8 @@ class _LoginState extends State<Login> {
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         const Text(""),
-                                        //todo: fix logo
                                         Container(
-                                          width: w / 1.34,
+                                          width: w / 1.39,
                                           height: h / 13,
                                           child: SvgPicture.asset(
                                               "Assets/images/Logo.svg",
@@ -421,7 +421,8 @@ class _LoginState extends State<Login> {
                                                         fillColor: Colors.white,
                                                         contentPadding:
                                                             EdgeInsets.symmetric(
-                                                                horizontal: 12,
+                                                                horizontal: h/58,
+                                                              vertical: 0
                                                             ) ,
                                                         hintText: "Email",
                                                         hintStyle: _TextTheme.headline6!.copyWith(

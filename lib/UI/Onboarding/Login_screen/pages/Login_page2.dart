@@ -167,13 +167,14 @@ class _Login2State extends State<Login2> {
                 return Scaffold(
                   resizeToAvoidBottomInset: false,
                   key: _scaffoldKey,
-                  backgroundColor: const Color(0xff303030),
+                  backgroundColor: Color(0xff942657),
                   body: SafeArea(
                     child: Stack(
                       children: [
                         GestureDetector(
                           onTap: () {
                             FocusScope.of(context).requestFocus(FocusNode());
+
                           },
                           child: Container(
                               width: w,
@@ -183,8 +184,8 @@ class _Login2State extends State<Login2> {
                                     MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
-                                    width: w / 1.34,
-                                    height: h / 12,
+                                    width: w / 1.39,
+                                    height: h / 13,
                                     child: SvgPicture.asset(
                                         "Assets/images/Logo.svg",
                                         fit: BoxFit.fill),
@@ -267,9 +268,10 @@ class _Login2State extends State<Login2> {
                                                       filled: true,
                                                       fillColor: Colors.white,
                                                       contentPadding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 12,
-                                                             ),
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: h/58,
+                                                          vertical: 0
+                                                      ) ,
                                                       hintText: "Password",
                                                       hintStyle: _TextTheme.headline6!.copyWith(
                                                         fontSize: 3.6 *

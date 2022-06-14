@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-const AppColor = Color(0xff303030);
+const AppColor = Color(0xff942657);
 const ChooseAvatarBack = Color(0xff303030);
 const sliderBack = Color(0xFFEAEAEA);
 const PermissionScreen = Color(0xFFCF6D38);
