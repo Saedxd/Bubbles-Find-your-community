@@ -68,7 +68,10 @@ bool Selected = false;
     // );
     // GetlatAndLng();
   }
-
+  final nameValidation = RegExp(r"^[\p{Letter}\p{Number}]+$");
+  final nameValidation2 = RegExp(r"([A-Za-z0-9\-\_]+)");
+  final nameValidation3 = RegExp( r'^(?=.*[a-zA-Z])(?=.*[*".!@#\$%^&(){}:;<>,.\' r"'?/~_+-=])(?=.*[0-9]).{8,30}\$");
+  final nameValidation4 = RegExp("/[ `!@#\$%^&*()_+\-=\[\]{};':\"\|,.<>\/?~]/");
   @override
   void dispose() {
     super.dispose();
@@ -188,17 +191,22 @@ bool Selected = false;
                                                       },
 
 
-                                                      validator: MultiValidator(
-                                                          [
-                                                            RequiredValidator(
-                                                                errorText: "Required"),
-                                                            MaxLengthValidator(
-                                                                10,
-                                                                errorText: "Max Name length is 10 Characters"),
-                                                            MinLengthValidator(
-                                                                3,
-                                                                errorText: "Minimum Name length is 3 Characters")
-                                                          ]),
+                                                      validator:(value){
+                                                        //todo: fix validation for all app
+                                                        // if (!nameValidation4
+                                                        //     .hasMatch(
+                                                        //     value!)) {
+                                                        //   return "Only Letters and numbers allowed for name";
+                                                        // }else if (value.isEmpty){
+                                                        //   return "Required";
+                                                        // }else if (value.length<3) {
+                                                        //   return "Minimum name length is 3 Characters";
+                                                        // }else if (value.length>25){
+                                                        //   return "Maximum name length is 25 Characters";
+                                                        // }
+                                                      }
+
+                                                      ,
                                                       cursorColor: Colors.black,
                                                       style: TextStyle(
                                                           fontSize: 19,
@@ -282,17 +290,20 @@ bool Selected = false;
                                                       onChanged: (value) {},
                                                       onFieldSubmitted: (
                                                           value) {},
-                                                      validator: MultiValidator(
-                                                          [
-                                                            RequiredValidator(
-                                                                errorText: "Required"),
-                                                            MaxLengthValidator(
-                                                                12,
-                                                                errorText: "Max Name length is 12 Characters"),
-                                                            MinLengthValidator(
-                                                                2,
-                                                                errorText: "Minimum Name length is 2 Characters")
-                                                          ]),
+                                                      validator:(value){
+                                                      if (nameValidation4
+                                                        .hasMatch(
+                                                      value!)) {
+                                                      return "Only Letters and numbers allowed for Lastname";
+                                                      }else if (value.isEmpty){
+                                                      return "Required";
+                                                      }else if (value.length<3) {
+                                                      return "Minimum Lastname length is 3 Characters";
+                                                      }else if (value.length>25){
+                                                      return "Maximum Lastname length is 3 Characters";
+                                                      }
+                                                      },
+
                                                       cursorColor: Colors.black,
                                                       style: TextStyle(
                                                           fontSize: 19,

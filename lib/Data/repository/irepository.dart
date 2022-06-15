@@ -1,6 +1,7 @@
 
 import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
+import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
@@ -157,5 +158,9 @@ abstract class IRepository {
       );
   Future<GetAliasModel> GetAlias(
       int friend_id
+      );
+  Future<AddreplyModel> AddReply(
+      String comment,
+      int message_id,
       );
 }

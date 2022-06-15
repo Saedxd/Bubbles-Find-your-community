@@ -87,6 +87,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Data Dataa = Data();
   Uint8List?   markerIcon;
   bool doit= false;
+
+
+
+
   void getCurrentLocation() async {
     try {
       bool enabled = await Location.instance.serviceEnabled();

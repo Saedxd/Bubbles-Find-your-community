@@ -96,6 +96,14 @@ class _$MessagesListModelSerializer
         ..add('receiver_id')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.replies;
+    if (value != null) {
+      result
+        ..add('replies')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(ReplieslISTModel)])));
+    }
     return result;
   }
 
@@ -155,6 +163,12 @@ class _$MessagesListModelSerializer
           result.receiver_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'replies':
+          result.replies.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(ReplieslISTModel)]))!
+              as BuiltList<Object?>);
+          break;
       }
     }
 
@@ -185,6 +199,8 @@ class _$MessagesListModel extends MessagesListModel {
   final String? sender_background_color;
   @override
   final int? receiver_id;
+  @override
+  final BuiltList<ReplieslISTModel>? replies;
 
   factory _$MessagesListModel(
           [void Function(MessagesListModelBuilder)? updates]) =>
@@ -201,7 +217,8 @@ class _$MessagesListModel extends MessagesListModel {
       this.CreatAt,
       this.receiver_background_color,
       this.sender_background_color,
-      this.receiver_id})
+      this.receiver_id,
+      this.replies})
       : super._();
 
   @override
@@ -226,7 +243,8 @@ class _$MessagesListModel extends MessagesListModel {
         CreatAt == other.CreatAt &&
         receiver_background_color == other.receiver_background_color &&
         sender_background_color == other.sender_background_color &&
-        receiver_id == other.receiver_id;
+        receiver_id == other.receiver_id &&
+        replies == other.replies;
   }
 
   @override
@@ -240,17 +258,19 @@ class _$MessagesListModel extends MessagesListModel {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, message.hashCode),
-                                            id.hashCode),
-                                        receiver_image.hashCode),
-                                    receiver_name.hashCode),
-                                sender_image.hashCode),
-                            sender_name.hashCode),
-                        type.hashCode),
-                    CreatAt.hashCode),
-                receiver_background_color.hashCode),
-            sender_background_color.hashCode),
-        receiver_id.hashCode));
+                                        $jc(
+                                            $jc($jc(0, message.hashCode),
+                                                id.hashCode),
+                                            receiver_image.hashCode),
+                                        receiver_name.hashCode),
+                                    sender_image.hashCode),
+                                sender_name.hashCode),
+                            type.hashCode),
+                        CreatAt.hashCode),
+                    receiver_background_color.hashCode),
+                sender_background_color.hashCode),
+            receiver_id.hashCode),
+        replies.hashCode));
   }
 
   @override
@@ -266,7 +286,8 @@ class _$MessagesListModel extends MessagesListModel {
           ..add('CreatAt', CreatAt)
           ..add('receiver_background_color', receiver_background_color)
           ..add('sender_background_color', sender_background_color)
-          ..add('receiver_id', receiver_id))
+          ..add('receiver_id', receiver_id)
+          ..add('replies', replies))
         .toString();
   }
 }
@@ -323,6 +344,12 @@ class MessagesListModelBuilder
   int? get receiver_id => _$this._receiver_id;
   set receiver_id(int? receiver_id) => _$this._receiver_id = receiver_id;
 
+  ListBuilder<ReplieslISTModel>? _replies;
+  ListBuilder<ReplieslISTModel> get replies =>
+      _$this._replies ??= new ListBuilder<ReplieslISTModel>();
+  set replies(ListBuilder<ReplieslISTModel>? replies) =>
+      _$this._replies = replies;
+
   MessagesListModelBuilder();
 
   MessagesListModelBuilder get _$this {
@@ -339,6 +366,7 @@ class MessagesListModelBuilder
       _receiver_background_color = $v.receiver_background_color;
       _sender_background_color = $v.sender_background_color;
       _receiver_id = $v.receiver_id;
+      _replies = $v.replies?.toBuilder();
       _$v = null;
     }
     return this;
@@ -359,19 +387,33 @@ class MessagesListModelBuilder
   MessagesListModel build() => _build();
 
   _$MessagesListModel _build() {
-    final _$result = _$v ??
-        new _$MessagesListModel._(
-            message: message,
-            id: id,
-            receiver_image: receiver_image,
-            receiver_name: receiver_name,
-            sender_image: sender_image,
-            sender_name: sender_name,
-            type: type,
-            CreatAt: CreatAt,
-            receiver_background_color: receiver_background_color,
-            sender_background_color: sender_background_color,
-            receiver_id: receiver_id);
+    _$MessagesListModel _$result;
+    try {
+      _$result = _$v ??
+          new _$MessagesListModel._(
+              message: message,
+              id: id,
+              receiver_image: receiver_image,
+              receiver_name: receiver_name,
+              sender_image: sender_image,
+              sender_name: sender_name,
+              type: type,
+              CreatAt: CreatAt,
+              receiver_background_color: receiver_background_color,
+              sender_background_color: sender_background_color,
+              receiver_id: receiver_id,
+              replies: _replies?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'replies';
+        _replies?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'MessagesListModel', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bubbles/models/AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
+import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
@@ -236,9 +237,11 @@ class Repository implements IRepository {
   Future<LogoutModel> Logout(
       )async{
     String auth = await _iprefHelper.getToken();
+    print(auth);
     final Data = await _ihttpHelper.Logout(auth);
     return Data;
   }
+
   Future<AddFreindBarCodeModel> AddFreindWithBarCode(
       String serial,
       )async{
@@ -344,5 +347,12 @@ class Repository implements IRepository {
     final Data = await _ihttpHelper.GetAlias(auth, friend_id);
     return Data;
   }
-
+  Future<AddreplyModel> AddReply(
+      String comment,
+      int message_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.AddReply(auth, comment, message_id);
+    return Data;
+  }
 }

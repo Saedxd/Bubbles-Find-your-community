@@ -5,6 +5,7 @@ library home_event;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_event.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -142,4 +143,12 @@ abstract class OpenDoorTObeAbleTOsetBubble extends HomeEvent
 bool? get MakeHimBEableTOSEtBubbles;
   OpenDoorTObeAbleTOsetBubble._();
   factory OpenDoorTObeAbleTOsetBubble([updates(OpenDoorTObeAbleTOsetBubbleBuilder b)]) = _$OpenDoorTObeAbleTOsetBubble;
+}
+
+
+abstract class GetProfile extends profileEvent
+    implements Built<GetProfile,GetProfileBuilder> {
+
+  GetProfile._();
+  factory GetProfile([updates(GetProfileBuilder b)]) = _$GetProfile;
 }

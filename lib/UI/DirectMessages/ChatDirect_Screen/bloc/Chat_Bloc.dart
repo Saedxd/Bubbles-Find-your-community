@@ -177,6 +177,27 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
       }
     }
+
+    if (event is addReply) {
+      try {
+        final date = await _repository.AddReply(event.comment!,event.message_id!);
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..Addreply.replace(date)
+        );
+
+
+
+
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..Addreply = null
+        );
+      }
+    }
   }
 
 

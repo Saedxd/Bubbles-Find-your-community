@@ -3,6 +3,7 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_State.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_event.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
@@ -15,7 +16,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:showcaseview/showcaseview.dart';
 import '../../ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 class DirectMessages extends StatefulWidget {
   const DirectMessages({Key? key}) : super(key: key);
 
@@ -33,9 +34,28 @@ class _DirectMessagesState extends State<DirectMessages> {
   List<int> Selected = [0, 0];
   bool done = false;
 
+  void ListenForONlineFriends() {
+
+    socket!.onConnect((data) {
+      print("Connected");
+
+      socket!.on("friend_online  ",(value){
+      print(value);
+      });
+
+
+    });
+    print(socket!.connected);
+  }
+  void LoopONfrinedsId(){
+    // socket!.emit('report_friends_online',{
+    //   'friend_id':user.id
+    // });
+  }
   @override
   void initState() {
     super.initState();
+    ListenForONlineFriends();
     FocuseNODE = FocusNode();
     _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
   }

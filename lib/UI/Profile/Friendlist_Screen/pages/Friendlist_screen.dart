@@ -2,6 +2,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_bloc.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_event.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:showcaseview/showcaseview.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import '../../Profile_Screen/pages/Porfile_Screen.dart';
 
 class Friendlist extends StatefulWidget {
@@ -30,11 +32,13 @@ class _FriendlistState extends State<Friendlist> {
   final TextEditingController _SearchController = TextEditingController();
   final _formkey1 = GlobalKey<FormState>(); //
   late FocusNode FocuseNODE;
+  List<int> FrinedsID=[];
   final ScrollController controllerTwo = ScrollController();
   int Freindid = 0;
   @override
   void initState() {
     super.initState();
+    ListenForONlineFriends();
     FocuseNODE = FocusNode();
     _FriendlistBloc.add(GetFreinds());
     // Future.delayed(const Duration(milliseconds: 1000), () {
@@ -42,11 +46,34 @@ class _FriendlistState extends State<Friendlist> {
     //     controllerTwo.position.minScrollExtent,
     //     duration: const Duration(milliseconds: 1),  curve: Curves.ease,);
     // });
-
-
   }
 
 
+  void ListenForONlineFriends() {
+
+      print("Connected");
+      print("Freind List");
+
+      socket!.on("friend_online",(value){
+        print(value);
+        print("friend_online: feedback");
+      });
+
+      socket!.on("new_friend_online",(value){
+        print(value);
+        print("new_friend_online: feedback");
+      });
+
+    print(socket!.connected);
+  }
+  void LoopONfrinedsId(){
+    for(int i=0;i<FrinedsID.length;i++) {
+      socket!.emit('report_friends_online', {
+        'friend_id': FrinedsID[i]
+      });
+      print("Emitted: $i");
+    }
+  }
 
   @override
   void dispose() {
@@ -86,6 +113,13 @@ int COUNTERDiditonce = 0;
 
 
           if (state.success! && Diditonce ){
+           for(int i=0;i<state.GetFriends!.friends!.length;i++){
+             FrinedsID.add(state.GetFriends!.friends![i].id!);
+           }
+           LoopONfrinedsId();
+           print(FrinedsID);
+
+
             Checknow = true;
             Diditonce = false;
           }
@@ -222,6 +256,9 @@ int COUNTERDiditonce = 0;
                   );
                 });
           }
+
+
+
           return    WillPopScope(
             onWillPop: () async =>true,
             child:

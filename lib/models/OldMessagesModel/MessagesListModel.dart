@@ -4,6 +4,7 @@ library MessagesListModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/OldMessagesModel/ReplieslISTModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -26,6 +27,7 @@ abstract class MessagesListModel
   String? get receiver_background_color;
   String? get sender_background_color;
   int? get receiver_id;
+  BuiltList<ReplieslISTModel>? get replies;
 
 
 

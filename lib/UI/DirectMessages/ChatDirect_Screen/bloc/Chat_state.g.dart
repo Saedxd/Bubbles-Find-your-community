@@ -26,6 +26,8 @@ class _$ChatState extends ChatState {
   @override
   final PostMessagesModel? PostMessages;
   @override
+  final AddreplyModel? Addreply;
+  @override
   final String? AvatarPathForRepliedTo;
   @override
   final int? ColorForRepliedTo;
@@ -51,6 +53,7 @@ class _$ChatState extends ChatState {
       this.GetAlias,
       this.OldMessages,
       this.PostMessages,
+      this.Addreply,
       this.AvatarPathForRepliedTo,
       this.ColorForRepliedTo,
       this.RepliedToMessage,
@@ -79,6 +82,7 @@ class _$ChatState extends ChatState {
         GetAlias == other.GetAlias &&
         OldMessages == other.OldMessages &&
         PostMessages == other.PostMessages &&
+        Addreply == other.Addreply &&
         AvatarPathForRepliedTo == other.AvatarPathForRepliedTo &&
         ColorForRepliedTo == other.ColorForRepliedTo &&
         RepliedToMessage == other.RepliedToMessage &&
@@ -103,16 +107,21 @@ class _$ChatState extends ChatState {
                                                 $jc(
                                                     $jc(
                                                         $jc(
-                                                            $jc(0,
-                                                                error.hashCode),
-                                                            isLoading.hashCode),
-                                                        success.hashCode),
-                                                    Done.hashCode),
-                                                AliasISLoading.hashCode),
-                                            AliasISsuccess.hashCode),
-                                        GetAlias.hashCode),
-                                    OldMessages.hashCode),
-                                PostMessages.hashCode),
+                                                            $jc(
+                                                                $jc(
+                                                                    0,
+                                                                    error
+                                                                        .hashCode),
+                                                                isLoading
+                                                                    .hashCode),
+                                                            success.hashCode),
+                                                        Done.hashCode),
+                                                    AliasISLoading.hashCode),
+                                                AliasISsuccess.hashCode),
+                                            GetAlias.hashCode),
+                                        OldMessages.hashCode),
+                                    PostMessages.hashCode),
+                                Addreply.hashCode),
                             AvatarPathForRepliedTo.hashCode),
                         ColorForRepliedTo.hashCode),
                     RepliedToMessage.hashCode),
@@ -133,6 +142,7 @@ class _$ChatState extends ChatState {
           ..add('GetAlias', GetAlias)
           ..add('OldMessages', OldMessages)
           ..add('PostMessages', PostMessages)
+          ..add('Addreply', Addreply)
           ..add('AvatarPathForRepliedTo', AvatarPathForRepliedTo)
           ..add('ColorForRepliedTo', ColorForRepliedTo)
           ..add('RepliedToMessage', RepliedToMessage)
@@ -189,6 +199,11 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   set PostMessages(PostMessagesModelBuilder? PostMessages) =>
       _$this._PostMessages = PostMessages;
 
+  AddreplyModelBuilder? _Addreply;
+  AddreplyModelBuilder get Addreply =>
+      _$this._Addreply ??= new AddreplyModelBuilder();
+  set Addreply(AddreplyModelBuilder? Addreply) => _$this._Addreply = Addreply;
+
   String? _AvatarPathForRepliedTo;
   String? get AvatarPathForRepliedTo => _$this._AvatarPathForRepliedTo;
   set AvatarPathForRepliedTo(String? AvatarPathForRepliedTo) =>
@@ -231,6 +246,7 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _GetAlias = $v.GetAlias?.toBuilder();
       _OldMessages = $v.OldMessages?.toBuilder();
       _PostMessages = $v.PostMessages?.toBuilder();
+      _Addreply = $v.Addreply?.toBuilder();
       _AvatarPathForRepliedTo = $v.AvatarPathForRepliedTo;
       _ColorForRepliedTo = $v.ColorForRepliedTo;
       _RepliedToMessage = $v.RepliedToMessage;
@@ -270,6 +286,7 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
               GetAlias: _GetAlias?.build(),
               OldMessages: _OldMessages?.build(),
               PostMessages: _PostMessages?.build(),
+              Addreply: _Addreply?.build(),
               AvatarPathForRepliedTo: AvatarPathForRepliedTo,
               ColorForRepliedTo: ColorForRepliedTo,
               RepliedToMessage: RepliedToMessage,
@@ -285,6 +302,8 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
         _OldMessages?.build();
         _$failedField = 'PostMessages';
         _PostMessages?.build();
+        _$failedField = 'Addreply';
+        _Addreply?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ChatState', _$failedField, e.toString());

@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
+import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
@@ -187,6 +188,11 @@ abstract class IHttpHelper {
   Future<GetAliasModel> GetAlias(
       String Auth,
       int friend_id
+      );
+  Future<AddreplyModel> AddReply(
+      String Auth,
+      String comment,
+      int message_id,
       );
 }
 //ihttp_helper is the abstaction class for http_helper

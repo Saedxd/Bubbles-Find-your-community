@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:theme_manager/change_theme_widget.dart';
 import 'package:bubbles/App/bloc/App_State.dart';
 import 'package:bubbles/App/bloc/App_bloc.dart';
@@ -23,10 +24,10 @@ import 'package:theme_manager/theme_manager.dart';
 import '../core/Language/localization/demo_localization.dart';
 import '../core/theme/theme_constants.dart';
 import 'package:sizer/sizer.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+
 // import 'package:flutter_fgbg/flutter_fgbg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MyApp extends StatefulWidget {
   MyApp({
     Key? key,
@@ -45,25 +46,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final pref = sl<IPrefsHelper>();
   MyTheme themeee = MyTheme();
   bool done = false;
-  IO.Socket? socket;
+
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late FlutterLocalNotificationsPlugin fltNotification;
  // StreamSubscription<FGBGType>? subscription;
 
-  void connect() {
-    socket =  IO.io("http://192.168.0.106:5000", <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket!.connect();
-    socket!.emit("signin", socket!.id.toString());
-    print(socket!.id);
-    print(socket!.connected);
-  }
-  void Disconnect(){
-    socket!.disconnect();
-  }
 
 
 
@@ -207,36 +195,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+
     initMessaging();
     WidgetsFlutterBinding.ensureInitialized();
-    WidgetsBinding.instance?.addObserver(this);
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-      print(state);
-      switch (state) {
-        case AppLifecycleState.resumed:
-      //    connect();
-          break;
-        case AppLifecycleState.inactive:
-       //   Disconnect();
-          break;
-        case AppLifecycleState.paused:
-        //  Disconnect();
-          break;
-        case AppLifecycleState.detached:
-       //   Disconnect();
-          break;
-      }
-  }
-
 
 
   @override

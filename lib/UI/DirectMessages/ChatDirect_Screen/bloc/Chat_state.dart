@@ -1,5 +1,6 @@
 library Chat_state;
 
+import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
@@ -27,15 +28,16 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
   GetAliasModel? get GetAlias;
   OldMessagesModel? get OldMessages;
   PostMessagesModel? get PostMessages;
+  AddreplyModel? get Addreply;
 
   String? get AvatarPathForRepliedTo;
   int? get ColorForRepliedTo;
   String? get RepliedToMessage;
   String? get AliasForRepliedTo;
   bool? get Isreply;
-
-
   bool? get Status;
+
+
   ChatState._();
   factory ChatState([updates(ChatStateBuilder b)]) = _$ChatState;
   factory ChatState.initail() {
@@ -55,6 +57,7 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
         ..OldMessages=null
         ..GetAlias=null
         ..PostMessages=null
+        ..Addreply=null
     );
   }
 

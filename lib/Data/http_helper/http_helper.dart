@@ -6,6 +6,7 @@ import 'package:bubbles/UI/Profile/Profile_Screen/pages/VerifyProfile.dart';
 import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
+import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
@@ -20,7 +21,6 @@ import 'package:bubbles/models/GetGenderModel/GetGender.dart';
 import 'package:bubbles/models/GetInterestsModel/GetInterestsModel.dart';
 import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
 import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
-
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
@@ -1694,6 +1694,53 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
                 ),
               ],
             )) as GetAliasModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<AddreplyModel> AddReply(
+      String Auth,
+      String comment,
+
+      int message_id,
+      ) async {
+    try {
+      final formData = {
+        "message_id": message_id,
+        "comment": comment,
+      };
+
+
+      final response = await _dio!
+          .post('save/reply', data: formData, options: Options(headers: {
+        "Authorization" :"Bearer  $Auth",
+        "Accept" :"application/json"
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              AddreplyModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(AddreplyModel),
+                  ],
+                ),
+              ],
+            )) as AddreplyModel;
 
         return baseResponse;
       } else {

@@ -74,4 +74,11 @@ abstract class SendStatus extends ChatEvent
 }
 
 
+abstract class addReply extends ChatEvent
+    implements Built<addReply,addReplyBuilder> {
 
+  String? get comment;
+  int? get message_id;
+  addReply._();
+  factory addReply([updates(addReplyBuilder b)]) = _$addReply;
+}

@@ -57,7 +57,9 @@ import 'package:built_value/serializer.dart';
 import 'package:built_value/standard_json_plugin.dart';
 
 import '../AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
+import '../AddReplyModel/AddreplyModel.dart';
 import '../GetNotificationsModel/NotificationsListModel.dart';
+import '../OldMessagesModel/ReplieslISTModel.dart';
 
 
 part 'serializer.g.dart';
@@ -65,6 +67,7 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  ReplieslISTModel,
   GetAliasModel,
   MessagesListModel,
   OldMessagesModel,
@@ -119,6 +122,7 @@ part 'serializer.g.dart';
   UserMadeBubbleModel,
   DatesEventListModel,
   FreindModel,
+  AddreplyModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -130,6 +134,24 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<CheckMailModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(ReplieslISTModel),
+        ],
+      )),
+          () => ListBuilder<ReplieslISTModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(AddreplyModel),
+        ],
+      )),
+          () => ListBuilder<AddreplyModel>())
+  //
+  //
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

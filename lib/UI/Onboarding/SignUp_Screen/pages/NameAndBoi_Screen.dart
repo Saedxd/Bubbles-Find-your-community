@@ -30,6 +30,7 @@ class NameAndBoi extends StatefulWidget {
 }
 
 class _NameAndBoiState extends State<NameAndBoi> {
+  final nameValidation3 = RegExp( r'^(?=.*[a-zA-Z])(?=.*[*".!@#\$%^&(){}:;<>,.\' r"'?/~_+-=])(?=.*[0-9]).{8,30}\$");
   final pref = sl<IPrefsHelper>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late FocusNode FoucesNodeUserName;
@@ -230,14 +231,21 @@ print("---------------------------");
                                           onFieldSubmitted: (value) {
                                             FoucesNodeBoi.requestFocus();
                                           },
-                                          validator: MultiValidator([
-                                            RequiredValidator(errorText: "Required"),
-                                            MinLengthValidator(4,
-                                                errorText:
-                                                "Minimum Characters is 4 "),
-                                            MaxLengthValidator(15,
-                                                errorText:
-                                                "Maximum Characters is 15"),
+                                          validator: (value){
+                                      if (nameValidation3
+                                          .hasMatch(
+                                      value!)) {
+                                      return "Only Letters and numbers allowed for Alias";
+                                      }else if (value.isEmpty){
+                                      return "Required";
+                                      }else if (value.length<3) {
+                                      return "Minimum Alias length is 3 Characters";
+                                      }else if (value.length>25){
+                                      return "Maximum Alias length is 3 Characters";
+                                      }//todo fix
+
+
+                                          },
                                             //1 character minimum
                                             // 30 characters maximum
                                             // Allowed characters: Letters (a-z), numbers (0-9), underscore (_) and period (.).
@@ -246,7 +254,7 @@ print("---------------------------");
                                             // Andreas replied to you
                                             // Andreas Pavli
                                             // Use a combination of at least six numbers, letters and punctuation marks (like ! and &).
-                                          ]),
+
                                           cursorColor: Colors.black,
                                           style: TextStyle(
                                               fontSize: 19,

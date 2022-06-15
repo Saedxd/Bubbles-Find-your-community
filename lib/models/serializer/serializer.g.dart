@@ -10,6 +10,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AceeptRequestModel.serializer)
       ..add(AddFreindBarCodeModel.serializer)
       ..add(AddNewFriendModel.serializer)
+      ..add(AddreplyModel.serializer)
       ..add(AnswersListModel.serializer)
       ..add(AvatarListModel.serializer)
       ..add(ChallengesListModel.serializer)
@@ -49,6 +50,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(ProfileDateModel.serializer)
       ..add(QuestionsListModel.serializer)
       ..add(RemoveFriendModel.serializer)
+      ..add(ReplieslISTModel.serializer)
       ..add(SubgendersListModel.serializer)
       ..add(SubmitCreatorAnwersModel.serializer)
       ..add(SuggestFriendsModel.serializer)
@@ -115,6 +117,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(QuestionsListModel)]),
           () => new ListBuilder<QuestionsListModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ReplieslISTModel)]),
+          () => new ListBuilder<ReplieslISTModel>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(SubgendersListModel)]),

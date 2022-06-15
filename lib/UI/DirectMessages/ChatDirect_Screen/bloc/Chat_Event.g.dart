@@ -521,4 +521,89 @@ class SendStatusBuilder implements Builder<SendStatus, SendStatusBuilder> {
   }
 }
 
+class _$addReply extends addReply {
+  @override
+  final String? comment;
+  @override
+  final int? message_id;
+
+  factory _$addReply([void Function(addReplyBuilder)? updates]) =>
+      (new addReplyBuilder()..update(updates))._build();
+
+  _$addReply._({this.comment, this.message_id}) : super._();
+
+  @override
+  addReply rebuild(void Function(addReplyBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  addReplyBuilder toBuilder() => new addReplyBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is addReply &&
+        comment == other.comment &&
+        message_id == other.message_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, comment.hashCode), message_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('addReply')
+          ..add('comment', comment)
+          ..add('message_id', message_id))
+        .toString();
+  }
+}
+
+class addReplyBuilder implements Builder<addReply, addReplyBuilder> {
+  _$addReply? _$v;
+
+  String? _comment;
+  String? get comment => _$this._comment;
+  set comment(String? comment) => _$this._comment = comment;
+
+  int? _message_id;
+  int? get message_id => _$this._message_id;
+  set message_id(int? message_id) => _$this._message_id = message_id;
+
+  addReplyBuilder();
+
+  addReplyBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _comment = $v.comment;
+      _message_id = $v.message_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(addReply other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$addReply;
+  }
+
+  @override
+  void update(void Function(addReplyBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  addReply build() => _build();
+
+  _$addReply _build() {
+    final _$result =
+        _$v ?? new _$addReply._(comment: comment, message_id: message_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

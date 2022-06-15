@@ -1,13 +1,15 @@
+import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_State.dart';
 import 'package:bubbles/UI/Notifications/pages/Notifications_Screen.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
-
+import 'package:socket_io_client/socket_io_client.dart' as IOo;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import '../../../core/Colors/constants.dart';
 import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
@@ -18,8 +20,8 @@ int? GOtoDirect = 0;
   @override
   State<NavigatorTopBar> createState() => _NavigatorTopBarState();
 }
-
-class _NavigatorTopBarState extends State<NavigatorTopBar> {
+ IOo.Socket? socket;
+class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _TopBarBloc = sl<TopBarBloc>();
   //final PageController _pageController = PageController();
@@ -34,13 +36,88 @@ class _NavigatorTopBarState extends State<NavigatorTopBar> {
     Profile(),
   ];
 
-  int selected = 0;
-  int PageIndex = 0;
 
+
+
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  print(state);
+  switch (state) {
+    case AppLifecycleState.resumed:
+      connect();
+      break;
+    case AppLifecycleState.inactive:
+      Disconnect();
+      break;
+    case AppLifecycleState.paused:
+      Disconnect();
+      break;
+    case AppLifecycleState.detached:
+      Disconnect();
+      break;
+  }
+}
+
+
+int selected = 0;
+  int PageIndex = 0;
+  IOo.Socket? socket;
+  void connect()async {
+    socket =  IOo.io("https://chatapp.salnoyapp.store/",
+        OptionBuilder()
+            .setTransports(['websocket'])
+            .setExtraHeaders({
+          "connection":'keep-alive'
+        })
+            .setQuery({
+          "user_id": 5,
+          "username": "lolsaws",
+        }).build()
+    );
+
+
+    print("Tried");
+
+   // socket!.connect();
+    socket!.onConnect((data) {
+
+      print(socket!.connected);
+      print("Connected");
+      print(data);
+      //connected_status
+      socket!.on("connected_status",(msg){
+        print(msg);
+        print("Listening");
+        // setHisMessage( msg["message"]);
+      });
+
+      socket!.on("receive_message_send",(msg){
+        //   setHisMessage( msg["message"]);
+      });
+    });
+
+
+    print(socket!.connected);
+  }
+
+
+  void Disconnect(){
+    socket!.disconnect();
+    print("DIsconnected");
+  }
+
+@override
+void dispose() {
+super.dispose();
+WidgetsBinding.instance?.removeObserver(this);
+}
 
   @override
   void initState() {
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
+    connect();
+    WidgetsBinding.instance?.addObserver(this);
     if (widget.GOtoDirect==5){
       _TopBarBloc.add(
           ChangePAGEINDEX((b) =>  b
@@ -111,6 +188,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar> {
                         children: [
                           InkWell(
                               onTap:(){
+                                print(socket!.connected);
                                 _TopBarBloc.add(
                                     ChangePAGEINDEX((b) =>  b
                                       ..num = 0

@@ -1,6 +1,7 @@
 library home_state;
 
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_value/built_value.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,7 +49,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
-
+  ProfileDateModel? get ProfileDate;
 
 
   HomeState._();
@@ -77,6 +78,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetBubbles =null
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
+        ..ProfileDate =null
         ..marker2 ={}
         ..circle ={}
 
