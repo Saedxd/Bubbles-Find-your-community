@@ -15,7 +15,7 @@ part 'MessagesListModel.g.dart';
 
 abstract class MessagesListModel
     implements Built<MessagesListModel,MessagesListModelBuilder> {
-
+  int? get me;//stands for myid
   String? get message;
   int? get id;
   String? get receiver_image;

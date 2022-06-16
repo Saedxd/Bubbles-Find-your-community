@@ -146,9 +146,3 @@ bool? get MakeHimBEableTOSEtBubbles;
 }
 
 
-abstract class GetProfile extends profileEvent
-    implements Built<GetProfile,GetProfileBuilder> {
-
-  GetProfile._();
-  factory GetProfile([updates(GetProfileBuilder b)]) = _$GetProfile;
-}

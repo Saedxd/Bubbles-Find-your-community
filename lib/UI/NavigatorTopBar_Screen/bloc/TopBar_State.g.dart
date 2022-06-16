@@ -23,6 +23,12 @@ class _$TopBarState extends TopBarState {
   final bool? Index4;
   @override
   final int? INDEX;
+  @override
+  final bool? GetprofileLoading;
+  @override
+  final bool? GetprofileSuccess;
+  @override
+  final ProfileDateModel? ProfileDate;
 
   factory _$TopBarState([void Function(TopBarStateBuilder)? updates]) =>
       (new TopBarStateBuilder()..update(updates))._build();
@@ -35,7 +41,10 @@ class _$TopBarState extends TopBarState {
       this.Index2,
       this.Index3,
       this.Index4,
-      this.INDEX})
+      this.INDEX,
+      this.GetprofileLoading,
+      this.GetprofileSuccess,
+      this.ProfileDate})
       : super._();
 
   @override
@@ -56,7 +65,10 @@ class _$TopBarState extends TopBarState {
         Index2 == other.Index2 &&
         Index3 == other.Index3 &&
         Index4 == other.Index4 &&
-        INDEX == other.INDEX;
+        INDEX == other.INDEX &&
+        GetprofileLoading == other.GetprofileLoading &&
+        GetprofileSuccess == other.GetprofileSuccess &&
+        ProfileDate == other.ProfileDate;
   }
 
   @override
@@ -66,13 +78,21 @@ class _$TopBarState extends TopBarState {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                            success.hashCode),
-                        Index1.hashCode),
-                    Index2.hashCode),
-                Index3.hashCode),
-            Index4.hashCode),
-        INDEX.hashCode));
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc($jc(0, error.hashCode),
+                                            isLoading.hashCode),
+                                        success.hashCode),
+                                    Index1.hashCode),
+                                Index2.hashCode),
+                            Index3.hashCode),
+                        Index4.hashCode),
+                    INDEX.hashCode),
+                GetprofileLoading.hashCode),
+            GetprofileSuccess.hashCode),
+        ProfileDate.hashCode));
   }
 
   @override
@@ -85,7 +105,10 @@ class _$TopBarState extends TopBarState {
           ..add('Index2', Index2)
           ..add('Index3', Index3)
           ..add('Index4', Index4)
-          ..add('INDEX', INDEX))
+          ..add('INDEX', INDEX)
+          ..add('GetprofileLoading', GetprofileLoading)
+          ..add('GetprofileSuccess', GetprofileSuccess)
+          ..add('ProfileDate', ProfileDate))
         .toString();
   }
 }
@@ -125,6 +148,22 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   int? get INDEX => _$this._INDEX;
   set INDEX(int? INDEX) => _$this._INDEX = INDEX;
 
+  bool? _GetprofileLoading;
+  bool? get GetprofileLoading => _$this._GetprofileLoading;
+  set GetprofileLoading(bool? GetprofileLoading) =>
+      _$this._GetprofileLoading = GetprofileLoading;
+
+  bool? _GetprofileSuccess;
+  bool? get GetprofileSuccess => _$this._GetprofileSuccess;
+  set GetprofileSuccess(bool? GetprofileSuccess) =>
+      _$this._GetprofileSuccess = GetprofileSuccess;
+
+  ProfileDateModelBuilder? _ProfileDate;
+  ProfileDateModelBuilder get ProfileDate =>
+      _$this._ProfileDate ??= new ProfileDateModelBuilder();
+  set ProfileDate(ProfileDateModelBuilder? ProfileDate) =>
+      _$this._ProfileDate = ProfileDate;
+
   TopBarStateBuilder();
 
   TopBarStateBuilder get _$this {
@@ -138,6 +177,9 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       _Index3 = $v.Index3;
       _Index4 = $v.Index4;
       _INDEX = $v.INDEX;
+      _GetprofileLoading = $v.GetprofileLoading;
+      _GetprofileSuccess = $v.GetprofileSuccess;
+      _ProfileDate = $v.ProfileDate?.toBuilder();
       _$v = null;
     }
     return this;
@@ -158,16 +200,32 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   TopBarState build() => _build();
 
   _$TopBarState _build() {
-    final _$result = _$v ??
-        new _$TopBarState._(
-            error: error,
-            isLoading: isLoading,
-            success: success,
-            Index1: Index1,
-            Index2: Index2,
-            Index3: Index3,
-            Index4: Index4,
-            INDEX: INDEX);
+    _$TopBarState _$result;
+    try {
+      _$result = _$v ??
+          new _$TopBarState._(
+              error: error,
+              isLoading: isLoading,
+              success: success,
+              Index1: Index1,
+              Index2: Index2,
+              Index3: Index3,
+              Index4: Index4,
+              INDEX: INDEX,
+              GetprofileLoading: GetprofileLoading,
+              GetprofileSuccess: GetprofileSuccess,
+              ProfileDate: _ProfileDate?.build());
+    } catch (_) {
+      late String _$failedField;
+      try {
+        _$failedField = 'ProfileDate';
+        _ProfileDate?.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'TopBarState', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

@@ -49,7 +49,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
-  ProfileDateModel? get ProfileDate;
+  // ProfileDateModel? get ProfileDate;
 
 
   HomeState._();
@@ -78,7 +78,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetBubbles =null
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
-        ..ProfileDate =null
+
         ..marker2 ={}
         ..circle ={}
 

@@ -15,6 +15,9 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
   bool? get isLoading;
   bool? get success;
 
+  bool? get ChangeStateLoading;
+  bool? get ChangeStateSuccess;
+
   OldMessagesModel? get OldMessages;
 
   DirectMessagesState._();
@@ -25,6 +28,8 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
       ..error = ""
       ..isLoading = false
       ..success = false
+      ..ChangeStateLoading = false
+      ..ChangeStateSuccess = false
       ..OldMessages = null
     );
   }

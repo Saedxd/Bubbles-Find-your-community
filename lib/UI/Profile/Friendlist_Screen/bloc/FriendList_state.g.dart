@@ -16,6 +16,10 @@ class _$FriendListState extends FriendListState {
   @override
   final bool? IsRefresh;
   @override
+  final bool? ChangeStateLoading;
+  @override
+  final bool? ChangeStateSuccess;
+  @override
   final GetFriendsModel? GetFriends;
   @override
   final RemoveFriendModel? RemoveFriend;
@@ -28,6 +32,8 @@ class _$FriendListState extends FriendListState {
       this.isLoading,
       this.success,
       this.IsRefresh,
+      this.ChangeStateLoading,
+      this.ChangeStateSuccess,
       this.GetFriends,
       this.RemoveFriend})
       : super._();
@@ -48,6 +54,8 @@ class _$FriendListState extends FriendListState {
         isLoading == other.isLoading &&
         success == other.success &&
         IsRefresh == other.IsRefresh &&
+        ChangeStateLoading == other.ChangeStateLoading &&
+        ChangeStateSuccess == other.ChangeStateSuccess &&
         GetFriends == other.GetFriends &&
         RemoveFriend == other.RemoveFriend;
   }
@@ -57,9 +65,13 @@ class _$FriendListState extends FriendListState {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                    success.hashCode),
-                IsRefresh.hashCode),
+                $jc(
+                    $jc(
+                        $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                            success.hashCode),
+                        IsRefresh.hashCode),
+                    ChangeStateLoading.hashCode),
+                ChangeStateSuccess.hashCode),
             GetFriends.hashCode),
         RemoveFriend.hashCode));
   }
@@ -71,6 +83,8 @@ class _$FriendListState extends FriendListState {
           ..add('isLoading', isLoading)
           ..add('success', success)
           ..add('IsRefresh', IsRefresh)
+          ..add('ChangeStateLoading', ChangeStateLoading)
+          ..add('ChangeStateSuccess', ChangeStateSuccess)
           ..add('GetFriends', GetFriends)
           ..add('RemoveFriend', RemoveFriend))
         .toString();
@@ -97,6 +111,16 @@ class FriendListStateBuilder
   bool? get IsRefresh => _$this._IsRefresh;
   set IsRefresh(bool? IsRefresh) => _$this._IsRefresh = IsRefresh;
 
+  bool? _ChangeStateLoading;
+  bool? get ChangeStateLoading => _$this._ChangeStateLoading;
+  set ChangeStateLoading(bool? ChangeStateLoading) =>
+      _$this._ChangeStateLoading = ChangeStateLoading;
+
+  bool? _ChangeStateSuccess;
+  bool? get ChangeStateSuccess => _$this._ChangeStateSuccess;
+  set ChangeStateSuccess(bool? ChangeStateSuccess) =>
+      _$this._ChangeStateSuccess = ChangeStateSuccess;
+
   GetFriendsModelBuilder? _GetFriends;
   GetFriendsModelBuilder get GetFriends =>
       _$this._GetFriends ??= new GetFriendsModelBuilder();
@@ -118,6 +142,8 @@ class FriendListStateBuilder
       _isLoading = $v.isLoading;
       _success = $v.success;
       _IsRefresh = $v.IsRefresh;
+      _ChangeStateLoading = $v.ChangeStateLoading;
+      _ChangeStateSuccess = $v.ChangeStateSuccess;
       _GetFriends = $v.GetFriends?.toBuilder();
       _RemoveFriend = $v.RemoveFriend?.toBuilder();
       _$v = null;
@@ -148,6 +174,8 @@ class FriendListStateBuilder
               isLoading: isLoading,
               success: success,
               IsRefresh: IsRefresh,
+              ChangeStateLoading: ChangeStateLoading,
+              ChangeStateSuccess: ChangeStateSuccess,
               GetFriends: _GetFriends?.build(),
               RemoveFriend: _RemoveFriend?.build());
     } catch (_) {

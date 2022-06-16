@@ -14,6 +14,10 @@ class _$DirectMessagesState extends DirectMessagesState {
   @override
   final bool? success;
   @override
+  final bool? ChangeStateLoading;
+  @override
+  final bool? ChangeStateSuccess;
+  @override
   final OldMessagesModel? OldMessages;
 
   factory _$DirectMessagesState(
@@ -21,7 +25,12 @@ class _$DirectMessagesState extends DirectMessagesState {
       (new DirectMessagesStateBuilder()..update(updates))._build();
 
   _$DirectMessagesState._(
-      {this.error, this.isLoading, this.success, this.OldMessages})
+      {this.error,
+      this.isLoading,
+      this.success,
+      this.ChangeStateLoading,
+      this.ChangeStateSuccess,
+      this.OldMessages})
       : super._();
 
   @override
@@ -40,13 +49,20 @@ class _$DirectMessagesState extends DirectMessagesState {
         error == other.error &&
         isLoading == other.isLoading &&
         success == other.success &&
+        ChangeStateLoading == other.ChangeStateLoading &&
+        ChangeStateSuccess == other.ChangeStateSuccess &&
         OldMessages == other.OldMessages;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode),
+        $jc(
+            $jc(
+                $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                    success.hashCode),
+                ChangeStateLoading.hashCode),
+            ChangeStateSuccess.hashCode),
         OldMessages.hashCode));
   }
 
@@ -56,6 +72,8 @@ class _$DirectMessagesState extends DirectMessagesState {
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
+          ..add('ChangeStateLoading', ChangeStateLoading)
+          ..add('ChangeStateSuccess', ChangeStateSuccess)
           ..add('OldMessages', OldMessages))
         .toString();
   }
@@ -77,6 +95,16 @@ class DirectMessagesStateBuilder
   bool? get success => _$this._success;
   set success(bool? success) => _$this._success = success;
 
+  bool? _ChangeStateLoading;
+  bool? get ChangeStateLoading => _$this._ChangeStateLoading;
+  set ChangeStateLoading(bool? ChangeStateLoading) =>
+      _$this._ChangeStateLoading = ChangeStateLoading;
+
+  bool? _ChangeStateSuccess;
+  bool? get ChangeStateSuccess => _$this._ChangeStateSuccess;
+  set ChangeStateSuccess(bool? ChangeStateSuccess) =>
+      _$this._ChangeStateSuccess = ChangeStateSuccess;
+
   OldMessagesModelBuilder? _OldMessages;
   OldMessagesModelBuilder get OldMessages =>
       _$this._OldMessages ??= new OldMessagesModelBuilder();
@@ -91,6 +119,8 @@ class DirectMessagesStateBuilder
       _error = $v.error;
       _isLoading = $v.isLoading;
       _success = $v.success;
+      _ChangeStateLoading = $v.ChangeStateLoading;
+      _ChangeStateSuccess = $v.ChangeStateSuccess;
       _OldMessages = $v.OldMessages?.toBuilder();
       _$v = null;
     }
@@ -119,6 +149,8 @@ class DirectMessagesStateBuilder
               error: error,
               isLoading: isLoading,
               success: success,
+              ChangeStateLoading: ChangeStateLoading,
+              ChangeStateSuccess: ChangeStateSuccess,
               OldMessages: _OldMessages?.build());
     } catch (_) {
       late String _$failedField;

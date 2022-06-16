@@ -227,6 +227,80 @@ class GetAliasBuilder implements Builder<GetAlias, GetAliasBuilder> {
   }
 }
 
+class _$GetAliasMine extends GetAliasMine {
+  @override
+  final int? ID;
+
+  factory _$GetAliasMine([void Function(GetAliasMineBuilder)? updates]) =>
+      (new GetAliasMineBuilder()..update(updates))._build();
+
+  _$GetAliasMine._({this.ID}) : super._();
+
+  @override
+  GetAliasMine rebuild(void Function(GetAliasMineBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetAliasMineBuilder toBuilder() => new GetAliasMineBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetAliasMine && ID == other.ID;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, ID.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetAliasMine')..add('ID', ID))
+        .toString();
+  }
+}
+
+class GetAliasMineBuilder
+    implements Builder<GetAliasMine, GetAliasMineBuilder> {
+  _$GetAliasMine? _$v;
+
+  int? _ID;
+  int? get ID => _$this._ID;
+  set ID(int? ID) => _$this._ID = ID;
+
+  GetAliasMineBuilder();
+
+  GetAliasMineBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _ID = $v.ID;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetAliasMine other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetAliasMine;
+  }
+
+  @override
+  void update(void Function(GetAliasMineBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetAliasMine build() => _build();
+
+  _$GetAliasMine _build() {
+    final _$result = _$v ?? new _$GetAliasMine._(ID: ID);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$SendMessage extends SendMessage {
   @override
   final int? receiver_id;

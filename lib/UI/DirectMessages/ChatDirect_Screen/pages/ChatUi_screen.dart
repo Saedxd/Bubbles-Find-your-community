@@ -25,8 +25,9 @@ import 'package:voice_message_package/voice_message_package.dart';
 
 
 class DirectChat extends StatefulWidget {
-   DirectChat({Key? key,required this.receiver_id}) : super(key: key);
+   DirectChat({Key? key,required this.receiver_id,this.my_ID}) : super(key: key);
 int receiver_id =0;
+int? my_ID;
   @override
   State<DirectChat> createState() => _DirectChatState();
 }
@@ -38,10 +39,12 @@ class _DirectChatState extends State<DirectChat> {
   late FocusNode _SendMessages;
   List<MessageModel> messages = [];
   final ScrollController _controller = ScrollController();
- // IO.Socket? socket;
+  int idd = 0;
+  int BackgroundColor=0;
   bool Diditonces = false;
   final _ChatBloc_Bloc = sl<ChatBloc>();
-
+String Alias="";
+String Avatar="";
 
   void ListenForMessages()async{
 
@@ -50,32 +53,32 @@ class _DirectChatState extends State<DirectChat> {
       print("Connected");
       print(data);
       socket!.on("receive_message_send",(msg){
-     //   setHisMessage( msg["message"]);
+        setHisMessage(
+          msg["message"]
+        ,//msg["avatar"] etc ... ..
+        );
       });
     });
 
     print(socket!.connected);
   }
 
-  void sendMessage(String message, int sourceId, int targetId)
+  void sendMessage(String message, String  Avatar, String Alias,)
   {
     socket!.emit("send_message ",//message my id and his id
-        {"message": message, "sourceId": sourceId, "targetId": targetId});
+        {"message": message,});
+
+    setMYMessage(message);
   }
 
-  // void _scrollDown() {
-  //   Timer(Duration(milliseconds: 500), () {
-  //     _controller.jumpTo(_controller.position.maxScrollExtent);
-  //   });
-  //
-  // }
   void setHisMessage(String message)
   {
+    DateTime datee = DateTime.now();
     MessageModel messageModel = MessageModel(
       message: message,
-      time: DateTime.now().toString().substring(10, 16),
-      Avatar: '', // get avatar from state.data.his avatar
-      Alias: '',// get alias from state.data.his alias
+      time:  timeago.format(datee).toString(),
+      Avatar: '',
+      Alias: '',
     );
 
     setState((){
@@ -90,8 +93,8 @@ class _DirectChatState extends State<DirectChat> {
       MessageModel messageModel = MessageModel(
         message: message,
         time:  timeago.format(datee).toString(),
-        Avatar: '',
-        Alias: '',
+        Avatar: Avatar,
+        Alias: Alias,
       );
 
       setState((){
@@ -103,7 +106,7 @@ class _DirectChatState extends State<DirectChat> {
   @override
   void initState() {
     super.initState();
-   // connect();
+    ListenForMessages();
     DIditonce2 = false;
     Diditonces = true;
     _SendMessages = FocusNode();
@@ -115,7 +118,10 @@ class _DirectChatState extends State<DirectChat> {
     });
 
     print(widget.receiver_id);
+
+
     _ChatBloc_Bloc.add(GetAlias((b) => b..ID=widget.receiver_id));
+    _ChatBloc_Bloc.add(GetAliasMine((b) => b..ID=widget.my_ID));
     _ChatBloc_Bloc.add(GetOldMessages((b) => b..receiver_id=widget.receiver_id));
 
 
@@ -130,8 +136,6 @@ class _DirectChatState extends State<DirectChat> {
   }
 
 
-  int idd = 0;
-  int BackgroundColor=0;
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
@@ -142,6 +146,9 @@ class _DirectChatState extends State<DirectChat> {
         bloc: _ChatBloc_Bloc,
         builder: (BuildContext Context, ChatState state){
           if (state.success! && Diditonces){
+             Alias=state.GetAliasMinee!.friend!.alias.toString();
+             Avatar=state.GetAliasMinee!.friend!.avatar.toString();
+
          for (int i = 0;i<state.OldMessages!.messages!.length;i++){
            MessageModel InstanceMessages = MessageModel();
            if (state.OldMessages!.messages![i].replies!.isEmpty) {
@@ -185,11 +192,15 @@ class _DirectChatState extends State<DirectChat> {
              InstanceMessages.ReplieDtobackground_Color =  BackgroundColor;
 
 
+             String Value2 =  state.OldMessages!.messages![i].replies![0].background.toString();
+             var myInt2 = int.parse(Value2);
+             var BackgroundColor2 = myInt2;
 
              InstanceMessages.ReplierAlias = state.OldMessages!.messages![i].replies![0].alias.toString();
              InstanceMessages.ReplierMessage = state.OldMessages!.messages![i].replies![0].comment.toString();
              InstanceMessages.ReplierAvatar = state.OldMessages!.messages![i].replies![0].avatar.toString();
-//todo: background color for replier
+             InstanceMessages.Replierbackground_Color =BackgroundColor2;
+
              DateTime datee2 = DateTime.parse(state.OldMessages!.messages![i].replies![0].CreatAt.toString());
              print(datee2.toString());
              print("date :");
@@ -436,17 +447,13 @@ class _DirectChatState extends State<DirectChat> {
                                             ],
                                           ),
                                         ),
-                                        Row(
+                                            Row(
                                              children: [
-
-
-
                                                Column(
                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                  children:[
-
                                                    CircleAvatar(
-                                                //     backgroundColor: Color(messages[index].background_Color!),
+                                                     backgroundColor: Color(messages[index].Replierbackground_Color!),
                                                      backgroundImage: NetworkImage(messages[index].ReplierAvatar.toString()),
                                                      radius: 23,
                                                    ),
@@ -565,13 +572,16 @@ class _DirectChatState extends State<DirectChat> {
                                         print(idd);
                                        print( _SendMessageController.text);
                                        print(state.GetAlias!.friend!.id!);
+                                       //waiting for reply to reply BACKEND
 
-                                      }
-                                      _ChatBloc_Bloc.add(SendMessage((b) => b
-                                      ..receiver_id = widget.receiver_id
+                                      }else {
+                                        _ChatBloc_Bloc.add(SendMessage((b) =>b
+                                          ..receiver_id = widget.receiver_id
                                           ..message = _SendMessageController.text
-                                      ));
-                                      _SendMessageController.clear();
+                                        ));
+                                        setMYMessage(_SendMessageController.text);
+                                        _SendMessageController.clear();
+                                      }
                                     },
                                     cursorColor: Colors.black,
                                     style: TextStyle(

@@ -106,6 +106,32 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         );
       }
     }
+    if (event is GetAliasMine) {
+      try {
+        yield state.rebuild((b) => b
+          ..MYAliasISLoading = true
+          ..MYAliasISsuccess= false
+          ..GetAliasMinee=null
+        );
+
+        final date = await _repository.GetAlias(event.ID!);
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..MYAliasISLoading = false
+          ..MYAliasISsuccess= true
+          ..GetAliasMinee.replace(date)
+        );
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..MYAliasISLoading = false
+          ..MYAliasISsuccess= false
+          ..GetAliasMinee=null
+        );
+      }
+    }
 
     if (event is SendMessage) {
       try {

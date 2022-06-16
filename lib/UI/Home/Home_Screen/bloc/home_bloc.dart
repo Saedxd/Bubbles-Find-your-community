@@ -463,71 +463,7 @@ yield state.rebuild((b) => b
 //       print(e);
 //       }
 //     }
-    if (event is GetProfile) {
-      try {
-        yield state.rebuild((b) => b
-          ..GetAllBubblesIsloading = true
-          ..GetAllBubblesError = ""
-          ..GetAllBubblesSuccess= false
-          ..GetBubbles=null
-        );
 
-        final date = await _repository.GetAllBubbles();
-        print(date);
-
-        yield state.rebuild((b) => b
-          ..GetAllBubblesIsloading = false
-          ..GetAllBubblesError = ""
-          ..GetAllBubblesSuccess= true
-          ..GetBubbles.replace(date)
-        );
-
-
-        final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
-        for(int i=0;i<state.GetBubbles!.data!.length;i++) {
-          if (state.GetBubbles!.data![i].draw_type!="polygon") {
-            LatLng latlng = LatLng(state.GetBubbles!.data![i].lat!,
-                state.GetBubbles!.data![i].lng!);
-
-            String Value = state.GetBubbles!.data![i].color!;
-            if (Value.contains("#",0)){
-              Value = Value.substring(1);
-              Value = "0xff$Value";
-            }
-            var myInt = int.parse(Value);
-            var BackgroundColor= myInt;
-            state.circle!.add(Circle(
-                circleId: CircleId(state.GetBubbles!.data![i].id.toString()),
-                radius:
-                state.GetBubbles!.data![i].radius!.toDouble(),
-                zIndex: 2,
-                strokeColor: Colors.transparent,
-                center: latlng,
-                fillColor: Color(BackgroundColor).withAlpha(100)));
-            state.marker2!.add(Marker(
-              markerId:  MarkerId((state.GetBubbles!.data![i].id!+1000).toString()),
-              position: latlng,
-              icon: BitmapDescriptor.fromBytes(markerIcon),
-            ));
-          }
-        }
-
-
-
-
-
-
-
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..GetAllBubblesIsloading = false
-          ..GetAllBubblesError = "Something went wrong"
-          ..GetAllBubblesSuccess = false
-          ..GetBubbles = null
-        );
-      }
-    }//todo : implemment this on home screen
 
   }
 

@@ -249,4 +249,61 @@ class IsRefreshBuilder implements Builder<IsRefresh, IsRefreshBuilder> {
   }
 }
 
+class _$RefreshState extends RefreshState {
+  factory _$RefreshState([void Function(RefreshStateBuilder)? updates]) =>
+      (new RefreshStateBuilder()..update(updates))._build();
+
+  _$RefreshState._() : super._();
+
+  @override
+  RefreshState rebuild(void Function(RefreshStateBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  RefreshStateBuilder toBuilder() => new RefreshStateBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is RefreshState;
+  }
+
+  @override
+  int get hashCode {
+    return 708581181;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('RefreshState').toString();
+  }
+}
+
+class RefreshStateBuilder
+    implements Builder<RefreshState, RefreshStateBuilder> {
+  _$RefreshState? _$v;
+
+  RefreshStateBuilder();
+
+  @override
+  void replace(RefreshState other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$RefreshState;
+  }
+
+  @override
+  void update(void Function(RefreshStateBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  RefreshState build() => _build();
+
+  _$RefreshState _build() {
+    final _$result = _$v ?? new _$RefreshState._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

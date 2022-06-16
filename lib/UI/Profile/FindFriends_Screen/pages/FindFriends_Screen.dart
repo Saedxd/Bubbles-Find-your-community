@@ -93,7 +93,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       key: _scaffoldKey,
       body: buildSafeArea(context, w, h),
     );

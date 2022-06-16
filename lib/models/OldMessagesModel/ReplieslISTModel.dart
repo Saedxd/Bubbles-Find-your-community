@@ -17,10 +17,12 @@ abstract class ReplieslISTModel
     implements Built<ReplieslISTModel,ReplieslISTModelBuilder> {
 
   int? get id;
+
   String? get comment;
   String? get alias;
   String? get avatar;
   String? get CreatAt;
+  String? get background;
 
 
 

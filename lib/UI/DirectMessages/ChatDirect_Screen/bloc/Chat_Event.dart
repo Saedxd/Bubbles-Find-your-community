@@ -43,6 +43,15 @@ abstract class GetAlias extends ChatEvent
 }
 
 
+abstract class GetAliasMine extends ChatEvent
+    implements Built<GetAliasMine,GetAliasMineBuilder> {
+
+  int? get ID;
+  GetAliasMine._();
+  factory GetAliasMine([updates(GetAliasMineBuilder b)]) = _$GetAliasMine;
+}
+
+
 
 abstract class SendMessage extends ChatEvent
     implements Built<SendMessage,SendMessageBuilder> {

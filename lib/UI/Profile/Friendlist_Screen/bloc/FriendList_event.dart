@@ -43,3 +43,11 @@ abstract class IsRefresh extends FriendListEvent
   IsRefresh._();
   factory IsRefresh([updates(IsRefreshBuilder b)]) = _$IsRefresh;
 }
+
+
+abstract class RefreshState extends FriendListEvent
+    implements Built<RefreshState,RefreshStateBuilder> {
+
+  RefreshState._();
+  factory RefreshState([updates(RefreshStateBuilder b)]) = _$RefreshState;
+}

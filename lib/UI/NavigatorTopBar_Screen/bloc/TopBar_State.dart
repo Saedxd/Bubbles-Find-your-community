@@ -5,6 +5,7 @@ library TopBar_State;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -24,6 +25,12 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
   int? get INDEX;
 
 
+
+  bool? get GetprofileLoading;
+  bool? get GetprofileSuccess;
+
+  ProfileDateModel? get ProfileDate;
+
   TopBarState._();
 
   factory TopBarState([updates(TopBarStateBuilder b)]) = _$TopBarState;
@@ -31,13 +38,15 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
     return TopBarState((b) => b
       ..error = ""
       ..isLoading = false
+      ..GetprofileLoading = false
       ..success = false
+      ..GetprofileSuccess = false
       ..INDEX = 0
       ..Index1 = true
       ..Index2 = false
       ..Index3 = false
       ..Index4 = false
-
+      ..ProfileDate =null
 
 
     );

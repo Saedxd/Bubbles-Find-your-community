@@ -42,6 +42,7 @@ import 'package:bubbles/models/ProfileDataModel/InterestsProfileModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/ProfileDataModel/UserProfileData.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/RemoveFromDirectModel/RemoveFromDirectModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestedListModel.dart';
@@ -123,9 +124,18 @@ part 'serializer.g.dart';
   DatesEventListModel,
   FreindModel,
   AddreplyModel,
+  RemoveFromDirectModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(RemoveFromDirectModel),
+        ],
+      )),
+          () => ListBuilder<RemoveFromDirectModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

@@ -25,3 +25,17 @@ abstract class GetLastMessageWithAllUsers extends DirectMessagesEvent
   GetLastMessageWithAllUsers._();
   factory GetLastMessageWithAllUsers([updates(GetLastMessageWithAllUsersBuilder b)]) = _$GetLastMessageWithAllUsers;
 }
+
+abstract class RefreshPage extends DirectMessagesEvent
+    implements Built<RefreshPage, RefreshPageBuilder> {
+
+  RefreshPage._();
+  factory RefreshPage([updates(RefreshPageBuilder b)]) = _$RefreshPage;
+}
+
+abstract class RefreshState extends DirectMessagesEvent
+    implements Built<RefreshState,RefreshStateBuilder> {
+
+  RefreshState._();
+  factory RefreshState([updates(RefreshStateBuilder b)]) = _$RefreshState;
+}

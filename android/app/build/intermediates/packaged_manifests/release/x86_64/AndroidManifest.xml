@@ -94,8 +94,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Bubbles"
         android:requestLegacyExternalStorage="true"
-        android:supportsRtl="true"
-        android:usesCleartextTraffic="true" >
+        android:supportsRtl="true" >
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
             android:directBootAware="true"

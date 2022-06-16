@@ -1753,6 +1753,51 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       throw NetworkException();
     }
   }
+  //
+
+  @override
+  Future<AddreplyModel> RemoveFromDirect(
+      String Auth,
+      int receiver_id,
+      ) async {
+    try {
+      final formData = {
+        "receiver_id": receiver_id,
+      };
+
+
+      final response = await _dio!
+          .post('remove_user_from_list_message', data: formData, options: Options(headers: {
+        "Authorization" :"Bearer  $Auth",
+        "Accept" :"application/json"
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              AddreplyModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(AddreplyModel),
+                  ],
+                ),
+              ],
+            )) as AddreplyModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
 }
 
 class NetworkException implements Exception {}

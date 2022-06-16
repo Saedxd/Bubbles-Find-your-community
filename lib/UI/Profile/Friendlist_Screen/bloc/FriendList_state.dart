@@ -26,6 +26,9 @@ abstract class FriendListState implements Built<FriendListState,FriendListStateB
 
   bool? get IsRefresh;
 
+  bool? get ChangeStateLoading;
+  bool? get ChangeStateSuccess;
+
   GetFriendsModel? get GetFriends;
   RemoveFriendModel? get RemoveFriend;
 
@@ -36,7 +39,9 @@ abstract class FriendListState implements Built<FriendListState,FriendListStateB
     return FriendListState((b) => b
       ..error = ""
       ..isLoading = false
+      ..ChangeStateLoading = false
       ..success = false
+      ..ChangeStateSuccess = false
       ..IsRefresh = false
         ..GetFriends =null
         ..RemoveFriend=null

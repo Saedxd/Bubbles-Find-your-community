@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Injection.dart';
@@ -33,47 +35,110 @@ class _FriendlistState extends State<Friendlist> {
   final _formkey1 = GlobalKey<FormState>(); //
   late FocusNode FocuseNODE;
   List<int> FrinedsID=[];
+  List<int> FrinedsStatus=[];
   final ScrollController controllerTwo = ScrollController();
+  Timer? timer;
   int Freindid = 0;
+
   @override
   void initState() {
     super.initState();
-    ListenForONlineFriends();
     FocuseNODE = FocusNode();
     _FriendlistBloc.add(GetFreinds());
+    ListenForONlineFriends();
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => LoopONfrinedsId());
     // Future.delayed(const Duration(milliseconds: 1000), () {
     //   controllerTwo.animateTo(
     //     controllerTwo.position.minScrollExtent,
     //     duration: const Duration(milliseconds: 1),  curve: Curves.ease,);
     // });
   }
-
-
+  int index = 0;
   void ListenForONlineFriends() {
-
-      print("Connected");
+    if(socket!.disconnected!=  null &&!socket!.disconnected) {
       print("Freind List");
-
-      socket!.on("friend_online",(value){
+      socket!.on("friend_online", (value) {
+        if (value["status"] != "offline") {
+          FrinedsStatus[index] = 1;
+          print("index : $index");
+          print("FrinedsID length : ${FrinedsID.length}");
+          if (index == FrinedsID.length - 1) {
+            _FriendlistBloc.add(RefreshState());
+            print("Refreshed page");
+          }
+        }
         print(value);
         print("friend_online: feedback");
       });
 
-      socket!.on("new_friend_online",(value){
-        print(value);
-        print("new_friend_online: feedback");
-      });
 
-    print(socket!.connected);
-  }
-  void LoopONfrinedsId(){
-    for(int i=0;i<FrinedsID.length;i++) {
-      socket!.emit('report_friends_online', {
-        'friend_id': FrinedsID[i]
-      });
-      print("Emitted: $i");
+      print("FrinedsStatus : $FrinedsStatus");
+      // socket!.on("new_friend_online",(value){
+      //   print(value);
+      //   print("new_friend_online: feedback");
+      // });
+
+
+      print(socket!.connected);
     }
   }
+  void LoopONfrinedsId()async{
+    if(socket!.disconnected!=  null &&!socket!.disconnected) {
+      for (int i = 0; i < FrinedsID.length; i++) {
+        index = i;
+        socket!.emit('report_friends_online', {
+          'friend_id': FrinedsID[i]
+          //todo : i want to send index through this one
+        },);
+
+
+        print("Emitted: $i");
+      }
+    }
+  }
+  // void ListenForONlineFriends() {
+  //
+  //     print("Freind List");
+  //
+  //     socket!.on("friend_online",(value){
+  //       if (value["status"]!="offline"){
+  //         FrinedsStatus[index] = 1;
+  //         print(FrinedsStatus);
+  //         print(index);
+  //       }
+  //
+  //       print(value);
+  //       print("friend_online: feedback");
+  //
+  //     });
+  //   print("FrinedsStatus : $FrinedsStatus");
+  //     // socket!.on("new_friend_online",(value){
+  //     //   print(value);
+  //     //   print("new_friend_online: feedback");
+  //     // });
+  //     print(index);
+  //     print(FrinedsID.length);
+  //     if (index ==FrinedsID.length-1){
+  //       print(index);
+  //       print(FrinedsID.length);
+  //       _FriendlistBloc.add(RefreshState());
+  //
+  //
+  //     }
+  //
+  //   print(socket!.connected);
+  // }
+  // void LoopONfrinedsId(){
+  //   for(int i=0;i<FrinedsID.length;i++) {
+  //     socket!.emit('report_friends_online', {
+  //       'friend_id': FrinedsID[i]
+  //     });
+  //
+  //
+  //     print("Emitted: $i");
+  //   }
+  // }
+
 
   @override
   void dispose() {
@@ -116,6 +181,9 @@ int COUNTERDiditonce = 0;
            for(int i=0;i<state.GetFriends!.friends!.length;i++){
              FrinedsID.add(state.GetFriends!.friends![i].id!);
            }
+               FrinedsStatus = List.filled(
+               state.GetFriends!.friends!.length,
+               0);
            LoopONfrinedsId();
            print(FrinedsID);
 
@@ -123,7 +191,6 @@ int COUNTERDiditonce = 0;
             Checknow = true;
             Diditonce = false;
           }
-
 
 
           alreatDialogBuilder(
@@ -256,10 +323,7 @@ int COUNTERDiditonce = 0;
                   );
                 });
           }
-
-
-
-          return    WillPopScope(
+          return  WillPopScope(
             onWillPop: () async =>true,
             child:
 
@@ -473,29 +537,50 @@ int COUNTERDiditonce = 0;
                                                       mainAxisAlignment:
                                                       MainAxisAlignment.center,
                                                       children: [
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.center,
-                                                          children: [
-                                                            Text("  "),
-                                                            Container(
-                                                              width: w/6,
-                                                              height: h/11.7,
-                                                              child:   CachedNetworkImage(
-                                                                imageUrl:
-                                                                state.GetFriends!.friends![index].avatar.toString()!=null
-                                                                    ? state.GetFriends!.friends![index].avatar.toString():"Assets/images/DefaultAvatar.png",
+                                                        //FrinedsStatus
+                                                        Stack(
+                                                        children:[
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.center,
+                                                            children: [
+                                                              Text("  "),
+                                                              Container(
+                                                                width: w/6,
+                                                                height: h/11.7,
+                                                                child:   CachedNetworkImage(
+                                                                  imageUrl:
+                                                                  state.GetFriends!.friends![index].avatar.toString()!=null
+                                                                      ? state.GetFriends!.friends![index].avatar.toString():"Assets/images/DefaultAvatar.png",
 
-                                                                errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                                imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                  radius: 30,
-                                                                  backgroundImage: imageProvider,
-                                                                  backgroundColor:   Color(BackgroundColor),
+                                                                  errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                    radius: 30,
+                                                                    backgroundImage: imageProvider,
+                                                                    backgroundColor:   Color(BackgroundColor),
+                                                                  ),
                                                                 ),
-                                                              ),
 
-                                                            )
-                                                          ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                          state.ChangeStateSuccess!?
+                                                          FrinedsStatus[index]==1?
+                                                          Positioned(
+                                                            bottom: 0,
+                                                            right: 0,
+                                                            child:
+                                                          CircleAvatar(
+                                                            backgroundColor:ColorS.secondaryContainer,
+                                                              radius: 10,
+                                                            child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
+                                                          )
+                                                              :Text("")
+                                                              :Text("")
+
+                                                ]
+
+
                                                         ),
                                                       ],
                                                     ),

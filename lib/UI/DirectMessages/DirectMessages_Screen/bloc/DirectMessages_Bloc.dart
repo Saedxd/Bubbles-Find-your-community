@@ -27,6 +27,27 @@ class DirectMessagesBloc extends Bloc<DirectMessagesEvent, DirectMessagesState> 
       yield state.rebuild((b) => b..error = "");
     }
 
+    if (event is RefreshState) {
+      try {
+        yield state.rebuild((b) =>
+        b
+          ..ChangeStateLoading = true
+          ..ChangeStateSuccess = false
+        );
+
+        yield state.rebuild((b) =>
+        b
+          ..ChangeStateLoading = false
+          ..ChangeStateSuccess = true
+        );
+
+
+
+      } catch (e) {
+        print('get Error $e');
+      }
+    }
+
     if (event is GetLastMessageWithAllUsers){
       try {
         yield state.rebuild((b) => b
@@ -56,5 +77,8 @@ class DirectMessagesBloc extends Bloc<DirectMessagesEvent, DirectMessagesState> 
     }
 
 
+
+
   }
+
 }

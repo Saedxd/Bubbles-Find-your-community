@@ -66,8 +66,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //     );
   //   }
   // }
-  void initMessaging() {
-
+  void initMessaging() async{
+    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+      alert: false,
+      badge: false,
+      sound: false,
+    );
     var androiInit = AndroidInitializationSettings("@mipmap/ic_launcher");
     var iosInit = IOSInitializationSettings(
       requestAlertPermission: true,
@@ -89,7 +93,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         importance: Importance.max,
         priority: Priority.high,
         playSound: true,
-      enableLights: true ,
+      enableLights: false ,
     );
 
     var iosDetails = IOSNotificationDetails();
@@ -117,12 +121,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         );}
     });
 
+
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       print("onMessageOpenedApp: $message");
 
       print(message);
       print(message.notification!.title.toString());
-      if (message.notification!.title.toString() == "#Friend Request") {
+      if (message.notification!.title.toString() == "Friend Request") {
         navigatorKey.currentState!.push(
             MaterialPageRoute(builder: (_) => FreindRequests())
         );

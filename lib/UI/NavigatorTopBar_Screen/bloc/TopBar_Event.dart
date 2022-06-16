@@ -58,3 +58,9 @@ abstract class ChangePAGEINDEX extends TopBarEvent
   factory ChangePAGEINDEX([updates(ChangePAGEINDEXBuilder b)]) = _$ChangePAGEINDEX;
 }
 
+abstract class GetProfile extends TopBarEvent
+    implements Built<GetProfile,GetProfileBuilder> {
+
+  GetProfile._();
+  factory GetProfile([updates(GetProfileBuilder b)]) = _$GetProfile;
+}

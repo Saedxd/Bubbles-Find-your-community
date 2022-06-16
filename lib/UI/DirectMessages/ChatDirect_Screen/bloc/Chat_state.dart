@@ -30,6 +30,12 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
   PostMessagesModel? get PostMessages;
   AddreplyModel? get Addreply;
 
+
+  bool? get MYAliasISLoading;
+  bool? get MYAliasISsuccess;
+  GetAliasModel? get GetAliasMinee;
+
+
   String? get AvatarPathForRepliedTo;
   int? get ColorForRepliedTo;
   String? get RepliedToMessage;
@@ -49,14 +55,17 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
       ..isLoading = false
       ..Status = false
       ..AliasISLoading = false
+      ..MYAliasISLoading = false
       ..success = false
       ..AliasISsuccess = false
+      ..MYAliasISsuccess = false
       ..Isreply = false
       ..ColorForRepliedTo = 0
       ..Done = false
         ..OldMessages=null
         ..GetAlias=null
         ..PostMessages=null
+        ..GetAliasMinee=null
         ..Addreply=null
     );
   }

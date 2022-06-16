@@ -28,6 +28,12 @@ class _$ChatState extends ChatState {
   @override
   final AddreplyModel? Addreply;
   @override
+  final bool? MYAliasISLoading;
+  @override
+  final bool? MYAliasISsuccess;
+  @override
+  final GetAliasModel? GetAliasMinee;
+  @override
   final String? AvatarPathForRepliedTo;
   @override
   final int? ColorForRepliedTo;
@@ -54,6 +60,9 @@ class _$ChatState extends ChatState {
       this.OldMessages,
       this.PostMessages,
       this.Addreply,
+      this.MYAliasISLoading,
+      this.MYAliasISsuccess,
+      this.GetAliasMinee,
       this.AvatarPathForRepliedTo,
       this.ColorForRepliedTo,
       this.RepliedToMessage,
@@ -83,6 +92,9 @@ class _$ChatState extends ChatState {
         OldMessages == other.OldMessages &&
         PostMessages == other.PostMessages &&
         Addreply == other.Addreply &&
+        MYAliasISLoading == other.MYAliasISLoading &&
+        MYAliasISsuccess == other.MYAliasISsuccess &&
+        GetAliasMinee == other.GetAliasMinee &&
         AvatarPathForRepliedTo == other.AvatarPathForRepliedTo &&
         ColorForRepliedTo == other.ColorForRepliedTo &&
         RepliedToMessage == other.RepliedToMessage &&
@@ -109,19 +121,29 @@ class _$ChatState extends ChatState {
                                                         $jc(
                                                             $jc(
                                                                 $jc(
-                                                                    0,
-                                                                    error
+                                                                    $jc(
+                                                                        $jc(
+                                                                            $jc(
+                                                                                0,
+                                                                                error
+                                                                                    .hashCode),
+                                                                            isLoading
+                                                                                .hashCode),
+                                                                        success
+                                                                            .hashCode),
+                                                                    Done
                                                                         .hashCode),
-                                                                isLoading
+                                                                AliasISLoading
                                                                     .hashCode),
-                                                            success.hashCode),
-                                                        Done.hashCode),
-                                                    AliasISLoading.hashCode),
-                                                AliasISsuccess.hashCode),
-                                            GetAlias.hashCode),
-                                        OldMessages.hashCode),
-                                    PostMessages.hashCode),
-                                Addreply.hashCode),
+                                                            AliasISsuccess
+                                                                .hashCode),
+                                                        GetAlias.hashCode),
+                                                    OldMessages.hashCode),
+                                                PostMessages.hashCode),
+                                            Addreply.hashCode),
+                                        MYAliasISLoading.hashCode),
+                                    MYAliasISsuccess.hashCode),
+                                GetAliasMinee.hashCode),
                             AvatarPathForRepliedTo.hashCode),
                         ColorForRepliedTo.hashCode),
                     RepliedToMessage.hashCode),
@@ -143,6 +165,9 @@ class _$ChatState extends ChatState {
           ..add('OldMessages', OldMessages)
           ..add('PostMessages', PostMessages)
           ..add('Addreply', Addreply)
+          ..add('MYAliasISLoading', MYAliasISLoading)
+          ..add('MYAliasISsuccess', MYAliasISsuccess)
+          ..add('GetAliasMinee', GetAliasMinee)
           ..add('AvatarPathForRepliedTo', AvatarPathForRepliedTo)
           ..add('ColorForRepliedTo', ColorForRepliedTo)
           ..add('RepliedToMessage', RepliedToMessage)
@@ -204,6 +229,22 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _$this._Addreply ??= new AddreplyModelBuilder();
   set Addreply(AddreplyModelBuilder? Addreply) => _$this._Addreply = Addreply;
 
+  bool? _MYAliasISLoading;
+  bool? get MYAliasISLoading => _$this._MYAliasISLoading;
+  set MYAliasISLoading(bool? MYAliasISLoading) =>
+      _$this._MYAliasISLoading = MYAliasISLoading;
+
+  bool? _MYAliasISsuccess;
+  bool? get MYAliasISsuccess => _$this._MYAliasISsuccess;
+  set MYAliasISsuccess(bool? MYAliasISsuccess) =>
+      _$this._MYAliasISsuccess = MYAliasISsuccess;
+
+  GetAliasModelBuilder? _GetAliasMinee;
+  GetAliasModelBuilder get GetAliasMinee =>
+      _$this._GetAliasMinee ??= new GetAliasModelBuilder();
+  set GetAliasMinee(GetAliasModelBuilder? GetAliasMinee) =>
+      _$this._GetAliasMinee = GetAliasMinee;
+
   String? _AvatarPathForRepliedTo;
   String? get AvatarPathForRepliedTo => _$this._AvatarPathForRepliedTo;
   set AvatarPathForRepliedTo(String? AvatarPathForRepliedTo) =>
@@ -247,6 +288,9 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _OldMessages = $v.OldMessages?.toBuilder();
       _PostMessages = $v.PostMessages?.toBuilder();
       _Addreply = $v.Addreply?.toBuilder();
+      _MYAliasISLoading = $v.MYAliasISLoading;
+      _MYAliasISsuccess = $v.MYAliasISsuccess;
+      _GetAliasMinee = $v.GetAliasMinee?.toBuilder();
       _AvatarPathForRepliedTo = $v.AvatarPathForRepliedTo;
       _ColorForRepliedTo = $v.ColorForRepliedTo;
       _RepliedToMessage = $v.RepliedToMessage;
@@ -287,6 +331,9 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
               OldMessages: _OldMessages?.build(),
               PostMessages: _PostMessages?.build(),
               Addreply: _Addreply?.build(),
+              MYAliasISLoading: MYAliasISLoading,
+              MYAliasISsuccess: MYAliasISsuccess,
+              GetAliasMinee: _GetAliasMinee?.build(),
               AvatarPathForRepliedTo: AvatarPathForRepliedTo,
               ColorForRepliedTo: ColorForRepliedTo,
               RepliedToMessage: RepliedToMessage,
@@ -304,6 +351,9 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
         _PostMessages?.build();
         _$failedField = 'Addreply';
         _Addreply?.build();
+
+        _$failedField = 'GetAliasMinee';
+        _GetAliasMinee?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ChatState', _$failedField, e.toString());

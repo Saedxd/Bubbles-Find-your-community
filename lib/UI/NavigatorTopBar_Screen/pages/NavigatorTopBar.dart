@@ -5,11 +5,12 @@ import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_State.dart';
 import 'package:bubbles/UI/Notifications/pages/Notifications_Screen.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IOo;
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:socket_io_client/socket_io_client.dart';
+
 import '../../../core/Colors/constants.dart';
 import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
@@ -20,7 +21,9 @@ int? GOtoDirect = 0;
   @override
   State<NavigatorTopBar> createState() => _NavigatorTopBarState();
 }
- IOo.Socket? socket;
+
+
+IO.Socket? socket;
 class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _TopBarBloc = sl<TopBarBloc>();
@@ -28,6 +31,11 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   int dot = 0;
  // List<int> TopBarItemSelected = [1, 0, 0, 0];
 
+  bool DiditONCE = false;
+  String Alias = "";
+  int USER_ID = 0;
+  int selected = 0;
+  int PageIndex = 0;
 
   final List<Widget> _buildScreens = [
     HomeScreen(),
@@ -47,64 +55,92 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
       connect();
       break;
     case AppLifecycleState.inactive:
-      Disconnect();
+   //   Disconnect();
       break;
     case AppLifecycleState.paused:
-      Disconnect();
+    //  Disconnect();
       break;
     case AppLifecycleState.detached:
-      Disconnect();
+     // Disconnect();
       break;
   }
 }
 
+  // IOo.Socket? socket;
+  //<String, dynamic>{
+  //       "transports": ["websocket"],
+  //       "autoConnect": false,
+  //     },
 
-int selected = 0;
-  int PageIndex = 0;
-  IOo.Socket? socket;
+  //"websocket",
+  //"polling"
+
   void connect()async {
-    socket =  IOo.io("https://chatapp.salnoyapp.store/",
+
+    try {
+      print("connected with alias : $Alias");
+      print("connected with USER_ID :$USER_ID ");
+      socket =  IO.io("https://chatapp.salnoyapp.store/",
         OptionBuilder()
-            .setTransports(['websocket'])
-            .setExtraHeaders({
-          "connection":'keep-alive'
-        })
+            .setTransports(["websocket", "polling"])
+            .disableAutoConnect()
             .setQuery({
-          "user_id": 5,
-          "username": "lolsaws",
-        }).build()
-    );
+          "user_id": USER_ID,
+          "username": Alias,
+        }).build(),
+      );
+
+      socket!.connect();
+      print("Tried");
+      socket!.onConnect((data) {
+        print(socket!.connected);
+        print("Connected");
+        print(data);
+        socket!.on("receive_message_send", (msg) {
+          //   setHisMessage( msg["message"]);
+        });
+        socket!.onDisconnect((_) => print('disconnected'));
 
 
-    print("Tried");
+        socket!.on("connected_status", (msg) {
+          print(msg);
+          print("Listening");
+          // setHisMessage( msg["message"]);
+        });
 
-   // socket!.connect();
-    socket!.onConnect((data) {
+        socket!.on("receive_message_send", (msg) {
+          //   setHisMessage( msg["message"]);
+        });
+      });
 
-      print(socket!.connected);
-      print("Connected");
-      print(data);
-      //connected_status
-      socket!.on("connected_status",(msg){
+
+      socket!.on("connected_status", (msg) {
         print(msg);
         print("Listening");
         // setHisMessage( msg["message"]);
       });
-
-      socket!.on("receive_message_send",(msg){
-        //   setHisMessage( msg["message"]);
-      });
-    });
+      // socket!.onDisconnect((data) =>
+      // print("Disconnected")
+      // );
 
 
-    print(socket!.connected);
+      print(socket!.connected);
+    }catch(e){
+      print(e);
+    }
   }
 
 
-  void Disconnect(){
-    socket!.disconnect();
-    print("DIsconnected");
-  }
+
+
+  // void Disconnect(){
+  //  // socket!.disconnect();
+  //   print("DIsconnected");
+  //   socket!.onDisconnect((data) =>
+  //       print("Disconnected IN SIDE ONDISCONNECT")
+  //   );
+  //
+  // }
 
 @override
 void dispose() {
@@ -115,8 +151,8 @@ WidgetsBinding.instance?.removeObserver(this);
   @override
   void initState() {
     super.initState();
-    WidgetsFlutterBinding.ensureInitialized();
-    connect();
+    _TopBarBloc.add(GetProfile());
+    DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
     if (widget.GOtoDirect==5){
       _TopBarBloc.add(
@@ -139,6 +175,19 @@ WidgetsBinding.instance?.removeObserver(this);
       BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
+
+
+          if (state.GetprofileSuccess! && DiditONCE){
+            Alias = state.ProfileDate!.user!.alias.toString();
+            USER_ID = state.ProfileDate!.user!.id!;
+            print("called function connect");
+            connect();
+            DiditONCE = false;
+          }
+
+
+
+
     if (widget.GOtoDirect==5){
       state.Index1==true
           ? _TopBarBloc.add(ChangeIndex1())
