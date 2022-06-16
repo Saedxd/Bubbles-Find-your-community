@@ -71,6 +71,7 @@ String Avatar="";
     setMYMessage(message);
   }
 
+
   void setHisMessage(String message)
   {
     DateTime datee = DateTime.now();
