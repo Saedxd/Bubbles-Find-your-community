@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
 MERGED from [:firebase_messaging] G:\Bubbles\build\firebase_messaging\intermediates\library_manifest\release\AndroidManifest.xml:2:1-46:12
 MERGED from [:firebase_auth] G:\Bubbles\build\firebase_auth\intermediates\library_manifest\release\AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] G:\Bubbles\build\firebase_core\intermediates\library_manifest\release\AndroidManifest.xml:2:1-15:12
@@ -131,22 +131,22 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Admin\.gradl
 MERGED from [com.github.webrtc-sdk:android:97.4692.01] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\c79c71d85fd5ecd73d018440d7b4bec3\jetified-android-97.4692.01\AndroidManifest.xml:11:1-14:12
 MERGED from [com.android.installreferrer:installreferrer:1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\a95af0ceba12c33455463af50ce2ca0b\jetified-installreferrer-1.0\AndroidManifest.xml:2:1-13:12
 MERGED from [androidx.annotation:annotation-experimental:1.1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\6b233dff93b55d9da34ce8be563735f4\jetified-annotation-experimental-1.1.0\AndroidManifest.xml:17:1-24:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
-INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
+INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
 	package
 		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:3:5-30
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
 	xmlns:tools
 		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:2:5-51
 	android:versionCode
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-160:12
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:1-163:12
 		INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:1:11-69
@@ -285,11 +285,11 @@ ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:24:13-67
 data
 ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:25:13-45
 	android:path
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:76:23-46
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:77:23-46
 	android:scheme
 		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:25:19-42
 application
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:28:5-159:19
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:28:5-162:19
 MERGED from [:firebase_messaging] G:\Bubbles\build\firebase_messaging\intermediates\library_manifest\release\AndroidManifest.xml:11:5-44:19
 MERGED from [:firebase_messaging] G:\Bubbles\build\firebase_messaging\intermediates\library_manifest\release\AndroidManifest.xml:11:5-44:19
 MERGED from [:firebase_auth] G:\Bubbles\build\firebase_auth\intermediates\library_manifest\release\AndroidManifest.xml:7:5-13:19
@@ -387,167 +387,173 @@ MERGED from [com.journeyapps:zxing-android-embedded:4.3.0] C:\Users\Admin\.gradl
 MERGED from [com.android.installreferrer:installreferrer:1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\a95af0ceba12c33455463af50ce2ca0b\jetified-installreferrer-1.0\AndroidManifest.xml:11:5-20
 MERGED from [com.android.installreferrer:installreferrer:1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\a95af0ceba12c33455463af50ce2ca0b\jetified-installreferrer-1.0\AndroidManifest.xml:11:5-20
 	android:requestLegacyExternalStorage
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:30:9-52
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:31:9-52
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.7.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\2cf9fb3c198929fc83a00aa8144769ea\core-1.7.0\AndroidManifest.xml:24:18-86
 	android:supportsRtl
 		ADDED from [com.facebook.android:facebook-login:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3e48e08bec04f62c6ddf511a4e588afe\jetified-facebook-login-14.0.0\AndroidManifest.xml:28:18-44
 	android:label
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:29:9-32
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:30:9-32
 	android:icon
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:31:9-43
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:32:9-43
+	android:usesCleartextTraffic
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:33:9-44
 service#com.google.firebase.messaging.FirebaseMessagingService
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:35:9-41:19
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:37:9-43:19
 MERGED from [com.google.firebase:firebase-messaging:23.0.4] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3303ec4c7f02b790116ef35f14ed1b30\jetified-firebase-messaging-23.0.4\AndroidManifest.xml:44:9-51:19
 MERGED from [com.google.firebase:firebase-messaging:23.0.4] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3303ec4c7f02b790116ef35f14ed1b30\jetified-firebase-messaging-23.0.4\AndroidManifest.xml:44:9-51:19
 	android:exported
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:37:13-37
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:39:13-37
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-messaging:23.0.4] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3303ec4c7f02b790116ef35f14ed1b30\jetified-firebase-messaging-23.0.4\AndroidManifest.xml:46:13-43
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:36:13-82
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:38:13-82
 intent-filter#action:name:com.google.firebase.MESSAGING_EVENT
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:38:13-40:29
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:40:13-42:29
 action#com.google.firebase.MESSAGING_EVENT
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:39:17-78
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:41:17-78
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:39:25-75
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:41:25-75
 meta-data#com.google.firebase.messaging.default_notification_icon
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:42:9-44:54
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:44:9-46:54
 	android:resource
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:44:13-51
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:46:13-51
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:43:13-83
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:45:13-83
 meta-data#com.google.firebase.messaging.default_notification_channel_id
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:51:9-53:55
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:53:9-55:55
 	android:value
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:53:13-52
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:55:13-52
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:52:13-89
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:54:13-89
 meta-data#com.facebook.sdk.ApplicationId
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:56:9-107
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:58:9-107
 	android:value
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:56:66-105
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:58:66-105
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:56:20-65
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:58:20-65
 meta-data#com.facebook.sdk.ClientToken
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:57:9-111
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:59:9-111
 	android:value
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:57:64-109
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:59:64-109
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:57:20-63
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:59:20-63
 activity#com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:58:9-78:20
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:60:9-79:20
 	android:exported
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:61:13-36
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:60:13-97
-intent-filter#action:name:FLUTTER_NOTIFICATION_CLICK+category:name:android.intent.category.DEFAULT
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:65:13-68:29
-action#FLUTTER_NOTIFICATION_CLICK
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:66:17-69
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:66:25-66
-category#android.intent.category.DEFAULT
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:67:17-76
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:67:27-73
-intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:path:callback+data:scheme:signinwithapple
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:70:13-77:29
-action#android.intent.action.VIEW
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:71:17-69
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:71:25-66
-category#android.intent.category.BROWSABLE
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:73:17-78
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:73:27-75
-meta-data#flutterEmbedding
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:84:9-87:15
-	android:value
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:86:13-30
-	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:85:13-44
-activity#com.arc.bubbles.MainActivity
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:91:9-128:20
-	android:launchMode
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:95:13-43
-	android:windowSoftInputMode
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:98:13-55
-	android:exported
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:92:13-36
-	android:configChanges
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:97:13-163
-	tools:targetApi
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:99:13-32
-	android:theme
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:96:13-47
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:63:13-36
 	android:usesCleartextTraffic
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:94:13-48
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:61:13-48
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:93:13-41
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:62:13-97
+intent-filter#action:name:FLUTTER_NOTIFICATION_CLICK+category:name:android.intent.category.DEFAULT
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:66:13-69:29
+action#FLUTTER_NOTIFICATION_CLICK
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:67:17-69
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:67:25-66
+category#android.intent.category.DEFAULT
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:68:17-76
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:68:27-73
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:path:callback+data:scheme:signinwithapple
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:71:13-78:29
+action#android.intent.action.VIEW
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:72:17-69
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:72:25-66
+category#android.intent.category.BROWSABLE
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:74:17-78
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:74:27-75
+meta-data#flutterEmbedding
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:85:9-88:15
+	android:value
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:87:13-30
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:86:13-44
+activity#com.arc.bubbles.MainActivity
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:92:9-131:20
+	android:launchMode
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:97:13-43
+	android:windowSoftInputMode
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:101:13-55
+	android:exported
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:94:13-36
+	android:configChanges
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:100:13-163
+	tools:targetApi
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:102:13-32
+	android:theme
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:98:13-47
+	android:networkSecurityConfig
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:99:13-73
+	android:usesCleartextTraffic
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:93:13-48
+	android:name
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:95:13-41
 meta-data#io.flutter.embedding.android.NormalTheme
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:108:13-111:17
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:111:13-114:17
 	android:resource
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:110:15-52
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:113:15-52
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:109:15-70
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:112:15-70
 meta-data#io.flutter.embedding.android.SplashScreenDrawable
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:119:13-122:17
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:122:13-125:17
 	android:resource
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:121:15-61
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:124:15-61
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:120:15-79
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:123:15-79
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:123:13-126:29
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:126:13-129:29
 action#android.intent.action.MAIN
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:124:17-68
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:127:17-68
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:124:25-66
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:127:25-66
 category#android.intent.category.LAUNCHER
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:125:17-76
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:128:17-76
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:125:27-74
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:128:27-74
 activity#com.facebook.FacebookActivity
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:130:9-133:13
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:133:9-136:13
 MERGED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:30:9-33:66
 MERGED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:30:9-33:66
 	android:configChanges
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:131:13-114
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:134:13-114
 	android:theme
 		ADDED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:33:13-63
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:130:19-63
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:133:19-63
 activity#com.facebook.CustomTabActivity
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:135:9-144:20
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:138:9-147:20
 MERGED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:35:9-49:20
 MERGED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:35:9-49:20
 	tools:node
 		ADDED from [com.facebook.android:facebook-common:14.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\1952bb26a3ca0dd90773c738d0471a1b\jetified-facebook-common-14.0.0\AndroidManifest.xml:38:13-31
 	android:exported
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:137:13-36
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:140:13-36
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:136:13-58
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:139:13-58
 intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.BROWSABLE+category:name:android.intent.category.DEFAULT+data:scheme:@string/fb_login_protocol_scheme
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:138:13-143:29
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:141:13-146:29
 uses-library#org.apache.http.legacy
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:153:9-87
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:156:9-87
 MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\6bd919c89e93cf3f71bfff6214c01642\jetified-play-services-maps-18.0.2\AndroidManifest.xml:39:9-41:40
 MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\6bd919c89e93cf3f71bfff6214c01642\jetified-play-services-maps-18.0.2\AndroidManifest.xml:39:9-41:40
 	android:required
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:153:61-85
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:156:61-85
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:153:23-60
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:156:23-60
 uses-library#com.google.android.maps
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:154:8-63
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:157:8-63
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:154:22-60
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:157:22-60
 meta-data#com.google.android.geo.API_KEY
-ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:155:8-156:69
+ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:158:8-159:69
 	android:value
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:156:12-67
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:159:12-67
 	android:name
-		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:155:19-64
+		ADDED from G:\Bubbles\android\app\src\main\AndroidManifest.xml:158:19-64
 uses-sdk
 INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from G:\Bubbles\android\app\src\main\AndroidManifest.xml

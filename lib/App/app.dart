@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
@@ -252,7 +253,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               builder: (context, orientation, deviceType) {
                 return  MaterialApp(
                   debugShowCheckedModeBanner: false,
-                  home: Login(),
+                  home:
+                 // DirectChat(),
+                  Login(),
                   navigatorKey: navigatorKey,
                   title: 'Bubbles',
                   theme: theme,

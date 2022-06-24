@@ -28,11 +28,29 @@ class _$ChatState extends ChatState {
   @override
   final AddreplyModel? Addreply;
   @override
+  final bool? RefreshLoading;
+  @override
+  final bool? RefreshSuccess;
+  @override
+  final bool? Turnss;
+  @override
   final bool? MYAliasISLoading;
   @override
   final bool? MYAliasISsuccess;
   @override
+  final bool? typingStatusISloading;
+  @override
+  final bool? TypingStatusSuccess;
+  @override
+  final bool? TypingStatus;
+  @override
   final GetAliasModel? GetAliasMinee;
+  @override
+  final List<MessageModel>? messages;
+  @override
+  final bool? AddModelISloading;
+  @override
+  final bool? AddModelSUccess;
   @override
   final String? AvatarPathForRepliedTo;
   @override
@@ -60,9 +78,18 @@ class _$ChatState extends ChatState {
       this.OldMessages,
       this.PostMessages,
       this.Addreply,
+      this.RefreshLoading,
+      this.RefreshSuccess,
+      this.Turnss,
       this.MYAliasISLoading,
       this.MYAliasISsuccess,
+      this.typingStatusISloading,
+      this.TypingStatusSuccess,
+      this.TypingStatus,
       this.GetAliasMinee,
+      this.messages,
+      this.AddModelISloading,
+      this.AddModelSUccess,
       this.AvatarPathForRepliedTo,
       this.ColorForRepliedTo,
       this.RepliedToMessage,
@@ -92,9 +119,18 @@ class _$ChatState extends ChatState {
         OldMessages == other.OldMessages &&
         PostMessages == other.PostMessages &&
         Addreply == other.Addreply &&
+        RefreshLoading == other.RefreshLoading &&
+        RefreshSuccess == other.RefreshSuccess &&
+        Turnss == other.Turnss &&
         MYAliasISLoading == other.MYAliasISLoading &&
         MYAliasISsuccess == other.MYAliasISsuccess &&
+        typingStatusISloading == other.typingStatusISloading &&
+        TypingStatusSuccess == other.TypingStatusSuccess &&
+        TypingStatus == other.TypingStatus &&
         GetAliasMinee == other.GetAliasMinee &&
+        messages == other.messages &&
+        AddModelISloading == other.AddModelISloading &&
+        AddModelSUccess == other.AddModelSUccess &&
         AvatarPathForRepliedTo == other.AvatarPathForRepliedTo &&
         ColorForRepliedTo == other.ColorForRepliedTo &&
         RepliedToMessage == other.RepliedToMessage &&
@@ -123,27 +159,20 @@ class _$ChatState extends ChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc(
-                                                                                0,
-                                                                                error
-                                                                                    .hashCode),
-                                                                            isLoading
-                                                                                .hashCode),
-                                                                        success
-                                                                            .hashCode),
-                                                                    Done
-                                                                        .hashCode),
-                                                                AliasISLoading
-                                                                    .hashCode),
-                                                            AliasISsuccess
-                                                                .hashCode),
-                                                        GetAlias.hashCode),
-                                                    OldMessages.hashCode),
-                                                PostMessages.hashCode),
-                                            Addreply.hashCode),
-                                        MYAliasISLoading.hashCode),
-                                    MYAliasISsuccess.hashCode),
-                                GetAliasMinee.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), OldMessages.hashCode), PostMessages.hashCode),
+                                                                                Addreply.hashCode),
+                                                                            RefreshLoading.hashCode),
+                                                                        RefreshSuccess.hashCode),
+                                                                    Turnss.hashCode),
+                                                                MYAliasISLoading.hashCode),
+                                                            MYAliasISsuccess.hashCode),
+                                                        typingStatusISloading.hashCode),
+                                                    TypingStatusSuccess.hashCode),
+                                                TypingStatus.hashCode),
+                                            GetAliasMinee.hashCode),
+                                        messages.hashCode),
+                                    AddModelISloading.hashCode),
+                                AddModelSUccess.hashCode),
                             AvatarPathForRepliedTo.hashCode),
                         ColorForRepliedTo.hashCode),
                     RepliedToMessage.hashCode),
@@ -165,9 +194,18 @@ class _$ChatState extends ChatState {
           ..add('OldMessages', OldMessages)
           ..add('PostMessages', PostMessages)
           ..add('Addreply', Addreply)
+          ..add('RefreshLoading', RefreshLoading)
+          ..add('RefreshSuccess', RefreshSuccess)
+          ..add('Turnss', Turnss)
           ..add('MYAliasISLoading', MYAliasISLoading)
           ..add('MYAliasISsuccess', MYAliasISsuccess)
+          ..add('typingStatusISloading', typingStatusISloading)
+          ..add('TypingStatusSuccess', TypingStatusSuccess)
+          ..add('TypingStatus', TypingStatus)
           ..add('GetAliasMinee', GetAliasMinee)
+          ..add('messages', messages)
+          ..add('AddModelISloading', AddModelISloading)
+          ..add('AddModelSUccess', AddModelSUccess)
           ..add('AvatarPathForRepliedTo', AvatarPathForRepliedTo)
           ..add('ColorForRepliedTo', ColorForRepliedTo)
           ..add('RepliedToMessage', RepliedToMessage)
@@ -229,6 +267,20 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _$this._Addreply ??= new AddreplyModelBuilder();
   set Addreply(AddreplyModelBuilder? Addreply) => _$this._Addreply = Addreply;
 
+  bool? _RefreshLoading;
+  bool? get RefreshLoading => _$this._RefreshLoading;
+  set RefreshLoading(bool? RefreshLoading) =>
+      _$this._RefreshLoading = RefreshLoading;
+
+  bool? _RefreshSuccess;
+  bool? get RefreshSuccess => _$this._RefreshSuccess;
+  set RefreshSuccess(bool? RefreshSuccess) =>
+      _$this._RefreshSuccess = RefreshSuccess;
+
+  bool? _Turnss;
+  bool? get Turnss => _$this._Turnss;
+  set Turnss(bool? Turnss) => _$this._Turnss = Turnss;
+
   bool? _MYAliasISLoading;
   bool? get MYAliasISLoading => _$this._MYAliasISLoading;
   set MYAliasISLoading(bool? MYAliasISLoading) =>
@@ -239,11 +291,39 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   set MYAliasISsuccess(bool? MYAliasISsuccess) =>
       _$this._MYAliasISsuccess = MYAliasISsuccess;
 
+  bool? _typingStatusISloading;
+  bool? get typingStatusISloading => _$this._typingStatusISloading;
+  set typingStatusISloading(bool? typingStatusISloading) =>
+      _$this._typingStatusISloading = typingStatusISloading;
+
+  bool? _TypingStatusSuccess;
+  bool? get TypingStatusSuccess => _$this._TypingStatusSuccess;
+  set TypingStatusSuccess(bool? TypingStatusSuccess) =>
+      _$this._TypingStatusSuccess = TypingStatusSuccess;
+
+  bool? _TypingStatus;
+  bool? get TypingStatus => _$this._TypingStatus;
+  set TypingStatus(bool? TypingStatus) => _$this._TypingStatus = TypingStatus;
+
   GetAliasModelBuilder? _GetAliasMinee;
   GetAliasModelBuilder get GetAliasMinee =>
       _$this._GetAliasMinee ??= new GetAliasModelBuilder();
   set GetAliasMinee(GetAliasModelBuilder? GetAliasMinee) =>
       _$this._GetAliasMinee = GetAliasMinee;
+
+  List<MessageModel>? _messages;
+  List<MessageModel>? get messages => _$this._messages;
+  set messages(List<MessageModel>? messages) => _$this._messages = messages;
+
+  bool? _AddModelISloading;
+  bool? get AddModelISloading => _$this._AddModelISloading;
+  set AddModelISloading(bool? AddModelISloading) =>
+      _$this._AddModelISloading = AddModelISloading;
+
+  bool? _AddModelSUccess;
+  bool? get AddModelSUccess => _$this._AddModelSUccess;
+  set AddModelSUccess(bool? AddModelSUccess) =>
+      _$this._AddModelSUccess = AddModelSUccess;
 
   String? _AvatarPathForRepliedTo;
   String? get AvatarPathForRepliedTo => _$this._AvatarPathForRepliedTo;
@@ -288,9 +368,18 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _OldMessages = $v.OldMessages?.toBuilder();
       _PostMessages = $v.PostMessages?.toBuilder();
       _Addreply = $v.Addreply?.toBuilder();
+      _RefreshLoading = $v.RefreshLoading;
+      _RefreshSuccess = $v.RefreshSuccess;
+      _Turnss = $v.Turnss;
       _MYAliasISLoading = $v.MYAliasISLoading;
       _MYAliasISsuccess = $v.MYAliasISsuccess;
+      _typingStatusISloading = $v.typingStatusISloading;
+      _TypingStatusSuccess = $v.TypingStatusSuccess;
+      _TypingStatus = $v.TypingStatus;
       _GetAliasMinee = $v.GetAliasMinee?.toBuilder();
+      _messages = $v.messages;
+      _AddModelISloading = $v.AddModelISloading;
+      _AddModelSUccess = $v.AddModelSUccess;
       _AvatarPathForRepliedTo = $v.AvatarPathForRepliedTo;
       _ColorForRepliedTo = $v.ColorForRepliedTo;
       _RepliedToMessage = $v.RepliedToMessage;
@@ -331,9 +420,18 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
               OldMessages: _OldMessages?.build(),
               PostMessages: _PostMessages?.build(),
               Addreply: _Addreply?.build(),
+              RefreshLoading: RefreshLoading,
+              RefreshSuccess: RefreshSuccess,
+              Turnss: Turnss,
               MYAliasISLoading: MYAliasISLoading,
               MYAliasISsuccess: MYAliasISsuccess,
+              typingStatusISloading: typingStatusISloading,
+              TypingStatusSuccess: TypingStatusSuccess,
+              TypingStatus: TypingStatus,
               GetAliasMinee: _GetAliasMinee?.build(),
+              messages: messages,
+              AddModelISloading: AddModelISloading,
+              AddModelSUccess: AddModelSUccess,
               AvatarPathForRepliedTo: AvatarPathForRepliedTo,
               ColorForRepliedTo: ColorForRepliedTo,
               RepliedToMessage: RepliedToMessage,

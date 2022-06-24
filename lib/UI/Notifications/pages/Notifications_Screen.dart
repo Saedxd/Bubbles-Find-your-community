@@ -113,7 +113,7 @@ bool diditonce = false;
                                     print(e);
                                   }
                                   DateTime datee = DateTime.parse(state.Getnotifcations!.notifications![index].created_at.toString());
-                                  print(timeago.format(datee));
+                               //   print(timeago.format(datee));
 
 
                                   return InkWell(

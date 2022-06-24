@@ -157,12 +157,14 @@ class DoneBuilder implements Builder<Done, DoneBuilder> {
 
 class _$GetAlias extends GetAlias {
   @override
-  final int? ID;
+  final int? HIS_ID;
+  @override
+  final int? My_ID;
 
   factory _$GetAlias([void Function(GetAliasBuilder)? updates]) =>
       (new GetAliasBuilder()..update(updates))._build();
 
-  _$GetAlias._({this.ID}) : super._();
+  _$GetAlias._({this.HIS_ID, this.My_ID}) : super._();
 
   @override
   GetAlias rebuild(void Function(GetAliasBuilder) updates) =>
@@ -174,33 +176,41 @@ class _$GetAlias extends GetAlias {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GetAlias && ID == other.ID;
+    return other is GetAlias && HIS_ID == other.HIS_ID && My_ID == other.My_ID;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, ID.hashCode));
+    return $jf($jc($jc(0, HIS_ID.hashCode), My_ID.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetAlias')..add('ID', ID)).toString();
+    return (newBuiltValueToStringHelper('GetAlias')
+          ..add('HIS_ID', HIS_ID)
+          ..add('My_ID', My_ID))
+        .toString();
   }
 }
 
 class GetAliasBuilder implements Builder<GetAlias, GetAliasBuilder> {
   _$GetAlias? _$v;
 
-  int? _ID;
-  int? get ID => _$this._ID;
-  set ID(int? ID) => _$this._ID = ID;
+  int? _HIS_ID;
+  int? get HIS_ID => _$this._HIS_ID;
+  set HIS_ID(int? HIS_ID) => _$this._HIS_ID = HIS_ID;
+
+  int? _My_ID;
+  int? get My_ID => _$this._My_ID;
+  set My_ID(int? My_ID) => _$this._My_ID = My_ID;
 
   GetAliasBuilder();
 
   GetAliasBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _ID = $v.ID;
+      _HIS_ID = $v.HIS_ID;
+      _My_ID = $v.My_ID;
       _$v = null;
     }
     return this;
@@ -221,81 +231,7 @@ class GetAliasBuilder implements Builder<GetAlias, GetAliasBuilder> {
   GetAlias build() => _build();
 
   _$GetAlias _build() {
-    final _$result = _$v ?? new _$GetAlias._(ID: ID);
-    replace(_$result);
-    return _$result;
-  }
-}
-
-class _$GetAliasMine extends GetAliasMine {
-  @override
-  final int? ID;
-
-  factory _$GetAliasMine([void Function(GetAliasMineBuilder)? updates]) =>
-      (new GetAliasMineBuilder()..update(updates))._build();
-
-  _$GetAliasMine._({this.ID}) : super._();
-
-  @override
-  GetAliasMine rebuild(void Function(GetAliasMineBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  GetAliasMineBuilder toBuilder() => new GetAliasMineBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is GetAliasMine && ID == other.ID;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, ID.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('GetAliasMine')..add('ID', ID))
-        .toString();
-  }
-}
-
-class GetAliasMineBuilder
-    implements Builder<GetAliasMine, GetAliasMineBuilder> {
-  _$GetAliasMine? _$v;
-
-  int? _ID;
-  int? get ID => _$this._ID;
-  set ID(int? ID) => _$this._ID = ID;
-
-  GetAliasMineBuilder();
-
-  GetAliasMineBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _ID = $v.ID;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(GetAliasMine other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GetAliasMine;
-  }
-
-  @override
-  void update(void Function(GetAliasMineBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  GetAliasMine build() => _build();
-
-  _$GetAliasMine _build() {
-    final _$result = _$v ?? new _$GetAliasMine._(ID: ID);
+    final _$result = _$v ?? new _$GetAlias._(HIS_ID: HIS_ID, My_ID: My_ID);
     replace(_$result);
     return _$result;
   }
@@ -675,6 +611,158 @@ class addReplyBuilder implements Builder<addReply, addReplyBuilder> {
   _$addReply _build() {
     final _$result =
         _$v ?? new _$addReply._(comment: comment, message_id: message_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$AddModel extends AddModel {
+  @override
+  final MessageModel? message;
+
+  factory _$AddModel([void Function(AddModelBuilder)? updates]) =>
+      (new AddModelBuilder()..update(updates))._build();
+
+  _$AddModel._({this.message}) : super._();
+
+  @override
+  AddModel rebuild(void Function(AddModelBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  AddModelBuilder toBuilder() => new AddModelBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is AddModel && message == other.message;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, message.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('AddModel')..add('message', message))
+        .toString();
+  }
+}
+
+class AddModelBuilder implements Builder<AddModel, AddModelBuilder> {
+  _$AddModel? _$v;
+
+  MessageModel? _message;
+  MessageModel? get message => _$this._message;
+  set message(MessageModel? message) => _$this._message = message;
+
+  AddModelBuilder();
+
+  AddModelBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _message = $v.message;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(AddModel other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$AddModel;
+  }
+
+  @override
+  void update(void Function(AddModelBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  AddModel build() => _build();
+
+  _$AddModel _build() {
+    final _$result = _$v ?? new _$AddModel._(message: message);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeTypingStatus extends ChangeTypingStatus {
+  @override
+  final bool? ChangeStatus;
+
+  factory _$ChangeTypingStatus(
+          [void Function(ChangeTypingStatusBuilder)? updates]) =>
+      (new ChangeTypingStatusBuilder()..update(updates))._build();
+
+  _$ChangeTypingStatus._({this.ChangeStatus}) : super._();
+
+  @override
+  ChangeTypingStatus rebuild(
+          void Function(ChangeTypingStatusBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeTypingStatusBuilder toBuilder() =>
+      new ChangeTypingStatusBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeTypingStatus && ChangeStatus == other.ChangeStatus;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, ChangeStatus.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ChangeTypingStatus')
+          ..add('ChangeStatus', ChangeStatus))
+        .toString();
+  }
+}
+
+class ChangeTypingStatusBuilder
+    implements Builder<ChangeTypingStatus, ChangeTypingStatusBuilder> {
+  _$ChangeTypingStatus? _$v;
+
+  bool? _ChangeStatus;
+  bool? get ChangeStatus => _$this._ChangeStatus;
+  set ChangeStatus(bool? ChangeStatus) => _$this._ChangeStatus = ChangeStatus;
+
+  ChangeTypingStatusBuilder();
+
+  ChangeTypingStatusBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _ChangeStatus = $v.ChangeStatus;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChangeTypingStatus other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeTypingStatus;
+  }
+
+  @override
+  void update(void Function(ChangeTypingStatusBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeTypingStatus build() => _build();
+
+  _$ChangeTypingStatus _build() {
+    final _$result =
+        _$v ?? new _$ChangeTypingStatus._(ChangeStatus: ChangeStatus);
     replace(_$result);
     return _$result;
   }

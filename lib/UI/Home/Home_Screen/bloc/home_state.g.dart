@@ -48,11 +48,17 @@ class _$HomeState extends HomeState {
   @override
   final bool? MakeHimBEableTOSEtBubble;
   @override
+  final bool? GetprofileISloading;
+  @override
+  final bool? GetprofileSuccess;
+  @override
   final GetPrimeBubblesModel? GetBubbles;
   @override
   final GetPrimeBubblesModel? GetPrimeBubbles;
   @override
   final GetPrimeBubblesModel? GetNewBubbles;
+  @override
+  final ProfileDateModel? ProfileDate;
 
   factory _$HomeState([void Function(HomeStateBuilder)? updates]) =>
       (new HomeStateBuilder()..update(updates))._build();
@@ -78,9 +84,12 @@ class _$HomeState extends HomeState {
       this.ValueLOading,
       this.NewValue,
       this.MakeHimBEableTOSEtBubble,
+      this.GetprofileISloading,
+      this.GetprofileSuccess,
       this.GetBubbles,
       this.GetPrimeBubbles,
-      this.GetNewBubbles})
+      this.GetNewBubbles,
+      this.ProfileDate})
       : super._();
 
   @override
@@ -114,9 +123,12 @@ class _$HomeState extends HomeState {
         ValueLOading == other.ValueLOading &&
         NewValue == other.NewValue &&
         MakeHimBEableTOSEtBubble == other.MakeHimBEableTOSEtBubble &&
+        GetprofileISloading == other.GetprofileISloading &&
+        GetprofileSuccess == other.GetprofileSuccess &&
         GetBubbles == other.GetBubbles &&
         GetPrimeBubbles == other.GetPrimeBubbles &&
-        GetNewBubbles == other.GetNewBubbles;
+        GetNewBubbles == other.GetNewBubbles &&
+        ProfileDate == other.ProfileDate;
   }
 
   @override
@@ -139,26 +151,26 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode),
-                                                                                showDialogg.hashCode),
-                                                                            done.hashCode),
-                                                                        GetAllBubblesError.hashCode),
-                                                                    GetAllBubblesIsloading.hashCode),
-                                                                GetAllBubblesSuccess.hashCode),
-                                                            GetAllPrimeError.hashCode),
-                                                        GetAllPrimeIsloading.hashCode),
-                                                    GetAllPrimeSuccess.hashCode),
-                                                GetNewBubblesError.hashCode),
-                                            GetNewBubblesIsloading.hashCode),
-                                        GetNewBubblesSuccess.hashCode),
-                                    marker2.hashCode),
-                                circle.hashCode),
-                            ValueLOading.hashCode),
-                        NewValue.hashCode),
-                    MakeHimBEableTOSEtBubble.hashCode),
-                GetBubbles.hashCode),
-            GetPrimeBubbles.hashCode),
-        GetNewBubbles.hashCode));
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode),
+                                                                                GetAllBubblesIsloading.hashCode),
+                                                                            GetAllBubblesSuccess.hashCode),
+                                                                        GetAllPrimeError.hashCode),
+                                                                    GetAllPrimeIsloading.hashCode),
+                                                                GetAllPrimeSuccess.hashCode),
+                                                            GetNewBubblesError.hashCode),
+                                                        GetNewBubblesIsloading.hashCode),
+                                                    GetNewBubblesSuccess.hashCode),
+                                                marker2.hashCode),
+                                            circle.hashCode),
+                                        ValueLOading.hashCode),
+                                    NewValue.hashCode),
+                                MakeHimBEableTOSEtBubble.hashCode),
+                            GetprofileISloading.hashCode),
+                        GetprofileSuccess.hashCode),
+                    GetBubbles.hashCode),
+                GetPrimeBubbles.hashCode),
+            GetNewBubbles.hashCode),
+        ProfileDate.hashCode));
   }
 
   @override
@@ -184,9 +196,12 @@ class _$HomeState extends HomeState {
           ..add('ValueLOading', ValueLOading)
           ..add('NewValue', NewValue)
           ..add('MakeHimBEableTOSEtBubble', MakeHimBEableTOSEtBubble)
+          ..add('GetprofileISloading', GetprofileISloading)
+          ..add('GetprofileSuccess', GetprofileSuccess)
           ..add('GetBubbles', GetBubbles)
           ..add('GetPrimeBubbles', GetPrimeBubbles)
-          ..add('GetNewBubbles', GetNewBubbles))
+          ..add('GetNewBubbles', GetNewBubbles)
+          ..add('ProfileDate', ProfileDate))
         .toString();
   }
 }
@@ -284,6 +299,16 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   set MakeHimBEableTOSEtBubble(bool? MakeHimBEableTOSEtBubble) =>
       _$this._MakeHimBEableTOSEtBubble = MakeHimBEableTOSEtBubble;
 
+  bool? _GetprofileISloading;
+  bool? get GetprofileISloading => _$this._GetprofileISloading;
+  set GetprofileISloading(bool? GetprofileISloading) =>
+      _$this._GetprofileISloading = GetprofileISloading;
+
+  bool? _GetprofileSuccess;
+  bool? get GetprofileSuccess => _$this._GetprofileSuccess;
+  set GetprofileSuccess(bool? GetprofileSuccess) =>
+      _$this._GetprofileSuccess = GetprofileSuccess;
+
   GetPrimeBubblesModelBuilder? _GetBubbles;
   GetPrimeBubblesModelBuilder get GetBubbles =>
       _$this._GetBubbles ??= new GetPrimeBubblesModelBuilder();
@@ -301,6 +326,12 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _$this._GetNewBubbles ??= new GetPrimeBubblesModelBuilder();
   set GetNewBubbles(GetPrimeBubblesModelBuilder? GetNewBubbles) =>
       _$this._GetNewBubbles = GetNewBubbles;
+
+  ProfileDateModelBuilder? _ProfileDate;
+  ProfileDateModelBuilder get ProfileDate =>
+      _$this._ProfileDate ??= new ProfileDateModelBuilder();
+  set ProfileDate(ProfileDateModelBuilder? ProfileDate) =>
+      _$this._ProfileDate = ProfileDate;
 
   HomeStateBuilder();
 
@@ -327,9 +358,12 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _ValueLOading = $v.ValueLOading;
       _NewValue = $v.NewValue;
       _MakeHimBEableTOSEtBubble = $v.MakeHimBEableTOSEtBubble;
+      _GetprofileISloading = $v.GetprofileISloading;
+      _GetprofileSuccess = $v.GetprofileSuccess;
       _GetBubbles = $v.GetBubbles?.toBuilder();
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
+      _ProfileDate = $v.ProfileDate?.toBuilder();
       _$v = null;
     }
     return this;
@@ -374,9 +408,12 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               ValueLOading: ValueLOading,
               NewValue: NewValue,
               MakeHimBEableTOSEtBubble: MakeHimBEableTOSEtBubble,
+              GetprofileISloading: GetprofileISloading,
+              GetprofileSuccess: GetprofileSuccess,
               GetBubbles: _GetBubbles?.build(),
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
-              GetNewBubbles: _GetNewBubbles?.build());
+              GetNewBubbles: _GetNewBubbles?.build(),
+              ProfileDate: _ProfileDate?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -386,6 +423,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
         _GetPrimeBubbles?.build();
         _$failedField = 'GetNewBubbles';
         _GetNewBubbles?.build();
+        _$failedField = 'ProfileDate';
+        _ProfileDate?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'HomeState', _$failedField, e.toString());

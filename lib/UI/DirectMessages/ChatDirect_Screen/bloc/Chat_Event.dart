@@ -5,15 +5,16 @@ library Chat_Event;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 part 'Chat_Event.g.dart';
 
 abstract class ChatEvent {}
-
 
 abstract class GetOldMessages extends ChatEvent
     implements Built<GetOldMessages,GetOldMessagesBuilder> {
@@ -37,19 +38,12 @@ abstract class Done extends ChatEvent
 abstract class GetAlias extends ChatEvent
     implements Built<GetAlias,GetAliasBuilder> {
 
-  int? get ID;
+  int? get HIS_ID;
+  int? get My_ID;
   GetAlias._();
   factory GetAlias([updates(GetAliasBuilder b)]) = _$GetAlias;
 }
 
-
-abstract class GetAliasMine extends ChatEvent
-    implements Built<GetAliasMine,GetAliasMineBuilder> {
-
-  int? get ID;
-  GetAliasMine._();
-  factory GetAliasMine([updates(GetAliasMineBuilder b)]) = _$GetAliasMine;
-}
 
 
 
@@ -90,4 +84,24 @@ abstract class addReply extends ChatEvent
   int? get message_id;
   addReply._();
   factory addReply([updates(addReplyBuilder b)]) = _$addReply;
+}
+
+
+
+abstract class AddModel extends ChatEvent
+    implements Built<AddModel,AddModelBuilder>  {
+  MessageModel? get message;
+
+  AddModel._();
+  factory AddModel([updates(AddModelBuilder b)]) = _$AddModel;
+}
+
+
+
+abstract class ChangeTypingStatus extends ChatEvent
+    implements Built<ChangeTypingStatus,ChangeTypingStatusBuilder> {
+  bool? get ChangeStatus;
+
+  ChangeTypingStatus._();
+  factory ChangeTypingStatus([updates(ChangeTypingStatusBuilder b)]) = _$ChangeTypingStatus;
 }

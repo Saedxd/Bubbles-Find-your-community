@@ -42,14 +42,18 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
 
   bool? get ValueLOading;
   double? get NewValue;
-
   bool? get MakeHimBEableTOSEtBubble;
+
+  bool? get GetprofileISloading;
+  bool? get GetprofileSuccess;
+
 
 
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
-  // ProfileDateModel? get ProfileDate;
+
+  ProfileDateModel? get ProfileDate;
 
 
   HomeState._();
@@ -70,6 +74,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetAllPrimeSuccess = false
       ..GetNewBubblesSuccess = false
       ..GetAllBubblesSuccess = false
+      ..GetprofileISloading = false
+      ..GetprofileSuccess = false
       ..Value=0
       ..NewValue = 0
       ..ValueLOading=false
@@ -78,6 +84,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetBubbles =null
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
+        ..ProfileDate =null
 
         ..marker2 ={}
         ..circle ={}

@@ -1,18 +1,28 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'App/app.dart';
 import 'Injection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
+}
 
 void main() async {
 try {
-
+ //HttpOverrides.global =  MyHttpOverrides();
 
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await iniGetIt();
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
@@ -47,13 +57,11 @@ try {
 //todo's :fix all font sizes with the new standerd.
 //todo's :look at trello for fixes
 
-
 //todo : replace the image that placed in raw in options screen with svg
 //todo :handdle the screen of camera when access denyied
 //todo :check why the verify request takes time to proceed
 //todo :Display a message when verify profile when its done done
 //todo : night mode button fix
-
 // CD6356
 // EB9B5D
 // 80BFC5
@@ -87,4 +95,10 @@ try {
 // git push -u origin main
 
 
-//git lfs migrate import --include="*.bin"
+// git lfs migrate import --include="*.bin"
+// systemProp.http.proxyHost=localhost
+// systemProp.http.proxyPort=3128
+// systemProp.http.nonProxyHosts=localhost
+// systemProp.https.proxyHost=localhost
+// systemProp.https.proxyPort=3128
+// systemProp.https.nonProxyHosts=localhost

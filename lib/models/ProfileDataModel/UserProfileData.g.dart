@@ -188,6 +188,12 @@ class _$UserProfileDataSerializer
         ..add('visit_bubble')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.points;
+    if (value != null) {
+      result
+        ..add('points')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -305,6 +311,10 @@ class _$UserProfileDataSerializer
           result.visit_bubble = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'points':
+          result.points = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
       }
     }
 
@@ -363,6 +373,8 @@ class _$UserProfileData extends UserProfileData {
   final int? invitation;
   @override
   final int? visit_bubble;
+  @override
+  final int? points;
 
   factory _$UserProfileData([void Function(UserProfileDataBuilder)? updates]) =>
       (new UserProfileDataBuilder()..update(updates))._build();
@@ -392,7 +404,8 @@ class _$UserProfileData extends UserProfileData {
       this.daily_login,
       this.added_user,
       this.invitation,
-      this.visit_bubble})
+      this.visit_bubble,
+      this.points})
       : super._();
 
   @override
@@ -431,7 +444,8 @@ class _$UserProfileData extends UserProfileData {
         daily_login == other.daily_login &&
         added_user == other.added_user &&
         invitation == other.invitation &&
-        visit_bubble == other.visit_bubble;
+        visit_bubble == other.visit_bubble &&
+        points == other.points;
   }
 
   @override
@@ -454,26 +468,26 @@ class _$UserProfileData extends UserProfileData {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc(0, first_name.hashCode), last_name.hashCode), serial.hashCode), alias.hashCode), avatar.hashCode), email.hashCode),
-                                                                                background_color.hashCode),
-                                                                            birth_date.hashCode),
-                                                                        bio.hashCode),
-                                                                    fcm_token.hashCode),
-                                                                avatar_social.hashCode),
-                                                            gender.hashCode),
-                                                        serialnumber.hashCode),
-                                                    id.hashCode),
-                                                is_verify.hashCode),
-                                            is_notify.hashCode),
-                                        is_creator.hashCode),
-                                    lattitude.hashCode),
-                                langtitude.hashCode),
-                            interests.hashCode),
-                        is_register.hashCode),
-                    daily_login.hashCode),
-                added_user.hashCode),
-            invitation.hashCode),
-        visit_bubble.hashCode));
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc(0, first_name.hashCode), last_name.hashCode), serial.hashCode), alias.hashCode), avatar.hashCode), email.hashCode), background_color.hashCode),
+                                                                                birth_date.hashCode),
+                                                                            bio.hashCode),
+                                                                        fcm_token.hashCode),
+                                                                    avatar_social.hashCode),
+                                                                gender.hashCode),
+                                                            serialnumber.hashCode),
+                                                        id.hashCode),
+                                                    is_verify.hashCode),
+                                                is_notify.hashCode),
+                                            is_creator.hashCode),
+                                        lattitude.hashCode),
+                                    langtitude.hashCode),
+                                interests.hashCode),
+                            is_register.hashCode),
+                        daily_login.hashCode),
+                    added_user.hashCode),
+                invitation.hashCode),
+            visit_bubble.hashCode),
+        points.hashCode));
   }
 
   @override
@@ -503,7 +517,8 @@ class _$UserProfileData extends UserProfileData {
           ..add('daily_login', daily_login)
           ..add('added_user', added_user)
           ..add('invitation', invitation)
-          ..add('visit_bubble', visit_bubble))
+          ..add('visit_bubble', visit_bubble)
+          ..add('points', points))
         .toString();
   }
 }
@@ -616,6 +631,10 @@ class UserProfileDataBuilder
   int? get visit_bubble => _$this._visit_bubble;
   set visit_bubble(int? visit_bubble) => _$this._visit_bubble = visit_bubble;
 
+  int? _points;
+  int? get points => _$this._points;
+  set points(int? points) => _$this._points = points;
+
   UserProfileDataBuilder();
 
   UserProfileDataBuilder get _$this {
@@ -646,6 +665,7 @@ class UserProfileDataBuilder
       _added_user = $v.added_user;
       _invitation = $v.invitation;
       _visit_bubble = $v.visit_bubble;
+      _points = $v.points;
       _$v = null;
     }
     return this;
@@ -694,7 +714,8 @@ class UserProfileDataBuilder
               daily_login: daily_login,
               added_user: added_user,
               invitation: invitation,
-              visit_bubble: visit_bubble);
+              visit_bubble: visit_bubble,
+              points: points);
     } catch (_) {
       late String _$failedField;
       try {

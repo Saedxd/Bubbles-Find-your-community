@@ -2118,4 +2118,5 @@ xml file_paths
 xml flutter_image_picker_file_paths
 xml flutter_share_file_paths
 xml image_share_filepaths
+xml network_security_config
 xml shared_file_paths

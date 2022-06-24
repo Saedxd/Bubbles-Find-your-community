@@ -1,4 +1,5 @@
 class MessageModel {
+  int? ID;
   String? message="";
   String? time;
   String? Avatar="";
@@ -7,7 +8,6 @@ class MessageModel {
   String? Repliertime="";
   String? ReplierMessage="";
   int? Replierbackground_Color;
-
   String? RepliedTOAvatar="";
   String? RepliedTOAlias="";
   String? RepliedTOtime="";
@@ -19,5 +19,5 @@ class MessageModel {
   String? Type="";
   int? background_Color;
 
-  MessageModel({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color});
+  MessageModel({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

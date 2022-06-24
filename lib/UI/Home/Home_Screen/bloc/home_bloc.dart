@@ -224,7 +224,31 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       }
     }
+    if (event is Getprofile) {
+      try {
+        yield state.rebuild((b) => b
+          ..GetprofileISloading = true
+          ..GetprofileSuccess= false
+          ..ProfileDate=null
+        );
 
+        final date = await _repository.GetProfile();
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..GetprofileISloading = false
+          ..GetprofileSuccess= true
+          ..ProfileDate.replace(date)
+        );
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..GetprofileISloading = false
+          ..GetprofileSuccess= false
+        );
+      }
+    }
     if (event is GetPrimeBubbles) {
       try {
         yield state.rebuild((b) => b

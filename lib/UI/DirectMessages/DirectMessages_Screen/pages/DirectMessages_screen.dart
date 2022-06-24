@@ -37,70 +37,34 @@ class _DirectMessagesState extends State<DirectMessages> {
   List<int> Selected = [0, 0];
   bool done = false;
   List<int> FrinedsID=[];
-  List<int> FrinedsStatus=[1,1,1,1];
+  List<int> FrinedsStatus=[];
   int index = 0;
   Timer? timer;
 
   void ListenForONlineFriends() {
-    if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      print("Freind List");
+    if(socket!=null &&!socket!.disconnected) {
+
       socket!.on("friend_online", (value) {
-        if (value["status"] != "offline") {//todo: change to !=
-       FrinedsStatus[index] = 1;
+        if (value["status"] != "offline") {
+       FrinedsStatus[value["index"]] = 1;
         }
 
 
-        print(value);
-        print("friend_online: feedback");
-
-        print("index : $index");
-        print("FrinedsID.length :${FrinedsID.length}");
-        if (index == FrinedsID.length - 1) {
+        if (value["index"] == FrinedsID.length - 1) {
           _DirectMessages_Bloc.add(RefreshState());
-          print("Refreshed page friend_online");
         }
       });
-      // socket!.on("friend_offline", (value) {
-      //   if (value["status"] != "offline") {
-      //     FrinedsStatus[index] = 1;
-      //     print(FrinedsStatus);
-      //     print("friend_offline");
-      //     print(index);
-      //   }
-      //
-      //   print(FrinedsStatus);
-      //   print("friend_offline");
-      //   print(value);
-      //   print("friend_offline: feedback");
-      //
-      //   print("index : $index");
-      //   print("FrinedsID.length :${FrinedsID.length}");
-      //   if (index == FrinedsID.length - 1) {
-      //     _DirectMessages_Bloc.add(RefreshPage());
-      //     print("Refreshed page  friend_offline");
-      //   }
-      // });
-      // //
 
-
-      print("FrinedsStatus : $FrinedsStatus");
-      // socket!.on("new_friend_online",(value){
-      //   print(value);
-      //   print("new_friend_online: feedback");
-      // });
-
-      print(socket!.connected);
     }
   }
 
   void LoopONfrinedsId()async{
-    if(socket!.disconnected!= null &&!socket!.disconnected) {
+    if(socket!= null &&!socket!.disconnected) {
       for (int i = 0; i < FrinedsID.length; i++) {
-        index = i;
         socket!.emit('report_friends_online', {
-          'friend_id': FrinedsID[i]
+          'friend_id': FrinedsID[i].toString(),
+          'index':i
         },);
-        print("Emitted: $i");
       }
     }
   }
@@ -113,13 +77,11 @@ class _DirectMessagesState extends State<DirectMessages> {
     ListenForONlineFriends();
     _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
       timer = Timer.periodic(Duration(seconds: 10), (Timer t){
-      print("done ");
-    return  LoopONfrinedsId();
-
+    return LoopONfrinedsId();
     });
   }
 
-  void onPressed(BuildContext context) {}
+
 
   @override
   void dispose() {
@@ -147,20 +109,13 @@ class _DirectMessagesState extends State<DirectMessages> {
 
 
           if (state.success! && Diditonce ){
-            print("Success1");
             for(int i=0;i<state.OldMessages!.messages!.length;i++){
-              print("Success2");
               FrinedsID.add(state.OldMessages!.messages![i].receiver_id!);
             }
-            print(FrinedsID);
-            print("Success3");
             FrinedsStatus = List.filled(
                 state.OldMessages!.messages!.length,
                 0);
             LoopONfrinedsId();
-            print(FrinedsID);
-
-
 
             Diditonce = false;
           }
@@ -355,7 +310,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               .messages![index]
                                               .CreatAt
                                               .toString());
-                                          print(timeago.format(datee));
+                                       //   print(timeago.format(datee));
                                           String Value = "";
                                           Value = state
                                               .OldMessages!

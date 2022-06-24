@@ -26,6 +26,7 @@
         </intent>
     </queries>
     <application
+
         android:label="Bubbles"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher"
@@ -56,10 +57,8 @@
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
         <activity
-
             android:name="com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback"
             android:exported="true"
-
             >
 
             <intent-filter>
@@ -73,7 +72,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="signinwithapple" />
-                <data android:path="callback" />
             </intent-filter>
         </activity>
 
@@ -91,7 +89,6 @@
         <activity
             android:exported="true"
             android:name=".MainActivity"
-            android:usesCleartextTraffic="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -127,10 +124,7 @@
 
         </activity>
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-          />
+
 
         <activity
             android:name="com.facebook.CustomTabActivity"
@@ -148,8 +142,8 @@
 
         <meta-data
             android:name="flutterEmbedding"
-
             android:value="2" />
+
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
        <uses-library android:name="com.google.android.maps" />
        <meta-data android:name="com.google.android.geo.API_KEY"

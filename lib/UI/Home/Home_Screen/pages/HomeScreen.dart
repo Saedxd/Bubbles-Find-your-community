@@ -11,6 +11,7 @@ import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
 import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
 import 'package:bubbles/UI/Home/Options_screen/pages/Options_screen.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/cupertino.dart';
@@ -146,7 +147,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _HomeBloc.add(GetAllBubbles());
     _HomeBloc.add(GetPrimeBubbles());
     _HomeBloc.add(GetNewBubbles());
-
+    _HomeBloc.add(Getprofile());
   }
 
   // makeIcon()async{
@@ -230,7 +231,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             myLocationEnabled: false,
                             zoomGesturesEnabled: true,
                           ),
-                          Positioned(
+                      state.GetprofileSuccess!?
+                          state.ProfileDate!.user!.is_creator==1
+                          ?    Positioned(
                               bottom: h/50,
                               right: 0,
                               child: InkWell(
@@ -284,7 +287,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   ]),
                                 ),
-                              )),
+                              ))
+                              :Text("")
+                          :Text(""),
                           ShowCaseWidget(
                               builder: Builder(
                                 builder: (context) => SlidingUpPanel(

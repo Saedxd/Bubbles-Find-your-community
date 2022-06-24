@@ -15,6 +15,12 @@ part 'home_event.g.dart';
 
 abstract class HomeEvent {}
 
+abstract class Getprofile extends HomeEvent
+    implements Built<Getprofile,GetprofileBuilder> {
+
+  Getprofile._();
+  factory Getprofile([updates(GetprofileBuilder b)]) = _$Getprofile;
+}
 
 abstract class ChangeValue extends HomeEvent
     implements Built<ChangeValue,ChangeValueBuilder> {

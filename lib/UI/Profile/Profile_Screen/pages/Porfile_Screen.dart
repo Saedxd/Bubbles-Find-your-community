@@ -493,15 +493,29 @@ class _ProfileState extends State<Profile> {
                       width: w / 5,
                       height: h / 12,
                     ),
-
-                    Text('135.343 pts', textAlign: TextAlign.center, style: TextStyle(
+                    state.success!?
+                    Text(state.ProfileDate!.user!.points!.toString(), textAlign: TextAlign.center, style: TextStyle(
                         color: Color.fromRGBO(47, 47, 47, 1),
                         fontFamily: 'Red Hat Display',
                         fontSize: 25,
                         letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                         fontWeight: FontWeight.w900,
                         height: 1
-                    ),),
+                    ),)
+                        : state.isLoading == true
+                        ? Container(
+                            child: Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .center,
+                              children: [
+                                Center(
+                                    child: listLoader(
+                                        context:
+                                        context)),
+                              ],
+                            ))
+                    :Container(),
                     Text(""),
                   ],
                 ),

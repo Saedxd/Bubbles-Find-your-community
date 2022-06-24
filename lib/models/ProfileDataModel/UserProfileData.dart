@@ -44,6 +44,7 @@ abstract class UserProfileData
   int? get added_user;
   int? get invitation;
   int? get visit_bubble;
+  int? get points;
 
 
 

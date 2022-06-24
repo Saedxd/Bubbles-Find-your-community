@@ -2678,4 +2678,5 @@ int xml file_paths 0x7f130000
 int xml flutter_image_picker_file_paths 0x7f130001
 int xml flutter_share_file_paths 0x7f130002
 int xml image_share_filepaths 0x7f130003
-int xml shared_file_paths 0x7f130004
+int xml network_security_config 0x7f130004
+int xml shared_file_paths 0x7f130005

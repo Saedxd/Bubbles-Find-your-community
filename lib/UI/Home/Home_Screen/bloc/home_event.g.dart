@@ -6,6 +6,62 @@ part of home_event;
 // BuiltValueGenerator
 // **************************************************************************
 
+class _$Getprofile extends Getprofile {
+  factory _$Getprofile([void Function(GetprofileBuilder)? updates]) =>
+      (new GetprofileBuilder()..update(updates))._build();
+
+  _$Getprofile._() : super._();
+
+  @override
+  Getprofile rebuild(void Function(GetprofileBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetprofileBuilder toBuilder() => new GetprofileBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Getprofile;
+  }
+
+  @override
+  int get hashCode {
+    return 9676777;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('Getprofile').toString();
+  }
+}
+
+class GetprofileBuilder implements Builder<Getprofile, GetprofileBuilder> {
+  _$Getprofile? _$v;
+
+  GetprofileBuilder();
+
+  @override
+  void replace(Getprofile other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$Getprofile;
+  }
+
+  @override
+  void update(void Function(GetprofileBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  Getprofile build() => _build();
+
+  _$Getprofile _build() {
+    final _$result = _$v ?? new _$Getprofile._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$ChangeValue extends ChangeValue {
   @override
   final double? Value;

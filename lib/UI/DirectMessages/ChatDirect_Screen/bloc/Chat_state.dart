@@ -1,15 +1,11 @@
 library Chat_state;
 
+import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:built_value/built_value.dart';
-import 'package:equatable/equatable.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-
 
 
 part 'Chat_state.g.dart';
@@ -31,10 +27,23 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
   AddreplyModel? get Addreply;
 
 
+  bool? get RefreshLoading;
+  bool? get RefreshSuccess;
+
+  bool? get Turnss;
+
   bool? get MYAliasISLoading;
   bool? get MYAliasISsuccess;
-  GetAliasModel? get GetAliasMinee;
 
+  bool? get typingStatusISloading;
+  bool? get TypingStatusSuccess;
+  bool? get TypingStatus;
+
+  GetAliasModel? get GetAliasMinee;
+  List<MessageModel>? get messages;
+
+  bool? get AddModelISloading;
+  bool? get AddModelSUccess;
 
   String? get AvatarPathForRepliedTo;
   int? get ColorForRepliedTo;
@@ -44,20 +53,30 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
   bool? get Status;
 
 
+
   ChatState._();
   factory ChatState([updates(ChatStateBuilder b)]) = _$ChatState;
   factory ChatState.initail() {
     return ChatState((b) => b
       ..error = ""
+      ..messages = []
       ..RepliedToMessage = ""
       ..AvatarPathForRepliedTo = ""
       ..AliasForRepliedTo = ""
       ..isLoading = false
+      ..AddModelISloading = false
+      ..AddModelSUccess = false
       ..Status = false
+      ..Turnss = true
       ..AliasISLoading = false
+      ..typingStatusISloading = false
+      ..TypingStatusSuccess = false
+      ..TypingStatus = false
+      ..RefreshLoading = false
       ..MYAliasISLoading = false
       ..success = false
       ..AliasISsuccess = false
+      ..RefreshSuccess = true
       ..MYAliasISsuccess = false
       ..Isreply = false
       ..ColorForRepliedTo = 0
@@ -67,6 +86,7 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
         ..PostMessages=null
         ..GetAliasMinee=null
         ..Addreply=null
+
     );
   }
 

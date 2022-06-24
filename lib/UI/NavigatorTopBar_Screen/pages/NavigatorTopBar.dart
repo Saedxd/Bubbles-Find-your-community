@@ -1,19 +1,19 @@
-import 'package:bubbles/App/app.dart';
+import 'dart:async';
+
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_State.dart';
 import 'package:bubbles/UI/Notifications/pages/Notifications_Screen.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-
-import '../../../core/Colors/constants.dart';
 import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
+
+
 
 class NavigatorTopBar extends StatefulWidget {
    NavigatorTopBar({Key? key, this.GOtoDirect}) : super(key: key);
@@ -23,14 +23,13 @@ int? GOtoDirect = 0;
 }
 
 
-IO.Socket? socket;
+Socket? socket;
 class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _TopBarBloc = sl<TopBarBloc>();
   //final PageController _pageController = PageController();
   int dot = 0;
  // List<int> TopBarItemSelected = [1, 0, 0, 0];
-
   bool DiditONCE = false;
   String Alias = "";
   int USER_ID = 0;
@@ -44,9 +43,6 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     Profile(),
   ];
 
-
-
-
 @override
 void didChangeAppLifecycleState(AppLifecycleState state) {
   print(state);
@@ -55,16 +51,17 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
       connect();
       break;
     case AppLifecycleState.inactive:
-   //   Disconnect();
+    socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
       break;
     case AppLifecycleState.paused:
-    //  Disconnect();
+    socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
       break;
     case AppLifecycleState.detached:
-     // Disconnect();
+      socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
       break;
   }
 }
+
 
   // IOo.Socket? socket;
   //<String, dynamic>{
@@ -74,83 +71,80 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
 
   //"websocket",
   //"polling"
-
+  //      const List EVENTS = [
+  //         'connect',
+  //         'connect_error',
+  //         'connect_timeout',
+  //         'connecting',
+  //         'disconnect',
+  //         'error',
+  //         'reconnect',
+  //         'reconnect_attempt',
+  //         'reconnect_failed',
+  //         'reconnect_error',
+  //         'reconnecting',
+  //         'ping',
+  //         'pong'
+  //       ];
+//
+  //https://chat.bubbles.app/
+  //http://50.60.40.108:3000'
   void connect()async {
 
-    try {
-      print("connected with alias : $Alias");
-      print("connected with USER_ID :$USER_ID ");
-      socket =  IO.io("https://chatapp.salnoyapp.store/",
-        OptionBuilder()
-            .setTransports(["websocket", "polling"])
-            .disableAutoConnect()
-            .setQuery({
-          "user_id": USER_ID,
-          "username": Alias,
-        }).build(),
-      );
 
-      socket!.connect();
-      print("Tried");
-      socket!.onConnect((data) {
-        print(socket!.connected);
-        print("Connected");
-        print(data);
-        socket!.on("receive_message_send", (msg) {
-          //   setHisMessage( msg["message"]);
+        print("connected with alias: $Alias");
+        print("connected with USER_ID:$USER_ID");
+            //https://chatapp.salnoyapp.store/
+            //https://chat.bubbles.app
+            //ws://50.60.40.104:3000
+            //ws://127.0.0.1:53878/jvxoHQXGKoE=/ws
+            //IO.Socket socket = IO.io('ws://50.60.40.103:3000');
+
+
+        socket = io("ws://50.60.40.102:3000",
+            OptionBuilder()
+              .setTransports(["websocket"])
+              .setExtraHeaders({'foo': 'bar'})
+            .enableForceNew()
+              .disableAutoConnect()
+              .setQuery({
+            "user_id": USER_ID,
+            "username": Alias,
+          }) .build(),
+       );
+        socket!.connect();
+        socket!.io..disconnect()..connect();
+
+        socket!.onConnect((data) {
+          print(data);
+          print("Connected");
+        } );
+
+        socket!.onConnectError((data) {
+          print("onConnectError");
+          print(data);
         });
-        socket!.onDisconnect((_) => print('disconnected'));
 
 
-        socket!.on("connected_status", (msg) {
-          print(msg);
-          print("Listening");
-          // setHisMessage( msg["message"]);
-        });
-
-        socket!.on("receive_message_send", (msg) {
-          //   setHisMessage( msg["message"]);
-        });
-      });
-
-
-      socket!.on("connected_status", (msg) {
-        print(msg);
-        print("Listening");
-        // setHisMessage( msg["message"]);
-      });
-      // socket!.onDisconnect((data) =>
-      // print("Disconnected")
-      // );
-
-
-      print(socket!.connected);
-    }catch(e){
-      print(e);
-    }
   }
 
 
 
 
-  // void Disconnect(){
-  //  // socket!.disconnect();
-  //   print("DIsconnected");
-  //   socket!.onDisconnect((data) =>
-  //       print("Disconnected IN SIDE ONDISCONNECT")
-  //   );
-  //
-  // }
+  void Disconnect(){
+   socket!.disconnect();
+  }
 
-@override
-void dispose() {
-super.dispose();
-WidgetsBinding.instance?.removeObserver(this);
-}
+  @override
+  void dispose() {
+  super.dispose();
+  WidgetsBinding.instance?.removeObserver(this);
+  }
 
   @override
   void initState() {
     super.initState();
+
     _TopBarBloc.add(GetProfile());
     DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
@@ -237,7 +231,7 @@ WidgetsBinding.instance?.removeObserver(this);
                         children: [
                           InkWell(
                               onTap:(){
-                                print(socket!.connected);
+                               print(socket!.connected);
                                 _TopBarBloc.add(
                                     ChangePAGEINDEX((b) =>  b
                                       ..num = 0

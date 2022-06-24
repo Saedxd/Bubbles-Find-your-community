@@ -39,6 +39,39 @@ class _FriendlistState extends State<Friendlist> {
   final ScrollController controllerTwo = ScrollController();
   Timer? timer;
   int Freindid = 0;
+  int index = 0;
+  bool Checknow = false;
+  bool Diditonce = true;
+  int COUNTERDiditonce = 0;
+
+  void ListenForONlineFriends() {
+    if(socket!.disconnected!=  null &&!socket!.disconnected) {
+
+      socket!.on("friend_online", (value) {
+        if (value["status"] != "offline") {
+          FrinedsStatus[value["index"]] = 1;
+        }
+
+        if (value["index"] == FrinedsID.length - 1) {
+          _FriendlistBloc.add(RefreshState());
+        }
+      });
+
+    }
+  }
+
+  void LoopONfrinedsId()async{
+    if(socket!.disconnected!=  null &&!socket!.disconnected) {
+      for (int i = 0; i < FrinedsID.length; i++) {
+        index = i;
+        socket!.emit('report_friends_online', {
+          'friend_id': FrinedsID[i].toString(),
+          'index':i
+        },);
+      }
+    }
+  }
+
 
   @override
   void initState() {
@@ -47,108 +80,14 @@ class _FriendlistState extends State<Friendlist> {
     _FriendlistBloc.add(GetFreinds());
     ListenForONlineFriends();
     timer = Timer.periodic(Duration(seconds: 15), (Timer t) => LoopONfrinedsId());
-    // Future.delayed(const Duration(milliseconds: 1000), () {
-    //   controllerTwo.animateTo(
-    //     controllerTwo.position.minScrollExtent,
-    //     duration: const Duration(milliseconds: 1),  curve: Curves.ease,);
-    // });
   }
-  int index = 0;
-  void ListenForONlineFriends() {
-    if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      print("Freind List");
-      socket!.on("friend_online", (value) {
-        if (value["status"] != "offline") {
-          FrinedsStatus[index] = 1;
-          print("index : $index");
-          print("FrinedsID length : ${FrinedsID.length}");
-          if (index == FrinedsID.length - 1) {
-            _FriendlistBloc.add(RefreshState());
-            print("Refreshed page");
-          }
-        }
-        print(value);
-        print("friend_online: feedback");
-      });
-
-
-      print("FrinedsStatus : $FrinedsStatus");
-      // socket!.on("new_friend_online",(value){
-      //   print(value);
-      //   print("new_friend_online: feedback");
-      // });
-
-
-      print(socket!.connected);
-    }
-  }
-  void LoopONfrinedsId()async{
-    if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      for (int i = 0; i < FrinedsID.length; i++) {
-        index = i;
-        socket!.emit('report_friends_online', {
-          'friend_id': FrinedsID[i]
-          //todo : i want to send index through this one
-        },);
-
-
-        print("Emitted: $i");
-      }
-    }
-  }
-  // void ListenForONlineFriends() {
-  //
-  //     print("Freind List");
-  //
-  //     socket!.on("friend_online",(value){
-  //       if (value["status"]!="offline"){
-  //         FrinedsStatus[index] = 1;
-  //         print(FrinedsStatus);
-  //         print(index);
-  //       }
-  //
-  //       print(value);
-  //       print("friend_online: feedback");
-  //
-  //     });
-  //   print("FrinedsStatus : $FrinedsStatus");
-  //     // socket!.on("new_friend_online",(value){
-  //     //   print(value);
-  //     //   print("new_friend_online: feedback");
-  //     // });
-  //     print(index);
-  //     print(FrinedsID.length);
-  //     if (index ==FrinedsID.length-1){
-  //       print(index);
-  //       print(FrinedsID.length);
-  //       _FriendlistBloc.add(RefreshState());
-  //
-  //
-  //     }
-  //
-  //   print(socket!.connected);
-  // }
-  // void LoopONfrinedsId(){
-  //   for(int i=0;i<FrinedsID.length;i++) {
-  //     socket!.emit('report_friends_online', {
-  //       'friend_id': FrinedsID[i]
-  //     });
-  //
-  //
-  //     print("Emitted: $i");
-  //   }
-  // }
-
 
   @override
   void dispose() {
     super.dispose();
     _SearchController.dispose();
-   // _FriendlistBloc.add(event)
   }
-bool Checknow = false;
-bool Diditonce = true;
-int COUNTERDiditonce = 0;
+
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -160,7 +99,7 @@ int COUNTERDiditonce = 0;
         builder: (BuildContext Context, FriendListState state) {
 
 
-          Future<void> OnRefresh() async {
+          Future<void> OnRefresh()async{
             COUNTERDiditonce++;
             Checknow = false;
             _FriendlistBloc.add(IsRefresh());
@@ -323,10 +262,11 @@ int COUNTERDiditonce = 0;
                   );
                 });
           }
-          return  WillPopScope(
+
+
+          return WillPopScope(
             onWillPop: () async =>true,
             child:
-
             Scaffold(
               resizeToAvoidBottomInset: false,
               body :  Column(
