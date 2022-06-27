@@ -49,7 +49,7 @@ class _InformationState extends State<Information> {
   List<String>? Base64Images=[];
 
   Future<void> pickImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return;
     final  imagePath = File(image.path);
     this.image = imagePath;
@@ -103,8 +103,6 @@ class _InformationState extends State<Information> {
       language: 'en',
     );
     geoMethods.autocompletePlace(query: _LocationController.text);
-
-
   }
 
   @override
@@ -144,6 +142,8 @@ bool Diditonce = false;
         );
         Diditonce = true;
       }
+
+
       return
       SafeArea(
         child: Scaffold(
@@ -341,6 +341,7 @@ bool Diditonce = false;
                                       // obscureText: SecureInput_pass,
                                     ),
                                   ),
+
                                   Container(
                                     width: w / 1.25,
                                     height: h / 10,

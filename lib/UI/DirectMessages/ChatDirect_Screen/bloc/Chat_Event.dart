@@ -105,3 +105,5 @@ abstract class ChangeTypingStatus extends ChatEvent
   ChangeTypingStatus._();
   factory ChangeTypingStatus([updates(ChangeTypingStatusBuilder b)]) = _$ChangeTypingStatus;
 }
+
+

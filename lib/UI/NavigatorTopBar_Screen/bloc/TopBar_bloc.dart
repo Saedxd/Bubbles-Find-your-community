@@ -134,6 +134,39 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
       }
     }
 
+    if (event is GetFreinds) {
+      try {
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..GetFriends = null
+        );
+
+        final date = await _repository.GetFreinds();
+
+
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+          ..GetFriends.replace(date)
+
+        );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..GetFriends = null
+        );
+      }
+    }
 
 
   }

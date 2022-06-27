@@ -19,6 +19,8 @@ class _$DirectMessagesState extends DirectMessagesState {
   final bool? ChangeStateSuccess;
   @override
   final OldMessagesModel? OldMessages;
+  @override
+  final OldMessagesModel? DMListSearchResult;
 
   factory _$DirectMessagesState(
           [void Function(DirectMessagesStateBuilder)? updates]) =>
@@ -30,7 +32,8 @@ class _$DirectMessagesState extends DirectMessagesState {
       this.success,
       this.ChangeStateLoading,
       this.ChangeStateSuccess,
-      this.OldMessages})
+      this.OldMessages,
+      this.DMListSearchResult})
       : super._();
 
   @override
@@ -51,7 +54,8 @@ class _$DirectMessagesState extends DirectMessagesState {
         success == other.success &&
         ChangeStateLoading == other.ChangeStateLoading &&
         ChangeStateSuccess == other.ChangeStateSuccess &&
-        OldMessages == other.OldMessages;
+        OldMessages == other.OldMessages &&
+        DMListSearchResult == other.DMListSearchResult;
   }
 
   @override
@@ -59,11 +63,13 @@ class _$DirectMessagesState extends DirectMessagesState {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                    success.hashCode),
-                ChangeStateLoading.hashCode),
-            ChangeStateSuccess.hashCode),
-        OldMessages.hashCode));
+                $jc(
+                    $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                        success.hashCode),
+                    ChangeStateLoading.hashCode),
+                ChangeStateSuccess.hashCode),
+            OldMessages.hashCode),
+        DMListSearchResult.hashCode));
   }
 
   @override
@@ -74,7 +80,8 @@ class _$DirectMessagesState extends DirectMessagesState {
           ..add('success', success)
           ..add('ChangeStateLoading', ChangeStateLoading)
           ..add('ChangeStateSuccess', ChangeStateSuccess)
-          ..add('OldMessages', OldMessages))
+          ..add('OldMessages', OldMessages)
+          ..add('DMListSearchResult', DMListSearchResult))
         .toString();
   }
 }
@@ -111,6 +118,12 @@ class DirectMessagesStateBuilder
   set OldMessages(OldMessagesModelBuilder? OldMessages) =>
       _$this._OldMessages = OldMessages;
 
+  OldMessagesModelBuilder? _DMListSearchResult;
+  OldMessagesModelBuilder get DMListSearchResult =>
+      _$this._DMListSearchResult ??= new OldMessagesModelBuilder();
+  set DMListSearchResult(OldMessagesModelBuilder? DMListSearchResult) =>
+      _$this._DMListSearchResult = DMListSearchResult;
+
   DirectMessagesStateBuilder();
 
   DirectMessagesStateBuilder get _$this {
@@ -122,6 +135,7 @@ class DirectMessagesStateBuilder
       _ChangeStateLoading = $v.ChangeStateLoading;
       _ChangeStateSuccess = $v.ChangeStateSuccess;
       _OldMessages = $v.OldMessages?.toBuilder();
+      _DMListSearchResult = $v.DMListSearchResult?.toBuilder();
       _$v = null;
     }
     return this;
@@ -151,12 +165,15 @@ class DirectMessagesStateBuilder
               success: success,
               ChangeStateLoading: ChangeStateLoading,
               ChangeStateSuccess: ChangeStateSuccess,
-              OldMessages: _OldMessages?.build());
+              OldMessages: _OldMessages?.build(),
+              DMListSearchResult: _DMListSearchResult?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'OldMessages';
         _OldMessages?.build();
+        _$failedField = 'DMListSearchResult';
+        _DMListSearchResult?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'DirectMessagesState', _$failedField, e.toString());

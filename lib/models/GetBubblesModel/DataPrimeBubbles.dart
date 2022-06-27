@@ -45,21 +45,7 @@ abstract class DataPrimeBubbles
 
 
 
-// //             "
-// //
-// //                 }
-// //             ],
-// //             "type": "Prime",
-// //             "": {
-// //                 "type": "admin",
-// //                 "user": {
-// //                     "id": 3,
-// //                     "name": "Alaa Mohammed",
-// //                     "email": "super_admin@app.com",
-// //                     "created_at": "2022-05-14T17:51:45.000000Z",
-// //                     "updated_at": "2022-05-14T17:51:45.000000Z"
-// //                 }
-// //             }
+
 
 
   DataPrimeBubbles._();

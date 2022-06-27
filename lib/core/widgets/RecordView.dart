@@ -1,5 +1,5 @@
 
-
+import 'package:dio/dio.dart';
 import 'dart:io';
 
 import 'package:bubbles/UI/Onboarding/Permissions_Screen/pages/Permission1_Screen.dart';
@@ -32,11 +32,11 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   AnimationController? _animationController;
   Animation? _animation;
   bool? StopedRecording = false;
+
   @override
   void initState() {
     super.initState();
     StopedRecording = true;
-    // TODO: implement initState
     _animationController = AnimationController(vsync:this,duration: Duration(seconds: 2));
     _animationController!.repeat(reverse: true);
     _animation =  Tween(begin: 2.0,end: 15.0).animate(_animationController!)..addListener((){
@@ -57,6 +57,7 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
 
   @override
   void dispose() {
+    _animationController!.dispose();
     _recordingState = RecordingState.UnSet;
     super.dispose();
   }
@@ -119,8 +120,10 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   _initRecorder() async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String filePath = appDirectory.path +
-        '/' +
-        DateTime.now().millisecondsSinceEpoch.toString() +
+        '/'
+        +
+        DateTime.now().millisecondsSinceEpoch.toString()
+        +
         '.aac';
 
     audioRecorder =
@@ -131,15 +134,17 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   _startRecording() async {
     await audioRecorder.start();
     StopedRecording = false;
-    setState(() {});
+    setState((){});
     // await audioRecorder.current(channel: 0);
   }
 
   _stopRecording() async {
     await audioRecorder.stop();
+
+
     StopedRecording = true;
 setState(() {});
-    widget.onSaved();
+    widget.onSaved(audioRecorder.recording!.path.toString());
   }
 
   Future<void> _recordVoice() async {

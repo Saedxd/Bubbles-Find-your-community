@@ -19,6 +19,7 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
   bool? get ChangeStateSuccess;
 
   OldMessagesModel? get OldMessages;
+  OldMessagesModel? get DMListSearchResult;
 
   DirectMessagesState._();
 
@@ -31,6 +32,7 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
       ..ChangeStateLoading = false
       ..ChangeStateSuccess = false
       ..OldMessages = null
+      ..DMListSearchResult = null
     );
   }
 }

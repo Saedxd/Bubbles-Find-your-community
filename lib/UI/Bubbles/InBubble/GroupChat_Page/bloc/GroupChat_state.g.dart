@@ -1,18 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of Chat_state;
+part of GroupChat_state;
 
 // **************************************************************************
 // BuiltValueGenerator
 // **************************************************************************
 
-class _$ChatState extends ChatState {
+class _$GroupChatState extends GroupChatState {
   @override
   final String? error;
   @override
   final bool? isLoading;
   @override
   final bool? success;
+  @override
+  final bool? KetbaordStatuss;
   @override
   final bool? Done;
   @override
@@ -21,12 +23,6 @@ class _$ChatState extends ChatState {
   final bool? AliasISsuccess;
   @override
   final GetAliasModel? GetAlias;
-  @override
-  final OldMessagesModel? OldMessages;
-  @override
-  final PostMessagesModel? PostMessages;
-  @override
-  final AddreplyModel? Addreply;
   @override
   final bool? RefreshLoading;
   @override
@@ -46,7 +42,7 @@ class _$ChatState extends ChatState {
   @override
   final GetAliasModel? GetAliasMinee;
   @override
-  final List<MessageModel>? messages;
+  final List<GroupChatMessage>? messages;
   @override
   final bool? AddModelISloading;
   @override
@@ -63,21 +59,31 @@ class _$ChatState extends ChatState {
   final bool? Isreply;
   @override
   final bool? Status;
+  @override
+  final bool? DescriptionLengthISloading;
+  @override
+  final bool? DescriptionLengthSuccess;
+  @override
+  final int? DescriptionLength;
+  @override
+  final bool? CheckboxStatuss1;
+  @override
+  final bool? CheckboxStatuss2;
+  @override
+  final int? TextfieldSum;
 
-  factory _$ChatState([void Function(ChatStateBuilder)? updates]) =>
-      (new ChatStateBuilder()..update(updates))._build();
+  factory _$GroupChatState([void Function(GroupChatStateBuilder)? updates]) =>
+      (new GroupChatStateBuilder()..update(updates))._build();
 
-  _$ChatState._(
+  _$GroupChatState._(
       {this.error,
       this.isLoading,
       this.success,
+      this.KetbaordStatuss,
       this.Done,
       this.AliasISLoading,
       this.AliasISsuccess,
       this.GetAlias,
-      this.OldMessages,
-      this.PostMessages,
-      this.Addreply,
       this.RefreshLoading,
       this.RefreshSuccess,
       this.Turnss,
@@ -95,30 +101,35 @@ class _$ChatState extends ChatState {
       this.RepliedToMessage,
       this.AliasForRepliedTo,
       this.Isreply,
-      this.Status})
+      this.Status,
+      this.DescriptionLengthISloading,
+      this.DescriptionLengthSuccess,
+      this.DescriptionLength,
+      this.CheckboxStatuss1,
+      this.CheckboxStatuss2,
+      this.TextfieldSum})
       : super._();
 
   @override
-  ChatState rebuild(void Function(ChatStateBuilder) updates) =>
+  GroupChatState rebuild(void Function(GroupChatStateBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  ChatStateBuilder toBuilder() => new ChatStateBuilder()..replace(this);
+  GroupChatStateBuilder toBuilder() =>
+      new GroupChatStateBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ChatState &&
+    return other is GroupChatState &&
         error == other.error &&
         isLoading == other.isLoading &&
         success == other.success &&
+        KetbaordStatuss == other.KetbaordStatuss &&
         Done == other.Done &&
         AliasISLoading == other.AliasISLoading &&
         AliasISsuccess == other.AliasISsuccess &&
         GetAlias == other.GetAlias &&
-        OldMessages == other.OldMessages &&
-        PostMessages == other.PostMessages &&
-        Addreply == other.Addreply &&
         RefreshLoading == other.RefreshLoading &&
         RefreshSuccess == other.RefreshSuccess &&
         Turnss == other.Turnss &&
@@ -136,7 +147,13 @@ class _$ChatState extends ChatState {
         RepliedToMessage == other.RepliedToMessage &&
         AliasForRepliedTo == other.AliasForRepliedTo &&
         Isreply == other.Isreply &&
-        Status == other.Status;
+        Status == other.Status &&
+        DescriptionLengthISloading == other.DescriptionLengthISloading &&
+        DescriptionLengthSuccess == other.DescriptionLengthSuccess &&
+        DescriptionLength == other.DescriptionLength &&
+        CheckboxStatuss1 == other.CheckboxStatuss1 &&
+        CheckboxStatuss2 == other.CheckboxStatuss2 &&
+        TextfieldSum == other.TextfieldSum;
   }
 
   @override
@@ -159,41 +176,39 @@ class _$ChatState extends ChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), OldMessages.hashCode), PostMessages.hashCode),
-                                                                                Addreply.hashCode),
-                                                                            RefreshLoading.hashCode),
-                                                                        RefreshSuccess.hashCode),
-                                                                    Turnss.hashCode),
-                                                                MYAliasISLoading.hashCode),
-                                                            MYAliasISsuccess.hashCode),
-                                                        typingStatusISloading.hashCode),
-                                                    TypingStatusSuccess.hashCode),
-                                                TypingStatus.hashCode),
-                                            GetAliasMinee.hashCode),
-                                        messages.hashCode),
-                                    AddModelISloading.hashCode),
-                                AddModelSUccess.hashCode),
-                            AvatarPathForRepliedTo.hashCode),
-                        ColorForRepliedTo.hashCode),
-                    RepliedToMessage.hashCode),
-                AliasForRepliedTo.hashCode),
-            Isreply.hashCode),
-        Status.hashCode));
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), MYAliasISLoading.hashCode), MYAliasISsuccess.hashCode),
+                                                                                typingStatusISloading.hashCode),
+                                                                            TypingStatusSuccess.hashCode),
+                                                                        TypingStatus.hashCode),
+                                                                    GetAliasMinee.hashCode),
+                                                                messages.hashCode),
+                                                            AddModelISloading.hashCode),
+                                                        AddModelSUccess.hashCode),
+                                                    AvatarPathForRepliedTo.hashCode),
+                                                ColorForRepliedTo.hashCode),
+                                            RepliedToMessage.hashCode),
+                                        AliasForRepliedTo.hashCode),
+                                    Isreply.hashCode),
+                                Status.hashCode),
+                            DescriptionLengthISloading.hashCode),
+                        DescriptionLengthSuccess.hashCode),
+                    DescriptionLength.hashCode),
+                CheckboxStatuss1.hashCode),
+            CheckboxStatuss2.hashCode),
+        TextfieldSum.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChatState')
+    return (newBuiltValueToStringHelper('GroupChatState')
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
+          ..add('KetbaordStatuss', KetbaordStatuss)
           ..add('Done', Done)
           ..add('AliasISLoading', AliasISLoading)
           ..add('AliasISsuccess', AliasISsuccess)
           ..add('GetAlias', GetAlias)
-          ..add('OldMessages', OldMessages)
-          ..add('PostMessages', PostMessages)
-          ..add('Addreply', Addreply)
           ..add('RefreshLoading', RefreshLoading)
           ..add('RefreshSuccess', RefreshSuccess)
           ..add('Turnss', Turnss)
@@ -211,13 +226,20 @@ class _$ChatState extends ChatState {
           ..add('RepliedToMessage', RepliedToMessage)
           ..add('AliasForRepliedTo', AliasForRepliedTo)
           ..add('Isreply', Isreply)
-          ..add('Status', Status))
+          ..add('Status', Status)
+          ..add('DescriptionLengthISloading', DescriptionLengthISloading)
+          ..add('DescriptionLengthSuccess', DescriptionLengthSuccess)
+          ..add('DescriptionLength', DescriptionLength)
+          ..add('CheckboxStatuss1', CheckboxStatuss1)
+          ..add('CheckboxStatuss2', CheckboxStatuss2)
+          ..add('TextfieldSum', TextfieldSum))
         .toString();
   }
 }
 
-class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
-  _$ChatState? _$v;
+class GroupChatStateBuilder
+    implements Builder<GroupChatState, GroupChatStateBuilder> {
+  _$GroupChatState? _$v;
 
   String? _error;
   String? get error => _$this._error;
@@ -230,6 +252,11 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   bool? _success;
   bool? get success => _$this._success;
   set success(bool? success) => _$this._success = success;
+
+  bool? _KetbaordStatuss;
+  bool? get KetbaordStatuss => _$this._KetbaordStatuss;
+  set KetbaordStatuss(bool? KetbaordStatuss) =>
+      _$this._KetbaordStatuss = KetbaordStatuss;
 
   bool? _Done;
   bool? get Done => _$this._Done;
@@ -249,23 +276,6 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   GetAliasModelBuilder get GetAlias =>
       _$this._GetAlias ??= new GetAliasModelBuilder();
   set GetAlias(GetAliasModelBuilder? GetAlias) => _$this._GetAlias = GetAlias;
-
-  OldMessagesModelBuilder? _OldMessages;
-  OldMessagesModelBuilder get OldMessages =>
-      _$this._OldMessages ??= new OldMessagesModelBuilder();
-  set OldMessages(OldMessagesModelBuilder? OldMessages) =>
-      _$this._OldMessages = OldMessages;
-
-  PostMessagesModelBuilder? _PostMessages;
-  PostMessagesModelBuilder get PostMessages =>
-      _$this._PostMessages ??= new PostMessagesModelBuilder();
-  set PostMessages(PostMessagesModelBuilder? PostMessages) =>
-      _$this._PostMessages = PostMessages;
-
-  AddreplyModelBuilder? _Addreply;
-  AddreplyModelBuilder get Addreply =>
-      _$this._Addreply ??= new AddreplyModelBuilder();
-  set Addreply(AddreplyModelBuilder? Addreply) => _$this._Addreply = Addreply;
 
   bool? _RefreshLoading;
   bool? get RefreshLoading => _$this._RefreshLoading;
@@ -311,9 +321,9 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   set GetAliasMinee(GetAliasModelBuilder? GetAliasMinee) =>
       _$this._GetAliasMinee = GetAliasMinee;
 
-  List<MessageModel>? _messages;
-  List<MessageModel>? get messages => _$this._messages;
-  set messages(List<MessageModel>? messages) => _$this._messages = messages;
+  List<GroupChatMessage>? _messages;
+  List<GroupChatMessage>? get messages => _$this._messages;
+  set messages(List<GroupChatMessage>? messages) => _$this._messages = messages;
 
   bool? _AddModelISloading;
   bool? get AddModelISloading => _$this._AddModelISloading;
@@ -353,21 +363,48 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
   bool? get Status => _$this._Status;
   set Status(bool? Status) => _$this._Status = Status;
 
-  ChatStateBuilder();
+  bool? _DescriptionLengthISloading;
+  bool? get DescriptionLengthISloading => _$this._DescriptionLengthISloading;
+  set DescriptionLengthISloading(bool? DescriptionLengthISloading) =>
+      _$this._DescriptionLengthISloading = DescriptionLengthISloading;
 
-  ChatStateBuilder get _$this {
+  bool? _DescriptionLengthSuccess;
+  bool? get DescriptionLengthSuccess => _$this._DescriptionLengthSuccess;
+  set DescriptionLengthSuccess(bool? DescriptionLengthSuccess) =>
+      _$this._DescriptionLengthSuccess = DescriptionLengthSuccess;
+
+  int? _DescriptionLength;
+  int? get DescriptionLength => _$this._DescriptionLength;
+  set DescriptionLength(int? DescriptionLength) =>
+      _$this._DescriptionLength = DescriptionLength;
+
+  bool? _CheckboxStatuss1;
+  bool? get CheckboxStatuss1 => _$this._CheckboxStatuss1;
+  set CheckboxStatuss1(bool? CheckboxStatuss1) =>
+      _$this._CheckboxStatuss1 = CheckboxStatuss1;
+
+  bool? _CheckboxStatuss2;
+  bool? get CheckboxStatuss2 => _$this._CheckboxStatuss2;
+  set CheckboxStatuss2(bool? CheckboxStatuss2) =>
+      _$this._CheckboxStatuss2 = CheckboxStatuss2;
+
+  int? _TextfieldSum;
+  int? get TextfieldSum => _$this._TextfieldSum;
+  set TextfieldSum(int? TextfieldSum) => _$this._TextfieldSum = TextfieldSum;
+
+  GroupChatStateBuilder();
+
+  GroupChatStateBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _error = $v.error;
       _isLoading = $v.isLoading;
       _success = $v.success;
+      _KetbaordStatuss = $v.KetbaordStatuss;
       _Done = $v.Done;
       _AliasISLoading = $v.AliasISLoading;
       _AliasISsuccess = $v.AliasISsuccess;
       _GetAlias = $v.GetAlias?.toBuilder();
-      _OldMessages = $v.OldMessages?.toBuilder();
-      _PostMessages = $v.PostMessages?.toBuilder();
-      _Addreply = $v.Addreply?.toBuilder();
       _RefreshLoading = $v.RefreshLoading;
       _RefreshSuccess = $v.RefreshSuccess;
       _Turnss = $v.Turnss;
@@ -386,40 +423,44 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
       _AliasForRepliedTo = $v.AliasForRepliedTo;
       _Isreply = $v.Isreply;
       _Status = $v.Status;
+      _DescriptionLengthISloading = $v.DescriptionLengthISloading;
+      _DescriptionLengthSuccess = $v.DescriptionLengthSuccess;
+      _DescriptionLength = $v.DescriptionLength;
+      _CheckboxStatuss1 = $v.CheckboxStatuss1;
+      _CheckboxStatuss2 = $v.CheckboxStatuss2;
+      _TextfieldSum = $v.TextfieldSum;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(ChatState other) {
+  void replace(GroupChatState other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$ChatState;
+    _$v = other as _$GroupChatState;
   }
 
   @override
-  void update(void Function(ChatStateBuilder)? updates) {
+  void update(void Function(GroupChatStateBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  ChatState build() => _build();
+  GroupChatState build() => _build();
 
-  _$ChatState _build() {
-    _$ChatState _$result;
+  _$GroupChatState _build() {
+    _$GroupChatState _$result;
     try {
       _$result = _$v ??
-          new _$ChatState._(
+          new _$GroupChatState._(
               error: error,
               isLoading: isLoading,
               success: success,
+              KetbaordStatuss: KetbaordStatuss,
               Done: Done,
               AliasISLoading: AliasISLoading,
               AliasISsuccess: AliasISsuccess,
               GetAlias: _GetAlias?.build(),
-              OldMessages: _OldMessages?.build(),
-              PostMessages: _PostMessages?.build(),
-              Addreply: _Addreply?.build(),
               RefreshLoading: RefreshLoading,
               RefreshSuccess: RefreshSuccess,
               Turnss: Turnss,
@@ -437,24 +478,24 @@ class ChatStateBuilder implements Builder<ChatState, ChatStateBuilder> {
               RepliedToMessage: RepliedToMessage,
               AliasForRepliedTo: AliasForRepliedTo,
               Isreply: Isreply,
-              Status: Status);
+              Status: Status,
+              DescriptionLengthISloading: DescriptionLengthISloading,
+              DescriptionLengthSuccess: DescriptionLengthSuccess,
+              DescriptionLength: DescriptionLength,
+              CheckboxStatuss1: CheckboxStatuss1,
+              CheckboxStatuss2: CheckboxStatuss2,
+              TextfieldSum: TextfieldSum);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'GetAlias';
         _GetAlias?.build();
-        _$failedField = 'OldMessages';
-        _OldMessages?.build();
-        _$failedField = 'PostMessages';
-        _PostMessages?.build();
-        _$failedField = 'Addreply';
-        _Addreply?.build();
 
         _$failedField = 'GetAliasMinee';
         _GetAliasMinee?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'ChatState', _$failedField, e.toString());
+            'GroupChatState', _$failedField, e.toString());
       }
       rethrow;
     }

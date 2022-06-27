@@ -7,10 +7,12 @@ import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
 import 'package:bubbles/models/GetInterestsModel/GetInterestsModel.dart';
@@ -353,6 +355,49 @@ class Repository implements IRepository {
       )async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.AddReply(auth, comment, message_id);
+    return Data;
+  }
+  Future<GetDetailedEvent> GetEventDetails(
+      int Event_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetEventDetails(Event_id, auth);
+    return Data;
+  }
+  Future<AddreplyModel> RemoveFromDirect(
+      int receiver_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.RemoveFromDirect(auth, receiver_id);
+    return Data;
+  }
+  Future<OldMessagesModel> SearchDMlistt(
+      String Keyword,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SearchDMlistt(Keyword, auth);
+    return Data;
+  }
+  Future<FriendListSearchModel> SearchFriendList(
+      String Keyword,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SearchFriendList(Keyword, auth);
+    return Data;
+  }
+  Future<GetPrimeBubblesModel> NearByEventList(
+      double lat,
+      double lng,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.NearByEventList(lat, lng, auth);
+    return Data;
+  }
+  Future<GetDetailedEvent> SearchEventLists(
+      String Keyword,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SearchEventLists(Keyword, auth);
     return Data;
   }
 }

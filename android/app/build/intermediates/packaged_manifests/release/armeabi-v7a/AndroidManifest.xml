@@ -94,8 +94,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="Bubbles"
         android:requestLegacyExternalStorage="true"
-        android:supportsRtl="true"
-        android:usesCleartextTraffic="true" >
+        android:supportsRtl="true" >
         <service
             android:name="com.google.firebase.messaging.FirebaseMessagingService"
             android:directBootAware="true"
@@ -129,8 +128,7 @@
 
         <activity
             android:name="com.aboutyou.dart_packages.sign_in_with_apple.SignInWithAppleCallback"
-            android:exported="true"
-            android:usesCleartextTraffic="true" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="FLUTTER_NOTIFICATION_CLICK" />
 
@@ -143,7 +141,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="signinwithapple" />
-                <data android:path="callback" />
             </intent-filter>
         </activity>
 
@@ -159,9 +156,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:launchMode="singleTop"
-            android:networkSecurityConfig="@xml/network_security_config"
             android:theme="@style/LaunchTheme"
-            android:usesCleartextTraffic="true"
             android:windowSoftInputMode="adjustResize" >
 
             <!--
@@ -191,10 +186,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@style/com_facebook_activity_theme" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true" >
@@ -406,6 +397,10 @@
             android:exported="false"
             android:initOrder="100" />
 
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@style/com_facebook_activity_theme" />
         <activity android:name="com.facebook.CustomTabMainActivity" />
         <!--
          The initialization ContentProvider will call FacebookSdk.sdkInitialize automatically

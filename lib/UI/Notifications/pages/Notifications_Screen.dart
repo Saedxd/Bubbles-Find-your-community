@@ -56,6 +56,7 @@ bool diditonce = false;
           //   diditonce = false;
           // }
           return Scaffold(
+            resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
             body:
 

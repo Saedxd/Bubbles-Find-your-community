@@ -43,34 +43,42 @@ class _FriendlistState extends State<Friendlist> {
   bool Checknow = false;
   bool Diditonce = true;
   int COUNTERDiditonce = 0;
-
+  int Index =0;
   void ListenForONlineFriends() {
     if(socket!.disconnected!=  null &&!socket!.disconnected) {
-
+      //
+      // socket!.on("new_friend_online", (value) {
+      //   print("Yes im in Frined list : $value");
+      //   if (value["status"] != "offline") {
+      //     FrinedsStatus[value["index"]] = 1;
+      //   }
+      //     _FriendlistBloc.add(RefreshState());
+      // });
+      //
       socket!.on("friend_online", (value) {
+        print(value);
         if (value["status"] != "offline") {
           FrinedsStatus[value["index"]] = 1;
         }
-
-        if (value["index"] == FrinedsID.length - 1) {
-          _FriendlistBloc.add(RefreshState());
-        }
+        _FriendlistBloc.add(RefreshState());
       });
-
     }
   }
+
+
 
   void LoopONfrinedsId()async{
-    if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      for (int i = 0; i < FrinedsID.length; i++) {
-        index = i;
+    if(socket!=  null &&!socket!.disconnected) {
+     for (int i = 0; i < FrinedsID.length; i++) {
+       index = i;
         socket!.emit('report_friends_online', {
           'friend_id': FrinedsID[i].toString(),
-          'index':i
+          'index': i,
         },);
-      }
+     }
     }
   }
+
 
 
   @override
@@ -79,13 +87,14 @@ class _FriendlistState extends State<Friendlist> {
     FocuseNODE = FocusNode();
     _FriendlistBloc.add(GetFreinds());
     ListenForONlineFriends();
-    timer = Timer.periodic(Duration(seconds: 15), (Timer t) => LoopONfrinedsId());
+   timer = Timer.periodic(Duration(seconds: 10), (Timer t) => LoopONfrinedsId());
   }
 
   @override
   void dispose() {
     super.dispose();
     _SearchController.dispose();
+    FrinedsID.clear();
   }
 
   @override
@@ -104,6 +113,8 @@ class _FriendlistState extends State<Friendlist> {
             Checknow = false;
             _FriendlistBloc.add(IsRefresh());
             _FriendlistBloc.add(GetFreinds());
+            Diditonce = true;
+            FrinedsID.clear();
             return state.isLoading!
                 ?  Future.delayed(const Duration(milliseconds: 20000000), () {   })
 
@@ -139,6 +150,7 @@ class _FriendlistState extends State<Friendlist> {
               String BottonTxt,
               double h,
               double w,
+              int index
               ) async {
             return showDialog(
                 context: Context,
@@ -223,6 +235,7 @@ class _FriendlistState extends State<Friendlist> {
                                     ..friend_id = Freindid
                                   ));
                                   _FriendlistBloc.add(GetFreinds());
+                                  FrinedsID.removeAt(Index);
                                 },
                                 child: Container(
                                   width: w/3,
@@ -364,7 +377,7 @@ class _FriendlistState extends State<Friendlist> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,),),
+                                            builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID: state.GetFriends!.friends![index].me_id!,),),
                                         );
                                       },
                                       child: Slidable(
@@ -373,9 +386,10 @@ class _FriendlistState extends State<Friendlist> {
                                         endActionPane: ActionPane(
                                           motion: const ScrollMotion(),
                                           dismissible: DismissiblePane(onDismissed: () {
+                                             Index = index;
                                             Freindid = state.GetFriends!.friends![index].id!;
                                             print("Dissmissed");
-                                            alreatDialogBuilder(context,"lol1","lol2","lol3",h,w);
+                                            alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
                                           }),
                                           children: [
                                             Expanded(
@@ -384,7 +398,7 @@ class _FriendlistState extends State<Friendlist> {
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,),),
+                                                      builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID:state.GetFriends!.friends![index].me_id!,),),
                                                   );
                                                 },
                                                 child: Container(
@@ -414,7 +428,7 @@ class _FriendlistState extends State<Friendlist> {
                                               child: InkWell(
                                                 onTap: () {
                                                   Freindid = state.GetFriends!.friends![index].id!;
-                                                  alreatDialogBuilder(context,"lol1","lol2","lol3",h,w);
+                                                  alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
                                                 },
                                                 child: Container(
                                                   width: w / 5,
@@ -446,7 +460,7 @@ class _FriendlistState extends State<Friendlist> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,),),
+                                                builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID: state.GetFriends!.friends![index].me_id!,),),
                                             );
                                           },
                                           child: Column(

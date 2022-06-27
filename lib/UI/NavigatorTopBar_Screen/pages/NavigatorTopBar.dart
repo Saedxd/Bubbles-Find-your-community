@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
@@ -26,92 +25,69 @@ int? GOtoDirect = 0;
 Socket? socket;
 class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  PageController controller = PageController();
   final _TopBarBloc = sl<TopBarBloc>();
-  //final PageController _pageController = PageController();
   int dot = 0;
- // List<int> TopBarItemSelected = [1, 0, 0, 0];
   bool DiditONCE = false;
   String Alias = "";
   int USER_ID = 0;
   int selected = 0;
   int PageIndex = 0;
+List<int>? FrinedsID=[];
 
-  final List<Widget> _buildScreens = [
-    HomeScreen(),
+
+  final List<Widget> buildScreens = [
     const DirectMessages(),
     const Notifications(),
     Profile(),
   ];
 
-@override
-void didChangeAppLifecycleState(AppLifecycleState state) {
-  print(state);
-  switch (state) {
-    case AppLifecycleState.resumed:
-      connect();
-      break;
-    case AppLifecycleState.inactive:
-    socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
-      break;
-    case AppLifecycleState.paused:
-    socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
-      break;
-    case AppLifecycleState.detached:
-      socket != null ?print("ss"): Disconnect();//TODO: CHECK ITS DISCONNECTED IF ITS NOT NULL if true connect it
-      break;
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        socket != null ?socket!.disconnected?connect(): print("already connected"):print("socket is null");
+        break;
+      case AppLifecycleState.inactive:
+      socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+        break;
+      case AppLifecycleState.paused:
+        socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+        break;
+      case AppLifecycleState.detached:
+        socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+        break;
+    }
   }
-}
 
-
-  // IOo.Socket? socket;
-  //<String, dynamic>{
-  //       "transports": ["websocket"],
-  //       "autoConnect": false,
-  //     },
-
-  //"websocket",
-  //"polling"
-  //      const List EVENTS = [
-  //         'connect',
-  //         'connect_error',
-  //         'connect_timeout',
-  //         'connecting',
-  //         'disconnect',
-  //         'error',
-  //         'reconnect',
-  //         'reconnect_attempt',
-  //         'reconnect_failed',
-  //         'reconnect_error',
-  //         'reconnecting',
-  //         'ping',
-  //         'pong'
-  //       ];
-//
   //https://chat.bubbles.app/
   //http://50.60.40.108:3000'
-  void connect()async {
-
-
+  void connect() async {
         print("connected with alias: $Alias");
         print("connected with USER_ID:$USER_ID");
-            //https://chatapp.salnoyapp.store/
-            //https://chat.bubbles.app
-            //ws://50.60.40.104:3000
-            //ws://127.0.0.1:53878/jvxoHQXGKoE=/ws
-            //IO.Socket socket = IO.io('ws://50.60.40.103:3000');
+//
+        socket =io(
+    //  'https://50.60.40.102:3000',
+       //  'https://tranquil-castle-10002.herokuapp.com',
+         'https://tranquil-castle-10002.herokuapp.com',
+  //  'https://chatapp.salnoyapp.store/',
+    //  'http://10.0.2.2:3000',
+  //'http://50.60.40.102:3000',
+ //'https://chat.bubbles.app',
 
-
-        socket = io("ws://50.60.40.102:3000",
-            OptionBuilder()
-              .setTransports(["websocket"])
-              .setExtraHeaders({'foo': 'bar'})
-            .enableForceNew()
+//
+          OptionBuilder()
+              .setTransports(['websocket'])
               .disableAutoConnect()
-              .setQuery({
-            "user_id": USER_ID,
-            "username": Alias,
-          }) .build(),
-       );
+               .setQuery({
+               "user_id": USER_ID,
+               "username": Alias,
+               "friendsList": FrinedsID,
+             }) .build(),
+        );
         socket!.connect();
         socket!.io..disconnect()..connect();
 
@@ -124,34 +100,31 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
           print("onConnectError");
           print(data);
         });
-
-
   }
-
-
-
 
   void Disconnect(){
    socket!.disconnect();
   }
 
+
   @override
   void dispose() {
   super.dispose();
   WidgetsBinding.instance?.removeObserver(this);
+  controller.dispose();
   }
 
   @override
   void initState() {
     super.initState();
-
     _TopBarBloc.add(GetProfile());
     DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
+    _TopBarBloc.add(GetFreinds());
     if (widget.GOtoDirect==5){
       _TopBarBloc.add(
           ChangePAGEINDEX((b) =>  b
-            ..num = 1
+            ..num = 0
           ));
     }
   }
@@ -165,48 +138,126 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
     var w = MediaQuery.of(context).size.width;
     return  WillPopScope(
         onWillPop: ()async=>false,
-    child:
-      BlocBuilder(
+    child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
 
 
-          if (state.GetprofileSuccess! && DiditONCE){
+          if (state.GetprofileSuccess! && DiditONCE && state.success!){
             Alias = state.ProfileDate!.user!.alias.toString();
             USER_ID = state.ProfileDate!.user!.id!;
-            print("called function connect");
+            for(int i=0;i<state.GetFriends!.friends!.length;i++){
+              FrinedsID!.add(state.GetFriends!.friends![i].id!);
+            }
             connect();
+            print("called function connect");
             DiditONCE = false;
           }
 
-
-
-
-    if (widget.GOtoDirect==5){
-      state.Index1==true
-          ? _TopBarBloc.add(ChangeIndex1())
-          :null;
-
-      state.Index2==false
-          ? _TopBarBloc.add(ChangeIndex2())
-          :null;
-
-      state.Index3==true
-          ? _TopBarBloc.add(ChangeIndex3())
-          :null;
-
-      state.Index4==true
-          ? _TopBarBloc.add(ChangeIndex4())
-          :null;
-    }
+          // if (widget.GOtoDirect==5){
+          //   state.Index1==true
+          //       ? _TopBarBloc.add(ChangeIndex1())
+          //       :null;
+          //
+          //   state.Index2==false
+          //       ? _TopBarBloc.add(ChangeIndex2())
+          //       :null;
+          //
+          //   state.Index3==true
+          //       ? _TopBarBloc.add(ChangeIndex3())
+          //       :null;
+          //
+          //   state.Index4==true
+          //       ? _TopBarBloc.add(ChangeIndex4())
+          //       :null;
+          // }
 
           return  Scaffold(
               key: _scaffoldKey,
               body:  SafeArea(
                 child: Stack(
                   children: [
+                  //  _buildScreens[state.INDEX!],
+                    state.INDEX==0?
+                    HomeScreen():
 
-                    _buildScreens[state.INDEX!],
+                    Container(
+                      width: w,
+                      height: h,
+                      child: PageView.builder(
+                          allowImplicitScrolling: true,
+                          controller: controller,
+                          onPageChanged: (int index) {
+                            if(index==0){
+
+
+                              state.Index2==false
+                                  ? _TopBarBloc.add(ChangeIndex2())
+                                  :null;
+
+                              state.Index3==true
+                                  ? _TopBarBloc.add(ChangeIndex3())
+                                  :null;
+
+                              state.Index4==true
+                                  ? _TopBarBloc.add(ChangeIndex4())
+                                  :null;
+
+
+
+                            }else if (index==1){
+
+                              state.Index2==true
+                                  ? _TopBarBloc.add(ChangeIndex2())
+                                  :null;
+
+                              state.Index3==false
+                                  ? _TopBarBloc.add(ChangeIndex3())
+                                  :null;
+
+                              state.Index4==true
+                                  ? _TopBarBloc.add(ChangeIndex4())
+                                  :null;
+                            }else if (index==2){
+
+
+
+                              state.Index2==true
+                                  ? _TopBarBloc.add(ChangeIndex2())
+                                  :null;
+
+                              state.Index3==true
+                                  ? _TopBarBloc.add(ChangeIndex3())
+                                  :null;
+
+                              state.Index4==false
+                                  ? _TopBarBloc.add(ChangeIndex4())
+                                  :null;
+
+                            }
+                            //
+                            // _pageController.addListener((){
+                            //
+                            //   //   Future.delayed(Duration(milliseconds: 500),(){
+                            //   if (index == 0 && _pageController.position.atEdge &&state.Index1!) {
+                            //     state.MakeScroll!?_TopBarBloc.add(MakrScroll()):null;
+                            //     print("state.MakeScroll ${state.MakeScroll}  at edge");
+                            //
+                            //   }else{
+                            //     state.MakeScroll!?null:_TopBarBloc.add(MakrScroll());
+                            //   }
+                            //   // });
+                            // });
+
+
+
+                          },
+                          itemCount: buildScreens.length,
+                          itemBuilder: (context, index) {
+                            return buildScreens[index];
+                          }),
+                    ),
+
                     Container(
                       width: w,
                       height: h / 13,
@@ -231,14 +282,14 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                         children: [
                           InkWell(
                               onTap:(){
-                               print(socket!.connected);
+                                print(socket!.connected);
                                 _TopBarBloc.add(
                                     ChangePAGEINDEX((b) =>  b
                                       ..num = 0
-
-
                                     ));
-                           // state.MakeScroll!?_TopBarBloc.add(MakrScroll()):null;
+                              //buildScreens.add(HomeScreen());
+
+
                                 state.Index1==false
                                     ? _TopBarBloc.add(ChangeIndex1())
                                     :null;
@@ -255,11 +306,11 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                     ? _TopBarBloc.add(ChangeIndex4())
                                     :null;
 
-                                // _pageController.animateToPage(
-                                //   0,
-                                //   duration: const Duration(milliseconds: 500),
-                                //   curve: Curves.easeInOut,
-                                // );
+                                // // _pageController.animateToPage(
+                                // //   0,
+                                // //   duration: const Duration(milliseconds: 500),
+                                // //   curve: Curves.easeInOut,
+                                // // );
 
                               },
                               child: Container(
@@ -270,8 +321,8 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                       Container(
                                         margin: EdgeInsets.only(left: h/30,top: h/100),
                                         child: SvgPicture.asset(
-                                            "Assets/images/LGOOO.svg",
-                                            width: h / 6,
+                                          "Assets/images/LGOOO.svg",
+                                          width: h / 6,
                                         ),
                                       ),
                                     ],
@@ -284,16 +335,13 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                 Expanded(
                                   child: InkWell(
                                       onTap: () {
+
                                         _TopBarBloc.add(
                                             ChangePAGEINDEX((b) =>  b
                                               ..num = 1
 
 
                                             ));
-                                        state.Index1==true
-                                            ? _TopBarBloc.add(ChangeIndex1())
-                                            :null;
-
                                         state.Index2==false
                                             ? _TopBarBloc.add(ChangeIndex2())
                                             :null;
@@ -307,11 +355,12 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                             :null;
 
 
-                                        // _pageController.animateToPage(
-                                        //   1,
-                                        //   duration: const Duration(milliseconds: 500),
-                                        //   curve: Curves.easeInOut,
-                                        // );
+
+                                        controller.animateToPage(
+                                          0,
+                                          duration: const Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
+                                        );
                                       },
                                       child: Container(
                                           height: h / 13,
@@ -338,10 +387,6 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
 
 
                                             ));
-                                        state.Index1==true
-                                            ? _TopBarBloc.add(ChangeIndex1())
-                                            :null;
-
                                         state.Index2==true
                                             ? _TopBarBloc.add(ChangeIndex2())
                                             :null;
@@ -353,12 +398,11 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                         state.Index4==true
                                             ? _TopBarBloc.add(ChangeIndex4())
                                             :null;
-
-                                        // _pageController.animateToPage(
-                                        //   2,
-                                        //   duration: const Duration(milliseconds: 500),
-                                        //   curve: Curves.easeInOut,
-                                        // );
+                                        controller.animateToPage(
+                                          1,
+                                          duration: const Duration(milliseconds: 500),
+                                          curve: Curves.easeInOut,
+                                        );
                                       },
                                       child: Container(
                                         height: h / 13,
@@ -385,29 +429,24 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
                                             ..num = 3
                                           )
                                       );
-                                 state.Index1==true
-                                     ? _TopBarBloc.add(ChangeIndex1())
-                                     :null;
+                                      state.Index2==true
+                                          ? _TopBarBloc.add(ChangeIndex2())
+                                          :null;
 
-                                 state.Index2==true
-                                     ? _TopBarBloc.add(ChangeIndex2())
-                                     :null;
+                                      state.Index3==true
+                                          ? _TopBarBloc.add(ChangeIndex3())
+                                          :null;
 
-                                 state.Index3==true
-                                     ? _TopBarBloc.add(ChangeIndex3())
-                                     :null;
-
-                                 state.Index4==false
-                                     ? _TopBarBloc.add(ChangeIndex4())
-                                     :null;
+                                      state.Index4==false
+                                          ? _TopBarBloc.add(ChangeIndex4())
+                                          :null;
 
 
-
-                                     //  _pageController.animateToPage(
-                                     //    3,
-                                     //    duration: const Duration(milliseconds: 500),
-                                     //    curve: Curves.easeInOut,
-                                     //  );
+                                       controller.animateToPage(
+                                         2,
+                                         duration: const Duration(milliseconds: 500),
+                                         curve: Curves.easeInOut,
+                                       );
 
                                     },
                                     child: Container(
@@ -442,106 +481,3 @@ void didChangeAppLifecycleState(AppLifecycleState state) {
     );
   }
 }
-//   Container(
-//                       width: w,
-//                       height: h,
-//                       child: PageView.builder(
-//                           allowImplicitScrolling: true,
-//                           controller: _pageController,
-//                           physics: state.MakeScroll!
-//                               ? AlwaysScrollableScrollPhysics()
-//                               : NeverScrollableScrollPhysics(),
-//                           onPageChanged: (int index) {
-//                             if(index==0){
-//                               state.Index1==false
-//                                   ? _TopBarBloc.add(ChangeIndex1())
-//                                   :null;
-//
-//                               state.Index2==true
-//                                   ? _TopBarBloc.add(ChangeIndex2())
-//                                   :null;
-//
-//                               state.Index3==true
-//                                   ? _TopBarBloc.add(ChangeIndex3())
-//                                   :null;
-//
-//                               state.Index4==true
-//                                   ? _TopBarBloc.add(ChangeIndex4())
-//                                   :null;
-//
-//
-//
-//                             }else if (index==1){
-//                               state.Index1==true
-//                                   ? _TopBarBloc.add(ChangeIndex1())
-//                                   :null;
-//
-//                               state.Index2==false
-//                                   ? _TopBarBloc.add(ChangeIndex2())
-//                                   :null;
-//
-//                               state.Index3==true
-//                                   ? _TopBarBloc.add(ChangeIndex3())
-//                                   :null;
-//
-//                               state.Index4==true
-//                                   ? _TopBarBloc.add(ChangeIndex4())
-//                                   :null;
-//                             }else if (index==2){
-//
-//                               state.Index1==true
-//                                   ? _TopBarBloc.add(ChangeIndex1())
-//                                   :null;
-//
-//                               state.Index2==true
-//                                   ? _TopBarBloc.add(ChangeIndex2())
-//                                   :null;
-//
-//                               state.Index3==false
-//                                   ? _TopBarBloc.add(ChangeIndex3())
-//                                   :null;
-//
-//                               state.Index4==true
-//                                   ? _TopBarBloc.add(ChangeIndex4())
-//                                   :null;
-//
-//                             }else if (index==3){
-//                               state.Index1==true
-//                                   ? _TopBarBloc.add(ChangeIndex1())
-//                                   :null;
-//
-//                               state.Index2==true
-//                                   ? _TopBarBloc.add(ChangeIndex2())
-//                                   :null;
-//
-//                               state.Index3==true
-//                                   ? _TopBarBloc.add(ChangeIndex3())
-//                                   :null;
-//
-//                               state.Index4==false
-//                                   ? _TopBarBloc.add(ChangeIndex4())
-//                                   :null;
-//
-//                             }
-//
-//                             _pageController.addListener((){
-//
-//                            //   Future.delayed(Duration(milliseconds: 500),(){
-//                               if (index == 0 && _pageController.position.atEdge &&state.Index1!) {
-//                                 state.MakeScroll!?_TopBarBloc.add(MakrScroll()):null;
-//                                 print("state.MakeScroll ${state.MakeScroll}  at edge");
-//
-//                               }else{
-//                                 state.MakeScroll!?null:_TopBarBloc.add(MakrScroll());
-//                               }
-//                               // });
-//                             });
-//
-//
-//
-//                           },
-//                           itemCount: _buildScreens.length,
-//                           itemBuilder: (context, index) {
-//                             return _buildScreens[index];
-//                           }),
-//                     ),

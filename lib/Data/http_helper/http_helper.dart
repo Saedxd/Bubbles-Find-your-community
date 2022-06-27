@@ -11,11 +11,13 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
 import 'package:bubbles/models/GetInterestsModel/GetInterestsModel.dart';
@@ -118,7 +120,7 @@ class HttpHelper implements IHttpHelper {
       throw NetworkException();
     }
   }
-
+///event/12
   @override
   Future<UserData> login(
     String Email,
@@ -1711,7 +1713,6 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   Future<AddreplyModel> AddReply(
       String Auth,
       String comment,
-
       int message_id,
       ) async {
     try {
@@ -1756,6 +1757,45 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   //
 
   @override
+  Future<GetDetailedEvent> GetEventDetails(
+      int Event_id,
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('event/$Event_id', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetDetailedEvent,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetDetailedEvent),
+                  ],
+                ),
+              ],
+            )) as GetDetailedEvent;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
   Future<AddreplyModel> RemoveFromDirect(
       String Auth,
       int receiver_id,
@@ -1798,6 +1838,172 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       throw NetworkException();
     }
   }
+
+
+
+  @override
+  Future<OldMessagesModel> SearchDMlistt(
+      String Keyword,
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('search', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              OldMessagesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(OldMessagesModel),
+                  ],
+                ),
+              ],
+            )) as OldMessagesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+
+
+  @override
+  Future<FriendListSearchModel> SearchFriendList(
+      String Keyword,
+      String Auth,
+      ) async {
+    try {
+
+
+      final response = await _dio!
+          .get('user_friends/?name=$Keyword', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              FriendListSearchModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(FriendListSearchModel),
+                  ],
+                ),
+              ],
+            )) as FriendListSearchModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetPrimeBubblesModel> NearByEventList(
+      double lat,
+      double lng,
+      String Auth,
+
+
+      ) async {
+    try {
+
+      final response = await _dio!
+          .post('event/nearby', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetPrimeBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetPrimeBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetPrimeBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override     //TODO: FIX RETURN TYPE
+  Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
+      String Keyword,
+      String Auth,
+      ) async {
+    try {
+
+
+      final response = await _dio!
+          .get('search/events', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetDetailedEvent,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetDetailedEvent),
+                  ],
+                ),
+              ],
+            )) as GetDetailedEvent;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
 }
 
 class NetworkException implements Exception {}

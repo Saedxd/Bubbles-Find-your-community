@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:showcaseview/showcaseview.dart';
 import '../../ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -37,30 +38,30 @@ class _DirectMessagesState extends State<DirectMessages> {
   List<int> Selected = [0, 0];
   bool done = false;
   List<int> FrinedsID=[];
-  List<int> FrinedsStatus=[];
+  List<int>? FrinedsStatus;
   int index = 0;
   Timer? timer;
+
 
   void ListenForONlineFriends() {
     if(socket!=null &&!socket!.disconnected) {
 
       socket!.on("friend_online", (value) {
+      print(value);
+       // print("hi");
         if (value["status"] != "offline") {
-       FrinedsStatus[value["index"]] = 1;
+        FrinedsStatus![value["index"]] = 1;
         }
-
-
-        if (value["index"] == FrinedsID.length - 1) {
           _DirectMessages_Bloc.add(RefreshState());
-        }
       });
-
     }
   }
 
   void LoopONfrinedsId()async{
+
     if(socket!= null &&!socket!.disconnected) {
       for (int i = 0; i < FrinedsID.length; i++) {
+        print("Looping");
         socket!.emit('report_friends_online', {
           'friend_id': FrinedsID[i].toString(),
           'index':i
@@ -119,6 +120,14 @@ class _DirectMessagesState extends State<DirectMessages> {
 
             Diditonce = false;
           }
+          //todo : make sure all emits work
+          //todo : make finetuning for ui on directmessages
+          //todo : apply all unapplied apis
+          //todo : make a call with ali and tell him the plan
+          //todo : fix grup chat to comming soon
+          //todo : search about the uploading to google plat
+          //todo : add the lines for socket for ios go to there package page
+          //todo : same for all packages
 
           return Scaffold(
             resizeToAvoidBottomInset: false,
@@ -149,6 +158,12 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 controller: _SearchController,
                                 focusNode: FocuseNODE,
                                 onFieldSubmitted: (value) {},
+                                onChanged: (value){
+                                  print(FrinedsID);
+                                  print(FrinedsStatus);
+                                  //todo: fix the node js problem in which the data come duplicated and fucked
+                                  //todo search dm list
+                                },
                                 cursorColor: Colors.grey,
                                 style: const TextStyle(
                                     color: Colors.orange, fontSize: 16.5),
@@ -305,6 +320,8 @@ class _DirectMessagesState extends State<DirectMessages> {
                                             state.OldMessages!.messages!.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
+
+
                                           DateTime datee = DateTime.parse(state
                                               .OldMessages!
                                               .messages![index]
@@ -393,7 +410,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                           ),
                                                         ),
                                                         state.ChangeStateSuccess!?
-                                                        FrinedsStatus[index]==1?
+                                                        FrinedsStatus![index]==1?
                                                         Positioned(
                                                           bottom: 0,
                                                           right: 0,
@@ -493,8 +510,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                       h / 30,
                                                                   child: Center(
                                                                     child: Text(
-                                                                        timeago.format(
-                                                                            datee),
+                                                                        DateFormat.jm().format(datee),
                                                                         textAlign:
                                                                             TextAlign
                                                                                 .right,

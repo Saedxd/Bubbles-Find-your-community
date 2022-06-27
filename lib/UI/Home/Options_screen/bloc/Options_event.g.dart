@@ -491,10 +491,13 @@ class CreateBubbleBuilder
 }
 
 class _$SearchFreinds extends SearchFreinds {
+  @override
+  final String? Keyword;
+
   factory _$SearchFreinds([void Function(SearchFreindsBuilder)? updates]) =>
       (new SearchFreindsBuilder()..update(updates))._build();
 
-  _$SearchFreinds._() : super._();
+  _$SearchFreinds._({this.Keyword}) : super._();
 
   @override
   SearchFreinds rebuild(void Function(SearchFreindsBuilder) updates) =>
@@ -506,17 +509,19 @@ class _$SearchFreinds extends SearchFreinds {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SearchFreinds;
+    return other is SearchFreinds && Keyword == other.Keyword;
   }
 
   @override
   int get hashCode {
-    return 895365593;
+    return $jf($jc(0, Keyword.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('SearchFreinds').toString();
+    return (newBuiltValueToStringHelper('SearchFreinds')
+          ..add('Keyword', Keyword))
+        .toString();
   }
 }
 
@@ -524,7 +529,20 @@ class SearchFreindsBuilder
     implements Builder<SearchFreinds, SearchFreindsBuilder> {
   _$SearchFreinds? _$v;
 
+  String? _Keyword;
+  String? get Keyword => _$this._Keyword;
+  set Keyword(String? Keyword) => _$this._Keyword = Keyword;
+
   SearchFreindsBuilder();
+
+  SearchFreindsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Keyword = $v.Keyword;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(SearchFreinds other) {
@@ -541,7 +559,7 @@ class SearchFreindsBuilder
   SearchFreinds build() => _build();
 
   _$SearchFreinds _build() {
-    final _$result = _$v ?? new _$SearchFreinds._();
+    final _$result = _$v ?? new _$SearchFreinds._(Keyword: Keyword);
     replace(_$result);
     return _$result;
   }

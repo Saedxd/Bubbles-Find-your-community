@@ -17,16 +17,13 @@ part 'FriendsListModel.g.dart';
 abstract class FriendsListModel
     implements Built<FriendsListModel,FriendsListModelBuilder> {
 
-
+  int? get id;
+  int? get me_id;
   String? get background_color;
   String? get alias;
   String? get avatar;
   String? get serial;
   String? get serialnumber;
-  int? get id;
-
-
-
 
 
   FriendsListModel._();

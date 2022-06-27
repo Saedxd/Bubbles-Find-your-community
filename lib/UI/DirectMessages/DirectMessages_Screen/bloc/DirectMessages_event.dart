@@ -39,3 +39,10 @@ abstract class RefreshState extends DirectMessagesEvent
   RefreshState._();
   factory RefreshState([updates(RefreshStateBuilder b)]) = _$RefreshState;
 }
+
+abstract class SearchDMlist extends DirectMessagesEvent
+    implements Built<SearchDMlist,SearchDMlistBuilder> {
+String? get Keyword;
+  SearchDMlist._();
+  factory SearchDMlist([updates(SearchDMlistBuilder b)]) = _$SearchDMlist;
+}

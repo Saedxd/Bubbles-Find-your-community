@@ -10,11 +10,13 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
 import 'package:bubbles/models/GetInterestsModel/GetInterestsModel.dart';
 import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
@@ -193,6 +195,31 @@ abstract class IHttpHelper {
       String Auth,
       String comment,
       int message_id,
+      );
+  Future<GetDetailedEvent> GetEventDetails(
+      int Event_id,
+      String Auth,
+      );
+  Future<AddreplyModel> RemoveFromDirect(
+      String Auth,
+      int receiver_id,
+      );
+  Future<OldMessagesModel> SearchDMlistt(
+      String Keyword,
+      String Auth,
+      );
+  Future<FriendListSearchModel> SearchFriendList(
+      String Keyword,
+      String Auth,
+      );
+  Future<GetPrimeBubblesModel> NearByEventList(
+      double lat,
+      double lng,
+      String Auth,
+      );
+  Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
+      String Keyword,
+      String Auth,
       );
 }
 //ihttp_helper is the abstaction class for http_helper

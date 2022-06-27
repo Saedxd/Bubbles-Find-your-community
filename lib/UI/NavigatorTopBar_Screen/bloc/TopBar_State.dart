@@ -5,6 +5,7 @@ library TopBar_State;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -28,7 +29,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
 
   bool? get GetprofileLoading;
   bool? get GetprofileSuccess;
-
+  GetFriendsModel? get GetFriends;
   ProfileDateModel? get ProfileDate;
 
   TopBarState._();
@@ -47,6 +48,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
       ..Index3 = false
       ..Index4 = false
       ..ProfileDate =null
+      ..GetFriends =null
 
 
     );

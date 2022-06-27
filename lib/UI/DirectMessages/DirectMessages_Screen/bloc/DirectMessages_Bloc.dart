@@ -76,9 +76,34 @@ class DirectMessagesBloc extends Bloc<DirectMessagesEvent, DirectMessagesState> 
       }
     }
 
+    if (event is SearchDMlist){
+      try {
+        yield state.rebuild((b) => b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..DMListSearchResult = null
+        );
 
+        final date = await _repository.SearchDMlistt(event.Keyword!);
+        print('get Success data $date');
+        yield state.rebuild((b) => b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+          ..DMListSearchResult.replace(date)
+        );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..DMListSearchResult = null
+        );
+      }
+    }
 
 
   }
-
 }

@@ -237,7 +237,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ]);
 
     return ThemeManager(
-        defaultBrightnessPreference: BrightnessPreference.system,
+        defaultBrightnessPreference: BrightnessPreference.dark,
         data: (Brightness brightness) {
           print(brightness);
 
@@ -277,9 +277,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 );
               }
           );
-
-
-
         });
 
 

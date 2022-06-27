@@ -6,6 +6,8 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FreindsFilteredListModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/UsersRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/FreindModel.dart';
@@ -21,6 +23,8 @@ import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/UserMadeBubbleModel.dart';
 import 'package:bubbles/models/GetChallengesModel/ChallengesListModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/DataEventDetailModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/FriendsListModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/GetGenderModel/GendersListModel.dart';
@@ -43,6 +47,8 @@ import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/ProfileDataModel/UserProfileData.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/RemoveFromDirectModel/RemoveFromDirectModel.dart';
+import 'package:bubbles/models/SearchFrinedsModel/SearchFrinedsModel.dart';
+import 'package:bubbles/models/SearchFrinedsModel/UserModell.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestedListModel.dart';
@@ -68,6 +74,12 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  FriendListSearchModel,
+  FreindsFilteredListModel,
+  DataEventDetailModel,
+  GetDetailedEvent,
+  SearchFrinedsModel,
+  UserModell,
   ReplieslISTModel,
   GetAliasModel,
   MessagesListModel,
@@ -136,6 +148,60 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FriendListSearchModel),
+        ],
+      )),
+          () => ListBuilder<FriendListSearchModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FreindsFilteredListModel),
+        ],
+      )),
+          () => ListBuilder<FreindsFilteredListModel>())
+
+
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(UserModell),
+        ],
+      )),
+          () => ListBuilder<UserModell>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(SearchFrinedsModel),
+        ],
+      )),
+          () => ListBuilder<SearchFrinedsModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(GetDetailedEvent),
+        ],
+      )),
+          () => ListBuilder<GetDetailedEvent>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(DataEventDetailModel),
+        ],
+      )),
+          () => ListBuilder<DataEventDetailModel>())
+  //  ,
+//   ,
+//   ,
+//   ,
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

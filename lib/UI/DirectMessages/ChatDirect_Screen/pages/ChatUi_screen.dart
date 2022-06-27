@@ -24,10 +24,10 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:voice_message_package/voice_message_package.dart';
 
 class DirectChat extends StatefulWidget {
-  DirectChat({Key? key, required this.receiver_id, this.my_ID})
+  DirectChat({Key? key, required this.receiver_id, required this.my_ID})
       : super(key: key);
   int receiver_id = 0;
-  int? my_ID;
+  int my_ID;
 
   @override
   State<DirectChat> createState() => _DirectChatState();
@@ -35,23 +35,26 @@ class DirectChat extends StatefulWidget {
 
 class _DirectChatState extends State<DirectChat> {
   bool DIditonce2 = false;
+  bool Diditonces = false;
+  bool Diditoncess = false;
   final TextEditingController _SendMessageController = TextEditingController();
   final _formkey3 = GlobalKey<FormState>(); //
   late FocusNode _SendMessages;
-  List<MessageModel> messages = [];
+
   final ScrollController _controller = ScrollController();
+  final _ChatBloc_Bloc = sl<ChatBloc>();
+  List<MessageModel> messages = [];
   int idd = 0;
   int index = 0;
   int HisBackgroundColor = 0;
   int MYbackGroundColor = 0;
-  bool Diditonces = false;
-  final _ChatBloc_Bloc = sl<ChatBloc>();
+
   String MyAlias = "";
   String HisAlias = "";
   String MyAvatar = "";
   String HisAvatar = "";
   String RepliedTOMessage = "";
-bool Diditoncess = false;
+
   int LAST_MESSAGE_ID = 0;
   int Old_MESSAGE_ID = 0;
   Timer? timer;
@@ -64,11 +67,12 @@ bool Diditoncess = false;
 
   void ListenForReplyMessage() async {
     socket!.on("receive_reply_send", (msg) {
+      print(msg);
+
      SetHisReplyMessage(msg["message"],msg["comment"],msg["type"]);
+    // SetHisReplyMessage(msg["message"],msg["comment"],"sender");
     });
   }
-
-
 
 
   void ListenForTyping() async {
@@ -86,6 +90,8 @@ bool Diditoncess = false;
 
 
   void sendMessage(String message, String UserDestination_ID) {
+    print("EMITTTEDDDD $UserDestination_ID");
+
     socket!.emit("send_message",
         {"message": message.toString(), "to": UserDestination_ID.toString()});
   }
@@ -197,6 +203,8 @@ bool Diditoncess = false;
     Diditonces = true;
     Diditoncess = true;
     _SendMessages = FocusNode();
+    print(widget.receiver_id);
+    print(widget.my_ID);
     _ChatBloc_Bloc.add(GetAlias((b) => b
       ..HIS_ID = widget.receiver_id
       ..My_ID = widget.my_ID));
@@ -227,7 +235,6 @@ bool Diditoncess = false;
         bloc: _ChatBloc_Bloc,
         builder: (BuildContext Context, ChatState state) {
 
-
           if (state.success! && Diditoncess){
             if (state.OldMessages!.messages!.isNotEmpty){
               LAST_MESSAGE_ID = state.OldMessages!.messages![0].id!.toInt();
@@ -237,13 +244,11 @@ bool Diditoncess = false;
           }
 
 
-
-
           if (state.AliasISsuccess!) {
             MyAlias = state.GetAliasMinee!.friend!.alias.toString();
             MyAvatar = state.GetAliasMinee!.friend!.avatar.toString();
-            String Value2 =
-                state.GetAliasMinee!.friend!.background_color.toString();
+            String Value2 = state.GetAliasMinee!.friend!.background_color.toString();
+
             int myInt2 = int.parse(Value2);
             MYbackGroundColor = myInt2;
 
@@ -331,10 +336,10 @@ bool Diditoncess = false;
                                                     padding: EdgeInsets.only(
                                                         left: h / 50),
                                                     child: state.success!
-                                                        ? !state
-                                                                .messages![
-                                                                    index]
-                                                                .ISreply!
+                                                        ? !state .messages![index].ISreply!
+
+
+
                                                             ? Row(
                                                                 children: [
                                                                   Column(

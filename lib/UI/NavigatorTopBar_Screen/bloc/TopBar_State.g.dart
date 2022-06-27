@@ -28,6 +28,8 @@ class _$TopBarState extends TopBarState {
   @override
   final bool? GetprofileSuccess;
   @override
+  final GetFriendsModel? GetFriends;
+  @override
   final ProfileDateModel? ProfileDate;
 
   factory _$TopBarState([void Function(TopBarStateBuilder)? updates]) =>
@@ -44,6 +46,7 @@ class _$TopBarState extends TopBarState {
       this.INDEX,
       this.GetprofileLoading,
       this.GetprofileSuccess,
+      this.GetFriends,
       this.ProfileDate})
       : super._();
 
@@ -68,6 +71,7 @@ class _$TopBarState extends TopBarState {
         INDEX == other.INDEX &&
         GetprofileLoading == other.GetprofileLoading &&
         GetprofileSuccess == other.GetprofileSuccess &&
+        GetFriends == other.GetFriends &&
         ProfileDate == other.ProfileDate;
   }
 
@@ -82,16 +86,18 @@ class _$TopBarState extends TopBarState {
                             $jc(
                                 $jc(
                                     $jc(
-                                        $jc($jc(0, error.hashCode),
-                                            isLoading.hashCode),
-                                        success.hashCode),
-                                    Index1.hashCode),
-                                Index2.hashCode),
-                            Index3.hashCode),
-                        Index4.hashCode),
-                    INDEX.hashCode),
-                GetprofileLoading.hashCode),
-            GetprofileSuccess.hashCode),
+                                        $jc(
+                                            $jc($jc(0, error.hashCode),
+                                                isLoading.hashCode),
+                                            success.hashCode),
+                                        Index1.hashCode),
+                                    Index2.hashCode),
+                                Index3.hashCode),
+                            Index4.hashCode),
+                        INDEX.hashCode),
+                    GetprofileLoading.hashCode),
+                GetprofileSuccess.hashCode),
+            GetFriends.hashCode),
         ProfileDate.hashCode));
   }
 
@@ -108,6 +114,7 @@ class _$TopBarState extends TopBarState {
           ..add('INDEX', INDEX)
           ..add('GetprofileLoading', GetprofileLoading)
           ..add('GetprofileSuccess', GetprofileSuccess)
+          ..add('GetFriends', GetFriends)
           ..add('ProfileDate', ProfileDate))
         .toString();
   }
@@ -158,6 +165,12 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   set GetprofileSuccess(bool? GetprofileSuccess) =>
       _$this._GetprofileSuccess = GetprofileSuccess;
 
+  GetFriendsModelBuilder? _GetFriends;
+  GetFriendsModelBuilder get GetFriends =>
+      _$this._GetFriends ??= new GetFriendsModelBuilder();
+  set GetFriends(GetFriendsModelBuilder? GetFriends) =>
+      _$this._GetFriends = GetFriends;
+
   ProfileDateModelBuilder? _ProfileDate;
   ProfileDateModelBuilder get ProfileDate =>
       _$this._ProfileDate ??= new ProfileDateModelBuilder();
@@ -179,6 +192,7 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       _INDEX = $v.INDEX;
       _GetprofileLoading = $v.GetprofileLoading;
       _GetprofileSuccess = $v.GetprofileSuccess;
+      _GetFriends = $v.GetFriends?.toBuilder();
       _ProfileDate = $v.ProfileDate?.toBuilder();
       _$v = null;
     }
@@ -214,10 +228,13 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
               INDEX: INDEX,
               GetprofileLoading: GetprofileLoading,
               GetprofileSuccess: GetprofileSuccess,
+              GetFriends: _GetFriends?.build(),
               ProfileDate: _ProfileDate?.build());
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'GetFriends';
+        _GetFriends?.build();
         _$failedField = 'ProfileDate';
         _ProfileDate?.build();
       } catch (e) {

@@ -5,10 +5,12 @@ import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
+import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
 import 'package:bubbles/models/GetInterestsModel/GetInterestsModel.dart';
@@ -162,5 +164,25 @@ abstract class IRepository {
   Future<AddreplyModel> AddReply(
       String comment,
       int message_id,
+      );
+  Future<GetDetailedEvent> GetEventDetails(
+      int Event_id,
+      );
+  Future<AddreplyModel> RemoveFromDirect(
+
+      int receiver_id,
+      );
+  Future<OldMessagesModel> SearchDMlistt(
+      String Keyword,
+      );
+  Future<FriendListSearchModel> SearchFriendList(
+      String Keyword,
+      );
+  Future<GetPrimeBubblesModel> NearByEventList(
+      double lat,
+      double lng,
+      );
+  Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
+      String Keyword,
       );
 }

@@ -236,4 +236,79 @@ class RefreshStateBuilder
   }
 }
 
+class _$SearchDMlist extends SearchDMlist {
+  @override
+  final String? Keyword;
+
+  factory _$SearchDMlist([void Function(SearchDMlistBuilder)? updates]) =>
+      (new SearchDMlistBuilder()..update(updates))._build();
+
+  _$SearchDMlist._({this.Keyword}) : super._();
+
+  @override
+  SearchDMlist rebuild(void Function(SearchDMlistBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SearchDMlistBuilder toBuilder() => new SearchDMlistBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SearchDMlist && Keyword == other.Keyword;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Keyword.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SearchDMlist')
+          ..add('Keyword', Keyword))
+        .toString();
+  }
+}
+
+class SearchDMlistBuilder
+    implements Builder<SearchDMlist, SearchDMlistBuilder> {
+  _$SearchDMlist? _$v;
+
+  String? _Keyword;
+  String? get Keyword => _$this._Keyword;
+  set Keyword(String? Keyword) => _$this._Keyword = Keyword;
+
+  SearchDMlistBuilder();
+
+  SearchDMlistBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Keyword = $v.Keyword;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SearchDMlist other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SearchDMlist;
+  }
+
+  @override
+  void update(void Function(SearchDMlistBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SearchDMlist build() => _build();
+
+  _$SearchDMlist _build() {
+    final _$result = _$v ?? new _$SearchDMlist._(Keyword: Keyword);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

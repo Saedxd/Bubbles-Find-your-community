@@ -65,6 +65,7 @@ abstract class ChatState implements Built<ChatState, ChatStateBuilder>   {
       ..AliasForRepliedTo = ""
       ..isLoading = false
       ..AddModelISloading = false
+
       ..AddModelSUccess = false
       ..Status = false
       ..Turnss = true

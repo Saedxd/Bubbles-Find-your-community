@@ -112,5 +112,40 @@ class OptionsBloc extends Bloc<OptionsEvent, OptionsState> {
         );
       }
     }
+
+    if (event is SearchFreinds) {
+      try {
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..SearchFrinedsResult = null
+        );
+
+        final date = await _repository.SearchFriendList(event.Keyword!);
+
+
+        print('get Success data $date');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+          ..SearchFrinedsResult.replace(date)
+
+        );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..SearchFrinedsResult = null
+        );
+      }
+    }
+
   }
 }

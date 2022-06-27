@@ -38,7 +38,6 @@ class _Options_screenState extends State<Options_screen> {
   DateTime? STartTime;
   DateTime? EndTime;
   DateTime selectedDate = DateTime.now();
-
   final DateRangePickerController _pickerController =
   DateRangePickerController();
   String time = "";
@@ -66,9 +65,7 @@ class _Options_screenState extends State<Options_screen> {
   void initState() {
     super.initState();
     FocuseNODE = FocusNode();
-    Array2 = List.filled(
-    5000,
-        0);
+    Array2 = List.filled(5000,0);
   }
 
   @override
@@ -107,7 +104,6 @@ class _Options_screenState extends State<Options_screen> {
                       print(state.ChangeDone33);
                       return false;
                     }
-
 
                 if (ListOfSingleDates.isNotEmpty && OrganizersId.isEmpty) {
                   ListOfSingleDates.clear();
@@ -528,8 +524,9 @@ class _Options_screenState extends State<Options_screen> {
                                                         ),
                                                         onPressed: () {
                                                         //  FreindDilog();
-                                                          _OptionsBloc.add(
-                                                              GetFreinds());
+                                                          _OptionsBloc.add(SearchFreinds((b) => b
+                                                            ..Keyword = ""
+                                                          ));
                                                           print("clicked");
                                                           FreindDilog();
                                                           DiditONCE = true;
@@ -964,7 +961,15 @@ class _Options_screenState extends State<Options_screen> {
                     builder: (BuildContext Context, OptionsState state) {
 
 
-                      return FractionallySizedBox(
+                      return
+                        Padding(
+                          padding: EdgeInsets.only(
+                          bottom: MediaQuery
+                              .of(context)
+                          .viewInsets
+                          .bottom),
+                        child :
+                        FractionallySizedBox(
                           heightFactor: h / 1100,
                           child: Container(
                             child: Column(
@@ -989,6 +994,11 @@ class _Options_screenState extends State<Options_screen> {
                                         focusNode: FocuseNODE,
                                         cursorColor: Colors.grey,
                                         cursorHeight: 20,
+                                        onChanged: (Keyword){
+                                          _OptionsBloc.add(SearchFreinds((b) => b
+                                          ..Keyword = Keyword
+                                          ));
+                                        },
                                         decoration: InputDecoration(
                                             border: OutlineInputBorder(
                                               borderRadius:
@@ -1041,7 +1051,7 @@ class _Options_screenState extends State<Options_screen> {
                                 ),
 
                                 state.success!
-                                    ? state.GetFriends!.friends!.length != 0
+                                    ? state.SearchFrinedsResult!.user!.length != 0
                                     ? Expanded(
                                   child: Container(
                                     height: h / 1.49,
@@ -1057,7 +1067,7 @@ class _Options_screenState extends State<Options_screen> {
                                         const BouncingScrollPhysics(),
                                         scrollDirection: Axis.vertical,
                                         itemCount: state
-                                            .GetFriends!.friends!.length,
+                                            .SearchFrinedsResult!.user!.length,
                                         separatorBuilder:
                                             (BuildContext context,
                                             int index) {
@@ -1068,7 +1078,7 @@ class _Options_screenState extends State<Options_screen> {
                                         itemBuilder: (BuildContext context,
                                             int index) {
 
-                                          String Value = state.GetFriends!.friends![index].background_color!;
+                                          String Value = state.SearchFrinedsResult!.user![index].background_color!;
                                           var myInt = int.parse(Value);
                                           var BackGroundColor = myInt;
                                           return InkWell(
@@ -1077,16 +1087,16 @@ class _Options_screenState extends State<Options_screen> {
                                                 SetState(() {
                                                   Array2[index] = 0;
                                                 });
-                                                OrganizersId.remove(state.GetFriends!.friends![index].id);
-                                                AvatarsSelected.remove(state.GetFriends!.friends![index].avatar.toString());
-                                                BackGroundColorTOAvatars.remove(state.GetFriends!.friends![index].background_color.toString());
+                                                OrganizersId.remove(state.SearchFrinedsResult!.user![index].id);
+                                                AvatarsSelected.remove(state.SearchFrinedsResult!.user![index].avatar.toString());
+                                                BackGroundColorTOAvatars.remove(state.SearchFrinedsResult!.user![index].background_color.toString());
                                               }else{
                                                 SetState(() {
                                                   Array2[index] = 1;
                                                 });
-                                                OrganizersId.add(state.GetFriends!.friends![index].id!);
-                                                AvatarsSelected.add(state.GetFriends!.friends![index].avatar.toString());
-                                                BackGroundColorTOAvatars.add(state.GetFriends!.friends![index].background_color.toString());
+                                                OrganizersId.add(state.SearchFrinedsResult!.user![index].id!);
+                                                AvatarsSelected.add(state.SearchFrinedsResult!.user![index].avatar.toString());
+                                                BackGroundColorTOAvatars.add(state.SearchFrinedsResult!.user![index].background_color.toString());
                                               }
 
                                               print(OrganizersId);
@@ -1149,8 +1159,8 @@ class _Options_screenState extends State<Options_screen> {
                                                                 28,
                                                                 backgroundImage: NetworkImage(
                                                                     state
-                                                                        .GetFriends!
-                                                                        .friends![
+                                                                        .SearchFrinedsResult!
+                                                                        .user![
                                                                     index]
                                                                         .avatar
                                                                         .toString()),
@@ -1174,8 +1184,8 @@ class _Options_screenState extends State<Options_screen> {
                                                                   "    "),
                                                               Text(
                                                                   state
-                                                                      .GetFriends!
-                                                                      .friends![
+                                                                      .SearchFrinedsResult!
+                                                                      .user![
                                                                   index]
                                                                       .alias
                                                                       .toString(),
@@ -1203,7 +1213,7 @@ class _Options_screenState extends State<Options_screen> {
                                   ),
                                 )
                                     : Text(
-                                    "You have no Freinds... ITS OKAYYY YOU CAN MAKE FRINEDS ")
+                                    "You have no Freinds with that name ")
                                     : state.isLoading!
                                     ? Expanded(
                                     flex: 1,
@@ -1234,10 +1244,11 @@ class _Options_screenState extends State<Options_screen> {
                                 ),
                               ],
                             ),
-                          ));
+                          ))  );
                     });
 
               });
+
 
 
 

@@ -64,3 +64,9 @@ abstract class GetProfile extends TopBarEvent
   GetProfile._();
   factory GetProfile([updates(GetProfileBuilder b)]) = _$GetProfile;
 }
+abstract class GetFreinds extends TopBarEvent
+    implements Built<GetFreinds,GetFreindsBuilder> {
+
+  GetFreinds._();
+  factory GetFreinds([updates(GetFreindsBuilder b)]) = _$GetFreinds;
+}

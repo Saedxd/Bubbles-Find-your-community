@@ -1,6 +1,7 @@
 library Options_state;
 
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:built_value/built_value.dart';
 
@@ -29,7 +30,7 @@ abstract class OptionsState implements Built<OptionsState, OptionsStateBuilder> 
 
   GetFriendsModel? get GetFriends;
   CreateBubbleModel? get CreateBubble;
-
+  FriendListSearchModel? get SearchFrinedsResult;
 
 
   OptionsState._();
@@ -51,6 +52,7 @@ abstract class OptionsState implements Built<OptionsState, OptionsStateBuilder> 
       ..ChangeDone33 = true
         ..GetFriends = null
         ..CreateBubble = null
+        ..SearchFrinedsResult = null
 
 
 

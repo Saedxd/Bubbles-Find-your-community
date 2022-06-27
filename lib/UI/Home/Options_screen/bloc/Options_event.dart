@@ -68,7 +68,7 @@ abstract class CreateBubble extends OptionsEvent
 
 abstract class SearchFreinds extends OptionsEvent
     implements Built<SearchFreinds, SearchFreindsBuilder> {
-
+String? get Keyword;
   SearchFreinds._();
   factory SearchFreinds([updates(SearchFreindsBuilder b)]) = _$SearchFreinds;
 }

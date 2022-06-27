@@ -35,6 +35,8 @@ class _$OptionsState extends OptionsState {
   final GetFriendsModel? GetFriends;
   @override
   final CreateBubbleModel? CreateBubble;
+  @override
+  final FriendListSearchModel? SearchFrinedsResult;
 
   factory _$OptionsState([void Function(OptionsStateBuilder)? updates]) =>
       (new OptionsStateBuilder()..update(updates))._build();
@@ -53,7 +55,8 @@ class _$OptionsState extends OptionsState {
       this.CreateBubbleISloading,
       this.CreateBUbbleSuccess,
       this.GetFriends,
-      this.CreateBubble})
+      this.CreateBubble,
+      this.SearchFrinedsResult})
       : super._();
 
   @override
@@ -80,7 +83,8 @@ class _$OptionsState extends OptionsState {
         CreateBubbleISloading == other.CreateBubbleISloading &&
         CreateBUbbleSuccess == other.CreateBUbbleSuccess &&
         GetFriends == other.GetFriends &&
-        CreateBubble == other.CreateBubble;
+        CreateBubble == other.CreateBubble &&
+        SearchFrinedsResult == other.SearchFrinedsResult;
   }
 
   @override
@@ -97,20 +101,24 @@ class _$OptionsState extends OptionsState {
                                         $jc(
                                             $jc(
                                                 $jc(
-                                                    $jc($jc(0, error.hashCode),
-                                                        isLoading.hashCode),
-                                                    success.hashCode),
-                                                DoneChoose1.hashCode),
-                                            DoneChoose2.hashCode),
-                                        ChangeDone33.hashCode),
-                                    GetfrinedsError.hashCode),
-                                GetfriendsIsloading.hashCode),
-                            GetFriendsSuccess.hashCode),
-                        CreateBubbleError.hashCode),
-                    CreateBubbleISloading.hashCode),
-                CreateBUbbleSuccess.hashCode),
-            GetFriends.hashCode),
-        CreateBubble.hashCode));
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(0,
+                                                                error.hashCode),
+                                                            isLoading.hashCode),
+                                                        success.hashCode),
+                                                    DoneChoose1.hashCode),
+                                                DoneChoose2.hashCode),
+                                            ChangeDone33.hashCode),
+                                        GetfrinedsError.hashCode),
+                                    GetfriendsIsloading.hashCode),
+                                GetFriendsSuccess.hashCode),
+                            CreateBubbleError.hashCode),
+                        CreateBubbleISloading.hashCode),
+                    CreateBUbbleSuccess.hashCode),
+                GetFriends.hashCode),
+            CreateBubble.hashCode),
+        SearchFrinedsResult.hashCode));
   }
 
   @override
@@ -129,7 +137,8 @@ class _$OptionsState extends OptionsState {
           ..add('CreateBubbleISloading', CreateBubbleISloading)
           ..add('CreateBUbbleSuccess', CreateBUbbleSuccess)
           ..add('GetFriends', GetFriends)
-          ..add('CreateBubble', CreateBubble))
+          ..add('CreateBubble', CreateBubble)
+          ..add('SearchFrinedsResult', SearchFrinedsResult))
         .toString();
   }
 }
@@ -204,6 +213,12 @@ class OptionsStateBuilder
   set CreateBubble(CreateBubbleModelBuilder? CreateBubble) =>
       _$this._CreateBubble = CreateBubble;
 
+  FriendListSearchModelBuilder? _SearchFrinedsResult;
+  FriendListSearchModelBuilder get SearchFrinedsResult =>
+      _$this._SearchFrinedsResult ??= new FriendListSearchModelBuilder();
+  set SearchFrinedsResult(FriendListSearchModelBuilder? SearchFrinedsResult) =>
+      _$this._SearchFrinedsResult = SearchFrinedsResult;
+
   OptionsStateBuilder();
 
   OptionsStateBuilder get _$this {
@@ -223,6 +238,7 @@ class OptionsStateBuilder
       _CreateBUbbleSuccess = $v.CreateBUbbleSuccess;
       _GetFriends = $v.GetFriends?.toBuilder();
       _CreateBubble = $v.CreateBubble?.toBuilder();
+      _SearchFrinedsResult = $v.SearchFrinedsResult?.toBuilder();
       _$v = null;
     }
     return this;
@@ -260,7 +276,8 @@ class OptionsStateBuilder
               CreateBubbleISloading: CreateBubbleISloading,
               CreateBUbbleSuccess: CreateBUbbleSuccess,
               GetFriends: _GetFriends?.build(),
-              CreateBubble: _CreateBubble?.build());
+              CreateBubble: _CreateBubble?.build(),
+              SearchFrinedsResult: _SearchFrinedsResult?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -268,6 +285,8 @@ class OptionsStateBuilder
         _GetFriends?.build();
         _$failedField = 'CreateBubble';
         _CreateBubble?.build();
+        _$failedField = 'SearchFrinedsResult';
+        _SearchFrinedsResult?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'OptionsState', _$failedField, e.toString());

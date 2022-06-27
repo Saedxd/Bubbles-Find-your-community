@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names, file_names
 
-import 'package:bubbles/UI/Bubbles/InBubble/Pages/GroupChat_Page/bloc/GroupChat_Bloc.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/bloc/GroupChat_Bloc.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_bloc.dart';
@@ -64,6 +65,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => ChallengesBloc(sl()));
   sl.registerFactory(() => GroupChatBloc(sl()));
   sl.registerFactory(() => ChatBloc(sl()));
+  sl.registerFactory(() => PlanPageBloc(sl()));
 }
 //we use this package for dependency injection and use for connecting all our APP with each other
 //for example we give in constructor this get_it in both http and repository so the object can come IN the Easy Way.

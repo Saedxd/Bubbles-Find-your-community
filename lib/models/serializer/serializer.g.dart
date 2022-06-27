@@ -18,17 +18,21 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(CheckMailModel.serializer)
       ..add(CreateBubbleModel.serializer)
       ..add(CreatedByModel.serializer)
+      ..add(DataEventDetailModel.serializer)
       ..add(DataPrimeBubbles.serializer)
       ..add(DateModel.serializer)
       ..add(DatesEventListModel.serializer)
       ..add(DenyFriendRequestModel.serializer)
       ..add(FreindModel.serializer)
       ..add(FreindRequestsModel.serializer)
+      ..add(FreindsFilteredListModel.serializer)
+      ..add(FriendListSearchModel.serializer)
       ..add(FriendsListModel.serializer)
       ..add(GendersListModel.serializer)
       ..add(GetAliasModel.serializer)
       ..add(GetAvatarsModel.serializer)
       ..add(GetChallengesModel.serializer)
+      ..add(GetDetailedEvent.serializer)
       ..add(GetFriendsModel.serializer)
       ..add(GetGenderModel.serializer)
       ..add(GetInterestsModel.serializer)
@@ -52,6 +56,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RemoveFriendModel.serializer)
       ..add(RemoveFromDirectModel.serializer)
       ..add(ReplieslISTModel.serializer)
+      ..add(SearchFrinedsModel.serializer)
       ..add(SubgendersListModel.serializer)
       ..add(SubmitCreatorAnwersModel.serializer)
       ..add(SuggestFriendsModel.serializer)
@@ -61,6 +66,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(UserData.serializer)
       ..add(UserMadeBubbleModel.serializer)
       ..add(UserModel.serializer)
+      ..add(UserModell.serializer)
       ..add(UserProfileData.serializer)
       ..add(UsersRequestsModel.serializer)
       ..add(VerifyProfileModel.serializer)
@@ -83,6 +89,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DataPrimeBubbles)]),
           () => new ListBuilder<DataPrimeBubbles>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(FreindsFilteredListModel)]),
+          () => new ListBuilder<FreindsFilteredListModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(FriendsListModel)]),
           () => new ListBuilder<FriendsListModel>())
@@ -116,6 +126,18 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltList, const [const FullType(DatesEventListModel)]),
           () => new ListBuilder<DatesEventListModel>())
       ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(OrganizersListModel)]),
+          () => new ListBuilder<OrganizersListModel>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(ImagesEventListModel)]),
+          () => new ListBuilder<ImagesEventListModel>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(DatesEventListModel)]),
+          () => new ListBuilder<DatesEventListModel>())
+      ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(QuestionsListModel)]),
           () => new ListBuilder<QuestionsListModel>())
       ..addBuilderFactory(
@@ -128,6 +150,12 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(SuggestedListModel)]),
           () => new ListBuilder<SuggestedListModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserModell)]),
+          () => new ListBuilder<UserModell>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(UserModell)]),
+          () => new ListBuilder<UserModell>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(UsersRequestsModel)]),
           () => new ListBuilder<UsersRequestsModel>()))
