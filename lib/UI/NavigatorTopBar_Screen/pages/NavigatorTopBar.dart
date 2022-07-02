@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
@@ -33,7 +34,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   int USER_ID = 0;
   int selected = 0;
   int PageIndex = 0;
-List<int>? FrinedsID=[];
+  List<int>? FrinedsID=[];
 
 
   final List<Widget> buildScreens = [
@@ -65,20 +66,18 @@ List<int>? FrinedsID=[];
 
   //https://chat.bubbles.app/
   //http://50.60.40.108:3000'
+  //  'https://50.60.40.102:3000',
+  //  'https://tranquil-castle-10002.herokuapp.com',
+  //  'https://chatapp.salnoyapp.store/',
+  //  'http://10.0.2.2:3000',
+  //'http://50.60.40.102:3000',
+  //'https://chat.bubbles.app',
+  //todo : make badge
   void connect() async {
         print("connected with alias: $Alias");
         print("connected with USER_ID:$USER_ID");
-//
         socket =io(
-    //  'https://50.60.40.102:3000',
-       //  'https://tranquil-castle-10002.herokuapp.com',
          'https://tranquil-castle-10002.herokuapp.com',
-  //  'https://chatapp.salnoyapp.store/',
-    //  'http://10.0.2.2:3000',
-  //'http://50.60.40.102:3000',
- //'https://chat.bubbles.app',
-
-//
           OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect()
@@ -127,6 +126,10 @@ List<int>? FrinedsID=[];
             ..num = 0
           ));
     }
+    ISNewNotifications?
+        print("Get badge")
+    :  print("dont Get badge");
+//todo: getbadge
   }
 
 
@@ -141,7 +144,6 @@ List<int>? FrinedsID=[];
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
-
 
           if (state.GetprofileSuccess! && DiditONCE && state.success!){
             Alias = state.ProfileDate!.user!.alias.toString();
@@ -384,9 +386,8 @@ List<int>? FrinedsID=[];
                                         _TopBarBloc.add(
                                             ChangePAGEINDEX((b) =>  b
                                               ..num = 2
-
-
                                             ));
+                                        // _TopBarBloc.add(ClearBadge());
                                         state.Index2==true
                                             ? _TopBarBloc.add(ChangeIndex2())
                                             :null;

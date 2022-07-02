@@ -38,7 +38,7 @@ class MyApp extends StatefulWidget {
   @override
   State<MyApp> createState() => _MyAppState();
 }
-
+bool ISNewNotifications= false;
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
 
@@ -68,6 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //   }
   // }
   void initMessaging() async{
+    ISNewNotifications = true;
     await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
       alert: false,
       badge: false,
@@ -103,6 +104,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         android: androidNotificationsDetails,
         iOS: iosDetails);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+
       RemoteNotification? notification=message.notification;
       AndroidNotification? android=message.notification?.android;
       if(notification!=null && android!=null)
@@ -120,6 +122,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             notification.body,
             generalNotificationDetails
         );}
+      ISNewNotifications = true;
     });
 
 
@@ -132,6 +135,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         navigatorKey.currentState!.push(
             MaterialPageRoute(builder: (_) => FreindRequests())
         );
+        ISNewNotifications = true;
       }
     }  );
 
@@ -238,6 +242,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     return ThemeManager(
         defaultBrightnessPreference: BrightnessPreference.dark,
+
         data: (Brightness brightness) {
           print(brightness);
 

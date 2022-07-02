@@ -1,5 +1,6 @@
 library Options_state;
 
+import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
@@ -33,6 +34,9 @@ abstract class OptionsState implements Built<OptionsState, OptionsStateBuilder> 
   FriendListSearchModel? get SearchFrinedsResult;
 
 
+  List<FriendlistData>? get Friendlist;
+  List<FriendlistData>? get FilteredFriendlist;
+
   OptionsState._();
 
   factory OptionsState([Function(OptionsStateBuilder b) updates]) = _$OptionsState;
@@ -47,6 +51,8 @@ abstract class OptionsState implements Built<OptionsState, OptionsStateBuilder> 
       ..success = false
       ..CreateBUbbleSuccess = false
       ..GetFriendsSuccess = false
+      ..Friendlist = []
+      ..FilteredFriendlist = []
       ..DoneChoose1 = false
       ..DoneChoose2 = false
       ..ChangeDone33 = true

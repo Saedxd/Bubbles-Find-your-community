@@ -42,6 +42,14 @@ class _$HomeState extends HomeState {
   @override
   final Set<Circle>? circle;
   @override
+  final List<Locationss>? locationn;
+  @override
+  final List<int>? BubblesRaduis;
+  @override
+  final double Userlat;
+  @override
+  final double Userlng;
+  @override
   final bool? ValueLOading;
   @override
   final double? NewValue;
@@ -51,6 +59,18 @@ class _$HomeState extends HomeState {
   final bool? GetprofileISloading;
   @override
   final bool? GetprofileSuccess;
+  @override
+  final List<BubbleData>? BUBBLElistS1;
+  @override
+  final List<BubbleData>? FilteredBUBBLElists1;
+  @override
+  final List<BubbleData>? BUBBLElistS2;
+  @override
+  final List<BubbleData>? FilteredBUBBLElists2;
+  @override
+  final List<BubbleData>? BUBBLElistS3;
+  @override
+  final List<BubbleData>? FilteredBUBBLElists3;
   @override
   final GetPrimeBubblesModel? GetBubbles;
   @override
@@ -81,16 +101,29 @@ class _$HomeState extends HomeState {
       this.GetNewBubblesSuccess,
       this.marker2,
       this.circle,
+      this.locationn,
+      this.BubblesRaduis,
+      required this.Userlat,
+      required this.Userlng,
       this.ValueLOading,
       this.NewValue,
       this.MakeHimBEableTOSEtBubble,
       this.GetprofileISloading,
       this.GetprofileSuccess,
+      this.BUBBLElistS1,
+      this.FilteredBUBBLElists1,
+      this.BUBBLElistS2,
+      this.FilteredBUBBLElists2,
+      this.BUBBLElistS3,
+      this.FilteredBUBBLElists3,
       this.GetBubbles,
       this.GetPrimeBubbles,
       this.GetNewBubbles,
       this.ProfileDate})
-      : super._();
+      : super._() {
+    BuiltValueNullFieldError.checkNotNull(Userlat, 'HomeState', 'Userlat');
+    BuiltValueNullFieldError.checkNotNull(Userlng, 'HomeState', 'Userlng');
+  }
 
   @override
   HomeState rebuild(void Function(HomeStateBuilder) updates) =>
@@ -120,11 +153,21 @@ class _$HomeState extends HomeState {
         GetNewBubblesSuccess == other.GetNewBubblesSuccess &&
         marker2 == other.marker2 &&
         circle == other.circle &&
+        locationn == other.locationn &&
+        BubblesRaduis == other.BubblesRaduis &&
+        Userlat == other.Userlat &&
+        Userlng == other.Userlng &&
         ValueLOading == other.ValueLOading &&
         NewValue == other.NewValue &&
         MakeHimBEableTOSEtBubble == other.MakeHimBEableTOSEtBubble &&
         GetprofileISloading == other.GetprofileISloading &&
         GetprofileSuccess == other.GetprofileSuccess &&
+        BUBBLElistS1 == other.BUBBLElistS1 &&
+        FilteredBUBBLElists1 == other.FilteredBUBBLElists1 &&
+        BUBBLElistS2 == other.BUBBLElistS2 &&
+        FilteredBUBBLElists2 == other.FilteredBUBBLElists2 &&
+        BUBBLElistS3 == other.BUBBLElistS3 &&
+        FilteredBUBBLElists3 == other.FilteredBUBBLElists3 &&
         GetBubbles == other.GetBubbles &&
         GetPrimeBubbles == other.GetPrimeBubbles &&
         GetNewBubbles == other.GetNewBubbles &&
@@ -151,22 +194,22 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode),
-                                                                                GetAllBubblesIsloading.hashCode),
-                                                                            GetAllBubblesSuccess.hashCode),
-                                                                        GetAllPrimeError.hashCode),
-                                                                    GetAllPrimeIsloading.hashCode),
-                                                                GetAllPrimeSuccess.hashCode),
-                                                            GetNewBubblesError.hashCode),
-                                                        GetNewBubblesIsloading.hashCode),
-                                                    GetNewBubblesSuccess.hashCode),
-                                                marker2.hashCode),
-                                            circle.hashCode),
-                                        ValueLOading.hashCode),
-                                    NewValue.hashCode),
-                                MakeHimBEableTOSEtBubble.hashCode),
-                            GetprofileISloading.hashCode),
-                        GetprofileSuccess.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), marker2.hashCode), circle.hashCode),
+                                                                                locationn.hashCode),
+                                                                            BubblesRaduis.hashCode),
+                                                                        Userlat.hashCode),
+                                                                    Userlng.hashCode),
+                                                                ValueLOading.hashCode),
+                                                            NewValue.hashCode),
+                                                        MakeHimBEableTOSEtBubble.hashCode),
+                                                    GetprofileISloading.hashCode),
+                                                GetprofileSuccess.hashCode),
+                                            BUBBLElistS1.hashCode),
+                                        FilteredBUBBLElists1.hashCode),
+                                    BUBBLElistS2.hashCode),
+                                FilteredBUBBLElists2.hashCode),
+                            BUBBLElistS3.hashCode),
+                        FilteredBUBBLElists3.hashCode),
                     GetBubbles.hashCode),
                 GetPrimeBubbles.hashCode),
             GetNewBubbles.hashCode),
@@ -193,11 +236,21 @@ class _$HomeState extends HomeState {
           ..add('GetNewBubblesSuccess', GetNewBubblesSuccess)
           ..add('marker2', marker2)
           ..add('circle', circle)
+          ..add('locationn', locationn)
+          ..add('BubblesRaduis', BubblesRaduis)
+          ..add('Userlat', Userlat)
+          ..add('Userlng', Userlng)
           ..add('ValueLOading', ValueLOading)
           ..add('NewValue', NewValue)
           ..add('MakeHimBEableTOSEtBubble', MakeHimBEableTOSEtBubble)
           ..add('GetprofileISloading', GetprofileISloading)
           ..add('GetprofileSuccess', GetprofileSuccess)
+          ..add('BUBBLElistS1', BUBBLElistS1)
+          ..add('FilteredBUBBLElists1', FilteredBUBBLElists1)
+          ..add('BUBBLElistS2', BUBBLElistS2)
+          ..add('FilteredBUBBLElists2', FilteredBUBBLElists2)
+          ..add('BUBBLElistS3', BUBBLElistS3)
+          ..add('FilteredBUBBLElists3', FilteredBUBBLElists3)
           ..add('GetBubbles', GetBubbles)
           ..add('GetPrimeBubbles', GetPrimeBubbles)
           ..add('GetNewBubbles', GetNewBubbles)
@@ -286,6 +339,23 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   Set<Circle>? get circle => _$this._circle;
   set circle(Set<Circle>? circle) => _$this._circle = circle;
 
+  List<Locationss>? _locationn;
+  List<Locationss>? get locationn => _$this._locationn;
+  set locationn(List<Locationss>? locationn) => _$this._locationn = locationn;
+
+  List<int>? _BubblesRaduis;
+  List<int>? get BubblesRaduis => _$this._BubblesRaduis;
+  set BubblesRaduis(List<int>? BubblesRaduis) =>
+      _$this._BubblesRaduis = BubblesRaduis;
+
+  double? _Userlat;
+  double? get Userlat => _$this._Userlat;
+  set Userlat(double? Userlat) => _$this._Userlat = Userlat;
+
+  double? _Userlng;
+  double? get Userlng => _$this._Userlng;
+  set Userlng(double? Userlng) => _$this._Userlng = Userlng;
+
   bool? _ValueLOading;
   bool? get ValueLOading => _$this._ValueLOading;
   set ValueLOading(bool? ValueLOading) => _$this._ValueLOading = ValueLOading;
@@ -308,6 +378,36 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   bool? get GetprofileSuccess => _$this._GetprofileSuccess;
   set GetprofileSuccess(bool? GetprofileSuccess) =>
       _$this._GetprofileSuccess = GetprofileSuccess;
+
+  List<BubbleData>? _BUBBLElistS1;
+  List<BubbleData>? get BUBBLElistS1 => _$this._BUBBLElistS1;
+  set BUBBLElistS1(List<BubbleData>? BUBBLElistS1) =>
+      _$this._BUBBLElistS1 = BUBBLElistS1;
+
+  List<BubbleData>? _FilteredBUBBLElists1;
+  List<BubbleData>? get FilteredBUBBLElists1 => _$this._FilteredBUBBLElists1;
+  set FilteredBUBBLElists1(List<BubbleData>? FilteredBUBBLElists1) =>
+      _$this._FilteredBUBBLElists1 = FilteredBUBBLElists1;
+
+  List<BubbleData>? _BUBBLElistS2;
+  List<BubbleData>? get BUBBLElistS2 => _$this._BUBBLElistS2;
+  set BUBBLElistS2(List<BubbleData>? BUBBLElistS2) =>
+      _$this._BUBBLElistS2 = BUBBLElistS2;
+
+  List<BubbleData>? _FilteredBUBBLElists2;
+  List<BubbleData>? get FilteredBUBBLElists2 => _$this._FilteredBUBBLElists2;
+  set FilteredBUBBLElists2(List<BubbleData>? FilteredBUBBLElists2) =>
+      _$this._FilteredBUBBLElists2 = FilteredBUBBLElists2;
+
+  List<BubbleData>? _BUBBLElistS3;
+  List<BubbleData>? get BUBBLElistS3 => _$this._BUBBLElistS3;
+  set BUBBLElistS3(List<BubbleData>? BUBBLElistS3) =>
+      _$this._BUBBLElistS3 = BUBBLElistS3;
+
+  List<BubbleData>? _FilteredBUBBLElists3;
+  List<BubbleData>? get FilteredBUBBLElists3 => _$this._FilteredBUBBLElists3;
+  set FilteredBUBBLElists3(List<BubbleData>? FilteredBUBBLElists3) =>
+      _$this._FilteredBUBBLElists3 = FilteredBUBBLElists3;
 
   GetPrimeBubblesModelBuilder? _GetBubbles;
   GetPrimeBubblesModelBuilder get GetBubbles =>
@@ -355,11 +455,21 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _GetNewBubblesSuccess = $v.GetNewBubblesSuccess;
       _marker2 = $v.marker2;
       _circle = $v.circle;
+      _locationn = $v.locationn;
+      _BubblesRaduis = $v.BubblesRaduis;
+      _Userlat = $v.Userlat;
+      _Userlng = $v.Userlng;
       _ValueLOading = $v.ValueLOading;
       _NewValue = $v.NewValue;
       _MakeHimBEableTOSEtBubble = $v.MakeHimBEableTOSEtBubble;
       _GetprofileISloading = $v.GetprofileISloading;
       _GetprofileSuccess = $v.GetprofileSuccess;
+      _BUBBLElistS1 = $v.BUBBLElistS1;
+      _FilteredBUBBLElists1 = $v.FilteredBUBBLElists1;
+      _BUBBLElistS2 = $v.BUBBLElistS2;
+      _FilteredBUBBLElists2 = $v.FilteredBUBBLElists2;
+      _BUBBLElistS3 = $v.BUBBLElistS3;
+      _FilteredBUBBLElists3 = $v.FilteredBUBBLElists3;
       _GetBubbles = $v.GetBubbles?.toBuilder();
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
@@ -405,11 +515,23 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               GetNewBubblesSuccess: GetNewBubblesSuccess,
               marker2: marker2,
               circle: circle,
+              locationn: locationn,
+              BubblesRaduis: BubblesRaduis,
+              Userlat: BuiltValueNullFieldError.checkNotNull(
+                  Userlat, 'HomeState', 'Userlat'),
+              Userlng: BuiltValueNullFieldError.checkNotNull(
+                  Userlng, 'HomeState', 'Userlng'),
               ValueLOading: ValueLOading,
               NewValue: NewValue,
               MakeHimBEableTOSEtBubble: MakeHimBEableTOSEtBubble,
               GetprofileISloading: GetprofileISloading,
               GetprofileSuccess: GetprofileSuccess,
+              BUBBLElistS1: BUBBLElistS1,
+              FilteredBUBBLElists1: FilteredBUBBLElists1,
+              BUBBLElistS2: BUBBLElistS2,
+              FilteredBUBBLElists2: FilteredBUBBLElists2,
+              BUBBLElistS3: BUBBLElistS3,
+              FilteredBUBBLElists3: FilteredBUBBLElists3,
               GetBubbles: _GetBubbles?.build(),
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
               GetNewBubbles: _GetNewBubbles?.build(),

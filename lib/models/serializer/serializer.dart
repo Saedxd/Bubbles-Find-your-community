@@ -65,6 +65,7 @@ import 'package:built_value/standard_json_plugin.dart';
 
 import '../AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
 import '../AddReplyModel/AddreplyModel.dart';
+import '../ClearBadgeModel/ClearBadgeModel.dart';
 import '../GetNotificationsModel/NotificationsListModel.dart';
 import '../OldMessagesModel/ReplieslISTModel.dart';
 
@@ -137,6 +138,7 @@ part 'serializer.g.dart';
   FreindModel,
   AddreplyModel,
   RemoveFromDirectModel,
+  ClearBadgeModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -148,6 +150,14 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(ClearBadgeModel),
+        ],
+      )),
+          () => ListBuilder<ClearBadgeModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

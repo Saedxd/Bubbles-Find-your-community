@@ -32,6 +32,20 @@ class _$ChallengesListModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.content;
+    if (value != null) {
+      result
+        ..add('content')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.image;
+    if (value != null) {
+      result
+        ..add('image')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.id;
     if (value != null) {
       result
@@ -69,6 +83,14 @@ class _$ChallengesListModelSerializer
           result.title = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'content':
+          result.content = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'image':
+          result.image = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
@@ -92,6 +114,10 @@ class _$ChallengesListModel extends ChallengesListModel {
   @override
   final String? title;
   @override
+  final String? content;
+  @override
+  final String? image;
+  @override
   final int? id;
   @override
   final int? point;
@@ -102,7 +128,13 @@ class _$ChallengesListModel extends ChallengesListModel {
           [void Function(ChallengesListModelBuilder)? updates]) =>
       (new ChallengesListModelBuilder()..update(updates))._build();
 
-  _$ChallengesListModel._({this.title, this.id, this.point, this.max_number})
+  _$ChallengesListModel._(
+      {this.title,
+      this.content,
+      this.image,
+      this.id,
+      this.point,
+      this.max_number})
       : super._();
 
   @override
@@ -119,6 +151,8 @@ class _$ChallengesListModel extends ChallengesListModel {
     if (identical(other, this)) return true;
     return other is ChallengesListModel &&
         title == other.title &&
+        content == other.content &&
+        image == other.image &&
         id == other.id &&
         point == other.point &&
         max_number == other.max_number;
@@ -127,7 +161,12 @@ class _$ChallengesListModel extends ChallengesListModel {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, title.hashCode), id.hashCode), point.hashCode),
+        $jc(
+            $jc(
+                $jc($jc($jc(0, title.hashCode), content.hashCode),
+                    image.hashCode),
+                id.hashCode),
+            point.hashCode),
         max_number.hashCode));
   }
 
@@ -135,6 +174,8 @@ class _$ChallengesListModel extends ChallengesListModel {
   String toString() {
     return (newBuiltValueToStringHelper('ChallengesListModel')
           ..add('title', title)
+          ..add('content', content)
+          ..add('image', image)
           ..add('id', id)
           ..add('point', point)
           ..add('max_number', max_number))
@@ -149,6 +190,14 @@ class ChallengesListModelBuilder
   String? _title;
   String? get title => _$this._title;
   set title(String? title) => _$this._title = title;
+
+  String? _content;
+  String? get content => _$this._content;
+  set content(String? content) => _$this._content = content;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
 
   int? _id;
   int? get id => _$this._id;
@@ -168,6 +217,8 @@ class ChallengesListModelBuilder
     final $v = _$v;
     if ($v != null) {
       _title = $v.title;
+      _content = $v.content;
+      _image = $v.image;
       _id = $v.id;
       _point = $v.point;
       _max_number = $v.max_number;
@@ -193,7 +244,12 @@ class ChallengesListModelBuilder
   _$ChallengesListModel _build() {
     final _$result = _$v ??
         new _$ChallengesListModel._(
-            title: title, id: id, point: point, max_number: max_number);
+            title: title,
+            content: content,
+            image: image,
+            id: id,
+            point: point,
+            max_number: max_number);
     replace(_$result);
     return _$result;
   }

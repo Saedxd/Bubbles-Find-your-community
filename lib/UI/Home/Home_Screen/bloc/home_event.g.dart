@@ -1102,4 +1102,82 @@ class OpenDoorTObeAbleTOsetBubbleBuilder
   }
 }
 
+class _$SearchBubblesLists extends SearchBubblesLists {
+  @override
+  final String? Keyword;
+
+  factory _$SearchBubblesLists(
+          [void Function(SearchBubblesListsBuilder)? updates]) =>
+      (new SearchBubblesListsBuilder()..update(updates))._build();
+
+  _$SearchBubblesLists._({this.Keyword}) : super._();
+
+  @override
+  SearchBubblesLists rebuild(
+          void Function(SearchBubblesListsBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SearchBubblesListsBuilder toBuilder() =>
+      new SearchBubblesListsBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SearchBubblesLists && Keyword == other.Keyword;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Keyword.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SearchBubblesLists')
+          ..add('Keyword', Keyword))
+        .toString();
+  }
+}
+
+class SearchBubblesListsBuilder
+    implements Builder<SearchBubblesLists, SearchBubblesListsBuilder> {
+  _$SearchBubblesLists? _$v;
+
+  String? _Keyword;
+  String? get Keyword => _$this._Keyword;
+  set Keyword(String? Keyword) => _$this._Keyword = Keyword;
+
+  SearchBubblesListsBuilder();
+
+  SearchBubblesListsBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Keyword = $v.Keyword;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SearchBubblesLists other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SearchBubblesLists;
+  }
+
+  @override
+  void update(void Function(SearchBubblesListsBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SearchBubblesLists build() => _build();
+
+  _$SearchBubblesLists _build() {
+    final _$result = _$v ?? new _$SearchBubblesLists._(Keyword: Keyword);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

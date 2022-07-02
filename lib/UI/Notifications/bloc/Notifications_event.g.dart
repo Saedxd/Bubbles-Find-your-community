@@ -121,4 +121,60 @@ class ClearErrorBuilder implements Builder<ClearError, ClearErrorBuilder> {
   }
 }
 
+class _$ClearBadge extends ClearBadge {
+  factory _$ClearBadge([void Function(ClearBadgeBuilder)? updates]) =>
+      (new ClearBadgeBuilder()..update(updates))._build();
+
+  _$ClearBadge._() : super._();
+
+  @override
+  ClearBadge rebuild(void Function(ClearBadgeBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ClearBadgeBuilder toBuilder() => new ClearBadgeBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ClearBadge;
+  }
+
+  @override
+  int get hashCode {
+    return 949917038;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('ClearBadge').toString();
+  }
+}
+
+class ClearBadgeBuilder implements Builder<ClearBadge, ClearBadgeBuilder> {
+  _$ClearBadge? _$v;
+
+  ClearBadgeBuilder();
+
+  @override
+  void replace(ClearBadge other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ClearBadge;
+  }
+
+  @override
+  void update(void Function(ClearBadgeBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ClearBadge build() => _build();
+
+  _$ClearBadge _build() {
+    final _$result = _$v ?? new _$ClearBadge._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

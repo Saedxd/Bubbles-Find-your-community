@@ -38,6 +38,7 @@ import 'package:built_collection/src/list.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../models/ClearBadgeModel/ClearBadgeModel.dart';
 import '../../models/GetFriendsModel/GetFriendsModel.dart';
 import '../../models/permissionsModel/PermissionsModel.dart';
 
@@ -219,6 +220,9 @@ abstract class IHttpHelper {
       );
   Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
       String Keyword,
+      String Auth,
+      );
+  Future<ClearBadgeModel> ClearBadge(
       String Auth,
       );
 }

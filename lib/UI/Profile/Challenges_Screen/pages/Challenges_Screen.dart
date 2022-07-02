@@ -61,6 +61,7 @@ class _ChallengesState extends State<Challenges> {
                         children: [
                           CircleAvatar(
                             radius: 45,
+                            backgroundImage: NetworkImage(state.GetChallenges!.challenges![index].image.toString()),
                           ),
                           Expanded(
                             child: Container(
@@ -107,7 +108,7 @@ class _ChallengesState extends State<Challenges> {
                                 margin:
                                 EdgeInsets.only(bottom: h / 40),
                                 child: Text(
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum potenti posuere nec.',
+                                  state.GetChallenges!.challenges![index].content.toString(),
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Color.fromRGBO(47, 47, 47, 1),
@@ -309,8 +310,10 @@ class _ChallengesState extends State<Challenges> {
                                           Expanded(
                                             child: ListTile(
                                               leading: CircleAvatar(
+
                                                 backgroundColor:
                                                     Color(0xff939393),
+                                                backgroundImage: NetworkImage(state.GetChallenges!.challenges![index].image.toString()),
                                               ),
                                               title: Text(
                                                 state.GetChallenges!

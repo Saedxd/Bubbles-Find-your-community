@@ -4,6 +4,7 @@ import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -185,4 +186,6 @@ abstract class IRepository {
   Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
       String Keyword,
       );
+  Future<ClearBadgeModel> ClearBadge();
+
 }

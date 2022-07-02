@@ -151,6 +151,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                                         : print("Choose Avatar");
                                                   },
                                                   child: Container(
+
                                                     margin: EdgeInsets.all(5),
                                                     child: CachedNetworkImage(
                                                       imageUrl:  state.GetAvatar!

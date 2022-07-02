@@ -14,6 +14,7 @@ import 'package:bubbles/UI/Home/Options_screen/pages/Options_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart' as geo;
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? Lng;
   final pref = sl<IPrefsHelper>();
   final _HomeBloc = sl<HomeBloc>();
-
+  final ScrollController _Primecontroller = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _SearchController = TextEditingController();
   final _formkey1 = GlobalKey<FormState>();
@@ -54,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final _key = GlobalKey();
   late FocusNode FocuseNODE;
   DateTime selectedDate = DateTime.now();
+  Geolocator? instance = Geolocator();
   bool? serviceEnabled;
   List<int> Selected = [1, 0, 0];
   CameraPosition? UserPostion;
@@ -88,15 +91,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Data Dataa = Data();
   Uint8List? markerIcon;
   bool doit = false;
-  //todo : make the user moving logic and determine distance in km and then see how everything is going
-  //Geolocator.distanceBetween(lat1, lon1, lat2, lon2);//todo : determine distance using this
+  double? lat;
+  double? lng;
+  var distanceNearby;
+  var distanceinside;
+int? locationslength;
+  int? meters ;
+  double? coef ;
+  double? new_lat ;
+  double? new_long ;
+  int counter = 0;
+
   void getCurrentLocation() async {
     try {
       bool enabled = await Location.instance.serviceEnabled();
-
       if (enabled) {
         var location = await _locationTracker.getLocation();
-
         _locationSubscription =
             _locationTracker.onLocationChanged.listen((newLocalData) {
           if (_googleMapController != null) {
@@ -118,6 +128,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       }
     }
   }
+
+
 
   @override
   void dispose() {
@@ -142,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     DiditOnces = true;
     _HomeBloc.add(GetAllBubbles());
     _HomeBloc.add(Getprofile());
+
   }
 
   @override
@@ -157,18 +170,54 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           child: BlocBuilder(
               bloc: _HomeBloc,
               builder: (BuildContext Context, HomeState state){
+
+                void LoopOnAllBUbbles() async {
+                  try {
+                     lat = state.Userlat;
+                     lng = state.Userlng;
+                     locationslength = state.locationn!.length;
+
+
+                  for(int i=0;i<state.locationn!.length;i++) {
+
+                meters = state.BubblesRaduis![i]-30;
+               double coef = meters! * 0.0000089;
+               new_lat = state.locationn![i].lat! + coef;
+               new_long = state.locationn![i].lng! + coef / cos(state.locationn![i].lat! * 0.018);
+                distanceNearby = geo.Geolocator.distanceBetween(lat!,lng!,new_lat!,new_long!);
+                distanceinside = geo.Geolocator.distanceBetween(lat!,lng!,state.locationn![i].lat!,state.locationn![i].lng!);
+
+                    if ((distanceNearby/1000)<=5 && !(distanceinside<=meters) && (counter==0||counter==1000)){
+                      print("there is a bubble ${distanceNearby/1000} KM ahead of me ");
+                    }
+
+                   if (distanceinside<=meters){
+                     print("your inside a ${state.GetBubbles!.data![i].title.toString()} Event");
+                   }
+
+
+                  }
+                  counter++;
+                  }catch (e){
+                    print(e);
+                  }
+                }
+
+
                 return WillPopScope(
                   onWillPop: () async => false,
                   child: Scaffold(
+                    resizeToAvoidBottomInset: true,
                     key: _scaffoldKey,
                     body: SafeArea(
                       child: Stack(children: [
                         GoogleMap(
                           onCameraMove: (CameraPosition cameraPosition) {
+                            LoopOnAllBUbbles();
                             CameraZoom = cameraPosition.zoom;
-                            print(CameraZoom);
                           },
                           onTap: (location) {
+                           // LoopOnAllBUbbles();
                             if (state.MakeHimBEableTOSEtBubble!) {
                               Lat = location.latitude;
                               Lng = location.longitude;
@@ -273,7 +322,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             : Text(""),
                         ShowCaseWidget(
                             builder: Builder(
-                          builder: (context) => SlidingUpPanel(
+                             builder: (context) => SlidingUpPanel(
                               controller: PanelControllerr,
                               color: ColorS.onPrimaryContainer,
                               maxHeight: h,
@@ -319,66 +368,61 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     SizedBox(
                                       height: h / 20,
                                     ),
-                                    Column(
-                                      children: const [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(""),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Prime Bubbles',
-                                              textAlign: TextAlign.left,
-                                              style: _TextTheme.headlineLarge!
-                                                  .copyWith(
-                                                fontSize: 17,
-                                                letterSpacing: 0,
-                                                fontWeight: FontWeight.w600,
-                                              ),
+                                    Container(
+                                      width: w/1.25,
+                                      height: h/15,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            'Prime Bubbles',
+                                            textAlign: TextAlign.left,
+                                            style: _TextTheme.headlineLarge!
+                                                .copyWith(
+                                              fontSize: 17,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600,
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                WidgetsBinding.instance!
-                                                    .addPostFrameCallback(
-                                                  (_) => ShowCaseWidget.of(
-                                                          context)!
-                                                      .startShowCase(
-                                                    [
-                                                      _key,
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              child: Container(
-                                                width: w / 20,
-                                                height: h / 50,
-                                                child: SvgPicture.asset(
-                                                    "Assets/images/Vector22.svg",
-                                                    width: 10,
-                                                    color: ColorS.onTertiary),
-                                              ),
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              _Primecontroller.animateTo(
+                                                _Primecontroller.position
+                                                    .minScrollExtent,
+                                                duration: Duration(
+                                                    microseconds: 2),
+                                                curve: Curves.easeIn,
+                                              );
+                                              WidgetsBinding.instance!
+                                                  .addPostFrameCallback(
+                                                    (_) => ShowCaseWidget.of(
+                                                    context)!
+                                                    .startShowCase(
+                                                  [
+                                                    _key,
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: w / 20,
+                                              height: h / 50,
+                                              child: SvgPicture.asset(
+                                                  "Assets/images/Vector22.svg",
+                                                  width: 10,
+                                                  color: ColorS.onTertiary),
                                             ),
-                                          ],
-                                        ),
-                                        const Text(""),
-                                        const Text(""),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 10,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     state.GetAllPrimeSuccess!
                                         ? Container(
                                             width: w,
                                             height: h / 7,
+                                            margin: EdgeInsets.only(left: h/40),
                                             child: ListView.separated(
+                                              cacheExtent : 500,
+                                              controller:_Primecontroller ,
                                               physics: BouncingScrollPhysics(),
                                               scrollDirection: Axis.horizontal,
                                               shrinkWrap: false,
@@ -417,18 +461,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                           ),
                                                                         ));
                                                           },
-                                                          child: CircleAvatar(
-                                                              backgroundColor:
-                                                                  Colors.pink,
-                                                              radius: h / 14,
-                                                              backgroundImage:NetworkImage(state
-                                                                  .GetPrimeBubbles!
-                                                                  .data![
-                                                              index]
-                                                                  .images![
-                                                              0]
-                                                                  .image
-                                                                  .toString())),
+                                                          child:ClipOval(
+                                                              child: SizedBox.fromSize(
+                                                                size: Size.fromRadius(48), // Image radius
+                                                                child :CachedNetworkImage(
+                                                            imageUrl:state
+                                                                .GetPrimeBubbles!
+                                                                .data![
+                                                            index]
+                                                                .images![
+                                                            0]
+                                                                .image
+                                                                .toString(),
+                                                            fit: BoxFit.cover,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          ),
+                                                          ))
+
                                                         ))
                                                     : InkWell(
                                                         onTap: () {
@@ -448,17 +499,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         ),
                                                                       ));
                                                         },
-                                                        child: CircleAvatar(
-                                                            radius: h / 14,
-                                                            backgroundImage:
-                                                                NetworkImage(
-                                                                    state
+                                                        child: ClipOval(
+                                                            child: SizedBox.fromSize(
+                                                              size: Size.fromRadius(48), // Image radius
+                                                              child :CachedNetworkImage(
+                                                                imageUrl:state
                                                                     .GetPrimeBubbles!
-                                                                    .data![index]
-                                                                    .images![0]
+                                                                    .data![
+                                                                index]
+                                                                    .images![
+                                                                0]
                                                                     .image
                                                                     .toString(),
-                                                                )),
+                                                                fit: BoxFit.cover,
+                                                                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                    CircularProgressIndicator(value: downloadProgress.progress),
+                                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                              ),
+                                                            )),
                                                       );
                                               },
                                               separatorBuilder:
@@ -495,6 +553,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   ),
                                                 ],
                                               ),
+
+
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -517,6 +577,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             controller: _SearchController,
                                             focusNode: FocuseNODE,
                                             cursorColor: Colors.grey,
+                                            onChanged: (keyword){
+                                              _HomeBloc.add(SearchBubblesLists((b) => b
+                                              ..Keyword = keyword
+                                              ));
+                                            },
                                             style: const TextStyle(
                                                 color: Colors.orange,
                                                 fontSize: 16.5),
@@ -569,111 +634,94 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             keyboardType: TextInputType.text,
                                           ),
                                         )),
-                                    const Text(""),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
+
                                     Expanded(
                                       child: Container(
                                         width: w,
                                         height: h / 2,
+                                        margin: EdgeInsets.only(top: h/60),
                                         child: SingleChildScrollView(
                                           physics: BouncingScrollPhysics(),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Text(
-                                                    'Popular Now',
-                                                    textAlign: TextAlign.center,
-                                                    style: _TextTheme
-                                                        .headlineLarge!
-                                                        .copyWith(
-                                                      fontSize: 17,
-                                                      letterSpacing: 0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  const Text(""),
-                                                  const Text(""),
-                                                ],
-                                              ),
                                               Container(
+                                                width: w/1.3,
+                                                child:            Text(
+                                                  'Popular Now',
+                                                  textAlign: TextAlign.left,
+                                                  style: _TextTheme
+                                                      .headlineLarge!
+                                                      .copyWith(
+                                                    fontSize: 17,
+                                                    letterSpacing: 0,
+                                                    fontWeight:
+                                                    FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+
+                                              state.GetNewBubblesSuccess!
+                                                  ? state.GetNewBubbles!.data! .length != 0
+                                                  ? Container(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10),
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
                                                   width: w,
                                                   height: h / 3.5,
-                                                  child:  ScrollConfiguration(
+                                                  child: ScrollConfiguration(
                                                       behavior: MyBehavior(),
-                                                      child:ListView.separated(
+                                                      child: ListView
+                                                          .separated(
+                                                        cacheExtent : 500,
                                                         physics: BouncingScrollPhysics(),
-                                                    scrollDirection:
+                                                        scrollDirection:
                                                         Axis.horizontal,
-                                                    itemCount: 5,
-                                                    itemBuilder:
-                                                        (BuildContext context,
+                                                        itemCount: state.FilteredBUBBLElists1!.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                        context,
                                                             int index) {
-                                                      return Row(
-                                                        children: [
-                                                          InkWell(
+
+
+                                                          return InkWell(
                                                             onTap: () {
                                                               WidgetsBinding
                                                                   .instance!
                                                                   .addPostFrameCallback((_) =>
-                                                                      Navigator
-                                                                          .push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              Plan_Screen(Event_id: 12),
-                                                                        ),
-                                                                      ));
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) => Plan_Screen(
+                                                                        Event_id: state.FilteredBUBBLElists1![index].id!,
+                                                                      ),
+                                                                    ),
+                                                                  ));
                                                             },
-                                                            child: Container(
-                                                                width: w / 1.5,
-                                                                height: h / 4,
-                                                                decoration:
-                                                                    const BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .only(
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                    bottomLeft:
-                                                                        Radius.circular(
-                                                                            20),
-                                                                    bottomRight:
-                                                                        Radius.circular(
-                                                                            20),
-                                                                  ),
-                                                                  color:
-                                                                      CardColors,
-                                                                ),
-                                                                child: Column(
-                                                                    children: <
-                                                                        Widget>[
+                                                            child: Row(
+                                                              children: [
+                                                                Container(
+                                                                    width: w /
+                                                                        1.5,
+                                                                    height:
+                                                                    h / 4,
+                                                                    decoration:  BoxDecoration(
+                                                                        borderRadius: BorderRadius.only(
+                                                                          topLeft: Radius.circular(20),
+                                                                          topRight: Radius.circular(20),
+                                                                          bottomLeft: Radius.circular(20),
+                                                                          bottomRight: Radius.circular(20),
+                                                                        ),
+                                                                        color: CardColors),
+                                                                    child: Column(children: <Widget>[
                                                                       Container(
-                                                                          width: w /
-                                                                              1.5,
-                                                                          height: h /
-                                                                              8,
-                                                                          decoration:
-                                                                              const BoxDecoration(
-                                                                            color:
-                                                                                Colors.green,
-                                                                            borderRadius:
-                                                                                BorderRadius.only(
+                                                                          width: w / 1.5,
+                                                                          height: h / 8,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
                                                                               topLeft: Radius.circular(20),
                                                                               topRight: Radius.circular(20),
                                                                               bottomLeft: Radius.circular(0),
@@ -682,311 +730,402 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                             boxShadow: [
                                                                               BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
                                                                             ],
-                                                                            // image : DecorationImage(
-                                                                            //     image: AssetImage('Assets/images/Be_Bubbly 1.png'),
-                                                                            //     fit: BoxFit.fitWidth
-                                                                            // ),
-                                                                          )),
+                                                                          ),
+                                                                        child: ClipRRect(
+                                                                          borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                          child:CachedNetworkImage(
+                                                                          fit: BoxFit.fitWidth,
+                                                                        imageUrl:
+                                                                        //"",
+                                                                       state.FilteredBUBBLElists1![index].image.toString(),
+                                                                        placeholder: (context, url) => Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                          ],
+                                                                        ),
+                                                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                      ),
+                                                                        )),
                                                                       const SizedBox(
                                                                         height:
-                                                                            10,
+                                                                        10,
                                                                       ),
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
-                                                                        children: const [
-                                                                          Text(
-                                                                            'Colours Day Festival',
-                                                                            textAlign:
-                                                                                TextAlign.left,
-                                                                            style: TextStyle(
-                                                                                color: Color.fromRGBO(20, 208, 120, 1),
-                                                                                fontFamily: 'Gill Sans Nova',
-                                                                                fontSize: 14.435483932495117,
-                                                                                letterSpacing: .6,
-                                                                                fontWeight: FontWeight.normal,
-                                                                                height: 1),
+                                                                      Container(
+                                                                        width: w/2,
+                                                                        child:      Text(
+                                                                          state.FilteredBUBBLElists1![index].Title.toString(),
+                                                                          textAlign: TextAlign.left,
+                                                                          style: _TextTheme.headlineLarge!.copyWith(
+                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                            fontSize: 19,
+                                                                            letterSpacing: 0,
+                                                                            fontWeight: FontWeight.w600,
                                                                           ),
-                                                                          Text(
-                                                                              ""),
-                                                                          Text(
-                                                                              ""),
-                                                                        ],
+                                                                        ),
                                                                       ),
                                                                       const Spacer(),
                                                                       Row(
                                                                         mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceAround,
+                                                                        MainAxisAlignment.spaceAround,
                                                                         children: [
                                                                           Column(
                                                                             children: [
-                                                                              Row(
-                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                children: const [
-                                                                                  Text(
-                                                                                    'At O.A.K.A Athens',
-                                                                                    textAlign: TextAlign.left,
-                                                                                    style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1), fontFamily: 'Gill Sans Nova', fontSize: 11.548386573791504, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.normal, height: 1),
+                                                                              Container(
+                                                                                width: w/2.5,
+
+                                                                                child:    Text(
+                                                                                  'At ${state.FilteredBUBBLElists1![index].location.toString()}',
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: _TextTheme.headlineLarge!.copyWith(
+                                                                                    fontSize: 17,
+                                                                                    letterSpacing: 0,
+                                                                                    fontWeight: FontWeight.w600,
                                                                                   ),
-                                                                                  Text(""),
-                                                                                  Text(""),
-                                                                                  Text(""),
-                                                                                ],
+                                                                                ),
                                                                               ),
-                                                                              Row(
-                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                children: const [
-                                                                                  Text(
-                                                                                    '10:00am - 04:00am',
-                                                                                    textAlign: TextAlign.left,
-                                                                                    style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1), fontFamily: 'Sofia Pro', fontSize: 8.661290168762207, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.normal, height: 1),
+                                                                              SizedBox(height: 5,),
+                                                                              Container(
+                                                                                width: w/2.5,
+
+                                                                                child:    Text(
+                                                                                  '${state.FilteredBUBBLElists1![index].StartDate.toString()} - ${state.FilteredBUBBLElists1![index].endDate.toString()} ',
+                                                                                  textAlign: TextAlign.left,
+                                                                                  style: _TextTheme.headline1!.copyWith(
+                                                                                    fontSize: 12,
+                                                                                    letterSpacing: 0,
+                                                                                    fontWeight: FontWeight.w300,
                                                                                   ),
-                                                                                  Text(""),
-                                                                                  Text(""),
-                                                                                  Text(""),
-                                                                                ],
+                                                                                ),
                                                                               ),
                                                                             ],
                                                                           ),
-                                                                          const Text(
-                                                                              ""),
-                                                                          SvgPicture
-                                                                              .asset(
+                                                                          const Text(""),
+                                                                          SvgPicture.asset(
                                                                             "Assets/images/Exclude.svg",
-                                                                            color:
-                                                                                Colors.orange,
+                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
                                                                           ),
                                                                         ],
                                                                       ),
                                                                       const SizedBox(
                                                                         height:
-                                                                            10,
+                                                                        10,
                                                                       ),
                                                                     ])),
-                                                          ),
-                                                        ],
-                                                      );
-                                                    },
-                                                    separatorBuilder:
-                                                        (BuildContext context,
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder:
+                                                            (BuildContext
+                                                        context,
                                                             int index) {
-                                                      return const Text(
-                                                          "      ");
-                                                    },
-                                                  )
-                                                  )
-
-
-
-                                                  ),
-                                              Row(
-                                                mainAxisAlignment:
+                                                          return const Text(
+                                                              "      ");
+                                                        },
+                                                      )))
+                                                  : Container(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
+                                                  width: w,
+                                                  height: h / 3.5,
+                                                  child: Center(
+                                                      child: Text(
+                                                          "No events was made today why not you make one?!")))
+                                                  : state.GetNewBubblesIsloading ==true
+                                                  ? Container(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
+                                                  width: w,
+                                                  height: h / 3.5,
+                                                  child: Row(
+                                                    mainAxisAlignment:
                                                     MainAxisAlignment
-                                                        .spaceAround,
+                                                        .center,
+                                                    children: [
+                                                      Center(
+                                                          child: listLoader(
+                                                              context:
+                                                              context)),
+                                                    ],
+                                                  ))
+                                                  : Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
                                                 children: [
-                                                  Text(
-                                                    'Nearby ',
-                                                    textAlign: TextAlign.center,
-                                                    style: _TextTheme
-                                                        .headlineLarge!
-                                                        .copyWith(
-                                                      fontSize: 17,
-                                                      letterSpacing: 0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                                  Center(
+                                                    child: Container(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          left: 10),
+                                                      width: w,
+                                                      height: h / 3.5,
+                                                      child:
+                                                      Center(
+                                                        child: const Text(
+                                                            "Error"),
+                                                      ),
                                                     ),
                                                   ),
-                                                  const Text(""),
-                                                  const Text(""),
                                                 ],
                                               ),
                                               Container(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 10),
-                                                  width: w,
-                                                  height: h / 3.5,
-                                                  child:  ScrollConfiguration(
-                                                      behavior: MyBehavior(),
-                                                      child:ListView.separated(
-                                                        physics: BouncingScrollPhysics(),
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    itemCount: 5,
-                                                    itemBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      return Row(
-                                                        children: [
-                                                          Container(
-                                                              width: w / 1.5,
-                                                              height: h / 4,
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius
-                                                                              .only(
-                                                                        topLeft:
-                                                                            Radius.circular(20),
-                                                                        topRight:
-                                                                            Radius.circular(20),
-                                                                        bottomLeft:
-                                                                            Radius.circular(20),
-                                                                        bottomRight:
-                                                                            Radius.circular(20),
-                                                                      ),
-                                                                      color:
-                                                                          CardColors),
-                                                              child: Column(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Container(
-                                                                        width: w /
-                                                                            1.5,
-                                                                        height:
-                                                                            h /
-                                                                                8,
-                                                                        decoration:
-                                                                            const BoxDecoration(
-                                                                          color:
-                                                                              Colors.green,
-                                                                          borderRadius:
-                                                                              BorderRadius.only(
-                                                                            topLeft:
-                                                                                Radius.circular(20),
-                                                                            topRight:
-                                                                                Radius.circular(20),
-                                                                            bottomLeft:
-                                                                                Radius.circular(0),
-                                                                            bottomRight:
-                                                                                Radius.circular(0),
-                                                                          ),
-                                                                          boxShadow: [
-                                                                            BoxShadow(
-                                                                                color: Color.fromRGBO(0, 0, 0, 0.20000000298023224),
-                                                                                offset: Offset(0, 1),
-                                                                                blurRadius: 11)
-                                                                          ],
-                                                                          // image : DecorationImage(
-                                                                          //     image: AssetImage('Assets/images/Be_Bubbly 1.png'),
-                                                                          //     fit: BoxFit.fitWidth
-                                                                          // ),
-                                                                        )),
-                                                                    const SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceAround,
-                                                                      children: const [
-                                                                        Text(
-                                                                          'Colours Day Festival',
-                                                                          textAlign:
-                                                                              TextAlign.left,
-                                                                          style: TextStyle(
-                                                                              color: Color.fromRGBO(20, 208, 120, 1),
-                                                                              fontFamily: 'Gill Sans Nova',
-                                                                              fontSize: 14.435483932495117,
-                                                                              letterSpacing: .6,
-                                                                              fontWeight: FontWeight.normal,
-                                                                              height: 1),
-                                                                        ),
-                                                                        Text(
-                                                                            ""),
-                                                                        Text(
-                                                                            ""),
-                                                                      ],
-                                                                    ),
-                                                                    const Spacer(),
-                                                                    Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceAround,
-                                                                      children: [
-                                                                        Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                              children: const [
-                                                                                Text(
-                                                                                  'At O.A.K.A Athens',
-                                                                                  textAlign: TextAlign.left,
-                                                                                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1), fontFamily: 'Gill Sans Nova', fontSize: 11.548386573791504, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.normal, height: 1),
-                                                                                ),
-                                                                                Text(""),
-                                                                                Text(""),
-                                                                                Text(""),
-                                                                              ],
-                                                                            ),
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                              children: const [
-                                                                                Text(
-                                                                                  '10:00am - 04:00am',
-                                                                                  textAlign: TextAlign.left,
-                                                                                  style: TextStyle(color: Color.fromRGBO(255, 255, 255, 1), fontFamily: 'Sofia Pro', fontSize: 8.661290168762207, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.normal, height: 1),
-                                                                                ),
-                                                                                Text(""),
-                                                                                Text(""),
-                                                                                Text(""),
-                                                                              ],
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                        const Text(
-                                                                            ""),
-                                                                        SvgPicture
-                                                                            .asset(
-                                                                          "Assets/images/Exclude.svg",
-                                                                          color:
-                                                                              Colors.orange,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      height:
-                                                                          10,
-                                                                    ),
-                                                                  ])),
-                                                        ],
-                                                      );
-                                                    },
-                                                    separatorBuilder:
-                                                        (BuildContext context,
-                                                            int index) {
-                                                      return const Text(
-                                                          "      ");
-                                                    },
-                                                  )),),
-
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  Text(
-                                                    'New Bubbles ',
-                                                    textAlign: TextAlign.center,
-                                                    style: _TextTheme
-                                                        .headlineLarge!
-                                                        .copyWith(
-                                                      fontSize: 17,
-                                                      letterSpacing: 0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  const Text(""),
-                                                  const Text(""),
-                                                ],
-                                              ),
+                                          width: w/1.3,
+                                          child: Text(
+                                            'Nearby',
+                                            textAlign: TextAlign.left,
+                                            style: _TextTheme
+                                                .headlineLarge!
+                                                .copyWith(
+                                              fontSize: 17,
+                                              letterSpacing: 0,
+                                              fontWeight:
+                                              FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
 
                                               state.GetNewBubblesSuccess!
-                                                  ? state.GetNewBubbles!.data!
-                                                              .length !=
-                                                          0
+                                                  ? state.GetNewBubbles!.data! .length != 0
+                                                  ? Container(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
+                                                  width: w,
+                                                  height: h / 3.5,
+                                                  child: ScrollConfiguration(
+                                                      behavior: MyBehavior(),
+                                                      child: ListView
+                                                          .separated(
+                                                        cacheExtent : 500,
+                                                        physics: BouncingScrollPhysics(),
+                                                        scrollDirection:
+                                                        Axis.horizontal,
+                                                        itemCount: state.FilteredBUBBLElists1!.length,
+                                                        itemBuilder:
+                                                            (BuildContext
+                                                        context,
+                                                            int index) {
+
+
+                                                          return InkWell(
+                                                            onTap: () {
+                                                              WidgetsBinding
+                                                                  .instance!
+                                                                  .addPostFrameCallback((_) =>
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) => Plan_Screen(
+                                                                        Event_id: state.FilteredBUBBLElists1![index].id!,
+                                                                      ),
+                                                                    ),
+                                                                  ));
+                                                            },
+                                                            child: Row(
+                                                              children: [
+                                                                Container(
+                                                                    width: w /
+                                                                        1.5,
+                                                                    height:
+                                                                    h / 4,
+                                                                    decoration: const BoxDecoration(
+                                                                        borderRadius: BorderRadius.only(
+                                                                          topLeft: Radius.circular(20),
+                                                                          topRight: Radius.circular(20),
+                                                                          bottomLeft: Radius.circular(20),
+                                                                          bottomRight: Radius.circular(20),
+                                                                        ),
+                                                                        color: CardColors),
+                                                                    child: Column(children: <Widget>[
+                                                                      Container(
+                                                                          width: w / 1.5,
+                                                                          height: h / 8,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20),
+                                                                              topRight: Radius.circular(20),
+                                                                              bottomLeft: Radius.circular(0),
+                                                                              bottomRight: Radius.circular(0),
+                                                                            ),
+                                                                            boxShadow: [
+                                                                              BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                            ],
+
+                                                                          ),child:ClipRRect(
+                                                                          borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                          child: CachedNetworkImage(
+                                                                        fit: BoxFit.fitWidth,
+                                                                        imageUrl:
+                                                                        //"",
+                                                                        state.FilteredBUBBLElists1![index].image.toString(),
+                                                                        placeholder: (context, url) => Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                          ],
+                                                                        ),
+                                                                        errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                      ),
+                                                                      )
+
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height:
+                                                                        10,
+                                                                      ),
+                                                                      Container(
+                                                                        width: w/2,
+                                                                        child:      Text(
+                                                                          state.FilteredBUBBLElists1![index].Title.toString(),
+                                                                          textAlign: TextAlign.left,
+                                                                          style: _TextTheme.headlineLarge!.copyWith(
+                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                            fontSize: 19,
+                                                                            letterSpacing: 0,
+                                                                            fontWeight: FontWeight.w600,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      const Spacer(),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                        MainAxisAlignment.spaceAround,
+                                                                        children: [
+                                                                          Column(
+                                                                            children: [
+                                                                              Container(
+                                                                                width: w/2.5,
+
+                                                                                child:    Text(
+                                                                                  'At ${state.FilteredBUBBLElists1![index].location.toString()}',
+                                                                                  textAlign: TextAlign.center,
+                                                                                  style: _TextTheme.headlineLarge!.copyWith(
+                                                                                    fontSize: 17,
+                                                                                    letterSpacing: 0,
+                                                                                    fontWeight: FontWeight.w600,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(height: 5,),
+                                                                              Container(
+                                                                                width: w/2.5,
+
+                                                                                child:    Text(
+                                                                                  '${state.FilteredBUBBLElists1![index].StartDate.toString()} - ${state.FilteredBUBBLElists1![index].endDate.toString()} ',
+                                                                                  textAlign: TextAlign.left,
+                                                                                  style: _TextTheme.headline1!.copyWith(
+                                                                                    fontSize: 12,
+                                                                                    letterSpacing: 0,
+                                                                                    fontWeight: FontWeight.w300,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          const Text(""),
+                                                                          SvgPicture.asset(
+                                                                            "Assets/images/Exclude.svg",
+                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height:
+                                                                        10,
+                                                                      ),
+                                                                    ])),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder:
+                                                            (BuildContext
+                                                        context,
+                                                            int index) {
+                                                          return const Text(
+                                                              "      ");
+                                                        },
+                                                      )))
+                                                  : Container(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
+                                                  width: w,
+                                                  height: h / 3.5,
+                                                  child: Center(
+                                                      child: Text(
+                                                          "No events was made today why not you make one?!")))
+                                                  : state.GetNewBubblesIsloading ==true
+                                                  ? Container(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 10),
+                                                  width: w,
+                                                  height: h / 3.5,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .center,
+                                                    children: [
+                                                      Center(
+                                                          child: listLoader(
+                                                              context:
+                                                              context)),
+                                                    ],
+                                                  ))
+                                                  : Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  Center(
+                                                    child: Container(
+                                                      padding:
+                                                      const EdgeInsets
+                                                          .only(
+                                                          left: 10),
+                                                      width: w,
+                                                      height: h / 3.5,
+                                                      child:
+                                                      Center(
+                                                        child: const Text(
+                                                            "Error"),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                            width: w/1.3,
+                                            child:
+                                            Text(
+                                                'New Bubbles',
+                                                textAlign: TextAlign.left,
+                                                style: _TextTheme
+                                                    .headlineLarge!
+                                                    .copyWith(
+                                                  fontSize: 17,
+                                                  letterSpacing: 0,
+                                                  fontWeight:
+                                                  FontWeight.w600,
+                                                ),
+                                              ),
+                                          ),
+
+
+                                              state.GetNewBubblesSuccess!
+                                                  ? state.GetNewBubbles!.data! .length != 0
                                                       ? Container(
                                                           padding:
                                                               const EdgeInsets
@@ -998,40 +1137,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               behavior: MyBehavior(),
                                                               child: ListView
                                                               .separated(
+                                                                cacheExtent : 500,
                                                                 physics: BouncingScrollPhysics(),
                                                             scrollDirection:
                                                                 Axis.horizontal,
-                                                            itemCount: state
-                                                                .GetNewBubbles!
-                                                                .data!
-                                                                .length,
+                                                            itemCount: state.FilteredBUBBLElists1!.length,
                                                             itemBuilder:
                                                                 (BuildContext
                                                                         context,
                                                                     int index) {
-                                                              String Value = "";
-                                                              print(state
-                                                                  .GetNewBubbles!
-                                                                  .data![index]
-                                                                  .color!);
-                                                              Value = state
-                                                                  .GetNewBubbles!
-                                                                  .data![index]
-                                                                  .color!;
-                                                              if (Value
-                                                                  .contains(
-                                                                      "#", 0)) {
-                                                                Value = Value
-                                                                    .substring(
-                                                                        1);
-                                                                Value =
-                                                                    "0xff$Value";
-                                                              }
-                                                              var myInt =
-                                                                  int.parse(
-                                                                      Value);
-                                                              var BackgroundColor =
-                                                                  myInt;
+
 
                                                               return InkWell(
                                                                 onTap: () {
@@ -1043,7 +1158,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                             context,
                                                                             MaterialPageRoute(
                                                                               builder: (context) => Plan_Screen(
-                                                                                Event_id: state.GetNewBubbles!.data![index].id!,
+                                                                                Event_id: state.FilteredBUBBLElists1![index].id!,
                                                                               ),
                                                                             ),
                                                                           ));
@@ -1068,7 +1183,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               width: w / 1.5,
                                                                               height: h / 8,
                                                                               decoration: BoxDecoration(
-                                                                                color: Colors.green,
                                                                                 borderRadius: BorderRadius.only(
                                                                                   topLeft: Radius.circular(20),
                                                                                   topRight: Radius.circular(20),
@@ -1078,30 +1192,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 boxShadow: [
                                                                                   BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
                                                                                 ],
-                                                                                image: DecorationImage(image: NetworkImage(state.GetNewBubbles!.data![index].images![0].image.toString()), fit: BoxFit.fitWidth),
-                                                                              )),
+
+                                                                              ),child: ClipRRect(
+                                                                              borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                              child:
+
+                                                                          CachedNetworkImage(
+                                                                            fit: BoxFit.fitWidth,
+                                                                            imageUrl:
+                                                                            //"",
+                                                                            state.FilteredBUBBLElists1![index].image.toString(),
+                                                                            placeholder: (context, url) => Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                              ],
+                                                                            ),
+                                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                          ),),
+                                                                          ),
                                                                           const SizedBox(
                                                                             height:
                                                                                 10,
                                                                           ),
-                                                                          Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceAround,
-                                                                            children: [
-                                                                              Text(
-                                                                                state.GetNewBubbles!.data![index].title.toString(),
-                                                                                textAlign: TextAlign.left,
-                                                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                                                  color: Color(BackgroundColor),
-                                                                                  fontSize: 19,
-                                                                                  letterSpacing: 0,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                ),
-                                                                              ),
-                                                                              Text(""),
-                                                                              Text(""),
-                                                                            ],
-                                                                          ),
+                                                                    Container(
+                                                                      width: w/2,
+                                                                      child:      Text(
+                                                                        state.FilteredBUBBLElists1![index].Title.toString(),
+                                                                        textAlign: TextAlign.left,
+                                                                        style: _TextTheme.headlineLarge!.copyWith(
+                                                                          color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                          fontSize: 19,
+                                                                          letterSpacing: 0,
+                                                                          fontWeight: FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                    ),
                                                                           const Spacer(),
                                                                           Row(
                                                                             mainAxisAlignment:
@@ -1109,46 +1235,39 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                             children: [
                                                                               Column(
                                                                                 children: [
-                                                                                  Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        'At ${state.GetNewBubbles!.data![index].location.toString()}',
-                                                                                        textAlign: TextAlign.left,
-                                                                                        style: _TextTheme.headlineLarge!.copyWith(
-                                                                                          fontSize: 17,
-                                                                                          letterSpacing: 0,
-                                                                                          fontWeight: FontWeight.w600,
-                                                                                        ),
-                                                                                      ),
-                                                                                      Text(""),
-                                                                                      Text(""),
-                                                                                      Text(""),
-                                                                                    ],
-                                                                                  ),
-                                                                                  Row(
-                                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                                    children: [
-                                                                                      Text(
-                                                                                        '${state.GetNewBubbles!.data![index].start_event_date} - ${state.GetNewBubbles!.data![index].end_event_date} ',
-                                                                                        textAlign: TextAlign.left,
-                                                                                        style: _TextTheme.headline1!.copyWith(
-                                                                                          fontSize: 12,
-                                                                                          letterSpacing: 0,
-                                                                                          fontWeight: FontWeight.w300,
-                                                                                        ),
-                                                                                      ),
-                                                                                      Text(""),
-                                                                                      Text(""),
-                                                                                      Text(""),
-                                                                                    ],
-                                                                                  ),
+                                                                             Container(
+                                                                               width: w/2.5,
+
+                                                                               child:    Text(
+                                                                                 'At ${state.FilteredBUBBLElists1![index].location.toString()}',
+                                                                                 textAlign: TextAlign.center,
+                                                                                 style: _TextTheme.headlineLarge!.copyWith(
+                                                                                   fontSize: 17,
+                                                                                   letterSpacing: 0,
+                                                                                   fontWeight: FontWeight.w600,
+                                                                                 ),
+                                                                               ),
+                                                                             ),
+                                                                             SizedBox(height: 5,),
+                                                                             Container(
+                                                                               width: w/2.5,
+
+                                                                               child:    Text(
+                                                                                 '${state.FilteredBUBBLElists1![index].StartDate.toString()} - ${state.FilteredBUBBLElists1![index].endDate.toString()} ',
+                                                                                 textAlign: TextAlign.left,
+                                                                                 style: _TextTheme.headline1!.copyWith(
+                                                                                   fontSize: 12,
+                                                                                   letterSpacing: 0,
+                                                                                   fontWeight: FontWeight.w300,
+                                                                                 ),
+                                                                               ),
+                                                                             ),
                                                                                 ],
                                                                               ),
                                                                               const Text(""),
                                                                               SvgPicture.asset(
                                                                                 "Assets/images/Exclude.svg",
-                                                                                color: Color(BackgroundColor),
+                                                                                color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
                                                                               ),
                                                                             ],
                                                                           ),
@@ -1179,48 +1298,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           child: Center(
                                                               child: Text(
                                                                   "No events was made today why not you make one?!")))
-                                                  : state.GetNewBubblesIsloading ==
-                                                          true
-                                                      ? Container(
-                                                  padding:
-                                                  const EdgeInsets
-                                                      .only(
-                                                      left: 10),
-                                                  width: w,
-                                                  height: h / 3.5,
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Center(
-                                                                  child: listLoader(
-                                                                      context:
-                                                                          context)),
-                                                            ],
-                                                          ))
-                                                      : Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Center(
-                                                              child: Container(
-                                                                padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 10),
-                                                                width: w,
-                                                                height: h / 3.5,
-                                                                child:
+                                                        : state.GetNewBubblesIsloading ==true
+                                                            ? Container(
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .only(
+                                                            left: 10),
+                                                        width: w,
+                                                        height: h / 3.5,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
                                                                     Center(
-                                                                      child: const Text(
-                                                                          "Error"),
+                                                                        child: listLoader(
+                                                                            context:
+                                                                                context)),
+                                                                  ],
+                                                                ))
+                                                            : Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Center(
+                                                                    child: Container(
+                                                                      padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left: 10),
+                                                                      width: w,
+                                                                      height: h / 3.5,
+                                                                      child:
+                                                                          Center(
+                                                                            child: const Text(
+                                                                                "Error"),
+                                                                          ),
                                                                     ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                          ],
-                                                        ),
                                             ],
                                           ),
                                         ),
@@ -1458,6 +1576,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 }),
                               )
                             : const Text(""),
+
+
                         state.GetAllBubblesIsloading!
                             ? Container(
                                 width: w,
@@ -1943,3 +2063,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 //                                         const SizedBox(
 //                                           height: 10,
 //                                         ),
+
+class Locationss{
+  double? lat;
+  double? lng;
+}
+
+class BubbleData{
+String? image;
+String? Title;
+String? location;
+String? StartDate;
+String? endDate;
+int? Color;
+int? id;
+}

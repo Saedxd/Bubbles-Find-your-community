@@ -29,7 +29,6 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
     _PlanPage_Bloc.add(GetDetailedPlan((b) => b
     ..Event_id=widget.Event_id
     ));
-
     _PlanPage_Bloc.add(GetProfile());
 }
 
@@ -43,7 +42,9 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
     return  BlocBuilder(
         bloc: _PlanPage_Bloc,
         builder: (BuildContext Context, PlanPageState state)
-    {return
+    {
+      return
+
       Scaffold(
         body: SafeArea(
           child: Column(
@@ -53,13 +54,35 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                 children: [
                   Stack(
                       children: [
-                        Container(
+                        state.success!
+                     ?   Container(
                           width: w,
                           height: h / 2,
                           margin: EdgeInsets.only(top: h / 50),
-                          child: Image.asset("Assets/images/Rectangle 136.png",
+                          child: Image.network(state.GetDetailedPlann!.data!.images![0].image.toString(),
                             fit: BoxFit.fill,),
-                        ),
+                        )
+                      : state.isLoading!
+                      ? Expanded(
+                      child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                          Center(
+                          child: listLoader(
+                          context:
+                          context)),
+                    ],
+                    ),
+                    )
+                        :Text(state.error!,
+                    textAlign: TextAlign.left, style: TextStyle(
+                    color: Color.fromRGBO(255, 255, 255, 1),
+                    fontFamily: 'Red Hat Display',
+                    fontSize: 22,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    height: 1
+                    ),),
                         Container(
                           width: w,
                           height: h / 14.6,
@@ -104,17 +127,17 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                  ),),
                              )
                                   : state.isLoading!
-                                    ? Expanded(
-                                      child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Center(
-                                  child: listLoader(
+                                  ? Expanded(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                        child: listLoader(
                                             context:
                                             context)),
-                                        ],
-                                      ),
-                                    )
+                                  ],
+                                ),
+                              )
                                   :Text(state.error!,
                                 textAlign: TextAlign.left, style: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 1),
@@ -146,6 +169,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         ),
                       ]
                   ),
+
                 ],
               ),
 
@@ -210,7 +234,6 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                   ),
                 ],
               )
-
                   : state.isLoading!
                   ? Center(
                   child: listLoader(

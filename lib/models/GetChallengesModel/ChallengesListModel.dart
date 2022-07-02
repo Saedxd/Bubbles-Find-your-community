@@ -22,10 +22,11 @@ abstract class ChallengesListModel
     implements Built<ChallengesListModel,ChallengesListModelBuilder> {
 
   String? get title;
+  String? get content;
+  String? get image;
   int? get id;
   int? get point;
   int? get max_number;
-
 
 
 

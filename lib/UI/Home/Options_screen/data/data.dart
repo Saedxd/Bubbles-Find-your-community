@@ -7,3 +7,11 @@ class Data{
   String? End_Date;
   List<int>? OrganizersId;
 }
+
+class FriendlistData{
+  String? alias;
+  String? Avatar;
+  int? backgroundColor;
+  int? id;
+  int? MY_id;
+}

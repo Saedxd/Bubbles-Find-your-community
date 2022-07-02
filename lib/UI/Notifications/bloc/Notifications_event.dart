@@ -31,3 +31,9 @@ abstract class ClearError extends NotificationEvent
 
 }
 
+abstract class ClearBadge extends NotificationEvent
+    implements Built<ClearBadge,ClearBadgeBuilder> {
+
+  ClearBadge._();
+  factory ClearBadge([updates(ClearBadgeBuilder b)]) = _$ClearBadge;
+}

@@ -43,8 +43,6 @@ class GroupChat extends StatefulWidget {
 }
 
 class _GroupChatState extends State<GroupChat> {
-
-
   final TextEditingController _FlowTitleController = TextEditingController();
   final TextEditingController _FlowDescriptionController = TextEditingController();
   final TextEditingController _SendMessageController = TextEditingController();
@@ -432,8 +430,28 @@ class _GroupChatState extends State<GroupChat> {
         _GroupChatBloc.add(KetbaordStatus((b) => b..status = false));
       }
     });
+    //download();
+
   }
 
+void download()async{
+  var dir = await getApplicationDocumentsDirectory();
+ // print("path ${dir.path}");
+  var path = "/data/user/0/com.arc.bubbles/app_flutter/1656663663219.aac";
+  final uri = Uri.parse(path);
+  File file = File(uri.path);
+  Uint8List fileContent = await File(uri.path  )
+      .readAsBytes();
+
+  // print(file);
+  // print(uri);
+  //await dio.download("1656663663219.aac", "${dir.path}/data/user/0/com.arc.bubbles/app_flutter/1656663663219.aac");
+ // records.add("/data/user/0/com.arc.bubbles/app_flutter/1656663663219.aac");
+ //  print(records);
+  setState(() {
+
+  });
+}
   @override
   void dispose() {
     super.dispose();
@@ -476,7 +494,6 @@ class _GroupChatState extends State<GroupChat> {
             MyAvatar = state.GetAliasMinee!.friend!.avatar.toString();
             String Value2 =
             state.GetAliasMinee!.friend!.background_color.toString();
-
             int myInt2 = int.parse(Value2);
             MYbackGroundColor = myInt2;
             //
@@ -517,7 +534,7 @@ class _GroupChatState extends State<GroupChat> {
                                     controller: _controller,
                                     shrinkWrap: true,
                                     reverse: true,
-                                    physics: BouncingScrollPhysics(),
+                                    physics: const BouncingScrollPhysics(),
                                     scrollDirection: Axis.vertical,
                                     itemCount: state.messages!.length,
                                     itemBuilder: (BuildContext context,
@@ -665,7 +682,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                     .copyWith(
                                                                   fontWeight: FontWeight
                                                                       .w300,
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xffEAEAEA),
                                                                   fontSize: 1.5 *
                                                                       SizeConfig
@@ -674,7 +691,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                 ))
                                                           ],
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height:
                                                           7,
                                                         ),
@@ -693,7 +710,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                   .copyWith(
                                                                 fontWeight: FontWeight
                                                                     .w300,
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xffEAEAEA),
                                                                 fontSize: 2.5 *
                                                                     SizeConfig
@@ -724,7 +741,7 @@ class _GroupChatState extends State<GroupChat> {
                                                             child:
                                                             Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                                                               Container(
-                                                                color: Color(0xffEAEAEA),
+                                                                color: const Color(0xffEAEAEA),
                                                                 width: w / 500,
                                                                 height: h / 70,
                                                               ),
@@ -746,7 +763,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                     Row(
                                                                       children: [
                                                                         Container(
-                                                                          color: Color(0xffEAEAEA),
+                                                                          color: const Color(0xffEAEAEA),
                                                                           height: h / 1000,
                                                                           width: w / 20,
                                                                         ),
@@ -755,7 +772,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                           backgroundImage: NetworkImage(state.messages![index].RepliedTOAvatar.toString()),
                                                                           backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                           width: 3,
                                                                         ),
                                                                         Text(
@@ -763,9 +780,9 @@ class _GroupChatState extends State<GroupChat> {
                                                                           // state.AliasForRepliedTo.toString()
                                                                           ,
                                                                           textAlign: TextAlign.left,
-                                                                          style: TextStyle(color: Color.fromRGBO(147, 147, 147, 1), fontFamily: 'Red Hat Text', fontSize: 1.7 * SizeConfig.blockSizeVertical!.toDouble(), letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w500, height: 1),
+                                                                          style: TextStyle(color: const Color.fromRGBO(147, 147, 147, 1), fontFamily: 'Red Hat Text', fontSize: 1.7 * SizeConfig.blockSizeVertical!.toDouble(), letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w500, height: 1),
                                                                         ),
-                                                                        SizedBox(
+                                                                        const SizedBox(
                                                                           width: 5,
                                                                         ),
                                                                         Container(
@@ -777,7 +794,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                             ,
                                                                             textAlign: TextAlign.left,
                                                                             overflow: TextOverflow.ellipsis,
-                                                                            style: TextStyle(color: Color.fromRGBO(196, 196, 196, 1), fontFamily: 'Red Hat Text', fontSize: 10.539999961853027, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w300, height: 1),
+                                                                            style: const TextStyle(color: Color.fromRGBO(196, 196, 196, 1), fontFamily: 'Red Hat Text', fontSize: 10.539999961853027, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w300, height: 1),
                                                                           ),
                                                                         ),
                                                                       ],
@@ -833,12 +850,12 @@ class _GroupChatState extends State<GroupChat> {
                                                                     textAlign: TextAlign.right,
                                                                     style: _TextTheme.headline2!.copyWith(
                                                                       fontWeight: FontWeight.w300,
-                                                                      color: Color(0xffEAEAEA),
+                                                                      color: const Color(0xffEAEAEA),
                                                                       fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
                                                                     ))
                                                               ],
                                                             ),
-                                                            SizedBox(
+                                                            const SizedBox(
                                                               height: 7,
                                                             ),
                                                             Container(
@@ -847,7 +864,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                   textAlign: TextAlign.left,
                                                                   style: _TextTheme.headline2!.copyWith(
                                                                     fontWeight: FontWeight.w300,
-                                                                    color: Color(0xffEAEAEA),
+                                                                    color: const Color(0xffEAEAEA),
                                                                     fontSize: 2.5 * SizeConfig.blockSizeVertical!.toDouble(),
                                                                   )),
                                                             )
@@ -929,7 +946,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                     .copyWith(
                                                                   fontWeight: FontWeight
                                                                       .w300,
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xffEAEAEA),
                                                                   fontSize: 1.5 *
                                                                       SizeConfig
@@ -938,7 +955,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                 ))
                                                           ],
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height:
                                                           7,
                                                         ),
@@ -1029,7 +1046,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                     .copyWith(
                                                                   fontWeight: FontWeight
                                                                       .w300,
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xffEAEAEA),
                                                                   fontSize: 1.5 *
                                                                       SizeConfig
@@ -1038,7 +1055,7 @@ class _GroupChatState extends State<GroupChat> {
                                                                 ))
                                                           ],
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height:
                                                           7,
                                                         ),
@@ -1049,15 +1066,16 @@ class _GroupChatState extends State<GroupChat> {
                                                                 .spaceBetween,
                                                             children: [
                                                               VoiceMessage(
-                                                                audioSrc: state
-                                                                    .messages![index]
-                                                                    .VoicePath
-                                                                    .toString(),
+                                                                audioSrc:records[0],
+                                                                // state
+                                                                //     .messages![index]
+                                                                //     .VoicePath
+                                                                //     .toString(),
                                                                 played: true,
                                                                 me: true,
                                                               ),
-                                                              Text(""),
-                                                              Text(""),
+                                                              const Text(""),
+                                                              const Text(""),
                                                             ],
                                                           ),
 
@@ -1076,9 +1094,9 @@ class _GroupChatState extends State<GroupChat> {
                                                   ? PollFlowWidget(  state, index)
                                                   : state.messages![index]
                                                   .ModelType == "TopicFlow"
-                                                  ? Text("")
-                                                  : Text("")
-                                                  : Text(""),
+                                                  ? const Text("")
+                                                  : const Text("")
+                                                  : const Text(""),
 
 
                                             )
@@ -1119,7 +1137,7 @@ class _GroupChatState extends State<GroupChat> {
                               children: [
                                 state.Isreply! ?
                                 ReplyWidgett(state)
-                                    : SizedBox(),
+                                    : const SizedBox(),
                                 Container(
                                   height: h / 10,
 
@@ -1134,13 +1152,13 @@ class _GroupChatState extends State<GroupChat> {
                                             bottom: h / 70),
                                         child: CircleAvatar(
                                           radius: 25,
-                                          backgroundColor: Color(0xff15D078),
+                                          backgroundColor: const Color(0xff15D078),
                                           child: Center(
                                             child: InkWell(
                                               onTap: () {
                                                 dIALOG1();
                                               },
-                                              child: Icon(
+                                              child: const Icon(
                                                 Icons.add,
                                                 size: 35,
                                                 color: Colors.white,
@@ -1167,7 +1185,7 @@ class _GroupChatState extends State<GroupChat> {
                                           )
                                         ],
                                       )
-                                          : Text(""),
+                                          : const Text(""),
                                       Container(
                                           padding: EdgeInsets.only(
                                               left: h / 100, top: h / 50),
@@ -1184,7 +1202,9 @@ class _GroupChatState extends State<GroupChat> {
                                                 textInputAction: TextInputAction
                                                     .done,
                                                 focusNode: _focus,
-                                                onChanged: (value) {},
+                                                onChanged: (value) {
+                                                  download();
+                                                },
                                                 onFieldSubmitted: (value) {
                                                   if (state.Status!) {
                                                     if (state.Isreply == true) {
@@ -1260,7 +1280,7 @@ class _GroupChatState extends State<GroupChat> {
                                                   }
                                                 },
                                                 cursorColor: Colors.black,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 19,
                                                     fontWeight: FontWeight.w500,
                                                     color: Colors.brown),
@@ -1270,13 +1290,13 @@ class _GroupChatState extends State<GroupChat> {
                                                       BorderRadius.circular(
                                                           30)),
                                                   filled: true,
-                                                  fillColor: Color(0xffEAEAEA),
+                                                  fillColor: const Color(0xffEAEAEA),
                                                   contentPadding:
                                                   EdgeInsets.symmetric(
                                                       horizontal: 12,
                                                       vertical: h / 100),
                                                   hintText: 'Sup?..',
-                                                  hintStyle: TextStyle(
+                                                  hintStyle: const TextStyle(
                                                       color: Color.fromRGBO(
                                                           96, 96, 96, 1),
                                                       fontFamily: 'Red Hat Text',
@@ -1303,7 +1323,7 @@ class _GroupChatState extends State<GroupChat> {
                                                     margin: EdgeInsets.only(
                                                         top: h / 50),
                                                     child: IconButton(
-                                                      icon: Icon(
+                                                      icon: const Icon(
                                                         Icons.send,
                                                         size: 30,
                                                       ),
@@ -1386,19 +1406,19 @@ class _GroupChatState extends State<GroupChat> {
                                                           }
                                                         }
                                                       },
-                                                      color: Color(0xff15D078),
+                                                      color: const Color(0xff15D078),
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 10,
                                           )
                                         ],
                                       )
-                                          : Text("")
+                                          : const Text("")
                                     ],
                                   ),
                                 )
@@ -1409,7 +1429,7 @@ class _GroupChatState extends State<GroupChat> {
                       Container(
                         width: w,
                         height: h / 15,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
                             topRight: Radius.circular(0),
@@ -1436,7 +1456,7 @@ class _GroupChatState extends State<GroupChat> {
                                   height: h / 30,
                                   child: Row(
                                     children: [
-                                      Text("       "),
+                                      const Text("       "),
                                       SvgPicture.asset(
                                           "Assets/images/Frame 11.svg",
                                           width: 30,
@@ -1448,7 +1468,7 @@ class _GroupChatState extends State<GroupChat> {
                               child: Text(
                                 widget.Plain_Title!,
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 1),
                                     fontFamily: 'Red Hat Display',
                                     fontSize: 22,
@@ -1523,7 +1543,7 @@ class _GroupChatState extends State<GroupChat> {
                                   child: Container(
                                     width: w / 2.7,
                                     height: h / 17,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(30.5),
                                         topLeft: Radius.circular(0),
@@ -1536,8 +1556,8 @@ class _GroupChatState extends State<GroupChat> {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(""),
-                                          Text(
+                                          const Text(""),
+                                          const Text(
                                             'New Topic   ',
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
@@ -1556,7 +1576,7 @@ class _GroupChatState extends State<GroupChat> {
                                   width: w / 7,
                                   height: h / 13,
                                   margin: EdgeInsets.only(left: h / 70),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xff942657),
                                     borderRadius: BorderRadius.all(
                                         Radius.elliptical(36, 36)),
@@ -1573,7 +1593,7 @@ class _GroupChatState extends State<GroupChat> {
                           ))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1593,7 +1613,7 @@ class _GroupChatState extends State<GroupChat> {
                                   child: Container(
                                     width: w / 2.7,
                                     height: h / 17,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(30.5),
                                         topLeft: Radius.circular(0),
@@ -1606,8 +1626,8 @@ class _GroupChatState extends State<GroupChat> {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(""),
-                                          Text(
+                                          const Text(""),
+                                          const Text(
                                             'New Poll      ',
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
@@ -1626,7 +1646,7 @@ class _GroupChatState extends State<GroupChat> {
                                   width: w / 7,
                                   height: h / 13,
                                   margin: EdgeInsets.only(left: h / 70),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xffA83063),
                                     borderRadius: BorderRadius.all(
                                         Radius.elliptical(36, 36)),
@@ -1643,7 +1663,7 @@ class _GroupChatState extends State<GroupChat> {
                           ))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1663,7 +1683,7 @@ class _GroupChatState extends State<GroupChat> {
                                   child: Container(
                                     width: w / 2.7,
                                     height: h / 17,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(30.5),
                                         topLeft: Radius.circular(0),
@@ -1676,8 +1696,8 @@ class _GroupChatState extends State<GroupChat> {
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                         children: [
-                                          Text(""),
-                                          Text(
+                                          const Text(""),
+                                          const Text(
                                             'Footprint',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
@@ -1696,7 +1716,7 @@ class _GroupChatState extends State<GroupChat> {
                                   width: w / 7,
                                   height: h / 13,
                                   margin: EdgeInsets.only(left: h / 70),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xffCA4E4E),
                                     borderRadius: BorderRadius.all(
                                         Radius.elliptical(36, 36)),
@@ -1713,7 +1733,7 @@ class _GroupChatState extends State<GroupChat> {
                           ))
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
@@ -1733,7 +1753,7 @@ class _GroupChatState extends State<GroupChat> {
                                 child: Container(
                                   width: w / 2.7,
                                   height: h / 17,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(30.5),
                                       topLeft: Radius.circular(0),
@@ -1746,8 +1766,8 @@ class _GroupChatState extends State<GroupChat> {
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                       children: [
-                                        Text(""),
-                                        Text(
+                                        const Text(""),
+                                        const Text(
                                           'Media dump',
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
@@ -1766,7 +1786,7 @@ class _GroupChatState extends State<GroupChat> {
                                 width: w / 7,
                                 height: h / 13,
                                 margin: EdgeInsets.only(left: h / 70),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color(0xffCF6D38),
                                   borderRadius: BorderRadius.all(
                                       Radius.elliptical(36, 36)),
@@ -1787,7 +1807,7 @@ class _GroupChatState extends State<GroupChat> {
                         padding: EdgeInsets.only(left: h / 100, top: h / 50),
                         child: CircleAvatar(
                           radius: 25,
-                          backgroundColor: Color(0xff15D078),
+                          backgroundColor: const Color(0xff15D078),
                           child: Center(
                               child: IconButton(
                                 icon: Image.asset("Assets/images/closee.png"),
@@ -1807,7 +1827,8 @@ class _GroupChatState extends State<GroupChat> {
   _onRecordComplete(String path) async {
     print(path);
     SetMyVoiceMessage(path);
-    // await dio.download(path, path);
+
+
   }
 
   Widget listLoader({context}) {
@@ -1863,7 +1884,7 @@ class _GroupChatState extends State<GroupChat> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
-                          color: Color(0xffEAEAEA),
+                          color: const Color(0xffEAEAEA),
                           width: w / 400,
                           height: h / 50,
                         ),
@@ -1882,7 +1903,7 @@ class _GroupChatState extends State<GroupChat> {
                           Row(
                             children: [
                               Container(
-                                color: Color(0xffEAEAEA),
+                                color: const Color(0xffEAEAEA),
                                 height: w / 400,
                                 width: h / 34,
                               ),
@@ -1893,14 +1914,14 @@ class _GroupChatState extends State<GroupChat> {
                                 backgroundColor:
                                 Color(state.ColorForRepliedTo!),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 3,
                               ),
                               Text(
                                 state.AliasForRepliedTo.toString(),
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color: Color.fromRGBO(147, 147, 147, 1),
+                                    color: const Color.fromRGBO(147, 147, 147, 1),
                                     fontFamily: 'Red Hat Text',
                                     fontSize: 1.7 *
                                         SizeConfig.blockSizeVertical!
@@ -1910,7 +1931,7 @@ class _GroupChatState extends State<GroupChat> {
                                     fontWeight: FontWeight.w500,
                                     height: 1),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Container(
@@ -1920,7 +1941,7 @@ class _GroupChatState extends State<GroupChat> {
                                   state.RepliedToMessage.toString(),
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Color.fromRGBO(196, 196, 196, 1),
                                       fontFamily: 'Red Hat Text',
                                       fontSize: 10.539999961853027,
@@ -1948,7 +1969,7 @@ class _GroupChatState extends State<GroupChat> {
                   _GroupChatBloc.add(
                       ShowReplyWidget((b) => b..Isreply = false));
                 },
-                icon: Icon(
+                icon: const Icon(
                   Icons.clear,
                   size: 25,
                 ),
@@ -2114,8 +2135,8 @@ class _GroupChatState extends State<GroupChat> {
                                                 fontWeight: FontWeight.w400
                                             )),
 
-                                        Text(""),
-                                        Text(""),
+                                        const Text(""),
+                                        const Text(""),
                                       ],
                                     ),
                                     const SizedBox(
@@ -2146,16 +2167,16 @@ class _GroupChatState extends State<GroupChat> {
                                                   errorText: "Required"),
                                             ]),
                                             decoration: InputDecoration(
-                                                errorStyle: TextStyle(
+                                                errorStyle: const TextStyle(
                                                   color: Colors.red,
                                                 ),
-                                                errorBorder: OutlineInputBorder(
+                                                errorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors
                                                           .transparent,
                                                       width: 0.0),
                                                 ),
-                                                focusedErrorBorder: OutlineInputBorder(
+                                                focusedErrorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors
                                                           .transparent,
@@ -2181,7 +2202,7 @@ class _GroupChatState extends State<GroupChat> {
                                                       5),
                                                 ),
                                                 filled: true,
-                                                fillColor: Color(0xff303030),
+                                                fillColor: const Color(0xff303030),
                                                 contentPadding:
                                                 const EdgeInsets.symmetric(
                                                     horizontal: 12),
@@ -2207,7 +2228,7 @@ class _GroupChatState extends State<GroupChat> {
                                       child: Text('${state.DescriptionLength
                                           .toString()}/150',
                                         textAlign: TextAlign.right,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             color: Color.fromRGBO(
                                                 234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
@@ -2217,7 +2238,7 @@ class _GroupChatState extends State<GroupChat> {
                                             height: 1
                                         ),),
                                     ),
-                                    SizedBox(height: 6,),
+                                    const SizedBox(height: 6,),
                                     Container(
                                         width: w / 1.2,
                                         height: h / 2.5,
@@ -2249,15 +2270,15 @@ class _GroupChatState extends State<GroupChat> {
                                                   errorText: "You reached the max length available")
                                             ]),
                                             decoration: InputDecoration(
-                                              errorStyle: TextStyle(
+                                              errorStyle: const TextStyle(
                                                 color: Colors.red,
                                               ),
-                                              errorBorder: OutlineInputBorder(
+                                              errorBorder: const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors.transparent,
                                                     width: 0.0),
                                               ),
-                                              focusedErrorBorder: OutlineInputBorder(
+                                              focusedErrorBorder: const OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: Colors.transparent,
                                                     width: 0.0),
@@ -2285,7 +2306,7 @@ class _GroupChatState extends State<GroupChat> {
                                               hintText: "Flow Description",
                                               hintStyle: _TextTheme.headline6,
                                               filled: true,
-                                              fillColor: Color(0xff303030),
+                                              fillColor: const Color(0xff303030),
                                               contentPadding: const EdgeInsets
                                                   .only(
                                                   top: 20, left: 10),
@@ -2355,7 +2376,7 @@ class _GroupChatState extends State<GroupChat> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10,),
+                                const SizedBox(height: 10,),
                               ],
                             ),
                           ),
@@ -2432,8 +2453,8 @@ class _GroupChatState extends State<GroupChat> {
                                                   letterSpacing: .5,
                                                   fontWeight: FontWeight.w400
                                               )),
-                                          Text(""),
-                                          Text(""),
+                                          const Text(""),
+                                          const Text(""),
                                         ],
                                       ),
                                       const SizedBox(
@@ -2468,15 +2489,15 @@ class _GroupChatState extends State<GroupChat> {
                                                     errorText: "You reached the max length available")
                                               ]),
                                               decoration: InputDecoration(
-                                                errorStyle: TextStyle(
+                                                errorStyle: const TextStyle(
                                                   color: Colors.red,
                                                 ),
-                                                errorBorder: OutlineInputBorder(
+                                                errorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
                                                 ),
-                                                focusedErrorBorder: OutlineInputBorder(
+                                                focusedErrorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
@@ -2504,7 +2525,7 @@ class _GroupChatState extends State<GroupChat> {
                                                 hintText: 'Add Question',
                                                 hintStyle: _TextTheme.headline6,
                                                 filled: true,
-                                                fillColor: Color(0xff303030),
+                                                fillColor: const Color(0xff303030),
                                                 contentPadding: const EdgeInsets
                                                     .only(
                                                     top: 20, left: 10),
@@ -2513,7 +2534,7 @@ class _GroupChatState extends State<GroupChat> {
                                               // obscureText: SecureInput_pass,
                                             ),
                                           )),
-                                      SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                       Container(
                                           width: w / 1.2,
                                           height: h /10,
@@ -2539,15 +2560,15 @@ class _GroupChatState extends State<GroupChat> {
                                                     errorText: "Required"),
                                               ]),
                                               decoration: InputDecoration(
-                                                errorStyle: TextStyle(
+                                                errorStyle: const TextStyle(
                                                   color: Colors.red,
                                                 ),
-                                                errorBorder: OutlineInputBorder(
+                                                errorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
                                                 ),
-                                                focusedErrorBorder: OutlineInputBorder(
+                                                focusedErrorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
@@ -2574,11 +2595,11 @@ class _GroupChatState extends State<GroupChat> {
                                                 ),
                                                 hintText: 'Answer',
                                                 hintStyle: _TextTheme.headline6!.copyWith(
-                                                  color: Color(0xff303030)
+                                                  color: const Color(0xff303030)
                                                 ),
                                                 filled: true,
 
-                                                fillColor: Color(0xffC4C4C4),
+                                                fillColor: const Color(0xffC4C4C4),
                                                 contentPadding: const EdgeInsets
                                                     .only(
                                                     top: 20, left: 10),
@@ -2587,7 +2608,7 @@ class _GroupChatState extends State<GroupChat> {
                                               // obscureText: SecureInput_pass,
                                             ),
                                           )),
-                                      SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                       Container(
                                           width: w / 1.2,
                                           height: h /10,
@@ -2613,15 +2634,15 @@ class _GroupChatState extends State<GroupChat> {
                                                     errorText: "Required"),
                                               ]),
                                               decoration: InputDecoration(
-                                                errorStyle: TextStyle(
+                                                errorStyle: const TextStyle(
                                                   color: Colors.red,
                                                 ),
-                                                errorBorder: OutlineInputBorder(
+                                                errorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
                                                 ),
-                                                focusedErrorBorder: OutlineInputBorder(
+                                                focusedErrorBorder: const OutlineInputBorder(
                                                   borderSide: BorderSide(
                                                       color: Colors.transparent,
                                                       width: 0.0),
@@ -2648,11 +2669,11 @@ class _GroupChatState extends State<GroupChat> {
                                                 ),
                                                 hintText: 'Answer',
                                                 hintStyle: _TextTheme.headline6!.copyWith(
-                                                    color: Color(0xff303030)
+                                                    color: const Color(0xff303030)
                                                 ),
                                                 filled: true,
 
-                                                fillColor: Color(0xffC4C4C4),
+                                                fillColor: const Color(0xffC4C4C4),
                                                 contentPadding: const EdgeInsets
                                                     .only(
                                                     top: 20, left: 10),
@@ -2664,7 +2685,7 @@ class _GroupChatState extends State<GroupChat> {
 
                                       state.TextfieldSum!>=3
                                           ? Column(children: [
-                                        SizedBox(height: 10,),
+                                        const SizedBox(height: 10,),
                                         Container(
                                             width: w / 1.2,
                                             height: h /10,
@@ -2690,15 +2711,15 @@ class _GroupChatState extends State<GroupChat> {
                                                       errorText: "Required"),
                                                 ]),
                                                 decoration: InputDecoration(
-                                                  errorStyle: TextStyle(
+                                                  errorStyle: const TextStyle(
                                                     color: Colors.red,
                                                   ),
-                                                  errorBorder: OutlineInputBorder(
+                                                  errorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors.transparent,
                                                         width: 0.0),
                                                   ),
-                                                  focusedErrorBorder: OutlineInputBorder(
+                                                  focusedErrorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors.transparent,
                                                         width: 0.0),
@@ -2725,11 +2746,11 @@ class _GroupChatState extends State<GroupChat> {
                                                   ),
                                                   hintText: 'Answer',
                                                   hintStyle: _TextTheme.headline6!.copyWith(
-                                                      color: Color(0xff303030)
+                                                      color: const Color(0xff303030)
                                                   ),
                                                   filled: true,
 
-                                                  fillColor: Color(0xffC4C4C4),
+                                                  fillColor: const Color(0xffC4C4C4),
                                                   contentPadding: const EdgeInsets
                                                       .only(
                                                       top: 20, left: 10),
@@ -2739,11 +2760,11 @@ class _GroupChatState extends State<GroupChat> {
                                               ),
                                             )),
                                       ],)
-                                          : Text(""),
+                                          : const Text(""),
 
                                       state.TextfieldSum==4
                                           ? Column(children: [
-                                        SizedBox(height: 10,),
+                                        const SizedBox(height: 10,),
                                         Container(
                                             width: w / 1.2,
                                             height: h /10,
@@ -2769,15 +2790,15 @@ class _GroupChatState extends State<GroupChat> {
                                                       errorText: "Required"),
                                                 ]),
                                                 decoration: InputDecoration(
-                                                  errorStyle: TextStyle(
+                                                  errorStyle: const TextStyle(
                                                     color: Colors.red,
                                                   ),
-                                                  errorBorder: OutlineInputBorder(
+                                                  errorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors.transparent,
                                                         width: 0.0),
                                                   ),
-                                                  focusedErrorBorder: OutlineInputBorder(
+                                                  focusedErrorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors.transparent,
                                                         width: 0.0),
@@ -2804,11 +2825,11 @@ class _GroupChatState extends State<GroupChat> {
                                                   ),
                                                   hintText: 'Answer',
                                                   hintStyle: _TextTheme.headline6!.copyWith(
-                                                      color: Color(0xff303030)
+                                                      color: const Color(0xff303030)
                                                   ),
                                                   filled: true,
 
-                                                  fillColor: Color(0xffC4C4C4),
+                                                  fillColor: const Color(0xffC4C4C4),
                                                   contentPadding: const EdgeInsets
                                                       .only(
                                                       top: 20, left: 10),
@@ -2818,11 +2839,11 @@ class _GroupChatState extends State<GroupChat> {
                                               ),
                                             )),
                                       ],)
-                                          : Text(""),
+                                          : const Text(""),
 
 
 
-                                      SizedBox(height: 10,),
+                                      const SizedBox(height: 10,),
                                       InkWell(
                                         onTap: (){
                                           if (state.TextfieldSum!=4)
@@ -2833,7 +2854,7 @@ class _GroupChatState extends State<GroupChat> {
                                         child: Container(
                                             width: w / 1.2,
                                             height: h /15,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               borderRadius : BorderRadius.only(
                                                 topLeft: Radius.circular(5),
                                                 topRight: Radius.circular(5),
@@ -2842,7 +2863,7 @@ class _GroupChatState extends State<GroupChat> {
                                               ),
                                               color : Color.fromRGBO(202, 78, 78, 1),
                                             ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Icon(Icons.add,size: 30,),
                                           ),
                                         ),
@@ -2851,7 +2872,7 @@ class _GroupChatState extends State<GroupChat> {
                                          children: [
                                            Row(
                                              children: [
-                                               SizedBox(width: 10,),
+                                               const SizedBox(width: 10,),
                                                Checkbox(
                                                  checkColor: Colors.black,
                                                  value: state.CheckboxStatuss1,
@@ -2861,7 +2882,7 @@ class _GroupChatState extends State<GroupChat> {
                                                    ));
                                                  },
                                                ),
-                                               Text('Show participants', textAlign: TextAlign.left, style: TextStyle(
+                                               const Text('Show participants', textAlign: TextAlign.left, style: TextStyle(
                                                    color: Color.fromRGBO(234, 234, 234, 1),
                                                    fontFamily: 'Red Hat Text',
                                                    fontSize: 14,
@@ -2873,7 +2894,7 @@ class _GroupChatState extends State<GroupChat> {
                                            ),
                                            Row(
                                              children: [
-                                               SizedBox(width: 10,),
+                                               const SizedBox(width: 10,),
                                                Checkbox(
                                                  checkColor: Colors.black,
                                                  value: state.CheckboxStatuss2,
@@ -2883,7 +2904,7 @@ class _GroupChatState extends State<GroupChat> {
                                                    ));
                                                  },
                                                ),
-                                               Text('Multiple Choice', textAlign: TextAlign.left, style: TextStyle(
+                                               const Text('Multiple Choice', textAlign: TextAlign.left, style: TextStyle(
                                                    color: Color.fromRGBO(234, 234, 234, 1),
                                                    fontFamily: 'Red Hat Text',
                                                    fontSize: 14,
@@ -2953,7 +2974,7 @@ class _GroupChatState extends State<GroupChat> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                 ],
                               ),
                             ),
@@ -3043,10 +3064,10 @@ class _GroupChatState extends State<GroupChat> {
                                           width: w/7,
                                           height: h/13,
                                           margin: EdgeInsets.only(right: h/2.5),
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             color : Color.fromRGBO(207, 109, 56, 1),
                                           ),
-                                          child: Center(
+                                          child: const Center(
                                             child: Icon(Icons.add),
                                           ),
                                         ),
@@ -3054,10 +3075,10 @@ class _GroupChatState extends State<GroupChat> {
 
                                     ],
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                   Container(
                                     width: w/1.1,
-                                    child: Text('Write up to 3 keywords', textAlign: TextAlign.left, style: TextStyle(
+                                    child: const Text('Write up to 3 keywords', textAlign: TextAlign.left, style: TextStyle(
                                         color: Color.fromRGBO(234, 234, 234, 1),
                                         fontFamily: 'Red Hat Text',
                                         fontSize: 20,
@@ -3075,7 +3096,7 @@ class _GroupChatState extends State<GroupChat> {
                                   ),
                                   Column(
                                     children: [
-                                      SizedBox(height: 6,),
+                                      const SizedBox(height: 6,),
                                       Container(
                                           width: w / 1.2,
                                           child: Form(
@@ -3100,16 +3121,16 @@ class _GroupChatState extends State<GroupChat> {
                                                     errorText: "Required"),
                                               ]),
                                               decoration: InputDecoration(
-                                                  errorStyle: TextStyle(
+                                                  errorStyle: const TextStyle(
                                                     color: Colors.red,
                                                   ),
-                                                  errorBorder: OutlineInputBorder(
+                                                  errorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors
                                                             .transparent,
                                                         width: 0.0),
                                                   ),
-                                                  focusedErrorBorder: OutlineInputBorder(
+                                                  focusedErrorBorder: const OutlineInputBorder(
                                                     borderSide: BorderSide(
                                                         color: Colors
                                                             .transparent,
@@ -3135,7 +3156,7 @@ class _GroupChatState extends State<GroupChat> {
                                                         5),
                                                   ),
                                                   filled: true,
-                                                  fillColor: Color(0xff303030),
+                                                  fillColor: const Color(0xff303030),
                                                   contentPadding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 12),
@@ -3205,7 +3226,7 @@ class _GroupChatState extends State<GroupChat> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 10,),
+                                  const SizedBox(height: 10,),
                                 ],
                               ),
                             ),
@@ -3284,20 +3305,20 @@ class _GroupChatState extends State<GroupChat> {
                       textAlign: TextAlign.right,
                       style: _TextTheme.headline2!.copyWith(
                         fontWeight: FontWeight.w300,
-                        color: Color(0xffEAEAEA),
+                        color: const Color(0xffEAEAEA),
                         fontSize: 1.5 *
                             SizeConfig.blockSizeVertical!.toDouble(),
                       ))
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height:
                 7,
               ),
               Container(
                 width: w/1.3,
                 height: h/4.8,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -3323,7 +3344,7 @@ class _GroupChatState extends State<GroupChat> {
                 width: w/1.4,
                 padding: EdgeInsets.only(top: h/100),
                 child :  Text(state.messages![index].TopicFlowTitle.toString(),
-                          textAlign: TextAlign.left, style: TextStyle(
+                          textAlign: TextAlign.left, style: const TextStyle(
                               color: Color.fromRGBO(234, 234, 234, 1),
                               fontFamily: 'Red Hat Text',
                               fontSize: 20,
@@ -3337,7 +3358,7 @@ class _GroupChatState extends State<GroupChat> {
                     Container(
                       width: w/1.4,
                       child: Text(state.messages![index].TopicFlowDescription.toString(),
-                        textAlign: TextAlign.left, style: TextStyle(
+                        textAlign: TextAlign.left, style: const TextStyle(
                             color: Color.fromRGBO(234, 234, 234, 1),
                             fontFamily: 'Red Hat Text',
                             fontSize: 17,
@@ -3355,7 +3376,7 @@ class _GroupChatState extends State<GroupChat> {
                           Container(
                               width: w/5,
                               height: h/24,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                 borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(50),
                                   topRight: Radius.circular(50),
@@ -3365,7 +3386,7 @@ class _GroupChatState extends State<GroupChat> {
                                 color: Color.fromRGBO(20, 208, 120, 1),
                               ),
                             child:
-                            Center(
+                            const Center(
                               child: Text('Join Flow', textAlign: TextAlign.center, style: TextStyle(
                                   color: Color.fromRGBO(47, 47, 47, 1),
                                   fontFamily: 'Red Hat Text',

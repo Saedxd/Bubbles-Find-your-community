@@ -151,4 +151,9 @@ bool? get MakeHimBEableTOSEtBubbles;
   factory OpenDoorTObeAbleTOsetBubble([updates(OpenDoorTObeAbleTOsetBubbleBuilder b)]) = _$OpenDoorTObeAbleTOsetBubble;
 }
 
-
+abstract class SearchBubblesLists extends HomeEvent
+    implements Built<SearchBubblesLists,SearchBubblesListsBuilder> {
+  String? get Keyword;
+  SearchBubblesLists._();
+  factory SearchBubblesLists([updates(SearchBubblesListsBuilder b)]) = _$SearchBubblesLists;
+}

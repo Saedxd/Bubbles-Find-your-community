@@ -2,6 +2,7 @@
 
 library DirectMessages_State;
 
+import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:built_value/built_value.dart';
 
@@ -21,6 +22,9 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
   OldMessagesModel? get OldMessages;
   OldMessagesModel? get DMListSearchResult;
 
+  List<DmlistData>? get Dmlist;
+  List<DmlistData>? get FilteredDmlist;
+
   DirectMessagesState._();
 
   factory DirectMessagesState([updates(DirectMessagesStateBuilder b)]) = _$DirectMessagesState;
@@ -31,6 +35,8 @@ abstract class DirectMessagesState implements Built<DirectMessagesState, DirectM
       ..success = false
       ..ChangeStateLoading = false
       ..ChangeStateSuccess = false
+      ..Dmlist = []
+      ..FilteredDmlist = []
       ..OldMessages = null
       ..DMListSearchResult = null
     );

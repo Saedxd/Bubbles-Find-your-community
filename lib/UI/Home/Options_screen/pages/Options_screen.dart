@@ -524,9 +524,7 @@ class _Options_screenState extends State<Options_screen> {
                                                         ),
                                                         onPressed: () {
                                                         //  FreindDilog();
-                                                          _OptionsBloc.add(SearchFreinds((b) => b
-                                                            ..Keyword = ""
-                                                          ));
+                                                          _OptionsBloc.add(GetFreinds());
                                                           print("clicked");
                                                           FreindDilog();
                                                           DiditONCE = true;
@@ -627,11 +625,6 @@ class _Options_screenState extends State<Options_screen> {
                       ))));
         });
   }
-
-
-
-
-
 
   void showBottom() {
     showMaterialModalBottomSheet(
@@ -783,8 +776,6 @@ class _Options_screenState extends State<Options_screen> {
       }
     );
   }
-
-
 
   Future<void> dIALOG1() {
     TextTheme _textthem = Theme
@@ -1051,7 +1042,7 @@ class _Options_screenState extends State<Options_screen> {
                                 ),
 
                                 state.success!
-                                    ? state.SearchFrinedsResult!.user!.length != 0
+                                    ? state.FilteredFriendlist!.length != 0
                                     ? Expanded(
                                   child: Container(
                                     height: h / 1.49,
@@ -1067,7 +1058,7 @@ class _Options_screenState extends State<Options_screen> {
                                         const BouncingScrollPhysics(),
                                         scrollDirection: Axis.vertical,
                                         itemCount: state
-                                            .SearchFrinedsResult!.user!.length,
+                                            .FilteredFriendlist!.length,
                                         separatorBuilder:
                                             (BuildContext context,
                                             int index) {
@@ -1078,25 +1069,24 @@ class _Options_screenState extends State<Options_screen> {
                                         itemBuilder: (BuildContext context,
                                             int index) {
 
-                                          String Value = state.SearchFrinedsResult!.user![index].background_color!;
-                                          var myInt = int.parse(Value);
-                                          var BackGroundColor = myInt;
+                                        //state.FilteredFriendlist![index].backgroundColor!;
+
                                           return InkWell(
                                             onTap: () {
                                               if (Array2[index]==1){
                                                 SetState(() {
                                                   Array2[index] = 0;
                                                 });
-                                                OrganizersId.remove(state.SearchFrinedsResult!.user![index].id);
-                                                AvatarsSelected.remove(state.SearchFrinedsResult!.user![index].avatar.toString());
-                                                BackGroundColorTOAvatars.remove(state.SearchFrinedsResult!.user![index].background_color.toString());
+                                                OrganizersId.remove(state.FilteredFriendlist![index].id);
+                                                AvatarsSelected.remove(state.FilteredFriendlist![index].Avatar.toString());
+                                                BackGroundColorTOAvatars.remove(state.FilteredFriendlist![index].backgroundColor.toString());
                                               }else{
                                                 SetState(() {
                                                   Array2[index] = 1;
                                                 });
-                                                OrganizersId.add(state.SearchFrinedsResult!.user![index].id!);
-                                                AvatarsSelected.add(state.SearchFrinedsResult!.user![index].avatar.toString());
-                                                BackGroundColorTOAvatars.add(state.SearchFrinedsResult!.user![index].background_color.toString());
+                                                OrganizersId.add(state.FilteredFriendlist![index].id!);
+                                                AvatarsSelected.add(state.FilteredFriendlist![index].Avatar.toString());
+                                                BackGroundColorTOAvatars.add(state.FilteredFriendlist![index].backgroundColor.toString());
                                               }
 
                                               print(OrganizersId);
@@ -1154,15 +1144,15 @@ class _Options_screenState extends State<Options_screen> {
                                                             children: [
                                                               Text("  "),
                                                               CircleAvatar(
-                                                                backgroundColor: Color(BackGroundColor),
+                                                                backgroundColor: Color(state.FilteredFriendlist![index].backgroundColor!),
                                                                 radius:
                                                                 28,
                                                                 backgroundImage: NetworkImage(
                                                                     state
-                                                                        .SearchFrinedsResult!
-                                                                        .user![
+                                                                        .FilteredFriendlist!
+                                                                        [
                                                                     index]
-                                                                        .avatar
+                                                                        .Avatar
                                                                         .toString()),
                                                               ),
                                                             ],
@@ -1184,10 +1174,8 @@ class _Options_screenState extends State<Options_screen> {
                                                                   "    "),
                                                               Text(
                                                                   state
-                                                                      .SearchFrinedsResult!
-                                                                      .user![
-                                                                  index]
-                                                                      .alias
+                                                                      .FilteredFriendlist!
+                                                                  [index].alias
                                                                       .toString(),
                                                                   textAlign: TextAlign.left,
                                                                   style: _textthem.headline3!.copyWith(
@@ -1256,6 +1244,7 @@ class _Options_screenState extends State<Options_screen> {
         }).whenComplete(() {
           setState(() {
           });
+       //   _OptionsBloc.add(SearchFreinds((b) => b..Keyword=""));
           _OptionsBloc.add(ChangeDone3((b) => b..ChangeDone33 = true));
     }
 

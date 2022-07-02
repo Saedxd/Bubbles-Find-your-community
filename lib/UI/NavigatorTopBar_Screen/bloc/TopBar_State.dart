@@ -5,6 +5,7 @@ library TopBar_State;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_collection/built_collection.dart';
@@ -49,7 +50,6 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
       ..Index4 = false
       ..ProfileDate =null
       ..GetFriends =null
-
 
     );
   }

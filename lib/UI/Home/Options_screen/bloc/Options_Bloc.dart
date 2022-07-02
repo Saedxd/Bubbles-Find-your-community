@@ -4,6 +4,8 @@ import 'package:bubbles/Data/repository/irepository.dart';
 
 import 'package:bubbles/UI/Home/Options_screen/bloc/Options_event.dart';
 import 'package:bubbles/UI/Home/Options_screen/bloc/Options_state.dart';
+import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
+import 'package:intl/intl.dart';
 
 
 
@@ -56,17 +58,46 @@ class OptionsBloc extends Bloc<OptionsEvent, OptionsState> {
         );
 
         final date = await _repository.GetFreinds();
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..GetFriends.replace(date)
+        );
 
+        state.FilteredFriendlist!.clear();
+        state.Friendlist!.clear();
 
-        print('get Success data $date');
+        for(int i=0;i<state.GetFriends!.friends!.length;i++){
+          FriendlistData FreindData = FriendlistData();
+
+          FreindData.Avatar = state.GetFriends!.friends![i].avatar.toString();
+          FreindData.alias = state.GetFriends!.friends![i].alias.toString();
+          String value =  state.GetFriends!.friends![i].background_color.toString();
+          var myInt = int.parse(value);
+          var BackgroundColor = myInt;
+          FreindData.backgroundColor =BackgroundColor;
+
+          FreindData.id = state.GetFriends!.friends![i].id!.toInt();
+          FreindData.MY_id = state.GetFriends!.friends![i].me_id!.toInt();
+
+          state.FilteredFriendlist!.add(FreindData);
+          state.Friendlist!.add(FreindData);
+        }
+
         yield state.rebuild((b) =>
         b
           ..isLoading = false
           ..error = ""
           ..success = true
-          ..GetFriends.replace(date)
-
         );
+
+
+
+
+
+
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>
@@ -115,26 +146,28 @@ class OptionsBloc extends Bloc<OptionsEvent, OptionsState> {
 
     if (event is SearchFreinds) {
       try {
-        yield state.rebuild((b) =>
-        b
+        yield state.rebuild((b) => b
           ..isLoading = true
           ..error = ""
           ..success = false
-          ..SearchFrinedsResult = null
         );
 
-        final date = await _repository.SearchFriendList(event.Keyword!);
+        state.FilteredFriendlist!.clear();
+        print("Cleared");
+
+        state.Friendlist!.forEach((FriendObject) {
+          if (FriendObject.alias!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+            state.FilteredFriendlist!.add(FriendObject);
+          }
+        });
 
 
-        print('get Success data $date');
-        yield state.rebuild((b) =>
-        b
+        yield state.rebuild((b) => b
           ..isLoading = false
           ..error = ""
           ..success = true
-          ..SearchFrinedsResult.replace(date)
-
         );
+
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>

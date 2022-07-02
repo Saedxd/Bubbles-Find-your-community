@@ -41,11 +41,12 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
       ) async* {
 
     if (event is ClearError) {
+
       yield state.rebuild((b) => b..error = "");
     }
 
     if (event is GetDetailedPlan) {
-      try {
+      //try{
         yield state.rebuild((b) => b
           ..isLoading = true
           ..error = ""
@@ -66,19 +67,19 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
 
 
 
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..isLoading = false
-          ..error = "Something Went Wrong"
-          ..success= false
-          ..GetDetailedPlann = null
-        );
-      }
+      // } catch (e) {
+      //   print('get Error $e');
+      //   yield state.rebuild((b) => b
+      //     ..isLoading = false
+      //     ..error = "Something Went Wrong"
+      //     ..success= false
+      //     ..GetDetailedPlann = null
+      //   );
+      // }
     }
 
     if (event is GetProfile){
-      try {
+     //try {
 
         yield state.rebuild((b) => b
           ..isLoading = true
@@ -95,15 +96,15 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
           ..success = true
           ..ProfileDate.replace(date)
         );
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..ProfileDate = null
-        );
-      }
+      // } catch (e) {
+      //   print('get Error $e');
+      //   yield state.rebuild((b) => b
+      //     ..isLoading = false
+      //     ..error = "Something went wrong"
+      //     ..success = false
+      //     ..ProfileDate = null
+      //   );
+      // }
     }
   }
 }

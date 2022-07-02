@@ -2,6 +2,7 @@ library Notifications_State;
 
 import 'dart:convert';
 
+import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
 import 'package:bubbles/models/permissionsModel/PermissionsModel.dart';
@@ -19,7 +20,7 @@ abstract class NotificationsState implements Built<NotificationsState, Notificat
   bool? get success;
 
   GetnotifcationsModel? get Getnotifcations;
-
+  ClearBadgeModel? get ClearBadge;
   NotificationsState._();
 
   factory NotificationsState([updates(NotificationsStateBuilder b)]) = _$NotificationsState;
@@ -30,7 +31,7 @@ abstract class NotificationsState implements Built<NotificationsState, Notificat
       ..isLoading = false
       ..success = false
         ..Getnotifcations = null
-
+      ..ClearBadge =null
 
     );
   }

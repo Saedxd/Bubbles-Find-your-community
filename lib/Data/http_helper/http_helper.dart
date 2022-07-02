@@ -9,6 +9,7 @@ import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
@@ -1964,8 +1965,8 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
     }
   }
 
-  @override     //TODO: FIX RETURN TYPE
-  Future<GetDetailedEvent> SearchEventLists(     //TODO: FIX RETURN TYPE
+  @override
+  Future<GetDetailedEvent> SearchEventLists(
       String Keyword,
       String Auth,
       ) async {
@@ -2004,6 +2005,44 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
     }
   }
 
+  @override
+  Future<ClearBadgeModel> ClearBadge(
+      String Auth,
+      ) async {
+    try {
+
+
+      final response = await _dio!
+          .get('clear/counter/notifications', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              ClearBadgeModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(ClearBadgeModel),
+                  ],
+                ),
+              ],
+            )) as ClearBadgeModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
 }
 
 class NetworkException implements Exception {}

@@ -48,6 +48,7 @@ try {
 //// flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
 //// flutter pub get && flutter pub run build_runner watch
 
+
 //flutter logs
 //flutter build apk --split-per-abi
 

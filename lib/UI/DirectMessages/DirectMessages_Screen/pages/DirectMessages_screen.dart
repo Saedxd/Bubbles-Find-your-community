@@ -36,6 +36,7 @@ class _DirectMessagesState extends State<DirectMessages> {
   final _DirectMessages_Bloc = sl<DirectMessagesBloc>();
   late FocusNode FocuseNODE;
   List<int> Selected = [0, 0];
+
   bool done = false;
   List<int> FrinedsID=[];
   List<int>? FrinedsStatus;
@@ -47,7 +48,7 @@ class _DirectMessagesState extends State<DirectMessages> {
     if(socket!=null &&!socket!.disconnected) {
 
       socket!.on("friend_online", (value) {
-      print(value);
+     // print(value);
        // print("hi");
         if (value["status"] != "offline") {
         FrinedsStatus![value["index"]] = 1;
@@ -76,11 +77,13 @@ class _DirectMessagesState extends State<DirectMessages> {
     Diditonce = true;
     FocuseNODE = FocusNode();
     ListenForONlineFriends();
+    socket!.io..disconnect()..connect();
     _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
-      timer = Timer.periodic(Duration(seconds: 10), (Timer t){
+      timer = Timer.periodic(const Duration(seconds: 10), (Timer t){
     return LoopONfrinedsId();
     });
   }
+
 
 
 
@@ -119,6 +122,7 @@ class _DirectMessagesState extends State<DirectMessages> {
             LoopONfrinedsId();
 
             Diditonce = false;
+
           }
           //todo : make sure all emits work
           //todo : make finetuning for ui on directmessages
@@ -159,10 +163,9 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 focusNode: FocuseNODE,
                                 onFieldSubmitted: (value) {},
                                 onChanged: (value){
-                                  print(FrinedsID);
-                                  print(FrinedsStatus);
-                                  //todo: fix the node js problem in which the data come duplicated and fucked
-                                  //todo search dm list
+                                  _DirectMessages_Bloc.add(SearchDMlist((b) => b
+                                  ..Keyword = value
+                                  ));
                                 },
                                 cursorColor: Colors.grey,
                                 style: const TextStyle(
@@ -299,7 +302,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                           ],
                         ),
                         const Text(""),
-                        (state.success == true)
+                        (state.success!)
                             ? Expanded(
                                 child: Container(
                                     margin: EdgeInsets.only(
@@ -312,49 +315,22 @@ class _DirectMessagesState extends State<DirectMessages> {
                                       child: ListView.separated(
                                         shrinkWrap: true,
                                         padding: EdgeInsets.zero,
-                                        physics: BouncingScrollPhysics(
-                                            parent:
-                                                AlwaysScrollableScrollPhysics()),
+                                        physics: const BouncingScrollPhysics( parent: AlwaysScrollableScrollPhysics()),
                                         scrollDirection: Axis.vertical,
                                         itemCount:
-                                            state.OldMessages!.messages!.length,
+                                        state.FilteredDmlist!.length,
                                         itemBuilder:
                                             (BuildContext context, int index) {
-
-
-                                          DateTime datee = DateTime.parse(state
-                                              .OldMessages!
-                                              .messages![index]
-                                              .CreatAt
-                                              .toString());
-                                       //   print(timeago.format(datee));
-                                          String Value = "";
-                                          Value = state
-                                              .OldMessages!
-                                              .messages![index]
-                                              .receiver_background_color
-                                              .toString();
-
-                                          var myInt = int.parse(Value);
-                                          var BackgroundColor = myInt;
-
                                           return InkWell(
                                             onTap: () {
-                                              int MyID = state.OldMessages!.messages![index].me!;
                                               WidgetsBinding.instance!
                                                   .addPostFrameCallback(
                                                       (_) => Navigator.push(
                                                             context,
                                                             MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      DirectChat(
-                                                                receiver_id: state
-                                                                    .OldMessages!
-                                                                    .messages![
-                                                                        index]
-                                                                    .receiver_id!,
-                                                                        my_ID: MyID,
+                                                              builder:(context) => DirectChat(
+                                                                receiver_id:    state.FilteredDmlist![index].id!,
+                                                                my_ID: state.FilteredDmlist![index].MY_id!,
                                                               ),
                                                             ),
                                                           ));
@@ -363,25 +339,25 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               Container(
                                                   margin: EdgeInsets.only(
                                                       left: h / 30,
-                                                      bottom: h / 120,
+                                                      bottom: h / 750,
                                                       top: h / 120),
                                                   width: w / 1.2,
                                                   height: h / 8,
                                                   decoration: BoxDecoration(
                                                     color: COLOR.background,
                                                     borderRadius:
-                                                        BorderRadius.only(
+                                                        const BorderRadius.only(
                                                       bottomLeft:
                                                           Radius.circular(40),
                                                       bottomRight:
-                                                          Radius.circular(5),
+                                                          const Radius.circular(5),
                                                       topLeft:
-                                                          const Radius.circular(
+                                                          Radius.circular(
                                                               40),
                                                       topRight:
                                                           Radius.circular(5),
                                                     ),
-                                                    boxShadow: [
+                                                    boxShadow: const [
                                                       BoxShadow(
                                                         color: Color.fromRGBO(
                                                             0, 0, 0, 0.25),
@@ -398,14 +374,9 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                               left: h / 60),
                                                           child: CircleAvatar(
                                                             backgroundColor: Color(
-                                                                BackgroundColor),
+                                                                state.FilteredDmlist![index].backgroundColor!),
                                                             backgroundImage:
-                                                            NetworkImage(state
-                                                                .OldMessages!
-                                                                .messages![
-                                                            index]
-                                                                .receiver_image
-                                                                .toString()),
+                                                            NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
                                                             radius: h / 20,
                                                           ),
                                                         ),
@@ -418,14 +389,13 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                           CircleAvatar(
                                                               backgroundColor:COLOR.secondaryContainer,
                                                               radius: 10,
-                                                              child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
+                                                              child:  const CircleAvatar(backgroundColor: const Color(0xff34A853),radius: 8,)),
                                                         )
-                                                            :Text("")
-                                                            :Text("")
+                                                            :const Text("")
+                                                            :const Text("")
 
                                                       ],
                                                     ),
-
                                                     Expanded(
                                                       child: Column(
                                                         mainAxisAlignment:
@@ -438,12 +408,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                     .spaceAround,
                                                             children: [
                                                               Text(
-                                                                  state
-                                                                      .OldMessages!
-                                                                      .messages![
-                                                                          index]
-                                                                      .receiver_name
-                                                                      .toString(),
+                                                                  state.FilteredDmlist![index].alias.toString(),
                                                                   textAlign:
                                                                       TextAlign
                                                                           .left,
@@ -453,17 +418,17 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w400,
-                                                                    fontSize: 4 *
+                                                                    fontSize: 4.1 *
                                                                         SizeConfig
                                                                             .blockSizeVertical!
                                                                             .toDouble(),
                                                                   )),
-                                                              Text(""),
-                                                              Text(""),
-                                                              Text(""),
+                                                              const Text(""),
+                                                              const Text(""),
+                                                              const Text(""),
                                                             ],
                                                           ),
-                                                          SizedBox(
+                                                          const SizedBox(
                                                             height: 10,
                                                           ),
                                                           Row(
@@ -477,15 +442,12 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                               Flexible(
                                                                 child:
                                                                     Container(
-                                                                  width: w / 3,
+                                                                  width: w / 1.2,
                                                                   //  height: h/40,
                                                                   child: Text(
-                                                                      state
-                                                                          .OldMessages!
-                                                                          .messages![
-                                                                              index]
-                                                                          .message
-                                                                          .toString(),
+                                                                    state.FilteredDmlist![index].Replies==""?
+                                                                      state.FilteredDmlist![index].lastMessage.toString():
+                                                                    state.FilteredDmlist![index].Replies.toString(),
                                                                       overflow:
                                                                           TextOverflow
                                                                               .ellipsis,
@@ -495,11 +457,11 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                       style: _textthem.headline5!.copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize: 2.5 *
+                                                                          fontSize: 2.6 *
                                                                               SizeConfig.blockSizeVertical!
                                                                                   .toDouble(),
                                                                           color:
-                                                                              Color(0xff939393))),
+                                                                              const Color(0xff939393))),
                                                                 ),
                                                               ),
                                                               Expanded(
@@ -510,19 +472,20 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                       h / 30,
                                                                   child: Center(
                                                                     child: Text(
-                                                                        DateFormat.jm().format(datee),
+                                                                        state.FilteredDmlist![index].time.toString(),
                                                                         textAlign:
                                                                             TextAlign
                                                                                 .right,
                                                                         style: _textthem
                                                                             .headline4!
                                                                             .copyWith(
-                                                                          fontWeight:
-                                                                              FontWeight.w400,
-                                                                          fontSize:
-                                                                              2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                          fontWeight: FontWeight
+                                                                              .w400,
+                                                                          fontSize: 2.6 *
+                                                                              SizeConfig.blockSizeVertical!
+                                                                                  .toDouble(),
                                                                           color:
-                                                                              Color(0xff939393),
+                                                                              const Color(0xff939393),
 
                                                                           // ,fontWeight: FontWeight.bold
                                                                         )),
@@ -541,7 +504,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                         separatorBuilder:
                                             (BuildContext context, int index) {
                                           return SizedBox(
-                                            height: h / 1000,
+                                            height: h / 1500,
                                           );
                                         },
                                       ),
@@ -595,4 +558,16 @@ class _DirectMessagesState extends State<DirectMessages> {
       size: 30.0,
     );
   }
+}
+
+
+class DmlistData{
+  String? alias;
+  String? time;
+  String? lastMessage;
+  String? Avatar;
+  int? backgroundColor;
+  int? id;
+  int? MY_id;
+  String? Replies;
 }

@@ -27,6 +27,15 @@ class _NotificationsState extends State<Notifications> {
     super.initState();
     FocuseNODE = FocusNode();
     _NotificationBloc.add(GetNotifications());
+    // ISNewNotifications?
+    // print("Get badge")
+    //     :  print("dont Get badge");
+
+
+    _NotificationBloc.add(ClearBadge());
+    ISNewNotifications = false;
+
+
   }
 
   Future<void> OnRefresh() async {

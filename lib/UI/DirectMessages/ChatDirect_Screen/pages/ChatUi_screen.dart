@@ -196,6 +196,7 @@ class _DirectChatState extends State<DirectChat> {
   @override
   void initState() {
     super.initState();
+    socket!.io..disconnect()..connect();
     ListenForMessages();
     ListenForReplyMessage();
     ListenForTyping();

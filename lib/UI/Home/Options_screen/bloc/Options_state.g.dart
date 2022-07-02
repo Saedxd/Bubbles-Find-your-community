@@ -37,6 +37,10 @@ class _$OptionsState extends OptionsState {
   final CreateBubbleModel? CreateBubble;
   @override
   final FriendListSearchModel? SearchFrinedsResult;
+  @override
+  final List<FriendlistData>? Friendlist;
+  @override
+  final List<FriendlistData>? FilteredFriendlist;
 
   factory _$OptionsState([void Function(OptionsStateBuilder)? updates]) =>
       (new OptionsStateBuilder()..update(updates))._build();
@@ -56,7 +60,9 @@ class _$OptionsState extends OptionsState {
       this.CreateBUbbleSuccess,
       this.GetFriends,
       this.CreateBubble,
-      this.SearchFrinedsResult})
+      this.SearchFrinedsResult,
+      this.Friendlist,
+      this.FilteredFriendlist})
       : super._();
 
   @override
@@ -84,7 +90,9 @@ class _$OptionsState extends OptionsState {
         CreateBUbbleSuccess == other.CreateBUbbleSuccess &&
         GetFriends == other.GetFriends &&
         CreateBubble == other.CreateBubble &&
-        SearchFrinedsResult == other.SearchFrinedsResult;
+        SearchFrinedsResult == other.SearchFrinedsResult &&
+        Friendlist == other.Friendlist &&
+        FilteredFriendlist == other.FilteredFriendlist;
   }
 
   @override
@@ -103,22 +111,31 @@ class _$OptionsState extends OptionsState {
                                                 $jc(
                                                     $jc(
                                                         $jc(
-                                                            $jc(0,
-                                                                error.hashCode),
-                                                            isLoading.hashCode),
-                                                        success.hashCode),
-                                                    DoneChoose1.hashCode),
-                                                DoneChoose2.hashCode),
-                                            ChangeDone33.hashCode),
-                                        GetfrinedsError.hashCode),
-                                    GetfriendsIsloading.hashCode),
-                                GetFriendsSuccess.hashCode),
-                            CreateBubbleError.hashCode),
-                        CreateBubbleISloading.hashCode),
-                    CreateBUbbleSuccess.hashCode),
-                GetFriends.hashCode),
-            CreateBubble.hashCode),
-        SearchFrinedsResult.hashCode));
+                                                            $jc(
+                                                                $jc(
+                                                                    $jc(
+                                                                        0,
+                                                                        error
+                                                                            .hashCode),
+                                                                    isLoading
+                                                                        .hashCode),
+                                                                success
+                                                                    .hashCode),
+                                                            DoneChoose1
+                                                                .hashCode),
+                                                        DoneChoose2.hashCode),
+                                                    ChangeDone33.hashCode),
+                                                GetfrinedsError.hashCode),
+                                            GetfriendsIsloading.hashCode),
+                                        GetFriendsSuccess.hashCode),
+                                    CreateBubbleError.hashCode),
+                                CreateBubbleISloading.hashCode),
+                            CreateBUbbleSuccess.hashCode),
+                        GetFriends.hashCode),
+                    CreateBubble.hashCode),
+                SearchFrinedsResult.hashCode),
+            Friendlist.hashCode),
+        FilteredFriendlist.hashCode));
   }
 
   @override
@@ -138,7 +155,9 @@ class _$OptionsState extends OptionsState {
           ..add('CreateBUbbleSuccess', CreateBUbbleSuccess)
           ..add('GetFriends', GetFriends)
           ..add('CreateBubble', CreateBubble)
-          ..add('SearchFrinedsResult', SearchFrinedsResult))
+          ..add('SearchFrinedsResult', SearchFrinedsResult)
+          ..add('Friendlist', Friendlist)
+          ..add('FilteredFriendlist', FilteredFriendlist))
         .toString();
   }
 }
@@ -219,6 +238,16 @@ class OptionsStateBuilder
   set SearchFrinedsResult(FriendListSearchModelBuilder? SearchFrinedsResult) =>
       _$this._SearchFrinedsResult = SearchFrinedsResult;
 
+  List<FriendlistData>? _Friendlist;
+  List<FriendlistData>? get Friendlist => _$this._Friendlist;
+  set Friendlist(List<FriendlistData>? Friendlist) =>
+      _$this._Friendlist = Friendlist;
+
+  List<FriendlistData>? _FilteredFriendlist;
+  List<FriendlistData>? get FilteredFriendlist => _$this._FilteredFriendlist;
+  set FilteredFriendlist(List<FriendlistData>? FilteredFriendlist) =>
+      _$this._FilteredFriendlist = FilteredFriendlist;
+
   OptionsStateBuilder();
 
   OptionsStateBuilder get _$this {
@@ -239,6 +268,8 @@ class OptionsStateBuilder
       _GetFriends = $v.GetFriends?.toBuilder();
       _CreateBubble = $v.CreateBubble?.toBuilder();
       _SearchFrinedsResult = $v.SearchFrinedsResult?.toBuilder();
+      _Friendlist = $v.Friendlist;
+      _FilteredFriendlist = $v.FilteredFriendlist;
       _$v = null;
     }
     return this;
@@ -277,7 +308,9 @@ class OptionsStateBuilder
               CreateBUbbleSuccess: CreateBUbbleSuccess,
               GetFriends: _GetFriends?.build(),
               CreateBubble: _CreateBubble?.build(),
-              SearchFrinedsResult: _SearchFrinedsResult?.build());
+              SearchFrinedsResult: _SearchFrinedsResult?.build(),
+              Friendlist: Friendlist,
+              FilteredFriendlist: FilteredFriendlist);
     } catch (_) {
       late String _$failedField;
       try {

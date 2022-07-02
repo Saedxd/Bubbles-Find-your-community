@@ -6,6 +6,7 @@ import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -398,6 +399,12 @@ class Repository implements IRepository {
       )async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.SearchEventLists(Keyword, auth);
+    return Data;
+  }
+  Future<ClearBadgeModel> ClearBadge(
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.ClearBadge(auth);
     return Data;
   }
 }

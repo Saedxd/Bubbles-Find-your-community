@@ -1,5 +1,6 @@
 library home_state;
 
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_value/built_value.dart';
@@ -35,10 +36,12 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get GetNewBubblesIsloading;
   bool? get GetNewBubblesSuccess;
   Set<Marker>? get marker2;
-
   Set<Circle>? get circle;
-  // GoogleMapController? get _googleMapController;
 
+  List<Locationss>? get locationn;
+  List<int>? get BubblesRaduis;
+  double get Userlat;
+  double get Userlng;
 
   bool? get ValueLOading;
   double? get NewValue;
@@ -47,12 +50,18 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get GetprofileISloading;
   bool? get GetprofileSuccess;
 
+  List<BubbleData>? get BUBBLElistS1;
+  List<BubbleData>? get FilteredBUBBLElists1;
 
+  List<BubbleData>? get BUBBLElistS2;
+  List<BubbleData>? get FilteredBUBBLElists2;
+
+  List<BubbleData>? get BUBBLElistS3;
+  List<BubbleData>? get FilteredBUBBLElists3;
 
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
-
   ProfileDateModel? get ProfileDate;
 
 
@@ -85,9 +94,18 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
         ..ProfileDate =null
-
+        ..Userlat =0
+        ..Userlng =0
+        ..BubblesRaduis =[]
+        ..BUBBLElistS1 =[]
+        ..FilteredBUBBLElists1 =[]
+        ..BUBBLElistS2 =[]
+        ..FilteredBUBBLElists2 =[]
+        ..BUBBLElistS3 =[]
+        ..FilteredBUBBLElists3 =[]
         ..marker2 ={}
         ..circle ={}
+        ..locationn =[]
 
     );
   }

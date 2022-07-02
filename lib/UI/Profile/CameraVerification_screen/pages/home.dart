@@ -168,7 +168,6 @@ bool DidITonce = false;
 
 
     return  BlocBuilder(
-
         bloc: _VerifyProfile,
         builder: (BuildContext Context, VerifyProfileState state) {
           //todo : make loading state and MAke a message of success action and navigate back to home or porfile
@@ -191,146 +190,151 @@ thanks for your patients
               key: _scaffoldKey,
               body: SafeArea(
                 child: state.Done!
-                    ?Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: h/60),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
+                    ?Stack(children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: h/60),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                margin: EdgeInsets.only(
+                                    left: h / 100, right: h / 15),
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                      "Assets/images/Frame 11.svg",
+                                      width: 30,
+                                      color: COLOR.surface),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    WidgetsBinding.instance!
+                                        .addPostFrameCallback((_) => Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>  NavigatorTopBar()),
+                                    ));
+                                  },
+                                )),
+
+                            const Spacer(),
+                            Container(
                               margin: EdgeInsets.only(
-                                  left: h / 100, right: h / 15),
-                              child: IconButton(
-                                icon: SvgPicture.asset(
-                                    "Assets/images/Frame 11.svg",
-                                    width: 30,
-                                    color: COLOR.surface),
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  WidgetsBinding.instance!
-                                      .addPostFrameCallback((_) => Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>  NavigatorTopBar()),
-                                  ));
-                                },
-                              )),
+                                  top: h / 100),
+                              child: Text('Upload image', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 23
+                              ),),
+                            ),
+                            const Spacer(),
+                            const Spacer(),
+                            const Spacer(),
+                            const Spacer(),
+                            const Spacer(),
+                            const Spacer(),
 
-                          const Spacer(),
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: h / 100),
-                            child: Text('Upload image', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 23
-                            ),),
-                          ),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),
-                          const Spacer(),
-
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: h/18),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
+                      Container(
+                        margin: EdgeInsets.only(right: h/18),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                width: w/4.3,
+                                height: h/5,
+                                child: Image.file(imagePath!,fit: BoxFit.fill,)),
+                            SizedBox(width: 5,),
+                            Container(
                               width: w/4.3,
                               height: h/5,
-                              child: Image.file(imagePath!,fit: BoxFit.fill,)),
-                          SizedBox(width: 5,),
-                          Container(
-                            width: w/4.3,
-                            height: h/5,
-                            child:
-                            Image.file(imagePath2!,fit: BoxFit.fill,),)
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: w/1.7,
-                      height: h/4,
-                      child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
-                        maxLines: 5,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: COLOR.inversePrimary,
-                            fontFamily: 'Sofia Pro',
-                            wordSpacing: 1,
-                            fontSize: 25,
-                            letterSpacing: 1 ,
-                            fontWeight: FontWeight.normal,
-                            height: 1
-                        ),),
-                    ),
-                    InkWell(
-                      onTap: (){
-                        // if (imagePath!=null && imagePath2!=null) {
-                        //   ShowDialog();
-                        //   Convert(imagePath!);
-                        //   Future.delayed(const Duration(milliseconds: 2000), () {
-                        //     Convert(imagePath2!);
-                        //   });
-                        //
-                        // }
-                      },
-                      child: Container(
-                        width: w/7,
-                        height: h/13,
-                        margin: EdgeInsets.only(right: h/4,bottom: h/20),
-                        decoration: BoxDecoration(
-                          color : Color.fromRGBO(207, 109, 56, 1),
-                        ),
-                        child: Center(
-                          child: Icon(Icons.add),
+                              child:
+                              Image.file(imagePath2!,fit: BoxFit.fill,),)
+                          ],
                         ),
                       ),
-                    ),
-                    InkWell(
-                      onTap: ()async{
-                        if (imagePath!=null && imagePath2!=null) {
-
-                          Convert(imagePath!);
-                          Future.delayed(const Duration(milliseconds: 2000), () {
-                            Convert(imagePath2!);
-                            //  ShowDialog();
-                          });
-                        }
-                      },
-                      child: Container(
-                        width: w/1.25,
-                        height: h/14,
-                        margin: EdgeInsets.only(bottom: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
+                      Container(
+                        width: w/1.7,
+                        height: h/4,
+                        child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
+                          maxLines: 5,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: COLOR.inversePrimary,
+                              fontFamily: 'Sofia Pro',
+                              wordSpacing: 1,
+                              fontSize: 25,
+                              letterSpacing: 1 ,
+                              fontWeight: FontWeight.normal,
+                              height: 1
+                          ),),
+                      ),
+                      InkWell(
+                        onTap: (){
+                          // if (imagePath!=null && imagePath2!=null) {
+                          //   ShowDialog();
+                          //   Convert(imagePath!);
+                          //   Future.delayed(const Duration(milliseconds: 2000), () {
+                          //     Convert(imagePath2!);
+                          //   });
+                          //
+                          // }
+                        },
+                        child: Container(
+                          width: w/7,
+                          height: h/13,
+                          margin: EdgeInsets.only(right: h/4,bottom: h/20),
+                          decoration: BoxDecoration(
+                            color : Color.fromRGBO(207, 109, 56, 1),
                           ),
-                          boxShadow : [BoxShadow(
-                              color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-                              offset: Offset(0,0),
-                              blurRadius: 6
-                          )],
-                          color : Color.fromRGBO(207, 109, 56, 1),
-                        ),
-                        child:  Center(
-                          child: Text('Submit', textAlign: TextAlign.center,  style:
-                          _textthem.headline1,),
+                          child: Center(
+                            child: Icon(Icons.add),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
+                      InkWell(
+                        onTap: ()async{
+                          if (imagePath!=null && imagePath2!=null) {
+
+                            Convert(imagePath!);
+                            Future.delayed(const Duration(milliseconds: 2000), () {
+                              Convert(imagePath2!);
+                              //  ShowDialog();
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: w/1.25,
+                          height: h/14,
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius : BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5),
+                              bottomLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(5),
+                            ),
+                            boxShadow : [BoxShadow(
+                                color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                                offset: Offset(0,0),
+                                blurRadius: 6
+                            )],
+                            color : Color.fromRGBO(207, 109, 56, 1),
+                          ),
+                          child:  Center(
+                            child: Text('Submit', textAlign: TextAlign.center,  style:
+                            _textthem.headline1,),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  state.isLoading!?
+                  listLoader(context: Context)
+                      :Text(""),
+                ],)
                     :Text(""),
               ),
             ),
