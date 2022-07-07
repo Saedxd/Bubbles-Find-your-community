@@ -12,6 +12,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -27,11 +28,15 @@ import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
+import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -1223,6 +1228,7 @@ class HttpHelper implements IHttpHelper {
         options: Options(headers: {
           "Accept" :"application/json",
           "Authorization" :"Bearer $Auth",
+          "Accept-Encoding" :"gzip, deflate, br",
         }));//todo : check if this is working on the new release that you will make and on the emulator
 
       // var url = Uri.parse("https://admin.bubbles.app/api/verify/profile");
@@ -1928,13 +1934,11 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       double lat,
       double lng,
       String Auth,
-
-
       ) async {
     try {
 
       final response = await _dio!
-          .post('event/nearby', options: Options(headers: {
+          .post('events/nearby?user_latitude=$lat&user_longitude=$lng', options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth",
       }));
@@ -1966,7 +1970,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
   @override
-  Future<GetDetailedEvent> SearchEventLists(
+  Future<GetDetailedEvent> SearchEventLists(//dont need this one for now
       String Keyword,
       String Auth,
       ) async {
@@ -2043,6 +2047,316 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       throw NetworkException();
     }
   }
+
+  @override
+  Future<SendBubbleMessageModel> SendMessageEVENT(
+      String Auth,
+      String type,
+      String message,
+      int Event_id,
+      int main_type,
+      ) async {
+    try {
+      final formData = {
+        "bubble_id": Event_id,
+        "type": type,
+        "main_type": main_type,
+        "message": message,
+      };
+
+
+      final response = await _dio!
+          .post('save/bubble/message',data: formData, options: Options(headers: {
+        "Accept-Encoding" :"gzip, deflate, br",
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SendBubbleMessageModel> SendReplyMessageEVENT(
+      String Auth,
+      String comment,
+      int message_id,
+      ) async {
+    try {
+      final formData = {
+        "comment": comment,
+        "message_id": message_id,
+      };
+
+
+      final response = await _dio!
+          .post('save/reply/group',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+
+
+  @override
+  Future<InOutUserStatusModel> ChangeUserStatusToOut(
+      String Auth,
+      int bubble_id,
+      )async {
+    try {
+      final formData = {
+        "bubble_id": bubble_id,
+      };
+
+      final response = await _dio!
+          .post('out/bubble',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              InOutUserStatusModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(InOutUserStatusModel),
+                  ],
+                ),
+              ],
+            )) as InOutUserStatusModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+  @override
+  Future<InOutUserStatusModel> ChangeUserStatusToIN(
+      String Auth,
+      int bubble_id,
+      )async {
+    try {
+      final formData = {
+        "bubble_id": bubble_id,
+      };
+
+      final response = await _dio!
+          .post('in/bubble',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              InOutUserStatusModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(InOutUserStatusModel),
+                  ],
+                ),
+              ],
+            )) as InOutUserStatusModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+  @override
+  Future<GetUsersInsideBubbleModel> GetUsersInsideBubble(
+      String Auth,
+      int bubble_id,
+      )async {
+    try {
+
+
+      final response = await _dio!
+          .get('bubble/users?buuble_id=$bubble_id', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetUsersInsideBubbleModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetUsersInsideBubbleModel),
+                  ],
+                ),
+              ],
+            )) as GetUsersInsideBubbleModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<EventOldMessagesModel> GetEventMessages(
+      String Auth,
+      int bubble_id
+      )async {
+    try {
+
+      final response = await _dio!
+          .get('get/bubble/message?bubble_id=$bubble_id', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              EventOldMessagesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(EventOldMessagesModel),
+                  ],
+                ),
+              ],
+            )) as EventOldMessagesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetbadgeModel> Getbadge(
+      String Auth,
+      )async {
+    try {
+
+      final response = await _dio!
+          .get('counter/notifications', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetbadgeModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetbadgeModel),
+                  ],
+                ),
+              ],
+            )) as GetbadgeModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
 }
 
 class NetworkException implements Exception {}

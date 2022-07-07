@@ -1,5 +1,6 @@
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/bloc/SuggestedFrineds_Bloc.dart';
@@ -59,12 +60,7 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
         bloc: SuggestedFrineds_Bloc,
         builder: (BuildContext Context, SuggestedFreindsState state) {
 
-              if (state.AddFreindSuccess! && Diditonce ==true){
-                Navigator.pop(context);
-                Diditonce = false;
-                SuggestedFrineds_Bloc.add(
-                    GetSuggestedFriends());
-              }
+
 
           alreatDialogBuilder(
               BuildContext Context,
@@ -76,6 +72,13 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                 context: Context,
                 barrierDismissible: false,
                 builder: (Context) {
+
+
+
+                  var myInt = int.parse(state.ListOFSUggested![myINdex].Color.toString());
+                  var BackgroundColor= myInt;
+
+
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
                     insetPadding: EdgeInsets.all(h/50),
@@ -90,6 +93,7 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                         child :
                             Stack(
                               children:[
+
                                 Center(
                                 child: Container(
                                   width: w/1.1,
@@ -109,16 +113,18 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.start,
+                                        MainAxisAlignment.spaceAround,
                                         children:  [
-                                          Text(
-                                              "  "),
+
+
                                           Container(
                                             margin: EdgeInsets.only(left: h/60),
                                             child: CircleAvatar(
-                                              backgroundImage: NetworkImage(state.SuggestFriends!.users![myINdex].avatar.toString()),
+
+                                              backgroundImage: NetworkImage(state.ListOFSUggested![myINdex].AvatarPath.toString()),
                                               radius:
-                                              58,
+                                              40,
+                                              backgroundColor:Color(BackgroundColor),
                                             ),
                                           ),
                                           Container(
@@ -127,9 +133,7 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                               children: [
                                               Container(
                                                     child: Text(
-                                                        state
-                                                            .SuggestFriends!
-                                                            .users![myINdex].alias
+                                                        state.ListOFSUggested![myINdex].Alias
                                                             .toString(),
                                                         overflow: TextOverflow.ellipsis,
                                                         style: _textthem.headline6!.copyWith(
@@ -139,14 +143,14 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                                             FontWeight
                                                                 .w400,
                                                             fontSize:
-                                                            18)),
+                                                            20)),
                                                   ),
 
                                                 Row(
                                                   children: [
 
                                                     Text(
-                                                        "#4444",
+                                                        state.ListOFSUggested![myINdex].Serial_Number!,
                                                         textAlign: TextAlign.left,
                                                         style: _textthem
                                                             .headline6!
@@ -163,6 +167,22 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                               ],
                                             ),
                                           ),
+                                          Container(
+                                            height: h/6,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                //  color: Colors.pink,
+                                                  child: IconButton(
+                                                    onPressed: (){
+                                                      Navigator.pop(context,true);
+                                                    },
+                                                    icon: Icon(Icons.clear),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
                                         ],
                                       ),
                                       Container(
@@ -184,6 +204,14 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
 
                                           InkWell(
                                             onTap: (){
+                                              //DirectChat
+                                              WidgetsBinding.instance!
+                                                  .addPostFrameCallback((_) => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                     DirectChat(my_ID: state.ListOFSUggested![myINdex].MY_id!, receiver_id: state.ListOFSUggested![myINdex].His_id!,)),
+                                              ));
                                             },
                                             child: Container(
                                                 width: w/3,
@@ -213,6 +241,10 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                           ),
                                           InkWell(
                                             onTap: (){
+                                              SuggestedFrineds_Bloc.add(DeleteFromList((b) =>
+                                              b..index = myINdex
+                                              ));
+                                              Navigator.pop(context);
                                             SuggestedFrineds_Bloc.add(AddFrined((b) => b
                                             ..serial = state.SuggestFriends!.users![myINdex].serial.toString()
                                             ));
@@ -247,26 +279,7 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                   ),
                                 ),
                               ),
-                                state.FreindAddlOADING == true
-                                    ? Container(
-                                    width: w/1.1,
-                                    height: h/2.3,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Center(child: listLoader(context: context)),
-                                      ],
-                                    ))
-                                    : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Center(
-                                      child: Container(
-                                        child: const Text(""),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+
                                 ]
                             ),
 
@@ -317,6 +330,7 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                         ),
                       ),
                     const Text(""),
+
                     state.success!
                         ? Column(
                       children: [
@@ -328,269 +342,210 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                               behavior: MyBehavior(),
                               child: ListView.separated(
                                 shrinkWrap: true,
-                                padding: EdgeInsets.zero,
                                 physics: BouncingScrollPhysics(
                                     parent:
                                     AlwaysScrollableScrollPhysics()),
                                 scrollDirection: Axis.vertical,
-                                itemCount: state.SuggestFriends!.users!.length,
+                                itemCount: state.ListOFSUggested!.length,
                                 itemBuilder: (BuildContext context,
                                     int index) {
                                   var BackgroundColor;
                                   try{
-                                    String Value = state.SuggestFriends!.users![index].background_color.toString();
+                                    String Value =     state.ListOFSUggested![index].Color.toString();
                                     var myInt = int.parse(Value);
                                      BackgroundColor= myInt;
                                   }catch(e){
                                     print(e);
                                   }
-
-
                                   return
+                                    Column(
+                                      children: [
+                                        Container(
+                                            child: Center(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  alreatDialogBuilder(context,h,w,index);
+                                                },
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(left: h/30),
 
-                                    Container(
-                                      child: Slidable(
-
-                                          closeOnScroll: true,
-                                          key: const ValueKey(0),
-                                          endActionPane: ActionPane(
-                                            motion:
-                                            const ScrollMotion(),
-                                            dismissible:
-                                            DismissiblePane(
-                                                onDismissed:
-                                                    () {}),
-                                            children: [
-                                              Expanded(
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Container(
-                                                    width: w / 5,
-                                                    height: h / 9,
-                                                    decoration:
-                                                    const BoxDecoration(
-                                                      color: const Color(
-                                                          0xff942657),
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .only(
-                                                        bottomRight:
-                                                        const Radius
-                                                            .circular(5),
-                                                        topRight: Radius
-                                                            .circular(
-                                                            5),
+                                                      width: w / 1.01,
+                                                      height: h / 10,
+                                                      decoration: BoxDecoration(
+                                                        color: COLOR.secondaryContainer,
+                                                        borderRadius: BorderRadius.only(
+                                                          bottomLeft: Radius.circular(40),
+                                                          bottomRight: Radius.circular(5),
+                                                          topLeft: Radius.circular(40),
+                                                          topRight: Radius.circular(5),
+                                                        ),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              color: COLOR.primaryVariant ,
+                                                              offset: Offset(0, 0),
+                                                              blurRadius: 5)
+                                                        ],
                                                       ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                            "Assets/images/Delete_trash.svg",
-                                                            width: h /
-                                                                30,
-                                                            color: Colors
-                                                                .white),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          child: Center(
-                                            child: InkWell(
-                                              onTap: () {
-                                                alreatDialogBuilder(context,h,w,index);
-                                                // Navigator.push(
-                                                //   context,
-                                                //   MaterialPageRoute(
-                                                //     builder: (context) =>
-                                                //     const DirectChat(),
-                                                //   ),
-                                                // );
-                                              },
-                                              child: Column(
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(left: h/30),
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            margin: EdgeInsets.only(left: h/80),
+                                                            width: w/6,
+                                                            height: h/11.7,
+                                                            child:CachedNetworkImage(
+                                                              imageUrl:
+                                                              state.SuggestFriends!.users![index].avatar.toString()!=null
+                                                                  ?state.ListOFSUggested![index].AvatarPath.toString():"Assets/images/DefaultAvatar.png",
 
-                                                    width: w / 1.01,
-                                                    height: h / 10,
-                                                    decoration: BoxDecoration(
-                                                      color: COLOR.secondaryContainer,
-                                                      borderRadius: BorderRadius.only(
-                                                        bottomLeft: Radius.circular(40),
-                                                        bottomRight: Radius.circular(5),
-                                                        topLeft: Radius.circular(40),
-                                                        topRight: Radius.circular(5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: COLOR.primaryVariant ,
-                                                            offset: Offset(0, 0),
-                                                            blurRadius: 5)
-                                                      ],
-                                                    ),
-                                                    child: Row(
-                                                      children: [
-                                                        Container(
-                                                          margin: EdgeInsets.only(left: h/80),
-                                                          width: w/6,
-                                                          height: h/11.7,
-                                                          child:CachedNetworkImage(
-                                                            imageUrl:
-                                                          state.SuggestFriends!.users![index].avatar.toString()!=null
-                                                              ?state.SuggestFriends!.users![index].avatar.toString():"Assets/images/DefaultAvatar.png",
-
-                                                            errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                            imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                              radius: 30,
-                                                              backgroundImage: imageProvider,
-                                                              backgroundColor:   Color(BackgroundColor),
+                                                              errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                              imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                radius: 30,
+                                                                backgroundImage: imageProvider,
+                                                                backgroundColor:   Color(BackgroundColor),
+                                                              ),
                                                             ),
                                                           ),
-                                                        ),
 
 
-                                                        Container(
-                                                          margin: EdgeInsets.only(left: h/50),
-                                                          child: Text(
-                                                              state.SuggestFriends!.users![index].alias.toString(),
-                                                              textAlign: TextAlign.left,
-                                                              style: _textthem.headline1!.copyWith(
-                                                                  fontWeight: FontWeight.w400
-                                                                  ,fontSize: 24
-                                                                  ,height: 1
-                                                              )
+                                                          Container(
+                                                            margin: EdgeInsets.only(left: h/50),
+                                                            child: Text(
+                                                                state.ListOFSUggested![index].Alias.toString(),
+                                                                textAlign: TextAlign.left,
+                                                                style: _textthem.headline1!.copyWith(
+                                                                    fontWeight: FontWeight.w400
+                                                                    ,fontSize: 24
+                                                                    ,height: 1
+                                                                )
 
+                                                            ),
                                                           ),
-                                                        ),
 
-                                                      ],
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
+
+
+                                                //
+                                                // Column(
+                                                //   children: [
+                                                //     Container(
+                                                //       margin: EdgeInsets.only(left: h/30),
+                                                //       width: w / 1.01,
+                                                //       height: h / 10,
+                                                //       decoration:
+                                                //       BoxDecoration(
+                                                //         color: COLOR
+                                                //             .background,
+                                                //         borderRadius:
+                                                //         const BorderRadius
+                                                //             .only(
+                                                //           bottomLeft: Radius
+                                                //               .circular(
+                                                //               40),
+                                                //           bottomRight: Radius
+                                                //               .circular(
+                                                //               5),
+                                                //           topLeft:
+                                                //           const Radius
+                                                //               .circular(40),
+                                                //           topRight: Radius
+                                                //               .circular(
+                                                //               5),
+                                                //         ),
+                                                //         boxShadow: const [
+                                                //           BoxShadow(
+                                                //             color: Color
+                                                //                 .fromRGBO(
+                                                //                 0,
+                                                //                 0,
+                                                //                 0,
+                                                //                 0.25),
+                                                //             offset:
+                                                //             Offset(
+                                                //                 0,
+                                                //                 0),
+                                                //             blurRadius:
+                                                //             8.0,
+                                                //           )
+                                                //         ],
+                                                //       ),
+                                                //       child: Row(
+                                                //         children: [
+                                                //           Column(
+                                                //             mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .center,
+                                                //             children: [
+                                                //               Row(
+                                                //                 mainAxisAlignment:
+                                                //                 MainAxisAlignment.center,
+                                                //                 children:  [
+                                                //                   Text(
+                                                //                       "  "),
+                                                //                   CircleAvatar(
+                                                //                     backgroundImage: NetworkImage(
+                                                //                         state.SuggestFriends!.users![index].avatar.toString()),
+                                                //                     radius:
+                                                //                     28,
+                                                //                   ),
+                                                //                 ],
+                                                //               ),
+                                                //             ],
+                                                //           ),
+                                                //           Expanded(
+                                                //             child:
+                                                //             Column(
+                                                //               mainAxisAlignment:
+                                                //               MainAxisAlignment
+                                                //                   .center,
+                                                //               children: [
+                                                //                 Text(
+                                                //                     state.SuggestFriends!.users![index].alias.toString(),
+                                                //                     textAlign:
+                                                //                     TextAlign.left,
+                                                //                     style: _textthem.headline1!.copyWith(fontWeight: FontWeight.w400, fontSize: 22)),
+                                                //                 Row(
+                                                //                   mainAxisAlignment:
+                                                //                   MainAxisAlignment.spaceBetween,
+                                                //                   children: [
+                                                //                     Text('Lorem Ipsum dolr en ontori an',
+                                                //                         textAlign: TextAlign.left,
+                                                //                         style: _textthem.headline4!.copyWith(fontSize: 13, fontWeight: FontWeight.w400, color: const Color(0xff939393))),
+                                                //                     Container(
+                                                //                       width: w / 6.6,
+                                                //                       height: h / 30,
+                                                //                       child: Center(
+                                                //                         child: Text('9:32pm',
+                                                //                             textAlign: TextAlign.right,
+                                                //                             overflow: TextOverflow.ellipsis,
+                                                //                             style: _textthem.headline4!.copyWith(
+                                                //                               fontSize: 15,
+                                                //                               color: const Color(0xff939393),
+                                                //
+                                                //                               // ,fontWeight: FontWeight.bold
+                                                //                             )),
+                                                //                       ),
+                                                //                     )
+                                                //                   ],
+                                                //                 ),
+                                                //               ],
+                                                //             ),
+                                                //           ),
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //   ],
+                                                // ),
                                               ),
-
-
-                                              //
-                                              // Column(
-                                              //   children: [
-                                              //     Container(
-                                              //       margin: EdgeInsets.only(left: h/30),
-                                              //       width: w / 1.01,
-                                              //       height: h / 10,
-                                              //       decoration:
-                                              //       BoxDecoration(
-                                              //         color: COLOR
-                                              //             .background,
-                                              //         borderRadius:
-                                              //         const BorderRadius
-                                              //             .only(
-                                              //           bottomLeft: Radius
-                                              //               .circular(
-                                              //               40),
-                                              //           bottomRight: Radius
-                                              //               .circular(
-                                              //               5),
-                                              //           topLeft:
-                                              //           const Radius
-                                              //               .circular(40),
-                                              //           topRight: Radius
-                                              //               .circular(
-                                              //               5),
-                                              //         ),
-                                              //         boxShadow: const [
-                                              //           BoxShadow(
-                                              //             color: Color
-                                              //                 .fromRGBO(
-                                              //                 0,
-                                              //                 0,
-                                              //                 0,
-                                              //                 0.25),
-                                              //             offset:
-                                              //             Offset(
-                                              //                 0,
-                                              //                 0),
-                                              //             blurRadius:
-                                              //             8.0,
-                                              //           )
-                                              //         ],
-                                              //       ),
-                                              //       child: Row(
-                                              //         children: [
-                                              //           Column(
-                                              //             mainAxisAlignment:
-                                              //             MainAxisAlignment
-                                              //                 .center,
-                                              //             children: [
-                                              //               Row(
-                                              //                 mainAxisAlignment:
-                                              //                 MainAxisAlignment.center,
-                                              //                 children:  [
-                                              //                   Text(
-                                              //                       "  "),
-                                              //                   CircleAvatar(
-                                              //                     backgroundImage: NetworkImage(
-                                              //                         state.SuggestFriends!.users![index].avatar.toString()),
-                                              //                     radius:
-                                              //                     28,
-                                              //                   ),
-                                              //                 ],
-                                              //               ),
-                                              //             ],
-                                              //           ),
-                                              //           Expanded(
-                                              //             child:
-                                              //             Column(
-                                              //               mainAxisAlignment:
-                                              //               MainAxisAlignment
-                                              //                   .center,
-                                              //               children: [
-                                              //                 Text(
-                                              //                     state.SuggestFriends!.users![index].alias.toString(),
-                                              //                     textAlign:
-                                              //                     TextAlign.left,
-                                              //                     style: _textthem.headline1!.copyWith(fontWeight: FontWeight.w400, fontSize: 22)),
-                                              //                 Row(
-                                              //                   mainAxisAlignment:
-                                              //                   MainAxisAlignment.spaceBetween,
-                                              //                   children: [
-                                              //                     Text('Lorem Ipsum dolr en ontori an',
-                                              //                         textAlign: TextAlign.left,
-                                              //                         style: _textthem.headline4!.copyWith(fontSize: 13, fontWeight: FontWeight.w400, color: const Color(0xff939393))),
-                                              //                     Container(
-                                              //                       width: w / 6.6,
-                                              //                       height: h / 30,
-                                              //                       child: Center(
-                                              //                         child: Text('9:32pm',
-                                              //                             textAlign: TextAlign.right,
-                                              //                             overflow: TextOverflow.ellipsis,
-                                              //                             style: _textthem.headline4!.copyWith(
-                                              //                               fontSize: 15,
-                                              //                               color: const Color(0xff939393),
-                                              //
-                                              //                               // ,fontWeight: FontWeight.bold
-                                              //                             )),
-                                              //                       ),
-                                              //                     )
-                                              //                   ],
-                                              //                 ),
-                                              //               ],
-                                              //             ),
-                                              //           ),
-                                              //         ],
-                                              //       ),
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                            ),
-                                          )),
+                                            )
+                                        ),
+                                      ],
                                     );
-
 
                                 }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: h/50,); },
                               ),
@@ -622,7 +577,26 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                     ],
                   ),
 
-
+                      state.FreindAddlOADING == true
+                          ? Container(
+                          width: w/1.1,
+                          height: h/1.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(child: listLoader(context: context)),
+                            ],
+                          ))
+                          : Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Container(
+                              child: const Text(""),
+                            ),
+                          ),
+                        ],
+                      ),
 
                     ]),
                   ),
@@ -637,6 +611,14 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
     );
   }
 
+}
+class Data{
+  String? Alias;
+  String? Color;
+  String? AvatarPath;
+  String? Serial_Number;
+  int? MY_id;
+  int? His_id;
 }
 
 

@@ -33,3 +33,10 @@ abstract class AddFrined extends SuggestedFrinedsEvent
   AddFrined._();
   factory AddFrined([updates(AddFrinedBuilder b)]) = _$AddFrined;
 }
+abstract class DeleteFromList extends SuggestedFrinedsEvent
+    implements Built<DeleteFromList,DeleteFromListBuilder> {
+  int? get index;
+
+  DeleteFromList._();
+  factory DeleteFromList([updates(DeleteFromListBuilder b)]) = _$DeleteFromList;
+}

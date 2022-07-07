@@ -124,7 +124,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                             gridDelegate:
                                             const SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 4,
-                                              childAspectRatio: (5 / 5.5),
+                                              childAspectRatio: (5 / 4.7),
                                             ),
                                             itemBuilder: (context, index) {
                                               return InkWell(
@@ -151,16 +151,27 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                                         : print("Choose Avatar");
                                                   },
                                                   child: Container(
+                                                    child: ClipOval(
+                                                        child: SizedBox.fromSize(
+                                                          size: Size.fromRadius(48), // Image radius
+                                                          child :CachedNetworkImage(
+                                                            imageUrl: state.GetAvatar!
+                                                                .avatars![index].image!,
+                                                            fit: BoxFit.cover,
+                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                                          ),
+                                                        ))
 
-                                                    margin: EdgeInsets.all(5),
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:  state.GetAvatar!
-                                                          .avatars![index].image!,
-                                                      fit: BoxFit.fill,
-                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                          CircularProgressIndicator(value: downloadProgress.progress),
-                                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                                    ),
+
+                                                    // CachedNetworkImage(
+                                                    //   imageUrl:
+                                                    //   fit: BoxFit.fill,
+                                                    //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                    //       CircularProgressIndicator(value: downloadProgress.progress),
+                                                    //   errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    // ),
                                                   ));
                                             })
                                     ),

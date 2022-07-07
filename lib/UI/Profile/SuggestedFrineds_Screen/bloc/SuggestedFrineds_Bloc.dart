@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
+import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/pages/SuggestedFrineds_screen.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -39,11 +40,29 @@ class SuggestedFrinedsBloc extends Bloc<SuggestedFrinedsEvent, SuggestedFreindsS
         final date = await _repository.SuggestFreinds();
         print('get Success data $date');
         yield state.rebuild((b) => b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..SuggestFriends.replace(date)
+        );
+        for (int i =0;i<state.SuggestFriends!.users!.length;i++){
+          Data Dataa =Data();
+          Dataa.Color = state.SuggestFriends!.users![i].background_color.toString();
+          Dataa.Alias = state.SuggestFriends!.users![i].alias.toString();
+          Dataa.AvatarPath = state.SuggestFriends!.users![i].avatar.toString();
+          Dataa.Serial_Number = state.SuggestFriends!.users![i].serialnumber.toString();
+          Dataa.MY_id = state.SuggestFriends!.users![i].me_id;
+          Dataa.His_id = state.SuggestFriends!.users![i].id;
+          state.ListOFSUggested!.add(Dataa);
+        }
+
+        yield state.rebuild((b) => b
           ..isLoading = false
           ..error = ""
           ..success = true
-          ..SuggestFriends.replace(date)
         );
+
+
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) => b
@@ -74,6 +93,25 @@ class SuggestedFrinedsBloc extends Bloc<SuggestedFrinedsEvent, SuggestedFreindsS
           ..AddFreindSuccess = true
           ..AddNewFriend.replace(date)
         );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..FreindAddlOADING = false
+          ..error = "Something went wrong"
+          ..AddFreindSuccess = false
+          ..AddNewFriend = null
+        );
+      }
+    }
+
+
+    if (event is DeleteFromList) {
+      try {
+
+
+        state.ListOFSUggested!.removeAt(event.index!);
+
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>

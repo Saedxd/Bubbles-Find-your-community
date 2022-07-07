@@ -24,6 +24,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(DateModel.serializer)
       ..add(DatesEventListModel.serializer)
       ..add(DenyFriendRequestModel.serializer)
+      ..add(EventMessagesListModel.serializer)
+      ..add(EventOldMessagesModel.serializer)
+      ..add(EventdetialMessageModel.serializer)
       ..add(FreindModel.serializer)
       ..add(FreindRequestsModel.serializer)
       ..add(FreindsFilteredListModel.serializer)
@@ -41,8 +44,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(GetPrimeBubblesModel.serializer)
       ..add(GetQuestionsModel.serializer)
       ..add(GetSubGender.serializer)
+      ..add(GetbadgeModel.serializer)
       ..add(GetnotifcationsModel.serializer)
       ..add(ImagesEventListModel.serializer)
+      ..add(InOutUserStatusModel.serializer)
       ..add(InterestsListModel.serializer)
       ..add(InterestsProfileModel.serializer)
       ..add(LogoutModel.serializer)
@@ -58,6 +63,7 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(RemoveFromDirectModel.serializer)
       ..add(ReplieslISTModel.serializer)
       ..add(SearchFrinedsModel.serializer)
+      ..add(SendBubbleMessageModel.serializer)
       ..add(SubgendersListModel.serializer)
       ..add(SubmitCreatorAnwersModel.serializer)
       ..add(SuggestFriendsModel.serializer)
@@ -90,6 +96,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(DataPrimeBubbles)]),
           () => new ListBuilder<DataPrimeBubbles>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltList, const [const FullType(EventMessagesListModel)]),
+          () => new ListBuilder<EventMessagesListModel>())
       ..addBuilderFactory(
           const FullType(
               BuiltList, const [const FullType(FreindsFilteredListModel)]),
@@ -141,6 +151,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(QuestionsListModel)]),
           () => new ListBuilder<QuestionsListModel>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(ReplieslISTModel)]),
+          () => new ListBuilder<ReplieslISTModel>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(ReplieslISTModel)]),
           () => new ListBuilder<ReplieslISTModel>())

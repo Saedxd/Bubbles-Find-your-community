@@ -21,6 +21,7 @@ class Challenges extends StatefulWidget {
 
 class _ChallengesState extends State<Challenges> {
   final _ChallengesBloc = sl<ChallengesBloc>();
+  bool Diditonce = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
@@ -30,8 +31,6 @@ class _ChallengesState extends State<Challenges> {
 
   Future<void> OnRefresh() async {
     _ChallengesBloc.add(GetChallenges());
-    //todo : implemment fixes
-    //  to loading
   }
 
   @override
@@ -43,6 +42,13 @@ class _ChallengesState extends State<Challenges> {
     return BlocBuilder(
         bloc: _ChallengesBloc,
         builder: (BuildContext context, ChallengesState state) {
+
+
+          if (state.success!&& Diditonce){
+            Navigator.pop(context);
+            Diditonce = false;
+          }
+
           alreatDialogBuilder(BuildContext Context, double h, double w,
               ChallengesState state, int index) async {
             int NUMBERSWanted = state.GetChallenges!.values![index];
@@ -176,7 +182,7 @@ class _ChallengesState extends State<Challenges> {
                          if (     state.GetChallenges!
                              .challengesStatus![index] ==
                              1) {
-                           _ChallengesBloc.add(GetChallenges());
+                           Diditonce = true;
                               _ChallengesBloc.add(GetPoints((b) => b
                               ..ChallengeId = state.GetChallenges!
                                   .challenges![index].id!
@@ -184,7 +190,7 @@ class _ChallengesState extends State<Challenges> {
                            _ChallengesBloc.add(GetChallenges());
 
                               }
-                         Navigator.pop(context);
+
 
                             },
                             child: Container(
@@ -224,8 +230,6 @@ class _ChallengesState extends State<Challenges> {
                       ),
                     ],
                   );
-                  //todo : fix the Create an Account textoverflow
-                  //todo : ask backend if user managed to get points twice he will get them doubled? or what happenes
                 });
           }
 
@@ -452,7 +456,7 @@ class _ChallengesState extends State<Challenges> {
                     : state.isLoading!
                         ? Container(
                             width: w,
-                            height: h / 4,
+                            height: h/1.5,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

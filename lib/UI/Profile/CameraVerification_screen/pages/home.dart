@@ -195,30 +195,23 @@ thanks for your patients
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: h/60),
+                        margin: EdgeInsets.only(top: h/100),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            SizedBox(width: 10,),
                             Container(
                                 margin: EdgeInsets.only(
-                                    left: h / 100, right: h / 15),
+                                    right: h / 35),
                                 child: IconButton(
                                   icon: SvgPicture.asset(
                                       "Assets/images/Frame 11.svg",
                                       width: 30,
                                       color: COLOR.surface),
-                                  onPressed: () {
+                                  onPressed:(){
                                     Navigator.pop(context);
-                                    WidgetsBinding.instance!
-                                        .addPostFrameCallback((_) => Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>  NavigatorTopBar()),
-                                    ));
                                   },
                                 )),
-
-                            const Spacer(),
                             Container(
                               margin: EdgeInsets.only(
                                   top: h / 100),
@@ -227,13 +220,6 @@ thanks for your patients
                                   fontSize: 23
                               ),),
                             ),
-                            const Spacer(),
-                            const Spacer(),
-                            const Spacer(),
-                            const Spacer(),
-                            const Spacer(),
-                            const Spacer(),
-
                           ],
                         ),
                       ),

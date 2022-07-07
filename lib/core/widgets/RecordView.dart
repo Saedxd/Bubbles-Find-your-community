@@ -36,30 +36,37 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    StopedRecording = true;
-    _animationController = AnimationController(vsync:this,duration: Duration(seconds: 2));
-    _animationController!.repeat(reverse: true);
-    _animation =  Tween(begin: 2.0,end: 15.0).animate(_animationController!)..addListener((){
-      setState(() {
+    if (mounted) {
+      StopedRecording = true;
+      _animationController =
+          AnimationController(vsync: this, duration: Duration(seconds: 2));
+      _animationController!.repeat(reverse: true);
+      _animation = Tween(begin: 2.0, end: 15.0).animate(_animationController!)
+        ..addListener(() {
+          setState(() {
 
-      });
-    });
-    final status = Permission.microphone.request();
+          });
+        });
+      final status = Permission.microphone.request();
 
-    status.isGranted.then((value) =>
-    _recordingState = RecordingState.Set
-    );
-
+      status.isGranted.then((value) =>
+      _recordingState = RecordingState.Set
+      );
+    }
   }
-
 
 
 
   @override
   void dispose() {
-    _animationController!.dispose();
-    _recordingState = RecordingState.UnSet;
-    super.dispose();
+
+    if (mounted) {
+      _animationController!.dispose();
+      _recordingState = RecordingState.UnSet;
+      super.dispose();
+      //  audioRecorder.stop();
+      // StopedRecording = true;
+    }
   }
 
   @override
@@ -82,9 +89,11 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
           ),
           child: IconButton(
               onPressed: () async{
-                StopedRecording = false;
-                await _onRecordButtonPressed();
-                setState(() {});
+                if (mounted) {
+                  StopedRecording = false;
+                  await _onRecordButtonPressed();
+                  setState(() {});
+                }
               },
               icon: SvgPicture.asset(
                 "Assets/images/MIC.svg",
@@ -93,72 +102,87 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   }
 
   Future<void> _onRecordButtonPressed() async {
-    switch (_recordingState) {
-      case RecordingState.Set:
-        await _recordVoice();
-        break;
+    if (mounted) {
+      switch (_recordingState) {
+        case RecordingState.Set:
+          await _recordVoice();
+          break;
 
-      case RecordingState.Recording:
-        await _stopRecording();
-        _recordingState = RecordingState.Stopped;
-        break;
+        case RecordingState.Recording:
+          await _stopRecording();
+          _recordingState = RecordingState.Stopped;
+          break;
 
-      case RecordingState.Stopped:
-        await _recordVoice();
-        break;
+        case RecordingState.Stopped:
+          await _recordVoice();
+          break;
 
-      case RecordingState.UnSet:
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        case RecordingState.UnSet:
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please allow recording from settings.'),
-        ));
-        break;
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Please allow recording from settings.'),
+          ));
+          break;
+      }
     }
   }
 
   _initRecorder() async {
-    Directory appDirectory = await getApplicationDocumentsDirectory();
-    String filePath = appDirectory.path +
-        '/'
-        +
-        DateTime.now().millisecondsSinceEpoch.toString()
-        +
-        '.aac';
+    if (mounted) {
+      Directory appDirectory = await getApplicationDocumentsDirectory();
+      String filePath = appDirectory.path +
+          '/'
+          +
+          DateTime
+              .now()
+              .millisecondsSinceEpoch
+              .toString()
+          +
+          '.aac';
 
-    audioRecorder =
-        FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
-    await audioRecorder.initialized;
+      audioRecorder =
+          FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
+      await audioRecorder.initialized;
+    }
   }
 
   _startRecording() async {
+    if (mounted) {
+
+
     await audioRecorder.start();
     StopedRecording = false;
     setState((){});
     // await audioRecorder.current(channel: 0);
+    }
   }
 
   _stopRecording() async {
-    await audioRecorder.stop();
+    if (mounted) {
+      await audioRecorder.stop();
 
 
-    StopedRecording = true;
-setState(() {});
-    widget.onSaved(audioRecorder.recording!.path.toString());
+      StopedRecording = true;
+      setState(() {});
+      widget.onSaved(audioRecorder.recording!.path.toString());
+    }
   }
 
   Future<void> _recordVoice() async {
-    final hasPermission = await FlutterAudioRecorder2.hasPermissions;
-    if (hasPermission ?? false) {
-      await _initRecorder();
+    if (mounted) {
+      final hasPermission = await FlutterAudioRecorder2.hasPermissions;
+      if (hasPermission ?? false) {
+        await _initRecorder();
 
-      await _startRecording();
-      _recordingState = RecordingState.Recording;
-    } else {
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please allow recording from settings.'),
-      ));
+        await _startRecording();
+        _recordingState = RecordingState.Recording;
+      } else {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please allow recording from settings.'),
+        ));
+      }
     }
   }
 }

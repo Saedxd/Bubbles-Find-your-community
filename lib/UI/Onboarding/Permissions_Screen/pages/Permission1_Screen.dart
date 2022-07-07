@@ -96,13 +96,13 @@ Column(
       height: h/3,
       child: Container(
         margin: EdgeInsets.only(top: h/10),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Row(mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(""),
-            SvgPicture.asset("Assets/images/Frame100.svg"),
-            SvgPicture.asset("Assets/images/Enable Location Services.svg"),
-            Text(""),
-            Text(""),
+
+            SvgPicture.asset("Assets/images/Frame100.svg",width: w/5.5,),
+            SizedBox(width: 13,),
+            SvgPicture.asset("Assets/images/Enable Location Services.svg",width: w/2.4),
+            SizedBox(width: h/25,),
           ],),
       ),
     ),
@@ -116,17 +116,15 @@ to show you nearby
 Bubbles and to
 access them""",
           textAlign: TextAlign.left,
-
-          style:    _TextTheme  .headline1!.copyWith(
-            letterSpacing: .1,
-            wordSpacing: 1,
-            fontWeight: FontWeight.w400,
-            fontSize: 3.8 *
+          style:_TextTheme.headline1!.copyWith(
+            letterSpacing: .9,
+            wordSpacing: 2,
+            fontWeight: FontWeight.w300,
+            fontSize: 3.4 *
                 SizeConfig
                     .blockSizeVertical!
                     .toDouble(),
           ),),
-
       ),
     ),
   ],

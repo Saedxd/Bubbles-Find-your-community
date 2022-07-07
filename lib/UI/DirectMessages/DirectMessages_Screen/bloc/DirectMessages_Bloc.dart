@@ -143,6 +143,17 @@ class DirectMessagesBloc extends Bloc<DirectMessagesEvent, DirectMessagesState> 
         );
       }
     }
+    if (event is DeleteFromList) {
+      try {
+
+
+        state.FilteredDmlist!.removeAt(event.index!);
+        final date = await _repository.RemoveFromDirect(event.receiver_id!);
+      } catch (e) {
+ print(e);
+
+      }
+    }
 
 
   }

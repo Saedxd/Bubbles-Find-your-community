@@ -5,6 +5,7 @@ library SuggestedFrineds_state;
 import 'dart:convert';
 
 
+import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/pages/SuggestedFrineds_screen.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -25,6 +26,7 @@ abstract class SuggestedFreindsState implements Built<SuggestedFreindsState,Sugg
 
   SuggestFriendsModel? get SuggestFriends;
   AddNewFriendModel? get AddNewFriend;
+List<Data>? get ListOFSUggested;
 
   SuggestedFreindsState._();
 
@@ -38,10 +40,7 @@ abstract class SuggestedFreindsState implements Built<SuggestedFreindsState,Sugg
       ..AddFreindSuccess = false
         ..SuggestFriends =null
         ..AddNewFriend=null
-
-
-
-
+        ..ListOFSUggested=[]
     );
   }
 }

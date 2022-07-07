@@ -1180,4 +1180,157 @@ class SearchBubblesListsBuilder
   }
 }
 
+class _$UserJoinedBubble extends UserJoinedBubble {
+  @override
+  final int? Bubble_id;
+
+  factory _$UserJoinedBubble(
+          [void Function(UserJoinedBubbleBuilder)? updates]) =>
+      (new UserJoinedBubbleBuilder()..update(updates))._build();
+
+  _$UserJoinedBubble._({this.Bubble_id}) : super._();
+
+  @override
+  UserJoinedBubble rebuild(void Function(UserJoinedBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  UserJoinedBubbleBuilder toBuilder() =>
+      new UserJoinedBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is UserJoinedBubble && Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('UserJoinedBubble')
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class UserJoinedBubbleBuilder
+    implements Builder<UserJoinedBubble, UserJoinedBubbleBuilder> {
+  _$UserJoinedBubble? _$v;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  UserJoinedBubbleBuilder();
+
+  UserJoinedBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(UserJoinedBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$UserJoinedBubble;
+  }
+
+  @override
+  void update(void Function(UserJoinedBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  UserJoinedBubble build() => _build();
+
+  _$UserJoinedBubble _build() {
+    final _$result = _$v ?? new _$UserJoinedBubble._(Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$UserLeftBubble extends UserLeftBubble {
+  @override
+  final int? Bubble_id;
+
+  factory _$UserLeftBubble([void Function(UserLeftBubbleBuilder)? updates]) =>
+      (new UserLeftBubbleBuilder()..update(updates))._build();
+
+  _$UserLeftBubble._({this.Bubble_id}) : super._();
+
+  @override
+  UserLeftBubble rebuild(void Function(UserLeftBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  UserLeftBubbleBuilder toBuilder() =>
+      new UserLeftBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is UserLeftBubble && Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('UserLeftBubble')
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class UserLeftBubbleBuilder
+    implements Builder<UserLeftBubble, UserLeftBubbleBuilder> {
+  _$UserLeftBubble? _$v;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  UserLeftBubbleBuilder();
+
+  UserLeftBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(UserLeftBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$UserLeftBubble;
+  }
+
+  @override
+  void update(void Function(UserLeftBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  UserLeftBubble build() => _build();
+
+  _$UserLeftBubble _build() {
+    final _$result = _$v ?? new _$UserLeftBubble._(Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

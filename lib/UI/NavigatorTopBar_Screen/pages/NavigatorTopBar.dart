@@ -31,6 +31,8 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   int dot = 0;
   bool DiditONCE = false;
   String Alias = "";
+  String Avatar = "";
+  String ColoRR = "";
   int USER_ID = 0;
   int selected = 0;
   int PageIndex = 0;
@@ -53,31 +55,30 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
         socket != null ?socket!.disconnected?connect(): print("already connected"):print("socket is null");
         break;
       case AppLifecycleState.inactive:
-      socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+      socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
         break;
       case AppLifecycleState.paused:
-        socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+        socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
         break;
       case AppLifecycleState.detached:
-        socket != null ?socket!.disconnected?print("ALready disconnected"): Disconnect():print("socket is null");
+        socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
         break;
     }
+
   }
 
   //https://chat.bubbles.app/
   //http://50.60.40.108:3000'
-  //  'https://50.60.40.102:3000',
-  //  'https://tranquil-castle-10002.herokuapp.com',
-  //  'https://chatapp.salnoyapp.store/',
-  //  'http://10.0.2.2:3000',
+  //'https://50.60.40.102:3000',
+  //'https://tranquil-castle-10002.herokuapp.com',
+  //'https://chatapp.salnoyapp.store/',
+  //'http://10.0.2.2:3000',
   //'http://50.60.40.102:3000',
   //'https://chat.bubbles.app',
-  //todo : make badge
-  void connect() async {
-        print("connected with alias: $Alias");
-        print("connected with USER_ID:$USER_ID");
+
+  void connect()async{
         socket =io(
-         'https://tranquil-castle-10002.herokuapp.com',
+        "http://134.122.50.245:3000/",
           OptionBuilder()
               .setTransports(['websocket'])
               .disableAutoConnect()
@@ -85,8 +86,12 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                "user_id": USER_ID,
                "username": Alias,
                "friendsList": FrinedsID,
+               "color": ColoRR,
+               "avatar": Avatar,
              }) .build(),
+
         );
+
         socket!.connect();
         socket!.io..disconnect()..connect();
 
@@ -99,7 +104,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
           print("onConnectError");
           print(data);
         });
+
   }
+
 
   void Disconnect(){
    socket!.disconnect();
@@ -120,6 +127,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
     _TopBarBloc.add(GetFreinds());
+    _TopBarBloc.add(GetBadge());
     if (widget.GOtoDirect==5){
       _TopBarBloc.add(
           ChangePAGEINDEX((b) =>  b
@@ -148,10 +156,13 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
           if (state.GetprofileSuccess! && DiditONCE && state.success!){
             Alias = state.ProfileDate!.user!.alias.toString();
             USER_ID = state.ProfileDate!.user!.id!;
+            Avatar = state.ProfileDate!.user!.avatar!;
+            ColoRR = state.ProfileDate!.user!.background_color!;
             for(int i=0;i<state.GetFriends!.friends!.length;i++){
               FrinedsID!.add(state.GetFriends!.friends![i].id!);
             }
             connect();
+
             print("called function connect");
             DiditONCE = false;
           }
@@ -387,7 +398,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                             ChangePAGEINDEX((b) =>  b
                                               ..num = 2
                                             ));
-                                        // _TopBarBloc.add(ClearBadge());
+                                     //  _TopBarBloc.add(ClearBadge());
                                         state.Index2==true
                                             ? _TopBarBloc.add(ChangeIndex2())
                                             :null;
@@ -411,12 +422,32 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            SvgPicture.asset(
-                                                "Assets/images/Vector.svg",
-                                                width: h / 30,
-                                                color: state.Index3!
-                                                    ? const Color(0xffCF6D38)
-                                                    :ColorS.tertiary
+                                            Stack(
+                                              children: [
+
+                                                SvgPicture.asset(
+                                                    "Assets/images/Vector.svg",
+                                                    width: h / 30,
+                                                    color: state.Index3!
+                                                        ? const Color(0xffCF6D38)
+                                                        :ColorS.tertiary
+                                                ),
+                                                state.success!?
+                                                state.Getbadge!.count!=0?
+                                                CircleAvatar(
+                                                  radius: 7,
+                                                  backgroundColor: Colors.red,
+                                                  child: Center(
+                                                    child: Text(state.Getbadge!.count.toString(),style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.white,
+                                                    ),),
+                                                  ),
+                                                )
+                                                        :Text("")
+                                                    :Text(""),
+                                              ],
+
                                             ),
                                           ],
                                         ),

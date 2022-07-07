@@ -31,8 +31,8 @@ class _NotificationsState extends State<Notifications> {
     // print("Get badge")
     //     :  print("dont Get badge");
 
-
-    _NotificationBloc.add(ClearBadge());
+    //
+    // _NotificationBloc.add(ClearBadge());
     ISNewNotifications = false;
 
 
@@ -86,9 +86,35 @@ bool diditonce = false;
                           const Text(""),
                         ],
                       ),
+
                       const Text(""),
                       (state.success == true)
-                          ? Container(
+                          ? state.Getnotifcations!.notifications!.length==0
+                      ?Container(
+                        width: w,
+                        height: h/1.24,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+
+                     Image.asset("Assets/images/Rectangle 257.png"),
+                            Text('I’m so sorry..you don’t have any notifications yet', textAlign: TextAlign.center, style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'Red Hat Display',
+                                fontSize: 17,
+                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                fontWeight: FontWeight.w600,
+                                height: 1
+                            ),),
+                            SizedBox(height: h/6,)
+
+                          ],
+                        ),
+                      )
+                          :
+
+                      Container(
                         width: w,
                             height: h/1.24,
                             child:ScrollConfiguration(

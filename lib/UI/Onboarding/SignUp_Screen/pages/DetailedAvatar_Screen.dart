@@ -119,278 +119,263 @@ class _DetailAvatarState extends State<DetailAvatar> {
 
           SingleChildScrollView(
                 physics: ScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(""),
-                        Text(""),
-                        Text(""),
-                      ],
-                    ),
-                    Row(
+                child: Container(
+                  width: w,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: h/20,),
+                   Container(
+                       width: w/1.3,
+                       child: Text(
+                       'Choose colour scheme',
+                       textAlign: TextAlign.left,
+                       style:_TextTheme.headlineLarge!.copyWith(
+                           fontSize: 3.5 *
+                               SizeConfig
+                                   .blockSizeVertical!
+                                   .toDouble(),
+                           fontWeight: FontWeight.w600,
+                           color: Colors.white
+                       )
+                   ),),
+                      SizedBox(height: h/30,),
+                      Container(
+                        child: Screenshot(
+                          controller: screenshotController,
+                          child: CircleAvatar(
+                            radius: h / 7,
+                            backgroundColor: pickerColor,
+                            backgroundImage:
+                                NetworkImage(widget.SelectedAvatar.toString()),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: h / 2.3,
+                        child: BlockPicker(
+                          pickerColor: currentColor,
+                          onColorChanged: changeColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Container(
+                      //   width: w / 1.3,
+                      //   height: h / 15,
+                      //   child: InkWell(
+                      //     onTap: () {
+                      //       alreatDialogBuilder();
+                      //       print(pickerColor);
+                      //     },
+                      //     child: Container(
+                      //       width: w / 1.3,
+                      //       height: h / 15,
+                      //       decoration: const BoxDecoration(
+                      //         borderRadius: BorderRadius.only(
+                      //           topLeft: Radius.circular(5),
+                      //           topRight: Radius.circular(5),
+                      //           bottomLeft: Radius.circular(5),
+                      //           bottomRight: Radius.circular(5),
+                      //         ),
+                      //         boxShadow: [
+                      //           BoxShadow(
+                      //               color: Color.fromRGBO(
+                      //                   0, 0, 0, 0.15000000596046448),
+                      //               offset: Offset(0, 0),
+                      //               blurRadius: 6)
+                      //         ],
+                      //         color: Color.fromRGBO(148, 38, 87, 1),
+                      //       ),
+                      //       child: Center(
+                      //         child: Text(
+                      //           'More Coloring Details',
+                      //           textAlign: TextAlign.center,
+                      //           style: TextStyle(
+                      //               color: Color.fromRGBO(234, 234, 234, 1),
+                      //               fontFamily: 'Sofia Pro',
+                      //               fontSize: 20,
+                      //               letterSpacing:
+                      //                   0 /*percentages not used in flutter. defaulting to zero*/,
+                      //               fontWeight: FontWeight.normal,
+                      //               height: 1),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        width: w / 1.3,
+                        height: h / 15,
+                        child: InkWell(
+                          onTap: () async {
+                       int a =   widget.Users!.GetAvatar();
+                       print(a);
+                       String lengthss = "ColorSwatch(primary value: Color(";
+                       print("this it is");
+                       print(lengthss.length);
+                            print(pickerColor);
+                            print(pickerColor.toString().length);
+                            //length of color that caused the problem is  33
+                            //
+                           //MaterialColor(primary value: Color(0xff9e9e9e))
+                            //MaterialColor(primary value: Color(0xffff9800))
 
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Center(
-                          child: Text(
-                            'Choose colour scheme',
-                            textAlign: TextAlign.left,
-                              style:_TextTheme.headlineLarge!.copyWith(
-                                  fontSize: 3.5 *
+                             //watch(prim
+                               //All colors does this except the black color
+
+                           pickerColor.toString().length==47
+                                ?  ColorS = pickerColor.toString().substring(35,45)
+                                :pickerColor.toString().length==17
+                                    ?   ColorS = pickerColor.toString().substring(6,16)
+                                    :   ColorS = pickerColor.toString().substring(33,43);
+
+                           widget.Users!.SetBackGroundColor(ColorS.toString()==""?pickerColor.toString():ColorS.toString());
+                           WidgetsBinding.instance!
+                               .addPostFrameCallback((_) =>
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(
+                                     builder: (context) =>
+                                         NameAndBoi(
+                                          Users:  widget.Users,
+                                         )),
+                               ));
+
+                          },
+                          child: Container(
+                            width: w / 1.3,
+                            height: h / 15,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                                bottomLeft: Radius.circular(5),
+                                bottomRight: Radius.circular(5),
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromRGBO(
+                                        0, 0, 0, 0.15000000596046448),
+                                    offset: Offset(0, 0),
+                                    blurRadius: 6)
+                              ],
+                              color: Color.fromRGBO(148, 38, 87, 1),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Next',
+                                textAlign: TextAlign.center,
+                                style:
+                                _TextTheme.headline1!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  fontSize: 3 *
                                       SizeConfig
                                           .blockSizeVertical!
                                           .toDouble(),
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white
-                              )
-                          ),
-                        ),
-                        Text(""),
-                        Text(""),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(""),
-                      ],
-                    ),
-                    Container(
-                      child: Screenshot(
-                        controller: screenshotController,
-                        child: CircleAvatar(
-                          radius: h / 7,
-                          backgroundColor: pickerColor,
-                          backgroundImage:
-                              NetworkImage(widget.SelectedAvatar.toString()),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: h / 2.3,
-                      child: BlockPicker(
-                        pickerColor: currentColor,
-                        onColorChanged: changeColor,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    // Container(
-                    //   width: w / 1.3,
-                    //   height: h / 15,
-                    //   child: InkWell(
-                    //     onTap: () {
-                    //       alreatDialogBuilder();
-                    //       print(pickerColor);
-                    //     },
-                    //     child: Container(
-                    //       width: w / 1.3,
-                    //       height: h / 15,
-                    //       decoration: const BoxDecoration(
-                    //         borderRadius: BorderRadius.only(
-                    //           topLeft: Radius.circular(5),
-                    //           topRight: Radius.circular(5),
-                    //           bottomLeft: Radius.circular(5),
-                    //           bottomRight: Radius.circular(5),
-                    //         ),
-                    //         boxShadow: [
-                    //           BoxShadow(
-                    //               color: Color.fromRGBO(
-                    //                   0, 0, 0, 0.15000000596046448),
-                    //               offset: Offset(0, 0),
-                    //               blurRadius: 6)
-                    //         ],
-                    //         color: Color.fromRGBO(148, 38, 87, 1),
-                    //       ),
-                    //       child: Center(
-                    //         child: Text(
-                    //           'More Coloring Details',
-                    //           textAlign: TextAlign.center,
-                    //           style: TextStyle(
-                    //               color: Color.fromRGBO(234, 234, 234, 1),
-                    //               fontFamily: 'Sofia Pro',
-                    //               fontSize: 20,
-                    //               letterSpacing:
-                    //                   0 /*percentages not used in flutter. defaulting to zero*/,
-                    //               fontWeight: FontWeight.normal,
-                    //               height: 1),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      width: w / 1.3,
-                      height: h / 15,
-                      child: InkWell(
-                        onTap: () async {
-                     int a =   widget.Users!.GetAvatar();
-                     print(a);
-                     String lengthss = "ColorSwatch(primary value: Color(";
-                     print("this it is");
-                     print(lengthss.length);
-                          print(pickerColor);
-                          print(pickerColor.toString().length);
-                          //length of color that caused the problem is  33
-                          //
-                         //MaterialColor(primary value: Color(0xff9e9e9e))
-                          //MaterialColor(primary value: Color(0xffff9800))
-
-                           //watch(prim
-                             //All colors does this except the black color
-
-                         pickerColor.toString().length==47
-                              ?  ColorS = pickerColor.toString().substring(35,45)
-                              :pickerColor.toString().length==17
-                                  ?   ColorS = pickerColor.toString().substring(6,16)
-                                  :   ColorS = pickerColor.toString().substring(33,43);
-
-                         widget.Users!.SetBackGroundColor(ColorS.toString()==""?pickerColor.toString():ColorS.toString());
-                         WidgetsBinding.instance!
-                             .addPostFrameCallback((_) =>
-                             Navigator.push(
-                               context,
-                               MaterialPageRoute(
-                                   builder: (context) =>
-                                       NameAndBoi(
-                                        Users:  widget.Users,
-                                       )),
-                             ));
-
-                        },
-                        child: Container(
-                          width: w / 1.3,
-                          height: h / 15,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                              bottomLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(5),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromRGBO(
-                                      0, 0, 0, 0.15000000596046448),
-                                  offset: Offset(0, 0),
-                                  blurRadius: 6)
-                            ],
-                            color: Color.fromRGBO(148, 38, 87, 1),
-                          ),
-                          child: Center(
-                            child: Text(
-                              'Next',
-                              textAlign: TextAlign.center,
-                              style:
-                              _TextTheme.headline1!.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                fontSize: 3 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    // Column(
-                    //   children: [
-                    //     Text(""),
-                    //
-                    //   ],
-                    // ),
-                    // Container(
-                    //
-                    //     width: w/1.1,
-                    //     height: h/1.38,
-                    //     child:  GridView.builder(
-                    //         shrinkWrap: true,
-                    //         itemCount: 40,
-                    //         //  physics: NeverScrollableScrollPhysics(),
-                    //         gridDelegate:
-                    //         const SliverGridDelegateWithFixedCrossAxisCount(
-                    //           crossAxisCount: 4,
-                    //           childAspectRatio: (5 / 5.5),
-                    //         ),
-                    //         itemBuilder: (context, index) {
-                    //           return
-                    //             Container(
-                    //               margin: EdgeInsets.all(5),
-                    //               child: CircleAvatar(
-                    //                 //   backgroundColor: Colors.black,
-                    //                 backgroundImage: NetworkImage(
-                    //                     "https://images.unsplash.com/photo-1650476217339-6b7e08b844a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
-                    //                 ),
-                    //               ),
-                    //             );
-                    //
-                    //         }
-                    //
-                    //     )
-                    // ),
-                    //
-                    // Container(
-                    //
-                    //   child : InkWell(
-                    //       onTap: () {
-                    //         // if (dot < 3 && dot > -1) dot += 1;
-                    //         // if (_pageController.hasClients) {
-                    //         //   _pageController.animateToPage(
-                    //         //     dot,
-                    //         //     duration: const Duration(milliseconds: 700),
-                    //         //     curve: Curves.easeInOut,
-                    //         //   );
-                    //         // }
-                    //
-                    //       },
-                    //       child:
-                    //
-                    //
-                    //       Container(
-                    //         width: w/1.3,
-                    //         height: h/15,
-                    //         decoration: const BoxDecoration(
-                    //           borderRadius : BorderRadius.only(
-                    //             topLeft: Radius.circular(5),
-                    //             topRight: Radius.circular(5),
-                    //             bottomLeft: Radius.circular(5),
-                    //             bottomRight: Radius.circular(5),
-                    //           ),
-                    //           boxShadow : [BoxShadow(
-                    //               color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-                    //               offset: Offset(0,0),
-                    //               blurRadius: 6
-                    //           )],
-                    //           color : Color.fromRGBO(148, 38, 87, 1),
-                    //         ),
-                    //         child: Center(
-                    //           child: Text('Next', textAlign: TextAlign.center, style: TextStyle(
-                    //               color: Color.fromRGBO(234, 234, 234, 1),
-                    //               fontFamily: 'Sofia Pro',
-                    //               fontSize: 20,
-                    //               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                    //               fontWeight: FontWeight.normal,
-                    //               height: 1
-                    //           ),),
-                    //         ),
-                    //       )
-                    //
-                    //
-                    //
-                    //
-                    //   ),
-                    //
-                    // )
-                  ],
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // Column(
+                      //   children: [
+                      //     Text(""),
+                      //
+                      //   ],
+                      // ),
+                      // Container(
+                      //
+                      //     width: w/1.1,
+                      //     height: h/1.38,
+                      //     child:  GridView.builder(
+                      //         shrinkWrap: true,
+                      //         itemCount: 40,
+                      //         //  physics: NeverScrollableScrollPhysics(),
+                      //         gridDelegate:
+                      //         const SliverGridDelegateWithFixedCrossAxisCount(
+                      //           crossAxisCount: 4,
+                      //           childAspectRatio: (5 / 5.5),
+                      //         ),
+                      //         itemBuilder: (context, index) {
+                      //           return
+                      //             Container(
+                      //               margin: EdgeInsets.all(5),
+                      //               child: CircleAvatar(
+                      //                 //   backgroundColor: Colors.black,
+                      //                 backgroundImage: NetworkImage(
+                      //                     "https://images.unsplash.com/photo-1650476217339-6b7e08b844a7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=600&q=60"
+                      //                 ),
+                      //               ),
+                      //             );
+                      //
+                      //         }
+                      //
+                      //     )
+                      // ),
+                      //
+                      // Container(
+                      //
+                      //   child : InkWell(
+                      //       onTap: () {
+                      //         // if (dot < 3 && dot > -1) dot += 1;
+                      //         // if (_pageController.hasClients) {
+                      //         //   _pageController.animateToPage(
+                      //         //     dot,
+                      //         //     duration: const Duration(milliseconds: 700),
+                      //         //     curve: Curves.easeInOut,
+                      //         //   );
+                      //         // }
+                      //
+                      //       },
+                      //       child:
+                      //
+                      //
+                      //       Container(
+                      //         width: w/1.3,
+                      //         height: h/15,
+                      //         decoration: const BoxDecoration(
+                      //           borderRadius : BorderRadius.only(
+                      //             topLeft: Radius.circular(5),
+                      //             topRight: Radius.circular(5),
+                      //             bottomLeft: Radius.circular(5),
+                      //             bottomRight: Radius.circular(5),
+                      //           ),
+                      //           boxShadow : [BoxShadow(
+                      //               color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                      //               offset: Offset(0,0),
+                      //               blurRadius: 6
+                      //           )],
+                      //           color : Color.fromRGBO(148, 38, 87, 1),
+                      //         ),
+                      //         child: Center(
+                      //           child: Text('Next', textAlign: TextAlign.center, style: TextStyle(
+                      //               color: Color.fromRGBO(234, 234, 234, 1),
+                      //               fontFamily: 'Sofia Pro',
+                      //               fontSize: 20,
+                      //               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                      //               fontWeight: FontWeight.normal,
+                      //               height: 1
+                      //           ),),
+                      //         ),
+                      //       )
+                      //
+                      //
+                      //
+                      //
+                      //   ),
+                      //
+                      // )
+                    ],
+                  ),
                 ),
               ),),
             ),

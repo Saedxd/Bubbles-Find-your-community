@@ -4,8 +4,10 @@ library GroupChat_event;
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
 import 'package:built_value/built_value.dart';
 
 
@@ -20,14 +22,6 @@ abstract class ClearError extends GroupChatevent
   factory ClearError([updates(ClearErrorBuilder b)]) = _$ClearError;
 }
 
-abstract class GetOldMessages extends GroupChatevent
-    implements Built<GetOldMessages,GetOldMessagesBuilder> {
-
-  int? get receiver_id;
-
-  GetOldMessages._();
-  factory GetOldMessages([updates(GetOldMessagesBuilder b)]) = _$GetOldMessages;
-}
 
 abstract class KetbaordStatus extends GroupChatevent
     implements Built<KetbaordStatus,KetbaordStatusBuilder> {
@@ -49,8 +43,11 @@ abstract class GetAlias extends GroupChatevent
 abstract class SendMessage extends GroupChatevent
     implements Built<SendMessage,SendMessageBuilder> {
 
-  int? get receiver_id;
+  int? get main_type;
   String? get message;
+  String? get type;
+  int? get bubble_id;
+  int? get IndexOfMessageList;
   SendMessage._();
   factory SendMessage([updates(SendMessageBuilder b)]) = _$SendMessage;
 }
@@ -58,7 +55,18 @@ abstract class addReply extends GroupChatevent
     implements Built<addReply,addReplyBuilder> {
 
   String? get comment;
+  String? get Message;
+  String? get RepliedToAlias;
+  String? get RepliedToAvatar;
+  String? get RepliedToColor;
   int? get message_id;
+  int? get Bubble_id;
+  String? get type;
+  bool? get is_Nodejs;
+  bool? get is_backend;
+  File? get File_file;
+  Uint8List? get Uint8;
+
   addReply._();
   factory addReply([updates(addReplyBuilder b)]) = _$addReply;
 }
@@ -86,10 +94,18 @@ abstract class ShowReplyWidget extends GroupChatevent
     implements Built<ShowReplyWidget,ShowReplyWidgetBuilder> {
 
   String? get AvatarPathForRepliedTo;
-  int? get ColorForRepliedTo;
+  String? get ColorForRepliedTo;
   String? get RepliedToMessage;
   String? get AliasForRepliedTo;
   bool? get Isreply;
+  String? get Type;
+  Uint8List? get Image1;
+  File? get File_image;
+  String? get Image_type;
+  // bool? get is_Nodejs;
+  // bool? get is_Backend;
+  // bool? get Is_base64;
+
   ShowReplyWidget._();
   factory ShowReplyWidget([updates(ShowReplyWidgetBuilder b)]) = _$ShowReplyWidget;
 }
@@ -139,3 +155,25 @@ abstract class MakeTextFieldSumToNormal extends GroupChatevent
   MakeTextFieldSumToNormal._();
   factory MakeTextFieldSumToNormal([updates(MakeTextFieldSumToNormalBuilder b)]) = _$MakeTextFieldSumToNormal;
 }
+
+abstract class GetOldMessages extends GroupChatevent
+    implements Built<GetOldMessages,GetOldMessagesBuilder> {
+int? get bubble_id;
+  GetOldMessages._();
+  factory GetOldMessages([updates(GetOldMessagesBuilder b)]) = _$GetOldMessages;
+}
+
+abstract class GetAliasForInsideUser extends GroupChatevent
+    implements Built<GetAliasForInsideUser,GetAliasForInsideUserBuilder> {
+  int? get User_id;
+  GetAliasForInsideUser._();
+  factory GetAliasForInsideUser([updates(GetAliasForInsideUserBuilder b)]) = _$GetAliasForInsideUser;
+}
+
+abstract class AddUserDataToList extends GroupChatevent
+    implements Built<AddUserDataToList,AddUserDataToListBuilder> {
+  UserDATA? get  user;
+  AddUserDataToList._();
+  factory AddUserDataToList([updates(AddUserDataToListBuilder b)]) = _$AddUserDataToList;
+}
+

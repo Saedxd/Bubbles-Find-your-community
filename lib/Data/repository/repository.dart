@@ -8,6 +8,7 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -21,11 +22,15 @@ import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
 import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
+import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -407,4 +412,64 @@ class Repository implements IRepository {
     final Data = await _ihttpHelper.ClearBadge(auth);
     return Data;
   }
+
+  Future<SendBubbleMessageModel> SendMessageEVENT(
+      String type,
+      String message,
+      int Event_id,
+      int main_type,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendMessageEVENT(auth, type, message, Event_id, main_type);
+    return Data;
+  }
+
+
+  Future<SendBubbleMessageModel> SendReplyMessageEVENT(
+      String comment,
+      int message_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendReplyMessageEVENT(auth, comment, message_id);
+    return Data;
+  }
+
+
+
+  Future<InOutUserStatusModel> ChangeUserStatusToOut(
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.ChangeUserStatusToOut(auth, bubble_id);
+    return Data;
+  }
+
+
+  Future<InOutUserStatusModel> ChangeUserStatusToIN(
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.ChangeUserStatusToIN(auth, bubble_id);
+    return Data;
+  }
+  Future<EventOldMessagesModel> GetEventMessages(
+      int bubble_id
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetEventMessages(auth, bubble_id);
+    return Data;
+  }
+  Future<GetUsersInsideBubbleModel> GetUsersInsideBubble(
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetUsersInsideBubble(auth, bubble_id);
+    return Data;
+  }
+  Future<GetbadgeModel> Getbadge ()async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.Getbadge(auth);
+    return Data;
+  }
+
 }

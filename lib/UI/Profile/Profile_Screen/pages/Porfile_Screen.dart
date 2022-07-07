@@ -6,6 +6,7 @@ import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 
 import 'package:bubbles/UI/Profile/BecomeCreator_screen/pages/BecomeCreator_screen.dart';
@@ -159,7 +160,7 @@ class _ProfileState extends State<Profile> {
           );
         });
   }//todo : use hero widget in class and call class in  and make it look real not a priorty
-
+//
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
@@ -439,7 +440,9 @@ class _ProfileState extends State<Profile> {
                               builder: (context) =>
                                   Challenges(),
                             ),
-                          ));},
+                          ).then((value) {
+                            _ProfileBloc.add(GetProfile());
+                          }));},
                       child: Text('earn', textAlign: TextAlign.center, style: TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 1),
                           fontFamily: 'Red Hat Display',
@@ -596,46 +599,46 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
-                                                    if (state.ProfileDate!.user!
-                                                                .is_verify ==
-                                                            2 ||
-                                                        state.ProfileDate!.user!
-                                                                .is_verify ==
-                                                            3) {
-                                                      WidgetsBinding.instance!
-                                                          .addPostFrameCallback(
-                                                              (_) => Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              VerifyProfile(),
-                                                                    ),
-                                                                  ));
-                                                    } else if (state
-                                                            .ProfileDate!
-                                                            .user!
-                                                            .is_verify ==
-                                                        1) {
-                                                      Page2().method(
-                                                          _scaffoldKey
-                                                              .currentContext!,
-                                                          "Verification Message",
-                                                          """Your Already Verified!""",
-                                                          "back");
-                                                    } else if (state
-                                                            .ProfileDate!
-                                                            .user!
-                                                            .is_verify ==
-                                                        0) {
-                                                      Page2().method(
-                                                          _scaffoldKey
-                                                              .currentContext!,
-                                                          "Verification Message",
-                                                          """We have gotten your verification request its under view!""",
-                                                          "back");
-                                                    }
+                                                    // if (state.ProfileDate!.user!
+                                                    //             .is_verify ==
+                                                    //         2 ||
+                                                    //     state.ProfileDate!.user!
+                                                    //             .is_verify ==
+                                                    //         3) {
+                                                    //   WidgetsBinding.instance!
+                                                    //       .addPostFrameCallback(
+                                                    //           (_) => Navigator
+                                                    //                   .push(
+                                                    //                 context,
+                                                    //                 MaterialPageRoute(
+                                                    //                   builder:
+                                                    //                       (context) =>
+                                                    //                           VerifyProfile(),
+                                                    //                 ),
+                                                    //               ));
+                                                    // } else if (state
+                                                    //         .ProfileDate!
+                                                    //         .user!
+                                                    //         .is_verify ==
+                                                    //     1) {
+                                                    //   Page2().method(
+                                                    //       _scaffoldKey
+                                                    //           .currentContext!,
+                                                    //       "Verification Message",
+                                                    //       """Your Already Verified!""",
+                                                    //       "back");
+                                                    // } else if (state
+                                                    //         .ProfileDate!
+                                                    //         .user!
+                                                    //         .is_verify ==
+                                                    //     0) {
+                                                    //   Page2().method(
+                                                    //       _scaffoldKey
+                                                    //           .currentContext!,
+                                                    //       "Verification Message",
+                                                    //       """We have gotten your verification request its under view!""",
+                                                    //       "back");
+                                                    // }
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1290,6 +1293,7 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
+                                                    socket!.disconnect();
                                                     _ProfileBloc.add(Logout());
                                                   },
                                                   child: Container(

@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -32,6 +33,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
   bool? get GetprofileSuccess;
   GetFriendsModel? get GetFriends;
   ProfileDateModel? get ProfileDate;
+  GetbadgeModel? get Getbadge;
 
   TopBarState._();
 
@@ -50,6 +52,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
       ..Index4 = false
       ..ProfileDate =null
       ..GetFriends =null
+      ..Getbadge =null
 
     );
   }

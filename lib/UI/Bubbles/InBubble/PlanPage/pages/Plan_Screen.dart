@@ -5,6 +5,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Scree
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +20,7 @@ int Event_id = 0;
   State<Plan_Screen> createState() => _Plan_ScreenState();
 }
 
+
 class _Plan_ScreenState extends State<Plan_Screen> {
 bool selected = false;
 final _PlanPage_Bloc = sl<PlanPageBloc>();
@@ -26,6 +28,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
 @override
   void initState() {
     super.initState();
+    socket!.io..disconnect()..connect();
     _PlanPage_Bloc.add(GetDetailedPlan((b) => b
     ..Event_id=widget.Event_id
     ));
@@ -63,8 +66,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                             fit: BoxFit.fill,),
                         )
                       : state.isLoading!
-                      ? Expanded(
-                      child: Row(
+                      ?  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                           Center(
@@ -72,7 +74,6 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                           context:
                           context)),
                     ],
-                    ),
                     )
                         :Text(state.error!,
                     textAlign: TextAlign.left, style: TextStyle(
@@ -264,15 +265,22 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         ),
                         child:    InkWell(
                           onTap: () {
-                            WidgetsBinding.instance!
-                                .addPostFrameCallback(
-                                    (_) =>
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            GroupChat(Plain_Title: state.GetDetailedPlann!.data!.title.toString(),MY_ID: state.ProfileDate!.user!.id!,),),
-                                    ));
+                           if ( state.success!) {
+                             WidgetsBinding.instance!
+                                 .addPostFrameCallback(
+                                     (_) =>
+                                     Navigator.pushReplacement(
+                                       context,
+                                       MaterialPageRoute(
+                                         builder: (context) =>
+                                             GroupChat(Plain_Title: state
+                                                 .GetDetailedPlann!.data!.title
+                                                 .toString(),
+                                               MY_ID: state.ProfileDate!.user!
+                                                   .id!,
+                                               bubble_id: widget.Event_id,),),
+                                     ));
+                           }
                           },
                           child:Center(
                           child:

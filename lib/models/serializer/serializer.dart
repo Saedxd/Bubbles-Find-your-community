@@ -6,6 +6,9 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventMessagesListModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventdetialMessageModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FreindsFilteredListModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -38,6 +41,8 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/QuestionsListModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
+import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
 import 'package:bubbles/models/OldMessagesModel/MessagesListModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
@@ -49,6 +54,7 @@ import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/RemoveFromDirectModel/RemoveFromDirectModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/SearchFrinedsModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/UserModell.dart';
+import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestedListModel.dart';
@@ -75,6 +81,8 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  InOutUserStatusModel,
+  SendBubbleMessageModel,
   FriendListSearchModel,
   FreindsFilteredListModel,
   DataEventDetailModel,
@@ -139,6 +147,10 @@ part 'serializer.g.dart';
   AddreplyModel,
   RemoveFromDirectModel,
   ClearBadgeModel,
+  EventOldMessagesModel,
+  EventMessagesListModel,
+  EventdetialMessageModel,
+  GetbadgeModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -150,6 +162,55 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(GetbadgeModel),
+        ],
+      )),
+          () => ListBuilder<GetbadgeModel>())
+  //
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(InOutUserStatusModel),
+        ],
+      )),
+          () => ListBuilder<InOutUserStatusModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(EventOldMessagesModel),
+        ],
+      )),
+          () => ListBuilder<EventOldMessagesModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(EventdetialMessageModel),
+        ],
+      )),
+          () => ListBuilder<EventdetialMessageModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(EventMessagesListModel),
+        ],
+      )),
+          () => ListBuilder<EventMessagesListModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(SendBubbleMessageModel),
+        ],
+      )),
+          () => ListBuilder<SendBubbleMessageModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

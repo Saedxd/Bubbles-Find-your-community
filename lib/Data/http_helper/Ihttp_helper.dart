@@ -10,6 +10,7 @@ import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -23,11 +24,15 @@ import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
 import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
+import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -225,5 +230,46 @@ abstract class IHttpHelper {
   Future<ClearBadgeModel> ClearBadge(
       String Auth,
       );
+
+  Future<SendBubbleMessageModel> SendMessageEVENT(
+      String Auth,
+      String type,
+      String message,
+      int Event_id,
+      int main_type,
+      );
+
+
+  Future<SendBubbleMessageModel> SendReplyMessageEVENT(
+      String Auth,
+      String comment,
+      int message_id,
+      );
+
+
+
+  Future<InOutUserStatusModel> ChangeUserStatusToOut(
+      String Auth,
+      int bubble_id,
+      );
+
+
+
+  Future<InOutUserStatusModel> ChangeUserStatusToIN(
+      String Auth,
+      int bubble_id,
+      );
+  Future<EventOldMessagesModel> GetEventMessages(
+      String Auth,
+      int bubble_id
+      );
+  Future<GetUsersInsideBubbleModel> GetUsersInsideBubble(
+      String Auth,
+      int bubble_id,
+      );
+  Future<GetbadgeModel> Getbadge(
+      String Auth,
+      );
+
 }
 //ihttp_helper is the abstaction class for http_helper

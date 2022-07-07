@@ -44,6 +44,7 @@ import 'Login_page2.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class Login extends StatefulWidget {
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -56,10 +57,12 @@ final RegExp regExpEmail = RegExp(
 
 // final RegExp regExpPhone = RegExp(
 //     r'(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)');
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final pref = sl<IPrefsHelper>();
   final _Loginbloc = sl<loginBloc>();
+
   bool Selected = false;
   final TextEditingController _EmailController = TextEditingController();
   final _formkey1 = GlobalKey<FormState>(); //password
@@ -228,14 +231,42 @@ class _LoginState extends State<Login> {
     }
   }
 
+  // Scaffold(
+  // body: Container(
+  // color: background
+  //     .evaluate(AlwaysStoppedAnimation(_controller.value)),
+  // ),
+  // );
+  // });
+  Animation<double>? ba;
+  AnimationController? _bc;
+
+  AlignmentTween aT =
+  AlignmentTween(begin: Alignment.topRight, end: Alignment.topLeft);
+  AlignmentTween aB =
+  AlignmentTween(begin: Alignment.bottomRight, end: Alignment.bottomLeft);
+  Listenable? listenable;
   @override
   void initState() {
     super.initState();
     _EmailFocusNode = FocusNode();
     getFcmToken();
-
+    listenable = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    )..repeat();
+    _bc = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    )..repeat();
     // googleSignIn = GoogleSignIn();
     // googleSignIn!.isSignedIn().then((value) =>     SignOutGOogle());
+    // _controller = AnimationController(
+    //   duration: const Duration(seconds: 10),
+    //   vsync: this,
+    // )..repeat();
+    //
+    // ba = CurvedAnimation(parent: ba!, curve: Curves.easeIn);
   }
 
   @override
@@ -243,13 +274,87 @@ class _LoginState extends State<Login> {
     super.didChangeDependencies();
     SizeConfig().init(context);
   }
-
+  Color smalt = Color(0xff932557);
+  Color oldRose =  Color(0xffA93064);
+  Color lol =  Color(0xffB9484C);
+  // Color lol2 =  Color(0xffCF6D38);
   @override
   void dispose() {
     super.dispose();
     _EmailController.dispose();
   }
+  Animatable<Color?> darkBackground =  TweenSequence<Color?>(
+    [
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin: Color(0xff932557).withOpacity(0.9),
+          end: Color(0xffA93064).withOpacity(0.9),
+        )as Animatable<Color?>,
+      ),
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin:Color(0xffA93064).withOpacity(0.9),
+          end: Color(0xff932557).withOpacity(0.9),
+        )as Animatable<Color?>,
+      ),
+    ],
+  );
 
+  Animatable<Color?> normalBackground = TweenSequence<Color?>(
+    [
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin: Color(0xff932557).withOpacity(0.9),
+          end:  Color(0xffB9484C).withOpacity(0.9),
+        )as Animatable<Color?>,
+      ),
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin:  Color(0xffB9484C).withOpacity(0.9),
+          end: Color(0xff932557).withOpacity(0.9),
+        )as Animatable<Color?>,
+      ),
+    ],
+  );
+
+  Animatable<Color?>  lightBackground = TweenSequence<Color?>(
+    [
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin: Color(0xff932557).withOpacity(0.9),//
+          end: Color(0xffA93064).withOpacity(0.9),
+        ) as Animatable<Color?>,
+      ),
+      TweenSequenceItem(
+        weight: .5,
+        tween: ColorTween(
+          begin: Color(0xffA93064).withOpacity(0.9),
+          end:Color(0xff932557).withOpacity(0.9),
+        ) as Animatable<Color?>,
+      ),
+    ],
+  );
+  // Animatable<Color?> animColorPend = TweenSequence([
+  //   TweenSequenceItem(
+  //     weight: 1.0,
+  //     tween: ColorTween(
+  //       begin: smalt.withOpacity(.8),
+  //       end: Color(0xffD23756).withOpacity(.8),
+  //     ) as Animatable<Color?>,
+  //   ),
+  //   TweenSequenceItem(
+  //     weight: 1.0,
+  //     tween: ColorTween(
+  //       begin: Colors.pink[200],
+  //       end: Colors.purple,
+  //     ) as Animatable<Color?>,
+  //   ),
+  // ]);
   @override
   Widget build(BuildContext Context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -257,603 +362,712 @@ class _LoginState extends State<Login> {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
 
-    return BlocBuilder(
-        bloc: _Loginbloc,
-        builder: (BuildContext context, loginState state) {
-          if (state.success == true && DiDitOnce == true) {
-            pref.saveUser(
-              state.data as UserData,
-              state.data!.user!.token!,
-              true,
-            );
-            if (state.data!.user!.data!.gender == null) {
-              UsersData Users = UsersData();
 
-              WidgetsBinding.instance!
-                  .addPostFrameCallback((_) => Navigator.pushReplacement(
+
+    return  AnimatedBuilder(
+        animation:  listenable!,
+        builder: (context, child)
+    {
+      return
+
+
+        BlocBuilder(
+            bloc: _Loginbloc,
+            builder: (BuildContext context, loginState state) {
+              if (state.success == true && DiDitOnce == true) {
+                pref.saveUser(
+                  state.data as UserData,
+                  state.data!.user!.token!,
+                  true,
+                );
+                if (state.data!.user!.data!.gender == null) {
+                  UsersData Users = UsersData();
+
+                  WidgetsBinding.instance!
+                      .addPostFrameCallback((_) =>
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignUp2(
-                            Users: Users,
-                          ),
+                          builder: (context) =>
+                              SignUp2(
+                                Users: Users,
+                              ),
                         ),
                       ));
-            } else {
-              WidgetsBinding.instance!
-                  .addPostFrameCallback((_) => Navigator.pushReplacement(
+                } else {
+                  WidgetsBinding.instance!
+                      .addPostFrameCallback((_) =>
+                      Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => NavigatorTopBar(),
                         ),
                       ));
-            }
-            DiDitOnce = false;
-          }
+                }
+                DiDitOnce = false;
+              }
 //todo : Email validation
-          return
-
-            WillPopScope(
-              onWillPop: () async => false,
-              child:   GestureDetector(
-              onTap: () async {
-              FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child:
-
-
-              Scaffold(
-                  resizeToAvoidBottomInset: false,
-                  key: _scaffoldKey,
-                  backgroundColor: Color(0xff942657),
-
-                  body: SafeArea(
-                    child: Stack(
-                      children: [
+              return
+                WillPopScope(
+                    onWillPop: () async => false,
+                    child: GestureDetector(
+                        onTap: () async {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        child:
 
 
-                           Container(
-                                    width: w,
-                                    height: h,
-                                    child:   ConstrainedBox(
-          constraints: BoxConstraints(
-          minWidth: MediaQuery.of(context).size.width,
-          minHeight: MediaQuery.of(context).size.height,
-          ),
-          child: IntrinsicHeight(
-          child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        const Text(""),
-                                        Container(
-                                          width: w / 1.39,
-                                          height: h / 13,
-                                          child: SvgPicture.asset(
-                                              "Assets/images/Logo.svg",
-                                              fit: BoxFit.fill),
-                                        ),
-                                        const Text(""),
-                                        Column(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                                width: w / 1.30,
-                                                height:  h / 10,
-                                                child: Form(
-                                                  autovalidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
-                                                  key: _formkey1,
-                                                  child: TextFormField(
-                                                    keyboardAppearance:
-                                                        Brightness.dark,
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    controller:
-                                                        _EmailController,
-                                                    cursorHeight: 20,
-                                                    onChanged: (value) {
-                                                    },
-                                                    onFieldSubmitted:
-                                                        (value) {},
-                                                    validator: MultiValidator([
-                                                      RequiredValidator(
-                                                          errorText:
-                                                              "Required"),
-                                                      EmailValidator(
-                                                          errorText:
-                                                              "Thats not an email")
-                                                    ]),
+                        Scaffold(
+                            resizeToAvoidBottomInset: false,
+                            key: _scaffoldKey,
+                            // backgroundColor: animColorPend
+                            //     .evaluate(AlwaysStoppedAnimation(_controller!.value)),
 
-                                                    cursorColor: Colors.black,
-                                                    style: TextStyle(
-                                                        fontSize: 19,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        height: 1.3,
-                                                        color: Colors.brown),
-                                                    decoration: InputDecoration(
-                                                        errorStyle: TextStyle(
-                                                          color: Colors.red,
-                                                        ),
-                                                        errorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 0.0),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  width: 0.0),
-                                                        ),
-                                                        border:
-                                                            OutlineInputBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            5)),
-                                                        enabledBorder:
-                                                            UnderlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        focusedBorder:
-                                                            UnderlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  color: Colors
-                                                                      .white),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: Colors.white,
-                                                        contentPadding: EdgeInsets.only(left: h/100),
-                                                        hintText: "Email",
-                                                        hintStyle: _TextTheme.headline6!.copyWith(
-                                                          fontSize: 3.6 *
-                                                              SizeConfig
-                                                                  .blockSizeVertical!
-                                                                  .toDouble(),
-                                                        )),
-                                                    keyboardType:
-                                                        TextInputType.text,
-                                                    // obscureText: SecureInput_pass,
-                                                  ),
-                                                )),
-                                            InkWell(
-                                              onTap: () {
-                                                Changed3 = true;
-                                                setState(() {});
-                                                if (_formkey1.currentState!
-                                                    .validate()) {
-                                                  WidgetsBinding.instance!
-                                                      .addPostFrameCallback(
-                                                          (_) => Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          Login2(
-                                                                    Email:
-                                                                        _EmailController
-                                                                            .text,
-                                                                  ),
-                                                                ),
-                                                              ));
-                                                }
-                                              },
-                                              child: Container(
-                                                  width: w / 1.30,
-                                                  height: h / 13.9,
-                                                  decoration:
-                                                       const BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                      topLeft:
-                                                          Radius.circular(5),
-                                                      topRight:
-                                                          Radius.circular(5),
-                                                      bottomLeft:
-                                                          Radius.circular(5),
-                                                      bottomRight:
-                                                          Radius.circular(5),
-                                                    ),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                          color: Color.fromRGBO(
-                                                              0,
-                                                              0,
-                                                              0,
-                                                              0.15000000596046448),
-                                                          offset: Offset(0, 0),
-                                                          blurRadius: 6)
-                                                    ],
-                                                    color: Color.fromRGBO(
-                                                        207, 109, 56, 1),
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      'Log in',
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                      style: _TextTheme
-                                                          .headline1!
-                                                          .copyWith(
-                                                       fontSize: 6.2 *
-                                                          SizeConfig
-                                                          .blockSizeHorizontal!
-                                                          .toDouble(),
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                    ),
-                                                  )),
-                                            ),
-                                            Container(
-                                              width: w,
-                                              margin: EdgeInsets.only(top: h/28),
-                                              child: Center(
-                                                  child: Text(
-                                                'or',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(
-                                                        234, 234, 234, 1),
-                                                    fontFamily: 'Red Hat Text',
-                                                    fontSize: 6.1 *
-                                                        SizeConfig
-                                                            .blockSizeHorizontal!
-                                                            .toDouble(),
-                                                    letterSpacing:
-                                                        0 /*percentages not used in flutter. defaulting to zero*/,
-                                                    fontWeight: FontWeight.w600,
-                                                    height: 1.1875),
-                                              )),
-                                            ),
+                            body: SafeArea(
+                              child: Stack(
+                                children: [
+
+
+                                  Container(
+                                      width: w,
+                                      height: h,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          begin: aT.evaluate(_bc!),
+                                          end: aB.evaluate(_bc!),
+                                          colors: [
+                                            darkBackground.evaluate(_bc!)!,
+                                            normalBackground.evaluate(_bc!)!,
+                                            lightBackground.evaluate(_bc!)!,
                                           ],
                                         ),
-                                        Column(
-                                          children: [
-                                           Container(
-                                                  width: w / 1.30,
-                                                  height: h / 13.9,
-                                                  margin: EdgeInsets.only(bottom: h/50),
-                                                  child: Container(
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topLeft: Radius.circular(
-                                                            6.9275360107421875),
-                                                        topRight: Radius.circular(
-                                                            6.9275360107421875),
-                                                        bottomLeft: Radius.circular(
-                                                            6.9275360107421875),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                6.9275360107421875),
-                                                      ),
-                                                      color: Color.fromRGBO(
-                                                          24, 119, 242, 1),
-                                                    ),
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal:
-                                                            10.391304016113281,
-                                                        vertical:
-                                                            10.391304016113281),
-                                                    child:  InkWell(
-                                                      onTap: () async {
-                                                        signInWithFacebook();
-                                                      },
-                                                      child: Center(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          SvgPicture.asset(
-                                                            "Assets/images/path14.svg",
-                                                            width: 20,
-                                                          ),
-                                                          Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                                    left:
-                                                                        h / 60),
-                                                            child: Text(
-                                                              'Log In with Facebook',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: TextStyle(
-                                                                  color:
-                                                                      Color.fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          1),
+                                      ),
+                                      child: ConstrainedBox(
+                                          constraints: BoxConstraints(
+                                            minWidth: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width,
+                                            minHeight: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .height,
+                                          ),
+                                          child: IntrinsicHeight(
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  const Text(""),
+                                                  Container(
+                                                    width: w / 1.39,
+                                                    height: h / 13,
+                                                    child: SvgPicture.asset(
+                                                        "Assets/images/Logo.svg",
+                                                        fit: BoxFit.fill),
+                                                  ),
+                                                  const Text(""),
+                                                  Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .spaceAround,
+                                                    children: [
+                                                      Container(
+                                                          width: w / 1.30,
+                                                          height: h / 10,
+                                                          child: Form(
+                                                            autovalidateMode:
+                                                            AutovalidateMode
+                                                                .onUserInteraction,
+                                                            key: _formkey1,
+                                                            child: TextFormField(
+                                                              keyboardAppearance:
+                                                              Brightness.dark,
+                                                              textInputAction:
+                                                              TextInputAction
+                                                                  .next,
+                                                              controller:
+                                                              _EmailController,
+                                                              cursorHeight: 20,
+                                                              onChanged: (
+                                                                  value) {},
+                                                              onFieldSubmitted:
+                                                                  (value) {},
+                                                              validator: MultiValidator(
+                                                                  [
+                                                                    RequiredValidator(
+                                                                        errorText:
+                                                                        "Required"),
+                                                                    EmailValidator(
+                                                                        errorText:
+                                                                        "Thats not an email")
+                                                                  ]),
 
-                                                                  fontFamily:
-                                                                      'Helvetica',
-                                                                  fontSize: 5 *
+                                                              cursorColor: Colors
+                                                                  .black,
+                                                              style: TextStyle(
+                                                                  fontSize: 19,
+                                                                  fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                                  height: 1.3,
+                                                                  color: Colors
+                                                                      .brown),
+                                                              decoration: InputDecoration(
+                                                                  errorStyle: TextStyle(
+                                                                    color: Colors
+                                                                        .red,
+                                                                  ),
+                                                                  errorBorder:
+                                                                  OutlineInputBorder(
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        width: 0.0),
+                                                                  ),
+                                                                  focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color: Colors
+                                                                            .white,
+                                                                        width: 0.0),
+                                                                  ),
+                                                                  border:
+                                                                  OutlineInputBorder(
+                                                                      borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                          5)),
+                                                                  enabledBorder:
+                                                                  UnderlineInputBorder(
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color: Colors
+                                                                            .white),
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        5),
+                                                                  ),
+                                                                  focusedBorder:
+                                                                  UnderlineInputBorder(
+                                                                    borderSide:
+                                                                    BorderSide(
+                                                                        color: Colors
+                                                                            .white),
+                                                                    borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                        5),
+                                                                  ),
+                                                                  filled: true,
+                                                                  fillColor: Colors
+                                                                      .white,
+                                                                  contentPadding: EdgeInsets
+                                                                      .only(
+                                                                      left: h /
+                                                                          70),
+                                                                  hintText: "Email",
+                                                                  hintStyle: _TextTheme
+                                                                      .headline6!
+                                                                      .copyWith(
+                                                                    fontSize: 3.6 *
+                                                                        SizeConfig
+                                                                            .blockSizeVertical!
+                                                                            .toDouble(),
+                                                                  )),
+                                                              keyboardType:
+                                                              TextInputType
+                                                                  .text,
+                                                              // obscureText: SecureInput_pass,
+                                                            ),
+                                                          )),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Changed3 = true;
+                                                          setState(() {});
+                                                          if (_formkey1
+                                                              .currentState!
+                                                              .validate()) {
+                                                            WidgetsBinding
+                                                                .instance!
+                                                                .addPostFrameCallback(
+                                                                    (_) =>
+                                                                    Navigator
+                                                                        .push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder:
+                                                                            (
+                                                                            context) =>
+                                                                            Login2(
+                                                                              Email:
+                                                                              _EmailController
+                                                                                  .text,
+                                                                            ),
+                                                                      ),
+                                                                    ));
+                                                          }
+                                                        },
+                                                        child: Container(
+                                                            width: w / 1.30,
+                                                            height: h / 13.9,
+                                                            decoration:
+                                                            const BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.only(
+                                                                topLeft:
+                                                                Radius.circular(
+                                                                    5),
+                                                                topRight:
+                                                                Radius.circular(
+                                                                    5),
+                                                                bottomLeft:
+                                                                Radius.circular(
+                                                                    5),
+                                                                bottomRight:
+                                                                Radius.circular(
+                                                                    5),
+                                                              ),
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    color: Color
+                                                                        .fromRGBO(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        0.15000000596046448),
+                                                                    offset: Offset(
+                                                                        0, 0),
+                                                                    blurRadius: 6)
+                                                              ],
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                  207, 109, 56,
+                                                                  1),
+                                                            ),
+                                                            child: Center(
+                                                              child: Text(
+                                                                'Log in',
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                                style: _TextTheme
+                                                                    .headline1!
+                                                                    .copyWith(
+                                                                    fontSize: 6.2 *
+                                                                        SizeConfig
+                                                                            .blockSizeHorizontal!
+                                                                            .toDouble(),
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .w600),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                      Container(
+                                                        width: w,
+                                                        margin: EdgeInsets.only(
+                                                            top: h / 28),
+                                                        child: Center(
+                                                            child: Text(
+                                                              'or',
+                                                              textAlign: TextAlign
+                                                                  .center,
+                                                              style: TextStyle(
+                                                                  color: Color
+                                                                      .fromRGBO(
+                                                                      234, 234,
+                                                                      234, 1),
+                                                                  fontFamily: 'Red Hat Text',
+                                                                  fontSize: 6.1 *
                                                                       SizeConfig
                                                                           .blockSizeHorizontal!
                                                                           .toDouble(),
                                                                   letterSpacing:
-                                                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w700,
-                                                                  height: 1),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                                  0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight
+                                                                      .w600,
+                                                                  height: 1.1875),
+                                                            )),
                                                       ),
-                                                    ),
-                                                  )),
-                                            ),
-
-                                         Container(
-                                                width: w / 1.30,
-                                                height: h / 13.9,
-                                                margin: EdgeInsets.only(bottom: h/50),
-                                                decoration: const BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.only(
-                                                    topLeft: Radius.circular(
-                                                        6.9275360107421875),
-                                                    topRight: Radius.circular(
-                                                        6.9275360107421875),
-                                                    bottomLeft: Radius.circular(
-                                                        6.9275360107421875),
-                                                    bottomRight:
-                                                        Radius.circular(
-                                                            6.9275360107421875),
+                                                    ],
                                                   ),
-                                                  color: Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal:
-                                                            10.391304016113281,
-                                                        vertical:
-                                                            10.391304016113281),
-                                                child:    InkWell(
-                                                  onTap: () {
-                                                    signInWithGoogle(
-                                                        context: context);
-                                                    //  _handleSignIn();
-                                                  },
-                                                  child: Container(
-                                                  width: 16.626087188720703,
-                                                  height: 16.626087188720703,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: Color.fromRGBO(
-                                                        255, 255, 255, 1),
-                                                  ),
-                                                  child: Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          "Assets/images/Google Logo.svg",
-                                                          width: 20,
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  left: h / 60),
-                                                          child: Text(
-                                                            'Log In with Google',
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: TextStyle(
-                                                                color: const Color
-                                                                        .fromRGBO(
-                                                                    0,
-                                                                    0,
-                                                                    0,
-                                                                    0.5400000214576721),
-                                                                fontFamily:
-                                                                    'Roboto Medium',
-                                                                fontSize: 5 *
-                                                                    SizeConfig
-                                                                        .blockSizeHorizontal!
-                                                                        .toDouble(),
-                                                                letterSpacing:
-                                                                    0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 1),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-
-                                            (Platform.isIOS)
-                                                ? InkWell(
-                                                    onTap: () async {
-                                                      signinApple();
-                                                    },
-                                                    child: Container(
+                                                  Column(
+                                                    children: [
+                                                      Container(
                                                         width: w / 1.30,
                                                         height: h / 13.9,
-                                                        margin: EdgeInsets.only(bottom: h/50),
+                                                        margin: EdgeInsets.only(
+                                                            bottom: h / 50),
                                                         child: Container(
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      6.9275360107421875),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      6.9275360107421875),
-                                                              bottomLeft: Radius
-                                                                  .circular(
-                                                                      6.9275360107421875),
-                                                              bottomRight: Radius
-                                                                  .circular(
-                                                                      6.9275360107421875),
+                                                            decoration:
+                                                            const BoxDecoration(
+                                                              borderRadius:
+                                                              BorderRadius.only(
+                                                                topLeft: Radius
+                                                                    .circular(
+                                                                    6.9275360107421875),
+                                                                topRight: Radius
+                                                                    .circular(
+                                                                    6.9275360107421875),
+                                                                bottomLeft: Radius
+                                                                    .circular(
+                                                                    6.9275360107421875),
+                                                                bottomRight:
+                                                                Radius.circular(
+                                                                    6.9275360107421875),
+                                                              ),
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                  24, 119, 242,
+                                                                  1),
                                                             ),
-                                                            color: const Color
-                                                                    .fromRGBO(
-                                                                0, 0, 0, 1),
-                                                          ),
-                                                          padding: const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal:
-                                                                  10.391304016113281,
-                                                              vertical:
-                                                                  10.391304016113281),
-                                                          child: Center(
-                                                            child: Row(
-                                                              mainAxisAlignment:
+                                                            padding: const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal:
+                                                                10.391304016113281,
+                                                                vertical:
+                                                                10.391304016113281),
+                                                            child: InkWell(
+                                                              onTap: () async {
+                                                                signInWithFacebook();
+                                                              },
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
                                                                   MainAxisAlignment
-                                                                      .spaceAround,
-                                                              children: [
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                SvgPicture
-                                                                    .asset(
-                                                                  "Assets/images/path4.svg",
-                                                                  width: 20,
+                                                                      .center,
+                                                                  children: [
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                      "Assets/images/path14.svg",
+                                                                      width: 20,
+                                                                    ),
+                                                                    Container(
+                                                                      margin:
+                                                                      EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                          h /
+                                                                              60),
+                                                                      child: Text(
+                                                                        'Log In with Facebook',
+                                                                        textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                            Color
+                                                                                .fromRGBO(
+                                                                                255,
+                                                                                255,
+                                                                                255,
+                                                                                1),
+
+                                                                            fontFamily:
+                                                                            'Helvetica',
+                                                                            fontSize: 5 *
+                                                                                SizeConfig
+                                                                                    .blockSizeHorizontal!
+                                                                                    .toDouble(),
+                                                                            letterSpacing:
+                                                                            0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                            fontWeight:
+                                                                            FontWeight
+                                                                                .w700,
+                                                                            height: 1),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                const Text(
-                                                                  'Log In with Apple',
-                                                                  textAlign:
+                                                              ),
+                                                            )),
+                                                      ),
+
+                                                      Container(
+                                                        width: w / 1.30,
+                                                        height: h / 13.9,
+                                                        margin: EdgeInsets.only(
+                                                            bottom: h / 50),
+                                                        decoration: const BoxDecoration(
+                                                          borderRadius:
+                                                          BorderRadius.only(
+                                                            topLeft: Radius
+                                                                .circular(
+                                                                6.9275360107421875),
+                                                            topRight: Radius
+                                                                .circular(
+                                                                6.9275360107421875),
+                                                            bottomLeft: Radius
+                                                                .circular(
+                                                                6.9275360107421875),
+                                                            bottomRight:
+                                                            Radius.circular(
+                                                                6.9275360107421875),
+                                                          ),
+                                                          color: Color.fromRGBO(
+                                                              255, 255, 255, 1),
+                                                        ),
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:
+                                                            10.391304016113281,
+                                                            vertical:
+                                                            10.391304016113281),
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            signInWithGoogle(
+                                                                context: context);
+                                                            //  _handleSignIn();
+                                                          },
+                                                          child: Container(
+                                                            width: 16.626087188720703,
+                                                            height: 16.626087188720703,
+                                                            decoration:
+                                                            const BoxDecoration(
+                                                              color: Color
+                                                                  .fromRGBO(
+                                                                  255, 255, 255,
+                                                                  1),
+                                                            ),
+                                                            child: Center(
+                                                              child: Row(
+                                                                mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                                children: [
+                                                                  SvgPicture
+                                                                      .asset(
+                                                                    "Assets/images/Google Logo.svg",
+                                                                    width: 20,
+                                                                  ),
+                                                                  Container(
+                                                                    margin:
+                                                                    EdgeInsets
+                                                                        .only(
+                                                                        left: h /
+                                                                            60),
+                                                                    child: Text(
+                                                                      'Log In with Google',
+                                                                      textAlign:
                                                                       TextAlign
                                                                           .left,
-                                                                  style: TextStyle(
-                                                                      color: const Color.fromRGBO(
-                                                                          255,
-                                                                          255,
-                                                                          255,
-                                                                          1),
-                                                                      fontFamily:
-                                                                          'Roboto',
-                                                                      fontSize:
-                                                                          13.855072021484375,
-                                                                      letterSpacing:
+                                                                      style: TextStyle(
+                                                                          color: const Color
+                                                                              .fromRGBO(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              0.5400000214576721),
+                                                                          fontFamily:
+                                                                          'Roboto Medium',
+                                                                          fontSize: 5 *
+                                                                              SizeConfig
+                                                                                  .blockSizeHorizontal!
+                                                                                  .toDouble(),
+                                                                          letterSpacing:
                                                                           0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                      fontWeight:
+                                                                          fontWeight:
                                                                           FontWeight
-                                                                              .normal,
-                                                                      height:
-                                                                          1),
-                                                                ),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                                const Text(""),
-                                                              ],
+                                                                              .w500,
+                                                                          height: 1),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
-                                                        )),
-                                                  )
-                                                : Container(),
+                                                        ),
+                                                      ),
 
-                                            Container(
-                                              margin: EdgeInsets.only(top: h/50),
-                                              child: InkWell(
-                                                onTap: () {
-                                                  WidgetsBinding.instance!
-                                                      .addPostFrameCallback(
-                                                          (_) => Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          SignUp(),
+                                                      (Platform.isIOS)
+                                                          ? InkWell(
+                                                        onTap: () async {
+                                                          signinApple();
+                                                        },
+                                                        child: Container(
+                                                            width: w / 1.30,
+                                                            height: h / 13.9,
+                                                            margin: EdgeInsets
+                                                                .only(
+                                                                bottom: h / 50),
+                                                            child: Container(
+                                                              decoration:
+                                                              const BoxDecoration(
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                      6.9275360107421875),
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                      6.9275360107421875),
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                      6.9275360107421875),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                      6.9275360107421875),
                                                                 ),
-                                                              ));
-                                                },
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        'Don’t have an account?',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: _TextTheme
-                                                            .headline1!
-                                                            .copyWith(
-                                                            fontSize:2 *
-                                                                SizeConfig
-                                                                    .blockSizeVertical!
-                                                                    .toDouble(),
-                                                                letterSpacing:
-                                                                    0.3,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w300,
-                                                                height: 1)),
-                                                    Text("Sign up",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: _TextTheme
-                                                            .headline1!
-                                                            .copyWith(
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .underline,
-                                                            fontSize: 2.6 *
-                                                                SizeConfig
-                                                                    .blockSizeVertical!
-                                                                    .toDouble(),
-                                                                letterSpacing:
-                                                                    0.3,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                                height: 1)),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Text(""),
-                                      ],
-                                    )))),
-                        state.isLoading == true
-                            ? Center(child: listLoader(context: context))
-                            : Container(),
-                      ],
-                    ),
-                  ))));
-        });
+                                                                color: const Color
+                                                                    .fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                              ),
+                                                              padding: const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                  10.391304016113281,
+                                                                  vertical:
+                                                                  10.391304016113281),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                                  children: [
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    SvgPicture
+                                                                        .asset(
+                                                                      "Assets/images/path4.svg",
+                                                                      width: 20,
+                                                                    ),
+                                                                    const Text(
+                                                                      'Log In with Apple',
+                                                                      textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                      style: TextStyle(
+                                                                          color: const Color
+                                                                              .fromRGBO(
+                                                                              255,
+                                                                              255,
+                                                                              255,
+                                                                              1),
+                                                                          fontFamily:
+                                                                          'Roboto',
+                                                                          fontSize:
+                                                                          13.855072021484375,
+                                                                          letterSpacing:
+                                                                          0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                          height:
+                                                                          1),
+                                                                    ),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                    const Text(
+                                                                        ""),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      )
+                                                          : Container(),
+
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: h / 50),
+                                                        child: InkWell(
+                                                          onTap: () {
+                                                            WidgetsBinding
+                                                                .instance!
+                                                                .addPostFrameCallback(
+                                                                    (_) =>
+                                                                    Navigator
+                                                                        .push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder:
+                                                                            (
+                                                                            context) =>
+                                                                            SignUp(),
+                                                                      ),
+                                                                    ));
+                                                          },
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            children: [
+                                                              Text(
+                                                                  'Don’t have an account?',
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                                  style: _TextTheme
+                                                                      .headline1!
+                                                                      .copyWith(
+                                                                      fontSize: 2 *
+                                                                          SizeConfig
+                                                                              .blockSizeVertical!
+                                                                              .toDouble(),
+                                                                      letterSpacing:
+                                                                      0.3,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w300,
+                                                                      height: 1)),
+                                                              Text("Sign up",
+                                                                  textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                                  style: _TextTheme
+                                                                      .headline1!
+                                                                      .copyWith(
+                                                                      decoration:
+                                                                      TextDecoration
+                                                                          .underline,
+                                                                      fontSize: 2.6 *
+                                                                          SizeConfig
+                                                                              .blockSizeVertical!
+                                                                              .toDouble(),
+                                                                      letterSpacing:
+                                                                      0.3,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                      height: 1)),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const Text(""),
+                                                ],
+                                              )))),
+                                  state.isLoading == true
+                                      ? Center(
+                                      child: listLoader(context: context))
+                                      : Container(),
+                                ],
+                              ),
+                            ))));
+            });
+    }
+    );
   }
 
   Widget listLoader({context}) {

@@ -3,6 +3,7 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_bloc.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/ChooseAvatar_screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/UI/Onboarding/Slider_Screeen/Sliderr.dart';
 import 'package:bubbles/core/Colors/constants.dart';
@@ -261,15 +262,26 @@ bloc2.add(GetInterests());
                             sum = array2!.sum;
                             if (sum!=0) {
                               widget.Users!.SetInterests(IntersetID);
+                              // WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                              //     Navigator.push(
+                              //       context,
+                              //       MaterialPageRoute(builder: (context) =>
+                              //           slider(
+                              //             Users:widget.Users ,
+                              //
+                              //           )),)
+                            //  );
+                              //ChooseAvatar
+
                               WidgetsBinding.instance!.addPostFrameCallback((_) =>
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) =>
-                                        slider(
+                                        ChooseAvatar(
                                           Users:widget.Users ,
 
                                         )),)
-                              );
+                               );
 
                             }
                           },

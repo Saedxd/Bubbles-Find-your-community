@@ -157,3 +157,21 @@ abstract class SearchBubblesLists extends HomeEvent
   SearchBubblesLists._();
   factory SearchBubblesLists([updates(SearchBubblesListsBuilder b)]) = _$SearchBubblesLists;
 }
+
+
+abstract class UserJoinedBubble extends HomeEvent
+    implements Built<UserJoinedBubble, UserJoinedBubbleBuilder> {
+
+
+  int? get Bubble_id;
+  UserJoinedBubble._();
+  factory UserJoinedBubble([Function(UserJoinedBubbleBuilder b) updates]) = _$UserJoinedBubble;
+}
+
+abstract class UserLeftBubble extends HomeEvent
+    implements Built<UserLeftBubble, UserLeftBubbleBuilder> {
+
+  int? get Bubble_id;
+  UserLeftBubble._();
+  factory UserLeftBubble([Function(UserLeftBubbleBuilder b) updates]) = _$UserLeftBubble;
+}

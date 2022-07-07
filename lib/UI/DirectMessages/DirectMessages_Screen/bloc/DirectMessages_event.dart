@@ -46,3 +46,11 @@ String? get Keyword;
   SearchDMlist._();
   factory SearchDMlist([updates(SearchDMlistBuilder b)]) = _$SearchDMlist;
 }
+
+abstract class DeleteFromList extends DirectMessagesEvent
+    implements Built<DeleteFromList,DeleteFromListBuilder> {
+  int? get index;
+  int? get receiver_id;
+  DeleteFromList._();
+  factory DeleteFromList([updates(DeleteFromListBuilder b)]) = _$DeleteFromList;
+}

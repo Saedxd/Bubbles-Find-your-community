@@ -94,8 +94,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
         ..ProfileDate =null
-        ..Userlat =0
-        ..Userlng =0
+        ..Userlat =37.9715
+        ..Userlng =23.7267
         ..BubblesRaduis =[]
         ..BUBBLElistS1 =[]
         ..FilteredBUBBLElists1 =[]

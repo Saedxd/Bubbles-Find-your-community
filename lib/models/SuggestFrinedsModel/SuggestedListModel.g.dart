@@ -22,6 +22,12 @@ class _$SuggestedListModelSerializer
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
+    value = object.me_id;
+    if (value != null) {
+      result
+        ..add('me_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     value = object.id;
     if (value != null) {
       result
@@ -78,6 +84,10 @@ class _$SuggestedListModelSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'me_id':
+          result.me_id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
@@ -111,6 +121,8 @@ class _$SuggestedListModelSerializer
 
 class _$SuggestedListModel extends SuggestedListModel {
   @override
+  final int? me_id;
+  @override
   final int? id;
   @override
   final String? serial;
@@ -128,7 +140,8 @@ class _$SuggestedListModel extends SuggestedListModel {
       (new SuggestedListModelBuilder()..update(updates))._build();
 
   _$SuggestedListModel._(
-      {this.id,
+      {this.me_id,
+      this.id,
       this.serial,
       this.alias,
       this.serialnumber,
@@ -149,6 +162,7 @@ class _$SuggestedListModel extends SuggestedListModel {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is SuggestedListModel &&
+        me_id == other.me_id &&
         id == other.id &&
         serial == other.serial &&
         alias == other.alias &&
@@ -161,7 +175,11 @@ class _$SuggestedListModel extends SuggestedListModel {
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc($jc(0, id.hashCode), serial.hashCode), alias.hashCode),
+            $jc(
+                $jc(
+                    $jc($jc($jc(0, me_id.hashCode), id.hashCode),
+                        serial.hashCode),
+                    alias.hashCode),
                 serialnumber.hashCode),
             background_color.hashCode),
         avatar.hashCode));
@@ -170,6 +188,7 @@ class _$SuggestedListModel extends SuggestedListModel {
   @override
   String toString() {
     return (newBuiltValueToStringHelper('SuggestedListModel')
+          ..add('me_id', me_id)
           ..add('id', id)
           ..add('serial', serial)
           ..add('alias', alias)
@@ -183,6 +202,10 @@ class _$SuggestedListModel extends SuggestedListModel {
 class SuggestedListModelBuilder
     implements Builder<SuggestedListModel, SuggestedListModelBuilder> {
   _$SuggestedListModel? _$v;
+
+  int? _me_id;
+  int? get me_id => _$this._me_id;
+  set me_id(int? me_id) => _$this._me_id = me_id;
 
   int? _id;
   int? get id => _$this._id;
@@ -214,6 +237,7 @@ class SuggestedListModelBuilder
   SuggestedListModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _me_id = $v.me_id;
       _id = $v.id;
       _serial = $v.serial;
       _alias = $v.alias;
@@ -242,6 +266,7 @@ class SuggestedListModelBuilder
   _$SuggestedListModel _build() {
     final _$result = _$v ??
         new _$SuggestedListModel._(
+            me_id: me_id,
             id: id,
             serial: serial,
             alias: alias,

@@ -71,39 +71,57 @@ class _SettingsState extends State<Settings> {
                 ],
               ),
             ),
-            const Text(""),
-            const Text(""),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: (){
-                    //
-                    WidgetsBinding.instance!
-                        .addPostFrameCallback((_) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                          const FreindRequests()),
-                    ));
-                  },
-                  child: Container(
-                    width: w/3,
-                    height: h/12,
-                    color: Colors.grey,
-                    child: Center(child: Text("Frined Requests")),
+
+
+                Container(
+                  width: w/1.4,
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          WidgetsBinding.instance!
+                              .addPostFrameCallback((_) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const FreindRequests()),
+                          ));
+                        },
+                        child: Container(
+                          width: w / 2.7,
+                          height: h / 14.5,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(7),
+                              topRight: Radius.circular(7),
+                              bottomLeft: Radius.circular(7),
+                              bottomRight: Radius.circular(7),
+                            ),
+                            color: Color.fromRGBO(148, 38, 87, 1),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Friend requests', textAlign: TextAlign.center, style: TextStyle(
+                                color: Color.fromRGBO(255, 255, 255, 1),
+                                fontFamily: 'ABeeZee',
+                                fontSize: 15,
+                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                fontWeight: FontWeight.normal,
+                                height: 1
+                            ),),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Text(""),
-                Text(""),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          SizedBox(height: 10,),
+          Container(
+            width: w/1.4,
+            child: Row(
               children: [
                 InkWell(
                   onTap: (){
-                    //
                     WidgetsBinding.instance!
                         .addPostFrameCallback((_) => Navigator.push(
                       context,
@@ -113,16 +131,34 @@ class _SettingsState extends State<Settings> {
                     ));
                   },
                   child: Container(
-                    width: w/3,
-                    height: h/12,
-                    color: Colors.grey,
-                    child: Center(child: Text("Suggested Freinds")),
+                    width: w / 2.7,
+                    height: h / 14.5,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(7),
+                        topRight: Radius.circular(7),
+                        bottomLeft: Radius.circular(7),
+                        bottomRight: Radius.circular(7),
+                      ),
+                      color: Color.fromRGBO(148, 38, 87, 1),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Suggested friends', textAlign: TextAlign.center, style: TextStyle(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          fontFamily: 'ABeeZee',
+                            fontSize: 15,
+                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.normal,
+                          height: 1
+                      ),),
+                    ),
                   ),
                 ),
-                Text(""),
-                Text(""),
-              ],
+                ]
             )
+          )
+
           ],
         ),
       ),

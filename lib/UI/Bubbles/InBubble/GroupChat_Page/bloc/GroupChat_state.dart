@@ -3,10 +3,15 @@
 library GroupChat_state;
 
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
+import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
+import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -37,25 +42,43 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
 
   bool? get Turnss;
 
-  bool? get MYAliasISLoading;
-  bool? get MYAliasISsuccess;
+  bool? get UserINbubbleAliasISLoading;
+  bool? get  UserINbubbleAliasISsuccess;
 
   bool? get typingStatusISloading;
   bool? get TypingStatusSuccess;
   bool? get TypingStatus;
 
+  bool? get SendMessageISloading;
+  bool? get SendMessageSuccess;
+
+
   GetAliasModel? get GetAliasMinee;
+  EventOldMessagesModel? get EventOldMessages;
+  GetAliasModel? get GetAliasForInsideBubbleUser;
+  SendBubbleMessageModel? get SendBubbleMessage;
+  SendBubbleMessageModel? get SendBubbleReply;
   List<GroupChatMessage>? get messages;
+  List<UserDATA>? get User;
+  int? get index_For_Message_List;
 
   bool? get AddModelISloading;
   bool? get AddModelSUccess;
 
   String? get AvatarPathForRepliedTo;
-  int? get ColorForRepliedTo;
-  String? get RepliedToMessage;
+  String? get ColorForRepliedTo;
   String? get AliasForRepliedTo;
   bool? get Isreply;
   bool? get Status;
+  String? get type;
+  String? get RepliedToMessage;//if image will be backend path
+  Uint8List? get Image1;
+  File? get File_image;
+  // bool? get is_Nodejs;
+  // bool? get is_Backend;
+  // bool? get is_base64;
+String? get Image_type;
+
 
   bool? get DescriptionLengthISloading;
   bool? get DescriptionLengthSuccess;
@@ -68,15 +91,24 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
 
   GroupChatState._();
 
+
   factory GroupChatState([updates(GroupChatStateBuilder b)]) = _$GroupChatState;
   factory GroupChatState.initail() {
     return GroupChatState((b) => b
       ..error = ""
       ..success = false
+      // ..is_Nodejs = false
+      // ..is_Backend = false
+      ..isLoading = false
       ..CheckboxStatuss1 = false
+      ..SendMessageISloading = false
+      ..SendMessageSuccess = false
       ..CheckboxStatuss2 = false
+      ..UserINbubbleAliasISLoading = false
+      ..UserINbubbleAliasISsuccess = false
       ..KetbaordStatuss = false
       ..messages = []
+      ..User = []
       ..RepliedToMessage = ""
       ..AvatarPathForRepliedTo = ""
       ..AliasForRepliedTo = ""
@@ -90,20 +122,25 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       ..TypingStatusSuccess = false
       ..TypingStatus = false
       ..RefreshLoading = false
-      ..MYAliasISLoading = false
-      ..success = false
       ..AliasISsuccess = false
       ..RefreshSuccess = true
-      ..MYAliasISsuccess = false
       ..Isreply = false
       ..DescriptionLengthSuccess = false
       ..DescriptionLengthISloading = false
-      ..ColorForRepliedTo = 0
+      ..ColorForRepliedTo = ""
+      ..index_For_Message_List = 0
       ..DescriptionLength = 0
       ..TextfieldSum = 2
       ..Done = false
+      // ..is_base64 = false
       ..GetAlias=null
+      ..Image1=null
+      ..File_image=null
       ..GetAliasMinee=null
+      ..EventOldMessages=null
+      ..GetAliasForInsideBubbleUser=null
+      ..SendBubbleMessage=null
+      ..SendBubbleReply=null
     );
   }
 }

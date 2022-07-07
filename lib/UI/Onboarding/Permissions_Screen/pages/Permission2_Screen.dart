@@ -50,45 +50,47 @@ class _Permission2_ScreenState extends State<Permission2_Screen> {
                         height: h/3,
                         child: Container(
                           margin: EdgeInsets.only(top: h/10),
-                          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          child: Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(""),
                               Stack(children:[
-                                SvgPicture.asset("Assets/images/Ellipse 75.svg"),
+                                SvgPicture.asset("Assets/images/Ellipse 75.svg",width: w/5.5,),
                                 Positioned(
                                     right: 0,
                                     left: 0,
-                                    bottom: h/50,
-                                    child: SvgPicture.asset("Assets/images/Vector.svg",width: 20,))
-
+                                    bottom: h/40,
+                                    child: SvgPicture.asset("Assets/images/Vector.svg",width: w/12.5,))
                               ]
                               ),
+                              SizedBox(width: 13,),
 
-                              SvgPicture.asset("Assets/images/Allow Notifications.svg"),
-                              Text(""),
-                              Text(""),
+
+                              SvgPicture.asset("Assets/images/Allow Notifications.svg",width: w/2.8),
+
+                              SizedBox(width: h/25,),
                             ],),
                         ),
                       ),
                       Center(
                         child: Container(
                           width: w/1.4,
-                          height: h/6,
                           margin: EdgeInsets.only(bottom: h/50,top: h/40),
-                          child:   Text("""We’ll let you know 
+                          child:   Expanded(
+                            child: Text("""We’ll let you know 
 when there’s a bubble
 at your location!""",
-                            textAlign: TextAlign.left,
+                              textAlign: TextAlign.left,
 
-                            style:    _TextTheme  .headline1!.copyWith(
-                              letterSpacing: .1,
-                              wordSpacing: 1,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 3.6 *
-                                  SizeConfig
-                                      .blockSizeVertical!
-                                      .toDouble(),
-                            ),),
+                              style:    _TextTheme  .headline1!.copyWith(
+                                letterSpacing: .9,
+                                wordSpacing: 2,
+                                fontWeight: FontWeight.w300,
+                                fontSize:  3.4 *
+                                    SizeConfig
+                                        .blockSizeVertical!
+                                        .toDouble(),
+                              ),),
+                          ),
 
                         ),
                       ),

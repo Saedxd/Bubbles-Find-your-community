@@ -40,44 +40,34 @@ class _VerifyProfileState extends State<VerifyProfile> {
         body: SafeArea(
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  Container(
+              Container(
+                margin: EdgeInsets.only(top: h/100),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 10,),
+                    Container(
+                        margin: EdgeInsets.only(
+                            right: h / 35),
+                        child: IconButton(
+                          icon: SvgPicture.asset(
+                              "Assets/images/Frame 11.svg",
+                              width: 30,
+                              color: ColorS.surface),
+                          onPressed:(){
+                            Navigator.pop(context);
+                          },
+                        )),
+                    Container(
                       margin: EdgeInsets.only(
-                          right: h / 20),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                            "Assets/images/Frame 11.svg",
-                            width: 30,
-                            color: ColorS.surface),
-                        onPressed:(){
-
-                          Navigator.pop(context);
-                        },
-                      )),//todo check ui here
-                  const Spacer(),
-                  Container(
-                    height: h/13,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Container(
-                          width: w/3,
-                          child: Text('Profile Verification', textAlign: TextAlign.left,      style: _TextTheme.headlineLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 23
-                          ),),
-                        ),
-                      ],
+                          top: h / 100),
+                      child: Text('Profile Verification', textAlign: TextAlign.left,      style: _TextTheme.headlineLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 23
+                      ),),
                     ),
-                  ),
-                  const Spacer(),
-                  const Spacer(),
-                  const Spacer(),
-                  const Spacer(),
-                ],
+                  ],
+                ),
               ),
 
               const Spacer(),

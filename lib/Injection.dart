@@ -2,6 +2,7 @@
 
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/bloc/GroupChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/bloc/Sprints_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_bloc.dart';
@@ -48,6 +49,7 @@ Future iniGetIt() async {
   //factory means this dependency injection will provide us with new instance of get it everytime its called
   //so sometimes we call bloc in dispose which leads stream to close so useing the same instance that means it will be closed.
   sl.registerFactory(() => SignUpBloc(sl()));
+  sl.registerFactory(() => SprintsBloc(sl()));
   sl.registerFactory(() => loginBloc(sl()));
   sl.registerFactory(() => NotificationsBloc(sl()));
   sl.registerFactory(() => HomeBloc(sl()));

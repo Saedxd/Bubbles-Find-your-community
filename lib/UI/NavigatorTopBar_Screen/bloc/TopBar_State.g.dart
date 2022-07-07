@@ -31,6 +31,8 @@ class _$TopBarState extends TopBarState {
   final GetFriendsModel? GetFriends;
   @override
   final ProfileDateModel? ProfileDate;
+  @override
+  final GetbadgeModel? Getbadge;
 
   factory _$TopBarState([void Function(TopBarStateBuilder)? updates]) =>
       (new TopBarStateBuilder()..update(updates))._build();
@@ -47,7 +49,8 @@ class _$TopBarState extends TopBarState {
       this.GetprofileLoading,
       this.GetprofileSuccess,
       this.GetFriends,
-      this.ProfileDate})
+      this.ProfileDate,
+      this.Getbadge})
       : super._();
 
   @override
@@ -72,7 +75,8 @@ class _$TopBarState extends TopBarState {
         GetprofileLoading == other.GetprofileLoading &&
         GetprofileSuccess == other.GetprofileSuccess &&
         GetFriends == other.GetFriends &&
-        ProfileDate == other.ProfileDate;
+        ProfileDate == other.ProfileDate &&
+        Getbadge == other.Getbadge;
   }
 
   @override
@@ -87,18 +91,20 @@ class _$TopBarState extends TopBarState {
                                 $jc(
                                     $jc(
                                         $jc(
-                                            $jc($jc(0, error.hashCode),
-                                                isLoading.hashCode),
-                                            success.hashCode),
-                                        Index1.hashCode),
-                                    Index2.hashCode),
-                                Index3.hashCode),
-                            Index4.hashCode),
-                        INDEX.hashCode),
-                    GetprofileLoading.hashCode),
-                GetprofileSuccess.hashCode),
-            GetFriends.hashCode),
-        ProfileDate.hashCode));
+                                            $jc(
+                                                $jc($jc(0, error.hashCode),
+                                                    isLoading.hashCode),
+                                                success.hashCode),
+                                            Index1.hashCode),
+                                        Index2.hashCode),
+                                    Index3.hashCode),
+                                Index4.hashCode),
+                            INDEX.hashCode),
+                        GetprofileLoading.hashCode),
+                    GetprofileSuccess.hashCode),
+                GetFriends.hashCode),
+            ProfileDate.hashCode),
+        Getbadge.hashCode));
   }
 
   @override
@@ -115,7 +121,8 @@ class _$TopBarState extends TopBarState {
           ..add('GetprofileLoading', GetprofileLoading)
           ..add('GetprofileSuccess', GetprofileSuccess)
           ..add('GetFriends', GetFriends)
-          ..add('ProfileDate', ProfileDate))
+          ..add('ProfileDate', ProfileDate)
+          ..add('Getbadge', Getbadge))
         .toString();
   }
 }
@@ -177,6 +184,11 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   set ProfileDate(ProfileDateModelBuilder? ProfileDate) =>
       _$this._ProfileDate = ProfileDate;
 
+  GetbadgeModelBuilder? _Getbadge;
+  GetbadgeModelBuilder get Getbadge =>
+      _$this._Getbadge ??= new GetbadgeModelBuilder();
+  set Getbadge(GetbadgeModelBuilder? Getbadge) => _$this._Getbadge = Getbadge;
+
   TopBarStateBuilder();
 
   TopBarStateBuilder get _$this {
@@ -194,6 +206,7 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       _GetprofileSuccess = $v.GetprofileSuccess;
       _GetFriends = $v.GetFriends?.toBuilder();
       _ProfileDate = $v.ProfileDate?.toBuilder();
+      _Getbadge = $v.Getbadge?.toBuilder();
       _$v = null;
     }
     return this;
@@ -229,7 +242,8 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
               GetprofileLoading: GetprofileLoading,
               GetprofileSuccess: GetprofileSuccess,
               GetFriends: _GetFriends?.build(),
-              ProfileDate: _ProfileDate?.build());
+              ProfileDate: _ProfileDate?.build(),
+              Getbadge: _Getbadge?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -237,6 +251,8 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
         _GetFriends?.build();
         _$failedField = 'ProfileDate';
         _ProfileDate?.build();
+        _$failedField = 'Getbadge';
+        _Getbadge?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'TopBarState', _$failedField, e.toString());

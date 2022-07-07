@@ -62,82 +62,6 @@ class ClearErrorBuilder implements Builder<ClearError, ClearErrorBuilder> {
   }
 }
 
-class _$GetOldMessages extends GetOldMessages {
-  @override
-  final int? receiver_id;
-
-  factory _$GetOldMessages([void Function(GetOldMessagesBuilder)? updates]) =>
-      (new GetOldMessagesBuilder()..update(updates))._build();
-
-  _$GetOldMessages._({this.receiver_id}) : super._();
-
-  @override
-  GetOldMessages rebuild(void Function(GetOldMessagesBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  GetOldMessagesBuilder toBuilder() =>
-      new GetOldMessagesBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is GetOldMessages && receiver_id == other.receiver_id;
-  }
-
-  @override
-  int get hashCode {
-    return $jf($jc(0, receiver_id.hashCode));
-  }
-
-  @override
-  String toString() {
-    return (newBuiltValueToStringHelper('GetOldMessages')
-          ..add('receiver_id', receiver_id))
-        .toString();
-  }
-}
-
-class GetOldMessagesBuilder
-    implements Builder<GetOldMessages, GetOldMessagesBuilder> {
-  _$GetOldMessages? _$v;
-
-  int? _receiver_id;
-  int? get receiver_id => _$this._receiver_id;
-  set receiver_id(int? receiver_id) => _$this._receiver_id = receiver_id;
-
-  GetOldMessagesBuilder();
-
-  GetOldMessagesBuilder get _$this {
-    final $v = _$v;
-    if ($v != null) {
-      _receiver_id = $v.receiver_id;
-      _$v = null;
-    }
-    return this;
-  }
-
-  @override
-  void replace(GetOldMessages other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$GetOldMessages;
-  }
-
-  @override
-  void update(void Function(GetOldMessagesBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  GetOldMessages build() => _build();
-
-  _$GetOldMessages _build() {
-    final _$result = _$v ?? new _$GetOldMessages._(receiver_id: receiver_id);
-    replace(_$result);
-    return _$result;
-  }
-}
-
 class _$KetbaordStatus extends KetbaordStatus {
   @override
   final bool? status;
@@ -298,14 +222,26 @@ class GetAliasBuilder implements Builder<GetAlias, GetAliasBuilder> {
 
 class _$SendMessage extends SendMessage {
   @override
-  final int? receiver_id;
+  final int? main_type;
   @override
   final String? message;
+  @override
+  final String? type;
+  @override
+  final int? bubble_id;
+  @override
+  final int? IndexOfMessageList;
 
   factory _$SendMessage([void Function(SendMessageBuilder)? updates]) =>
       (new SendMessageBuilder()..update(updates))._build();
 
-  _$SendMessage._({this.receiver_id, this.message}) : super._();
+  _$SendMessage._(
+      {this.main_type,
+      this.message,
+      this.type,
+      this.bubble_id,
+      this.IndexOfMessageList})
+      : super._();
 
   @override
   SendMessage rebuild(void Function(SendMessageBuilder) updates) =>
@@ -318,20 +254,31 @@ class _$SendMessage extends SendMessage {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is SendMessage &&
-        receiver_id == other.receiver_id &&
-        message == other.message;
+        main_type == other.main_type &&
+        message == other.message &&
+        type == other.type &&
+        bubble_id == other.bubble_id &&
+        IndexOfMessageList == other.IndexOfMessageList;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, receiver_id.hashCode), message.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc($jc($jc(0, main_type.hashCode), message.hashCode),
+                type.hashCode),
+            bubble_id.hashCode),
+        IndexOfMessageList.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('SendMessage')
-          ..add('receiver_id', receiver_id)
-          ..add('message', message))
+          ..add('main_type', main_type)
+          ..add('message', message)
+          ..add('type', type)
+          ..add('bubble_id', bubble_id)
+          ..add('IndexOfMessageList', IndexOfMessageList))
         .toString();
   }
 }
@@ -339,21 +286,37 @@ class _$SendMessage extends SendMessage {
 class SendMessageBuilder implements Builder<SendMessage, SendMessageBuilder> {
   _$SendMessage? _$v;
 
-  int? _receiver_id;
-  int? get receiver_id => _$this._receiver_id;
-  set receiver_id(int? receiver_id) => _$this._receiver_id = receiver_id;
+  int? _main_type;
+  int? get main_type => _$this._main_type;
+  set main_type(int? main_type) => _$this._main_type = main_type;
 
   String? _message;
   String? get message => _$this._message;
   set message(String? message) => _$this._message = message;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  int? _bubble_id;
+  int? get bubble_id => _$this._bubble_id;
+  set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
+
+  int? _IndexOfMessageList;
+  int? get IndexOfMessageList => _$this._IndexOfMessageList;
+  set IndexOfMessageList(int? IndexOfMessageList) =>
+      _$this._IndexOfMessageList = IndexOfMessageList;
 
   SendMessageBuilder();
 
   SendMessageBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _receiver_id = $v.receiver_id;
+      _main_type = $v.main_type;
       _message = $v.message;
+      _type = $v.type;
+      _bubble_id = $v.bubble_id;
+      _IndexOfMessageList = $v.IndexOfMessageList;
       _$v = null;
     }
     return this;
@@ -374,8 +337,13 @@ class SendMessageBuilder implements Builder<SendMessage, SendMessageBuilder> {
   SendMessage build() => _build();
 
   _$SendMessage _build() {
-    final _$result =
-        _$v ?? new _$SendMessage._(receiver_id: receiver_id, message: message);
+    final _$result = _$v ??
+        new _$SendMessage._(
+            main_type: main_type,
+            message: message,
+            type: type,
+            bubble_id: bubble_id,
+            IndexOfMessageList: IndexOfMessageList);
     replace(_$result);
     return _$result;
   }
@@ -385,12 +353,45 @@ class _$addReply extends addReply {
   @override
   final String? comment;
   @override
+  final String? Message;
+  @override
+  final String? RepliedToAlias;
+  @override
+  final String? RepliedToAvatar;
+  @override
+  final String? RepliedToColor;
+  @override
   final int? message_id;
+  @override
+  final int? Bubble_id;
+  @override
+  final String? type;
+  @override
+  final bool? is_Nodejs;
+  @override
+  final bool? is_backend;
+  @override
+  final File? File_file;
+  @override
+  final Uint8List? Uint8;
 
   factory _$addReply([void Function(addReplyBuilder)? updates]) =>
       (new addReplyBuilder()..update(updates))._build();
 
-  _$addReply._({this.comment, this.message_id}) : super._();
+  _$addReply._(
+      {this.comment,
+      this.Message,
+      this.RepliedToAlias,
+      this.RepliedToAvatar,
+      this.RepliedToColor,
+      this.message_id,
+      this.Bubble_id,
+      this.type,
+      this.is_Nodejs,
+      this.is_backend,
+      this.File_file,
+      this.Uint8})
+      : super._();
 
   @override
   addReply rebuild(void Function(addReplyBuilder) updates) =>
@@ -404,19 +405,60 @@ class _$addReply extends addReply {
     if (identical(other, this)) return true;
     return other is addReply &&
         comment == other.comment &&
-        message_id == other.message_id;
+        Message == other.Message &&
+        RepliedToAlias == other.RepliedToAlias &&
+        RepliedToAvatar == other.RepliedToAvatar &&
+        RepliedToColor == other.RepliedToColor &&
+        message_id == other.message_id &&
+        Bubble_id == other.Bubble_id &&
+        type == other.type &&
+        is_Nodejs == other.is_Nodejs &&
+        is_backend == other.is_backend &&
+        File_file == other.File_file &&
+        Uint8 == other.Uint8;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, comment.hashCode), message_id.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc($jc(0, comment.hashCode),
+                                                Message.hashCode),
+                                            RepliedToAlias.hashCode),
+                                        RepliedToAvatar.hashCode),
+                                    RepliedToColor.hashCode),
+                                message_id.hashCode),
+                            Bubble_id.hashCode),
+                        type.hashCode),
+                    is_Nodejs.hashCode),
+                is_backend.hashCode),
+            File_file.hashCode),
+        Uint8.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('addReply')
           ..add('comment', comment)
-          ..add('message_id', message_id))
+          ..add('Message', Message)
+          ..add('RepliedToAlias', RepliedToAlias)
+          ..add('RepliedToAvatar', RepliedToAvatar)
+          ..add('RepliedToColor', RepliedToColor)
+          ..add('message_id', message_id)
+          ..add('Bubble_id', Bubble_id)
+          ..add('type', type)
+          ..add('is_Nodejs', is_Nodejs)
+          ..add('is_backend', is_backend)
+          ..add('File_file', File_file)
+          ..add('Uint8', Uint8))
         .toString();
   }
 }
@@ -428,9 +470,52 @@ class addReplyBuilder implements Builder<addReply, addReplyBuilder> {
   String? get comment => _$this._comment;
   set comment(String? comment) => _$this._comment = comment;
 
+  String? _Message;
+  String? get Message => _$this._Message;
+  set Message(String? Message) => _$this._Message = Message;
+
+  String? _RepliedToAlias;
+  String? get RepliedToAlias => _$this._RepliedToAlias;
+  set RepliedToAlias(String? RepliedToAlias) =>
+      _$this._RepliedToAlias = RepliedToAlias;
+
+  String? _RepliedToAvatar;
+  String? get RepliedToAvatar => _$this._RepliedToAvatar;
+  set RepliedToAvatar(String? RepliedToAvatar) =>
+      _$this._RepliedToAvatar = RepliedToAvatar;
+
+  String? _RepliedToColor;
+  String? get RepliedToColor => _$this._RepliedToColor;
+  set RepliedToColor(String? RepliedToColor) =>
+      _$this._RepliedToColor = RepliedToColor;
+
   int? _message_id;
   int? get message_id => _$this._message_id;
   set message_id(int? message_id) => _$this._message_id = message_id;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  bool? _is_Nodejs;
+  bool? get is_Nodejs => _$this._is_Nodejs;
+  set is_Nodejs(bool? is_Nodejs) => _$this._is_Nodejs = is_Nodejs;
+
+  bool? _is_backend;
+  bool? get is_backend => _$this._is_backend;
+  set is_backend(bool? is_backend) => _$this._is_backend = is_backend;
+
+  File? _File_file;
+  File? get File_file => _$this._File_file;
+  set File_file(File? File_file) => _$this._File_file = File_file;
+
+  Uint8List? _Uint8;
+  Uint8List? get Uint8 => _$this._Uint8;
+  set Uint8(Uint8List? Uint8) => _$this._Uint8 = Uint8;
 
   addReplyBuilder();
 
@@ -438,7 +523,17 @@ class addReplyBuilder implements Builder<addReply, addReplyBuilder> {
     final $v = _$v;
     if ($v != null) {
       _comment = $v.comment;
+      _Message = $v.Message;
+      _RepliedToAlias = $v.RepliedToAlias;
+      _RepliedToAvatar = $v.RepliedToAvatar;
+      _RepliedToColor = $v.RepliedToColor;
       _message_id = $v.message_id;
+      _Bubble_id = $v.Bubble_id;
+      _type = $v.type;
+      _is_Nodejs = $v.is_Nodejs;
+      _is_backend = $v.is_backend;
+      _File_file = $v.File_file;
+      _Uint8 = $v.Uint8;
       _$v = null;
     }
     return this;
@@ -459,8 +554,20 @@ class addReplyBuilder implements Builder<addReply, addReplyBuilder> {
   addReply build() => _build();
 
   _$addReply _build() {
-    final _$result =
-        _$v ?? new _$addReply._(comment: comment, message_id: message_id);
+    final _$result = _$v ??
+        new _$addReply._(
+            comment: comment,
+            Message: Message,
+            RepliedToAlias: RepliedToAlias,
+            RepliedToAvatar: RepliedToAvatar,
+            RepliedToColor: RepliedToColor,
+            message_id: message_id,
+            Bubble_id: Bubble_id,
+            type: type,
+            is_Nodejs: is_Nodejs,
+            is_backend: is_backend,
+            File_file: File_file,
+            Uint8: Uint8);
     replace(_$result);
     return _$result;
   }
@@ -622,13 +729,21 @@ class _$ShowReplyWidget extends ShowReplyWidget {
   @override
   final String? AvatarPathForRepliedTo;
   @override
-  final int? ColorForRepliedTo;
+  final String? ColorForRepliedTo;
   @override
   final String? RepliedToMessage;
   @override
   final String? AliasForRepliedTo;
   @override
   final bool? Isreply;
+  @override
+  final String? Type;
+  @override
+  final Uint8List? Image1;
+  @override
+  final File? File_image;
+  @override
+  final String? Image_type;
 
   factory _$ShowReplyWidget([void Function(ShowReplyWidgetBuilder)? updates]) =>
       (new ShowReplyWidgetBuilder()..update(updates))._build();
@@ -638,7 +753,11 @@ class _$ShowReplyWidget extends ShowReplyWidget {
       this.ColorForRepliedTo,
       this.RepliedToMessage,
       this.AliasForRepliedTo,
-      this.Isreply})
+      this.Isreply,
+      this.Type,
+      this.Image1,
+      this.File_image,
+      this.Image_type})
       : super._();
 
   @override
@@ -657,7 +776,11 @@ class _$ShowReplyWidget extends ShowReplyWidget {
         ColorForRepliedTo == other.ColorForRepliedTo &&
         RepliedToMessage == other.RepliedToMessage &&
         AliasForRepliedTo == other.AliasForRepliedTo &&
-        Isreply == other.Isreply;
+        Isreply == other.Isreply &&
+        Type == other.Type &&
+        Image1 == other.Image1 &&
+        File_image == other.File_image &&
+        Image_type == other.Image_type;
   }
 
   @override
@@ -665,11 +788,19 @@ class _$ShowReplyWidget extends ShowReplyWidget {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc(0, AvatarPathForRepliedTo.hashCode),
-                    ColorForRepliedTo.hashCode),
-                RepliedToMessage.hashCode),
-            AliasForRepliedTo.hashCode),
-        Isreply.hashCode));
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc($jc(0, AvatarPathForRepliedTo.hashCode),
+                                    ColorForRepliedTo.hashCode),
+                                RepliedToMessage.hashCode),
+                            AliasForRepliedTo.hashCode),
+                        Isreply.hashCode),
+                    Type.hashCode),
+                Image1.hashCode),
+            File_image.hashCode),
+        Image_type.hashCode));
   }
 
   @override
@@ -679,7 +810,11 @@ class _$ShowReplyWidget extends ShowReplyWidget {
           ..add('ColorForRepliedTo', ColorForRepliedTo)
           ..add('RepliedToMessage', RepliedToMessage)
           ..add('AliasForRepliedTo', AliasForRepliedTo)
-          ..add('Isreply', Isreply))
+          ..add('Isreply', Isreply)
+          ..add('Type', Type)
+          ..add('Image1', Image1)
+          ..add('File_image', File_image)
+          ..add('Image_type', Image_type))
         .toString();
   }
 }
@@ -693,9 +828,9 @@ class ShowReplyWidgetBuilder
   set AvatarPathForRepliedTo(String? AvatarPathForRepliedTo) =>
       _$this._AvatarPathForRepliedTo = AvatarPathForRepliedTo;
 
-  int? _ColorForRepliedTo;
-  int? get ColorForRepliedTo => _$this._ColorForRepliedTo;
-  set ColorForRepliedTo(int? ColorForRepliedTo) =>
+  String? _ColorForRepliedTo;
+  String? get ColorForRepliedTo => _$this._ColorForRepliedTo;
+  set ColorForRepliedTo(String? ColorForRepliedTo) =>
       _$this._ColorForRepliedTo = ColorForRepliedTo;
 
   String? _RepliedToMessage;
@@ -712,6 +847,22 @@ class ShowReplyWidgetBuilder
   bool? get Isreply => _$this._Isreply;
   set Isreply(bool? Isreply) => _$this._Isreply = Isreply;
 
+  String? _Type;
+  String? get Type => _$this._Type;
+  set Type(String? Type) => _$this._Type = Type;
+
+  Uint8List? _Image1;
+  Uint8List? get Image1 => _$this._Image1;
+  set Image1(Uint8List? Image1) => _$this._Image1 = Image1;
+
+  File? _File_image;
+  File? get File_image => _$this._File_image;
+  set File_image(File? File_image) => _$this._File_image = File_image;
+
+  String? _Image_type;
+  String? get Image_type => _$this._Image_type;
+  set Image_type(String? Image_type) => _$this._Image_type = Image_type;
+
   ShowReplyWidgetBuilder();
 
   ShowReplyWidgetBuilder get _$this {
@@ -722,6 +873,10 @@ class ShowReplyWidgetBuilder
       _RepliedToMessage = $v.RepliedToMessage;
       _AliasForRepliedTo = $v.AliasForRepliedTo;
       _Isreply = $v.Isreply;
+      _Type = $v.Type;
+      _Image1 = $v.Image1;
+      _File_image = $v.File_image;
+      _Image_type = $v.Image_type;
       _$v = null;
     }
     return this;
@@ -748,7 +903,11 @@ class ShowReplyWidgetBuilder
             ColorForRepliedTo: ColorForRepliedTo,
             RepliedToMessage: RepliedToMessage,
             AliasForRepliedTo: AliasForRepliedTo,
-            Isreply: Isreply);
+            Isreply: Isreply,
+            Type: Type,
+            Image1: Image1,
+            File_image: File_image,
+            Image_type: Image_type);
     replace(_$result);
     return _$result;
   }
@@ -1202,6 +1361,236 @@ class MakeTextFieldSumToNormalBuilder
 
   _$MakeTextFieldSumToNormal _build() {
     final _$result = _$v ?? new _$MakeTextFieldSumToNormal._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GetOldMessages extends GetOldMessages {
+  @override
+  final int? bubble_id;
+
+  factory _$GetOldMessages([void Function(GetOldMessagesBuilder)? updates]) =>
+      (new GetOldMessagesBuilder()..update(updates))._build();
+
+  _$GetOldMessages._({this.bubble_id}) : super._();
+
+  @override
+  GetOldMessages rebuild(void Function(GetOldMessagesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetOldMessagesBuilder toBuilder() =>
+      new GetOldMessagesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetOldMessages && bubble_id == other.bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetOldMessages')
+          ..add('bubble_id', bubble_id))
+        .toString();
+  }
+}
+
+class GetOldMessagesBuilder
+    implements Builder<GetOldMessages, GetOldMessagesBuilder> {
+  _$GetOldMessages? _$v;
+
+  int? _bubble_id;
+  int? get bubble_id => _$this._bubble_id;
+  set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
+
+  GetOldMessagesBuilder();
+
+  GetOldMessagesBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _bubble_id = $v.bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetOldMessages other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetOldMessages;
+  }
+
+  @override
+  void update(void Function(GetOldMessagesBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetOldMessages build() => _build();
+
+  _$GetOldMessages _build() {
+    final _$result = _$v ?? new _$GetOldMessages._(bubble_id: bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GetAliasForInsideUser extends GetAliasForInsideUser {
+  @override
+  final int? User_id;
+
+  factory _$GetAliasForInsideUser(
+          [void Function(GetAliasForInsideUserBuilder)? updates]) =>
+      (new GetAliasForInsideUserBuilder()..update(updates))._build();
+
+  _$GetAliasForInsideUser._({this.User_id}) : super._();
+
+  @override
+  GetAliasForInsideUser rebuild(
+          void Function(GetAliasForInsideUserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetAliasForInsideUserBuilder toBuilder() =>
+      new GetAliasForInsideUserBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetAliasForInsideUser && User_id == other.User_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, User_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetAliasForInsideUser')
+          ..add('User_id', User_id))
+        .toString();
+  }
+}
+
+class GetAliasForInsideUserBuilder
+    implements Builder<GetAliasForInsideUser, GetAliasForInsideUserBuilder> {
+  _$GetAliasForInsideUser? _$v;
+
+  int? _User_id;
+  int? get User_id => _$this._User_id;
+  set User_id(int? User_id) => _$this._User_id = User_id;
+
+  GetAliasForInsideUserBuilder();
+
+  GetAliasForInsideUserBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _User_id = $v.User_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetAliasForInsideUser other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetAliasForInsideUser;
+  }
+
+  @override
+  void update(void Function(GetAliasForInsideUserBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetAliasForInsideUser build() => _build();
+
+  _$GetAliasForInsideUser _build() {
+    final _$result = _$v ?? new _$GetAliasForInsideUser._(User_id: User_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$AddUserDataToList extends AddUserDataToList {
+  @override
+  final UserDATA? user;
+
+  factory _$AddUserDataToList(
+          [void Function(AddUserDataToListBuilder)? updates]) =>
+      (new AddUserDataToListBuilder()..update(updates))._build();
+
+  _$AddUserDataToList._({this.user}) : super._();
+
+  @override
+  AddUserDataToList rebuild(void Function(AddUserDataToListBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  AddUserDataToListBuilder toBuilder() =>
+      new AddUserDataToListBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is AddUserDataToList && user == other.user;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, user.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('AddUserDataToList')..add('user', user))
+        .toString();
+  }
+}
+
+class AddUserDataToListBuilder
+    implements Builder<AddUserDataToList, AddUserDataToListBuilder> {
+  _$AddUserDataToList? _$v;
+
+  UserDATA? _user;
+  UserDATA? get user => _$this._user;
+  set user(UserDATA? user) => _$this._user = user;
+
+  AddUserDataToListBuilder();
+
+  AddUserDataToListBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _user = $v.user;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(AddUserDataToList other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$AddUserDataToList;
+  }
+
+  @override
+  void update(void Function(AddUserDataToListBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  AddUserDataToList build() => _build();
+
+  _$AddUserDataToList _build() {
+    final _$result = _$v ?? new _$AddUserDataToList._(user: user);
     replace(_$result);
     return _$result;
   }

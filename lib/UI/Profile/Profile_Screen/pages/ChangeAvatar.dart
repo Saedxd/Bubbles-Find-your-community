@@ -58,29 +58,30 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                   Container(
                     margin: EdgeInsets.only(top: h/100),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        SizedBox(width: 10,),
                         Container(
                             margin: EdgeInsets.only(
-                                right: h / 20),
+                                right: h / 35),
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   "Assets/images/Frame 11.svg",
                                   width: 30,
                                   color: ColorS.surface),
                               onPressed:(){
-
                                 Navigator.pop(context);
                               },
                             )),
-                        Text('Change Avatar', textAlign: TextAlign.left, style: _TextTheme.headlineLarge!.copyWith(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 23
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: h / 100),
+                          child: Text('Change Avatar', textAlign: TextAlign.left, style: _TextTheme.headlineLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 23
 
-                        ),),
-                        Text(""),
-                        Text(""),
-
+                          ),),
+                        ),
                       ],
                     ),
                   ),
@@ -102,7 +103,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                             gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 4,
-                              childAspectRatio: (5 / 5.5),
+                              childAspectRatio: (5 / 4.7),
                             ),
                             itemBuilder: (context, index) {
                               return  InkWell(
@@ -116,15 +117,28 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                                 },
                                 child: Container(
                                   child: Container(
-                                    margin: EdgeInsets.all(5),
-                                    child: CachedNetworkImage(
-                                      imageUrl:  state.GetAvatar!
-                                          .avatars![index].image!,
-                                      fit: BoxFit.fill,
-                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                          CircularProgressIndicator(value: downloadProgress.progress),
-                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                    ),
+                                    child: ClipOval(
+                                        child: SizedBox.fromSize(
+                                          size: Size.fromRadius(48), // Image radius
+                                          child :CachedNetworkImage(
+                                            imageUrl: state.GetAvatar!
+                                                .avatars![index].image!,
+                                            fit: BoxFit.cover,
+                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                            errorWidget: (context, url, error) => Icon(Icons.error),
+                                          ),
+                                        ))
+
+
+                                    // CachedNetworkImage(
+                                    //   imageUrl:  state.GetAvatar!
+                                    //       .avatars![index].image!,
+                                    //   fit: BoxFit.fill,
+                                    //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                    //       CircularProgressIndicator(value: downloadProgress.progress),
+                                    //   errorWidget: (context, url, error) => Icon(Icons.error),
+                                    // ),
                                   )
                                 ),
                               );

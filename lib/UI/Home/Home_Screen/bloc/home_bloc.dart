@@ -118,6 +118,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           ..Userlng= event.lng
           ..Userlat = event.lat
       );
+      // print("inside bloc file : ${state.Userlat}");
+      // print("inside bloc file : ${state.Userlng}");
+
 
     }
     if (event is OpenDoorTObeAbleTOsetBubble){
@@ -179,6 +182,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             Locationss Location = Locationss();
             Location.lng = state.GetBubbles!.data![i].lng;
             Location.lat = state.GetBubbles!.data![i].lat;
+            Location.bubble_id = state.GetBubbles!.data![i].id;
             state.locationn!.add(Location);
             state.BubblesRaduis!.add(state.GetBubbles!.data![i].radius!.toInt());
 
@@ -426,70 +430,98 @@ yield state.rebuild((b) => b
       );
       }
     }
+    if (event is SearchBubblesLists){
+      try {
+        yield state.rebuild((b) => b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+        );
 
-if (event is SearchBubblesLists){
-  try {
-    yield state.rebuild((b) => b
-      ..isLoading = true
-      ..error = ""
-      ..success = false
-    );
+        state.FilteredBUBBLElists1!.clear();
+        state.FilteredBUBBLElists2!.clear();
+        state.FilteredBUBBLElists3!.clear();
+        print("Cleared");
+        bool Didit1= false;
+        bool Didit2= false;
+        bool Didit3= false;
 
-    state.FilteredBUBBLElists1!.clear();
-    state.FilteredBUBBLElists2!.clear();
-    state.FilteredBUBBLElists3!.clear();
-    print("Cleared");
+        state.BUBBLElistS1!.forEach((BubbbleOBject) {
+          if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+            state.FilteredBUBBLElists1!.add(BubbbleOBject);
+            Didit1 = true;
+          }
+          if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && !Didit1) {
+            state.FilteredBUBBLElists1!.add(BubbbleOBject);
+          }
+          Didit1 = false;
+        });
 
-    state.BUBBLElistS1!.forEach((BubbbleOBject) {
-      if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
-        state.FilteredBUBBLElists1!.add(BubbbleOBject);
+
+        state.BUBBLElistS2!.forEach((BubbbleOBject) {
+          if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+            state.FilteredBUBBLElists2!.add(BubbbleOBject);
+            Didit2 = true;
+          }
+          if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && !Didit2) {
+            state.FilteredBUBBLElists2!.add(BubbbleOBject);
+          }
+          Didit2 = false;
+        });
+
+
+        state.BUBBLElistS3!.forEach((BubbbleOBject) {
+          if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+            state.FilteredBUBBLElists3!.add(BubbbleOBject);
+            Didit3 = true;
+          }
+
+          if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && !Didit3) {
+            state.FilteredBUBBLElists3!.add(BubbbleOBject);
+          }
+          Didit3 = false;
+        });
+
+
+
+
+
+        yield state.rebuild((b) => b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+        );
+
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+        );
       }
-      if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && BubbbleOBject.location!=BubbbleOBject.Title) {
-        state.FilteredBUBBLElists1!.add(BubbbleOBject);
+    }
+    if (event is UserJoinedBubble) {
+
+      try {
+        final date = await _repository.ChangeUserStatusToIN(event.Bubble_id!);
+
+      } catch (e) {
+        print('get Error $e');
       }
-    });
+    }
+    if (event is UserLeftBubble) {
 
+      try {
 
-    state.BUBBLElistS2!.forEach((BubbbleOBject) {
-      if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
-        state.FilteredBUBBLElists2!.add(BubbbleOBject);
+        final date = await _repository.ChangeUserStatusToOut(event.Bubble_id!);
+
+      } catch (e) {
+        print('get Error $e');
+
       }
-      if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && BubbbleOBject.location!=BubbbleOBject.Title) {
-        state.FilteredBUBBLElists2!.add(BubbbleOBject);
-      }
-    });
-
-
-    state.BUBBLElistS3!.forEach((BubbbleOBject) {
-      if (BubbbleOBject.location!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
-        state.FilteredBUBBLElists3!.add(BubbbleOBject);
-      }
-      if (BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase()) && BubbbleOBject.location!=BubbbleOBject.Title) {
-        state.FilteredBUBBLElists3!.add(BubbbleOBject);
-      }
-    });
-
-
-
-
-
-    yield state.rebuild((b) => b
-      ..isLoading = false
-      ..error = ""
-      ..success = true
-    );
-
-
-  } catch (e) {
-    print('get Error $e');
-    yield state.rebuild((b) => b
-      ..isLoading = false
-      ..error = "Something went wrong"
-      ..success = false
-    );
-  }
-}
-
+    }
 
 
   }

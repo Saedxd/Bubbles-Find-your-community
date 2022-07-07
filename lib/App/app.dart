@@ -76,11 +76,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
     var androiInit = AndroidInitializationSettings("@mipmap/ic_launcher");
     var iosInit = IOSInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
     );
-    
+
+
    var  initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
     fltNotification = FlutterLocalNotificationsPlugin();
     fltNotification.initialize(
@@ -92,9 +93,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         'Channel 5',
         'Notification',
       channelDescription: "channel Description",
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true,
+        importance: Importance.low,
+        playSound: false,
       enableLights: false ,
     );
 
@@ -129,8 +129,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       print("onMessageOpenedApp: $message");
 
-      print(message);
-      print(message.notification!.title.toString());
       if (message.notification!.title.toString() == "Friend Request") {
         navigatorKey.currentState!.push(
             MaterialPageRoute(builder: (_) => FreindRequests())
@@ -242,10 +240,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
     return ThemeManager(
         defaultBrightnessPreference: BrightnessPreference.dark,
-
         data: (Brightness brightness) {
           print(brightness);
-
+       // ThemeManager.of(context)
+       //        .setBrightnessPreference(BrightnessPreference.dark);
          return
            brightness==Brightness.light
                 ?themeee.lightTheme
@@ -321,3 +319,14 @@ class MyBehavior extends ScrollBehavior {
 //         ));
 //   }
 // });
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}

@@ -13,6 +13,7 @@ part 'SuggestedListModel.g.dart';
 
 abstract class SuggestedListModel
     implements Built<SuggestedListModel,SuggestedListModelBuilder> {
+int? get me_id;
 int? get id;
 String? get serial;
 String? get alias;

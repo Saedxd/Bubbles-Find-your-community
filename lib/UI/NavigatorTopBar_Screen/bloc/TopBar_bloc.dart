@@ -174,22 +174,22 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
           ..isLoading = true
           ..error = ""
           ..success = false
-          ..GetFriends = null
+          ..Getbadge = null
         );
-            //todo: get badge
-        //
-        // final date = await _repository.GetFreinds();
-        //
-        //
-        // print('get Success data ${date}');
-        // yield state.rebuild((b) =>
-        // b
-        //   ..isLoading = false
-        //   ..error = ""
-        //   ..success = true
-        //   ..GetFriends.replace(date)
 
-      //  );
+
+        final date = await _repository.Getbadge();
+
+
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+          ..Getbadge.replace(date)
+
+       );
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>
@@ -197,7 +197,7 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
           ..isLoading = false
           ..error = "Something went wrong"
           ..success = false
-          ..GetFriends = null
+          ..Getbadge = null
         );
       }
     }

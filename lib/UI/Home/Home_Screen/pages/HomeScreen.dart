@@ -1,7 +1,6 @@
 // ignore_for_file: file_names, non_constant_identifier_names, constant_identifier_names
 import 'dart:async';
 import 'dart:typed_data';
-
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
@@ -12,6 +11,7 @@ import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
 import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
 import 'package:bubbles/UI/Home/Options_screen/pages/Options_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -30,18 +30,18 @@ import 'package:location/location.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import 'dart:ui'
-    as ui; // imported as ui to prevent conflict between ui.Image and the Image widget
+import 'dart:ui'as ui; // imported as ui to prevent conflict between ui.Image and the Image widget
 import 'package:flutter/services.dart';
 import 'dart:math';
 import 'dart:math' as math;
+
+import 'package:socket_io_client/socket_io_client.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+bool UserInOutStatus = false;
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? Lat;
   double? Lng;
@@ -74,6 +74,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   StreamSubscription? _locationSubscription;
   Location _locationTracker = Location();
   GoogleMapController? _googleMapController;
+  bool? diditonceee= false;
+  List<int>? AllBubblesIDS=[];
+  List<int>? AllBubblesStatus=[];
+  List<bool>? AllBubblesStatusTry=[];
   bool showdialogg = false;
   double? CameraZoom;
   Set<Marker> marker2 = {};
@@ -95,28 +99,91 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? lng;
   var distanceNearby;
   var distanceinside;
-int? locationslength;
-  int? meters ;
-  double? coef ;
+  int? locationslength;
+  int? meters;
+  double? coef;
   double? new_lat ;
   double? new_long ;
+  double? User_lat ;
+  double? User_long ;
   int counter = 0;
+  GoogleMap? myMap;
+  Timer? timer;
+  String MyName = "";
+
+
+  void ListenForWhoJoinedBUbble() async {
+    socket!.on("join_bubble", (msg) {
+      print("Listenting");
+      print(msg);
+      print(msg["username"]);
+      if (MyName ==msg["username"]){
+        UserInOutStatus = true;
+        print("set to true");
+      }
+//{username: saedxd}
+//{username: Saed}
+
+    });
+  }
+
+  void ListenForWhoLeftBUbble() async {
+    socket!.on("leave_bubble", (msg) {
+      print("Listenting");
+      print(msg);
+      print(msg["username"]);
+      print(msg["username"].toString().substring(17));
+
+if (MyName==msg["username"].toString().substring(17)){
+  print("set to false");
+  UserInOutStatus = false;
+}
+
+// {username: leave Bubble Now:saedxd}
+
+    });
+  }
+
+  void sendIJoinedBubble(int Bubble_id) {
+    print("Sent Status joined");
+    socket!.emit("request_join_bubble",
+        {"room": "bubble_${Bubble_id}"});
+    //GivethemMyID();
+  }
+
+  void sendILeftBubble(int Bubble_id) {
+    print("Sent Status left");
+    socket!.emit("request_leave_bubble",
+        {"room": "bubble_${Bubble_id}"});
+  }
 
   void getCurrentLocation() async {
     try {
       bool enabled = await Location.instance.serviceEnabled();
       if (enabled) {
         var location = await _locationTracker.getLocation();
+
+          _googleMapController!.animateCamera(
+              CameraUpdate.newCameraPosition(
+                CameraPosition(
+                    target: LatLng(location.latitude!, location.longitude!),
+                    zoom: 12.151926040649414),
+              ));
+
         _locationSubscription =
             _locationTracker.onLocationChanged.listen((newLocalData) {
           if (_googleMapController != null) {
-            print(newLocalData.latitude);
-            print(newLocalData.longitude);
+            // print(newLocalData.latitude);
+            // print(newLocalData.longitude);
             // UserLocation = LatLng(newLocalData.latitude! ,newLocalData.longitude!);
             _HomeBloc.add(UserMoved((b) => b
               ..lng = newLocalData.longitude!
               ..lat = newLocalData.latitude!));
-            print("Request called");
+            // print(newLocalData.longitude);
+            // print(newLocalData.latitude);
+            User_lat = newLocalData.latitude!;
+            User_long =newLocalData.longitude;
+           // print("Request called");
           }
         });
         print(location.longitude);
@@ -129,8 +196,6 @@ int? locationslength;
     }
   }
 
-
-
   @override
   void dispose() {
     super.dispose();
@@ -138,6 +203,7 @@ int? locationslength;
     if (_googleMapController != null) {
       _googleMapController!.dispose();
     }
+
     if (_locationSubscription != null) {
       _locationSubscription!.cancel();
     }
@@ -154,7 +220,9 @@ int? locationslength;
     DiditOnces = true;
     _HomeBloc.add(GetAllBubbles());
     _HomeBloc.add(Getprofile());
-
+    AllBubblesStatus = List.filled(100000,0);
+    AllBubblesStatusTry = List.filled(10000,true);
+    diditonceee = true;
   }
 
   @override
@@ -171,37 +239,82 @@ int? locationslength;
               bloc: _HomeBloc,
               builder: (BuildContext Context, HomeState state){
 
-                void LoopOnAllBUbbles() async {
-                  try {
-                     lat = state.Userlat;
-                     lng = state.Userlng;
+                void LoopOnAllBUbbles( HomeState state)async{
+                  try{
                      locationslength = state.locationn!.length;
 
-
                   for(int i=0;i<state.locationn!.length;i++) {
+                    AllBubblesIDS![i] = state.locationn![i].bubble_id!;
+                    meters = state.BubblesRaduis![i];//todo : make this double value for more prefection
+                   double coef = meters! * 0.0000089;
+                   new_lat = state.locationn![i].lat! + coef;
+                   new_long = state.locationn![i].lng! + coef / cos(state.locationn![i].lat! * 0.018);
+                  // distanceNearby = geo.Geolocator.distanceBetween(lat!,lng!,new_lat!,new_long!);
+                    distanceinside = geo.Geolocator.distanceBetween(User_lat!,User_long!,state.locationn![i].lat!,state.locationn![i].lng!);
 
-                meters = state.BubblesRaduis![i]-30;
-               double coef = meters! * 0.0000089;
-               new_lat = state.locationn![i].lat! + coef;
-               new_long = state.locationn![i].lng! + coef / cos(state.locationn![i].lat! * 0.018);
-                distanceNearby = geo.Geolocator.distanceBetween(lat!,lng!,new_lat!,new_long!);
-                distanceinside = geo.Geolocator.distanceBetween(lat!,lng!,state.locationn![i].lat!,state.locationn![i].lng!);
 
-                    if ((distanceNearby/1000)<=5 && !(distanceinside<=meters) && (counter==0||counter==1000)){
-                      print("there is a bubble ${distanceNearby/1000} KM ahead of me ");
-                    }
 
-                   if (distanceinside<=meters){
+                    // if ((distanceNearby/1000)<=5 && !(distanceinside<=meters)){
+                    //   print("there is a bubble ${distanceNearby/1000} KM ahead of me ");
+                    //todo: this is for near by bubbles
+                    // }
+                    // print(distanceNearby);
+                    print("Userlat :$User_lat");
+                    print("Userlng :$User_long");
+
+                    print("distanceinside : $distanceinside  ${state.GetBubbles!.data![i].title.toString()}");
+                    print("meters: $meters  ${state.GetBubbles!.data![i].title.toString()}");
+
+
+
+                   if (distanceinside<=meters && AllBubblesStatusTry![i]){
+                     //AllBubblesStatusTry for not making him to send spam requests
+                     AllBubblesStatus![i]=1;
                      print("your inside a ${state.GetBubbles!.data![i].title.toString()} Event");
+                    sendIJoinedBubble(state.locationn![i].bubble_id!);
+                     AllBubblesStatusTry![i] = false;
+                     _HomeBloc.add(UserJoinedBubble((b) =>
+                     b..Bubble_id = state.locationn![i].bubble_id!
+                     ));
+                     UserInOutStatus = true;
+                     print(AllBubblesStatus);
+                     print(AllBubblesIDS);
+                   }else if (!(distanceinside<=meters) && !AllBubblesStatusTry![i] ){
+                     AllBubblesStatus![i]=0;
+                     AllBubblesStatusTry![i] = true;
+                     print("YOu left the area of a ${state.GetBubbles!.data![i].title.toString()} Event");
+                     sendILeftBubble(state.locationn![i].bubble_id!);
+                     _HomeBloc.add(UserLeftBubble((b) =>
+                     b..Bubble_id = state.locationn![i].bubble_id!
+                     ));
+                     UserInOutStatus = false;
                    }
 
-
                   }
-                  counter++;
                   }catch (e){
                     print(e);
                   }
                 }
+
+                if (state.GetprofileSuccess!){
+                  MyName = state.ProfileDate!.user!.alias.toString();
+                }
+
+                if (state.GetAllBubblesSuccess! && diditonceee == true){
+                  ListenForWhoJoinedBUbble();
+                  ListenForWhoLeftBUbble();
+                  AllBubblesStatus = List.filled(state.GetBubbles!.data!.length,0);
+                  AllBubblesIDS = List.filled(state.GetBubbles!.data!.length,0);
+                  LoopOnAllBUbbles(state);
+                  diditonceee = false;
+                  timer = Timer.periodic(Duration(seconds: 10), (Timer t){
+                    return
+                      LoopOnAllBUbbles(state);
+                  });
+
+
+                }
+
 
 
                 return WillPopScope(
@@ -212,11 +325,15 @@ int? locationslength;
                     body: SafeArea(
                       child: Stack(children: [
                         GoogleMap(
-                          onCameraMove: (CameraPosition cameraPosition) {
-                            LoopOnAllBUbbles();
-                            CameraZoom = cameraPosition.zoom;
+                          onCameraMove:(CameraPosition cameraPosition) {
+                              if(!state.GetAllBubblesIsloading!){
+                          //    LoopOnAllBUbbles();
+                              CameraZoom = cameraPosition.zoom;
+                              }
                           },
+                          myLocationButtonEnabled: true,
                           onTap: (location) {
+                            //LoopOnAllBUbbles();
                            // LoopOnAllBUbbles();
                             if (state.MakeHimBEableTOSEtBubble!) {
                               Lat = location.latitude;
@@ -228,6 +345,8 @@ int? locationslength;
                                 ..lng = location.longitude));
                             }
                           },
+
+
                           zoomControlsEnabled: false,
                           circles: state.GetAllBubblesIsloading!
                               ? Loading
@@ -235,11 +354,12 @@ int? locationslength;
                           mapType: MapType.hybrid,
                           markers: state.GetAllBubblesIsloading!
                               ? LOadingg
-                              : state.marker2!,
-                          initialCameraPosition: const CameraPosition(
-                              target: LatLng(37.9715, 23.7267),
+                              : state.marker2!,// LatLng(37.9715, 23.7267),
+                          initialCameraPosition: CameraPosition(
+                              target: LatLng(state.Userlat, state.Userlng),
                               zoom: 12.151926040649414),
                           onMapCreated: (controller) {
+
                             _googleMapController = controller;
                             _controller.complete(controller);
                             isMapCreated = true;
@@ -250,6 +370,7 @@ int? locationslength;
                           myLocationEnabled: false,
                           zoomGesturesEnabled: true,
                         ),
+
                         state.GetprofileSuccess!
                             ? state.ProfileDate!.user!.is_creator == 1
                                 ? Positioned(
@@ -320,6 +441,7 @@ int? locationslength;
                                     ))
                                 : Text("")
                             : Text(""),
+
                         ShowCaseWidget(
                             builder: Builder(
                              builder: (context) => SlidingUpPanel(
@@ -347,7 +469,8 @@ int? locationslength;
                                 width: w,
                                 height: h * 2,
                                 child: Column(
-                                  children: [
+                                  children:[
+
                                     SizedBox(
                                       height: h / 70,
                                     ),
@@ -415,6 +538,8 @@ int? locationslength;
                                         ],
                                       ),
                                     ),
+
+
                                     state.GetAllPrimeSuccess!
                                         ? Container(
                                             width: w,
@@ -446,33 +571,41 @@ int? locationslength;
                                                                     .none),
                                                         child: InkWell(
                                                           onTap: () {
-                                                            WidgetsBinding
-                                                                .instance!
-                                                                .addPostFrameCallback(
-                                                                    (_) =>
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                            builder: (context) =>
-                                                                                Plan_Screen(
-                                                                              Event_id: state.GetPrimeBubbles!.data![index].id!,
-                                                                            ),
-                                                                          ),
-                                                                        ));
+                                                        // List<int> GetInStatus = [];
+                                                            bool GetInStatus = false;
+                                                              for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                                if (state.GetPrimeBubbles! .data![index] .id==AllBubblesIDS![j]){
+                                                                  if (AllBubblesStatus![j]==1)
+                                                                  GetInStatus = true;
+                                                                }
+                                                              }
+
+                                                            if ( GetInStatus) {
+                                                              WidgetsBinding
+                                                                  .instance!
+                                                                  .addPostFrameCallback(
+                                                                      (_) =>
+                                                                      Navigator
+                                                                          .push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                          builder: (
+                                                                              context) =>
+                                                                              Plan_Screen(
+                                                                                Event_id: state
+                                                                                    .GetPrimeBubbles!
+                                                                                    .data![index]
+                                                                                    .id!,
+                                                                              ),
+                                                                        ),
+                                                                      ));
+                                                            }
                                                           },
                                                           child:ClipOval(
                                                               child: SizedBox.fromSize(
                                                                 size: Size.fromRadius(48), // Image radius
                                                                 child :CachedNetworkImage(
-                                                            imageUrl:state
-                                                                .GetPrimeBubbles!
-                                                                .data![
-                                                            index]
-                                                                .images![
-                                                            0]
-                                                                .image
-                                                                .toString(),
+                                                            imageUrl:state.GetPrimeBubbles!.data![index].images![0].image.toString(),
                                                             fit: BoxFit.cover,
                                                             progressIndicatorBuilder: (context, url, downloadProgress) =>
                                                                 CircularProgressIndicator(value: downloadProgress.progress),
@@ -483,21 +616,31 @@ int? locationslength;
                                                         ))
                                                     : InkWell(
                                                         onTap: () {
-                                                          WidgetsBinding
-                                                              .instance!
-                                                              .addPostFrameCallback(
-                                                                  (_) =>
-                                                                      Navigator
-                                                                          .push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                          builder: (context) =>
-                                                                              Plan_Screen(
-                                                                            Event_id:
-                                                                                state.GetPrimeBubbles!.data![index].id!,
-                                                                          ),
-                                                                        ),
-                                                                      ));
+                                                          bool GetInStatus = false;
+                                                          for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                            if (state.GetPrimeBubbles! .data![index] .id==AllBubblesIDS![j]){
+                                                              if (AllBubblesStatus![j]==1)
+                                                              GetInStatus = true;
+                                                            }
+                                                          }
+
+                                                          if ( GetInStatus) {
+                                                            WidgetsBinding
+                                                                .instance!
+                                                                .addPostFrameCallback(
+                                                                    (_) =>
+                                                                    Navigator
+                                                                        .push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            Plan_Screen(
+                                                                              Event_id:
+                                                                              state.GetPrimeBubbles!.data![index].id!,
+                                                                            ),
+                                                                      ),
+                                                                    ));
+          }
                                                         },
                                                         child: ClipOval(
                                                             child: SizedBox.fromSize(
@@ -548,11 +691,12 @@ int? locationslength;
                                                       width: w,
                                                       height: h / 7,
                                                       child:
-                                                          const Text("Error"),
+                                                          Center(child: const Text("Error")),
                                                     ),
                                                   ),
                                                 ],
                                               ),
+
 
 
                                     const SizedBox(
@@ -688,18 +832,31 @@ int? locationslength;
 
                                                           return InkWell(
                                                             onTap: () {
-                                                              WidgetsBinding
-                                                                  .instance!
-                                                                  .addPostFrameCallback((_) =>
-                                                                  Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => Plan_Screen(
-                                                                        Event_id: state.FilteredBUBBLElists1![index].id!,
-                                                                      ),
-                                                                    ),
-                                                                  ));
+                                                          bool GetInStatus = false;
+
+                                                          for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                             if (state.FilteredBUBBLElists1![index].id==AllBubblesIDS![j]){
+                                                               if (AllBubblesStatus![j]==1) {
+                                                                 GetInStatus = true;
+                                                                    }
+                                                               }
+                                                          }
+
+                                                          if ( GetInStatus) {
+                                                            WidgetsBinding
+                                                                .instance!
+                                                                .addPostFrameCallback((_) =>
+                                                                Navigator
+                                                                    .push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: (context) =>
+                                                                        Plan_Screen(
+                                                                          Event_id: state.FilteredBUBBLElists1![index].id!,
+                                                                        ),
+                                                                  ),
+                                                                ));
+                                                          }
                                                             },
                                                             child: Row(
                                                               children: [
@@ -875,6 +1032,8 @@ int? locationslength;
                                                   ),
                                                 ],
                                               ),
+
+
                                               Container(
                                           width: w/1.3,
                                           child: Text(
@@ -1106,6 +1265,8 @@ int? locationslength;
                                                   ),
                                                 ],
                                               ),
+
+
                                               Container(
                                             width: w/1.3,
                                             child:
@@ -1163,6 +1324,7 @@ int? locationslength;
                                                                             ),
                                                                           ));
                                                                 },
+
                                                                 child: Row(
                                                                   children: [
                                                                     Container(
@@ -1347,6 +1509,7 @@ int? locationslength;
                                     SizedBox(
                                       height: h/40,
                                     ),
+
                                   ],
                                 ),
                               )),
@@ -1589,6 +1752,7 @@ int? locationslength;
                                   ],
                                 ))
                             : Text("")
+
                       ]),
                     ),
                   ),
@@ -1596,6 +1760,7 @@ int? locationslength;
               }));
     });
   }
+
 
   Widget listLoader({context}) {
     return const SpinKitThreeBounce(
@@ -1651,6 +1816,7 @@ int? locationslength;
   Future<void> SetLatLng() async {
     await pref.SetLatLng(Lat!, Lng!);
   }
+
 }
 //  Future<void> dIALOG() {
 //     var w = MediaQuery.of(context).size.width;
@@ -2067,6 +2233,7 @@ int? locationslength;
 class Locationss{
   double? lat;
   double? lng;
+  int? bubble_id;
 }
 
 class BubbleData{

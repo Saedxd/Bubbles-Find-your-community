@@ -65,9 +65,9 @@ class ChallengesBloc extends Bloc<ChallengesEvent, ChallengesState> {
     if (event is GetPoints) {
       try {
         yield state.rebuild((b) => b
-          ..GetPointsisLoading = true
+          ..isLoading = true
           ..error = ""
-          ..GetPointsSuccess = false
+          ..success = false
           ..GetPoints = null
         );
 
@@ -76,18 +76,18 @@ class ChallengesBloc extends Bloc<ChallengesEvent, ChallengesState> {
         print('get Success data ${date}');
         yield state.rebuild((b) =>
         b
-          ..GetPointsisLoading = false
+          ..isLoading = false
           ..error = ""
-          ..GetPointsSuccess = true
+          ..success = true
           ..GetPoints.replace(date)
         );
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>
         b
-          ..GetPointsisLoading = false
+          ..isLoading = false
           ..error = "Something went wrong"
-          ..GetPointsSuccess = false
+          ..success = false
           ..GetPoints = null
         );
       }

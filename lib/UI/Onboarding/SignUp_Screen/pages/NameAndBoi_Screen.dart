@@ -202,12 +202,16 @@ print("---------------------------");
 
                                 Container(
                                width: w/1.3,
-                                  child:        Text(
+                                  child:Text(
                                       'Choose an Alias!',
                                       textAlign: TextAlign.left,
-                                      style: _TextTheme.headline1!.copyWith(
-                                        fontSize: 23,
-                                        fontWeight: FontWeight.w400
+                                      style:_TextTheme.headlineLarge!.copyWith(
+                                          fontSize: 3.5 *
+                                              SizeConfig
+                                                  .blockSizeVertical!
+                                                  .toDouble(),
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.white
                                       )
                                   ),
                                 ),
@@ -308,9 +312,13 @@ print("---------------------------");
                                     Text(
                                         'Write a short bio!',
                                         textAlign: TextAlign.left,
-                                        style: _TextTheme.headline1!.copyWith(
-                                          fontSize: 23,
-                                            fontWeight: FontWeight.w400
+                                        style: _TextTheme.headlineLarge!.copyWith(
+                                            fontSize: 3.5 *
+                                                SizeConfig
+                                                    .blockSizeVertical!
+                                                    .toDouble(),
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white
                                         )
                                     ),
                                   ),

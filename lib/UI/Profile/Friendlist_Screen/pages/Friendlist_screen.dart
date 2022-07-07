@@ -10,8 +10,10 @@ import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_bloc.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_event.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_state.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_bloc.dart';
+import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/core/theme/theme_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -297,10 +299,7 @@ class _FriendlistState extends State<Friendlist> {
                           'Friend list',
                           textAlign: TextAlign.left,
                           style: _TextTheme.headlineLarge!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 22
-                              ,letterSpacing: .5
-                          ),
+                              fontWeight: FontWeight.w600, fontSize: 23),
                         ),
                      Text(""),
                      Text(""),
@@ -341,7 +340,84 @@ class _FriendlistState extends State<Friendlist> {
                     Text(""),
 
                     ( Checknow?(state.success!): false)
-                        ?Column(
+                        ?state.GetFriends!.friends!.length==0
+                    ?Container(
+                      width: w,
+                      height: h/1.266,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                              width: w,
+                              height: h/1.7,
+                              child: Image.asset("Assets/images/Friendlist.png",fit: BoxFit.fill,)),
+
+                     Column(
+                       children: [
+                         Text('Your friend list is empty.', textAlign: TextAlign.left, style: TextStyle(
+                             color: Color.fromRGBO(96, 96, 96, 1),
+                             fontFamily: 'Red Hat Display',
+                             fontSize: 18.105409622192383,
+                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                             fontWeight: FontWeight.w400,
+                             height: 1
+                         ),),
+                         SizedBox(height: h/40,),
+                         InkWell(
+                           onTap: (){
+                             WidgetsBinding.instance!
+                                 .addPostFrameCallback((_) => Navigator.push(
+                               context,
+                               MaterialPageRoute(
+                                   builder: (context) => ShowCaseWidget(
+                                       builder: Builder(
+                                         builder: (context) =>
+                                             FindFriends_screen(),
+                                       ))),
+                             ));
+                           },
+                           child: Container(
+                               width: w / 1.5,
+                               height: h / 13.9,
+                               decoration: BoxDecoration(
+                                 borderRadius : BorderRadius.only(
+                                   topLeft: Radius.circular(20.5),
+                                   topRight: Radius.circular(20.5),
+                                   bottomLeft: Radius.circular(20.5),
+                                   bottomRight: Radius.circular(20.5),
+                                 ),
+                                 boxShadow : [BoxShadow(
+                                     color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
+                                     offset: Offset(0,0),
+                                     blurRadius: 10
+                                 )],
+                                 color : Color.fromRGBO(207, 109, 56, 1),
+                               ),
+                               child:
+                               Center(
+                                   child:
+                                   Text('Add/Find Friends', textAlign: TextAlign.left, style: TextStyle(
+                                       color: Color.fromRGBO(255, 255, 255, 1),
+                                       fontFamily: 'Red Hat Text',
+                                       fontSize: 20,
+                                       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                       fontWeight: FontWeight.w400,
+                                       height: 1
+                                   ),)
+                               )
+
+                           ),
+                         ),
+                         SizedBox(height: h/40,),
+                         SizedBox(height: h/40,),
+                       ],
+                     )
+                        ],
+                      ),
+                    )
+                        :
+
+                    Column(
                       children: [
                         RefreshIndicator(
                           onRefresh: OnRefresh,
@@ -483,7 +559,7 @@ class _FriendlistState extends State<Friendlist> {
                                                     BoxShadow(
                                                         color: ColorS.primaryVariant ,
                                                         offset: Offset(0, 0),
-                                                        blurRadius: 5)
+                                                        blurRadius: 2)
                                                   ],
                                                 ),
                                                 child: Row(
@@ -539,12 +615,15 @@ class _FriendlistState extends State<Friendlist> {
                                                         ),
                                                       ],
                                                     ),
+                                                    SizedBox(width: 10,),
+
                                                     Text(
                                                         state.GetFriends!.friends![index].alias.toString(),
                                                         textAlign: TextAlign.left,
                                                         style: _TextTheme.headline3!.copyWith(
+                                                            fontFamily: 'Red Hat Display',
                                                             fontWeight: FontWeight.w400
-                                                            ,fontSize: 20
+                                                            ,fontSize: 22
                                                         )
 
                                                     ),

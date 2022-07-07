@@ -30,9 +30,9 @@ class _$GroupChatState extends GroupChatState {
   @override
   final bool? Turnss;
   @override
-  final bool? MYAliasISLoading;
+  final bool? UserINbubbleAliasISLoading;
   @override
-  final bool? MYAliasISsuccess;
+  final bool? UserINbubbleAliasISsuccess;
   @override
   final bool? typingStatusISloading;
   @override
@@ -40,9 +40,25 @@ class _$GroupChatState extends GroupChatState {
   @override
   final bool? TypingStatus;
   @override
+  final bool? SendMessageISloading;
+  @override
+  final bool? SendMessageSuccess;
+  @override
   final GetAliasModel? GetAliasMinee;
   @override
+  final EventOldMessagesModel? EventOldMessages;
+  @override
+  final GetAliasModel? GetAliasForInsideBubbleUser;
+  @override
+  final SendBubbleMessageModel? SendBubbleMessage;
+  @override
+  final SendBubbleMessageModel? SendBubbleReply;
+  @override
   final List<GroupChatMessage>? messages;
+  @override
+  final List<UserDATA>? User;
+  @override
+  final int? index_For_Message_List;
   @override
   final bool? AddModelISloading;
   @override
@@ -50,15 +66,23 @@ class _$GroupChatState extends GroupChatState {
   @override
   final String? AvatarPathForRepliedTo;
   @override
-  final int? ColorForRepliedTo;
-  @override
-  final String? RepliedToMessage;
+  final String? ColorForRepliedTo;
   @override
   final String? AliasForRepliedTo;
   @override
   final bool? Isreply;
   @override
   final bool? Status;
+  @override
+  final String? type;
+  @override
+  final String? RepliedToMessage;
+  @override
+  final Uint8List? Image1;
+  @override
+  final File? File_image;
+  @override
+  final String? Image_type;
   @override
   final bool? DescriptionLengthISloading;
   @override
@@ -87,21 +111,33 @@ class _$GroupChatState extends GroupChatState {
       this.RefreshLoading,
       this.RefreshSuccess,
       this.Turnss,
-      this.MYAliasISLoading,
-      this.MYAliasISsuccess,
+      this.UserINbubbleAliasISLoading,
+      this.UserINbubbleAliasISsuccess,
       this.typingStatusISloading,
       this.TypingStatusSuccess,
       this.TypingStatus,
+      this.SendMessageISloading,
+      this.SendMessageSuccess,
       this.GetAliasMinee,
+      this.EventOldMessages,
+      this.GetAliasForInsideBubbleUser,
+      this.SendBubbleMessage,
+      this.SendBubbleReply,
       this.messages,
+      this.User,
+      this.index_For_Message_List,
       this.AddModelISloading,
       this.AddModelSUccess,
       this.AvatarPathForRepliedTo,
       this.ColorForRepliedTo,
-      this.RepliedToMessage,
       this.AliasForRepliedTo,
       this.Isreply,
       this.Status,
+      this.type,
+      this.RepliedToMessage,
+      this.Image1,
+      this.File_image,
+      this.Image_type,
       this.DescriptionLengthISloading,
       this.DescriptionLengthSuccess,
       this.DescriptionLength,
@@ -133,21 +169,33 @@ class _$GroupChatState extends GroupChatState {
         RefreshLoading == other.RefreshLoading &&
         RefreshSuccess == other.RefreshSuccess &&
         Turnss == other.Turnss &&
-        MYAliasISLoading == other.MYAliasISLoading &&
-        MYAliasISsuccess == other.MYAliasISsuccess &&
+        UserINbubbleAliasISLoading == other.UserINbubbleAliasISLoading &&
+        UserINbubbleAliasISsuccess == other.UserINbubbleAliasISsuccess &&
         typingStatusISloading == other.typingStatusISloading &&
         TypingStatusSuccess == other.TypingStatusSuccess &&
         TypingStatus == other.TypingStatus &&
+        SendMessageISloading == other.SendMessageISloading &&
+        SendMessageSuccess == other.SendMessageSuccess &&
         GetAliasMinee == other.GetAliasMinee &&
+        EventOldMessages == other.EventOldMessages &&
+        GetAliasForInsideBubbleUser == other.GetAliasForInsideBubbleUser &&
+        SendBubbleMessage == other.SendBubbleMessage &&
+        SendBubbleReply == other.SendBubbleReply &&
         messages == other.messages &&
+        User == other.User &&
+        index_For_Message_List == other.index_For_Message_List &&
         AddModelISloading == other.AddModelISloading &&
         AddModelSUccess == other.AddModelSUccess &&
         AvatarPathForRepliedTo == other.AvatarPathForRepliedTo &&
         ColorForRepliedTo == other.ColorForRepliedTo &&
-        RepliedToMessage == other.RepliedToMessage &&
         AliasForRepliedTo == other.AliasForRepliedTo &&
         Isreply == other.Isreply &&
         Status == other.Status &&
+        type == other.type &&
+        RepliedToMessage == other.RepliedToMessage &&
+        Image1 == other.Image1 &&
+        File_image == other.File_image &&
+        Image_type == other.Image_type &&
         DescriptionLengthISloading == other.DescriptionLengthISloading &&
         DescriptionLengthSuccess == other.DescriptionLengthSuccess &&
         DescriptionLength == other.DescriptionLength &&
@@ -176,20 +224,20 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), MYAliasISLoading.hashCode), MYAliasISsuccess.hashCode),
-                                                                                typingStatusISloading.hashCode),
-                                                                            TypingStatusSuccess.hashCode),
-                                                                        TypingStatus.hashCode),
-                                                                    GetAliasMinee.hashCode),
-                                                                messages.hashCode),
-                                                            AddModelISloading.hashCode),
-                                                        AddModelSUccess.hashCode),
-                                                    AvatarPathForRepliedTo.hashCode),
-                                                ColorForRepliedTo.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), messages.hashCode), User.hashCode),
+                                                                                index_For_Message_List.hashCode),
+                                                                            AddModelISloading.hashCode),
+                                                                        AddModelSUccess.hashCode),
+                                                                    AvatarPathForRepliedTo.hashCode),
+                                                                ColorForRepliedTo.hashCode),
+                                                            AliasForRepliedTo.hashCode),
+                                                        Isreply.hashCode),
+                                                    Status.hashCode),
+                                                type.hashCode),
                                             RepliedToMessage.hashCode),
-                                        AliasForRepliedTo.hashCode),
-                                    Isreply.hashCode),
-                                Status.hashCode),
+                                        Image1.hashCode),
+                                    File_image.hashCode),
+                                Image_type.hashCode),
                             DescriptionLengthISloading.hashCode),
                         DescriptionLengthSuccess.hashCode),
                     DescriptionLength.hashCode),
@@ -212,21 +260,33 @@ class _$GroupChatState extends GroupChatState {
           ..add('RefreshLoading', RefreshLoading)
           ..add('RefreshSuccess', RefreshSuccess)
           ..add('Turnss', Turnss)
-          ..add('MYAliasISLoading', MYAliasISLoading)
-          ..add('MYAliasISsuccess', MYAliasISsuccess)
+          ..add('UserINbubbleAliasISLoading', UserINbubbleAliasISLoading)
+          ..add('UserINbubbleAliasISsuccess', UserINbubbleAliasISsuccess)
           ..add('typingStatusISloading', typingStatusISloading)
           ..add('TypingStatusSuccess', TypingStatusSuccess)
           ..add('TypingStatus', TypingStatus)
+          ..add('SendMessageISloading', SendMessageISloading)
+          ..add('SendMessageSuccess', SendMessageSuccess)
           ..add('GetAliasMinee', GetAliasMinee)
+          ..add('EventOldMessages', EventOldMessages)
+          ..add('GetAliasForInsideBubbleUser', GetAliasForInsideBubbleUser)
+          ..add('SendBubbleMessage', SendBubbleMessage)
+          ..add('SendBubbleReply', SendBubbleReply)
           ..add('messages', messages)
+          ..add('User', User)
+          ..add('index_For_Message_List', index_For_Message_List)
           ..add('AddModelISloading', AddModelISloading)
           ..add('AddModelSUccess', AddModelSUccess)
           ..add('AvatarPathForRepliedTo', AvatarPathForRepliedTo)
           ..add('ColorForRepliedTo', ColorForRepliedTo)
-          ..add('RepliedToMessage', RepliedToMessage)
           ..add('AliasForRepliedTo', AliasForRepliedTo)
           ..add('Isreply', Isreply)
           ..add('Status', Status)
+          ..add('type', type)
+          ..add('RepliedToMessage', RepliedToMessage)
+          ..add('Image1', Image1)
+          ..add('File_image', File_image)
+          ..add('Image_type', Image_type)
           ..add('DescriptionLengthISloading', DescriptionLengthISloading)
           ..add('DescriptionLengthSuccess', DescriptionLengthSuccess)
           ..add('DescriptionLength', DescriptionLength)
@@ -291,15 +351,15 @@ class GroupChatStateBuilder
   bool? get Turnss => _$this._Turnss;
   set Turnss(bool? Turnss) => _$this._Turnss = Turnss;
 
-  bool? _MYAliasISLoading;
-  bool? get MYAliasISLoading => _$this._MYAliasISLoading;
-  set MYAliasISLoading(bool? MYAliasISLoading) =>
-      _$this._MYAliasISLoading = MYAliasISLoading;
+  bool? _UserINbubbleAliasISLoading;
+  bool? get UserINbubbleAliasISLoading => _$this._UserINbubbleAliasISLoading;
+  set UserINbubbleAliasISLoading(bool? UserINbubbleAliasISLoading) =>
+      _$this._UserINbubbleAliasISLoading = UserINbubbleAliasISLoading;
 
-  bool? _MYAliasISsuccess;
-  bool? get MYAliasISsuccess => _$this._MYAliasISsuccess;
-  set MYAliasISsuccess(bool? MYAliasISsuccess) =>
-      _$this._MYAliasISsuccess = MYAliasISsuccess;
+  bool? _UserINbubbleAliasISsuccess;
+  bool? get UserINbubbleAliasISsuccess => _$this._UserINbubbleAliasISsuccess;
+  set UserINbubbleAliasISsuccess(bool? UserINbubbleAliasISsuccess) =>
+      _$this._UserINbubbleAliasISsuccess = UserINbubbleAliasISsuccess;
 
   bool? _typingStatusISloading;
   bool? get typingStatusISloading => _$this._typingStatusISloading;
@@ -315,15 +375,59 @@ class GroupChatStateBuilder
   bool? get TypingStatus => _$this._TypingStatus;
   set TypingStatus(bool? TypingStatus) => _$this._TypingStatus = TypingStatus;
 
+  bool? _SendMessageISloading;
+  bool? get SendMessageISloading => _$this._SendMessageISloading;
+  set SendMessageISloading(bool? SendMessageISloading) =>
+      _$this._SendMessageISloading = SendMessageISloading;
+
+  bool? _SendMessageSuccess;
+  bool? get SendMessageSuccess => _$this._SendMessageSuccess;
+  set SendMessageSuccess(bool? SendMessageSuccess) =>
+      _$this._SendMessageSuccess = SendMessageSuccess;
+
   GetAliasModelBuilder? _GetAliasMinee;
   GetAliasModelBuilder get GetAliasMinee =>
       _$this._GetAliasMinee ??= new GetAliasModelBuilder();
   set GetAliasMinee(GetAliasModelBuilder? GetAliasMinee) =>
       _$this._GetAliasMinee = GetAliasMinee;
 
+  EventOldMessagesModelBuilder? _EventOldMessages;
+  EventOldMessagesModelBuilder get EventOldMessages =>
+      _$this._EventOldMessages ??= new EventOldMessagesModelBuilder();
+  set EventOldMessages(EventOldMessagesModelBuilder? EventOldMessages) =>
+      _$this._EventOldMessages = EventOldMessages;
+
+  GetAliasModelBuilder? _GetAliasForInsideBubbleUser;
+  GetAliasModelBuilder get GetAliasForInsideBubbleUser =>
+      _$this._GetAliasForInsideBubbleUser ??= new GetAliasModelBuilder();
+  set GetAliasForInsideBubbleUser(
+          GetAliasModelBuilder? GetAliasForInsideBubbleUser) =>
+      _$this._GetAliasForInsideBubbleUser = GetAliasForInsideBubbleUser;
+
+  SendBubbleMessageModelBuilder? _SendBubbleMessage;
+  SendBubbleMessageModelBuilder get SendBubbleMessage =>
+      _$this._SendBubbleMessage ??= new SendBubbleMessageModelBuilder();
+  set SendBubbleMessage(SendBubbleMessageModelBuilder? SendBubbleMessage) =>
+      _$this._SendBubbleMessage = SendBubbleMessage;
+
+  SendBubbleMessageModelBuilder? _SendBubbleReply;
+  SendBubbleMessageModelBuilder get SendBubbleReply =>
+      _$this._SendBubbleReply ??= new SendBubbleMessageModelBuilder();
+  set SendBubbleReply(SendBubbleMessageModelBuilder? SendBubbleReply) =>
+      _$this._SendBubbleReply = SendBubbleReply;
+
   List<GroupChatMessage>? _messages;
   List<GroupChatMessage>? get messages => _$this._messages;
   set messages(List<GroupChatMessage>? messages) => _$this._messages = messages;
+
+  List<UserDATA>? _User;
+  List<UserDATA>? get User => _$this._User;
+  set User(List<UserDATA>? User) => _$this._User = User;
+
+  int? _index_For_Message_List;
+  int? get index_For_Message_List => _$this._index_For_Message_List;
+  set index_For_Message_List(int? index_For_Message_List) =>
+      _$this._index_For_Message_List = index_For_Message_List;
 
   bool? _AddModelISloading;
   bool? get AddModelISloading => _$this._AddModelISloading;
@@ -340,15 +444,10 @@ class GroupChatStateBuilder
   set AvatarPathForRepliedTo(String? AvatarPathForRepliedTo) =>
       _$this._AvatarPathForRepliedTo = AvatarPathForRepliedTo;
 
-  int? _ColorForRepliedTo;
-  int? get ColorForRepliedTo => _$this._ColorForRepliedTo;
-  set ColorForRepliedTo(int? ColorForRepliedTo) =>
+  String? _ColorForRepliedTo;
+  String? get ColorForRepliedTo => _$this._ColorForRepliedTo;
+  set ColorForRepliedTo(String? ColorForRepliedTo) =>
       _$this._ColorForRepliedTo = ColorForRepliedTo;
-
-  String? _RepliedToMessage;
-  String? get RepliedToMessage => _$this._RepliedToMessage;
-  set RepliedToMessage(String? RepliedToMessage) =>
-      _$this._RepliedToMessage = RepliedToMessage;
 
   String? _AliasForRepliedTo;
   String? get AliasForRepliedTo => _$this._AliasForRepliedTo;
@@ -362,6 +461,27 @@ class GroupChatStateBuilder
   bool? _Status;
   bool? get Status => _$this._Status;
   set Status(bool? Status) => _$this._Status = Status;
+
+  String? _type;
+  String? get type => _$this._type;
+  set type(String? type) => _$this._type = type;
+
+  String? _RepliedToMessage;
+  String? get RepliedToMessage => _$this._RepliedToMessage;
+  set RepliedToMessage(String? RepliedToMessage) =>
+      _$this._RepliedToMessage = RepliedToMessage;
+
+  Uint8List? _Image1;
+  Uint8List? get Image1 => _$this._Image1;
+  set Image1(Uint8List? Image1) => _$this._Image1 = Image1;
+
+  File? _File_image;
+  File? get File_image => _$this._File_image;
+  set File_image(File? File_image) => _$this._File_image = File_image;
+
+  String? _Image_type;
+  String? get Image_type => _$this._Image_type;
+  set Image_type(String? Image_type) => _$this._Image_type = Image_type;
 
   bool? _DescriptionLengthISloading;
   bool? get DescriptionLengthISloading => _$this._DescriptionLengthISloading;
@@ -408,21 +528,34 @@ class GroupChatStateBuilder
       _RefreshLoading = $v.RefreshLoading;
       _RefreshSuccess = $v.RefreshSuccess;
       _Turnss = $v.Turnss;
-      _MYAliasISLoading = $v.MYAliasISLoading;
-      _MYAliasISsuccess = $v.MYAliasISsuccess;
+      _UserINbubbleAliasISLoading = $v.UserINbubbleAliasISLoading;
+      _UserINbubbleAliasISsuccess = $v.UserINbubbleAliasISsuccess;
       _typingStatusISloading = $v.typingStatusISloading;
       _TypingStatusSuccess = $v.TypingStatusSuccess;
       _TypingStatus = $v.TypingStatus;
+      _SendMessageISloading = $v.SendMessageISloading;
+      _SendMessageSuccess = $v.SendMessageSuccess;
       _GetAliasMinee = $v.GetAliasMinee?.toBuilder();
+      _EventOldMessages = $v.EventOldMessages?.toBuilder();
+      _GetAliasForInsideBubbleUser =
+          $v.GetAliasForInsideBubbleUser?.toBuilder();
+      _SendBubbleMessage = $v.SendBubbleMessage?.toBuilder();
+      _SendBubbleReply = $v.SendBubbleReply?.toBuilder();
       _messages = $v.messages;
+      _User = $v.User;
+      _index_For_Message_List = $v.index_For_Message_List;
       _AddModelISloading = $v.AddModelISloading;
       _AddModelSUccess = $v.AddModelSUccess;
       _AvatarPathForRepliedTo = $v.AvatarPathForRepliedTo;
       _ColorForRepliedTo = $v.ColorForRepliedTo;
-      _RepliedToMessage = $v.RepliedToMessage;
       _AliasForRepliedTo = $v.AliasForRepliedTo;
       _Isreply = $v.Isreply;
       _Status = $v.Status;
+      _type = $v.type;
+      _RepliedToMessage = $v.RepliedToMessage;
+      _Image1 = $v.Image1;
+      _File_image = $v.File_image;
+      _Image_type = $v.Image_type;
       _DescriptionLengthISloading = $v.DescriptionLengthISloading;
       _DescriptionLengthSuccess = $v.DescriptionLengthSuccess;
       _DescriptionLength = $v.DescriptionLength;
@@ -464,21 +597,34 @@ class GroupChatStateBuilder
               RefreshLoading: RefreshLoading,
               RefreshSuccess: RefreshSuccess,
               Turnss: Turnss,
-              MYAliasISLoading: MYAliasISLoading,
-              MYAliasISsuccess: MYAliasISsuccess,
+              UserINbubbleAliasISLoading: UserINbubbleAliasISLoading,
+              UserINbubbleAliasISsuccess: UserINbubbleAliasISsuccess,
               typingStatusISloading: typingStatusISloading,
               TypingStatusSuccess: TypingStatusSuccess,
               TypingStatus: TypingStatus,
+              SendMessageISloading: SendMessageISloading,
+              SendMessageSuccess: SendMessageSuccess,
               GetAliasMinee: _GetAliasMinee?.build(),
+              EventOldMessages: _EventOldMessages?.build(),
+              GetAliasForInsideBubbleUser:
+                  _GetAliasForInsideBubbleUser?.build(),
+              SendBubbleMessage: _SendBubbleMessage?.build(),
+              SendBubbleReply: _SendBubbleReply?.build(),
               messages: messages,
+              User: User,
+              index_For_Message_List: index_For_Message_List,
               AddModelISloading: AddModelISloading,
               AddModelSUccess: AddModelSUccess,
               AvatarPathForRepliedTo: AvatarPathForRepliedTo,
               ColorForRepliedTo: ColorForRepliedTo,
-              RepliedToMessage: RepliedToMessage,
               AliasForRepliedTo: AliasForRepliedTo,
               Isreply: Isreply,
               Status: Status,
+              type: type,
+              RepliedToMessage: RepliedToMessage,
+              Image1: Image1,
+              File_image: File_image,
+              Image_type: Image_type,
               DescriptionLengthISloading: DescriptionLengthISloading,
               DescriptionLengthSuccess: DescriptionLengthSuccess,
               DescriptionLength: DescriptionLength,
@@ -493,6 +639,14 @@ class GroupChatStateBuilder
 
         _$failedField = 'GetAliasMinee';
         _GetAliasMinee?.build();
+        _$failedField = 'EventOldMessages';
+        _EventOldMessages?.build();
+        _$failedField = 'GetAliasForInsideBubbleUser';
+        _GetAliasForInsideBubbleUser?.build();
+        _$failedField = 'SendBubbleMessage';
+        _SendBubbleMessage?.build();
+        _$failedField = 'SendBubbleReply';
+        _SendBubbleReply?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'GroupChatState', _$failedField, e.toString());

@@ -311,4 +311,91 @@ class SearchDMlistBuilder
   }
 }
 
+class _$DeleteFromList extends DeleteFromList {
+  @override
+  final int? index;
+  @override
+  final int? receiver_id;
+
+  factory _$DeleteFromList([void Function(DeleteFromListBuilder)? updates]) =>
+      (new DeleteFromListBuilder()..update(updates))._build();
+
+  _$DeleteFromList._({this.index, this.receiver_id}) : super._();
+
+  @override
+  DeleteFromList rebuild(void Function(DeleteFromListBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DeleteFromListBuilder toBuilder() =>
+      new DeleteFromListBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DeleteFromList &&
+        index == other.index &&
+        receiver_id == other.receiver_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, index.hashCode), receiver_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('DeleteFromList')
+          ..add('index', index)
+          ..add('receiver_id', receiver_id))
+        .toString();
+  }
+}
+
+class DeleteFromListBuilder
+    implements Builder<DeleteFromList, DeleteFromListBuilder> {
+  _$DeleteFromList? _$v;
+
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
+  int? _receiver_id;
+  int? get receiver_id => _$this._receiver_id;
+  set receiver_id(int? receiver_id) => _$this._receiver_id = receiver_id;
+
+  DeleteFromListBuilder();
+
+  DeleteFromListBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _index = $v.index;
+      _receiver_id = $v.receiver_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DeleteFromList other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$DeleteFromList;
+  }
+
+  @override
+  void update(void Function(DeleteFromListBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DeleteFromList build() => _build();
+
+  _$DeleteFromList _build() {
+    final _$result =
+        _$v ?? new _$DeleteFromList._(index: index, receiver_id: receiver_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

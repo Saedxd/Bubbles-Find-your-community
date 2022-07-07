@@ -142,8 +142,6 @@ bool Diditonce = false;
         );
         Diditonce = true;
       }
-
-
       return
       SafeArea(
         child: Scaffold(

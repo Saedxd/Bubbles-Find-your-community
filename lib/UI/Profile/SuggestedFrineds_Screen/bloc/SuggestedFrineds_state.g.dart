@@ -21,6 +21,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
   final SuggestFriendsModel? SuggestFriends;
   @override
   final AddNewFriendModel? AddNewFriend;
+  @override
+  final List<Data>? ListOFSUggested;
 
   factory _$SuggestedFreindsState(
           [void Function(SuggestedFreindsStateBuilder)? updates]) =>
@@ -33,7 +35,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
       this.AddFreindSuccess,
       this.FreindAddlOADING,
       this.SuggestFriends,
-      this.AddNewFriend})
+      this.AddNewFriend,
+      this.ListOFSUggested})
       : super._();
 
   @override
@@ -55,7 +58,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
         AddFreindSuccess == other.AddFreindSuccess &&
         FreindAddlOADING == other.FreindAddlOADING &&
         SuggestFriends == other.SuggestFriends &&
-        AddNewFriend == other.AddNewFriend;
+        AddNewFriend == other.AddNewFriend &&
+        ListOFSUggested == other.ListOFSUggested;
   }
 
   @override
@@ -64,12 +68,14 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                        success.hashCode),
-                    AddFreindSuccess.hashCode),
-                FreindAddlOADING.hashCode),
-            SuggestFriends.hashCode),
-        AddNewFriend.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                            success.hashCode),
+                        AddFreindSuccess.hashCode),
+                    FreindAddlOADING.hashCode),
+                SuggestFriends.hashCode),
+            AddNewFriend.hashCode),
+        ListOFSUggested.hashCode));
   }
 
   @override
@@ -81,7 +87,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
           ..add('AddFreindSuccess', AddFreindSuccess)
           ..add('FreindAddlOADING', FreindAddlOADING)
           ..add('SuggestFriends', SuggestFriends)
-          ..add('AddNewFriend', AddNewFriend))
+          ..add('AddNewFriend', AddNewFriend)
+          ..add('ListOFSUggested', ListOFSUggested))
         .toString();
   }
 }
@@ -124,6 +131,11 @@ class SuggestedFreindsStateBuilder
   set AddNewFriend(AddNewFriendModelBuilder? AddNewFriend) =>
       _$this._AddNewFriend = AddNewFriend;
 
+  List<Data>? _ListOFSUggested;
+  List<Data>? get ListOFSUggested => _$this._ListOFSUggested;
+  set ListOFSUggested(List<Data>? ListOFSUggested) =>
+      _$this._ListOFSUggested = ListOFSUggested;
+
   SuggestedFreindsStateBuilder();
 
   SuggestedFreindsStateBuilder get _$this {
@@ -136,6 +148,7 @@ class SuggestedFreindsStateBuilder
       _FreindAddlOADING = $v.FreindAddlOADING;
       _SuggestFriends = $v.SuggestFriends?.toBuilder();
       _AddNewFriend = $v.AddNewFriend?.toBuilder();
+      _ListOFSUggested = $v.ListOFSUggested;
       _$v = null;
     }
     return this;
@@ -166,7 +179,8 @@ class SuggestedFreindsStateBuilder
               AddFreindSuccess: AddFreindSuccess,
               FreindAddlOADING: FreindAddlOADING,
               SuggestFriends: _SuggestFriends?.build(),
-              AddNewFriend: _AddNewFriend?.build());
+              AddNewFriend: _AddNewFriend?.build(),
+              ListOFSUggested: ListOFSUggested);
     } catch (_) {
       late String _$failedField;
       try {
