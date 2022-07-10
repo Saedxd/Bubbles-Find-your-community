@@ -57,38 +57,28 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
 
     if (event is ClearBadge) {
       try {
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = true
-          ..error = ""
-          ..success = false
-          ..ClearBadge = null
-        );
 
         final date = await _repository.ClearBadge();
 
+      } catch (e) {
+        print('get Error $e');
+      }
+    }
+
+    if (event is GetBadge) {
+      try {
+
+        final date = await _repository.Getbadge();
 
 
         print('get Success data ${date}');
         yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = ""
-          ..success = true
-          ..ClearBadge.replace(date)
+        b..Getbadge.replace(date)
 
         );
       } catch (e) {
         print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..ClearBadge = null
-        );
       }
     }
-
   }
 }

@@ -181,7 +181,7 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
         final date = await _repository.Getbadge();
 
 
-        print('get Success data ${date}');
+     //   print('get Success data ${date}');
         yield state.rebuild((b) =>
         b
           ..isLoading = false

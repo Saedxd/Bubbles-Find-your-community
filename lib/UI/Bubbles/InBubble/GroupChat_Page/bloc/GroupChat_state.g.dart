@@ -54,9 +54,25 @@ class _$GroupChatState extends GroupChatState {
   @override
   final SendBubbleMessageModel? SendBubbleReply;
   @override
+  final GetUsersInsideBubbleModel? GetUsersInsideBubble;
+  @override
   final List<GroupChatMessage>? messages;
   @override
   final List<UserDATA>? User;
+  @override
+  final List<UserDATA>? InsideBubbleUsers;
+  @override
+  final List<UserDATA>? FilteredInsideBubbleUsers;
+  @override
+  final bool? GetInsideUsersISloading;
+  @override
+  final bool? GetInsideUsersSuccess;
+  @override
+  final bool? AddFreindSuccess;
+  @override
+  final bool? FreindAddlOADING;
+  @override
+  final AddNewFriendModel? AddNewFriend;
   @override
   final int? index_For_Message_List;
   @override
@@ -123,8 +139,16 @@ class _$GroupChatState extends GroupChatState {
       this.GetAliasForInsideBubbleUser,
       this.SendBubbleMessage,
       this.SendBubbleReply,
+      this.GetUsersInsideBubble,
       this.messages,
       this.User,
+      this.InsideBubbleUsers,
+      this.FilteredInsideBubbleUsers,
+      this.GetInsideUsersISloading,
+      this.GetInsideUsersSuccess,
+      this.AddFreindSuccess,
+      this.FreindAddlOADING,
+      this.AddNewFriend,
       this.index_For_Message_List,
       this.AddModelISloading,
       this.AddModelSUccess,
@@ -181,8 +205,16 @@ class _$GroupChatState extends GroupChatState {
         GetAliasForInsideBubbleUser == other.GetAliasForInsideBubbleUser &&
         SendBubbleMessage == other.SendBubbleMessage &&
         SendBubbleReply == other.SendBubbleReply &&
+        GetUsersInsideBubble == other.GetUsersInsideBubble &&
         messages == other.messages &&
         User == other.User &&
+        InsideBubbleUsers == other.InsideBubbleUsers &&
+        FilteredInsideBubbleUsers == other.FilteredInsideBubbleUsers &&
+        GetInsideUsersISloading == other.GetInsideUsersISloading &&
+        GetInsideUsersSuccess == other.GetInsideUsersSuccess &&
+        AddFreindSuccess == other.AddFreindSuccess &&
+        FreindAddlOADING == other.FreindAddlOADING &&
+        AddNewFriend == other.AddNewFriend &&
         index_For_Message_List == other.index_For_Message_List &&
         AddModelISloading == other.AddModelISloading &&
         AddModelSUccess == other.AddModelSUccess &&
@@ -224,7 +256,7 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), messages.hashCode), User.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
                                                                                 index_For_Message_List.hashCode),
                                                                             AddModelISloading.hashCode),
                                                                         AddModelSUccess.hashCode),
@@ -272,8 +304,16 @@ class _$GroupChatState extends GroupChatState {
           ..add('GetAliasForInsideBubbleUser', GetAliasForInsideBubbleUser)
           ..add('SendBubbleMessage', SendBubbleMessage)
           ..add('SendBubbleReply', SendBubbleReply)
+          ..add('GetUsersInsideBubble', GetUsersInsideBubble)
           ..add('messages', messages)
           ..add('User', User)
+          ..add('InsideBubbleUsers', InsideBubbleUsers)
+          ..add('FilteredInsideBubbleUsers', FilteredInsideBubbleUsers)
+          ..add('GetInsideUsersISloading', GetInsideUsersISloading)
+          ..add('GetInsideUsersSuccess', GetInsideUsersSuccess)
+          ..add('AddFreindSuccess', AddFreindSuccess)
+          ..add('FreindAddlOADING', FreindAddlOADING)
+          ..add('AddNewFriend', AddNewFriend)
           ..add('index_For_Message_List', index_For_Message_List)
           ..add('AddModelISloading', AddModelISloading)
           ..add('AddModelSUccess', AddModelSUccess)
@@ -416,6 +456,13 @@ class GroupChatStateBuilder
   set SendBubbleReply(SendBubbleMessageModelBuilder? SendBubbleReply) =>
       _$this._SendBubbleReply = SendBubbleReply;
 
+  GetUsersInsideBubbleModelBuilder? _GetUsersInsideBubble;
+  GetUsersInsideBubbleModelBuilder get GetUsersInsideBubble =>
+      _$this._GetUsersInsideBubble ??= new GetUsersInsideBubbleModelBuilder();
+  set GetUsersInsideBubble(
+          GetUsersInsideBubbleModelBuilder? GetUsersInsideBubble) =>
+      _$this._GetUsersInsideBubble = GetUsersInsideBubble;
+
   List<GroupChatMessage>? _messages;
   List<GroupChatMessage>? get messages => _$this._messages;
   set messages(List<GroupChatMessage>? messages) => _$this._messages = messages;
@@ -423,6 +470,43 @@ class GroupChatStateBuilder
   List<UserDATA>? _User;
   List<UserDATA>? get User => _$this._User;
   set User(List<UserDATA>? User) => _$this._User = User;
+
+  List<UserDATA>? _InsideBubbleUsers;
+  List<UserDATA>? get InsideBubbleUsers => _$this._InsideBubbleUsers;
+  set InsideBubbleUsers(List<UserDATA>? InsideBubbleUsers) =>
+      _$this._InsideBubbleUsers = InsideBubbleUsers;
+
+  List<UserDATA>? _FilteredInsideBubbleUsers;
+  List<UserDATA>? get FilteredInsideBubbleUsers =>
+      _$this._FilteredInsideBubbleUsers;
+  set FilteredInsideBubbleUsers(List<UserDATA>? FilteredInsideBubbleUsers) =>
+      _$this._FilteredInsideBubbleUsers = FilteredInsideBubbleUsers;
+
+  bool? _GetInsideUsersISloading;
+  bool? get GetInsideUsersISloading => _$this._GetInsideUsersISloading;
+  set GetInsideUsersISloading(bool? GetInsideUsersISloading) =>
+      _$this._GetInsideUsersISloading = GetInsideUsersISloading;
+
+  bool? _GetInsideUsersSuccess;
+  bool? get GetInsideUsersSuccess => _$this._GetInsideUsersSuccess;
+  set GetInsideUsersSuccess(bool? GetInsideUsersSuccess) =>
+      _$this._GetInsideUsersSuccess = GetInsideUsersSuccess;
+
+  bool? _AddFreindSuccess;
+  bool? get AddFreindSuccess => _$this._AddFreindSuccess;
+  set AddFreindSuccess(bool? AddFreindSuccess) =>
+      _$this._AddFreindSuccess = AddFreindSuccess;
+
+  bool? _FreindAddlOADING;
+  bool? get FreindAddlOADING => _$this._FreindAddlOADING;
+  set FreindAddlOADING(bool? FreindAddlOADING) =>
+      _$this._FreindAddlOADING = FreindAddlOADING;
+
+  AddNewFriendModelBuilder? _AddNewFriend;
+  AddNewFriendModelBuilder get AddNewFriend =>
+      _$this._AddNewFriend ??= new AddNewFriendModelBuilder();
+  set AddNewFriend(AddNewFriendModelBuilder? AddNewFriend) =>
+      _$this._AddNewFriend = AddNewFriend;
 
   int? _index_For_Message_List;
   int? get index_For_Message_List => _$this._index_For_Message_List;
@@ -541,8 +625,16 @@ class GroupChatStateBuilder
           $v.GetAliasForInsideBubbleUser?.toBuilder();
       _SendBubbleMessage = $v.SendBubbleMessage?.toBuilder();
       _SendBubbleReply = $v.SendBubbleReply?.toBuilder();
+      _GetUsersInsideBubble = $v.GetUsersInsideBubble?.toBuilder();
       _messages = $v.messages;
       _User = $v.User;
+      _InsideBubbleUsers = $v.InsideBubbleUsers;
+      _FilteredInsideBubbleUsers = $v.FilteredInsideBubbleUsers;
+      _GetInsideUsersISloading = $v.GetInsideUsersISloading;
+      _GetInsideUsersSuccess = $v.GetInsideUsersSuccess;
+      _AddFreindSuccess = $v.AddFreindSuccess;
+      _FreindAddlOADING = $v.FreindAddlOADING;
+      _AddNewFriend = $v.AddNewFriend?.toBuilder();
       _index_For_Message_List = $v.index_For_Message_List;
       _AddModelISloading = $v.AddModelISloading;
       _AddModelSUccess = $v.AddModelSUccess;
@@ -610,8 +702,16 @@ class GroupChatStateBuilder
                   _GetAliasForInsideBubbleUser?.build(),
               SendBubbleMessage: _SendBubbleMessage?.build(),
               SendBubbleReply: _SendBubbleReply?.build(),
+              GetUsersInsideBubble: _GetUsersInsideBubble?.build(),
               messages: messages,
               User: User,
+              InsideBubbleUsers: InsideBubbleUsers,
+              FilteredInsideBubbleUsers: FilteredInsideBubbleUsers,
+              GetInsideUsersISloading: GetInsideUsersISloading,
+              GetInsideUsersSuccess: GetInsideUsersSuccess,
+              AddFreindSuccess: AddFreindSuccess,
+              FreindAddlOADING: FreindAddlOADING,
+              AddNewFriend: _AddNewFriend?.build(),
               index_For_Message_List: index_For_Message_List,
               AddModelISloading: AddModelISloading,
               AddModelSUccess: AddModelSUccess,
@@ -647,6 +747,11 @@ class GroupChatStateBuilder
         _SendBubbleMessage?.build();
         _$failedField = 'SendBubbleReply';
         _SendBubbleReply?.build();
+        _$failedField = 'GetUsersInsideBubble';
+        _GetUsersInsideBubble?.build();
+
+        _$failedField = 'AddNewFriend';
+        _AddNewFriend?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'GroupChatState', _$failedField, e.toString());

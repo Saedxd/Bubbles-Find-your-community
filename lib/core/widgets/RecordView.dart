@@ -1,4 +1,5 @@
 
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
@@ -11,8 +12,9 @@ import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 
 class RecorderView extends StatefulWidget {
   final Function onSaved;
+  int? bubble_id;
 
-  const RecorderView({Key? key, required this.onSaved}) : super(key: key);
+   RecorderView({Key? key, required this.onSaved,this.bubble_id}) : super(key: key);
   @override
   _RecorderViewState createState() => _RecorderViewState();
 }
@@ -55,7 +57,78 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
     }
   }
 
+  Future OutsideBubbleAlreat()async
+  {
+    return       showDialog(
+        builder: (BuildContext context) {
+          var h = MediaQuery.of(context).size.height;
+          var w = MediaQuery.of(context).size.width;
+          return Container(
+              child: AlertDialog(
+                backgroundColor: Color(0xffEAEAEA),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                content:  Container(
+                  width: w,
+                  height: h/3,
+                  decoration: BoxDecoration(
+                    borderRadius : BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    color : Color.fromRGBO(234, 234, 234, 1),
+                  ),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
 
+                          Container(
+                              width: w/3,
+                              child: Image.asset("Assets/images/Ellipse 26.png",fit: BoxFit.fill,)
+                          ),
+
+                          Positioned(
+                              top: h/35,
+                              left: h/35,
+                              child: Image.asset("Assets/images/Vector.png")
+                          )
+
+                        ],
+                      ),
+                      SizedBox(height: 10,),
+                      Text('WOOPS!', textAlign: TextAlign.center, style: TextStyle(
+                          color: Color.fromRGBO(47, 47, 47, 1),
+                          fontFamily: 'Red Hat Display',
+                          fontStyle: FontStyle.italic,
+                          fontSize: 22,
+                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.bold,
+                          height: 1
+                      ),),
+                      SizedBox(height: h/40,),
+                      Text('Looks like you are not in this bubble! Please move closer to activate additional features.', textAlign: TextAlign.center, style: TextStyle(
+                          color: Color.fromRGBO(47, 47, 47, 1),
+                          fontFamily: 'Red Hat Text',
+                          fontSize: 12,
+                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.w600,
+                          height: 1.25
+                      ),)
+
+
+                    ],
+                  ),
+                ),
+
+              )
+          );
+        }, context: context
+    );
+
+  }
 
   @override
   void dispose() {
@@ -89,10 +162,21 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
           ),
           child: IconButton(
               onPressed: () async{
-                if (mounted) {
-                  StopedRecording = false;
-                  await _onRecordButtonPressed();
-                  setState(() {});
+                bool GetInStatus = false;
+                for(int j =0;j<AllBubblesIDS!.length;j++){
+                  if (widget.bubble_id==AllBubblesIDS![j]){
+                    if (AllBubblesStatus![j]==1)
+                      GetInStatus = true;
+                  }
+                }
+                if (GetInStatus) {
+                  if (mounted) {
+                    StopedRecording = false;
+                    await _onRecordButtonPressed();
+                    setState(() {});
+                  }
+                }else{
+                  OutsideBubbleAlreat();
                 }
               },
               icon: SvgPicture.asset(
@@ -102,60 +186,86 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   }
 
   Future<void> _onRecordButtonPressed() async {
-    if (mounted) {
-      switch (_recordingState) {
-        case RecordingState.Set:
-          await _recordVoice();
-          break;
+    bool GetInStatus = false;
+    for(int j =0;j<AllBubblesIDS!.length;j++){
+      if (widget.bubble_id==AllBubblesIDS![j]){
+        if (AllBubblesStatus![j]==1)
+          GetInStatus = true;
+      }
+    }
+    if (GetInStatus) {
+      if (mounted) {
+        switch (_recordingState) {
+          case RecordingState.Set:
+            await _recordVoice();
+            break;
 
-        case RecordingState.Recording:
-          await _stopRecording();
-          _recordingState = RecordingState.Stopped;
-          break;
+          case RecordingState.Recording:
+            await _stopRecording();
+            _recordingState = RecordingState.Stopped;
+            break;
 
-        case RecordingState.Stopped:
-          await _recordVoice();
-          break;
+          case RecordingState.Stopped:
+            await _recordVoice();
+            break;
 
-        case RecordingState.UnSet:
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          case RecordingState.UnSet:
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Please allow recording from settings.'),
-          ));
-          break;
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Please allow recording from settings.'),
+            ));
+            break;
+        }
       }
     }
   }
 
   _initRecorder() async {
-    if (mounted) {
-      Directory appDirectory = await getApplicationDocumentsDirectory();
-      String filePath = appDirectory.path +
-          '/'
-          +
-          DateTime
-              .now()
-              .millisecondsSinceEpoch
-              .toString()
-          +
-          '.aac';
+    bool GetInStatus = false;
+    for(int j =0;j<AllBubblesIDS!.length;j++){
+      if (widget.bubble_id==AllBubblesIDS![j]){
+        if (AllBubblesStatus![j]==1)
+          GetInStatus = true;
+      }
+    }
+    if (GetInStatus) {
+      if (mounted) {
+        Directory appDirectory = await getApplicationDocumentsDirectory();
+        String filePath = appDirectory.path +
+            '/'
+            +
+            DateTime
+                .now()
+                .millisecondsSinceEpoch
+                .toString()
+            +
+            '.aac';
 
-      audioRecorder =
-          FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
-      await audioRecorder.initialized;
+        audioRecorder =
+            FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
+        await audioRecorder.initialized;
+      }
     }
   }
 
   _startRecording() async {
-    if (mounted) {
-
-
-    await audioRecorder.start();
-    StopedRecording = false;
-    setState((){});
-    // await audioRecorder.current(channel: 0);
+    bool GetInStatus = false;
+    for(int j =0;j<AllBubblesIDS!.length;j++){
+      if (widget.bubble_id==AllBubblesIDS![j]){
+        if (AllBubblesStatus![j]==1)
+          GetInStatus = true;
+      }
     }
+    if (GetInStatus) {
+      if (mounted) {
+        await audioRecorder.start();
+        StopedRecording = false;
+        setState(() {});
+        // await audioRecorder.current(channel: 0);
+      }
+    }
+
   }
 
   _stopRecording() async {

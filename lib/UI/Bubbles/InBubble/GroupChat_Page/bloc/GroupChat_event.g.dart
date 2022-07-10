@@ -1596,4 +1596,233 @@ class AddUserDataToListBuilder
   }
 }
 
+class _$GetUsersInsideBubble extends GetUsersInsideBubble {
+  @override
+  final int? Bubble_id;
+
+  factory _$GetUsersInsideBubble(
+          [void Function(GetUsersInsideBubbleBuilder)? updates]) =>
+      (new GetUsersInsideBubbleBuilder()..update(updates))._build();
+
+  _$GetUsersInsideBubble._({this.Bubble_id}) : super._();
+
+  @override
+  GetUsersInsideBubble rebuild(
+          void Function(GetUsersInsideBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetUsersInsideBubbleBuilder toBuilder() =>
+      new GetUsersInsideBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetUsersInsideBubble && Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetUsersInsideBubble')
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class GetUsersInsideBubbleBuilder
+    implements Builder<GetUsersInsideBubble, GetUsersInsideBubbleBuilder> {
+  _$GetUsersInsideBubble? _$v;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  GetUsersInsideBubbleBuilder();
+
+  GetUsersInsideBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetUsersInsideBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetUsersInsideBubble;
+  }
+
+  @override
+  void update(void Function(GetUsersInsideBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetUsersInsideBubble build() => _build();
+
+  _$GetUsersInsideBubble _build() {
+    final _$result = _$v ?? new _$GetUsersInsideBubble._(Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SearchInsideBubbleUser extends SearchInsideBubbleUser {
+  @override
+  final String? Keyword;
+
+  factory _$SearchInsideBubbleUser(
+          [void Function(SearchInsideBubbleUserBuilder)? updates]) =>
+      (new SearchInsideBubbleUserBuilder()..update(updates))._build();
+
+  _$SearchInsideBubbleUser._({this.Keyword}) : super._();
+
+  @override
+  SearchInsideBubbleUser rebuild(
+          void Function(SearchInsideBubbleUserBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SearchInsideBubbleUserBuilder toBuilder() =>
+      new SearchInsideBubbleUserBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SearchInsideBubbleUser && Keyword == other.Keyword;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, Keyword.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SearchInsideBubbleUser')
+          ..add('Keyword', Keyword))
+        .toString();
+  }
+}
+
+class SearchInsideBubbleUserBuilder
+    implements Builder<SearchInsideBubbleUser, SearchInsideBubbleUserBuilder> {
+  _$SearchInsideBubbleUser? _$v;
+
+  String? _Keyword;
+  String? get Keyword => _$this._Keyword;
+  set Keyword(String? Keyword) => _$this._Keyword = Keyword;
+
+  SearchInsideBubbleUserBuilder();
+
+  SearchInsideBubbleUserBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Keyword = $v.Keyword;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SearchInsideBubbleUser other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SearchInsideBubbleUser;
+  }
+
+  @override
+  void update(void Function(SearchInsideBubbleUserBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SearchInsideBubbleUser build() => _build();
+
+  _$SearchInsideBubbleUser _build() {
+    final _$result = _$v ?? new _$SearchInsideBubbleUser._(Keyword: Keyword);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$AddFrined extends AddFrined {
+  @override
+  final String? serial;
+
+  factory _$AddFrined([void Function(AddFrinedBuilder)? updates]) =>
+      (new AddFrinedBuilder()..update(updates))._build();
+
+  _$AddFrined._({this.serial}) : super._();
+
+  @override
+  AddFrined rebuild(void Function(AddFrinedBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  AddFrinedBuilder toBuilder() => new AddFrinedBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is AddFrined && serial == other.serial;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, serial.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('AddFrined')..add('serial', serial))
+        .toString();
+  }
+}
+
+class AddFrinedBuilder implements Builder<AddFrined, AddFrinedBuilder> {
+  _$AddFrined? _$v;
+
+  String? _serial;
+  String? get serial => _$this._serial;
+  set serial(String? serial) => _$this._serial = serial;
+
+  AddFrinedBuilder();
+
+  AddFrinedBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _serial = $v.serial;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(AddFrined other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$AddFrined;
+  }
+
+  @override
+  void update(void Function(AddFrinedBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  AddFrined build() => _build();
+
+  _$AddFrined _build() {
+    final _$result = _$v ?? new _$AddFrined._(serial: serial);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

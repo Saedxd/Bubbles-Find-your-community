@@ -17,6 +17,8 @@ class _$NotificationsState extends NotificationsState {
   final GetnotifcationsModel? Getnotifcations;
   @override
   final ClearBadgeModel? ClearBadge;
+  @override
+  final GetbadgeModel? Getbadge;
 
   factory _$NotificationsState(
           [void Function(NotificationsStateBuilder)? updates]) =>
@@ -27,7 +29,8 @@ class _$NotificationsState extends NotificationsState {
       this.isLoading,
       this.success,
       this.Getnotifcations,
-      this.ClearBadge})
+      this.ClearBadge,
+      this.Getbadge})
       : super._();
 
   @override
@@ -47,17 +50,20 @@ class _$NotificationsState extends NotificationsState {
         isLoading == other.isLoading &&
         success == other.success &&
         Getnotifcations == other.Getnotifcations &&
-        ClearBadge == other.ClearBadge;
+        ClearBadge == other.ClearBadge &&
+        Getbadge == other.Getbadge;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                success.hashCode),
-            Getnotifcations.hashCode),
-        ClearBadge.hashCode));
+            $jc(
+                $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                    success.hashCode),
+                Getnotifcations.hashCode),
+            ClearBadge.hashCode),
+        Getbadge.hashCode));
   }
 
   @override
@@ -67,7 +73,8 @@ class _$NotificationsState extends NotificationsState {
           ..add('isLoading', isLoading)
           ..add('success', success)
           ..add('Getnotifcations', Getnotifcations)
-          ..add('ClearBadge', ClearBadge))
+          ..add('ClearBadge', ClearBadge)
+          ..add('Getbadge', Getbadge))
         .toString();
   }
 }
@@ -100,6 +107,11 @@ class NotificationsStateBuilder
   set ClearBadge(ClearBadgeModelBuilder? ClearBadge) =>
       _$this._ClearBadge = ClearBadge;
 
+  GetbadgeModelBuilder? _Getbadge;
+  GetbadgeModelBuilder get Getbadge =>
+      _$this._Getbadge ??= new GetbadgeModelBuilder();
+  set Getbadge(GetbadgeModelBuilder? Getbadge) => _$this._Getbadge = Getbadge;
+
   NotificationsStateBuilder();
 
   NotificationsStateBuilder get _$this {
@@ -110,6 +122,7 @@ class NotificationsStateBuilder
       _success = $v.success;
       _Getnotifcations = $v.Getnotifcations?.toBuilder();
       _ClearBadge = $v.ClearBadge?.toBuilder();
+      _Getbadge = $v.Getbadge?.toBuilder();
       _$v = null;
     }
     return this;
@@ -138,7 +151,8 @@ class NotificationsStateBuilder
               isLoading: isLoading,
               success: success,
               Getnotifcations: _Getnotifcations?.build(),
-              ClearBadge: _ClearBadge?.build());
+              ClearBadge: _ClearBadge?.build(),
+              Getbadge: _Getbadge?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -146,6 +160,8 @@ class NotificationsStateBuilder
         _Getnotifcations?.build();
         _$failedField = 'ClearBadge';
         _ClearBadge?.build();
+        _$failedField = 'Getbadge';
+        _Getbadge?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'NotificationsState', _$failedField, e.toString());

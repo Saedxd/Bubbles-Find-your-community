@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
@@ -670,6 +671,131 @@ print("Emitteddd");
         print("Emitteddd");
     }
 
+
+    if (event is GetUsersInsideBubble) {
+
+      try {
+        yield state.rebuild((b) => b
+          ..GetInsideUsersISloading=true
+          ..GetInsideUsersSuccess=false
+          ..GetUsersInsideBubble=null
+        );
+
+
+        final date2 = await _repository.GetUsersInsideBubble(event.Bubble_id!);
+
+
+        yield state.rebuild((b) => b
+          ..GetUsersInsideBubble.replace(date2)
+        );
+
+        state.FilteredInsideBubbleUsers!.clear();
+        state.InsideBubbleUsers!.clear();
+        for(int i=0;i<state.GetUsersInsideBubble!.users!.length;i++){
+
+
+          UserDATA User =UserDATA();
+          User.id = state.GetUsersInsideBubble!.users![i].id!;
+          User.Avatar = state.GetUsersInsideBubble!.users![i].avatar.toString();
+          User.Background_Color = state.GetUsersInsideBubble!.users![i].background_color.toString();
+          User.Alias = state.GetUsersInsideBubble!.users![i].alias.toString();
+          User.Serial_number = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
+          User.boi = state.GetUsersInsideBubble!.users![i].bio.toString();
+
+
+          String Value = state.GetUsersInsideBubble!.users![i].background_color.toString();
+
+          if (Value.contains("#", 0)) {
+            Value = Value.substring(1);
+            Value = "0xff$Value";
+          }
+          var myInt = int.parse(Value);
+          var BackgroundColor = myInt;
+
+          User.Background_Color = Value;
+
+          state.FilteredInsideBubbleUsers!.add(User);
+          state.InsideBubbleUsers!.add(User);
+        }
+        yield state.rebuild((b) => b
+          ..GetInsideUsersISloading=false
+          ..GetInsideUsersSuccess=true
+        );
+
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+
+        );
+      }
+
+
+
+
+
+
+
+
+    }
+
+    if (event is SearchInsideBubbleUser) {
+
+      try {
+        state.FilteredInsideBubbleUsers!.clear();
+
+
+        state.InsideBubbleUsers!.forEach((BubbbleOBject) {
+          if (BubbbleOBject.Alias!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+            state.FilteredInsideBubbleUsers!.add(BubbbleOBject);
+          }
+        });
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+
+        );
+      }
+
+
+
+
+
+
+
+
+    }
+    if (event is AddFrined) {
+      try {
+        yield state.rebuild((b) => b
+          ..FreindAddlOADING = true
+          ..error = ""
+          ..AddFreindSuccess = false
+          ..AddNewFriend = null
+        );
+
+        final date = await _repository.AddFriend(event.serial!);
+
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..FreindAddlOADING = false
+          ..error = ""
+          ..AddFreindSuccess = true
+          ..AddNewFriend.replace(date)
+        );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..FreindAddlOADING = false
+          ..error = "Something went wrong"
+          ..AddFreindSuccess = false
+          ..AddNewFriend = null
+        );
+      }
+    }
   }
 
 }

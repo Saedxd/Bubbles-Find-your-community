@@ -37,3 +37,9 @@ abstract class ClearBadge extends NotificationEvent
   ClearBadge._();
   factory ClearBadge([updates(ClearBadgeBuilder b)]) = _$ClearBadge;
 }
+abstract class GetBadge extends NotificationEvent
+    implements Built<GetBadge,GetBadgeBuilder> {
+
+  GetBadge._();
+  factory GetBadge([updates(GetBadgeBuilder b)]) = _$GetBadge;
+}

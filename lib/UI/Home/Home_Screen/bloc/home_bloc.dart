@@ -523,6 +523,63 @@ yield state.rebuild((b) => b
       }
     }
 
+    if (event is GetNearbyBubbles) {
+      try {
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesSuccess= false
+          ..GetNearbyBubbles=null
+        );
+
+        final date = await _repository.NearByEventList(event.lat!,event.lng!);
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesSuccess= false
+          ..GetNearbyBubbles.replace(date)
+        );
+        state.FilteredBUBBLElists2!.clear();
+        state.BUBBLElistS2!.clear();
+        for(int i=0;i<state.GetNearbyBubbles!.data!.length;i++){
+
+
+          BubbleData Bubbledata = BubbleData();
+
+          Bubbledata.Title = state.GetNearbyBubbles!.data![i].title.toString();
+          Bubbledata.location = state.GetNearbyBubbles!.data![i].location.toString();
+          Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
+          Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
+          Bubbledata.image = state.GetNearbyBubbles!.data![i].images![0].image.toString();
+          Bubbledata.id = state.GetNearbyBubbles!.data![i].id!.toInt();
+          Bubbledata.TYPE = state.GetNearbyBubbles!.data![i].type.toString();
+
+
+          String Value = state.GetNearbyBubbles!.data![i].color.toString();
+
+          if (Value.contains("#", 0)) {
+            Value = Value.substring(1);
+            Value = "0xff$Value";
+          }
+          var myInt = int.parse(Value);
+          var BackgroundColor = myInt;
+
+          Bubbledata.Color = BackgroundColor;
+
+          state.FilteredBUBBLElists2!.add(Bubbledata);
+          state.BUBBLElistS2!.add(Bubbledata);
+        }
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = false
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= true
+        );
+
+      } catch (e) {
+        print('get Error $e');
+
+      }
+    }
 
   }
 

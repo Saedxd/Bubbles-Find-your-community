@@ -62,6 +62,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
+  GetPrimeBubblesModel? get GetNearbyBubbles;
   ProfileDateModel? get ProfileDate;
 
 
@@ -94,6 +95,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
         ..ProfileDate =null
+        ..GetNearbyBubbles =null
         ..Userlat =37.9715
         ..Userlng =23.7267
         ..BubblesRaduis =[]

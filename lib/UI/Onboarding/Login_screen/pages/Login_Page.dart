@@ -282,6 +282,9 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _EmailController.dispose();
+    if (_bc!=null)
+    _bc!.dispose();
+    listenable!.removeListener(() { });
   }
   Animatable<Color?> darkBackground =  TweenSequence<Color?>(
     [

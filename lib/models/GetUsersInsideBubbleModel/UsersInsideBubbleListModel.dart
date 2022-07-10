@@ -26,6 +26,7 @@ String? get serialnumber;
 String? get alias;
 String? get background_color;
 String? get avatar;
+String? get bio;
 
 
   UsersInsideBubbleListModel._();

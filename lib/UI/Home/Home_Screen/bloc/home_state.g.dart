@@ -78,6 +78,8 @@ class _$HomeState extends HomeState {
   @override
   final GetPrimeBubblesModel? GetNewBubbles;
   @override
+  final GetPrimeBubblesModel? GetNearbyBubbles;
+  @override
   final ProfileDateModel? ProfileDate;
 
   factory _$HomeState([void Function(HomeStateBuilder)? updates]) =>
@@ -119,6 +121,7 @@ class _$HomeState extends HomeState {
       this.GetBubbles,
       this.GetPrimeBubbles,
       this.GetNewBubbles,
+      this.GetNearbyBubbles,
       this.ProfileDate})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(Userlat, 'HomeState', 'Userlat');
@@ -171,6 +174,7 @@ class _$HomeState extends HomeState {
         GetBubbles == other.GetBubbles &&
         GetPrimeBubbles == other.GetPrimeBubbles &&
         GetNewBubbles == other.GetNewBubbles &&
+        GetNearbyBubbles == other.GetNearbyBubbles &&
         ProfileDate == other.ProfileDate;
   }
 
@@ -194,25 +198,25 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), marker2.hashCode), circle.hashCode),
-                                                                                locationn.hashCode),
-                                                                            BubblesRaduis.hashCode),
-                                                                        Userlat.hashCode),
-                                                                    Userlng.hashCode),
-                                                                ValueLOading.hashCode),
-                                                            NewValue.hashCode),
-                                                        MakeHimBEableTOSEtBubble.hashCode),
-                                                    GetprofileISloading.hashCode),
-                                                GetprofileSuccess.hashCode),
-                                            BUBBLElistS1.hashCode),
-                                        FilteredBUBBLElists1.hashCode),
-                                    BUBBLElistS2.hashCode),
-                                FilteredBUBBLElists2.hashCode),
-                            BUBBLElistS3.hashCode),
-                        FilteredBUBBLElists3.hashCode),
-                    GetBubbles.hashCode),
-                GetPrimeBubbles.hashCode),
-            GetNewBubbles.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode),
+                                                                                BubblesRaduis.hashCode),
+                                                                            Userlat.hashCode),
+                                                                        Userlng.hashCode),
+                                                                    ValueLOading.hashCode),
+                                                                NewValue.hashCode),
+                                                            MakeHimBEableTOSEtBubble.hashCode),
+                                                        GetprofileISloading.hashCode),
+                                                    GetprofileSuccess.hashCode),
+                                                BUBBLElistS1.hashCode),
+                                            FilteredBUBBLElists1.hashCode),
+                                        BUBBLElistS2.hashCode),
+                                    FilteredBUBBLElists2.hashCode),
+                                BUBBLElistS3.hashCode),
+                            FilteredBUBBLElists3.hashCode),
+                        GetBubbles.hashCode),
+                    GetPrimeBubbles.hashCode),
+                GetNewBubbles.hashCode),
+            GetNearbyBubbles.hashCode),
         ProfileDate.hashCode));
   }
 
@@ -254,6 +258,7 @@ class _$HomeState extends HomeState {
           ..add('GetBubbles', GetBubbles)
           ..add('GetPrimeBubbles', GetPrimeBubbles)
           ..add('GetNewBubbles', GetNewBubbles)
+          ..add('GetNearbyBubbles', GetNearbyBubbles)
           ..add('ProfileDate', ProfileDate))
         .toString();
   }
@@ -427,6 +432,12 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   set GetNewBubbles(GetPrimeBubblesModelBuilder? GetNewBubbles) =>
       _$this._GetNewBubbles = GetNewBubbles;
 
+  GetPrimeBubblesModelBuilder? _GetNearbyBubbles;
+  GetPrimeBubblesModelBuilder get GetNearbyBubbles =>
+      _$this._GetNearbyBubbles ??= new GetPrimeBubblesModelBuilder();
+  set GetNearbyBubbles(GetPrimeBubblesModelBuilder? GetNearbyBubbles) =>
+      _$this._GetNearbyBubbles = GetNearbyBubbles;
+
   ProfileDateModelBuilder? _ProfileDate;
   ProfileDateModelBuilder get ProfileDate =>
       _$this._ProfileDate ??= new ProfileDateModelBuilder();
@@ -473,6 +484,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _GetBubbles = $v.GetBubbles?.toBuilder();
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
+      _GetNearbyBubbles = $v.GetNearbyBubbles?.toBuilder();
       _ProfileDate = $v.ProfileDate?.toBuilder();
       _$v = null;
     }
@@ -535,6 +547,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               GetBubbles: _GetBubbles?.build(),
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
               GetNewBubbles: _GetNewBubbles?.build(),
+              GetNearbyBubbles: _GetNearbyBubbles?.build(),
               ProfileDate: _ProfileDate?.build());
     } catch (_) {
       late String _$failedField;
@@ -545,6 +558,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
         _GetPrimeBubbles?.build();
         _$failedField = 'GetNewBubbles';
         _GetNewBubbles?.build();
+        _$failedField = 'GetNearbyBubbles';
+        _GetNearbyBubbles?.build();
         _$failedField = 'ProfileDate';
         _ProfileDate?.build();
       } catch (e) {

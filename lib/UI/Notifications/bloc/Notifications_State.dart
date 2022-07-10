@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
+import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
 import 'package:bubbles/models/permissionsModel/PermissionsModel.dart';
 import 'package:built_collection/built_collection.dart';
@@ -21,6 +22,7 @@ abstract class NotificationsState implements Built<NotificationsState, Notificat
 
   GetnotifcationsModel? get Getnotifcations;
   ClearBadgeModel? get ClearBadge;
+  GetbadgeModel? get Getbadge;
   NotificationsState._();
 
   factory NotificationsState([updates(NotificationsStateBuilder b)]) = _$NotificationsState;
@@ -32,6 +34,7 @@ abstract class NotificationsState implements Built<NotificationsState, Notificat
       ..success = false
         ..Getnotifcations = null
       ..ClearBadge =null
+      ..Getbadge =null
 
     );
   }

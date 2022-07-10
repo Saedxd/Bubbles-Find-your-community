@@ -9,8 +9,10 @@ import 'dart:typed_data';
 
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
+import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:built_collection/built_collection.dart';
@@ -58,8 +60,19 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   GetAliasModel? get GetAliasForInsideBubbleUser;
   SendBubbleMessageModel? get SendBubbleMessage;
   SendBubbleMessageModel? get SendBubbleReply;
+  GetUsersInsideBubbleModel? get GetUsersInsideBubble;
   List<GroupChatMessage>? get messages;
   List<UserDATA>? get User;
+  List<UserDATA>? get InsideBubbleUsers;
+  List<UserDATA>? get FilteredInsideBubbleUsers;
+
+  bool? get GetInsideUsersISloading;
+  bool? get GetInsideUsersSuccess;
+
+  bool? get AddFreindSuccess;
+  bool? get FreindAddlOADING;
+  AddNewFriendModel? get AddNewFriend;
+
   int? get index_For_Message_List;
 
   bool? get AddModelISloading;
@@ -100,6 +113,10 @@ String? get Image_type;
       // ..is_Nodejs = false
       // ..is_Backend = false
       ..isLoading = false
+      ..GetInsideUsersISloading = false
+      ..GetInsideUsersSuccess = false
+      ..FreindAddlOADING = false
+      ..AddFreindSuccess = false
       ..CheckboxStatuss1 = false
       ..SendMessageISloading = false
       ..SendMessageSuccess = false
@@ -109,6 +126,8 @@ String? get Image_type;
       ..KetbaordStatuss = false
       ..messages = []
       ..User = []
+      ..InsideBubbleUsers = []
+      ..FilteredInsideBubbleUsers = []
       ..RepliedToMessage = ""
       ..AvatarPathForRepliedTo = ""
       ..AliasForRepliedTo = ""
@@ -134,6 +153,8 @@ String? get Image_type;
       ..Done = false
       // ..is_base64 = false
       ..GetAlias=null
+      ..GetUsersInsideBubble=null
+      ..AddNewFriend=null
       ..Image1=null
       ..File_image=null
       ..GetAliasMinee=null

@@ -177,3 +177,25 @@ abstract class AddUserDataToList extends GroupChatevent
   factory AddUserDataToList([updates(AddUserDataToListBuilder b)]) = _$AddUserDataToList;
 }
 
+//
+abstract class GetUsersInsideBubble extends GroupChatevent
+    implements Built<GetUsersInsideBubble,GetUsersInsideBubbleBuilder> {
+  int? get Bubble_id;
+  GetUsersInsideBubble._();
+  factory GetUsersInsideBubble([updates(GetUsersInsideBubbleBuilder b)]) = _$GetUsersInsideBubble;
+}
+
+abstract class SearchInsideBubbleUser extends GroupChatevent
+    implements Built<SearchInsideBubbleUser,SearchInsideBubbleUserBuilder> {
+  String? get Keyword;
+  SearchInsideBubbleUser._();
+  factory SearchInsideBubbleUser([updates(SearchInsideBubbleUserBuilder b)]) = _$SearchInsideBubbleUser;
+}
+
+abstract class AddFrined extends GroupChatevent
+    implements Built<AddFrined,AddFrinedBuilder> {
+  String? get serial;
+
+  AddFrined._();
+  factory AddFrined([updates(AddFrinedBuilder b)]) = _$AddFrined;
+}

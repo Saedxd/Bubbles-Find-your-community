@@ -175,3 +175,14 @@ abstract class UserLeftBubble extends HomeEvent
   UserLeftBubble._();
   factory UserLeftBubble([Function(UserLeftBubbleBuilder b) updates]) = _$UserLeftBubble;
 }
+//
+//GetNearbyBubbles
+
+abstract class GetNearbyBubbles extends HomeEvent
+    implements Built<GetNearbyBubbles, GetNearbyBubblesBuilder> {
+
+  double? get lat;
+  double? get lng;
+  GetNearbyBubbles._();
+  factory GetNearbyBubbles([Function(GetNearbyBubblesBuilder b) updates]) = _$GetNearbyBubbles;
+}

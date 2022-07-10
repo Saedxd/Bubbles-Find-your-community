@@ -41,6 +41,8 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/QuestionsListModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
@@ -81,6 +83,7 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  GetUsersInsideBubbleModel,
   InOutUserStatusModel,
   SendBubbleMessageModel,
   FriendListSearchModel,
@@ -162,6 +165,15 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(GetUsersInsideBubbleModel),
+        ],
+      )),
+          () => ListBuilder<GetUsersInsideBubbleModel>())
+  //
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

@@ -1333,4 +1333,89 @@ class UserLeftBubbleBuilder
   }
 }
 
+class _$GetNearbyBubbles extends GetNearbyBubbles {
+  @override
+  final double? lat;
+  @override
+  final double? lng;
+
+  factory _$GetNearbyBubbles(
+          [void Function(GetNearbyBubblesBuilder)? updates]) =>
+      (new GetNearbyBubblesBuilder()..update(updates))._build();
+
+  _$GetNearbyBubbles._({this.lat, this.lng}) : super._();
+
+  @override
+  GetNearbyBubbles rebuild(void Function(GetNearbyBubblesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetNearbyBubblesBuilder toBuilder() =>
+      new GetNearbyBubblesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetNearbyBubbles && lat == other.lat && lng == other.lng;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, lat.hashCode), lng.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetNearbyBubbles')
+          ..add('lat', lat)
+          ..add('lng', lng))
+        .toString();
+  }
+}
+
+class GetNearbyBubblesBuilder
+    implements Builder<GetNearbyBubbles, GetNearbyBubblesBuilder> {
+  _$GetNearbyBubbles? _$v;
+
+  double? _lat;
+  double? get lat => _$this._lat;
+  set lat(double? lat) => _$this._lat = lat;
+
+  double? _lng;
+  double? get lng => _$this._lng;
+  set lng(double? lng) => _$this._lng = lng;
+
+  GetNearbyBubblesBuilder();
+
+  GetNearbyBubblesBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _lat = $v.lat;
+      _lng = $v.lng;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetNearbyBubbles other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetNearbyBubbles;
+  }
+
+  @override
+  void update(void Function(GetNearbyBubblesBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetNearbyBubbles build() => _build();
+
+  _$GetNearbyBubbles _build() {
+    final _$result = _$v ?? new _$GetNearbyBubbles._(lat: lat, lng: lng);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

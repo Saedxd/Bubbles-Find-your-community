@@ -18,9 +18,9 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
   @override
   final bool? FreindAddlOADING;
   @override
-  final SuggestFriendsModel? SuggestFriends;
-  @override
   final AddNewFriendModel? AddNewFriend;
+  @override
+  final SuggestFriendsModel? SuggestFriends;
   @override
   final List<Data>? ListOFSUggested;
 
@@ -34,8 +34,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
       this.success,
       this.AddFreindSuccess,
       this.FreindAddlOADING,
-      this.SuggestFriends,
       this.AddNewFriend,
+      this.SuggestFriends,
       this.ListOFSUggested})
       : super._();
 
@@ -57,8 +57,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
         success == other.success &&
         AddFreindSuccess == other.AddFreindSuccess &&
         FreindAddlOADING == other.FreindAddlOADING &&
-        SuggestFriends == other.SuggestFriends &&
         AddNewFriend == other.AddNewFriend &&
+        SuggestFriends == other.SuggestFriends &&
         ListOFSUggested == other.ListOFSUggested;
   }
 
@@ -73,8 +73,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
                             success.hashCode),
                         AddFreindSuccess.hashCode),
                     FreindAddlOADING.hashCode),
-                SuggestFriends.hashCode),
-            AddNewFriend.hashCode),
+                AddNewFriend.hashCode),
+            SuggestFriends.hashCode),
         ListOFSUggested.hashCode));
   }
 
@@ -86,8 +86,8 @@ class _$SuggestedFreindsState extends SuggestedFreindsState {
           ..add('success', success)
           ..add('AddFreindSuccess', AddFreindSuccess)
           ..add('FreindAddlOADING', FreindAddlOADING)
-          ..add('SuggestFriends', SuggestFriends)
           ..add('AddNewFriend', AddNewFriend)
+          ..add('SuggestFriends', SuggestFriends)
           ..add('ListOFSUggested', ListOFSUggested))
         .toString();
   }
@@ -119,17 +119,17 @@ class SuggestedFreindsStateBuilder
   set FreindAddlOADING(bool? FreindAddlOADING) =>
       _$this._FreindAddlOADING = FreindAddlOADING;
 
-  SuggestFriendsModelBuilder? _SuggestFriends;
-  SuggestFriendsModelBuilder get SuggestFriends =>
-      _$this._SuggestFriends ??= new SuggestFriendsModelBuilder();
-  set SuggestFriends(SuggestFriendsModelBuilder? SuggestFriends) =>
-      _$this._SuggestFriends = SuggestFriends;
-
   AddNewFriendModelBuilder? _AddNewFriend;
   AddNewFriendModelBuilder get AddNewFriend =>
       _$this._AddNewFriend ??= new AddNewFriendModelBuilder();
   set AddNewFriend(AddNewFriendModelBuilder? AddNewFriend) =>
       _$this._AddNewFriend = AddNewFriend;
+
+  SuggestFriendsModelBuilder? _SuggestFriends;
+  SuggestFriendsModelBuilder get SuggestFriends =>
+      _$this._SuggestFriends ??= new SuggestFriendsModelBuilder();
+  set SuggestFriends(SuggestFriendsModelBuilder? SuggestFriends) =>
+      _$this._SuggestFriends = SuggestFriends;
 
   List<Data>? _ListOFSUggested;
   List<Data>? get ListOFSUggested => _$this._ListOFSUggested;
@@ -146,8 +146,8 @@ class SuggestedFreindsStateBuilder
       _success = $v.success;
       _AddFreindSuccess = $v.AddFreindSuccess;
       _FreindAddlOADING = $v.FreindAddlOADING;
-      _SuggestFriends = $v.SuggestFriends?.toBuilder();
       _AddNewFriend = $v.AddNewFriend?.toBuilder();
+      _SuggestFriends = $v.SuggestFriends?.toBuilder();
       _ListOFSUggested = $v.ListOFSUggested;
       _$v = null;
     }
@@ -178,16 +178,16 @@ class SuggestedFreindsStateBuilder
               success: success,
               AddFreindSuccess: AddFreindSuccess,
               FreindAddlOADING: FreindAddlOADING,
-              SuggestFriends: _SuggestFriends?.build(),
               AddNewFriend: _AddNewFriend?.build(),
+              SuggestFriends: _SuggestFriends?.build(),
               ListOFSUggested: ListOFSUggested);
     } catch (_) {
       late String _$failedField;
       try {
-        _$failedField = 'SuggestFriends';
-        _SuggestFriends?.build();
         _$failedField = 'AddNewFriend';
         _AddNewFriend?.build();
+        _$failedField = 'SuggestFriends';
+        _SuggestFriends?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'SuggestedFreindsState', _$failedField, e.toString());

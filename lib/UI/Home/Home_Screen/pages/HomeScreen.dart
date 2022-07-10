@@ -41,7 +41,9 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-bool UserInOutStatus = false;
+List<int>? AllBubblesIDS=[];
+List<int>? AllBubblesStatus=[];
+List<bool>? AllBubblesStatusTry=[];
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? Lat;
   double? Lng;
@@ -75,9 +77,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Location _locationTracker = Location();
   GoogleMapController? _googleMapController;
   bool? diditonceee= false;
-  List<int>? AllBubblesIDS=[];
-  List<int>? AllBubblesStatus=[];
-  List<bool>? AllBubblesStatusTry=[];
+
   bool showdialogg = false;
   double? CameraZoom;
   Set<Marker> marker2 = {};
@@ -104,58 +104,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? coef;
   double? new_lat ;
   double? new_long ;
-  double? User_lat ;
-  double? User_long ;
+  double? User_lat =0;
+  double? User_long=0 ;
   int counter = 0;
   GoogleMap? myMap;
   Timer? timer;
   String MyName = "";
 
 
-  void ListenForWhoJoinedBUbble() async {
-    socket!.on("join_bubble", (msg) {
-      print("Listenting");
-      print(msg);
-      print(msg["username"]);
-      if (MyName ==msg["username"]){
-        UserInOutStatus = true;
-        print("set to true");
-      }
-//{username: saedxd}
-//{username: Saed}
 
-    });
-  }
 
-  void ListenForWhoLeftBUbble() async {
-    socket!.on("leave_bubble", (msg) {
-      print("Listenting");
-      print(msg);
-      print(msg["username"]);
-      print(msg["username"].toString().substring(17));
-
-if (MyName==msg["username"].toString().substring(17)){
-  print("set to false");
-  UserInOutStatus = false;
-}
-
-// {username: leave Bubble Now:saedxd}
-
-    });
-  }
-
-  void sendIJoinedBubble(int Bubble_id) {
-    print("Sent Status joined");
-    socket!.emit("request_join_bubble",
-        {"room": "bubble_${Bubble_id}"});
-    //GivethemMyID();
-  }
-
-  void sendILeftBubble(int Bubble_id) {
-    print("Sent Status left");
-    socket!.emit("request_leave_bubble",
-        {"room": "bubble_${Bubble_id}"});
-  }
 
   void getCurrentLocation() async {
     try {
@@ -271,23 +229,22 @@ if (MyName==msg["username"].toString().substring(17)){
                      //AllBubblesStatusTry for not making him to send spam requests
                      AllBubblesStatus![i]=1;
                      print("your inside a ${state.GetBubbles!.data![i].title.toString()} Event");
-                    sendIJoinedBubble(state.locationn![i].bubble_id!);
                      AllBubblesStatusTry![i] = false;
                      _HomeBloc.add(UserJoinedBubble((b) =>
                      b..Bubble_id = state.locationn![i].bubble_id!
                      ));
-                     UserInOutStatus = true;
+                   //  UserInOutStatus = true;
                      print(AllBubblesStatus);
                      print(AllBubblesIDS);
                    }else if (!(distanceinside<=meters) && !AllBubblesStatusTry![i] ){
                      AllBubblesStatus![i]=0;
                      AllBubblesStatusTry![i] = true;
                      print("YOu left the area of a ${state.GetBubbles!.data![i].title.toString()} Event");
-                     sendILeftBubble(state.locationn![i].bubble_id!);
+                    // sendILeftBubble(state.locationn![i].bubble_id!);
                      _HomeBloc.add(UserLeftBubble((b) =>
                      b..Bubble_id = state.locationn![i].bubble_id!
                      ));
-                     UserInOutStatus = false;
+                   //  UserInOutStatus = false;
                    }
 
                   }
@@ -301,8 +258,8 @@ if (MyName==msg["username"].toString().substring(17)){
                 }
 
                 if (state.GetAllBubblesSuccess! && diditonceee == true){
-                  ListenForWhoJoinedBUbble();
-                  ListenForWhoLeftBUbble();
+                  // ListenForWhoJoinedBUbble();
+                  // ListenForWhoLeftBUbble();
                   AllBubblesStatus = List.filled(state.GetBubbles!.data!.length,0);
                   AllBubblesIDS = List.filled(state.GetBubbles!.data!.length,0);
                   LoopOnAllBUbbles(state);
@@ -323,7 +280,8 @@ if (MyName==msg["username"].toString().substring(17)){
                     resizeToAvoidBottomInset: true,
                     key: _scaffoldKey,
                     body: SafeArea(
-                      child: Stack(children: [
+                      child: Stack(
+                          children:[
                         GoogleMap(
                           onCameraMove:(CameraPosition cameraPosition) {
                               if(!state.GetAllBubblesIsloading!){
@@ -452,6 +410,10 @@ if (MyName==msg["username"].toString().substring(17)){
                               onPanelOpened: () {
                                 _HomeBloc.add(GetPrimeBubbles());
                                 _HomeBloc.add(GetNewBubbles());
+                                _HomeBloc.add(GetNearbyBubbles((b) =>   b
+                                    ..lng = User_long
+                                    ..lat = User_lat
+                                ));
                               },
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -544,7 +506,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                         ? Container(
                                             width: w,
                                             height: h / 7,
-                                            margin: EdgeInsets.only(left: h/40),
+
                                             child: ListView.separated(
                                               cacheExtent : 500,
                                               controller:_Primecontroller ,
@@ -571,16 +533,6 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                     .none),
                                                         child: InkWell(
                                                           onTap: () {
-                                                        // List<int> GetInStatus = [];
-                                                            bool GetInStatus = false;
-                                                              for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                                if (state.GetPrimeBubbles! .data![index] .id==AllBubblesIDS![j]){
-                                                                  if (AllBubblesStatus![j]==1)
-                                                                  GetInStatus = true;
-                                                                }
-                                                              }
-
-                                                            if ( GetInStatus) {
                                                               WidgetsBinding
                                                                   .instance!
                                                                   .addPostFrameCallback(
@@ -599,32 +551,25 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                               ),
                                                                         ),
                                                                       ));
-                                                            }
+
                                                           },
-                                                          child:ClipOval(
-                                                              child: SizedBox.fromSize(
-                                                                size: Size.fromRadius(48), // Image radius
-                                                                child :CachedNetworkImage(
-                                                            imageUrl:state.GetPrimeBubbles!.data![index].images![0].image.toString(),
-                                                            fit: BoxFit.cover,
-                                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                                CircularProgressIndicator(value: downloadProgress.progress),
-                                                            errorWidget: (context, url, error) => Icon(Icons.error),
-                                                          ),
-                                                          ))
+                                                          child:Container(
+                                                            child: ClipOval(
+                                                                child: SizedBox.fromSize(
+                                                                  size: Size.fromRadius(48), // Image radius
+                                                                  child :CachedNetworkImage(
+                                                              imageUrl:state.GetPrimeBubbles!.data![index].images![0].image.toString(),
+                                                              fit: BoxFit.cover,
+                                                              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                                  CircularProgressIndicator(value: downloadProgress.progress),
+                                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                                            ),
+                                                            )),
+                                                          )
 
                                                         ))
                                                     : InkWell(
                                                         onTap: () {
-                                                          bool GetInStatus = false;
-                                                          for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                            if (state.GetPrimeBubbles! .data![index] .id==AllBubblesIDS![j]){
-                                                              if (AllBubblesStatus![j]==1)
-                                                              GetInStatus = true;
-                                                            }
-                                                          }
-
-                                                          if ( GetInStatus) {
                                                             WidgetsBinding
                                                                 .instance!
                                                                 .addPostFrameCallback(
@@ -640,20 +585,13 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                             ),
                                                                       ),
                                                                     ));
-          }
                                                         },
                                                         child: ClipOval(
                                                             child: SizedBox.fromSize(
                                                               size: Size.fromRadius(48), // Image radius
                                                               child :CachedNetworkImage(
                                                                 imageUrl:state
-                                                                    .GetPrimeBubbles!
-                                                                    .data![
-                                                                index]
-                                                                    .images![
-                                                                0]
-                                                                    .image
-                                                                    .toString(),
+                                                                    .GetPrimeBubbles!.data![index].images![0].image.toString(),
                                                                 fit: BoxFit.cover,
                                                                 progressIndicatorBuilder: (context, url, downloadProgress) =>
                                                                     CircularProgressIndicator(value: downloadProgress.progress),
@@ -691,7 +629,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                       width: w,
                                                       height: h / 7,
                                                       child:
-                                                          Center(child: const Text("Error")),
+                                                          Center(child: const Text("Waiting...")),
                                                     ),
                                                   ),
                                                 ],
@@ -807,7 +745,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                               ),
 
                                               state.GetNewBubblesSuccess!
-                                                  ? state.GetNewBubbles!.data! .length != 0
+                                                  ? state.GetNearbyBubbles!.data! .length != 0
                                                   ? Container(
                                                   padding:
                                                   const EdgeInsets
@@ -832,17 +770,17 @@ if (MyName==msg["username"].toString().substring(17)){
 
                                                           return InkWell(
                                                             onTap: () {
-                                                          bool GetInStatus = false;
-
-                                                          for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                             if (state.FilteredBUBBLElists1![index].id==AllBubblesIDS![j]){
-                                                               if (AllBubblesStatus![j]==1) {
-                                                                 GetInStatus = true;
-                                                                    }
-                                                               }
-                                                          }
-
-                                                          if ( GetInStatus) {
+                                                          // bool GetInStatus = false;
+                                                          //
+                                                          // for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                          //    if (state.FilteredBUBBLElists1![index].id==AllBubblesIDS![j]){
+                                                          //      if (AllBubblesStatus![j]==1) {
+                                                          //        GetInStatus = true;
+                                                          //           }
+                                                          //      }
+                                                          // }
+                                                          //
+                                                          // if ( GetInStatus) {
                                                             WidgetsBinding
                                                                 .instance!
                                                                 .addPostFrameCallback((_) =>
@@ -856,7 +794,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                         ),
                                                                   ),
                                                                 ));
-                                                          }
+                                                         // }
                                                             },
                                                             child: Row(
                                                               children: [
@@ -1026,7 +964,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                       child:
                                                       Center(
                                                         child: const Text(
-                                                            "Error"),
+                                                            "Waiting..."),
                                                       ),
                                                     ),
                                                   ),
@@ -1051,7 +989,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                         ),
 
                                               state.GetNewBubblesSuccess!
-                                                  ? state.GetNewBubbles!.data! .length != 0
+                                                  ? state.FilteredBUBBLElists2!.length != 0
                                                   ? Container(
                                                   padding:
                                                   const EdgeInsets
@@ -1067,7 +1005,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                         physics: BouncingScrollPhysics(),
                                                         scrollDirection:
                                                         Axis.horizontal,
-                                                        itemCount: state.FilteredBUBBLElists1!.length,
+                                                        itemCount: state.FilteredBUBBLElists2!.length,
                                                         itemBuilder:
                                                             (BuildContext
                                                         context,
@@ -1076,6 +1014,17 @@ if (MyName==msg["username"].toString().substring(17)){
 
                                                           return InkWell(
                                                             onTap: () {
+                                                              // bool GetInStatus = false;
+                                                              //
+                                                              // for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                              //    if (state.FilteredBUBBLElists1![index].id==AllBubblesIDS![j]){
+                                                              //      if (AllBubblesStatus![j]==1) {
+                                                              //        GetInStatus = true;
+                                                              //           }
+                                                              //      }
+                                                              // }
+                                                              //
+                                                              // if ( GetInStatus) {
                                                               WidgetsBinding
                                                                   .instance!
                                                                   .addPostFrameCallback((_) =>
@@ -1083,11 +1032,13 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                       .push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                      builder: (context) => Plan_Screen(
-                                                                        Event_id: state.FilteredBUBBLElists1![index].id!,
-                                                                      ),
+                                                                      builder: (context) =>
+                                                                          Plan_Screen(
+                                                                            Event_id: state.FilteredBUBBLElists2![index].id!,
+                                                                          ),
                                                                     ),
                                                                   ));
+                                                              // }
                                                             },
                                                             child: Row(
                                                               children: [
@@ -1096,7 +1047,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                         1.5,
                                                                     height:
                                                                     h / 4,
-                                                                    decoration: const BoxDecoration(
+                                                                    decoration:  BoxDecoration(
                                                                         borderRadius: BorderRadius.only(
                                                                           topLeft: Radius.circular(20),
                                                                           topRight: Radius.circular(20),
@@ -1118,25 +1069,23 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                             boxShadow: [
                                                                               BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
                                                                             ],
-
-                                                                          ),child:ClipRRect(
-                                                                          borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                                          child: CachedNetworkImage(
-                                                                        fit: BoxFit.fitWidth,
-                                                                        imageUrl:
-                                                                        //"",
-                                                                        state.FilteredBUBBLElists1![index].image.toString(),
-                                                                        placeholder: (context, url) => Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                                          children: [
-                                                                            Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                                                          ],
-                                                                        ),
-                                                                        errorWidget: (context, url, error) => Icon(Icons.error),
-                                                                      ),
-                                                                      )
-
-                                                                      ),
+                                                                          ),
+                                                                          child: ClipRRect(
+                                                                            borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                            child:CachedNetworkImage(
+                                                                              fit: BoxFit.fitWidth,
+                                                                              imageUrl:
+                                                                              //"",
+                                                                              state.FilteredBUBBLElists2![index].image.toString(),
+                                                                              placeholder: (context, url) => Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                                ],
+                                                                              ),
+                                                                              errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                            ),
+                                                                          )),
                                                                       const SizedBox(
                                                                         height:
                                                                         10,
@@ -1144,10 +1093,10 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                       Container(
                                                                         width: w/2,
                                                                         child:      Text(
-                                                                          state.FilteredBUBBLElists1![index].Title.toString(),
+                                                                          state.FilteredBUBBLElists2![index].Title.toString(),
                                                                           textAlign: TextAlign.left,
                                                                           style: _TextTheme.headlineLarge!.copyWith(
-                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                            color: Color(state.FilteredBUBBLElists2![index].Color!.toInt()),
                                                                             fontSize: 19,
                                                                             letterSpacing: 0,
                                                                             fontWeight: FontWeight.w600,
@@ -1165,7 +1114,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                                 width: w/2.5,
 
                                                                                 child:    Text(
-                                                                                  'At ${state.FilteredBUBBLElists1![index].location.toString()}',
+                                                                                  'At ${state.FilteredBUBBLElists2![index].location.toString()}',
                                                                                   textAlign: TextAlign.center,
                                                                                   style: _TextTheme.headlineLarge!.copyWith(
                                                                                     fontSize: 17,
@@ -1179,7 +1128,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                                 width: w/2.5,
 
                                                                                 child:    Text(
-                                                                                  '${state.FilteredBUBBLElists1![index].StartDate.toString()} - ${state.FilteredBUBBLElists1![index].endDate.toString()} ',
+                                                                                  '${state.FilteredBUBBLElists2![index].StartDate.toString()} - ${state.FilteredBUBBLElists2![index].endDate.toString()} ',
                                                                                   textAlign: TextAlign.left,
                                                                                   style: _TextTheme.headline1!.copyWith(
                                                                                     fontSize: 12,
@@ -1193,7 +1142,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                           const Text(""),
                                                                           SvgPicture.asset(
                                                                             "Assets/images/Exclude.svg",
-                                                                            color: Color(state.FilteredBUBBLElists1![index].Color!.toInt()),
+                                                                            color: Color(state.FilteredBUBBLElists2![index].Color!.toInt()),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -1259,7 +1208,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                       child:
                                                       Center(
                                                         child: const Text(
-                                                            "Error"),
+                                                            "Waiting..."),
                                                       ),
                                                     ),
                                                   ),
@@ -1324,6 +1273,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                             ),
                                                                           ));
                                                                 },
+
 
                                                                 child: Row(
                                                                   children: [
@@ -1495,7 +1445,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                                                       child:
                                                                           Center(
                                                                             child: const Text(
-                                                                                "Error"),
+                                                                                "Waiting..."),
                                                                           ),
                                                                     ),
                                                                   ),
@@ -1514,6 +1464,7 @@ if (MyName==msg["username"].toString().substring(17)){
                                 ),
                               )),
                         )),
+
                         state.showDialogg!
                             ? Positioned(
                                 child: StatefulBuilder(builder: (BuildContext
@@ -1739,7 +1690,6 @@ if (MyName==msg["username"].toString().substring(17)){
                                 }),
                               )
                             : const Text(""),
-
 
                         state.GetAllBubblesIsloading!
                             ? Container(
@@ -2238,6 +2188,7 @@ class Locationss{
 
 class BubbleData{
 String? image;
+String? TYPE;
 String? Title;
 String? location;
 String? StartDate;

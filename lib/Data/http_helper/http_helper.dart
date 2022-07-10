@@ -1938,7 +1938,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
     try {
 
       final response = await _dio!
-          .post('events/nearby?user_latitude=$lat&user_longitude=$lng', options: Options(headers: {
+          .get('events/nearby?user_latitude=$lat&user_longitude=$lng', options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth",
       }));
@@ -2235,6 +2235,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
 
+
   @override
   Future<GetUsersInsideBubbleModel> GetUsersInsideBubble(
       String Auth,
@@ -2269,8 +2270,10 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         throw NetworkException();
       }
     } on SocketException catch (e) {
+      print(e);
       throw NetworkException();
     } catch (e) {
+      print(e);
       throw NetworkException();
     }
   }

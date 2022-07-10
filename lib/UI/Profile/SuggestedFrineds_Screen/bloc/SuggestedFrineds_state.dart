@@ -23,9 +23,9 @@ abstract class SuggestedFreindsState implements Built<SuggestedFreindsState,Sugg
   bool? get success;
   bool? get AddFreindSuccess;
   bool? get FreindAddlOADING;
-
-  SuggestFriendsModel? get SuggestFriends;
   AddNewFriendModel? get AddNewFriend;
+  SuggestFriendsModel? get SuggestFriends;
+
 List<Data>? get ListOFSUggested;
 
   SuggestedFreindsState._();

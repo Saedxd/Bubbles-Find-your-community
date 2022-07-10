@@ -273,12 +273,13 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                        context,
                                        MaterialPageRoute(
                                          builder: (context) =>
-                                             GroupChat(Plain_Title: state
+                                             GroupChat(plan_Title: state
                                                  .GetDetailedPlann!.data!.title
                                                  .toString(),
                                                MY_ID: state.ProfileDate!.user!
                                                    .id!,
-                                               bubble_id: widget.Event_id,),),
+                                               bubble_id: widget.Event_id, Plan_Description: state.GetDetailedPlann!.data!.description.toString(),
+                                             ),),
                                      ));
                            }
                           },

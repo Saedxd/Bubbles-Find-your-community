@@ -37,7 +37,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   int selected = 0;
   int PageIndex = 0;
   List<int>? FrinedsID=[];
-
+  Timer? timer;
 
   final List<Widget> buildScreens = [
     const DirectMessages(),
@@ -52,7 +52,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     print(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        socket != null ?socket!.disconnected?connect(): print("already connected"):print("socket is null");
+        socket != null ?!socket!.disconnected?connect(): print("already connected"):print("socket is null");
         break;
       case AppLifecycleState.inactive:
       socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
@@ -134,10 +134,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
             ..num = 0
           ));
     }
-    ISNewNotifications?
-        print("Get badge")
-    :  print("dont Get badge");
-//todo: getbadge
+    timer = Timer.periodic(const Duration(seconds: 10), (Timer t){
+      return _TopBarBloc.add(GetBadge());
+    });
   }
 
 
@@ -162,6 +161,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
               FrinedsID!.add(state.GetFriends!.friends![i].id!);
             }
             connect();
+
 
             print("called function connect");
             DiditONCE = false;
@@ -319,11 +319,11 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                     ? _TopBarBloc.add(ChangeIndex4())
                                     :null;
 
-                                // // _pageController.animateToPage(
-                                // //   0,
-                                // //   duration: const Duration(milliseconds: 500),
-                                // //   curve: Curves.easeInOut,
-                                // // );
+                                // _pageController.animateToPage(
+                                //   0,
+                                //   duration: const Duration(milliseconds: 500),
+                                //   curve: Curves.easeInOut,
+                                // );
 
                               },
                               child: Container(
@@ -352,8 +352,6 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                         _TopBarBloc.add(
                                             ChangePAGEINDEX((b) =>  b
                                               ..num = 1
-
-
                                             ));
                                         state.Index2==false
                                             ? _TopBarBloc.add(ChangeIndex2())
@@ -369,11 +367,16 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
 
 
-                                        controller.animateToPage(
-                                          0,
-                                          duration: const Duration(milliseconds: 500),
-                                          curve: Curves.easeInOut,
-                                        );
+                                        Future.delayed(const Duration(milliseconds: 500), () {
+
+                                          controller.animateToPage(
+                                            0,
+                                            duration: const Duration(milliseconds: 700),
+                                            curve: Curves.easeInOut,
+                                          );
+
+
+                                        });
                                       },
                                       child: Container(
                                           height: h / 13,
@@ -410,11 +413,15 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                         state.Index4==true
                                             ? _TopBarBloc.add(ChangeIndex4())
                                             :null;
-                                        controller.animateToPage(
-                                          1,
-                                          duration: const Duration(milliseconds: 500),
-                                          curve: Curves.easeInOut,
-                                        );
+                                        Future.delayed(const Duration(milliseconds: 500), () {
+
+                                          controller.animateToPage(
+                                            1,
+                                            duration: const Duration(milliseconds: 700),
+                                            curve: Curves.easeInOut,
+                                          );
+
+                                        });
                                       },
                                       child: Container(
                                         height: h / 13,
@@ -472,13 +479,18 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                       state.Index4==false
                                           ? _TopBarBloc.add(ChangeIndex4())
                                           :null;
+                                      Future.delayed(const Duration(milliseconds: 500), () {
 
 
-                                       controller.animateToPage(
-                                         2,
-                                         duration: const Duration(milliseconds: 500),
-                                         curve: Curves.easeInOut,
-                                       );
+                                        controller.animateToPage(
+                                          2,
+                                          duration: const Duration(milliseconds: 700),
+                                          curve: Curves.easeInOut,
+                                        );
+
+                                      });
+
+
 
                                     },
                                     child: Container(
