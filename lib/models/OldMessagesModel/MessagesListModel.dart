@@ -17,6 +17,7 @@ abstract class MessagesListModel
     implements Built<MessagesListModel,MessagesListModelBuilder> {
   int? get me;//stands for myid
   String? get message;
+  String? get sms_type;
   int? get id;
   String? get receiver_image;
   String? get receiver_name;

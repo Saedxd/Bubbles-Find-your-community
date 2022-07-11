@@ -343,9 +343,10 @@ class Repository implements IRepository {
   Future<PostMessagesModel> PostMessage(
       String Message,
       int Reciver_ID,
+      String sms_type,
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.PostMessage(auth, Message, Reciver_ID);
+    final Data = await _ihttpHelper.PostMessage(auth, Message, sms_type, Reciver_ID);
     return Data;
   }
   Future<GetAliasModel> GetAlias(

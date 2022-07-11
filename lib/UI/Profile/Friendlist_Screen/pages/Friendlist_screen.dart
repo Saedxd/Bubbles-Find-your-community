@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
@@ -453,8 +454,8 @@ class _FriendlistState extends State<Friendlist> {
                                       onTap: (){
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
-                                            builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID: state.GetFriends!.friends![index].me_id!,),),
+                                          MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                            builder: (context) => Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,),),
                                         );
                                       },
                                       child: Slidable(
@@ -474,9 +475,8 @@ class _FriendlistState extends State<Friendlist> {
                                                 onTap: () {
                                                   Navigator.push(
                                                     context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID:state.GetFriends!.friends![index].me_id!,),),
-                                                  );
+                                                    MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                      builder: (context) =>Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,) ));
                                                 },
                                                 child: Container(
                                                   width: w / 5,
@@ -536,9 +536,8 @@ class _FriendlistState extends State<Friendlist> {
                                           onTap: () {
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(
-                                                builder: (context) => DirectChat(receiver_id: state.GetFriends!.friends![index].id!,my_ID: state.GetFriends!.friends![index].me_id!,),),
-                                            );
+                                              MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                builder: (context) => Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,)   ));
                                           },
                                           child: Column(
                                             children: [

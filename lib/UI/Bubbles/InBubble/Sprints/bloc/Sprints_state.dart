@@ -1,10 +1,15 @@
 library Sprints_state;
 
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
 
 
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:built_value/built_value.dart';
@@ -28,9 +33,15 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
   PostMessagesModel? get PostMessages;
   AddreplyModel? get Addreply;
 
+  GetUsersInsideBubbleModel? get GetUsersInsideBubble;
+  List<UserDATA>? get InsideBubbleUsers;
 
   bool? get RefreshLoading;
   bool? get RefreshSuccess;
+
+
+  bool? get GetInsideUsersISloading;
+  bool? get GetInsideUsersSuccess;
 
   bool? get Turnss;
 
@@ -42,18 +53,24 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
   bool? get TypingStatus;
 
   GetAliasModel? get GetAliasMinee;
-  List<MessageModel>? get messages;
+  List<SprintsChat>? get messages;
 
   bool? get AddModelISloading;
   bool? get AddModelSUccess;
 
   String? get AvatarPathForRepliedTo;
-  int? get ColorForRepliedTo;
+  String? get ColorForRepliedTo;
   String? get RepliedToMessage;
   String? get AliasForRepliedTo;
   bool? get Isreply;
   bool? get Status;
 
+
+  String? get type;
+  Uint8List? get Image1;
+  File? get File_image;
+  String? get Image_type;
+  bool? get KetbaordStatuss;
 
 
   SprintsState._();
@@ -61,18 +78,23 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
   factory SprintsState.initail() {
     return SprintsState((b) => b
       ..error = ""
+      ..type = ""
+      ..Image_type = ""
       ..messages = []
       ..RepliedToMessage = ""
       ..AvatarPathForRepliedTo = ""
       ..AliasForRepliedTo = ""
       ..isLoading = false
+      ..KetbaordStatuss = false
       ..AddModelISloading = false
-
+      ..InsideBubbleUsers =[]
       ..AddModelSUccess = false
       ..Status = false
       ..Turnss = true
       ..AliasISLoading = false
       ..typingStatusISloading = false
+      ..GetInsideUsersSuccess = false
+      ..GetInsideUsersISloading = false
       ..TypingStatusSuccess = false
       ..TypingStatus = false
       ..RefreshLoading = false
@@ -82,13 +104,14 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
       ..RefreshSuccess = true
       ..MYAliasISsuccess = false
       ..Isreply = false
-      ..ColorForRepliedTo = 0
+      ..ColorForRepliedTo = ""
       ..Done = false
         ..OldMessages=null
         ..GetAlias=null
         ..PostMessages=null
         ..GetAliasMinee=null
         ..Addreply=null
+        ..File_image=null
 
     );
   }

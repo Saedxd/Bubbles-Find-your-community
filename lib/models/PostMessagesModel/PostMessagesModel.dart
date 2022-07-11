@@ -15,6 +15,7 @@ abstract class PostMessagesModel
     implements Built<PostMessagesModel,PostMessagesModelBuilder> {
 
   String? get msg;
+  int? get message_id;
   int? get statuscode;
 
 

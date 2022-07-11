@@ -66,7 +66,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => FindFriends(sl()));
   sl.registerFactory(() => ChallengesBloc(sl()));
   sl.registerFactory(() => GroupChatBloc(sl()));
-  sl.registerFactory(() => ChatBloc(sl()));
+  //sl.registerFactory(() => DmChat_Bloc(sl()));
   sl.registerFactory(() => PlanPageBloc(sl()));
 }
 //we use this package for dependency injection and use for connecting all our APP with each other

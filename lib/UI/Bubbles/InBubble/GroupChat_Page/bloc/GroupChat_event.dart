@@ -199,3 +199,10 @@ abstract class AddFrined extends GroupChatevent
   AddFrined._();
   factory AddFrined([updates(AddFrinedBuilder b)]) = _$AddFrined;
 }
+
+abstract class RemoveFriend extends GroupChatevent
+    implements Built<RemoveFriend,RemoveFriendBuilder> {
+  int? get friend_id;
+  RemoveFriend._();
+  factory RemoveFriend([updates(RemoveFriendBuilder b)]) = _$RemoveFriend;
+}

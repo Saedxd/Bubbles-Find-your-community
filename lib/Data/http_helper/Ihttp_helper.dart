@@ -191,6 +191,7 @@ abstract class IHttpHelper {
   Future<PostMessagesModel> PostMessage(
       String Auth,
       String Message,
+      String sms_type,
       int Reciver_ID,
       );
   Future<GetAliasModel> GetAlias(

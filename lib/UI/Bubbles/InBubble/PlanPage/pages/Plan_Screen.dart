@@ -116,16 +116,20 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               ),
 
                               state.success!?
-                             Container(
-                               child: Text(state.GetDetailedPlann!.data!.title.toString(),
-                                 textAlign: TextAlign.left, style: TextStyle(
-                                     color: Color.fromRGBO(255, 255, 255, 1),
-                                     fontFamily: 'Red Hat Display',
-                                     fontSize: 22,
-                                     letterSpacing: 0.2,
-                                     fontWeight: FontWeight.w600,
-                                     height: 1
-                                 ),),
+                             Flexible(
+                               child: Container(
+                                 child: Text(state.GetDetailedPlann!.data!.title.toString(),
+                                   textAlign: TextAlign.left,
+                                   overflow: TextOverflow.ellipsis,
+                                   style: TextStyle(
+                                       color: Color.fromRGBO(255, 255, 255, 1),
+                                       fontFamily: 'Red Hat Display',
+                                       fontSize: 22,
+                                       letterSpacing: 0.2,
+                                       fontWeight: FontWeight.w600,
+                                       height: 1
+                                   ),),
+                               ),
                              )
                                   : state.isLoading!
                                   ? Expanded(

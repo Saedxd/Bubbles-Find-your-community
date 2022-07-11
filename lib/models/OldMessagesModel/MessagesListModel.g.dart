@@ -34,6 +34,13 @@ class _$MessagesListModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.sms_type;
+    if (value != null) {
+      result
+        ..add('sms_type')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.id;
     if (value != null) {
       result
@@ -133,6 +140,10 @@ class _$MessagesListModelSerializer
           result.message = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'sms_type':
+          result.sms_type = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'id':
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
@@ -192,6 +203,8 @@ class _$MessagesListModel extends MessagesListModel {
   @override
   final String? message;
   @override
+  final String? sms_type;
+  @override
   final int? id;
   @override
   final String? receiver_image;
@@ -221,6 +234,7 @@ class _$MessagesListModel extends MessagesListModel {
   _$MessagesListModel._(
       {this.me,
       this.message,
+      this.sms_type,
       this.id,
       this.receiver_image,
       this.receiver_name,
@@ -248,6 +262,7 @@ class _$MessagesListModel extends MessagesListModel {
     return other is MessagesListModel &&
         me == other.me &&
         message == other.message &&
+        sms_type == other.sms_type &&
         id == other.id &&
         receiver_image == other.receiver_image &&
         receiver_name == other.receiver_name &&
@@ -274,8 +289,10 @@ class _$MessagesListModel extends MessagesListModel {
                                     $jc(
                                         $jc(
                                             $jc(
-                                                $jc($jc(0, me.hashCode),
-                                                    message.hashCode),
+                                                $jc(
+                                                    $jc($jc(0, me.hashCode),
+                                                        message.hashCode),
+                                                    sms_type.hashCode),
                                                 id.hashCode),
                                             receiver_image.hashCode),
                                         receiver_name.hashCode),
@@ -294,6 +311,7 @@ class _$MessagesListModel extends MessagesListModel {
     return (newBuiltValueToStringHelper('MessagesListModel')
           ..add('me', me)
           ..add('message', message)
+          ..add('sms_type', sms_type)
           ..add('id', id)
           ..add('receiver_image', receiver_image)
           ..add('receiver_name', receiver_name)
@@ -320,6 +338,10 @@ class MessagesListModelBuilder
   String? _message;
   String? get message => _$this._message;
   set message(String? message) => _$this._message = message;
+
+  String? _sms_type;
+  String? get sms_type => _$this._sms_type;
+  set sms_type(String? sms_type) => _$this._sms_type = sms_type;
 
   int? _id;
   int? get id => _$this._id;
@@ -378,6 +400,7 @@ class MessagesListModelBuilder
     if ($v != null) {
       _me = $v.me;
       _message = $v.message;
+      _sms_type = $v.sms_type;
       _id = $v.id;
       _receiver_image = $v.receiver_image;
       _receiver_name = $v.receiver_name;
@@ -415,6 +438,7 @@ class MessagesListModelBuilder
           new _$MessagesListModel._(
               me: me,
               message: message,
+              sms_type: sms_type,
               id: id,
               receiver_image: receiver_image,
               receiver_name: receiver_name,

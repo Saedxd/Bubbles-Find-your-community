@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_State.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_event.dart';
@@ -371,7 +372,6 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                     FrinedsStatus = List.filled(
                                                         1000,
                                                         0);
-
                                                     _DirectMessages_Bloc.add(DeleteFromList((b) =>
                                                     b..index = index
                                                       ..receiver_id =state.FilteredDmlist![index].id
@@ -425,10 +425,8 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                       (_) => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder:(context) => DirectChat(
-                                                        receiver_id:    state.FilteredDmlist![index].id!,
-                                                        my_ID: state.FilteredDmlist![index].MY_id!,
-                                                      ),
+                                                      builder:(context) =>
+                                                          Sprints(my_ID: state.FilteredDmlist![index].MY_id!, receiver_id: state.FilteredDmlist![index].id!, IS_sprints: false,His_Alias: state.FilteredDmlist![index].alias.toString(),)
                                                     ),
                                                   ));
                                             },

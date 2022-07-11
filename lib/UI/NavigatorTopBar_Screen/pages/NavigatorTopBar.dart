@@ -47,21 +47,26 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
 
 
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print(state);
     switch (state) {
       case AppLifecycleState.resumed:
         socket != null ?!socket!.disconnected?connect(): print("already connected"):print("socket is null");
+        socket!.io..disconnect()..connect();
         break;
       case AppLifecycleState.inactive:
       socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
+      socket!.io..disconnect()..connect();
         break;
       case AppLifecycleState.paused:
         socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
+        socket!.io..disconnect()..connect();
         break;
       case AppLifecycleState.detached:
         socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
+        socket!.io..disconnect()..connect();
         break;
     }
 
@@ -134,9 +139,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
             ..num = 0
           ));
     }
-    timer = Timer.periodic(const Duration(seconds: 10), (Timer t){
-      return _TopBarBloc.add(GetBadge());
-    });
+    // timer = Timer.periodic(const Duration(seconds: 10), (Timer t){
+    //   return _TopBarBloc.add(GetBadge());
+    // });
   }
 
 
@@ -371,7 +376,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
                                           controller.animateToPage(
                                             0,
-                                            duration: const Duration(milliseconds: 700),
+                                            duration: const Duration(milliseconds: 300),
                                             curve: Curves.easeInOut,
                                           );
 
@@ -417,7 +422,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
                                           controller.animateToPage(
                                             1,
-                                            duration: const Duration(milliseconds: 700),
+                                            duration: const Duration(milliseconds: 300),
                                             curve: Curves.easeInOut,
                                           );
 
@@ -484,7 +489,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
                                         controller.animateToPage(
                                           2,
-                                          duration: const Duration(milliseconds: 700),
+                                          duration: const Duration(milliseconds: 300),
                                           curve: Curves.easeInOut,
                                         );
 

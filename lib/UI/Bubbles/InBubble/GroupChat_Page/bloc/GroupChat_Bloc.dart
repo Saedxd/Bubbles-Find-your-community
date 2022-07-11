@@ -701,6 +701,8 @@ print("Emitteddd");
           User.Alias = state.GetUsersInsideBubble!.users![i].alias.toString();
           User.Serial_number = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
           User.boi = state.GetUsersInsideBubble!.users![i].bio.toString();
+          User.is_frined = state.GetUsersInsideBubble!.users![i].is_friend;
+          User.Serial = state.GetUsersInsideBubble!.users![i].serial.toString();
 
 
           String Value = state.GetUsersInsideBubble!.users![i].background_color.toString();
@@ -794,6 +796,18 @@ print("Emitteddd");
           ..AddFreindSuccess = false
           ..AddNewFriend = null
         );
+      }
+    }
+    if (event is RemoveFriend) {
+      try {
+
+        final date = await _repository.RemoveFriend(event.friend_id!);
+
+
+
+
+      } catch (e) {
+        print('get Error $e');
       }
     }
   }

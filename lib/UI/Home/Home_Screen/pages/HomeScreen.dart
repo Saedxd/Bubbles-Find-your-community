@@ -233,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                      _HomeBloc.add(UserJoinedBubble((b) =>
                      b..Bubble_id = state.locationn![i].bubble_id!
                      ));
+
                    //  UserInOutStatus = true;
                      print(AllBubblesStatus);
                      print(AllBubblesIDS);

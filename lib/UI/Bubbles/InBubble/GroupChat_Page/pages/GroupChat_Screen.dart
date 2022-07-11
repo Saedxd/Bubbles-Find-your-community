@@ -8,6 +8,8 @@ import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/bloc/GroupChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/bloc/GroupChat_event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/bloc/GroupChat_state.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
@@ -495,6 +497,8 @@ class _GroupChatState extends State<GroupChat> {
 
   }
 
+
+
   void SetHisReplyMessage(
       String message,
       String Comment,
@@ -635,18 +639,6 @@ class _GroupChatState extends State<GroupChat> {
         _GroupChatBloc.add(KetbaordStatus((b) => b..status = false));
       }
     });
-
-
-
-
-
-    // _controller.animateTo(
-    //   _controller.position
-    //       .maxScrollExtent,
-    //   duration: Duration(
-    //       microseconds: 2),
-    //   curve: Curves.easeIn,
-    // );
   }
 
 
@@ -674,13 +666,6 @@ class _GroupChatState extends State<GroupChat> {
         bloc: _GroupChatBloc,
         builder: (BuildContext Context, GroupChatState state) {
 
-          // if sendmessage success
-          // //
-          // if (state.SendMessageSuccess!){
-          //
-          // }
-
-
           void ListenForMessages() async {
             socket!.on("receive_dm_message_bubble", (msg) {
               print("Listenting");
@@ -702,9 +687,6 @@ class _GroupChatState extends State<GroupChat> {
               }
             });
           }
-
-
-
 
           void ListenForReplyMessage() async {
             socket!.on("receive_reply_dm_bubble", (msg) {
@@ -769,7 +751,133 @@ class _GroupChatState extends State<GroupChat> {
             });
           }
 
+          alreatDialogBuilder2(
+              BuildContext Context,
+              double h,
+              double w,
+              int Frined_id,
+              ) async {
+            return showDialog(
+                context: Context,
+                barrierDismissible: false,
+                builder: (Context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.transparent,
+                    insetPadding: EdgeInsets.all(h/50),
+                    content:
+                    Container(
+                      width: w/1.1,
+                      height: h/4.2,
+                      decoration: BoxDecoration(
+                        borderRadius : BorderRadius.only(
+                          topLeft: Radius.circular(8.285714149475098),
+                          topRight: Radius.circular(8.285714149475098),
+                          bottomLeft: Radius.circular(8.285714149475098),
+                          bottomRight: Radius.circular(8.285714149475098),
+                        ),
+                        color : Color.fromRGBO(47, 47, 47, 1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: h/50,top: h/50),
+                            child: Text('Are you sure you want to remove this user from your friendlist?',
+                              textAlign: TextAlign.left, style: TextStyle(
+                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                  fontFamily: 'Sofia Pro',
+                                  fontSize: 20.571428298950195,
+                                  letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1
+                              ),),
+                          ),
+                          Text(""),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
 
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                    width: w/3,
+                                    height: h/15,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(4.142857074737549),
+                                        topRight: Radius.circular(4.142857074737549),
+                                        bottomLeft: Radius.circular(4.142857074737549),
+                                        bottomRight: Radius.circular(4.142857074737549),
+                                      ),
+                                      boxShadow : [BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: Offset(0,0),
+                                          blurRadius: 6.628571510314941
+                                      )],
+                                      color : Color.fromRGBO(207, 109, 56, 1),
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Text('No', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          fontFamily: 'Sofia Pro',
+                                          fontSize: 19.571428298950195,
+                                          letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1
+                                      ),),
+                                    )
+                                ),
+                              ),
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  _GroupChatBloc.add(RemoveFriend((b) => b
+                                    ..friend_id = Frined_id
+                                  ));
+                                },
+                                child: Container(
+                                  width: w/3,
+                                  height: h/15,
+                                  decoration: BoxDecoration(
+                                    borderRadius : BorderRadius.only(
+                                      topLeft: Radius.circular(4.142857074737549),
+                                      topRight: Radius.circular(4.142857074737549),
+                                      bottomLeft: Radius.circular(4.142857074737549),
+                                      bottomRight: Radius.circular(4.142857074737549),
+                                    ),
+                                    boxShadow : [BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                                        offset: Offset(0,0),
+                                        blurRadius: 6.628571510314941
+                                    )],
+                                    color : Color.fromRGBO(168, 48, 99, 1),
+                                  ),
+                                  child: Center(
+                                    child:
+                                    Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        fontFamily: 'Sofia Pro',
+                                        fontSize: 19.571428298950195,
+                                        letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1
+                                    ),),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          }
 
           // if (state.success! && Diditoncess) {
           //   if (state.messages!.isNotEmpty){
@@ -783,7 +891,10 @@ class _GroupChatState extends State<GroupChat> {
               BuildContext Context,
               double h,
               double w,
-              int myINdex
+              int myINdex,
+              bool is_frined,
+              bool is_me,
+              int frined_id,
               ) async {
             return showDialog(
                 context: Context,
@@ -914,19 +1025,20 @@ class _GroupChatState extends State<GroupChat> {
                                         ),
                                         Text(""),
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment:
+                                          is_me?    MainAxisAlignment.center:
+                                          MainAxisAlignment.spaceAround,
                                           children: [
-
-                                            InkWell(
+                                            is_me
+                                                ?Text("")
+                                            :InkWell(
                                               onTap: (){
                                                 //DirectChat
                                                 WidgetsBinding.instance!
-                                                    .addPostFrameCallback((_) => Navigator.push(
+                                                    .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          DirectChat(my_ID:widget.MY_ID!, receiver_id:state.FilteredInsideBubbleUsers![myINdex].id!,)),
-                                                ));
+                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),   ));
                                               },
                                               child: Container(
                                                   width: w/3,
@@ -956,14 +1068,19 @@ class _GroupChatState extends State<GroupChat> {
                                             ),
                                             InkWell(
                                               onTap: (){
-                                                // SuggestedFrineds_Bloc.add(DeleteFromList((b) =>
-                                                // b..index = myINdex
-                                                // ));
-                                                Navigator.pop(context);
-                                                _GroupChatBloc.add(AddFrined((b) => b
-                                                  ..serial = state.FilteredInsideBubbleUsers![index].Serial_number.toString()
-                                                ));
-                                               // Diditonce = true;
+                                          if ( !is_frined) {
+                                            Navigator.pop(context);
+                                            _GroupChatBloc.add(AddFrined((b) =>
+                                            b ..serial = state.FilteredInsideBubbleUsers![myINdex].Serial.toString()
+                                            ));
+                                          }else{
+                                            alreatDialogBuilder2(context,h,w,frined_id);
+                                            // _GroupChatBloc.add(AddFrined((b) =>
+                                            // b ..serial = state.FilteredInsideBubbleUsers![index].Serial_number.toString()
+                                            // ));
+                                            //todo : implemment bloc pattern to Removing frineds so it gets instant
+
+                                          }
                                               },
                                               child: Container(
                                                 width: w/3,
@@ -980,10 +1097,27 @@ class _GroupChatState extends State<GroupChat> {
                                                       offset: Offset(0,0),
                                                       blurRadius: 6.628571510314941
                                                   )],
-                                                  color : Color.fromRGBO(168, 48, 99, 1),
+                                                  color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
                                                 ),
                                                 child: Center(
-                                                    child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+                                                    child:
+            //
+                  //   SvgPicture.asset(
+                  // "Assets/images/Add_friend.svg",
+                  // color: Colors.white,
+                  // width: h / 26,
+                  // )
+                                                  is_me
+                                                      ? Icon(Icons.person)
+                                                      :  is_frined
+                                                        ? SvgPicture.asset(
+                                                      "Assets/images/True_Mark.svg",
+                                                      color: Colors.white,
+                                                      width: h / 26,
+                                                    )
+                                                        :SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+
+
                                                 ),
                                               ),
                                             )
@@ -1039,7 +1173,7 @@ class _GroupChatState extends State<GroupChat> {
                    ));
                  }
                 },
-                resizeToAvoidBottomInset: false,
+
                 endDrawer:Column(
                   children: [
                     Expanded(child:  Drawer(
@@ -1051,7 +1185,7 @@ class _GroupChatState extends State<GroupChat> {
                           children: [
                             Container(
                               width: w,
-                              height: h/3.2,
+                              height: h/4,
                               color: Color(0xff15D078),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1059,21 +1193,27 @@ class _GroupChatState extends State<GroupChat> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Row(
-                                        children: [
-                                          IconButton(
-                                              onPressed: (){
-                                                Navigator.pop(context);
-                                              }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
-                                          Text(widget.plan_Title.toString(), textAlign: TextAlign.left, style: TextStyle(
-                                              color: Color.fromRGBO(47, 47, 47, 1),
-                                              fontFamily: 'Red Hat Display',
-                                              fontSize: 21,
-                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1
-                                          ),),
-                                        ],
+                                      Flexible(
+                                        child: Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
+                                          Text(widget.plan_Title.toString(),
+                                                textAlign: TextAlign.left,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  color: Color.fromRGBO(47, 47, 47, 1),
+                                                  fontFamily: 'Red Hat Display',
+                                                  fontSize: 21,
+                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1
+                                              ),),
+                                          
+                                          ],
+                                        ),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(right: h/100),
@@ -1090,44 +1230,54 @@ class _GroupChatState extends State<GroupChat> {
 
                                     ],
                                   ),
-                                  Container(
-                                    width: w/1.3,
-                                    child: Center(
-                                      child:
-                                      Text('Το Colourday Festival είναι το μεγαλύτερο και πιο επιτυχημένο φεστιβάλ στην Ελλάδα. Πραγμα-τοποιείται κάθε Ιούνιο στο ΟΑΚΑ στο Μαρούσι συγκεντρώνοντας δεκάδες χιλιάδες θεατές.', textAlign: TextAlign.left, style: TextStyle(
-                                          color: Color.fromRGBO(46, 46, 46, 1),
-                                          fontFamily: 'Red Hat Text',
-                                          fontSize: 13,
-                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.6
-                                      ),),
-                                    ),
-                                  ),
-                                  Expanded(
+                                  Flexible(
                                     child: Container(
-                                      width: w,
-                                      height: h/6,
-                                      margin: EdgeInsets.only(left: h/50),
-                                      child: ScrollConfiguration(
-                                        behavior: MyBehavior(),
+                                      width: w/1.3,
+                                      child: Center(
                                         child:
-                                        ListView.separated(
-                                          cacheExtent : 500,
-                                          // shrinkWrap: true,
-                                          physics: BouncingScrollPhysics(),
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: 20,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return CircleAvatar(
-                                              radius: 25,
-                                            );
 
-                                          }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: h/100); },),
+                                        Row(
+                                          children: [
+                                            Text(widget.Plan_Description.toString(),
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(46, 46, 46, 1),
+                                                fontFamily: 'Red Hat Text',
+                                                fontSize: 13,
+                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.6
+                                            ),),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  // Expanded(
+                                  //   child: Container(
+                                  //     width: w,
+                                  //     height: h/6,
+                                  //     margin: EdgeInsets.only(left: h/50),
+                                  //     child: ScrollConfiguration(
+                                  //       behavior: MyBehavior(),
+                                  //       child:
+                                  //       ListView.separated(
+                                  //         cacheExtent : 500,
+                                  //         // shrinkWrap: true,
+                                  //         physics: BouncingScrollPhysics(),
+                                  //         scrollDirection: Axis.horizontal,
+                                  //         itemCount: 20,
+                                  //         itemBuilder: (BuildContext context,
+                                  //             int index) {
+                                  //           return CircleAvatar(
+                                  //             radius: 25,
+                                  //           );
+                                  //
+                                  //         }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: h/100); },),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -1143,106 +1293,117 @@ class _GroupChatState extends State<GroupChat> {
                                     children: [
 
                                       SizedBox(height: h/40,),
-                                      Container(
-                                        width: w/1.4,
-                                        height: h/9.5,
-                                        decoration: BoxDecoration(
-                                          borderRadius : BorderRadius.only(
-                                            topLeft: Radius.circular(50),
-                                            topRight: Radius.circular(5),
-                                            bottomLeft: Radius.circular(50),
-                                            bottomRight: Radius.circular(5),
-                                          ),
-                                          boxShadow : [BoxShadow(
-                                              color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-                                              offset: Offset(0,0),
-                                              blurRadius: 10.645160675048828
-                                          )],
-                                          color : Color.fromRGBO(96, 96, 96, 1),
-                                        ),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                              //   margin: EdgeInsets.only(right: h/100),
-                                              child: Stack(
-                                                children: [
-
-                                                  SvgPicture.asset(
-                                                    "Assets/images/Exclude.svg",
-                                                    color: Color(0xff15D078),
-                                                    width: w/5,
-                                                  ),
-                                                  Positioned(
-                                                    top: h/30,
-                                                    left: h/25,
-                                                    child: SvgPicture.asset(
-                                                      "Assets/images/S3EQA.svg",
-                                                      width: w/24,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                      InkWell(
+                                        onTap: (){
+                                          WidgetsBinding.instance!
+                                              .addPostFrameCallback((_) => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                SprintLobby(plan_title: widget.plan_Title!,Bubble_id: widget.bubble_id,my_id: widget.MY_ID!,)),
+                                          ));
+                                        },
+                                        child: Container(
+                                          width: w/1.4,
+                                          height: h/9.5,
+                                          decoration: BoxDecoration(
+                                            borderRadius : BorderRadius.only(
+                                              topLeft: Radius.circular(50),
+                                              topRight: Radius.circular(5),
+                                              bottomLeft: Radius.circular(50),
+                                              bottomRight: Radius.circular(5),
                                             ),
-                                            Container(
-                                              margin: EdgeInsets.only(right: h/100),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
+                                            boxShadow : [BoxShadow(
+                                                color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                                                offset: Offset(0,0),
+                                                blurRadius: 10.645160675048828
+                                            )],
+                                            color : Color.fromRGBO(96, 96, 96, 1),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                //   margin: EdgeInsets.only(right: h/100),
+                                                child: Stack(
+                                                  children: [
 
-                                                  Container(
-                                                    margin: EdgeInsets.only(right: h/15),
-                                                    child: RichText(
-                                                      textAlign: TextAlign.left,
-                                                      text: TextSpan(
-
-                                                        children: <TextSpan>[
-                                                          TextSpan(
-                                                            text: '12',
-                                                            style: TextStyle(
-                                                                color: Color.fromRGBO(234, 234, 234, 1),
-                                                                fontFamily: 'Red Hat Text',
-                                                                fontSize: 16,
-                                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                fontWeight: FontWeight.w900,
-                                                                height: 1
-                                                            ),
-                                                            children: [
-                                                              TextSpan(
-                                                                text: " Users",
-                                                                style: TextStyle(
-                                                                    color: Color.fromRGBO(234, 234, 234, 1),
-                                                                    fontFamily: 'Red Hat Text',
-                                                                    fontSize: 16,
-                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                    fontWeight: FontWeight.w400,
-                                                                    height: 1
-                                                                ),)
-
-                                                            ],
-                                                          )
-                                                        ],
+                                                    SvgPicture.asset(
+                                                      "Assets/images/Exclude.svg",
+                                                      color: Color(0xff15D078),
+                                                      width: w/5,
+                                                    ),
+                                                    Positioned(
+                                                      top: h/30,
+                                                      left: h/25,
+                                                      child: SvgPicture.asset(
+                                                        "Assets/images/S3EQA.svg",
+                                                        width: w/24,
                                                       ),
                                                     ),
-                                                  ),
-
-                                                  Text('in Sprints Lobby'
-                                                    , textAlign: TextAlign.left, style: TextStyle(
-                                                        color: Color(0xff15D078),
-                                                        fontFamily: 'Red Hat Text',
-                                                        fontSize: 17,
-                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                        fontWeight: FontWeight.w400,
-                                                        height: 1
-                                                    ),)
-                                                ],
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            IconButton(
-                                              onPressed: (){},
-                                              icon: Icon(Icons.chevron_right,size: h/20,color: Color(0xff15D078),),
-                                            )
-                                          ],
+                                              Container(
+                                                margin: EdgeInsets.only(right: h/100),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+
+                                                    Container(
+                                                      margin: EdgeInsets.only(right: h/15),
+                                                      child: RichText(
+                                                        textAlign: TextAlign.left,
+                                                        text: TextSpan(
+
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                              text: state.GetInsideUsersSuccess!?state.GetUsersInsideBubble!.users!.length.toString():"0",
+                                                              style: TextStyle(
+                                                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                                                  fontFamily: 'Red Hat Text',
+                                                                  fontSize: 16,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.w900,
+                                                                  height: 1
+                                                              ),
+                                                              children: [
+                                                                TextSpan(
+                                                                  text: " Users",
+                                                                  style: TextStyle(
+                                                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                                                      fontFamily: 'Red Hat Text',
+                                                                      fontSize: 16,
+                                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                      fontWeight: FontWeight.w400,
+                                                                      height: 1
+                                                                  ),)
+
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    Text('in Sprints Lobby'
+                                                      , textAlign: TextAlign.left, style: TextStyle(
+                                                          color: Color(0xff15D078),
+                                                          fontFamily: 'Red Hat Text',
+                                                          fontSize: 17,
+                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                          fontWeight: FontWeight.w400,
+                                                          height: 1
+                                                      ),)
+                                                  ],
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: (){},
+                                                icon: Icon(Icons.chevron_right,size: h/20,color: Color(0xff15D078),),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       Row(
@@ -1378,11 +1539,14 @@ class _GroupChatState extends State<GroupChat> {
                                                           Expanded(
                                                             child: InkWell(
                                                               onTap: () {
+                                                                if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
                                                                 Navigator.push(
                                                                   context,
-                                                                  MaterialPageRoute(
-                                                                    builder: (context) => DirectChat(receiver_id: state.FilteredInsideBubbleUsers![index].id!,my_ID: widget.MY_ID!,),),
+                                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),
                                                                 );
+                                                                else
+                                                                  print("its your account");
                                                               },
                                                               child: Container(
                                                                 width: w / 6,
@@ -1410,14 +1574,14 @@ class _GroupChatState extends State<GroupChat> {
                                                           Expanded(
                                                             child: InkWell(
                                                               onTap: () {
-                                                                // Freindid = state.GetFriends!.friends![index].id!;
-                                                                // alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
+                                                                //    if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
+                                                                alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
                                                               },
                                                               child: Container(
                                                                 width: w / 6,
                                                                 height: h / 9,
-                                                                decoration: const BoxDecoration(
-                                                                  color: Color(0xffA83063),
+                                                                decoration:  BoxDecoration(
+                                                                  color : state.FilteredInsideBubbleUsers![index].is_frined!?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
                                                                   borderRadius: BorderRadius.only(
                                                                     bottomRight: const Radius.circular(5),
                                                                     topRight: Radius.circular(5),
@@ -1427,11 +1591,30 @@ class _GroupChatState extends State<GroupChat> {
                                                                   mainAxisAlignment:
                                                                   MainAxisAlignment.center,
                                                                   children: [
-                                                                    SvgPicture.asset(
+                                                                    state.GetInsideUsersSuccess!?
+                                                                    state.FilteredInsideBubbleUsers![index].id==widget.MY_ID
+                                                                        ?Icon(Icons.person)
+                                                                 :    state.FilteredInsideBubbleUsers![index].is_frined!
+                                                                       ?     SvgPicture.asset(
+                                                                      "Assets/images/True_Mark.svg",
+                                                                color: Colors.white,
+                                                                width: h / 26,
+                                                              )
+                                                                        :   SvgPicture.asset(
                                                                       "Assets/images/Add_friend.svg",
                                                                       color: Colors.white,
                                                                       width: h / 26,
-                                                                    ),
+                                                                    )
+
+
+                                                                        :state.GetInsideUsersISloading!
+                                                                        ?    Center(
+                                                                              child: listLoader(
+                                                                              context: context))
+                                                                        :    Expanded(
+                                                                      child:    Container(
+                                                                        child: Text("Error"),
+                                                                      ),)
                                                                   ],
                                                                 ),
                                                               ),
@@ -1441,11 +1624,11 @@ class _GroupChatState extends State<GroupChat> {
                                                       ),
                                                       child: InkWell(
                                                         onTap: () {
-                                                          Navigator.push(
+                                                          WidgetsBinding.instance!
+                                                              .addPostFrameCallback((_) =>     Navigator.push(
                                                             context,
-                                                            MaterialPageRoute(
-                                                              builder: (context) => DirectChat(receiver_id: state.FilteredInsideBubbleUsers![index].id!,my_ID: widget.MY_ID!,),),
-                                                          );
+                                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                              builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),));
                                                         },
                                                         child: Column(
                                                           children: [
@@ -1601,8 +1784,6 @@ class _GroupChatState extends State<GroupChat> {
                                     controller: _controller,
                                     shrinkWrap: true,
                                     reverse: true,
-                                    physics:
-                                    const BouncingScrollPhysics(),
                                     scrollDirection: Axis.vertical,
                                     itemCount: state.messages!.length,
                                     itemBuilder: (BuildContext context,
@@ -1611,10 +1792,10 @@ class _GroupChatState extends State<GroupChat> {
                                           onRightSwipe: () {
                                           bool GetInStatus = false;
                                           for(int j =0;j<AllBubblesIDS!.length;j++){
-                                          if (widget.bubble_id==AllBubblesIDS![j]){
-                                          if (AllBubblesStatus![j]==1)
-                                          GetInStatus = true;
-                                          }
+                                            if (widget.bubble_id==AllBubblesIDS![j]){
+                                                if (AllBubblesStatus![j]==1)
+                                                GetInStatus = true;
+                                              }
                                           }
 
                                           if ( GetInStatus) {
@@ -2481,470 +2662,480 @@ class _GroupChatState extends State<GroupChat> {
                             child: Text("Error"),
                           ),
 
-                          Column(
-                              children:[
-                                state.Isreply!
-                                    ? ReplyWidgett(state)
-                                    : const SizedBox(),
+
+
                                 Container(
-                                  height: h / 10,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                  height:state.Isreply!?h/7: h / 10,
+                                  decoration: BoxDecoration(
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Color.fromRGBO(
+                                              0, 0, 0, 0.25),
+                                          offset: Offset(0, 0),
+                                          blurRadius: 2.0,
+                                        )
+                                      ],
+                                      color: Color(0xff303030)
+                                  ),
+                                  child: Column(
                                     children: [
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: h / 100,
-                                            top: h / 50,
-                                            bottom: h / 70),
-                                        child: CircleAvatar(
-                                          radius: 25,
-                                          backgroundColor: const Color(0xff15D078),
-                                          child: Center(
-                                            child: InkWell(
-                                              onTap: () {
-                                                bool GetInStatus = false;
-                                                for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                  if (widget.bubble_id==AllBubblesIDS![j]){
-                                                    if (AllBubblesStatus![j]==1)
-                                                      GetInStatus = true;
-                                                  }
-                                                }
-                                                if (GetInStatus) {
-                                                  dIALOG1();
-                                                }else{
-                                                  OutsideBubbleAlreat();
-                                                }
-                                              },
-                                              child: const Icon(
-                                                Icons.add,
-                                                size: 35,
-                                                color: Colors.white,
+                                      state.Isreply!
+                                          ? ReplyWidgett(state)
+                                          :  Container(),
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                                left: h / 100,
+                                                top: h / 50,
+                                                bottom: h / 70),
+                                            child: CircleAvatar(
+                                              radius: 25,
+                                              backgroundColor: const Color(0xff15D078),
+                                              child: Center(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    bool GetInStatus = false;
+                                                    for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                      if (widget.bubble_id==AllBubblesIDS![j]){
+                                                        if (AllBubblesStatus![j]==1)
+                                                          GetInStatus = true;
+                                                      }
+                                                    }
+                                                    if (GetInStatus) {
+                                                      // dIALOG1();
+                                                    }else{
+                                                      OutsideBubbleAlreat();
+                                                    }
+                                                  },
+                                                  child: const Icon(
+                                                    Icons.add,
+                                                    size: 35,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ),
 
-                                      !state.KetbaordStatuss!
-                                          ? Row(
-                                        children: [
-                                          RecorderView(
-                                            onSaved: _onRecordComplete,
-                                            bubble_id: widget.bubble_id,
-                                          ),
-                                          Container(
-                                            width: w / 10,
-                                            padding:
-                                            EdgeInsets.only(top: h / 50),
-                                            child: IconButton(
-                                                onPressed: (){
-                                          bool GetInStatus = false;
-                                          for(int j =0;j<AllBubblesIDS!.length;j++){
-                                          if (widget.bubble_id==AllBubblesIDS![j]){
-                                          if (AllBubblesStatus![j]==1)
-                                          GetInStatus = true;
-                                              }
-                                          }
-
-                                          if ( GetInStatus) {
-                                            PhotoFlowDialog();
-                                          }else{
-                                            OutsideBubbleAlreat();
-                                          }
-
-                                                },
-                                                icon: SvgPicture.asset(
-                                                  "Assets/images/cAMERA.svg",
-                                                  width: w / 16,
-                                                )),
-                                          )
-                                        ],
-                                      )
-                                          : const Text(""),
-                                      Container(
-                                          padding: EdgeInsets.only(
-                                              left: h / 100, top: h / 50),
-                                          width: state.KetbaordStatuss!
-                                              ? w / 1.4
-                                              : w / 2,
-                                          height: h / 13.5,
-                                          child: Form(
-                                              key: _formkey3,
-                                              child: TextFormField(
-                                                controller: _SendMessageController,
-                                                keyboardAppearance: Brightness.dark,
-                                                textInputAction:
-                                                TextInputAction.done,
-                                                focusNode: _focus,
-                                                onChanged: (value) {
-
-                                                },
-                                                onFieldSubmitted: (value)async {
-
-                                                  String Comment =
-                                                      _SendMessageController
-                                                          .text;
-
-                                                    bool GetInStatus = false;
-                                                  for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                    if (widget.bubble_id==AllBubblesIDS![j]){
-                                                      if (AllBubblesStatus![j]==1)
-                                                      GetInStatus = true;
-                                                    }
+                                          !state.KetbaordStatuss!
+                                              ? Row(
+                                            children: [
+                                              RecorderView(
+                                                onSaved: _onRecordComplete,
+                                                bubble_id: widget.bubble_id,
+                                              ),
+                                              Container(
+                                                width: w / 10,
+                                                padding:
+                                                EdgeInsets.only(top: h / 50),
+                                                child: IconButton(
+                                                    onPressed: (){
+                                              bool GetInStatus = false;
+                                              for(int j =0;j<AllBubblesIDS!.length;j++){
+                                              if (widget.bubble_id==AllBubblesIDS![j]){
+                                              if (AllBubblesStatus![j]==1)
+                                              GetInStatus = true;
                                                   }
+                                              }
 
+                                              if ( GetInStatus) {
+                                                PhotoFlowDialog();
+                                              }else{
+                                                OutsideBubbleAlreat();
+                                              }
 
-                                                     if ( GetInStatus) {
-                                                       if (state.Status!) {
-                                                         if (state.Isreply ==
-                                                             true &&
-                                                             state.type ==
-                                                                 "Message" &&
-                                                             _SendMessageController
-                                                                 .text
-                                                                 .isNotEmpty) {
-                                                           _GroupChatBloc.add(
-                                                               ShowReplyWidget((
-                                                                   b) => b..Isreply = false));
-
-
-                                                           String message = state
-                                                               .RepliedToMessage!;
-                                                           String ALias = state
-                                                               .AliasForRepliedTo!;
-                                                           String Avatar = state
-                                                               .AvatarPathForRepliedTo!;
-                                                           String Color = state
-                                                               .ColorForRepliedTo!
-                                                               .toString();
-
-                                                           SetmyReplyMessage(
-                                                               message, Comment,
-                                                               ALias,
-                                                               Avatar, Color,
-                                                               Message_id);
-                                                           _SendMessageController
-                                                               .clear();
-                                                         } else
-                                                         if (state.Isreply ==
-                                                             true &&
-                                                             state.type ==
-                                                                 "Image" &&
-                                                             _SendMessageController
-                                                                 .text
-                                                                 .isNotEmpty) {
-                                                           _GroupChatBloc.add(
-                                                               ShowReplyWidget((
-                                                                   b) => b..Isreply = false));
-
-
-                                                           // String path= "";
-
-
-                                                           if (state
-                                                               .Image_type ==
-                                                               "Backend") {
-                                                             path =
-                                                             state
-                                                                 .RepliedToMessage!;
-                                                           } else if (state
-                                                               .Image_type ==
-                                                               "File") {
-                                                             filee =
-                                                             state.File_image!;
-                                                           } else if (state
-                                                               .Image_type ==
-                                                               "Uint8List") {
-                                                             Image122 =
-                                                             state.Image1!;
-                                                           }
-
-
-                                                           SetMyReplyToImage(
-                                                               Comment, state
-                                                               .AliasForRepliedTo!,
-                                                               state
-                                                                   .AvatarPathForRepliedTo!,
-                                                               state
-                                                                   .ColorForRepliedTo!,
-                                                               Message_id,
-                                                               state.Image_type!
-                                                           );
-                                                         }
-                                                         else
-                                                         if (state.Isreply ==
-                                                             true &&
-                                                             state.type ==
-                                                                 "Voice" &&
-                                                             _SendMessageController
-                                                                 .text
-                                                                 .isNotEmpty) {
-                                                           _GroupChatBloc.add(
-                                                               ShowReplyWidget(
-                                                                       (b) =>
-                                                                   b
-                                                                     ..Isreply =
-                                                                     false));
-
-
-                                                           //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                           _GroupChatBloc.add(
-                                                               addReply((b) =>
-                                                               b
-                                                                 ..comment = _SendMessageController
-                                                                     .text
-                                                                 ..message_id = Message_id));
-                                                         }
-                                                         else
-                                                         if (_SendMessageController
-                                                             .text.isNotEmpty &&
-                                                             state.Isreply ==
-                                                                 false) {
-                                                           setMYMessage(
-                                                               _SendMessageController
-                                                                   .text, 1,
-                                                               widget.MY_ID!);
-
-                                                           _controller
-                                                               .animateTo(
-                                                             _controller
-                                                                 .position
-                                                                 .minScrollExtent,
-                                                             duration: Duration(
-                                                                 microseconds: 2),
-                                                             curve: Curves
-                                                                 .easeIn,
-                                                           );
-                                                         }
-                                                       }
-                                                       _SendMessageController.clear();
-                                                     }else{
-                                                       OutsideBubbleAlreat();
-                                                     }
-
-
-                                                },
-                                                cursorColor: Colors.black,
-                                                style: const TextStyle(
-                                                    fontSize: 19,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.brown),
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                      borderRadius:
-                                                      BorderRadius.circular(
-                                                          30)),
-                                                  filled: true,
-                                                  fillColor:
-                                                  const Color(0xffEAEAEA),
-                                                  contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 12,
-                                                      vertical: h / 100),
-                                                  hintText: 'Sup?..',
-                                                  hintStyle: const TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          96, 96, 96, 1),
-                                                      fontFamily: 'Red Hat Text',
-                                                      fontSize: 13,
-                                                      letterSpacing:
-                                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                                      fontWeight: FontWeight.w300,
-                                                      height: 1),
-                                                ),
-                                                keyboardType: TextInputType.text,
-                                              ))),
-                                      state.KetbaordStatuss!
-                                          ? Row(
-                                        children: [
-                                          Container(
-                                            width: w / 10,
-                                            height: h / 10,
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(
-                                                        top: h / 50),
-                                                    child: IconButton(
-                                                      icon: const Icon(
-                                                        Icons.send,
-                                                        size: 30,
-                                                      ),
-                                                      onPressed: ()async{
-
-                                                        String Comment =
-                                                            _SendMessageController
-                                                                .text;
-                                                        bool GetInStatus = false;
-                                                        for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                        if (widget.bubble_id==AllBubblesIDS![j]){
-                                                        if (AllBubblesStatus![j]==1)
-                                                        GetInStatus = true;
-                                                        }
-                                                        }
-
-
-                                                        if ( GetInStatus) {
-                                                          if (state.Status!) {
-                                                            if (state.Isreply ==
-                                                                true &&
-                                                                state.type ==
-                                                                    "Message" &&
-                                                                _SendMessageController
-                                                                    .text
-                                                                    .isNotEmpty) {
-                                                              _GroupChatBloc
-                                                                  .add(
-                                                                  ShowReplyWidget((
-                                                                      b) => b..Isreply = false));
-
-
-                                                              String message = state
-                                                                  .RepliedToMessage!;
-                                                              String ALias = state
-                                                                  .AliasForRepliedTo!;
-                                                              String Avatar = state
-                                                                  .AvatarPathForRepliedTo!;
-                                                              String Color = state
-                                                                  .ColorForRepliedTo!
-                                                                  .toString();
-
-                                                              SetmyReplyMessage(
-                                                                  message,
-                                                                  Comment,
-                                                                  ALias,
-                                                                  Avatar, Color,
-                                                                  Message_id);
-                                                              _SendMessageController
-                                                                  .clear();
-                                                            } else if (state
-                                                                .Isreply ==
-                                                                true &&
-                                                                state.type ==
-                                                                    "Image" &&
-                                                                _SendMessageController
-                                                                    .text
-                                                                    .isNotEmpty) {
-                                                              _GroupChatBloc
-                                                                  .add(
-                                                                  ShowReplyWidget((
-                                                                      b) => b..Isreply = false));
-
-
-                                                              // String path= "";
-
-
-                                                              if (state
-                                                                  .Image_type ==
-                                                                  "Backend") {
-                                                                path =
-                                                                state
-                                                                    .RepliedToMessage!;
-                                                              } else if (state
-                                                                  .Image_type ==
-                                                                  "File") {
-                                                                filee = state
-                                                                    .File_image!;
-                                                              } else if (state
-                                                                  .Image_type ==
-                                                                  "Uint8List") {
-                                                                Image122 =
-                                                                state.Image1!;
-                                                              }
-
-
-                                                              SetMyReplyToImage(
-                                                                  Comment, state
-                                                                  .AliasForRepliedTo!,
-                                                                  state
-                                                                      .AvatarPathForRepliedTo!,
-                                                                  state
-                                                                      .ColorForRepliedTo!,
-                                                                  Message_id,
-                                                                  state
-                                                                      .Image_type!
-                                                              );
-                                                            }
-                                                            else if (state
-                                                                .Isreply ==
-                                                                true &&
-                                                                state.type ==
-                                                                    "Voice" &&
-                                                                _SendMessageController
-                                                                    .text
-                                                                    .isNotEmpty) {
-                                                              _GroupChatBloc
-                                                                  .add(
-                                                                  ShowReplyWidget(
-                                                                          (b) =>
-                                                                      b
-                                                                        ..Isreply =
-                                                                        false));
-
-
-                                                              //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                              _GroupChatBloc
-                                                                  .add(
-                                                                  addReply((
-                                                                      b) =>
-                                                                  b
-                                                                    ..comment = _SendMessageController
-                                                                        .text
-                                                                    ..message_id = Message_id));
-                                                            }
-                                                            else
-                                                            if (_SendMessageController
-                                                                .text
-                                                                .isNotEmpty &&
-                                                                state.Isreply ==
-                                                                    false) {
-                                                              setMYMessage(
-                                                                  _SendMessageController
-                                                                      .text, 1,
-                                                                  widget
-                                                                      .MY_ID!);
-
-                                                              _controller
-                                                                  .animateTo(
-                                                                _controller
-                                                                    .position
-                                                                    .minScrollExtent,
-                                                                duration: Duration(
-                                                                    microseconds: 2),
-                                                                curve: Curves
-                                                                    .easeIn,
-                                                              );
-                                                            }
-                                                          }
-                                                          _SendMessageController.clear();
-                                                        }else{
-                                                          OutsideBubbleAlreat();
-                                                        }
-
-
-                                                      },
-                                                      color: const Color(
-                                                          0xff15D078),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
+                                                    },
+                                                    icon: SvgPicture.asset(
+                                                      "Assets/images/cAMERA.svg",
+                                                      width: w / 16,
+                                                    )),
+                                              )
+                                            ],
                                           )
+                                              : const Text(""),
+                                          Container(
+                                              padding: EdgeInsets.only(
+                                                  left: h / 100, top: h / 50),
+                                              width: state.KetbaordStatuss!
+                                                  ? w / 1.4
+                                                  : w / 2,
+                                              height: h / 13.5,
+                                              child: Form(
+                                                  key: _formkey3,
+                                                  child: TextFormField(
+                                                    controller: _SendMessageController,
+                                                    keyboardAppearance: Brightness.dark,
+                                                    textInputAction:
+                                                    TextInputAction.done,
+                                                    focusNode: _focus,
+                                                    onChanged: (value) { },
+                                                    onFieldSubmitted: (value)async {
+                                                      String Comment =_SendMessageController.text;
+
+                                                        bool GetInStatus = false;
+                                                      for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                        if (widget.bubble_id==AllBubblesIDS![j]){
+                                                          if (AllBubblesStatus![j]==1)
+                                                          GetInStatus = true;
+                                                        }
+                                                      }
+
+
+                                                         if ( GetInStatus) {
+                                                           if (state.Status!) {
+                                                             if (state.Isreply ==
+                                                                 true &&
+                                                                 state.type ==
+                                                                     "Message" &&
+                                                                 _SendMessageController
+                                                                     .text
+                                                                     .isNotEmpty) {
+                                                               _GroupChatBloc.add(
+                                                                   ShowReplyWidget((
+                                                                       b) => b..Isreply = false));
+
+
+                                                               String message = state
+                                                                   .RepliedToMessage!;
+                                                               String ALias = state
+                                                                   .AliasForRepliedTo!;
+                                                               String Avatar = state
+                                                                   .AvatarPathForRepliedTo!;
+                                                               String Color = state
+                                                                   .ColorForRepliedTo!
+                                                                   .toString();
+
+                                                               SetmyReplyMessage(
+                                                                   message, Comment,
+                                                                   ALias,
+                                                                   Avatar, Color,
+                                                                   Message_id);
+                                                               _SendMessageController
+                                                                   .clear();
+                                                             } else
+                                                             if (state.Isreply ==
+                                                                 true &&
+                                                                 state.type ==
+                                                                     "Image" &&
+                                                                 _SendMessageController
+                                                                     .text
+                                                                     .isNotEmpty) {
+                                                               _GroupChatBloc.add(
+                                                                   ShowReplyWidget((
+                                                                       b) => b..Isreply = false));
+
+
+                                                               // String path= "";
+
+
+                                                               if (state
+                                                                   .Image_type ==
+                                                                   "Backend") {
+                                                                 path =
+                                                                 state
+                                                                     .RepliedToMessage!;
+                                                               } else if (state
+                                                                   .Image_type ==
+                                                                   "File") {
+                                                                 filee =
+                                                                 state.File_image!;
+                                                               } else if (state
+                                                                   .Image_type ==
+                                                                   "Uint8List") {
+                                                                 Image122 =
+                                                                 state.Image1!;
+                                                               }
+
+
+                                                               SetMyReplyToImage(
+                                                                   Comment, state
+                                                                   .AliasForRepliedTo!,
+                                                                   state
+                                                                       .AvatarPathForRepliedTo!,
+                                                                   state
+                                                                       .ColorForRepliedTo!,
+                                                                   Message_id,
+                                                                   state.Image_type!
+                                                               );
+                                                             }
+                                                             else
+                                                             if (state.Isreply ==
+                                                                 true &&
+                                                                 state.type ==
+                                                                     "Voice" &&
+                                                                 _SendMessageController
+                                                                     .text
+                                                                     .isNotEmpty) {
+                                                               _GroupChatBloc.add(
+                                                                   ShowReplyWidget(
+                                                                           (b) =>
+                                                                       b
+                                                                         ..Isreply =
+                                                                         false));
+
+
+                                                               //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
+
+                                                               _GroupChatBloc.add(
+                                                                   addReply((b) =>
+                                                                   b
+                                                                     ..comment = _SendMessageController
+                                                                         .text
+                                                                     ..message_id = Message_id));
+                                                             }
+                                                             else
+                                                             if (_SendMessageController
+                                                                 .text.isNotEmpty &&
+                                                                 state.Isreply ==
+                                                                     false) {
+                                                               setMYMessage(
+                                                                   _SendMessageController
+                                                                       .text, 1,
+                                                                   widget.MY_ID!);
+
+                                                               _controller
+                                                                   .animateTo(
+                                                                 _controller
+                                                                     .position
+                                                                     .minScrollExtent,
+                                                                 duration: Duration(
+                                                                     microseconds: 2),
+                                                                 curve: Curves
+                                                                     .easeIn,
+                                                               );
+                                                             }
+                                                           }
+                                                           _SendMessageController.clear();
+                                                         }else{
+                                                           OutsideBubbleAlreat();
+                                                         }
+
+
+                                                    },
+                                                    cursorColor: Colors.black,
+                                                    style: const TextStyle(
+                                                        fontSize: 19,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.brown),
+                                                    decoration: InputDecoration(
+                                                      border: OutlineInputBorder(
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              30)),
+                                                      filled: true,
+                                                      fillColor:
+                                                      const Color(0xffEAEAEA),
+                                                      contentPadding:
+                                                      EdgeInsets.symmetric(
+                                                          horizontal: 12,
+                                                          vertical: h / 100),
+                                                      hintText: 'Sup?..',
+                                                      hintStyle: const TextStyle(
+                                                          color: Color.fromRGBO(
+                                                              96, 96, 96, 1),
+                                                          fontFamily: 'Red Hat Text',
+                                                          fontSize: 13,
+                                                          letterSpacing:
+                                                          0 /*percentages not used in flutter. defaulting to zero*/,
+                                                          fontWeight: FontWeight.w300,
+                                                          height: 1),
+                                                    ),
+                                                    keyboardType: TextInputType.text,
+                                                  ))),
+                                          state.KetbaordStatuss!
+                                              ? Row(
+                                            children: [
+                                              Container(
+                                                width: w / 10,
+                                                height: h / 10,
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                      child: Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: h / 50),
+                                                        child: IconButton(
+                                                          icon: const Icon(
+                                                            Icons.send,
+                                                            size: 30,
+                                                          ),
+                                                          onPressed: ()async{
+
+                                                            String Comment =
+                                                                _SendMessageController
+                                                                    .text;
+                                                            bool GetInStatus = false;
+                                                            for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                            if (widget.bubble_id==AllBubblesIDS![j]){
+                                                            if (AllBubblesStatus![j]==1)
+                                                            GetInStatus = true;
+                                                            }
+                                                            }
+
+
+                                                            if ( GetInStatus) {
+                                                              if (state.Status!) {
+                                                                if (state.Isreply ==
+                                                                    true &&
+                                                                    state.type ==
+                                                                        "Message" &&
+                                                                    _SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty) {
+                                                                  _GroupChatBloc
+                                                                      .add(
+                                                                      ShowReplyWidget((
+                                                                          b) => b..Isreply = false));
+
+
+                                                                  String message = state
+                                                                      .RepliedToMessage!;
+                                                                  String ALias = state
+                                                                      .AliasForRepliedTo!;
+                                                                  String Avatar = state
+                                                                      .AvatarPathForRepliedTo!;
+                                                                  String Color = state
+                                                                      .ColorForRepliedTo!
+                                                                      .toString();
+
+                                                                  SetmyReplyMessage(
+                                                                      message,
+                                                                      Comment,
+                                                                      ALias,
+                                                                      Avatar, Color,
+                                                                      Message_id);
+                                                                  _SendMessageController
+                                                                      .clear();
+                                                                } else if (state
+                                                                    .Isreply ==
+                                                                    true &&
+                                                                    state.type ==
+                                                                        "Image" &&
+                                                                    _SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty) {
+                                                                  _GroupChatBloc
+                                                                      .add(
+                                                                      ShowReplyWidget((
+                                                                          b) => b..Isreply = false));
+
+
+                                                                  // String path= "";
+
+
+                                                                  if (state
+                                                                      .Image_type ==
+                                                                      "Backend") {
+                                                                    path =
+                                                                    state
+                                                                        .RepliedToMessage!;
+                                                                  } else if (state
+                                                                      .Image_type ==
+                                                                      "File") {
+                                                                    filee = state
+                                                                        .File_image!;
+                                                                  } else if (state
+                                                                      .Image_type ==
+                                                                      "Uint8List") {
+                                                                    Image122 =
+                                                                    state.Image1!;
+                                                                  }
+
+
+                                                                  SetMyReplyToImage(
+                                                                      Comment, state
+                                                                      .AliasForRepliedTo!,
+                                                                      state
+                                                                          .AvatarPathForRepliedTo!,
+                                                                      state
+                                                                          .ColorForRepliedTo!,
+                                                                      Message_id,
+                                                                      state
+                                                                          .Image_type!
+                                                                  );
+                                                                }
+                                                                else if (state
+                                                                    .Isreply ==
+                                                                    true &&
+                                                                    state.type ==
+                                                                        "Voice" &&
+                                                                    _SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty) {
+                                                                  _GroupChatBloc
+                                                                      .add(
+                                                                      ShowReplyWidget(
+                                                                              (b) =>
+                                                                          b
+                                                                            ..Isreply =
+                                                                            false));
+
+
+                                                                  //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
+
+                                                                  _GroupChatBloc
+                                                                      .add(
+                                                                      addReply((
+                                                                          b) =>
+                                                                      b
+                                                                        ..comment = _SendMessageController
+                                                                            .text
+                                                                        ..message_id = Message_id));
+                                                                }
+                                                                else
+                                                                if (_SendMessageController
+                                                                    .text
+                                                                    .isNotEmpty &&
+                                                                    state.Isreply ==
+                                                                        false) {
+                                                                  setMYMessage(
+                                                                      _SendMessageController
+                                                                          .text, 1,
+                                                                      widget
+                                                                          .MY_ID!);
+
+                                                                  _controller
+                                                                      .animateTo(
+                                                                    _controller
+                                                                        .position
+                                                                        .minScrollExtent,
+                                                                    duration: Duration(
+                                                                        microseconds: 2),
+                                                                    curve: Curves
+                                                                        .easeIn,
+                                                                  );
+                                                                }
+                                                              }
+                                                              _SendMessageController.clear();
+                                                            }else{
+                                                              OutsideBubbleAlreat();
+                                                            }
+
+
+                                                          },
+                                                          color: const Color(
+                                                              0xff15D078),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              )
+                                            ],
+                                          )
+                                              : const Text("")
                                         ],
-                                      )
-                                          : const Text("")
+                                      ),
                                     ],
                                   ),
                                 )
-                              ]),
+
                         ],
                       ),
                       Container(
@@ -2986,17 +3177,20 @@ class _GroupChatState extends State<GroupChat> {
                                   )),
                             ),
 
-                            Container(
-                              child: Text(
-                                widget.plan_Title!,
-                                textAlign: TextAlign.left,
-                                style: const TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 22,
-                                    letterSpacing: 0.2,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1),
+                            Flexible(
+                              child: Container(
+                                child: Text(
+                                  widget.plan_Title!,
+                                  textAlign: TextAlign.left,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontFamily: 'Red Hat Display',
+                                      fontSize: 22,
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1),
+                                ),
                               ),
                             ),
 
@@ -3008,6 +3202,8 @@ class _GroupChatState extends State<GroupChat> {
                                       width: 23,
                                       color: ColorS.surface),
                                   onPressed: () {
+                                    _scaffoldKey.currentState!
+                                        .openEndDrawer();
                                     bool GetInStatus = false;
                                     for(int j =0;j<AllBubblesIDS!.length;j++){
                                       if (widget.bubble_id==AllBubblesIDS![j]){
@@ -5268,6 +5464,7 @@ class UserDATA{
   String? Alias;
   String? Background_Color;
   String? Serial_number;
+String? Serial;
   String? boi;
   bool? is_frined;
 }

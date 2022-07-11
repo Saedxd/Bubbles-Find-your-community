@@ -4,6 +4,7 @@ library Sprints_Event;
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
 import 'package:built_collection/built_collection.dart';
@@ -34,7 +35,6 @@ abstract class Done extends SprintsEvent
   factory Done([updates(DoneBuilder b)]) = _$Done;
 }
 
-
 abstract class GetAlias extends SprintsEvent
     implements Built<GetAlias,GetAliasBuilder> {
 
@@ -44,26 +44,28 @@ abstract class GetAlias extends SprintsEvent
   factory GetAlias([updates(GetAliasBuilder b)]) = _$GetAlias;
 }
 
-
-
-
 abstract class SendMessage extends SprintsEvent
     implements Built<SendMessage,SendMessageBuilder> {
 
   int? get receiver_id;
   String? get message;
+  String? get Type;
   SendMessage._();
   factory SendMessage([updates(SendMessageBuilder b)]) = _$SendMessage;
 }
 
 abstract class ShowReplyWidget extends SprintsEvent
     implements Built<ShowReplyWidget,ShowReplyWidgetBuilder> {
-
   String? get AvatarPathForRepliedTo;
-  int? get ColorForRepliedTo;
+  String? get ColorForRepliedTo;
   String? get RepliedToMessage;
   String? get AliasForRepliedTo;
-bool? get Isreply;
+  bool? get Isreply;
+  String? get Model_Type;
+  String? get MessageDirection_Type;
+  Uint8List? get Image1;
+  File? get File_image;
+  String? get Image_type;
   ShowReplyWidget._();
   factory ShowReplyWidget([updates(ShowReplyWidgetBuilder b)]) = _$ShowReplyWidget;
 }
@@ -82,21 +84,26 @@ abstract class addReply extends SprintsEvent
 
   String? get comment;
   int? get message_id;
+  int? get DestinationUser_id;
+  String? get Message;
+  String? get Model_Type;
+  String? get MessageDirection_Type;
+
+
+
+  File? get File_file;
+  Uint8List? get Uint8;
   addReply._();
   factory addReply([updates(addReplyBuilder b)]) = _$addReply;
 }
 
-
-
 abstract class AddModel extends SprintsEvent
     implements Built<AddModel,AddModelBuilder>  {
-  MessageModel? get message;
+  SprintsChat? get message;
 
   AddModel._();
   factory AddModel([updates(AddModelBuilder b)]) = _$AddModel;
 }
-
-
 
 abstract class ChangeTypingStatus extends SprintsEvent
     implements Built<ChangeTypingStatus,ChangeTypingStatusBuilder> {
@@ -107,3 +114,25 @@ abstract class ChangeTypingStatus extends SprintsEvent
 }
 
 
+abstract class GetUsersInsideBubble extends SprintsEvent
+    implements Built<GetUsersInsideBubble,GetUsersInsideBubbleBuilder> {
+  int? get Bubble_id;
+  int? get MY_id;
+  GetUsersInsideBubble._();
+  factory GetUsersInsideBubble([updates(GetUsersInsideBubbleBuilder b)]) = _$GetUsersInsideBubble;
+}
+
+abstract class Get_MYAlias extends SprintsEvent
+    implements Built<Get_MYAlias,Get_MYAliasBuilder> {
+
+  int? get My_ID;
+  Get_MYAlias._();
+  factory Get_MYAlias([updates(Get_MYAliasBuilder b)]) = _$Get_MYAlias;
+}
+abstract class KetbaordStatus extends SprintsEvent
+    implements Built<KetbaordStatus,KetbaordStatusBuilder> {
+
+  bool? get status;
+  KetbaordStatus._();
+  factory KetbaordStatus([updates(KetbaordStatusBuilder b)]) = _$KetbaordStatus;
+}

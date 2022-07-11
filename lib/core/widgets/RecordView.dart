@@ -149,7 +149,6 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return  Container(
-        padding: EdgeInsets.only(top: h / 50),
         child: Container(
           width: w / 10,
           decoration: BoxDecoration(

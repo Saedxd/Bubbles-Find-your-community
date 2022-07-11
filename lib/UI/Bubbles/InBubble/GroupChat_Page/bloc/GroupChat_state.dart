@@ -87,10 +87,8 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   String? get RepliedToMessage;//if image will be backend path
   Uint8List? get Image1;
   File? get File_image;
-  // bool? get is_Nodejs;
-  // bool? get is_Backend;
-  // bool? get is_base64;
-String? get Image_type;
+
+  String? get Image_type;
 
 
   bool? get DescriptionLengthISloading;

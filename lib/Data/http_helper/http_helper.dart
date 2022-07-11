@@ -1547,14 +1547,15 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   Future<PostMessagesModel> PostMessage(
       String Auth,
       String Message,
+      String sms_type,
       int Reciver_ID,
       ) async {
     try {
       final formData = {
         "receiver_id": Reciver_ID,
         "message": Message,
+        "sms_type": sms_type,
       };
-
 
       final response = await _dio!
           .post('save/message', data: formData, options: Options(headers: {
@@ -1727,7 +1728,6 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "message_id": message_id,
         "comment": comment,
       };
-
 
       final response = await _dio!
           .post('save/reply', data: formData, options: Options(headers: {

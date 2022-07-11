@@ -1,5 +1,6 @@
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
@@ -204,15 +205,17 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
 
                                           InkWell(
                                             onTap: (){
-                                              //DirectChat
+
                                               WidgetsBinding.instance!
                                                   .addPostFrameCallback((_) => Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                     DirectChat(my_ID: state.ListOFSUggested![myINdex].MY_id!, receiver_id: state.ListOFSUggested![myINdex].His_id!,)),
+                                                        Sprints(my_ID: state.ListOFSUggested![myINdex].MY_id!, IS_sprints: false, receiver_id:state.ListOFSUggested![myINdex].His_id!,His_Alias: state.ListOFSUggested![myINdex].Alias,)
+                                                ),
                                               ));
                                             },
+
                                             child: Container(
                                                 width: w/3,
                                                 height: h/15,

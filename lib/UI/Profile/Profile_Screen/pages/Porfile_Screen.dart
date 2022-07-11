@@ -1293,6 +1293,7 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
+                                                    socket!.clearListeners();
                                                     socket!.disconnect();
                                                     _ProfileBloc.add(Logout());
                                                   },

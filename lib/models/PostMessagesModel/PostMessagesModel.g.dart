@@ -28,6 +28,12 @@ class _$PostMessagesModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.message_id;
+    if (value != null) {
+      result
+        ..add('message_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     value = object.statuscode;
     if (value != null) {
       result
@@ -53,6 +59,10 @@ class _$PostMessagesModelSerializer
           result.msg = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'message_id':
+          result.message_id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
         case 'statuscode':
           result.statuscode = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
@@ -68,13 +78,16 @@ class _$PostMessagesModel extends PostMessagesModel {
   @override
   final String? msg;
   @override
+  final int? message_id;
+  @override
   final int? statuscode;
 
   factory _$PostMessagesModel(
           [void Function(PostMessagesModelBuilder)? updates]) =>
       (new PostMessagesModelBuilder()..update(updates))._build();
 
-  _$PostMessagesModel._({this.msg, this.statuscode}) : super._();
+  _$PostMessagesModel._({this.msg, this.message_id, this.statuscode})
+      : super._();
 
   @override
   PostMessagesModel rebuild(void Function(PostMessagesModelBuilder) updates) =>
@@ -89,18 +102,21 @@ class _$PostMessagesModel extends PostMessagesModel {
     if (identical(other, this)) return true;
     return other is PostMessagesModel &&
         msg == other.msg &&
+        message_id == other.message_id &&
         statuscode == other.statuscode;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, msg.hashCode), statuscode.hashCode));
+    return $jf($jc(
+        $jc($jc(0, msg.hashCode), message_id.hashCode), statuscode.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('PostMessagesModel')
           ..add('msg', msg)
+          ..add('message_id', message_id)
           ..add('statuscode', statuscode))
         .toString();
   }
@@ -114,6 +130,10 @@ class PostMessagesModelBuilder
   String? get msg => _$this._msg;
   set msg(String? msg) => _$this._msg = msg;
 
+  int? _message_id;
+  int? get message_id => _$this._message_id;
+  set message_id(int? message_id) => _$this._message_id = message_id;
+
   int? _statuscode;
   int? get statuscode => _$this._statuscode;
   set statuscode(int? statuscode) => _$this._statuscode = statuscode;
@@ -124,6 +144,7 @@ class PostMessagesModelBuilder
     final $v = _$v;
     if ($v != null) {
       _msg = $v.msg;
+      _message_id = $v.message_id;
       _statuscode = $v.statuscode;
       _$v = null;
     }
@@ -145,8 +166,9 @@ class PostMessagesModelBuilder
   PostMessagesModel build() => _build();
 
   _$PostMessagesModel _build() {
-    final _$result =
-        _$v ?? new _$PostMessagesModel._(msg: msg, statuscode: statuscode);
+    final _$result = _$v ??
+        new _$PostMessagesModel._(
+            msg: msg, message_id: message_id, statuscode: statuscode);
     replace(_$result);
     return _$result;
   }

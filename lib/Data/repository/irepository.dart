@@ -163,6 +163,7 @@ abstract class IRepository {
   Future<PostMessagesModel> PostMessage(
       String Message,
       int Reciver_ID,
+      String sms_type,
       );
   Future<GetAliasModel> GetAlias(
       int friend_id
