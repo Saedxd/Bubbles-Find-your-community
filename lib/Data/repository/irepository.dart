@@ -7,6 +7,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -24,6 +25,7 @@ import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleMod
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
+import 'package:bubbles/models/NotifyMeCloseToBubbleModel/NotifyMeCloseToBubbleModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
@@ -158,12 +160,14 @@ abstract class IRepository {
 
       );
   Future<OldMessagesModel> GetOldMessages(
+      String send_by,
       int Reciver_ID,
       );
   Future<PostMessagesModel> PostMessage(
       String Message,
-      int Reciver_ID,
       String sms_type,
+      String send_by,
+      int Reciver_ID,
       );
   Future<GetAliasModel> GetAlias(
       int friend_id
@@ -225,5 +229,58 @@ abstract class IRepository {
       );
   Future<GetbadgeModel> Getbadge(
       );
+  Future<GetPrimeBubblesModel> PopularNowBubbles(
+      );
+  Future<NotifyMeCloseToBubbleModel> NotifyMeImCloseToBubble(
+      String distance,
+      String Title,
+      );
+  Future<SendBubbleMessageModel> SendTopicFlow(
+      int bubble_id,
+      String content,
+      String title,
+      int main_type,
+      );
+  Future<FlowChatModel> GetFlowOldMessages(
+      int message_id,
+      );
+  Future<SendBubbleMessageModel> SendMessageInFlows(
+      String message,
+      String type,
+      int message_id,
+      );
+  Future<SendBubbleMessageModel> SendReplyInFlows(
+      String comment,
+      int sub_message_id,
+      );
+  Future<SendBubbleMessageModel> SendPollFlow(
+
+      String comment,
+      String title,
+      int type,//new_poll
+      int bubble_id,
+      List<String> answers
+      );
+
+
+
+  Future<SendBubbleMessageModel> SendFootPrintFlow(
+
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      );
+
+
+
+  Future<SendBubbleMessageModel> SendMediaDumpFlow(
+
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      );
+
 
 }

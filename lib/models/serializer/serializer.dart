@@ -9,6 +9,9 @@ import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dar
 import 'package:bubbles/models/EventOldMessagesModel/EventMessagesListModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventdetialMessageModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/NewPollAnswersModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowMessagesModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FreindsFilteredListModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -46,6 +49,7 @@ import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListMo
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
+import 'package:bubbles/models/NotifyMeCloseToBubbleModel/NotifyMeCloseToBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/MessagesListModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
@@ -83,6 +87,7 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  NotifyMeCloseToBubbleModel,
   GetUsersInsideBubbleModel,
   InOutUserStatusModel,
   SendBubbleMessageModel,
@@ -154,6 +159,9 @@ part 'serializer.g.dart';
   EventMessagesListModel,
   EventdetialMessageModel,
   GetbadgeModel,
+  NewPollAnswersModel,
+  FlowChatModel,
+  FlowMessagesModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -165,6 +173,39 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FlowChatModel),
+        ],
+      )),
+          () => ListBuilder<FlowChatModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FlowMessagesModel),
+        ],
+      )),
+          () => ListBuilder<FlowMessagesModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(NewPollAnswersModel),
+        ],
+      )),
+          () => ListBuilder<NewPollAnswersModel>())
+
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(NotifyMeCloseToBubbleModel),
+        ],
+      )),
+          () => ListBuilder<NotifyMeCloseToBubbleModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

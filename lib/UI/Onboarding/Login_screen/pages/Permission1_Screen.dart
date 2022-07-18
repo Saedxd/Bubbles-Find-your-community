@@ -111,8 +111,8 @@ Column(
         width: w/1.4,
         height: h/6,
         margin: EdgeInsets.only(bottom: h/50,top: h/40),
-        child:   Text("""We use your location 
-to show you nearby 
+        child:   Text("""We use your location
+to show you nearby
 Bubbles and to
 access them""",
           textAlign: TextAlign.left,

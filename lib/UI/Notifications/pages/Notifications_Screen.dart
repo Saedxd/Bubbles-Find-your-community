@@ -2,6 +2,7 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_Bloc.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_State.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_event.dart';
+import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bubbles/App/app.dart';
@@ -88,7 +89,7 @@ bool diditonce = false;
                       const Text(""),
                       (state.success == true)
                           ? state.Getnotifcations!.notifications!.length==0
-                      ?Container(
+                              ?       Container(
                         width: w,
                         height: h/1.24,
                         child: Column(
@@ -110,7 +111,7 @@ bool diditonce = false;
                           ],
                         ),
                       )
-                          :
+                               :
 
                       Container(
                         width: w,
@@ -128,11 +129,7 @@ bool diditonce = false;
                                     state.Getnotifcations!.notifications!.length,
                                 separatorBuilder:
                                     (BuildContext context, int index) {
-
-
-                                  return const SizedBox(
-                                    height: 7,
-                                  );
+                                  return const SizedBox(height: 7);
                                 },
                                 itemBuilder: (BuildContext context, int index) {
                                   var BackgroundColor;
@@ -147,11 +144,26 @@ bool diditonce = false;
                                     print(e);
                                   }
                                   DateTime datee = DateTime.parse(state.Getnotifcations!.notifications![index].created_at.toString());
-                               //   print(timeago.format(datee));
-
-
                                   return InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+
+                                      if(state.Getnotifcations!.notifications![index].title=="Friend Request")
+                                        WidgetsBinding.instance!
+                                            .addPostFrameCallback((_) =>     Navigator.push(
+                                          context,
+                                          MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                            builder: (context) => Friendlist(is_WithoutTopBar: true,),),
+                                        ));
+                                      else if (state .Getnotifcations!.notifications![index] .title=="Accepted Friend")
+                                        WidgetsBinding.instance!
+                                            .addPostFrameCallback((_) =>     Navigator.push(
+                                          context,
+                                          MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                            builder: (context) => Friendlist(is_WithoutTopBar: true,),),
+                                        ));
+
+
+                                    },
                                     child: Column(
                                       children: [
                                         Container(
@@ -206,15 +218,34 @@ bool diditonce = false;
                                                                       fontSize: 20),
                                                             ),
                                                           ),
-                                                          CachedNetworkImage(
-                                                            imageUrl:
-                                                          state.Getnotifcations!.notifications![index].avatar.toString(),
-                                                            errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                            imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                              radius: 30,
-                                                              backgroundImage: imageProvider,
-                                                              backgroundColor:   Color(BackgroundColor),
+                                                          Hero(
+                                                            tag : "Image${index}",
+                                                            child:
+                                                        Material(
+                                                        type: MaterialType.transparency,
+                                                        child :
+                                                          InkWell(
+                                                            onTap: (){
+                                                              WidgetsBinding.instance!
+                                                                  .addPostFrameCallback((_) =>     Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                  builder: (context) => HeroImage(path:  state.Getnotifcations!.notifications![index].avatar.toString(),color: BackgroundColor,id :  index),),
+                                                              ));
+
+                                                            },
+                                                            child: CachedNetworkImage(
+                                                                imageUrl:
+                                                              state.Getnotifcations!.notifications![index].avatar.toString(),
+                                                                errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                  radius: 30,
+                                                                  backgroundImage: imageProvider,
+                                                                  backgroundColor:   Color(BackgroundColor),
+                                                                ),
+                                                              ),
                                                             ),
+                                  )
                                                           ),
                                                         ],
                                                       ),
@@ -328,3 +359,63 @@ bool diditonce = false;
     );
   }
 }
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
+int? color;
+  String? path;
+  int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body:  InkWell(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.transparent,
+          child: Hero(
+            tag: "Image${widget.id}",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      widget.path!,
+                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: w/2,
+                        backgroundImage: imageProvider,
+                        backgroundColor:   Color(widget.color!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+// Container(
+//                 width: w/1.1,
+//                 height: h/2.5,
+//                 child:Image.network(,fit: BoxFit.fill,)
+//               ),

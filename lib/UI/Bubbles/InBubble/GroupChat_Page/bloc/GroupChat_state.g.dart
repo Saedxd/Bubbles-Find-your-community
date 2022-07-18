@@ -50,6 +50,8 @@ class _$GroupChatState extends GroupChatState {
   @override
   final GetAliasModel? GetAliasForInsideBubbleUser;
   @override
+  final SendBubbleMessageModel? SendBubbleTopicFlow;
+  @override
   final SendBubbleMessageModel? SendBubbleMessage;
   @override
   final SendBubbleMessageModel? SendBubbleReply;
@@ -137,6 +139,7 @@ class _$GroupChatState extends GroupChatState {
       this.GetAliasMinee,
       this.EventOldMessages,
       this.GetAliasForInsideBubbleUser,
+      this.SendBubbleTopicFlow,
       this.SendBubbleMessage,
       this.SendBubbleReply,
       this.GetUsersInsideBubble,
@@ -203,6 +206,7 @@ class _$GroupChatState extends GroupChatState {
         GetAliasMinee == other.GetAliasMinee &&
         EventOldMessages == other.EventOldMessages &&
         GetAliasForInsideBubbleUser == other.GetAliasForInsideBubbleUser &&
+        SendBubbleTopicFlow == other.SendBubbleTopicFlow &&
         SendBubbleMessage == other.SendBubbleMessage &&
         SendBubbleReply == other.SendBubbleReply &&
         GetUsersInsideBubble == other.GetUsersInsideBubble &&
@@ -256,7 +260,7 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
                                                                                 index_For_Message_List.hashCode),
                                                                             AddModelISloading.hashCode),
                                                                         AddModelSUccess.hashCode),
@@ -302,6 +306,7 @@ class _$GroupChatState extends GroupChatState {
           ..add('GetAliasMinee', GetAliasMinee)
           ..add('EventOldMessages', EventOldMessages)
           ..add('GetAliasForInsideBubbleUser', GetAliasForInsideBubbleUser)
+          ..add('SendBubbleTopicFlow', SendBubbleTopicFlow)
           ..add('SendBubbleMessage', SendBubbleMessage)
           ..add('SendBubbleReply', SendBubbleReply)
           ..add('GetUsersInsideBubble', GetUsersInsideBubble)
@@ -443,6 +448,12 @@ class GroupChatStateBuilder
   set GetAliasForInsideBubbleUser(
           GetAliasModelBuilder? GetAliasForInsideBubbleUser) =>
       _$this._GetAliasForInsideBubbleUser = GetAliasForInsideBubbleUser;
+
+  SendBubbleMessageModelBuilder? _SendBubbleTopicFlow;
+  SendBubbleMessageModelBuilder get SendBubbleTopicFlow =>
+      _$this._SendBubbleTopicFlow ??= new SendBubbleMessageModelBuilder();
+  set SendBubbleTopicFlow(SendBubbleMessageModelBuilder? SendBubbleTopicFlow) =>
+      _$this._SendBubbleTopicFlow = SendBubbleTopicFlow;
 
   SendBubbleMessageModelBuilder? _SendBubbleMessage;
   SendBubbleMessageModelBuilder get SendBubbleMessage =>
@@ -623,6 +634,7 @@ class GroupChatStateBuilder
       _EventOldMessages = $v.EventOldMessages?.toBuilder();
       _GetAliasForInsideBubbleUser =
           $v.GetAliasForInsideBubbleUser?.toBuilder();
+      _SendBubbleTopicFlow = $v.SendBubbleTopicFlow?.toBuilder();
       _SendBubbleMessage = $v.SendBubbleMessage?.toBuilder();
       _SendBubbleReply = $v.SendBubbleReply?.toBuilder();
       _GetUsersInsideBubble = $v.GetUsersInsideBubble?.toBuilder();
@@ -700,6 +712,7 @@ class GroupChatStateBuilder
               EventOldMessages: _EventOldMessages?.build(),
               GetAliasForInsideBubbleUser:
                   _GetAliasForInsideBubbleUser?.build(),
+              SendBubbleTopicFlow: _SendBubbleTopicFlow?.build(),
               SendBubbleMessage: _SendBubbleMessage?.build(),
               SendBubbleReply: _SendBubbleReply?.build(),
               GetUsersInsideBubble: _GetUsersInsideBubble?.build(),
@@ -743,6 +756,8 @@ class GroupChatStateBuilder
         _EventOldMessages?.build();
         _$failedField = 'GetAliasForInsideBubbleUser';
         _GetAliasForInsideBubbleUser?.build();
+        _$failedField = 'SendBubbleTopicFlow';
+        _SendBubbleTopicFlow?.build();
         _$failedField = 'SendBubbleMessage';
         _SendBubbleMessage?.build();
         _$failedField = 'SendBubbleReply';

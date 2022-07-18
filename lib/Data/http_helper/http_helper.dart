@@ -13,6 +13,7 @@ import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -32,6 +33,7 @@ import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleMod
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
+import 'package:bubbles/models/NotifyMeCloseToBubbleModel/NotifyMeCloseToBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
@@ -1548,6 +1550,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       String Auth,
       String Message,
       String sms_type,
+      String send_by,
       int Reciver_ID,
       ) async {
     try {
@@ -1555,6 +1558,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "receiver_id": Reciver_ID,
         "message": Message,
         "sms_type": sms_type,
+        "send_by": send_by,
       };
 
       final response = await _dio!
@@ -1593,11 +1597,13 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   @override
   Future<OldMessagesModel> GetOldMessages(
       String Auth,
+      String send_by,
       int Reciver_ID,
       ) async {
     try {
       final formData = {
         "receiver_id": Reciver_ID,
+        "send_by": send_by,
       };
 
 
@@ -1642,7 +1648,10 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
 
 
       final response = await _dio!
-          .get('messages/users', options: Options(headers: {
+          .get(
+         // 'messages/users',
+          'all_list_messages',
+          options: Options(headers: {
         "Authorization" :"Bearer  $Auth",
         "Accept" :"application/json"
       }));
@@ -2345,6 +2354,443 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
                 ),
               ],
             )) as GetbadgeModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetPrimeBubblesModel> PopularNowBubbles(
+      String Auth,
+      )async {
+    try {
+
+      final response = await _dio!
+          .get('popular/events', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetPrimeBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetPrimeBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetPrimeBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<NotifyMeCloseToBubbleModel> NotifyMeImCloseToBubble(
+      String Auth,
+      String distance,
+      String Title,
+      )async {
+    try {
+      var formData={
+        "distance": distance,
+        "title":  Title
+      };
+
+      final response = await _dio!
+          .post('alert/event/away/from',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      //  "Accept-Encoding" :"gzip, deflate, br",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              NotifyMeCloseToBubbleModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(NotifyMeCloseToBubbleModel),
+                  ],
+                ),
+              ],
+            )) as NotifyMeCloseToBubbleModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+
+
+
+
+
+  @override
+  Future<SendBubbleMessageModel> SendTopicFlow(
+      String Auth,
+      int bubble_id,
+      String content,
+      String title,
+      int main_type,
+      ) async {
+    try {
+      var formData={
+        "content": content,
+        "title":  title,
+        "main_type":  main_type,
+        "bubble_id":  bubble_id
+      };
+
+      final response = await _dio!
+          .post('save/topic',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+  @override
+  Future<FlowChatModel> GetFlowOldMessages(
+      String Auth,
+      int message_id,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('get/nested/chat?message_id=$message_id', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              FlowChatModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(FlowChatModel),
+                  ],
+                ),
+              ],
+            )) as FlowChatModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SendBubbleMessageModel> SendMessageInFlows(
+      String Auth,
+      String message,
+      String type,
+      int message_id,
+      ) async {
+    try {
+      var formData={
+        "message": message,
+        "type":  type,
+        "message_id":  message_id,
+      };
+
+      final response = await _dio!
+          .post('save/nested/chat',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+  @override
+  Future<SendBubbleMessageModel> SendReplyInFlows(
+      String Auth,
+      String comment,
+      int sub_message_id,
+      ) async {
+    try {
+      var formData={
+        "comment": comment,
+        "sub_message_id":  sub_message_id
+      };
+
+      final response = await _dio!
+          .post('save/reply/nested/chat',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SendBubbleMessageModel> SendPollFlow(
+      String Auth,
+      String comment,
+      String Question,
+      int type,//new_poll
+      int bubble_id,
+      List<String> answers
+      ) async {
+    try {
+      var formData={
+        "main_type":5,
+        "type":"new_poll",
+        "bubble_id":bubble_id,
+        "title":Question,
+        "answers":answers
+      };
+
+      final response = await _dio!
+          .post('save/poll/message',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+
+  @override
+  Future<SendBubbleMessageModel> SendFootPrintFlow(
+      String Auth,
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      ) async {
+    try {
+      var formData={
+        "main_type":3,
+        "bubble_id":bubble_id,
+        "title":title,
+        "image":image
+      };
+
+      final response = await _dio!
+          .post('save/post/photo',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+  //
+
+  @override
+  Future<SendBubbleMessageModel> SendMediaDumpFlow(
+      String Auth,
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      ) async {
+    try {
+      var formData={
+        "main_type":2,
+        "bubble_id":bubble_id,
+        "title":title,
+        "image":image
+      };
+
+      final response = await _dio!
+          .post('save/media/dump',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SendBubbleMessageModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SendBubbleMessageModel),
+                  ],
+                ),
+              ],
+            )) as SendBubbleMessageModel;
 
         return baseResponse;
       } else {

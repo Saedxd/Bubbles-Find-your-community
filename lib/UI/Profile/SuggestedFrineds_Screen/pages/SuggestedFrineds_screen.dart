@@ -393,22 +393,38 @@ class _SuggestedFreinds_ScreenState extends State<SuggestedFreinds_Screen> {
                                                       ),
                                                       child: Row(
                                                         children: [
-                                                          Container(
+                                                          Hero(
+                                                            tag: "Image${state.SuggestFriends!.users![index].id}",
+                                                            child:        Material(
+                                                              type: MaterialType.transparency,
+                                                              child :
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                      builder: (context) => HeroImage(path:   state.SuggestFriends!.users![index].avatar.toString(),color:  BackgroundColor,id:state.SuggestFriends!.users![index].id,),),
+                                                                  );
+                                                                },
+                                                                child: Container(
                                                             margin: EdgeInsets.only(left: h/80),
                                                             width: w/6,
                                                             height: h/11.7,
                                                             child:CachedNetworkImage(
-                                                              imageUrl:
-                                                              state.SuggestFriends!.users![index].avatar.toString()!=null
-                                                                  ?state.ListOFSUggested![index].AvatarPath.toString():"Assets/images/DefaultAvatar.png",
+                                                                imageUrl:
+                                                                state.SuggestFriends!.users![index].avatar.toString()!=null
+                                                                    ?state.ListOFSUggested![index].AvatarPath.toString():"Assets/images/DefaultAvatar.png",
 
-                                                              errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                              imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                radius: 30,
-                                                                backgroundImage: imageProvider,
-                                                                backgroundColor:   Color(BackgroundColor),
-                                                              ),
+                                                                errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                  radius: 30,
+                                                                  backgroundImage: imageProvider,
+                                                                  backgroundColor:   Color(BackgroundColor),
+                                                                ),
                                                             ),
+                                                          ),
+                                                              ),
+                                  )
                                                           ),
 
 
@@ -626,3 +642,59 @@ class Data{
 
 
 
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
+  int? color;
+  String? path;
+  int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body:  InkWell(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.transparent,
+          child: Hero(
+            tag: "Image${widget.id}",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      widget.path!,
+                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: w/2,
+                        backgroundImage: imageProvider,
+                        backgroundColor:   Color(widget.color!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -3,7 +3,7 @@ import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';
 
-import 'package:bubbles/UI/Onboarding/Permissions_Screen/pages/Permission1_Screen.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Permission1_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,8 +13,9 @@ import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 class RecorderView extends StatefulWidget {
   final Function onSaved;
   int? bubble_id;
+  bool Want_test;
 
-   RecorderView({Key? key, required this.onSaved,this.bubble_id}) : super(key: key);
+   RecorderView({Key? key, required this.onSaved,this.bubble_id,required this.Want_test}) : super(key: key);
   @override
   _RecorderViewState createState() => _RecorderViewState();
 }
@@ -168,7 +169,7 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
                       GetInStatus = true;
                   }
                 }
-                if (GetInStatus) {
+                if (GetInStatus || !widget.Want_test) {
                   if (mounted) {
                     StopedRecording = false;
                     await _onRecordButtonPressed();
@@ -185,14 +186,7 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
   }
 
   Future<void> _onRecordButtonPressed() async {
-    bool GetInStatus = false;
-    for(int j =0;j<AllBubblesIDS!.length;j++){
-      if (widget.bubble_id==AllBubblesIDS![j]){
-        if (AllBubblesStatus![j]==1)
-          GetInStatus = true;
-      }
-    }
-    if (GetInStatus) {
+
       if (mounted) {
         switch (_recordingState) {
           case RecordingState.Set:
@@ -215,20 +209,13 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
               content: Text('Please allow recording from settings.'),
             ));
             break;
-        }
+
       }
     }
   }
 
   _initRecorder() async {
-    bool GetInStatus = false;
-    for(int j =0;j<AllBubblesIDS!.length;j++){
-      if (widget.bubble_id==AllBubblesIDS![j]){
-        if (AllBubblesStatus![j]==1)
-          GetInStatus = true;
-      }
-    }
-    if (GetInStatus) {
+
       if (mounted) {
         Directory appDirectory = await getApplicationDocumentsDirectory();
         String filePath = appDirectory.path +
@@ -245,33 +232,23 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
             FlutterAudioRecorder2(filePath, audioFormat: AudioFormat.AAC);
         await audioRecorder.initialized;
       }
-    }
+
   }
 
   _startRecording() async {
-    bool GetInStatus = false;
-    for(int j =0;j<AllBubblesIDS!.length;j++){
-      if (widget.bubble_id==AllBubblesIDS![j]){
-        if (AllBubblesStatus![j]==1)
-          GetInStatus = true;
-      }
-    }
-    if (GetInStatus) {
+
       if (mounted) {
         await audioRecorder.start();
         StopedRecording = false;
         setState(() {});
         // await audioRecorder.current(channel: 0);
       }
-    }
 
   }
 
   _stopRecording() async {
     if (mounted) {
       await audioRecorder.stop();
-
-
       StopedRecording = true;
       setState(() {});
       widget.onSaved(audioRecorder.recording!.path.toString());

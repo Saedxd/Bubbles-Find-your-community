@@ -21,6 +21,7 @@ abstract class GetOldMessages extends SprintsEvent
     implements Built<GetOldMessages,GetOldMessagesBuilder> {
 
   int? get receiver_id;
+  String? get send_by;
 
   GetOldMessages._();
   factory GetOldMessages([updates(GetOldMessagesBuilder b)]) = _$GetOldMessages;
@@ -28,9 +29,7 @@ abstract class GetOldMessages extends SprintsEvent
 
 abstract class Done extends SprintsEvent
     implements Built<Done,DoneBuilder> {
-
   bool? get Donee;
-
   Done._();
   factory Done([updates(DoneBuilder b)]) = _$Done;
 }
@@ -50,6 +49,8 @@ abstract class SendMessage extends SprintsEvent
   int? get receiver_id;
   String? get message;
   String? get Type;
+  String? get send_by;
+
   SendMessage._();
   factory SendMessage([updates(SendMessageBuilder b)]) = _$SendMessage;
 }

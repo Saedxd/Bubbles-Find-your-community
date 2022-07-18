@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:math';
-class SprintLobby extends StatefulWidget{
+class SprintLobby extends StatefulWidget  {
 
    SprintLobby({Key? key,required this.plan_title,required this.Bubble_id,required this.my_id})
        : super(key: key);
@@ -21,9 +21,10 @@ int my_id;
   State<SprintLobby> createState() => _SprintLobbyState();
 }
 
-class _SprintLobbyState extends State<SprintLobby> {
+class _SprintLobbyState extends State<SprintLobby>  with TickerProviderStateMixin {
   final _SprintsChatBloc = sl<SprintsBloc>();
-
+  late AnimationController _controller;
+  var spinkit;
   @override
   void initState(){
     super.initState();
@@ -32,13 +33,25 @@ class _SprintLobbyState extends State<SprintLobby> {
         ..MY_id = widget.my_id
     ));
     _SprintsChatBloc.add(Get_MYAlias((b) => b..My_ID = widget.my_id));
+    _controller =  AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
   }
+
+
 
 bool Diditonce = true;
   int? Choosen_ID;
   String? Choosen_Avatar;
   String? Choosen_Alias;
   int? Choosen_Color;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -66,7 +79,7 @@ bool Diditonce = true;
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          SprintMatch(Image1: state.GetAliasMinee!.friend!.avatar.toString(), BackgroundColor1:  int.parse( state.GetAliasMinee!.friend!.background_color!), BackgroundColor2: Choosen_Color!, Image2: Choosen_Avatar!, His_Alias:Choosen_Alias!, MY_ID: widget.my_id, His_ID: Choosen_ID! ,)),
+                          SprintMatch(Image1: state.GetAliasMinee!.friend!.avatar.toString(), BackgroundColor1:  int.parse( state.GetAliasMinee!.friend!.background_color!), BackgroundColor2: Choosen_Color!, Image2: Choosen_Avatar!, His_Alias:Choosen_Alias!, MY_ID: widget.my_id, His_ID: Choosen_ID!, Bubble_id: widget.Bubble_id, Plan_title: widget.plan_title! ,)),
                 ));
 
 
@@ -83,8 +96,6 @@ bool Diditonce = true;
       backgroundColor: Color(0xff303030),
       body: SafeArea(
         child: Container(
-          width: w,
-          height: h,
           child: Column(
             children: [
               Column(
@@ -122,7 +133,7 @@ bool Diditonce = true;
                                      icon: SvgPicture.asset(
                                          "Assets/images/Frame 11.svg",
                                          width: 33,
-                                         color: Colors.white),
+                                         color: Color(0xff303030),),
                                      onPressed: () {
                                        Navigator.pop(context);
                                      },
@@ -133,7 +144,7 @@ bool Diditonce = true;
                                            textAlign: TextAlign.left,
                                            overflow: TextOverflow.ellipsis,
                                            style: TextStyle(
-                                               color: Color.fromRGBO(255, 255, 255, 1),
+                                               color: Color(0xff303030),
                                                fontFamily: 'Red Hat Display',
                                                fontSize: 22,
                                                letterSpacing: 0.2,
@@ -153,15 +164,29 @@ bool Diditonce = true;
                       ]
                   ),
                   SizedBox(height: h/10,),
-                  Text('Matchmaking...', textAlign: TextAlign.left, style: TextStyle(
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                      fontFamily: 'Red Hat Display',
-                      fontSize: 19.729999542236328,
-                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                      fontWeight: FontWeight.w600,
-                      height: 1
-                  ),),
-                  SizedBox(height: h/8,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                    SpinKitDualRing(
+                    color: Colors.white,
+                    size: h/80.0,
+                    controller: _controller
+
+                    ),
+
+
+                      SizedBox(width: 10,),
+                      Text('Matchmaking...', textAlign: TextAlign.left, style: TextStyle(
+                          color: Color.fromRGBO(255, 255, 255, 1),
+                          fontFamily: 'Red Hat Display',
+                          fontSize: 23.729999542236328,
+                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          fontWeight: FontWeight.w600,
+                          height: 1
+                      ),),
+                    ],
+                  ),
+                  SizedBox(height: h/10,),
                   Container(
                     child: RichText(
                       textAlign: TextAlign.left,
@@ -194,132 +219,132 @@ bool Diditonce = true;
                       ),
                     ),
                   ),
-                  SizedBox(height: h/20,),
+                  SizedBox(height: h/40,),
 
                   state.GetInsideUsersSuccess!
                       ? Container(
                     width: w/1.05,
                     height: h/1.8,
                     child: ScrollConfiguration(
-                      behavior: MyBehavior(),
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: AlwaysScrollableScrollPhysics(
-                          parent: BouncingScrollPhysics()
-                        ),
-                        scrollDirection: Axis.vertical,
-                        itemCount: state.InsideBubbleUsers!.length,
-                        separatorBuilder: (BuildContext context, int index) {
-                          return SizedBox(
-                            height: 5,
-                          );
-                        },
-                        itemBuilder: (BuildContext context, int index) {
+                        behavior: MyBehavior(),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()
+                          ),
+                          scrollDirection: Axis.vertical,
+                          itemCount: state.InsideBubbleUsers!.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 5,
+                            );
+                          },
+                          itemBuilder: (BuildContext context, int index) {
 
-                          var myInt = int.parse(state.InsideBubbleUsers![index].Background_Color.toString());
-                          var BackgroundColor= myInt;
+                            var myInt = int.parse(state.InsideBubbleUsers![index].Background_Color.toString());
+                            var BackgroundColor= myInt;
 
 
-                          return
+                            return
 
-                          Column(
-                                children: [
-                                  Container(
-                                    width: w / 1.1,
-                                    height: h / 10,
-                                    decoration: BoxDecoration(
-                                      color: ColorS.secondaryContainer,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(40),
-                                        bottomRight: Radius.circular(5),
-                                        topLeft: Radius.circular(40),
-                                        topRight: Radius.circular(5),
+                            Column(
+                                  children: [
+                                    Container(
+                                      width: w / 1.1,
+                                      height: h / 10,
+                                      decoration: BoxDecoration(
+                                        color: ColorS.secondaryContainer,
+                                        borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(40),
+                                          bottomRight: Radius.circular(5),
+                                          topLeft: Radius.circular(40),
+                                          topRight: Radius.circular(5),
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: ColorS.primaryVariant ,
+                                              offset: Offset(0, 0),
+                                              blurRadius: 2)
+                                        ],
                                       ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: ColorS.primaryVariant ,
-                                            offset: Offset(0, 0),
-                                            blurRadius: 2)
-                                      ],
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            //FrinedsStatus
-                                            Stack(
-                                                children:[
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                    children: [
-                                                      Text("  "),
-                                                      Container(
-                                                        width: w/6,
-                                                        height: h / 12,
-                                                        child:   CachedNetworkImage(
-                                                          imageUrl:
-                                                          state.InsideBubbleUsers![index].Avatar!,
-                                                          errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                          imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                            radius: 30,
-                                                            backgroundImage: imageProvider,
-                                                            backgroundColor:   Color(BackgroundColor),
+                                      child: Row(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                            children: [
+                                              //FrinedsStatus
+                                              Stack(
+                                                  children:[
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Text("  "),
+                                                        Container(
+                                                          width: w/6,
+                                                          height: h / 12,
+                                                          child:   CachedNetworkImage(
+                                                            imageUrl:
+                                                            state.InsideBubbleUsers![index].Avatar!,
+                                                            errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                            imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                              radius: 30,
+                                                              backgroundImage: imageProvider,
+                                                              backgroundColor:   Color(BackgroundColor),
+                                                            ),
                                                           ),
+
                                                         ),
 
-                                                      ),
+                                                      ],
+                                                    ),
+                                                    // state.ChangeStateSuccess!?
+                                                    // FrinedsStatus[index]==1?
+                                                    // Positioned(
+                                                    //   bottom: 0,
+                                                    //   right: 0,
+                                                    //   child:
+                                                    //   CircleAvatar(
+                                                    //       backgroundColor:ColorS.secondaryContainer,
+                                                    //       radius: 10,
+                                                    //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
+                                                    // )
+                                                    //     :Text("")
+                                                    //     :Text("")
 
-                                                    ],
-                                                  ),
-                                                  // state.ChangeStateSuccess!?
-                                                  // FrinedsStatus[index]==1?
-                                                  // Positioned(
-                                                  //   bottom: 0,
-                                                  //   right: 0,
-                                                  //   child:
-                                                  //   CircleAvatar(
-                                                  //       backgroundColor:ColorS.secondaryContainer,
-                                                  //       radius: 10,
-                                                  //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
-                                                  // )
-                                                  //     :Text("")
-                                                  //     :Text("")
+                                                    //: Center(
+                                                    //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+                                                    //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+                                                  ]
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(width: 10,),
 
-                                                  //: Center(
-                                                  //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
-                                                  //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
-                                                ]
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: 10,),
+                                          Text(
+                                              state.InsideBubbleUsers![index].Alias!,
+                                              textAlign: TextAlign.left,
+                                              style: _TextTheme.headline3!.copyWith(
+                                                  fontFamily: 'Red Hat Display',
+                                                  fontWeight: FontWeight.w400
+                                                  ,fontSize: 24
+                                              )
 
-                                        Text(
-                                            state.InsideBubbleUsers![index].Alias!,
-                                            textAlign: TextAlign.left,
-                                            style: _TextTheme.headline3!.copyWith(
-                                                fontFamily: 'Red Hat Display',
-                                                fontWeight: FontWeight.w400
-                                                ,fontSize: 24
-                                            )
+                                          ),
 
-                                        ),
-
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              );
+                                  ],
+                                );
 
 
 
 
-                        },
-                      ),
+                          },
+                        ),
                     ),
                   )
                       : state.GetInsideUsersISloading!
@@ -349,4 +374,7 @@ bool Diditonce = true;
       size: 30.0,
     );
   }
+
+
+
 }

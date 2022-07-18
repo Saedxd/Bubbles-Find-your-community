@@ -58,6 +58,7 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   GetAliasModel? get GetAliasMinee;
   EventOldMessagesModel? get EventOldMessages;
   GetAliasModel? get GetAliasForInsideBubbleUser;
+  SendBubbleMessageModel? get SendBubbleTopicFlow;
   SendBubbleMessageModel? get SendBubbleMessage;
   SendBubbleMessageModel? get SendBubbleReply;
   GetUsersInsideBubbleModel? get GetUsersInsideBubble;
@@ -152,6 +153,7 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       // ..is_base64 = false
       ..GetAlias=null
       ..GetUsersInsideBubble=null
+      ..SendBubbleTopicFlow=null
       ..AddNewFriend=null
       ..Image1=null
       ..File_image=null

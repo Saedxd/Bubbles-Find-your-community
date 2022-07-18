@@ -19,6 +19,7 @@ abstract class SendBubbleMessageModel
   String? get msg;
   int? get statuscode;
   int? get message_id;
+  int? get sub_message_id;
 
 
   SendBubbleMessageModel._();

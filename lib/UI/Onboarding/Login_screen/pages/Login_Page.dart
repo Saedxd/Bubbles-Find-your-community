@@ -10,7 +10,7 @@ import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/bloc/login_event.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/bloc/login_state.dart';
-import 'package:bubbles/UI/Onboarding/Permissions_Screen/pages/Permission1_Screen.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Permission1_Screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Birthday_screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/SignUp2.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
@@ -282,7 +282,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   void dispose() {
     super.dispose();
     _EmailController.dispose();
-    if (_bc!=null)
+    // if (_bc!=null)
     _bc!.dispose();
     listenable!.removeListener(() { });
   }

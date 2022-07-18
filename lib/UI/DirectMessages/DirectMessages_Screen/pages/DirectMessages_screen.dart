@@ -10,6 +10,7 @@ import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,8 @@ class DirectMessages extends StatefulWidget {
   @override
   State<DirectMessages> createState() => _DirectMessagesState();
 }
-
+List<int> Selected = [0, 0];
+Timer? timer1212;
 class _DirectMessagesState extends State<DirectMessages> {
   bool Diditonce = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -36,13 +38,13 @@ class _DirectMessagesState extends State<DirectMessages> {
   final _formkey1 = GlobalKey<FormState>(); //
   final _DirectMessages_Bloc = sl<DirectMessagesBloc>();
   late FocusNode FocuseNODE;
-  List<int> Selected = [0, 0];
-
   bool done = false;
   List<int> FrinedsID=[];
   List<int> FrinedsStatus=[];
   int index = 0;
-  Timer? timer;
+
+
+
 
 
   void ListenForONlineFriends() {
@@ -59,7 +61,6 @@ class _DirectMessagesState extends State<DirectMessages> {
 
 
   void LoopONfrinedsId()async{
-
     if(socket!= null &&!socket!.disconnected) {
       for (int i = 0; i < FrinedsID.length; i++) {
         print("Looping");
@@ -82,13 +83,10 @@ class _DirectMessagesState extends State<DirectMessages> {
     ListenForONlineFriends();
     socket!.io..disconnect()..connect();
     _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
-      timer = Timer.periodic(const Duration(seconds: 20), (Timer t){
+    timer1212 = Timer.periodic(const Duration(seconds: 20), (Timer t)async{
     return LoopONfrinedsId();
     });
   }
-
-
-
 
   @override
   void dispose() {
@@ -135,7 +133,7 @@ class _DirectMessagesState extends State<DirectMessages> {
             key: _scaffoldKey,
             body: Stack(children: [
               Selected[0] == 1
-                  ? Container(width: w, height: h, child: const Friendlist())
+                  ? Container(width: w, height: h, child:  Friendlist(is_WithoutTopBar: false,))
                   : Column(
                       children: [
                         SizedBox(
@@ -462,35 +460,55 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                     ],
                                                   ),
                                                   child: Row(children: [
-                                                    Stack(
-                                                      children: [
-                                                        Container(
-                                                          margin: EdgeInsets.only(
-                                                              left: h / 60),
-                                                          child: CircleAvatar(
-                                                            backgroundColor: Color(
-                                                                state.FilteredDmlist![index].backgroundColor!),
-                                                            backgroundImage:
-                                                            NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
-                                                            radius: h / 20,
-                                                          ),
-                                                        ),
+                                                    
+                                                Stack(
+                                                          children: [
+                                                  Hero(
+                                                  tag:"Image${state.OldMessages!.messages![index].id}",
+                                                      child: Material(
+                                                          type: MaterialType.transparency,
+                                                          child :
+                                                          InkWell(
+                                                        onTap: (){
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                              builder: (context) => HeroImage(path:  state.FilteredDmlist![index].Avatar.toString(),color:    state.FilteredDmlist![index].backgroundColor!,id:state.OldMessages!.messages![index].id ,),),
+                                                          );
+                                                        },
+                                                        child:
+                                                            Container(
+                                                              margin: EdgeInsets.only(
+                                                                  left: h / 60),
+                                                              child: CircleAvatar(
+                                                                backgroundColor: Color(
+                                                                    state.FilteredDmlist![index].backgroundColor!),
+                                                                backgroundImage:
+                                                                NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
+                                                                radius: h / 20,
+                                                              ),
+                                                            ),
+                                                      )
+                                                      )
+                                                  ),
 
-                                                        state.ChangeStateSuccess!?
-                                                        FrinedsStatus[index]==1?
-                                                        Positioned(
-                                                          bottom: 0,
-                                                          right: 0,
-                                                          child:
-                                                          CircleAvatar(
-                                                              backgroundColor:COLOR.secondaryContainer,
-                                                              radius: 10,
-                                                              child:  const CircleAvatar(backgroundColor: const Color(0xff34A853),radius: 8,)),
-                                                        )
-                                                            :const Text("")
-                                                            :const Text("")
 
-                                                      ],
+                                                            state.ChangeStateSuccess!?
+                                                            FrinedsStatus[index]==1?
+                                                            Positioned(
+                                                              bottom: 0,
+                                                              right: 0,
+                                                              child:
+                                                              CircleAvatar(
+                                                                  backgroundColor:COLOR.secondaryContainer,
+                                                                  radius: 10,
+                                                                  child:  const CircleAvatar(backgroundColor: const Color(0xff34A853),radius: 8,)),
+                                                            )
+                                                                :const Text("")
+                                                                :const Text("")
+
+                                                          ],
+
                                                     ),
                                                     Expanded(
                                                       child: Column(
@@ -674,4 +692,60 @@ class DmlistData{
   int? id;
   int? MY_id;
   String? Replies;
+}
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
+  int? color;
+  String? path;
+  int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body:  InkWell(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.transparent,
+          child: Hero(
+            tag: "Image${widget.id}",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      widget.path!,
+                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: w/2,
+                        backgroundImage: imageProvider,
+                        backgroundColor:   Color(widget.color!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

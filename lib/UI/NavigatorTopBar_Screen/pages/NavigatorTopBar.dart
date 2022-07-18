@@ -21,12 +21,15 @@ int? GOtoDirect = 0;
   @override
   State<NavigatorTopBar> createState() => _NavigatorTopBarState();
 }
+Timer? timer2;
+Timer? timer23 ;
 
 
 Socket? socket;
 class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PageController controller = PageController();
+  Profile Profil =Profile();
   final _TopBarBloc = sl<TopBarBloc>();
   int dot = 0;
   bool DiditONCE = false;
@@ -37,7 +40,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   int selected = 0;
   int PageIndex = 0;
   List<int>? FrinedsID=[];
-  Timer? timer;
+
 
   final List<Widget> buildScreens = [
     const DirectMessages(),
@@ -50,23 +53,19 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    print(state);
+
     switch (state) {
       case AppLifecycleState.resumed:
-        socket != null ?!socket!.disconnected?connect(): print("already connected"):print("socket is null");
-        socket!.io..disconnect()..connect();
+
         break;
       case AppLifecycleState.inactive:
-      socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
-      socket!.io..disconnect()..connect();
+
         break;
       case AppLifecycleState.paused:
-        socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
-        socket!.io..disconnect()..connect();
+
         break;
       case AppLifecycleState.detached:
-        socket != null ?socket!.disconnected?print("ALready disconnected"): print("off for now"):print("socket is null");
-        socket!.io..disconnect()..connect();
+
         break;
     }
 
@@ -128,6 +127,10 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   @override
   void initState() {
     super.initState();
+    AllBubblesStatus = List.filled(100000,0);
+    AllBubblesStatusTry = List.filled(10000,true);
+    AllNearBubblesStatusTry = List.filled(10000,true);
+    AllBubblesIDS = List.filled(10000,0);
     _TopBarBloc.add(GetProfile());
     DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
@@ -139,7 +142,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
             ..num = 0
           ));
     }
-    // timer = Timer.periodic(const Duration(seconds: 10), (Timer t){
+    // timer23 = Timer.periodic(const Duration(seconds: 10), (Timer t)async{
     //   return _TopBarBloc.add(GetBadge());
     // });
   }
@@ -152,7 +155,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return  WillPopScope(
-        onWillPop: ()async=>false,
+        onWillPop: ()async=>true,
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
@@ -256,7 +259,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                             //
                             // _pageController.addListener((){
                             //
-                            //   //   Future.delayed(Duration(milliseconds: 500),(){
+                            //   //   Future.delayed(Duration(milliseconds: 200),(){
                             //   if (index == 0 && _pageController.position.atEdge &&state.Index1!) {
                             //     state.MakeScroll!?_TopBarBloc.add(MakrScroll()):null;
                             //     print("state.MakeScroll ${state.MakeScroll}  at edge");
@@ -326,7 +329,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
                                 // _pageController.animateToPage(
                                 //   0,
-                                //   duration: const Duration(milliseconds: 500),
+                                //   duration: const Duration(milliseconds: 200),
                                 //   curve: Curves.easeInOut,
                                 // );
 
@@ -370,9 +373,12 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                             ? _TopBarBloc.add(ChangeIndex4())
                                             :null;
 
+                                        Selected = List.filled(
+                                            2,
+                                            0);
+                                        print(Selected);
 
-
-                                        Future.delayed(const Duration(milliseconds: 500), () {
+                                        Future.delayed(const Duration(milliseconds: 200), () {
 
                                           controller.animateToPage(
                                             0,
@@ -418,7 +424,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                         state.Index4==true
                                             ? _TopBarBloc.add(ChangeIndex4())
                                             :null;
-                                        Future.delayed(const Duration(milliseconds: 500), () {
+                                        Future.delayed(const Duration(milliseconds: 200), () {
 
                                           controller.animateToPage(
                                             1,
@@ -468,6 +474,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                 Expanded(
                                   child: InkWell(
                                     onTap: () {
+                                      //Profil.ChangeFromFrinedScreen(false);
+                                        Profile().ChangeProfileStatus( false);
+
                                       _TopBarBloc.add(
                                           ChangePAGEINDEX((b) =>  b
                                             ..num = 3
@@ -484,7 +493,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                       state.Index4==false
                                           ? _TopBarBloc.add(ChangeIndex4())
                                           :null;
-                                      Future.delayed(const Duration(milliseconds: 500), () {
+                                      Future.delayed(const Duration(milliseconds: 200), () {
 
 
                                         controller.animateToPage(

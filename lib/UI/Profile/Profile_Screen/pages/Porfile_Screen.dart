@@ -5,6 +5,7 @@ import 'package:bubbles/App/bloc/App_bloc.dart';
 import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
@@ -37,6 +38,7 @@ import 'package:theme_manager/theme_manager.dart';
 import 'ChangeAvatar.dart';
 
 class Profile extends StatefulWidget {
+  ChangeProfileStatus(bool status) => createState().ChangeFromFrinedScreen(status) ;
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -50,6 +52,13 @@ class _ProfileState extends State<Profile> {
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _ProfileBloc = sl<ProfileBloc>();
+  void ChangeFromFrinedScreen(bool status){
+    _ProfileBloc.add(
+        GOtoFrinedlIST((b) =>
+        b..Status =false
+        ));
+     // print(state.GOtoFrined);
+  }
   final pref = sl<IPrefsHelper>();
 
   HomeScreen Instance = HomeScreen();
@@ -112,6 +121,7 @@ class _ProfileState extends State<Profile> {
 
 
 
+
   alreatDialogBuilder(
     BuildContext Context,
     double h,
@@ -159,7 +169,7 @@ class _ProfileState extends State<Profile> {
             ),
           );
         });
-  }//todo : use hero widget in class and call class in  and make it look real not a priorty
+  }
 //
   @override
   Widget build(BuildContext context) {
@@ -172,7 +182,7 @@ class _ProfileState extends State<Profile> {
         return true;
       },
       child: BlocBuilder(
-          bloc: _ProfileBloc,
+          bloc:   _ProfileBloc,
           builder: (BuildContext Context, profileState state) {
             if (state.success! &&
                 state.GetprofileSuccess! &&
@@ -204,14 +214,15 @@ class _ProfileState extends State<Profile> {
                       child: Container(
                         child: Stack(
                           children: [
-                            state.GOtoFrined! && Done
+                            !state.isLoadingProfileUpdate!?
+                            state.GOtoFrined!
                                 ? Container(
                                     width: w,
                                     height: h,
                                     child: ShowCaseWidget(
                                         builder: Builder(
                                             builder: (context) =>
-                                                Friendlist())))
+                                                Friendlist(is_WithoutTopBar: false,))))
                                 : Column(children: [
                                     SizedBox(
                                       height: h / 17,
@@ -430,19 +441,22 @@ class _ProfileState extends State<Profile> {
                     Text(""),
                     Text(""),
                     InkWell(
-                      onTap: (){           WidgetsBinding
-                          .instance!
-                          .addPostFrameCallback((_) =>
-                          Navigator
-                              .push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  Challenges(),
-                            ),
-                          ).then((value) {
-                            _ProfileBloc.add(GetProfile());
-                          }));},
+                      onTap: (){
+                        // WidgetsBinding
+                        //   .instance!
+                        //   .addPostFrameCallback((_) =>
+                        //   Navigator
+                        //       .push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) =>
+                        //           Challenges(),
+                        //     ),
+                        //   ).then((value) {
+                        //     _ProfileBloc.add(GetProfile());
+                        //   }));
+
+                  },
                       child: Text('earn', textAlign: TextAlign.center, style: TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 1),
                           fontFamily: 'Red Hat Display',
@@ -496,30 +510,37 @@ class _ProfileState extends State<Profile> {
                       width: w / 5,
                       height: h / 12,
                     ),
-                    state.success!?
-                    Text(state.ProfileDate!.user!.points!.toString(), textAlign: TextAlign.center, style: TextStyle(
-                        color: Color.fromRGBO(47, 47, 47, 1),
-                        fontFamily: 'Red Hat Display',
-                        fontSize: 25,
-                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                        fontWeight: FontWeight.w900,
-                        height: 1
-                    ),)
-                        : state.isLoading == true
-                        ? Container(
-                            child: Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment
-                                  .center,
-                              children: [
-                                Center(
-                                    child: listLoader(
-                                        context:
-                                        context)),
-                              ],
-                            ))
-                    :Container(),
-                    Text(""),
+                 Text("Comming soon",style: TextStyle(
+                     color: Colors.black
+                     ,fontSize: 12
+                 ),)
+                 //    state.success!?
+                 //
+                 // //    Text(
+                 // // //     state.ProfileDate!.user!.points!.toString()
+                 // //      , textAlign: TextAlign.center, style: TextStyle(
+                 // //        color: Color.fromRGBO(47, 47, 47, 1),
+                 // //        fontFamily: 'Red Hat Display',
+                 // //        fontSize: 25,
+                 // //        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                 // //        fontWeight: FontWeight.w900,
+                 // //        height: 1
+                 // //    ),)
+                 //        : state.isLoading == true
+                 //        ? Container(
+                 //            child: Row(
+                 //              mainAxisAlignment:
+                 //              MainAxisAlignment
+                 //                  .center,
+                 //              children: [
+                 //                Center(
+                 //                    child: listLoader(
+                 //                        context:
+                 //                        context)),
+                 //              ],
+                 //            ))
+                 //    :Container(),
+                 //    Text(""),
                   ],
                 ),
               ),
@@ -679,7 +700,7 @@ class _ProfileState extends State<Profile> {
                                                             MainAxisAlignment
                                                                 .spaceAround,
                                                         children: [
-                                                          Text('Verify Profile',
+                                                          Text('  Verify Profile',
                                                               textAlign:
                                                                   TextAlign
                                                                       .left,
@@ -691,8 +712,12 @@ class _ProfileState extends State<Profile> {
                                                                               .w400,
                                                                       fontSize:
                                                                           25)),
+
                                                           Text(""),
-                                                          Text(""),
+                                                          Text("Comming soon",style: TextStyle(
+                                                              color: Colors.white
+                                                              ,fontSize: 12
+                                                          ),),
                                                         ],
                                                       ),
                                                     ),
@@ -1096,9 +1121,15 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
+                                                    // GOtoFrined = true;
+                                                    // setState(() { });
+
+
                                                     _ProfileBloc.add(
-                                                        GOtoFrinedlIST());
-                                                    print(state.GOtoFrined);
+                                                        GOtoFrinedlIST((b) =>
+                                                        b..Status = true
+                                                        ));
+                                                   print(state.GOtoFrined);
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1157,16 +1188,16 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
-                                                        .addPostFrameCallback(
-                                                      (_) => Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    Followed()),
-                                                      ),
-                                                    );
+                                                    // WidgetsBinding.instance!
+                                                    //     .addPostFrameCallback(
+                                                    //   (_) => Navigator.push(
+                                                    //     context,
+                                                    //     MaterialPageRoute(
+                                                    //         builder:
+                                                    //             (context) =>
+                                                    //                 Followed()),
+                                                    //   ),
+                                                    // );
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1200,7 +1231,7 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Text('Saved',
+                                                        Text('  Saved',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1215,7 +1246,10 @@ class _ProfileState extends State<Profile> {
                                                                       0, 0, 1),
                                                             )),
                                                         Text(""),
-                                                        Text(""),
+                                                        Text("Comming soon",style: TextStyle(
+                                                            color: Colors.black
+                                                            ,fontSize: 12
+                                                        ),)
                                                       ],
                                                     ),
                                                   ),
@@ -1225,16 +1259,16 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
-                                                        .addPostFrameCallback(
-                                                      (_) => Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    Followed()),
-                                                      ),
-                                                    );
+                                                    // WidgetsBinding.instance!
+                                                    //     .addPostFrameCallback(
+                                                    //   (_) => Navigator.push(
+                                                    //     context,
+                                                    //     MaterialPageRoute(
+                                                    //         builder:
+                                                    //             (context) =>
+                                                    //                 Followed()),
+                                                    //   ),
+                                                    // );
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1268,7 +1302,7 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Text('Followed',
+                                                        Text('  Followed',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1283,7 +1317,10 @@ class _ProfileState extends State<Profile> {
                                                                       0, 0, 1),
                                                             )),
                                                         Text(""),
-                                                        Text(""),
+                                                        Text("Comming soon  ",style: TextStyle(
+                                                            color: Colors.black
+                                                            ,fontSize: 12
+                                                        ),)
                                                       ],
                                                     ),
                                                   ),
@@ -1291,8 +1328,19 @@ class _ProfileState extends State<Profile> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
+
                                                 InkWell(
                                                   onTap: () {
+                                                    if (timer!=null)
+                                                    timer!.cancel();
+                                                    if (timer2!=null)
+                                                    timer2!.cancel();
+                                                    if (timer23!=null)
+                                                    timer23!.cancel();
+                                                    if (timer12!=null)
+                                                    timer12!.cancel();
+                                                    if (timer1212!=null)
+                                                    timer1212!.cancel();
                                                     socket!.clearListeners();
                                                     socket!.disconnect();
                                                     _ProfileBloc.add(Logout());
@@ -1355,7 +1403,8 @@ class _ProfileState extends State<Profile> {
                                         ),
                                       ),
                                     )
-                                  ]),
+                                  ])
+                                :Text("")
                           ],
                         ),
                       ),
@@ -1692,7 +1741,7 @@ class _ProfileState extends State<Profile> {
                                     builder: (context) =>
                                         const ChangeAvatarScreen(),
                                   ))
-                              .then((value) => _ProfileBloc.add(GetProfile())));
+                              .then((value) =>   _ProfileBloc.add(GetProfile())));
                     },
                     child: Container(
                       width: w,

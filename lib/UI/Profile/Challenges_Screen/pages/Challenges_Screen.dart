@@ -6,6 +6,7 @@ import 'package:bubbles/UI/Profile/Challenges_Screen/bloc/Challenges_State.dart'
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -313,12 +314,29 @@ class _ChallengesState extends State<Challenges> {
                                         children: [
                                           Expanded(
                                             child: ListTile(
-                                              leading: CircleAvatar(
+                                              leading:    Hero(
+                                      tag: "Image${state.GetChallenges!.challenges![index].id}",
+
+                                        child:        Material(
+                                          type: MaterialType.transparency,
+                                          child : InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                  builder: (context) => HeroImage(path:  state.GetChallenges!.challenges![index].image.toString(),color:  0xff939393,id: state.GetChallenges!
+                                                      .challenges![index].id ,),),
+                                              );
+                                            },
+                                            child: CircleAvatar(
 
                                                 backgroundColor:
                                                     Color(0xff939393),
                                                 backgroundImage: NetworkImage(state.GetChallenges!.challenges![index].image.toString()),
                                               ),
+                                          )
+                                        )
+                                      ),
                                               title: Text(
                                                 state.GetChallenges!
                                                     .challenges![index].title
@@ -491,6 +509,62 @@ class _ChallengesState extends State<Challenges> {
     return SpinKitThreeBounce(
       color: Colors.blue,
       size: 30.0,
+    );
+  }
+}
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
+  int? color;
+  String? path;
+  int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body:  InkWell(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.transparent,
+          child: Hero(
+            tag: "Image${widget.id}",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Expanded(
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl: widget.path!,
+                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: w/2,
+                        backgroundImage: imageProvider,
+                        backgroundColor:   Color(widget.color!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

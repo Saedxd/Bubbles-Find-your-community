@@ -146,7 +146,14 @@ class ProfileBloc extends Bloc<profileEvent, profileState> {
       print("inside the bloc 1");
       try {
         yield state.rebuild((b) => b
-            ..GOtoFrined = !b.GOtoFrined!
+        ..isLoadingProfileUpdate = true
+        );
+        yield state.rebuild((b) => b
+
+          ..GOtoFrined = event.Status!
+        );
+        yield state.rebuild((b) => b
+          ..isLoadingProfileUpdate = false
         );
         print(state.GOtoFrined);
         print("inside the bloc 2");

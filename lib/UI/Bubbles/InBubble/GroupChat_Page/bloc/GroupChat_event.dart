@@ -45,6 +45,7 @@ abstract class SendMessage extends GroupChatevent
 
   int? get main_type;
   String? get message;
+
   String? get type;
   int? get bubble_id;
   int? get IndexOfMessageList;
@@ -205,4 +206,40 @@ abstract class RemoveFriend extends GroupChatevent
   int? get friend_id;
   RemoveFriend._();
   factory RemoveFriend([updates(RemoveFriendBuilder b)]) = _$RemoveFriend;
+}
+
+abstract class SendTopicFlow extends GroupChatevent
+    implements Built<SendTopicFlow,SendTopicFlowBuilder> {
+  String? get Title;
+  String? get Content;
+  int? get Bubble_id;
+  SendTopicFlow._();
+  factory SendTopicFlow([updates(SendTopicFlowBuilder b)]) = _$SendTopicFlow;
+}
+
+abstract class SendFootPrintFlow extends GroupChatevent
+    implements Built<SendFootPrintFlow,SendFootPrintFlowBuilder> {
+  String? get title;
+  String? get image;
+  int? get Bubble_id;
+  SendFootPrintFlow._();
+  factory SendFootPrintFlow([updates(SendFootPrintFlowBuilder b)]) = _$SendFootPrintFlow;
+}
+
+abstract class SendMediaDumpFlow extends GroupChatevent
+    implements Built<SendMediaDumpFlow,SendMediaDumpFlowBuilder> {
+  String? get title;
+  String? get image;
+  int? get Bubble_id;
+  SendMediaDumpFlow._();
+  factory SendMediaDumpFlow([updates(SendMediaDumpFlowBuilder b)]) = _$SendMediaDumpFlow;
+}
+
+abstract class SendPollFlow extends GroupChatevent
+    implements Built<SendPollFlow,SendPollFlowBuilder> {
+  String? get Question;
+  int? get bubble_id;
+  List<String>? get answers;
+  SendPollFlow._();
+  factory SendPollFlow([updates(SendPollFlowBuilder b)]) = _$SendPollFlow;
 }

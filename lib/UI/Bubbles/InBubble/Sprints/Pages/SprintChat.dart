@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
@@ -26,12 +28,22 @@ import 'package:swipe_to/swipe_to.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 class Sprints extends StatefulWidget {
-  Sprints({Key? key, required this.receiver_id, required this.my_ID,required this.IS_sprints,required this.His_Alias})
+  Sprints({Key? key,
+    required this.receiver_id
+    , required this.my_ID,
+    required this.IS_sprints,
+    required this.His_Alias,
+     this.Bubble_id,
+     this.Plan_Title
+  })
       : super(key: key);
+
   int receiver_id = 0;
   int my_ID;
   bool IS_sprints;
   String? His_Alias;
+  String? Plan_Title;
+  int? Bubble_id;
 
   @override
   State<Sprints> createState() => _SprintsState();
@@ -67,6 +79,16 @@ class _SprintsState extends State<Sprints> {
   File? image;
   String type="";
 
+  Future<String> _createFileFromString(String Base64) async {
+    final encodedStr = Base64;
+    Uint8List bytes = base64.decode(encodedStr);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".aac");
+    await file.writeAsBytes(bytes);
+    return file.path;
+  }
+
   void ListenForMessages() async {
     //socket!.clearListeners();
     socket!.on("receive_message_send", (msg) {
@@ -77,58 +99,69 @@ class _SprintsState extends State<Sprints> {
 
          setHisMessage(msg["message"].toString().substring(4), msg["message_id"]);
 
+
        } else if (msg["message"].toString().substring(0,5)=="image"){
+         socket!.disconnect()..connect();
 
          SetHisImage(msg["message"].toString().substring(5), msg["message_id"]);
+
+       }else if (msg["message"].toString().substring(0, 5) == "audio") {
+
+         SetHisVoiceMessage(msg["message"].toString().substring(5));
        }
       }
     });
+
   }
+
 
   void ListenForReplyMessage() async {
     socket!.on("receive_reply_send", (msg) {
       print(msg);
 
-      if (widget.receiver_id.toString()==msg["from"].toString())
-
-
-        if (msg["message"].toString().substring(0,4)=="text"){
-
-          SetHisReplyMessage(msg["message"], msg["comment"], msg["type"]);
-
+   if (widget.receiver_id.toString()==msg["from"].toString()) {
+        print("Got in1");
+        if (msg["message"].toString().substring(0, 4) == "text") {
+          SetHisReplyMessage(msg["message"].toString().substring(4), msg["comment"], msg["type"]);
         }
-      else if (
-        msg["message"].toString().substring(0,7)=="Backend"||
-          msg["message"].toString().substring(0,9)=="Uint8List"||
-          msg["message"].toString().substring(0,4)=="File"
-        ){
+        else if (
+        msg["message"].toString().substring(0, 7) == "Backend" ||
+            msg["message"].toString().substring(0, 9) == "Uint8List" ||
+            msg["message"].toString().substring(0, 4) == "File"
+        ) {
 // print(msg["message"].toString().substring(7));
 
           SetHisReplyToImage(
-              msg["message"].toString().substring(0,4)=="File"
-                   ? msg["message"].toString().substring(4)
-                  :   msg["message"].toString().substring(0,9)=="Uint8List"
-              ?msg["message"].toString().substring(9)
-                  : msg["message"].toString().substring(0,7)=="Backend"
-              ?msg["message"].toString().substring(7)
-                  :""
+              msg["message"].toString().substring(0, 4) == "File"
+                  ? msg["message"].toString().substring(4)
+                  : msg["message"].toString().substring(0, 9) == "Uint8List"
+                  ? msg["message"].toString().substring(9)
+                  : msg["message"].toString().substring(0, 7) == "Backend"
+                  ? msg["message"].toString().substring(7)
+                  : ""
 
-              ,msg["comment"]
-              ,msg["type"]
-              ,     msg["message"].toString().substring(0,4)=="File"
-              ?"File"
-              :   msg["message"].toString().substring(0,9)=="Uint8List"
-              ?"Uint8List"
-              : msg["message"].toString().substring(0,7)=="Backend"
-              ?"Backend"
-              :""
+              , msg["comment"]
+              , msg["type"]
+              , msg["message"].toString().substring(0, 4) == "File"
+              ? "File"
+              : msg["message"].toString().substring(0, 9) == "Uint8List"
+              ? "Uint8List"
+              : msg["message"].toString().substring(0, 7) == "Backend"
+              ? "Backend"
+              : ""
 
 
           );
+        }else if (msg["message"].toString().substring(0, 10) == "ReplyVoice") {
 
-      }
+          SetHisReplyToVoice(msg["message"].toString().substring(10),msg["comment"],msg["message"]);
+        }
+     }
+
     });
   }
+
+
 
   void ListenForTyping() async {
     socket!.on("typing_from_friend", (msg) {
@@ -173,12 +206,18 @@ class _SprintsState extends State<Sprints> {
     _Sprints_Bloc.add(AddModel((b) => b..message = InstanceMessages));
   }
 
+
   void SetmyReplyToVoice(String message, String Comment, String type) {
+    print(type);
+    print(Comment);
+    print(message);
+
+
     SprintsChat InstanceMessages = SprintsChat();
     InstanceMessages.ModelType = "ReplyVoice";
     InstanceMessages.ISreply = true;
     InstanceMessages.RepliedTOAlias = type == "receiver" ? HisAlias : MyAlias;
-    InstanceMessages.RepliedTOMessage = message;
+ //   InstanceMessages.RepliedTOMessage = message;
     InstanceMessages.RepliedTOAvatar =
     type == "receiver" ? HisAvatar : MyAvatar;
     InstanceMessages.ReplieDtobackground_Color =
@@ -193,9 +232,38 @@ class _SprintsState extends State<Sprints> {
     InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
     print("model added");
     _Sprints_Bloc.add(AddModel((b) => b..message = InstanceMessages));
+
+
+
+
+    _Sprints_Bloc.add(
+        addReply((b) => b
+          ..comment =_SendMessageController .text
+          ..message_id = MESSAGE_ID
+          ..Model_Type = "ReplyVoice"
+          ..MessageDirection_Type = type
+          // ..Uint8 =Image122
+          // ..File_file = filee
+          ..Message = message
+          ..DestinationUser_id = widget.receiver_id
+        ));
+
+
+
   }
 
+
+
+
+
+
+
   void SetMyVoiceMessage(String Path){
+
+
+File filee = File(Path);
+    Uint8List bytes = filee.readAsBytesSync();
+    base64String = base64Encode(bytes);
     SprintsChat Sprints = SprintsChat(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: MyAvatar,
@@ -213,18 +281,31 @@ class _SprintsState extends State<Sprints> {
     _Sprints_Bloc.add(
         SendMessage((b) =>
         b..Type = "audio"
-          ..message = base64String
+          ..message = '$base64String'
+            ..receiver_id = widget.receiver_id
+          ..send_by = widget.IS_sprints?"sprint":"dm"
         ));
-
   }
 
-  void SetHisVoiceMessage(String Path) {
+  void SetHisVoiceMessage(String Path) async{
+//     String pathh = "data:audio/mp3;base64,$Path";
+//  File ee = File(Path);
+//     final bytes =File(Path).readAsBytesSync();
+// print(bytes);
+//     String img64 = base64Encode(bytes);
+//     print(img64);
+// Uint8List?  _bytesImage = Base64Decoder().convert(Path);
+  // String base64String = base64Encode(fileBytes);
+
+
+   String file = await _createFileFromString(Path);
+
     SprintsChat Sprints = SprintsChat(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: HisAvatar,
         Alias: HisAlias,
         ISreply: false);
-    Sprints.message = Path;
+    Sprints.message = file.toString();
     Sprints.ModelType = "Voice";
     Sprints.ISNOdeJS = true;
     Sprints.background_Color = HisBackgroundColor;
@@ -241,6 +322,8 @@ class _SprintsState extends State<Sprints> {
       String modeltype,
       ){
     // var Colore = int.parse(RepliedTo_BackGroundColor);
+
+
     SprintsChat InstanceMessages = SprintsChat();
     InstanceMessages.ModelType = "ReplyImage";
     InstanceMessages.ISreply = true;
@@ -367,10 +450,11 @@ class _SprintsState extends State<Sprints> {
 
     _Sprints_Bloc.add(
         SendMessage((b) =>
-        b
-          ..Type = "image"
+        b    ..Type = "image"
           ..message = base64Image
           ..receiver_id = widget.receiver_id
+            ..send_by = widget.IS_sprints?"sprint":"dm"
+
         ));
 
   }
@@ -422,16 +506,16 @@ class _SprintsState extends State<Sprints> {
 
     _Sprints_Bloc.add(AddModel((b) => b..message = InstanceMessages));
 
-
     _Sprints_Bloc.add(
         addReply((b) => b
           ..comment = _SendMessageController.text
           ..message_id =message_id
           ..Message = message
-          ..Model_Type = type
+          ..MessageDirection_Type = type
           ..DestinationUser_id = widget.receiver_id
             ..Model_Type = "text"
         ));
+
 
 
   }
@@ -493,12 +577,18 @@ class _SprintsState extends State<Sprints> {
           ..receiver_id =  widget.receiver_id
           ..message =_SendMessageController.text
           ..Type = "text"
+              ..send_by = widget.IS_sprints?"sprint":"dm"
     ));
   }
 
   @override
   void initState() {
     super.initState();
+    _Sprints_Bloc.add(
+        GetOldMessages((b) => b
+          ..receiver_id = widget.receiver_id
+          ..send_by = widget.IS_sprints?"sprint":"dm"
+        ));
     socket!.io..disconnect()..connect();
     ListenForMessages();
     ListenForReplyMessage();
@@ -516,14 +606,12 @@ class _SprintsState extends State<Sprints> {
     print(widget.my_ID);
     print( widget.receiver_id);
 
-    _Sprints_Bloc.add(
-        GetOldMessages((b) => b..receiver_id = widget.receiver_id));
 
 
     _SendMessageController.addListener(() {
       _Sprints_Bloc.add(SendStatus((b) => b
         ..Status =_SendMessageController.text.isNotEmpty));//prevent empty messages
-print("insideeeeeeeee");
+
       if (_SendMessageController.text.isNotEmpty) {
         _Sprints_Bloc.add(
             KetbaordStatus((b) => b..status = true)); //toggle ui view
@@ -602,12 +690,13 @@ print("insideeeeeeeee");
                                         int index) {
                                       return SwipeTo(
                                           onRightSwipe: () {
-                                            print(state.GetAliasMinee!.friend!.avatar);
+                                           // print(state.GetAliasMinee!.friend!.avatar);
+
                                             _SendMessages.requestFocus();
-                                            SystemChannels.textInput
-                                                .invokeMethod(
-                                                'TextInput.show');
+                                            SystemChannels.textInput .invokeMethod('TextInput.show');
                                             if (state.messages![index].ISreply==false) {
+                                              _SendMessages.requestFocus();
+                                              SystemChannels.textInput .invokeMethod('TextInput.show');
 
 
                                               MESSAGE_ID = state
@@ -790,62 +879,107 @@ print("insideeeeeeeee");
                                                         Row(
                                                           children: [
 
+
                                                             state.messages![index].Image_type.toString()=="Uint8List"
-                                                                ? Container(
-                                                                width: w / 1.5,
-                                                                height: h / 4,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.only(
-                                                                    topLeft: Radius.circular(20),
-                                                                    topRight: Radius.circular(20),
-                                                                    bottomLeft: Radius.circular(0),
-                                                                    bottomRight: Radius.circular(0),
-                                                                  ),
-                                                                  boxShadow: [
-                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                  ],
-                                                                ),
-                                                                child: ClipRRect(
-                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                    child:Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
-                                                                ))
+                                                                ? InkWell(
+                                                              onTap: (){
+                                                                //DirectChat
+                                                                WidgetsBinding.instance!
+                                                                    .addPostFrameCallback((_) =>     Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                    builder: (context) => HeroImage(Uint8List2: state.messages![index].Image1!, Image_Type: 'Uint8List',id: state.messages![index].ID,),),
+                                                                ));
+
+                                                              },
+                                                              child: Hero(
+                                                                  tag: "Image${state.messages![index].ID}",
+                                                                  child: Material(
+                                                                      type: MaterialType.transparency,
+                                                                      child :Container(
+                                                                          width: w / 1.5,
+                                                                          height: h / 4,
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.only(
+                                                                              topLeft: Radius.circular(20),
+                                                                              topRight: Radius.circular(20),
+                                                                              bottomLeft: Radius.circular(0),
+                                                                              bottomRight: Radius.circular(0),
+                                                                            ),
+                                                                            boxShadow: [
+                                                                              BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                            ],
+                                                                          ),
+                                                                          child: ClipRRect(
+                                                                              borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                              child:Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
+                                                                          )))),
+                                                            )
                                                                 : state.messages![index].Image_type.toString()=="Backend"
-                                                                ?Container(
-                                                                width: w / 1.5,
-                                                                height: h / 4,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.only(
-                                                                    topLeft: Radius.circular(20),
-                                                                    topRight: Radius.circular(20),
-                                                                    bottomLeft: Radius.circular(0),
-                                                                    bottomRight: Radius.circular(0),
-                                                                  ),
-                                                                  boxShadow: [
-                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                  ],
-                                                                ),
-                                                                child: ClipRRect(
-                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                    child:Image.network(state.messages![index].message!,fit: BoxFit.fill,)
-                                                                ))
-                                                                :Container(
-                                                                width: w / 1.5,
-                                                                height: h / 4,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.only(
-                                                                    topLeft: Radius.circular(20),
-                                                                    topRight: Radius.circular(20),
-                                                                    bottomLeft: Radius.circular(0),
-                                                                    bottomRight: Radius.circular(0),
-                                                                  ),
-                                                                  boxShadow: [
-                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                  ],
-                                                                ),
-                                                                child: ClipRRect(
-                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                    child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
-                                                                ))
+                                                                ?  InkWell(
+                                                                onTap: (){
+                                                                  //DirectChat
+                                                                  WidgetsBinding.instance!
+                                                                      .addPostFrameCallback((_) =>     Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                      builder: (context) => HeroImage(path: state.messages![index].message!, Image_Type: 'Backend',id: state.messages![index].ID,),),
+                                                                  ));
+                                                                },
+                                                                child: Hero(
+                                                                    tag: "Image${state.messages![index].ID}",
+                                                                    child:  Material(
+                                                                        type: MaterialType.transparency,
+                                                                        child : Container(
+                                                                            width: w / 1.5,
+                                                                            height: h / 4,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(20),
+                                                                                topRight: Radius.circular(20),
+                                                                                bottomLeft: Radius.circular(0),
+                                                                                bottomRight: Radius.circular(0),
+                                                                              ),
+                                                                              boxShadow: [
+                                                                                BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                              ],
+                                                                            ),
+                                                                            child: ClipRRect(
+                                                                                borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                                child:Image.network(state.messages![index].message!,fit: BoxFit.fill,)
+                                                                            )))))
+                                                                :  InkWell(
+                                                                onTap: (){
+                                                                  //DirectChat
+                                                                  WidgetsBinding.instance!
+                                                                      .addPostFrameCallback((_) =>     Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                      builder: (context) => HeroImage(Image: state.messages![index].Image2!, Image_Type: 'File',id: state.messages![index].ID,),),
+                                                                  ));
+                                                                },
+                                                                child: Hero(
+                                                                    tag: "Image${state.messages![index].ID}",
+                                                                    child: Material(
+                                                                        type: MaterialType.transparency,
+                                                                        child :Container(
+                                                                            width: w / 1.5,
+                                                                            height: h / 4,
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius: BorderRadius.only(
+                                                                                topLeft: Radius.circular(20),
+                                                                                topRight: Radius.circular(20),
+                                                                                bottomLeft: Radius.circular(0),
+                                                                                bottomRight: Radius.circular(0),
+                                                                              ),
+                                                                              boxShadow: [
+                                                                                BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                              ],
+                                                                            ),
+                                                                            child: ClipRRect(
+                                                                                borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                                child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
+                                                                            )))))
                                                           ],
 
                                                         ),
@@ -1123,18 +1257,21 @@ print("insideeeeeeeee");
                                                                         const SizedBox(
                                                                           width: 5,
                                                                         ),
-                                                                        Container(
-                                                                          width: w / 8,
-                                                                          height: h / 79,
-                                                                          child: Text(
-                                                                            state.messages![index].RepliedTOMessage.toString()
-                                                                            // state.RepliedToMessage.toString()
-                                                                            ,
-                                                                            textAlign: TextAlign.left,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                            style: const TextStyle(color: Color.fromRGBO(196, 196, 196, 1), fontFamily: 'Red Hat Text', fontSize: 10.539999961853027, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w300, height: 1),
-                                                                          ),
-                                                                        ),
+
+
+                                                              Container(
+                                                                width: w / 5,
+                                                                height: h / 10,
+                                                                margin: EdgeInsets.only(top: h/100),
+                                                                child:
+                                                                Text('Sticker...', textAlign: TextAlign.left, style: TextStyle(
+                                                                    color: Color.fromRGBO(196, 196, 196, 1),
+                                                                    fontFamily: 'Sofia Pro',
+                                                                    fontSize: 7.539999961853027,
+                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                    fontWeight: FontWeight.w400,
+                                                                    height: 1
+                                                                ),)),
                                                                       ],
                                                                     ),
                                                                   ],
@@ -1269,6 +1406,22 @@ print("insideeeeeeeee");
                                                                         const SizedBox(
                                                                           width: 5,
                                                                         ),
+                                                                        // Container(
+                                                                        //     width: w / 5,
+                                                                        //     height: h / 10,
+                                                                        //     child:
+                                                                        //     Text('Sticker...', textAlign: TextAlign.left, style: TextStyle(
+                                                                        //         color: Color.fromRGBO(196, 196, 196, 1),
+                                                                        //         fontFamily: 'Sofia Pro',
+                                                                        //         fontSize: 7.539999961853027,
+                                                                        //         letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                        //         fontWeight: FontWeight.w400,
+                                                                        //         height: 1
+                                                                        //     ),)
+
+
+
+
                                                                         Container(
                                                                             width: w / 5,
                                                                             height: h / 10,
@@ -1285,19 +1438,14 @@ print("insideeeeeeeee");
                                                                                     bottomLeft: Radius.circular(0),
                                                                                     bottomRight: Radius.circular(0),
                                                                                   ),
-                                                                                  boxShadow: [
-                                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                  ],
                                                                                 ),
-                                                                                child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                    child:
-                                                                                    Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
+                                                                                child:
+                                                                                Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
 
 
 
-                                                                                ))
-                                                                                :    state.messages![index].Image_type.toString()=="Backend"
+                                                                            )
+                                                                                : state.messages![index].Image_type.toString()=="Backend"
                                                                                 ?Container(
                                                                                 width: w / 5,
                                                                                 height: h / 10,
@@ -1308,17 +1456,12 @@ print("insideeeeeeeee");
                                                                                     bottomLeft: Radius.circular(0),
                                                                                     bottomRight: Radius.circular(0),
                                                                                   ),
-                                                                                  boxShadow: [
-                                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                  ],
                                                                                 ),
-                                                                                child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                    child:
-                                                                                    Image.network(state.messages![index].RepliedTOMessage!,fit: BoxFit.fill,)
+                                                                                child:
+                                                                                Image.network(state.messages![index].RepliedTOMessage!,fit: BoxFit.fill,)
 
 
-                                                                                ))
+                                                                            )
                                                                                 :Container(
                                                                                 width: w / 5,
                                                                                 height: h / 10,
@@ -1329,15 +1472,11 @@ print("insideeeeeeeee");
                                                                                     bottomLeft: Radius.circular(0),
                                                                                     bottomRight: Radius.circular(0),
                                                                                   ),
-                                                                                  boxShadow: [
-                                                                                    BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                  ],
                                                                                 ),
-                                                                                child: ClipRRect(
-                                                                                    borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                    child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
-                                                                                ))
-                                                                        )
+                                                                                child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
+                                                                            )
+                                                                        ),
+                                                                //        )
                                                                         // Container(
                                                                         //   width: w / 8,
                                                                         //   height: h / 79,
@@ -1464,7 +1603,6 @@ print("insideeeeeeeee");
 
 
 
-
                                 Container(
                                   height:state.Isreply!?h/7: h / 10,
                                   decoration: BoxDecoration(
@@ -1494,6 +1632,7 @@ print("insideeeeeeeee");
                                               RecorderView(
                                                 onSaved: _onRecordComplete,
                                                 bubble_id: -1,
+                                                Want_test: false,
                                               ),
                                               Container(
                                                 width: w / 10,
@@ -1525,29 +1664,31 @@ print("insideeeeeeeee");
                                                     TextInputAction.done,
                                                     focusNode: _focus,
                                                     onChanged: (value) {
-
+                                                      if (_SendMessageController.text.isNotEmpty) {
+                                                        _Sprints_Bloc.add(
+                                                            KetbaordStatus((b) => b..status = true)); //toggle ui view
+                                                      } else {
+                                                        _Sprints_Bloc.add(KetbaordStatus((b) => b..status = false));
+                                                      }
                                                     },
                                                     onFieldSubmitted: (value)async {
 
-                                                      String Comment =
-                                                          _SendMessageController
-                                                              .text;
+                                                      print(_SendMessageController
+                                                          .text.trim().length);
+                                                      if (_SendMessageController
+                                                          .text.trim().length!=0) {
+
+                                                        String Comment =
+                                                            _SendMessageController
+                                                                .text;
+                                                        if (state .Status!) {
 
 
-                                                        if (state.Status!) {
-                                                          print(state.Isreply);
-                                                          print( state.type);
-                                                          print( _SendMessageController
-                                                              .text
-                                                              .isNotEmpty);
-                                                          if (state.Isreply == true &&
-
-                                                              state.messages![index].ModelType == "Message" &&
-                                                              _SendMessageController
-                                                                  .text
-                                                                  .isNotEmpty) {
-
-                                                            _Sprints_Bloc.add(
+                                                          if (state.Isreply ==true &&
+                                                              state .messages![index].ModelType ==  "Message" &&
+                                                              _SendMessageController.text .isNotEmpty) {
+                                                            _Sprints_Bloc
+                                                                .add(
                                                                 ShowReplyWidget((
                                                                     b) => b..Isreply = false));
 
@@ -1555,18 +1696,20 @@ print("insideeeeeeeee");
                                                                 .RepliedToMessage!;
 
                                                             SetmyReplyMessage(
-                                                                message, Comment,
-                                                              type,MESSAGE_ID);
-
-                                                          } else
-                                                          if (state.Isreply ==
-                                                              true &&
-                                                              state.type ==
+                                                                message,
+                                                                Comment,
+                                                                type,
+                                                                MESSAGE_ID);
+                                                          }
+                                                          else if (state.Isreply == true &&
+                                                              state
+                                                                  .type ==
                                                                   "Image" &&
                                                               _SendMessageController
                                                                   .text
                                                                   .isNotEmpty) {
-                                                            _Sprints_Bloc.add(
+                                                            _Sprints_Bloc
+                                                                .add(
                                                                 ShowReplyWidget((
                                                                     b) => b..Isreply = false));
 
@@ -1574,71 +1717,85 @@ print("insideeeeeeeee");
                                                             // String path= "";
 
 
-                                                            if (state.Image_type == "Backend") {
-                                                              path = state.RepliedToMessage!;
-
-                                                            } else if (state.Image_type ==   "File") {
-                                                              filee = state.File_image!;
-
-                                                            } else if (state.Image_type =="Uint8List") {
-
-                                                              Image122 =state.Image1!;
+                                                            if (state
+                                                                .Image_type ==
+                                                                "Backend") {
+                                                              path = state
+                                                                  .RepliedToMessage!;
+                                                            } else
+                                                            if (state
+                                                                .Image_type ==
+                                                                "File") {
+                                                              filee =
+                                                              state
+                                                                  .File_image!;
+                                                            } else
+                                                            if (state
+                                                                .Image_type ==
+                                                                "Uint8List") {
+                                                              Image122 =
+                                                              state
+                                                                  .Image1!;
                                                             }
 
                                                             SetMyReplyToImage(
                                                                 Comment,
-                                                                state.messages![index].Type!,
-                                                                state.Image_type!
+                                                                state
+                                                                    .messages![index]
+                                                                    .Type!,
+                                                                state
+                                                                    .Image_type!
                                                             );
-
-
                                                           }
-                                                          else
-                                                          if (state.Isreply ==
+                                                          else if (state
+                                                              .Isreply ==
                                                               true &&
-                                                              state.type ==
+                                                              state
+                                                                  .type ==
                                                                   "Voice" &&
                                                               _SendMessageController
                                                                   .text
                                                                   .isNotEmpty) {
-                                                            _Sprints_Bloc.add(
-                                                                ShowReplyWidget(
-                                                                        (b) =>
-                                                                    b
-                                                                      ..Isreply =
-                                                                      false));
+                                                            _Sprints_Bloc
+                                                                .add(
+                                                                ShowReplyWidget((
+                                                                    b) => b..Isreply = false));
 
-
-                                                            //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                            _Sprints_Bloc.add(
-                                                                addReply((b) =>
-                                                                b
-                                                                  ..comment = _SendMessageController
-                                                                      .text
-                                                                  ..message_id = MESSAGE_ID));
+                                                            SetmyReplyToVoice(
+                                                                state
+                                                                    .RepliedToMessage!,
+                                                                Comment,
+                                                                state
+                                                                    .messages![index]
+                                                                    .Type!);
                                                           }
                                                           else
                                                           if (_SendMessageController
-                                                              .text.isNotEmpty &&
-                                                              state.Isreply ==
+                                                              .text
+                                                              .isNotEmpty &&
+                                                              state
+                                                                  .Isreply ==
                                                                   false) {
-                                                            setMYMessage(_SendMessageController.text);
+                                                            setMYMessage(
+                                                                _SendMessageController
+                                                                    .text);
 
-                                                            _controller
-                                                                .animateTo(
-                                                              _controller
-                                                                  .position
-                                                                  .minScrollExtent,
-                                                              duration: Duration(
-                                                                  microseconds: 2),
-                                                              curve: Curves
-                                                                  .easeIn,
-                                                            );
+                                                            // _controller
+                                                            //     .animateTo(
+                                                            //   _controller
+                                                            //       .position
+                                                            //       .minScrollExtent,
+                                                            //   duration: Duration(
+                                                            //       microseconds: 2),
+                                                            //   curve: Curves
+                                                            //       .easeIn,
+                                                            // );
                                                           }
                                                         }
-                                                        _SendMessageController.clear();
 
+                                                      }
+                                                      _SendMessageController
+                                                          .clear();
 
                                                     },
                                                     cursorColor: Colors.black,
@@ -1686,107 +1843,131 @@ print("insideeeeeeeee");
                                                             size: 30,
                                                           ),
                                                           onPressed: ()async{
+                                                            print(_SendMessageController
+                                                                .text.trim().length);
+                                                            if (_SendMessageController
+                                                                .text.trim().length!=0) {
 
-
-                                                            String Comment =
-                                                                _SendMessageController
-                                                                    .text;
-
-
-                                                            if (state.Status!) {
-                                                              if (state.Isreply == true &&
-                                                                  state.messages![index].ModelType == "Message" &&
-                                                                  _SendMessageController.text.isNotEmpty) {
-
-                                                                _Sprints_Bloc.add(
-                                                                    ShowReplyWidget((b) => b..Isreply = false));
-                                                                String message = state.RepliedToMessage!;
-                                                                SetmyReplyMessage(message,Comment,type,MESSAGE_ID);
-
-
-
-
-                                                                   } else if (state.Isreply! && state.type =="Image" &&
-
-
-
+                                                              String Comment =
                                                                   _SendMessageController
-                                                                      .text
-                                                                      .isNotEmpty) {
-                                                                _Sprints_Bloc.add(
-                                                                    ShowReplyWidget((
-                                                                        b) => b..Isreply = false));
+                                                                      .text;
+                                                              if (state .Status!) {
 
 
-                                                                // String path= "";
+                                                                if (state.Isreply ==true &&
+                                                                    state .messages![index].ModelType ==  "Message" &&
+                                                                    _SendMessageController.text .isNotEmpty) {
+                                                                  _Sprints_Bloc
+                                                                      .add(
+                                                                      ShowReplyWidget((
+                                                                          b) => b..Isreply = false));
 
+                                                                  String message = state
+                                                                      .RepliedToMessage!;
 
-                                                                if (state.Image_type == "Backend") {
-                                                                  path = state.RepliedToMessage!;
-
-                                                                } else if (state.Image_type ==   "File") {
-                                                                  filee = state.File_image!;
-
-                                                                } else if (state.Image_type =="Uint8List") {
-
-                                                                  Image122 =state.Image1!;
+                                                                  SetmyReplyMessage(
+                                                                      message,
+                                                                      Comment,
+                                                                      type,
+                                                                      MESSAGE_ID);
                                                                 }
+                                                                else if (state.Isreply == true &&
+                                                                    state
+                                                                        .type ==
+                                                                        "Image" &&
+                                                                    _SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty) {
+                                                                  _Sprints_Bloc
+                                                                      .add(
+                                                                      ShowReplyWidget((
+                                                                          b) => b..Isreply = false));
 
-                                                                SetMyReplyToImage(
-                                                                    Comment,
-                                                                    state.messages![index].Type!,
-                                                                    state.Image_type!
-                                                                );
+
+                                                                  // String path= "";
 
 
+                                                                  if (state
+                                                                      .Image_type ==
+                                                                      "Backend") {
+                                                                    path = state
+                                                                        .RepliedToMessage!;
+                                                                  } else
+                                                                  if (state
+                                                                      .Image_type ==
+                                                                      "File") {
+                                                                    filee =
+                                                                    state
+                                                                        .File_image!;
+                                                                  } else
+                                                                  if (state
+                                                                      .Image_type ==
+                                                                      "Uint8List") {
+                                                                    Image122 =
+                                                                    state
+                                                                        .Image1!;
+                                                                  }
+
+                                                                  SetMyReplyToImage(
+                                                                      Comment,
+                                                                      state
+                                                                          .messages![index]
+                                                                          .Type!,
+                                                                      state
+                                                                          .Image_type!
+                                                                  );
+                                                                }
+                                                                else if (state
+                                                                    .Isreply ==
+                                                                    true &&
+                                                                    state
+                                                                        .type ==
+                                                                        "Voice" &&
+                                                                    _SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty) {
+                                                                  _Sprints_Bloc
+                                                                      .add(
+                                                                      ShowReplyWidget((
+                                                                          b) => b..Isreply = false));
+
+                                                                  SetmyReplyToVoice(
+                                                                      state
+                                                                          .RepliedToMessage!,
+                                                                      Comment,
+                                                                      state
+                                                                          .messages![index]
+                                                                          .Type!);
+                                                                }
+                                                                else
+                                                                if (_SendMessageController
+                                                                    .text
+                                                                    .isNotEmpty &&
+                                                                    state
+                                                                        .Isreply ==
+                                                                        false) {
+                                                                  setMYMessage(
+                                                                      _SendMessageController
+                                                                          .text);
+
+                                                                  // _controller
+                                                                  //     .animateTo(
+                                                                  //   _controller
+                                                                  //       .position
+                                                                  //       .minScrollExtent,
+                                                                  //   duration: Duration(
+                                                                  //       microseconds: 2),
+                                                                  //   curve: Curves
+                                                                  //       .easeIn,
+                                                                  // );
+                                                                }
                                                               }
-                                                              else
-                                                              if (state.Isreply ==
-                                                                  true &&
-                                                                  state.type ==
-                                                                      "Voice" &&
-                                                                  _SendMessageController
-                                                                      .text
-                                                                      .isNotEmpty) {
-                                                                _Sprints_Bloc.add(
-                                                                    ShowReplyWidget(
-                                                                            (b) =>
-                                                                        b
-                                                                          ..Isreply =
-                                                                          false));
 
-
-                                                                //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                                _Sprints_Bloc.add(
-                                                                    addReply((b) =>
-                                                                    b
-                                                                      ..comment = _SendMessageController
-                                                                          .text
-                                                                      ..message_id = MESSAGE_ID));
-                                                              }
-                                                              else
-                                                              if (_SendMessageController
-                                                                  .text.isNotEmpty &&
-                                                                  state.Isreply ==
-                                                                      false) {
-                                                                setMYMessage(_SendMessageController.text);
-
-                                                                _controller
-                                                                    .animateTo(
-                                                                  _controller
-                                                                      .position
-                                                                      .minScrollExtent,
-                                                                  duration: Duration(
-                                                                      microseconds: 2),
-                                                                  curve: Curves
-                                                                      .easeIn,
-                                                                );
-                                                              }
                                                             }
-                                                            _SendMessageController.clear();
-
+                                                            _SendMessageController
+                                                                .clear();
                                                           },
+
                                                           color: widget.IS_sprints? Color(
                                                               0xff15D078):Color(0xffCF6D38)
                                                         ),
@@ -1824,7 +2005,7 @@ print("insideeeeeeeee");
                                 offset: Offset(0, 4),
                                 blurRadius: 4)
                           ],
-                          color:widget.IS_sprints?Color(0xff15D078): Colors.red,
+                          color:widget.IS_sprints?Color(0xff15D078): COLOR.shadow,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1835,27 +2016,84 @@ print("insideeeeeeeee");
                                   icon: SvgPicture.asset(
                                       "Assets/images/Frame 11.svg",
                                       width: 30,
-                                      color: Color(0xff303030)),
+                                      color:widget.IS_sprints? Color(0xff303030):Colors.white),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 )),
-                            SizedBox(width: 5,),
-                            Text(
-                          widget.His_Alias!,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                  color: Color(0xff303030),
-                                  fontFamily: 'Futura',
-                                  fontSize: 24,
-                                  letterSpacing:
-                                  0.5 /*percentages not used in flutter. defaulting to zero*/,
-                                  fontWeight: FontWeight.w500,
-                                  height: 1),
-                            ),
+                            Container(
+                          margin:
+                          !widget.IS_sprints?  EdgeInsets.only(left: h/30):EdgeInsets.only(left: h/10000),
+                          child: Row(
+                            children: [
+                              widget.IS_sprints?Container():
+                            state.MYAliasISsuccess!?
+                              CircleAvatar(
+                                radius: 14,
+                                backgroundImage: NetworkImage(
 
+                                    state
+                                        .GetAlias!.friend!.avatar
+                                        .toString()
 
+                                ),
+                                backgroundColor:
+                                Color(HisBackgroundColor),
+                              ):Container(),
+                              !widget.IS_sprints?  SizedBox(width: 10,):Container(),
+                              Text(
+                                widget.His_Alias!,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color:widget.IS_sprints? Color(0xff303030):Colors.white,
+                                    fontFamily: 'Futura',
+                                    fontSize: 24,
+                                    letterSpacing:
+                                    0.5 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1),
+                              ),
+                            ],
+                          ),
+                        ),
                             SizedBox(width: 5,),
+                            widget.IS_sprints?
+                                Container(
+                                  width: w/3,
+                                  margin: EdgeInsets.only(left: h/20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      IconButton(
+                                        icon: SvgPicture.asset(
+                                            "Assets/images/Frame.svg",
+                                            width: w/18,
+                                            color:Color(0xff303030)),
+                                        onPressed: () {
+
+                                        },
+                                      ),
+
+                                      IconButton(
+                                        icon: SvgPicture.asset(
+                                            "Assets/images/Group 252.svg",
+                                            width: w/18,
+                                            color: Color(0xff303030)),
+                                        onPressed: () {
+                                          WidgetsBinding.instance!
+                                              .addPostFrameCallback((_) => Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SprintLobby(plan_title: widget.Plan_Title!,Bubble_id: widget.Bubble_id!,my_id: widget.my_ID,)),
+                                          ));
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
+
+                                :
                             state.TypingStatusSuccess!
                                 ? state.TypingStatus!
                                 ? Text("Typing...")
@@ -2267,5 +2505,47 @@ print("insideeeeeeeee");
     if (type =="me") {
       SetMyImage(path);
     }
+  }
+}
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path, this.Image,required this.Image_Type, this.Uint8List2,this.id}) : super(key: key);
+  File? Image;
+  String? path;
+  String Image_Type;
+  Uint8List? Uint8List2;
+  int? id;
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Hero(
+      tag: "Image${widget.id}",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Container(
+              width: w/1.1,
+              height: h/2.5,
+              child:widget.Image_Type=="Uint8List"
+                  ?Image.memory(widget.Uint8List2!,fit: BoxFit.fill,)
+                  :widget.Image_Type=="Backend"
+                  ?Image.network(widget.path!,fit: BoxFit.fill,)
+                  :Image.file(widget.Image!,fit: BoxFit.fill,)
+
+
+              ,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

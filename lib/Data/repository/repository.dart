@@ -9,6 +9,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -26,6 +27,7 @@ import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleMod
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
+import 'package:bubbles/models/NotifyMeCloseToBubbleModel/NotifyMeCloseToBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
@@ -334,19 +336,21 @@ class Repository implements IRepository {
     return Data;
   }
   Future<OldMessagesModel> GetOldMessages(
+      String send_by,
       int Reciver_ID,
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.GetOldMessages(auth, Reciver_ID);
+    final Data = await _ihttpHelper.GetOldMessages(auth, send_by,Reciver_ID);
     return Data;
   }
   Future<PostMessagesModel> PostMessage(
       String Message,
-      int Reciver_ID,
       String sms_type,
+      String send_by,
+      int Reciver_ID,
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.PostMessage(auth, Message, sms_type, Reciver_ID);
+    final Data = await _ihttpHelper.PostMessage(auth, Message, sms_type,send_by, Reciver_ID);
     return Data;
   }
   Future<GetAliasModel> GetAlias(
@@ -470,6 +474,91 @@ class Repository implements IRepository {
   Future<GetbadgeModel> Getbadge ()async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.Getbadge(auth);
+    return Data;
+  }
+  Future<GetPrimeBubblesModel> PopularNowBubbles(
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.PopularNowBubbles(auth);
+    return Data;
+  }
+  Future<NotifyMeCloseToBubbleModel> NotifyMeImCloseToBubble(
+      String distance,
+      String Title,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.NotifyMeImCloseToBubble(auth, distance, Title);
+    return Data;
+  }
+  Future<SendBubbleMessageModel> SendTopicFlow(
+      int bubble_id,
+      String content,
+      String title,
+      int main_type,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendTopicFlow(auth, bubble_id, content, title, main_type);
+    return Data;
+  }
+  Future<FlowChatModel> GetFlowOldMessages(
+      int message_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetFlowOldMessages(auth, message_id);
+    return Data;
+  }
+  Future<SendBubbleMessageModel> SendMessageInFlows(
+      String message,
+      String type,
+      int message_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendMessageInFlows(auth, message, type, message_id);
+    return Data;
+  }
+  Future<SendBubbleMessageModel> SendReplyInFlows(
+      String comment,
+      int sub_message_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendReplyInFlows(auth, comment, sub_message_id);
+    return Data;
+  }
+  Future<SendBubbleMessageModel> SendPollFlow(
+      String comment,
+      String title,
+      int type,//new_poll
+      int bubble_id,
+      List<String> answers
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendPollFlow(auth, comment, title, type, bubble_id, answers);
+    return Data;
+  }
+
+
+
+  Future<SendBubbleMessageModel> SendFootPrintFlow(
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendFootPrintFlow(auth, title, image, type, bubble_id);
+    return Data;
+  }
+
+
+
+  Future<SendBubbleMessageModel> SendMediaDumpFlow(
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SendMediaDumpFlow(auth, title, image, type, bubble_id);
     return Data;
   }
 

@@ -5,7 +5,7 @@
 //
 // import 'package:bloc/bloc.dart';
 // import 'package:bubbles/Data/repository/irepository.dart';
-// import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
+// import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/FlowsChat_Screen.dart';
 // import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
 //
 // import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Event.dart';

@@ -67,7 +67,7 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
         );
 
 
-        final date2 = await _repository.GetOldMessages(event.receiver_id!);
+        final date2 = await _repository.GetOldMessages(event.send_by!,event.receiver_id!);
 
         yield state.rebuild((b) => b
           ..isLoading = false
@@ -459,7 +459,9 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
 
             base64String.isNotEmpty
                 ?base64String
-                :BACKEND_PATH,
+                :BACKEND_PATH.isEmpty
+            ?event.Message!
+            :BACKEND_PATH,
 
             event.DestinationUser_id!,
             event.comment!,event.MessageDirection_Type!, event.Model_Type!);
@@ -467,6 +469,7 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
 
         final date = await _repository.AddReply(event.comment!,event.message_id!);
         print(date);
+
 
 
         yield state.rebuild((b) => b
@@ -488,7 +491,7 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
     if (event is SendMessage) {
       try {
 
-        final date = await _repository.PostMessage(event.message!, event.receiver_id!,event.Type!);
+        final date = await _repository.PostMessage(event.message!,event.Type!,event.send_by! ,event.receiver_id!);
 
         yield state.rebuild((b) => b
           ..PostMessages.replace(date)

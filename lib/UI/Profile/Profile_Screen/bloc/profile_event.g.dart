@@ -248,10 +248,13 @@ class GetAvatarsBuilder implements Builder<GetAvatars, GetAvatarsBuilder> {
 }
 
 class _$GOtoFrinedlIST extends GOtoFrinedlIST {
+  @override
+  final bool? Status;
+
   factory _$GOtoFrinedlIST([void Function(GOtoFrinedlISTBuilder)? updates]) =>
       (new GOtoFrinedlISTBuilder()..update(updates))._build();
 
-  _$GOtoFrinedlIST._() : super._();
+  _$GOtoFrinedlIST._({this.Status}) : super._();
 
   @override
   GOtoFrinedlIST rebuild(void Function(GOtoFrinedlISTBuilder) updates) =>
@@ -264,17 +267,19 @@ class _$GOtoFrinedlIST extends GOtoFrinedlIST {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GOtoFrinedlIST;
+    return other is GOtoFrinedlIST && Status == other.Status;
   }
 
   @override
   int get hashCode {
-    return 252562701;
+    return $jf($jc(0, Status.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GOtoFrinedlIST').toString();
+    return (newBuiltValueToStringHelper('GOtoFrinedlIST')
+          ..add('Status', Status))
+        .toString();
   }
 }
 
@@ -282,7 +287,20 @@ class GOtoFrinedlISTBuilder
     implements Builder<GOtoFrinedlIST, GOtoFrinedlISTBuilder> {
   _$GOtoFrinedlIST? _$v;
 
+  bool? _Status;
+  bool? get Status => _$this._Status;
+  set Status(bool? Status) => _$this._Status = Status;
+
   GOtoFrinedlISTBuilder();
+
+  GOtoFrinedlISTBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Status = $v.Status;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(GOtoFrinedlIST other) {
@@ -299,7 +317,7 @@ class GOtoFrinedlISTBuilder
   GOtoFrinedlIST build() => _build();
 
   _$GOtoFrinedlIST _build() {
-    final _$result = _$v ?? new _$GOtoFrinedlIST._();
+    final _$result = _$v ?? new _$GOtoFrinedlIST._(Status: Status);
     replace(_$result);
     return _$result;
   }

@@ -35,7 +35,9 @@ class _Permission2_ScreenState extends State<Permission2_Screen> {
         .width;
     TextTheme _TextTheme = Theme.of(context).textTheme;
     ColorScheme ColorS = Theme.of(context).colorScheme;
-    return BlocBuilder(
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: BlocBuilder(
         bloc: _loginBloc,
         builder: (BuildContext context, loginState state) {
           return   Scaffold(
@@ -44,8 +46,9 @@ class _Permission2_ScreenState extends State<Permission2_Screen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
+                Column(
+
+                children: [
                       Container(
                         height: h/3,
                         child: Container(
@@ -75,8 +78,7 @@ class _Permission2_ScreenState extends State<Permission2_Screen> {
                         child: Container(
                           width: w/1.4,
                           margin: EdgeInsets.only(bottom: h/50,top: h/40),
-                          child:   Expanded(
-                            child: Text("""We’ll let you know 
+                          child:  Text("""We’ll let you know
 when there’s a bubble
 at your location!""",
                               textAlign: TextAlign.left,
@@ -90,15 +92,16 @@ at your location!""",
                                         .blockSizeVertical!
                                         .toDouble(),
                               ),),
-                          ),
+
 
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
+                ],
+                ),
 
+            Column(
+
+              children: [
                       InkWell(
                         onTap: (){
                           _loginBloc.add(SetPermission((b) =>b
@@ -109,10 +112,7 @@ at your location!""",
                                 context,
                                 MaterialPageRoute(
                                   fullscreenDialog: true,
-                                  builder: (context) =>
-                                      NavigatorTopBar( ),
-//
-
+                                  builder: (context) =>NavigatorTopBar(),
                                 ),
                               )
                           );
@@ -172,16 +172,16 @@ at your location!""",
                           ),)
                       ),),
                       Text(""),
+              ],
+            ),
 
-                    ],
-                  )
                 ],
               ),
             ),
           );
 
         }
-    );
+    ));
 
 
 

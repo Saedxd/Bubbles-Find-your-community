@@ -3,6 +3,7 @@ library EventdetialMessageModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/EventOldMessagesModel/NewPollAnswersModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -22,7 +23,27 @@ abstract class EventdetialMessageModel
   String? get CreatAt;
   String? get sender_background_color;
   String? get sender_image;
-
+  String? get title;
+  String? get content;
+  String? get image;
+  BuiltList<NewPollAnswersModel>? get answers;
+//  "answers": [
+//                     {
+//                         "id": 1,
+//                         "answer": 1,
+//                         "rate": 0
+//                     },
+//                     {
+//                         "id": 2,
+//                         "answer": 2,
+//                         "rate": 0
+//                     },
+//                     {
+//                         "id": 3,
+//                         "answer": 3,
+//                         "rate": 0
+//                     }
+//                 ],
 
 
 

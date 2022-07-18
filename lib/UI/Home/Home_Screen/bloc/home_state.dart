@@ -35,6 +35,9 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   String? get GetNewBubblesError;
   bool? get GetNewBubblesIsloading;
   bool? get GetNewBubblesSuccess;
+
+  bool? get ShapStatus;
+
   Set<Marker>? get marker2;
   Set<Circle>? get circle;
 
@@ -63,6 +66,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
   GetPrimeBubblesModel? get GetNearbyBubbles;
+  GetPrimeBubblesModel? get GetPopularNowBubbles;
   ProfileDateModel? get ProfileDate;
 
 
@@ -76,6 +80,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetNewBubblesError = ""
       ..GetAllPrimeError = ""
       ..isLoading = false
+      ..ShapStatus = false
       ..MakeHimBEableTOSEtBubble = false
       ..GetNewBubblesIsloading = false
       ..GetAllPrimeIsloading = false
@@ -87,7 +92,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetprofileISloading = false
       ..GetprofileSuccess = false
       ..Value=0
-      ..NewValue = 0
+      ..NewValue = 50
       ..ValueLOading=false
       ..showDialogg = false
         ..done = false
@@ -96,6 +101,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..GetPrimeBubbles =null
         ..ProfileDate =null
         ..GetNearbyBubbles =null
+        ..GetPopularNowBubbles =null
         ..Userlat =37.9715
         ..Userlng =23.7267
         ..BubblesRaduis =[]

@@ -25,14 +25,15 @@ import 'package:socket_io_client/socket_io_client.dart';
 import '../../Profile_Screen/pages/Porfile_Screen.dart';
 
 class Friendlist extends StatefulWidget {
-  const Friendlist({Key? key}) : super(key: key);
-
+   Friendlist({Key? key,required this.is_WithoutTopBar}) : super(key: key);
+bool is_WithoutTopBar;
   @override
   State<Friendlist> createState() => _FriendlistState();
 }
-
+Timer? timer12;
 class _FriendlistState extends State<Friendlist> {
   final _FriendlistBloc = sl<FriendListBloc>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _SearchController = TextEditingController();
   final _formkey1 = GlobalKey<FormState>(); //
@@ -40,7 +41,7 @@ class _FriendlistState extends State<Friendlist> {
   List<int> FrinedsID=[];
   List<int> FrinedsStatus=[];
   final ScrollController controllerTwo = ScrollController();
-  Timer? timer;
+
   int Freindid = 0;
   int index = 0;
   bool Checknow = false;
@@ -49,15 +50,6 @@ class _FriendlistState extends State<Friendlist> {
   int Index =0;
   void ListenForONlineFriends() {
     if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      //
-      // socket!.on("new_friend_online", (value) {
-      //   print("Yes im in Frined list : $value");
-      //   if (value["status"] != "offline") {
-      //     FrinedsStatus[value["index"]] = 1;
-      //   }
-      //     _FriendlistBloc.add(RefreshState());
-      // });
-      //
       socket!.on("friend_online", (value) {
         print(value);
         if (value["status"] != "offline") {
@@ -91,7 +83,7 @@ class _FriendlistState extends State<Friendlist> {
     FocuseNODE = FocusNode();
     _FriendlistBloc.add(GetFreinds());
     ListenForONlineFriends();
-   timer = Timer.periodic(Duration(seconds: 10), (Timer t) => LoopONfrinedsId());
+    timer12 = Timer.periodic(Duration(seconds: 10), (Timer t)async => LoopONfrinedsId());
   }
 
   @override
@@ -289,7 +281,7 @@ class _FriendlistState extends State<Friendlist> {
               body :  Column(
                   children: [
                     SizedBox(
-                      height: 55,
+                      height:widget.is_WithoutTopBar?h/21: h/14,
                     ),
                     Text(""),
                     Row(
@@ -575,21 +567,37 @@ class _FriendlistState extends State<Friendlist> {
                                                             MainAxisAlignment.center,
                                                             children: [
                                                               Text("  "),
-                                                              Container(
-                                                                width: w/6,
-                                                                height: h/11.7,
-                                                                child:   CachedNetworkImage(
-                                                                  imageUrl:
-                                                                  state.GetFriends!.friends![index].avatar.toString()!=null
-                                                                      ? state.GetFriends!.friends![index].avatar.toString():"Assets/images/DefaultAvatar.png",
+                                                              Hero(
+                                                                tag: "Image${state.GetFriends!.friends![index].id}",
+                                                                child:        Material(
+                                                                  type: MaterialType.transparency,
+                                                                  child : Container(
+                                                                  width: w/6,
+                                                                  height: h/11.7,
+                                                                  child:   InkWell(
+                                                                    onTap: (){
+                                                                      Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                          builder: (context) => HeroImage(path:   state.GetFriends!.friends![index].avatar.toString(),color:  BackgroundColor,id:state.GetFriends!.friends![index].id ,),),
+                                                                      );
+                                                                    },
+                                                                    child: CachedNetworkImage(
+                                                                      imageUrl:
+                                                                      state.GetFriends!.friends![index].avatar.toString()!=null
+                                                                          ? state.GetFriends!.friends![index].avatar.toString():"Assets/images/DefaultAvatar.png",
 
-                                                                  errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                    radius: 30,
-                                                                    backgroundImage: imageProvider,
-                                                                    backgroundColor:   Color(BackgroundColor),
+                                                                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                        radius: 30,
+                                                                        backgroundImage: imageProvider,
+                                                                        backgroundColor:   Color(BackgroundColor),
+                                                                      ),
+                                                                    ),
                                                                   ),
+
                                                                 ),
+                                                                )
 
                                                               )
                                                             ],
@@ -665,6 +673,62 @@ class _FriendlistState extends State<Friendlist> {
     return const SpinKitThreeBounce(
       color: Colors.blue,
       size: 30.0,
+    );
+  }
+}
+class HeroImage extends StatefulWidget {
+  HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
+  int? color;
+  String? path;
+  int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body:  InkWell(
+        onTap: (){
+          Navigator.pop(context);
+        },
+        child: Container(
+          width: w,
+          height: h,
+          color: Colors.transparent,
+          child: Hero(
+            tag: "Image${widget.id}",
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Center(
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      widget.path!,
+                      errorWidget: (context, url, error) => Center(child: Text("Error")),
+                      imageBuilder: (context, imageProvider) => CircleAvatar(
+                        radius: w/2,
+                        backgroundImage: imageProvider,
+                        backgroundColor:   Color(widget.color!),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

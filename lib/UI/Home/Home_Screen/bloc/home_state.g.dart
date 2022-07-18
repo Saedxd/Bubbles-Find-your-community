@@ -38,6 +38,8 @@ class _$HomeState extends HomeState {
   @override
   final bool? GetNewBubblesSuccess;
   @override
+  final bool? ShapStatus;
+  @override
   final Set<Marker>? marker2;
   @override
   final Set<Circle>? circle;
@@ -80,6 +82,8 @@ class _$HomeState extends HomeState {
   @override
   final GetPrimeBubblesModel? GetNearbyBubbles;
   @override
+  final GetPrimeBubblesModel? GetPopularNowBubbles;
+  @override
   final ProfileDateModel? ProfileDate;
 
   factory _$HomeState([void Function(HomeStateBuilder)? updates]) =>
@@ -101,6 +105,7 @@ class _$HomeState extends HomeState {
       this.GetNewBubblesError,
       this.GetNewBubblesIsloading,
       this.GetNewBubblesSuccess,
+      this.ShapStatus,
       this.marker2,
       this.circle,
       this.locationn,
@@ -122,6 +127,7 @@ class _$HomeState extends HomeState {
       this.GetPrimeBubbles,
       this.GetNewBubbles,
       this.GetNearbyBubbles,
+      this.GetPopularNowBubbles,
       this.ProfileDate})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(Userlat, 'HomeState', 'Userlat');
@@ -154,6 +160,7 @@ class _$HomeState extends HomeState {
         GetNewBubblesError == other.GetNewBubblesError &&
         GetNewBubblesIsloading == other.GetNewBubblesIsloading &&
         GetNewBubblesSuccess == other.GetNewBubblesSuccess &&
+        ShapStatus == other.ShapStatus &&
         marker2 == other.marker2 &&
         circle == other.circle &&
         locationn == other.locationn &&
@@ -175,6 +182,7 @@ class _$HomeState extends HomeState {
         GetPrimeBubbles == other.GetPrimeBubbles &&
         GetNewBubbles == other.GetNewBubbles &&
         GetNearbyBubbles == other.GetNearbyBubbles &&
+        GetPopularNowBubbles == other.GetPopularNowBubbles &&
         ProfileDate == other.ProfileDate;
   }
 
@@ -198,25 +206,25 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode),
-                                                                                BubblesRaduis.hashCode),
-                                                                            Userlat.hashCode),
-                                                                        Userlng.hashCode),
-                                                                    ValueLOading.hashCode),
-                                                                NewValue.hashCode),
-                                                            MakeHimBEableTOSEtBubble.hashCode),
-                                                        GetprofileISloading.hashCode),
-                                                    GetprofileSuccess.hashCode),
-                                                BUBBLElistS1.hashCode),
-                                            FilteredBUBBLElists1.hashCode),
-                                        BUBBLElistS2.hashCode),
-                                    FilteredBUBBLElists2.hashCode),
-                                BUBBLElistS3.hashCode),
-                            FilteredBUBBLElists3.hashCode),
-                        GetBubbles.hashCode),
-                    GetPrimeBubbles.hashCode),
-                GetNewBubbles.hashCode),
-            GetNearbyBubbles.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode),
+                                                                                Userlat.hashCode),
+                                                                            Userlng.hashCode),
+                                                                        ValueLOading.hashCode),
+                                                                    NewValue.hashCode),
+                                                                MakeHimBEableTOSEtBubble.hashCode),
+                                                            GetprofileISloading.hashCode),
+                                                        GetprofileSuccess.hashCode),
+                                                    BUBBLElistS1.hashCode),
+                                                FilteredBUBBLElists1.hashCode),
+                                            BUBBLElistS2.hashCode),
+                                        FilteredBUBBLElists2.hashCode),
+                                    BUBBLElistS3.hashCode),
+                                FilteredBUBBLElists3.hashCode),
+                            GetBubbles.hashCode),
+                        GetPrimeBubbles.hashCode),
+                    GetNewBubbles.hashCode),
+                GetNearbyBubbles.hashCode),
+            GetPopularNowBubbles.hashCode),
         ProfileDate.hashCode));
   }
 
@@ -238,6 +246,7 @@ class _$HomeState extends HomeState {
           ..add('GetNewBubblesError', GetNewBubblesError)
           ..add('GetNewBubblesIsloading', GetNewBubblesIsloading)
           ..add('GetNewBubblesSuccess', GetNewBubblesSuccess)
+          ..add('ShapStatus', ShapStatus)
           ..add('marker2', marker2)
           ..add('circle', circle)
           ..add('locationn', locationn)
@@ -259,6 +268,7 @@ class _$HomeState extends HomeState {
           ..add('GetPrimeBubbles', GetPrimeBubbles)
           ..add('GetNewBubbles', GetNewBubbles)
           ..add('GetNearbyBubbles', GetNearbyBubbles)
+          ..add('GetPopularNowBubbles', GetPopularNowBubbles)
           ..add('ProfileDate', ProfileDate))
         .toString();
   }
@@ -335,6 +345,10 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   bool? get GetNewBubblesSuccess => _$this._GetNewBubblesSuccess;
   set GetNewBubblesSuccess(bool? GetNewBubblesSuccess) =>
       _$this._GetNewBubblesSuccess = GetNewBubblesSuccess;
+
+  bool? _ShapStatus;
+  bool? get ShapStatus => _$this._ShapStatus;
+  set ShapStatus(bool? ShapStatus) => _$this._ShapStatus = ShapStatus;
 
   Set<Marker>? _marker2;
   Set<Marker>? get marker2 => _$this._marker2;
@@ -438,6 +452,12 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   set GetNearbyBubbles(GetPrimeBubblesModelBuilder? GetNearbyBubbles) =>
       _$this._GetNearbyBubbles = GetNearbyBubbles;
 
+  GetPrimeBubblesModelBuilder? _GetPopularNowBubbles;
+  GetPrimeBubblesModelBuilder get GetPopularNowBubbles =>
+      _$this._GetPopularNowBubbles ??= new GetPrimeBubblesModelBuilder();
+  set GetPopularNowBubbles(GetPrimeBubblesModelBuilder? GetPopularNowBubbles) =>
+      _$this._GetPopularNowBubbles = GetPopularNowBubbles;
+
   ProfileDateModelBuilder? _ProfileDate;
   ProfileDateModelBuilder get ProfileDate =>
       _$this._ProfileDate ??= new ProfileDateModelBuilder();
@@ -464,6 +484,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _GetNewBubblesError = $v.GetNewBubblesError;
       _GetNewBubblesIsloading = $v.GetNewBubblesIsloading;
       _GetNewBubblesSuccess = $v.GetNewBubblesSuccess;
+      _ShapStatus = $v.ShapStatus;
       _marker2 = $v.marker2;
       _circle = $v.circle;
       _locationn = $v.locationn;
@@ -485,6 +506,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
       _GetNearbyBubbles = $v.GetNearbyBubbles?.toBuilder();
+      _GetPopularNowBubbles = $v.GetPopularNowBubbles?.toBuilder();
       _ProfileDate = $v.ProfileDate?.toBuilder();
       _$v = null;
     }
@@ -525,6 +547,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               GetNewBubblesError: GetNewBubblesError,
               GetNewBubblesIsloading: GetNewBubblesIsloading,
               GetNewBubblesSuccess: GetNewBubblesSuccess,
+              ShapStatus: ShapStatus,
               marker2: marker2,
               circle: circle,
               locationn: locationn,
@@ -548,6 +571,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
               GetNewBubbles: _GetNewBubbles?.build(),
               GetNearbyBubbles: _GetNearbyBubbles?.build(),
+              GetPopularNowBubbles: _GetPopularNowBubbles?.build(),
               ProfileDate: _ProfileDate?.build());
     } catch (_) {
       late String _$failedField;
@@ -560,6 +584,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
         _GetNewBubbles?.build();
         _$failedField = 'GetNearbyBubbles';
         _GetNearbyBubbles?.build();
+        _$failedField = 'GetPopularNowBubbles';
+        _GetPopularNowBubbles?.build();
         _$failedField = 'ProfileDate';
         _ProfileDate?.build();
       } catch (e) {

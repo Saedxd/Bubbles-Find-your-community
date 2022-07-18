@@ -4,7 +4,7 @@ import 'package:bubbles/core/Colors/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../core/theme/ResponsiveText.dart';
+import '../../../../core/theme/ResponsiveText.dart';
 
 class slider extends StatefulWidget {
   UsersData? Users;

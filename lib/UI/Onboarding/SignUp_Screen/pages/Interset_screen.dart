@@ -5,7 +5,7 @@ import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/ChooseAvatar_screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
-import 'package:bubbles/UI/Onboarding/Slider_Screeen/Sliderr.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Sliderr.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:conditional_questions/conditional_questions.dart';

@@ -11,6 +11,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -45,6 +46,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/ClearBadgeModel/ClearBadgeModel.dart';
 import '../../models/GetFriendsModel/GetFriendsModel.dart';
+import '../../models/NotifyMeCloseToBubbleModel/NotifyMeCloseToBubbleModel.dart';
 import '../../models/permissionsModel/PermissionsModel.dart';
 
 
@@ -186,12 +188,14 @@ abstract class IHttpHelper {
       );
   Future<OldMessagesModel> GetOldMessages(
       String Auth,
+      String send_by,
       int Reciver_ID,
       );
   Future<PostMessagesModel> PostMessage(
       String Auth,
       String Message,
       String sms_type,
+      String send_by,
       int Reciver_ID,
       );
   Future<GetAliasModel> GetAlias(
@@ -271,6 +275,66 @@ abstract class IHttpHelper {
   Future<GetbadgeModel> Getbadge(
       String Auth,
       );
+  Future<GetPrimeBubblesModel> PopularNowBubbles(
+      String Auth,
+      );
+  Future<NotifyMeCloseToBubbleModel> NotifyMeImCloseToBubble(
+      String Auth,
+      String distance,
+      String Title,
+      );
+
+  Future<FlowChatModel> GetFlowOldMessages(
+      String Auth,
+      int message_id,
+      );
+  Future<SendBubbleMessageModel> SendMessageInFlows(
+      String Auth,
+      String message,
+      String type,
+      int message_id,
+      );
+  Future<SendBubbleMessageModel> SendReplyInFlows(
+      String Auth,
+      String comment,
+      int sub_message_id,
+      );
+  Future<SendBubbleMessageModel> SendTopicFlow(
+      String Auth,
+      int bubble_id,
+      String content,
+      String title,
+      int main_type,
+      );
+  Future<SendBubbleMessageModel> SendPollFlow(
+      String Auth,
+      String comment,
+      String title,
+      int type,//new_poll
+      int bubble_id,
+      List<String> answers
+      );
+
+
+
+  Future<SendBubbleMessageModel> SendFootPrintFlow(
+      String Auth,
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      );
+
+
+
+  Future<SendBubbleMessageModel> SendMediaDumpFlow(
+      String Auth,
+      String title,
+      String image,//base64
+      int type,//new_poll
+      int bubble_id,
+      );
+
 
 }
 //ihttp_helper is the abstaction class for http_helper

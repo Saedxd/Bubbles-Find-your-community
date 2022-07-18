@@ -47,7 +47,7 @@ abstract class GetAvatars extends profileEvent
 }
 abstract class GOtoFrinedlIST extends profileEvent
     implements Built<GOtoFrinedlIST,GOtoFrinedlISTBuilder> {
-
+bool? get Status;
   GOtoFrinedlIST._();
   factory GOtoFrinedlIST([updates(GOtoFrinedlISTBuilder b)]) = _$GOtoFrinedlIST;
 }

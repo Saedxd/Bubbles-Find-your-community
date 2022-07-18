@@ -57,12 +57,42 @@ part 'UserMadeBubbleModel.g.dart';
 
 abstract class UserMadeBubbleModel
     implements Built<UserMadeBubbleModel,UserMadeBubbleModelBuilder> {
-  String? get name;
-  String? get email;
-  String? get created_at;
-  String? get updated_at;
-  int? get id;
 
+  String? get email;
+  // String? get created_at;
+  // String? get updated_at;
+  String? get first_name;
+  String? get last_name;
+  // String? get lattitude;
+  // String? get langtitude;
+  String? get background_color;
+  // String? get birth_date;
+  String? get bio;
+  String? get alias;
+  String? get avatar;
+  String? get fcm_token;
+  String? get avatar_social;
+  String? get serial;
+  String? get image1;
+  String? get image2;
+  // int? get social_id;
+  // int? get id;
+  // int? get is_notify;
+  // int? get is_verify;
+  // int? get gender;
+  // int? get points;
+  // int? get daily_login;
+  // int? get is_register;
+  // int? get invitation;
+  // int? get added_user;
+  // int? get visit_bubble;
+  // int? get login_at;
+  // int? get num_friend;
+  // int? get num_bubble;
+  // int? get invitation_num;
+  // int? get added_user_status;
+  // int? get invitation_status;
+  // int? get visit_bubble_status;
 
   UserMadeBubbleModel._();
   factory UserMadeBubbleModel([void Function(UserMadeBubbleModelBuilder b)? updates]) =  _$UserMadeBubbleModel;

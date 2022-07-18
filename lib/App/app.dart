@@ -105,6 +105,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         iOS: iosDetails);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
 
+      print(message);
       RemoteNotification? notification=message.notification;
       AndroidNotification? android=message.notification?.android;
       if(notification!=null && android!=null)

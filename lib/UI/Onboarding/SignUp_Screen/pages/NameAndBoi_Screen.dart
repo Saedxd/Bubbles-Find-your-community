@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Onboarding/Permissions_Screen/pages/Permission1_Screen.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Permission1_Screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_bloc.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
@@ -150,26 +150,29 @@ print("---------------------------");
           if (state.success == true &&
               diditonece == true &&
               state.UserDataINDEX == 5) {
-            pref.saveUser(
-              state.data as UserData,
-              state.data!.user!.token!,
-              true,
-            );
+            if (state.data!.msg=="success") {
+              pref.saveUser(
+                state.data as UserData,
+                state.data!.user!.token!,
+                true,
+              );
 
-            print(state.data!.user!.data!.gender!);
-            WidgetsBinding.instance!
-                .addPostFrameCallback((_) => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Permission1_Screen()),
-                    ));
-
+              print(state.data!.user!.data!.gender!);
+              WidgetsBinding.instance!
+                  .addPostFrameCallback((_) =>
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Permission1_Screen()),
+                  ));
+            }
             diditonece = false;
           }
 
           if (state.success == true &&
               diditonece == true &&
               state.UpdateProfileINDEX == 6) {
+            if (state.data!.msg=="success") {
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => Navigator.pushReplacement(
                       context,
@@ -177,7 +180,9 @@ print("---------------------------");
                           builder: (context) => Permission1_Screen()),
                     ));
 
+
             diditonece = false;
+            }
           }
 
           return  GestureDetector(

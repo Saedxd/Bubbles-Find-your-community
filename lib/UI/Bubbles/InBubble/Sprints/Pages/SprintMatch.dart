@@ -19,7 +19,9 @@ class SprintMatch extends StatefulWidget{
     required this.BackgroundColor2
     ,required this.His_Alias,
     required this.MY_ID,
-    required this.His_ID
+    required this.His_ID,
+    required this.Bubble_id,
+    required this.Plan_title
   })
       : super(key: key,);
   String Image1;
@@ -29,6 +31,8 @@ class SprintMatch extends StatefulWidget{
   int BackgroundColor2;
   int MY_ID;
   int His_ID;
+  int Bubble_id;
+  String Plan_title;
 
   @override
   State<SprintMatch> createState() => _SprintMatchState();
@@ -66,14 +70,14 @@ class _SprintMatchState extends State<SprintMatch> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(""),
-                    Column(
+                      Column(
                       children: [
                         Text(widget.His_Alias, textAlign: TextAlign.center, style: TextStyle(
                             color: Color.fromRGBO(255, 255, 255, 1),
                             fontFamily: 'Red Hat Display',
-                            fontSize: 37.78947448730469,
+                            fontSize: 39.78947448730469,
                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.w500,
                             height: 1
                         ),),
                         SizedBox(height: h/20,),
@@ -116,7 +120,7 @@ class _SprintMatchState extends State<SprintMatch> {
 
                       ],
                     ),
-
+                      Text(""),
                       InkWell(
                         onTap: (){
                           WidgetsBinding.instance!
@@ -124,7 +128,7 @@ class _SprintMatchState extends State<SprintMatch> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                Sprints(my_ID: widget.MY_ID, receiver_id: widget.His_ID, IS_sprints: true,His_Alias: widget.His_Alias,)),
+                                Sprints(my_ID: widget.MY_ID, receiver_id: widget.His_ID, IS_sprints: true,His_Alias: widget.His_Alias,Bubble_id: widget.Bubble_id,Plan_Title: widget.Plan_title,)),
 
                           ));
                         },

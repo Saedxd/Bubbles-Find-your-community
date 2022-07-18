@@ -1900,4 +1900,396 @@ class RemoveFriendBuilder
   }
 }
 
+class _$SendTopicFlow extends SendTopicFlow {
+  @override
+  final String? Title;
+  @override
+  final String? Content;
+  @override
+  final int? Bubble_id;
+
+  factory _$SendTopicFlow([void Function(SendTopicFlowBuilder)? updates]) =>
+      (new SendTopicFlowBuilder()..update(updates))._build();
+
+  _$SendTopicFlow._({this.Title, this.Content, this.Bubble_id}) : super._();
+
+  @override
+  SendTopicFlow rebuild(void Function(SendTopicFlowBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SendTopicFlowBuilder toBuilder() => new SendTopicFlowBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SendTopicFlow &&
+        Title == other.Title &&
+        Content == other.Content &&
+        Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf(
+        $jc($jc($jc(0, Title.hashCode), Content.hashCode), Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SendTopicFlow')
+          ..add('Title', Title)
+          ..add('Content', Content)
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class SendTopicFlowBuilder
+    implements Builder<SendTopicFlow, SendTopicFlowBuilder> {
+  _$SendTopicFlow? _$v;
+
+  String? _Title;
+  String? get Title => _$this._Title;
+  set Title(String? Title) => _$this._Title = Title;
+
+  String? _Content;
+  String? get Content => _$this._Content;
+  set Content(String? Content) => _$this._Content = Content;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  SendTopicFlowBuilder();
+
+  SendTopicFlowBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Title = $v.Title;
+      _Content = $v.Content;
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SendTopicFlow other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SendTopicFlow;
+  }
+
+  @override
+  void update(void Function(SendTopicFlowBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SendTopicFlow build() => _build();
+
+  _$SendTopicFlow _build() {
+    final _$result = _$v ??
+        new _$SendTopicFlow._(
+            Title: Title, Content: Content, Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SendFootPrintFlow extends SendFootPrintFlow {
+  @override
+  final String? title;
+  @override
+  final String? image;
+  @override
+  final int? Bubble_id;
+
+  factory _$SendFootPrintFlow(
+          [void Function(SendFootPrintFlowBuilder)? updates]) =>
+      (new SendFootPrintFlowBuilder()..update(updates))._build();
+
+  _$SendFootPrintFlow._({this.title, this.image, this.Bubble_id}) : super._();
+
+  @override
+  SendFootPrintFlow rebuild(void Function(SendFootPrintFlowBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SendFootPrintFlowBuilder toBuilder() =>
+      new SendFootPrintFlowBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SendFootPrintFlow &&
+        title == other.title &&
+        image == other.image &&
+        Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf(
+        $jc($jc($jc(0, title.hashCode), image.hashCode), Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SendFootPrintFlow')
+          ..add('title', title)
+          ..add('image', image)
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class SendFootPrintFlowBuilder
+    implements Builder<SendFootPrintFlow, SendFootPrintFlowBuilder> {
+  _$SendFootPrintFlow? _$v;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  SendFootPrintFlowBuilder();
+
+  SendFootPrintFlowBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _title = $v.title;
+      _image = $v.image;
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SendFootPrintFlow other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SendFootPrintFlow;
+  }
+
+  @override
+  void update(void Function(SendFootPrintFlowBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SendFootPrintFlow build() => _build();
+
+  _$SendFootPrintFlow _build() {
+    final _$result = _$v ??
+        new _$SendFootPrintFlow._(
+            title: title, image: image, Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SendMediaDumpFlow extends SendMediaDumpFlow {
+  @override
+  final String? title;
+  @override
+  final String? image;
+  @override
+  final int? Bubble_id;
+
+  factory _$SendMediaDumpFlow(
+          [void Function(SendMediaDumpFlowBuilder)? updates]) =>
+      (new SendMediaDumpFlowBuilder()..update(updates))._build();
+
+  _$SendMediaDumpFlow._({this.title, this.image, this.Bubble_id}) : super._();
+
+  @override
+  SendMediaDumpFlow rebuild(void Function(SendMediaDumpFlowBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SendMediaDumpFlowBuilder toBuilder() =>
+      new SendMediaDumpFlowBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SendMediaDumpFlow &&
+        title == other.title &&
+        image == other.image &&
+        Bubble_id == other.Bubble_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf(
+        $jc($jc($jc(0, title.hashCode), image.hashCode), Bubble_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SendMediaDumpFlow')
+          ..add('title', title)
+          ..add('image', image)
+          ..add('Bubble_id', Bubble_id))
+        .toString();
+  }
+}
+
+class SendMediaDumpFlowBuilder
+    implements Builder<SendMediaDumpFlow, SendMediaDumpFlowBuilder> {
+  _$SendMediaDumpFlow? _$v;
+
+  String? _title;
+  String? get title => _$this._title;
+  set title(String? title) => _$this._title = title;
+
+  String? _image;
+  String? get image => _$this._image;
+  set image(String? image) => _$this._image = image;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  SendMediaDumpFlowBuilder();
+
+  SendMediaDumpFlowBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _title = $v.title;
+      _image = $v.image;
+      _Bubble_id = $v.Bubble_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SendMediaDumpFlow other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SendMediaDumpFlow;
+  }
+
+  @override
+  void update(void Function(SendMediaDumpFlowBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SendMediaDumpFlow build() => _build();
+
+  _$SendMediaDumpFlow _build() {
+    final _$result = _$v ??
+        new _$SendMediaDumpFlow._(
+            title: title, image: image, Bubble_id: Bubble_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SendPollFlow extends SendPollFlow {
+  @override
+  final String? Question;
+  @override
+  final int? bubble_id;
+  @override
+  final List<String>? answers;
+
+  factory _$SendPollFlow([void Function(SendPollFlowBuilder)? updates]) =>
+      (new SendPollFlowBuilder()..update(updates))._build();
+
+  _$SendPollFlow._({this.Question, this.bubble_id, this.answers}) : super._();
+
+  @override
+  SendPollFlow rebuild(void Function(SendPollFlowBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SendPollFlowBuilder toBuilder() => new SendPollFlowBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SendPollFlow &&
+        Question == other.Question &&
+        bubble_id == other.bubble_id &&
+        answers == other.answers;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc(0, Question.hashCode), bubble_id.hashCode), answers.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('SendPollFlow')
+          ..add('Question', Question)
+          ..add('bubble_id', bubble_id)
+          ..add('answers', answers))
+        .toString();
+  }
+}
+
+class SendPollFlowBuilder
+    implements Builder<SendPollFlow, SendPollFlowBuilder> {
+  _$SendPollFlow? _$v;
+
+  String? _Question;
+  String? get Question => _$this._Question;
+  set Question(String? Question) => _$this._Question = Question;
+
+  int? _bubble_id;
+  int? get bubble_id => _$this._bubble_id;
+  set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
+
+  List<String>? _answers;
+  List<String>? get answers => _$this._answers;
+  set answers(List<String>? answers) => _$this._answers = answers;
+
+  SendPollFlowBuilder();
+
+  SendPollFlowBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Question = $v.Question;
+      _bubble_id = $v.bubble_id;
+      _answers = $v.answers;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(SendPollFlow other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SendPollFlow;
+  }
+
+  @override
+  void update(void Function(SendPollFlowBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SendPollFlow build() => _build();
+
+  _$SendPollFlow _build() {
+    final _$result = _$v ??
+        new _$SendPollFlow._(
+            Question: Question, bubble_id: bubble_id, answers: answers);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

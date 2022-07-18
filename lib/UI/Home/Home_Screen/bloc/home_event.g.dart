@@ -1418,4 +1418,269 @@ class GetNearbyBubblesBuilder
   }
 }
 
+class _$GetPopularNowBubbles extends GetPopularNowBubbles {
+  factory _$GetPopularNowBubbles(
+          [void Function(GetPopularNowBubblesBuilder)? updates]) =>
+      (new GetPopularNowBubblesBuilder()..update(updates))._build();
+
+  _$GetPopularNowBubbles._() : super._();
+
+  @override
+  GetPopularNowBubbles rebuild(
+          void Function(GetPopularNowBubblesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetPopularNowBubblesBuilder toBuilder() =>
+      new GetPopularNowBubblesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetPopularNowBubbles;
+  }
+
+  @override
+  int get hashCode {
+    return 618923906;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('GetPopularNowBubbles').toString();
+  }
+}
+
+class GetPopularNowBubblesBuilder
+    implements Builder<GetPopularNowBubbles, GetPopularNowBubblesBuilder> {
+  _$GetPopularNowBubbles? _$v;
+
+  GetPopularNowBubblesBuilder();
+
+  @override
+  void replace(GetPopularNowBubbles other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetPopularNowBubbles;
+  }
+
+  @override
+  void update(void Function(GetPopularNowBubblesBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetPopularNowBubbles build() => _build();
+
+  _$GetPopularNowBubbles _build() {
+    final _$result = _$v ?? new _$GetPopularNowBubbles._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$NotifyNearBubble extends NotifyNearBubble {
+  @override
+  final String? Distance;
+  @override
+  final String? Title;
+
+  factory _$NotifyNearBubble(
+          [void Function(NotifyNearBubbleBuilder)? updates]) =>
+      (new NotifyNearBubbleBuilder()..update(updates))._build();
+
+  _$NotifyNearBubble._({this.Distance, this.Title}) : super._();
+
+  @override
+  NotifyNearBubble rebuild(void Function(NotifyNearBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  NotifyNearBubbleBuilder toBuilder() =>
+      new NotifyNearBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is NotifyNearBubble &&
+        Distance == other.Distance &&
+        Title == other.Title;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, Distance.hashCode), Title.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('NotifyNearBubble')
+          ..add('Distance', Distance)
+          ..add('Title', Title))
+        .toString();
+  }
+}
+
+class NotifyNearBubbleBuilder
+    implements Builder<NotifyNearBubble, NotifyNearBubbleBuilder> {
+  _$NotifyNearBubble? _$v;
+
+  String? _Distance;
+  String? get Distance => _$this._Distance;
+  set Distance(String? Distance) => _$this._Distance = Distance;
+
+  String? _Title;
+  String? get Title => _$this._Title;
+  set Title(String? Title) => _$this._Title = Title;
+
+  NotifyNearBubbleBuilder();
+
+  NotifyNearBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Distance = $v.Distance;
+      _Title = $v.Title;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(NotifyNearBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$NotifyNearBubble;
+  }
+
+  @override
+  void update(void Function(NotifyNearBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  NotifyNearBubble build() => _build();
+
+  _$NotifyNearBubble _build() {
+    final _$result =
+        _$v ?? new _$NotifyNearBubble._(Distance: Distance, Title: Title);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeShapStatus extends ChangeShapStatus {
+  factory _$ChangeShapStatus(
+          [void Function(ChangeShapStatusBuilder)? updates]) =>
+      (new ChangeShapStatusBuilder()..update(updates))._build();
+
+  _$ChangeShapStatus._() : super._();
+
+  @override
+  ChangeShapStatus rebuild(void Function(ChangeShapStatusBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeShapStatusBuilder toBuilder() =>
+      new ChangeShapStatusBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeShapStatus;
+  }
+
+  @override
+  int get hashCode {
+    return 304080668;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('ChangeShapStatus').toString();
+  }
+}
+
+class ChangeShapStatusBuilder
+    implements Builder<ChangeShapStatus, ChangeShapStatusBuilder> {
+  _$ChangeShapStatus? _$v;
+
+  ChangeShapStatusBuilder();
+
+  @override
+  void replace(ChangeShapStatus other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeShapStatus;
+  }
+
+  @override
+  void update(void Function(ChangeShapStatusBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeShapStatus build() => _build();
+
+  _$ChangeShapStatus _build() {
+    final _$result = _$v ?? new _$ChangeShapStatus._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SaveEventStatus extends SaveEventStatus {
+  factory _$SaveEventStatus([void Function(SaveEventStatusBuilder)? updates]) =>
+      (new SaveEventStatusBuilder()..update(updates))._build();
+
+  _$SaveEventStatus._() : super._();
+
+  @override
+  SaveEventStatus rebuild(void Function(SaveEventStatusBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SaveEventStatusBuilder toBuilder() =>
+      new SaveEventStatusBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SaveEventStatus;
+  }
+
+  @override
+  int get hashCode {
+    return 1030716695;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('SaveEventStatus').toString();
+  }
+}
+
+class SaveEventStatusBuilder
+    implements Builder<SaveEventStatus, SaveEventStatusBuilder> {
+  _$SaveEventStatus? _$v;
+
+  SaveEventStatusBuilder();
+
+  @override
+  void replace(SaveEventStatus other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SaveEventStatus;
+  }
+
+  @override
+  void update(void Function(SaveEventStatusBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SaveEventStatus build() => _build();
+
+  _$SaveEventStatus _build() {
+    final _$result = _$v ?? new _$SaveEventStatus._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
