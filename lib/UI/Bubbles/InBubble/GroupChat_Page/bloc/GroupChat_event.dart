@@ -230,16 +230,33 @@ abstract class SendMediaDumpFlow extends GroupChatevent
     implements Built<SendMediaDumpFlow,SendMediaDumpFlowBuilder> {
   String? get title;
   String? get image;
+  String? get image_type;
   int? get Bubble_id;
   SendMediaDumpFlow._();
   factory SendMediaDumpFlow([updates(SendMediaDumpFlowBuilder b)]) = _$SendMediaDumpFlow;
 }
 
-abstract class SendPollFlow extends GroupChatevent
-    implements Built<SendPollFlow,SendPollFlowBuilder> {
+abstract class SendPollFloww extends GroupChatevent
+    implements Built<SendPollFloww,SendPollFlowwBuilder> {
   String? get Question;
   int? get bubble_id;
   List<String>? get answers;
-  SendPollFlow._();
-  factory SendPollFlow([updates(SendPollFlowBuilder b)]) = _$SendPollFlow;
+  SendPollFloww._();
+  factory SendPollFloww([updates(SendPollFlowwBuilder b)]) = _$SendPollFloww;
 }
+
+
+abstract class ChangeFlowOptionsStatus extends GroupChatevent
+    implements Built<ChangeFlowOptionsStatus,ChangeFlowOptionsStatusBuilder> {
+  bool? get status;
+  ChangeFlowOptionsStatus._();
+  factory ChangeFlowOptionsStatus([updates(ChangeFlowOptionsStatusBuilder b)]) = _$ChangeFlowOptionsStatus;
+}
+
+abstract class ChangeMediaImageTaken extends GroupChatevent
+    implements Built<ChangeMediaImageTaken,ChangeMediaImageTakenBuilder> {
+  bool? get status;
+  ChangeMediaImageTaken._();
+  factory ChangeMediaImageTaken([updates(ChangeMediaImageTakenBuilder b)]) = _$ChangeMediaImageTaken;
+}
+

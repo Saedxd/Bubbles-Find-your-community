@@ -29,7 +29,14 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   bool? get success;
 
 
+  bool? get MediaImageTaken;
+
+
+
+
+
   bool? get KetbaordStatuss;
+  bool? get FlowOptionsOpened;
 
   bool? get Done;
 
@@ -59,6 +66,9 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   EventOldMessagesModel? get EventOldMessages;
   GetAliasModel? get GetAliasForInsideBubbleUser;
   SendBubbleMessageModel? get SendBubbleTopicFlow;
+  SendBubbleMessageModel? get SendBubblePollFow;
+  SendBubbleMessageModel? get SendBubbleMediaDump;
+  SendBubbleMessageModel? get SendBubbleFootPrint;
   SendBubbleMessageModel? get SendBubbleMessage;
   SendBubbleMessageModel? get SendBubbleReply;
   GetUsersInsideBubbleModel? get GetUsersInsideBubble;
@@ -112,6 +122,8 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       // ..is_Nodejs = false
       // ..is_Backend = false
       ..isLoading = false
+      ..MediaImageTaken = false
+      ..FlowOptionsOpened = false
       ..GetInsideUsersISloading = false
       ..GetInsideUsersSuccess = false
       ..FreindAddlOADING = false
@@ -152,6 +164,9 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       ..Done = false
       // ..is_base64 = false
       ..GetAlias=null
+      ..SendBubbleMediaDump=null
+      ..SendBubblePollFow=null
+      ..SendBubbleFootPrint=null
       ..GetUsersInsideBubble=null
       ..SendBubbleTopicFlow=null
       ..AddNewFriend=null

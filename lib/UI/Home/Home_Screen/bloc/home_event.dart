@@ -186,3 +186,47 @@ abstract class GetNearbyBubbles extends HomeEvent
   GetNearbyBubbles._();
   factory GetNearbyBubbles([Function(GetNearbyBubblesBuilder b) updates]) = _$GetNearbyBubbles;
 }
+abstract class GetPopularNowBubbles extends HomeEvent
+    implements Built<GetPopularNowBubbles,GetPopularNowBubblesBuilder> {
+
+  GetPopularNowBubbles._();
+  factory GetPopularNowBubbles([updates(GetPopularNowBubblesBuilder b)]) = _$GetPopularNowBubbles;
+}
+
+abstract class NotifyNearBubble extends HomeEvent
+    implements Built<NotifyNearBubble, NotifyNearBubbleBuilder> {
+String? get Distance;
+String? get Title;
+  NotifyNearBubble._();
+  factory NotifyNearBubble([Function(NotifyNearBubbleBuilder b) updates]) = _$NotifyNearBubble;
+}
+abstract class ChangeShapStatus extends HomeEvent
+    implements Built<ChangeShapStatus, ChangeShapStatusBuilder> {
+  ChangeShapStatus._();
+
+  factory ChangeShapStatus([updates(ChangeShapStatusBuilder b)]) = _$ChangeShapStatus;
+}
+
+abstract class SaveEventStatus extends HomeEvent
+    implements Built<SaveEventStatus, SaveEventStatusBuilder> {
+  SaveEventStatus._();
+
+  factory SaveEventStatus([updates(SaveEventStatusBuilder b)]) = _$SaveEventStatus;
+}
+
+
+abstract class GetSavedBubbles extends HomeEvent
+    implements Built<GetSavedBubbles,GetSavedBubblesBuilder> {
+  int? get User_id;
+  GetSavedBubbles._();
+  factory GetSavedBubbles([updates(GetSavedBubblesBuilder b)]) = _$GetSavedBubbles;
+}
+
+
+abstract class ToggleSaveBubble extends HomeEvent
+    implements Built<ToggleSaveBubble,ToggleSaveBubbleBuilder> {
+  int? get Bubble_id;
+  int? get index;
+  ToggleSaveBubble._();
+  factory ToggleSaveBubble([updates(ToggleSaveBubbleBuilder b)]) = _$ToggleSaveBubble;
+}

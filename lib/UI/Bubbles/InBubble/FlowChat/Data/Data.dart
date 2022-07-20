@@ -35,5 +35,7 @@ class GroupChatFlowsMessage {
   Uint8List? Image1;
   String? VoicePath;
 
+  bool? ISMediaDump;
+
   GroupChatFlowsMessage({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

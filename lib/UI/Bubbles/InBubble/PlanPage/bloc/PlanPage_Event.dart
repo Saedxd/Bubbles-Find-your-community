@@ -30,3 +30,16 @@ abstract class GetProfile extends PlanPageEvent
   GetProfile._();
   factory GetProfile([updates(GetProfileBuilder b)]) = _$GetProfile;
 }
+abstract class ToggleSaveBubble extends PlanPageEvent
+    implements Built<ToggleSaveBubble,ToggleSaveBubbleBuilder> {
+  int? get Bubble_id;
+  int? get index;
+  ToggleSaveBubble._();
+  factory ToggleSaveBubble([updates(ToggleSaveBubbleBuilder b)]) = _$ToggleSaveBubble;
+}
+abstract class GetWhoSavedBubble extends PlanPageEvent
+    implements Built<GetWhoSavedBubble,GetWhoSavedBubbleBuilder> {
+  int? get Bubble_id;
+  GetWhoSavedBubble._();
+  factory GetWhoSavedBubble([updates(GetWhoSavedBubbleBuilder b)]) = _$GetWhoSavedBubble;
+}

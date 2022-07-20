@@ -3,6 +3,7 @@ library home_state;
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
+import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:built_value/built_value.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,9 +25,19 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get done;
 
 
+
+  bool? get ToggleSaveIsloading;
+
+  GetPrimeBubblesModel? get GetSavedBubbles;
+  SaveBubbleModel? get SaveBubble;
+  List<BubbleData>? get SavedBubbleList;
+
   String? get GetAllBubblesError;
   bool? get GetAllBubblesIsloading;
   bool? get GetAllBubblesSuccess;
+
+  bool? get NearbyIsloading;
+  bool? get NearbySuccess;
 
   String? get GetAllPrimeError;
   bool? get GetAllPrimeIsloading;
@@ -62,6 +73,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   List<BubbleData>? get BUBBLElistS3;
   List<BubbleData>? get FilteredBUBBLElists3;
 
+  List<BubbleData>? get Used_From_All_Lists;
+
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
   GetPrimeBubblesModel? get GetNewBubbles;
@@ -81,6 +94,9 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetAllPrimeError = ""
       ..isLoading = false
       ..ShapStatus = false
+      ..NearbyIsloading = false
+      ..NearbySuccess = false
+      ..ToggleSaveIsloading = false
       ..MakeHimBEableTOSEtBubble = false
       ..GetNewBubblesIsloading = false
       ..GetAllPrimeIsloading = false
@@ -97,6 +113,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..showDialogg = false
         ..done = false
         ..GetBubbles =null
+        ..SaveBubble =null
+        ..GetSavedBubbles =null
         ..GetNewBubbles =null
         ..GetPrimeBubbles =null
         ..ProfileDate =null
@@ -105,7 +123,9 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..Userlat =37.9715
         ..Userlng =23.7267
         ..BubblesRaduis =[]
+        ..Used_From_All_Lists =[]
         ..BUBBLElistS1 =[]
+        ..SavedBubbleList =[]
         ..FilteredBUBBLElists1 =[]
         ..BUBBLElistS2 =[]
         ..FilteredBUBBLElists2 =[]

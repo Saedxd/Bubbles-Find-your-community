@@ -30,6 +30,7 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
@@ -38,6 +39,7 @@ import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
@@ -2805,6 +2807,132 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
     }
   }
 
+
+  @override
+  Future<SaveBubbleModel> SaveBubble(
+      String Auth,
+      int bubble_id,
+      ) async {
+    try {
+      var formData={
+        "bubble_id":bubble_id,
+      };
+
+      final response = await _dio!
+          .post('bubble/favourite/store',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SaveBubbleModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SaveBubbleModel),
+                  ],
+                ),
+              ],
+            )) as SaveBubbleModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetPrimeBubblesModel> GetSavedBubbles(
+      String Auth,
+      int User_id,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('bubble/favourite/$User_id', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetPrimeBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetPrimeBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetPrimeBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetWhoSavedBubblesModel> GetWhoSavedBubble(
+      String Auth,
+      int Bubble_id,
+      ) async {
+    try {
+      
+      final response = await _dio!
+          .get('bubble/favourite/$Bubble_id/users', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetWhoSavedBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetWhoSavedBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetWhoSavedBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
 
 }
 

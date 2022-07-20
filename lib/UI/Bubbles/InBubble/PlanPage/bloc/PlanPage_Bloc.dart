@@ -8,8 +8,8 @@ import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Event.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_state.dart';
 import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
-import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
-import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
+
+
 
 import 'dart:ui' as ui;
 import 'package:built_collection/built_collection.dart';
@@ -40,10 +40,6 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
       PlanPageEvent event,
       ) async* {
 
-    if (event is ClearError) {
-
-      yield state.rebuild((b) => b..error = "");
-    }
 
     if (event is GetDetailedPlan) {
       //try{
@@ -105,6 +101,59 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
       //     ..ProfileDate = null
       //   );
       // }
+    }
+
+    if (event is ToggleSaveBubble) {
+      try {
+
+        // yield state.rebuild((b) =>
+        // b ..ToggleSaveIsloading = true  );
+        //    state.SavedBubbleList!.removeAt(event.index!);
+        final date = await _repository.SaveBubble(event.Bubble_id!);
+
+        yield state.rebuild((b) =>
+        b
+        //..ToggleSaveIsloading = false
+          ..SaveBubble.replace(date)
+        );
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..SaveBubble = null
+        );
+      }
+    }
+    if (event is GetWhoSavedBubble) {
+      try {
+        yield state.rebuild((b) => b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+        );
+
+        final date = await _repository.GetWhoSavedBubble(event.Bubble_id!);
+
+        yield state.rebuild((b) =>
+        b   ..isLoading = false
+          ..error = ""
+          ..success = true
+          ..GetWhoSavedBubbles.replace(date)
+        );
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+        );
+      }
     }
   }
 }

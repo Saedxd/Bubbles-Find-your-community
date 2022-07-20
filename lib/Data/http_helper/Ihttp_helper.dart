@@ -26,6 +26,7 @@ import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
@@ -33,6 +34,7 @@ import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
@@ -335,6 +337,21 @@ abstract class IHttpHelper {
       int bubble_id,
       );
 
+  Future<SaveBubbleModel> SaveBubble(
+      String Auth,
+      int bubble_id,
+      );
+
+
+  Future<GetPrimeBubblesModel> GetSavedBubbles(
+      String Auth,
+      int User_id,
+      );
+
+  Future<GetWhoSavedBubblesModel> GetWhoSavedBubble(
+      String Auth,
+      int Bubble_id,
+      );
 
 }
 //ihttp_helper is the abstaction class for http_helper

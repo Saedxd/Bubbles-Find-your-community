@@ -65,26 +65,16 @@ class _Options_screenState extends State<Options_screen> {
   void initState() {
     super.initState();
     FocuseNODE = FocusNode();
-    Array2 = List.filled(5000,0);
+    Array2 = List.filled(5000, 0);
   }
+
 
   @override
   Widget build(BuildContext context) {
-    TextTheme _textthem = Theme
-        .of(context)
-        .textTheme;
-    ColorScheme COLOR = Theme
-        .of(context)
-        .colorScheme;
-    var h = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var w = MediaQuery
-        .of(context)
-        .size
-        .width;
-
+    TextTheme _textthem = Theme.of(context).textTheme;
+    ColorScheme COLOR = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
     return BlocBuilder(
         bloc: _OptionsBloc,
         builder: (BuildContext Context, OptionsState state) {
@@ -239,7 +229,7 @@ class _Options_screenState extends State<Options_screen> {
                                               SizedBox(
                                                   width: w / 3.5,
                                                   height: h / 44,
-                                                  child: Text('Event Date:',
+                                                  child: Text('Bubble Date:',
                                                       textAlign: TextAlign.left,
                                                       style: _textthem
                                                           .headlineLarge!
@@ -544,7 +534,11 @@ class _Options_screenState extends State<Options_screen> {
                                                      String Value = BackGroundColorTOAvatars[index];
                                                      var myInt = int.parse(Value);
                                                      var BackgroundColor= myInt;
-                                                       return Container(
+                                                       return    Align(
+                                                         widthFactor: 0.75,
+                                                         alignment: Alignment.topCenter,
+                                                         child:
+                                                         Container(
                                                          child: Column(
                                                            children: [
                                                              Wrap(
@@ -559,6 +553,7 @@ class _Options_screenState extends State<Options_screen> {
                                                            ],
 
                                                          ),
+                                                         )
                                                        );
                                                    },
                                                  ),

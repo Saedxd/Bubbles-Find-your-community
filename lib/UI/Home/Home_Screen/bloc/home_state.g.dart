@@ -20,11 +20,23 @@ class _$HomeState extends HomeState {
   @override
   final bool? done;
   @override
+  final bool? ToggleSaveIsloading;
+  @override
+  final GetPrimeBubblesModel? GetSavedBubbles;
+  @override
+  final SaveBubbleModel? SaveBubble;
+  @override
+  final List<BubbleData>? SavedBubbleList;
+  @override
   final String? GetAllBubblesError;
   @override
   final bool? GetAllBubblesIsloading;
   @override
   final bool? GetAllBubblesSuccess;
+  @override
+  final bool? NearbyIsloading;
+  @override
+  final bool? NearbySuccess;
   @override
   final String? GetAllPrimeError;
   @override
@@ -74,6 +86,8 @@ class _$HomeState extends HomeState {
   @override
   final List<BubbleData>? FilteredBUBBLElists3;
   @override
+  final List<BubbleData>? Used_From_All_Lists;
+  @override
   final GetPrimeBubblesModel? GetBubbles;
   @override
   final GetPrimeBubblesModel? GetPrimeBubbles;
@@ -96,9 +110,15 @@ class _$HomeState extends HomeState {
       this.Value,
       this.showDialogg,
       this.done,
+      this.ToggleSaveIsloading,
+      this.GetSavedBubbles,
+      this.SaveBubble,
+      this.SavedBubbleList,
       this.GetAllBubblesError,
       this.GetAllBubblesIsloading,
       this.GetAllBubblesSuccess,
+      this.NearbyIsloading,
+      this.NearbySuccess,
       this.GetAllPrimeError,
       this.GetAllPrimeIsloading,
       this.GetAllPrimeSuccess,
@@ -123,6 +143,7 @@ class _$HomeState extends HomeState {
       this.FilteredBUBBLElists2,
       this.BUBBLElistS3,
       this.FilteredBUBBLElists3,
+      this.Used_From_All_Lists,
       this.GetBubbles,
       this.GetPrimeBubbles,
       this.GetNewBubbles,
@@ -151,9 +172,15 @@ class _$HomeState extends HomeState {
         Value == other.Value &&
         showDialogg == other.showDialogg &&
         done == other.done &&
+        ToggleSaveIsloading == other.ToggleSaveIsloading &&
+        GetSavedBubbles == other.GetSavedBubbles &&
+        SaveBubble == other.SaveBubble &&
+        SavedBubbleList == other.SavedBubbleList &&
         GetAllBubblesError == other.GetAllBubblesError &&
         GetAllBubblesIsloading == other.GetAllBubblesIsloading &&
         GetAllBubblesSuccess == other.GetAllBubblesSuccess &&
+        NearbyIsloading == other.NearbyIsloading &&
+        NearbySuccess == other.NearbySuccess &&
         GetAllPrimeError == other.GetAllPrimeError &&
         GetAllPrimeIsloading == other.GetAllPrimeIsloading &&
         GetAllPrimeSuccess == other.GetAllPrimeSuccess &&
@@ -178,6 +205,7 @@ class _$HomeState extends HomeState {
         FilteredBUBBLElists2 == other.FilteredBUBBLElists2 &&
         BUBBLElistS3 == other.BUBBLElistS3 &&
         FilteredBUBBLElists3 == other.FilteredBUBBLElists3 &&
+        Used_From_All_Lists == other.Used_From_All_Lists &&
         GetBubbles == other.GetBubbles &&
         GetPrimeBubbles == other.GetPrimeBubbles &&
         GetNewBubbles == other.GetNewBubbles &&
@@ -206,20 +234,20 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode),
-                                                                                Userlat.hashCode),
-                                                                            Userlng.hashCode),
-                                                                        ValueLOading.hashCode),
-                                                                    NewValue.hashCode),
-                                                                MakeHimBEableTOSEtBubble.hashCode),
-                                                            GetprofileISloading.hashCode),
-                                                        GetprofileSuccess.hashCode),
-                                                    BUBBLElistS1.hashCode),
-                                                FilteredBUBBLElists1.hashCode),
-                                            BUBBLElistS2.hashCode),
-                                        FilteredBUBBLElists2.hashCode),
-                                    BUBBLElistS3.hashCode),
-                                FilteredBUBBLElists3.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), ToggleSaveIsloading.hashCode), GetSavedBubbles.hashCode), SaveBubble.hashCode), SavedBubbleList.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), NearbyIsloading.hashCode), NearbySuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode), Userlat.hashCode),
+                                                                                Userlng.hashCode),
+                                                                            ValueLOading.hashCode),
+                                                                        NewValue.hashCode),
+                                                                    MakeHimBEableTOSEtBubble.hashCode),
+                                                                GetprofileISloading.hashCode),
+                                                            GetprofileSuccess.hashCode),
+                                                        BUBBLElistS1.hashCode),
+                                                    FilteredBUBBLElists1.hashCode),
+                                                BUBBLElistS2.hashCode),
+                                            FilteredBUBBLElists2.hashCode),
+                                        BUBBLElistS3.hashCode),
+                                    FilteredBUBBLElists3.hashCode),
+                                Used_From_All_Lists.hashCode),
                             GetBubbles.hashCode),
                         GetPrimeBubbles.hashCode),
                     GetNewBubbles.hashCode),
@@ -237,9 +265,15 @@ class _$HomeState extends HomeState {
           ..add('Value', Value)
           ..add('showDialogg', showDialogg)
           ..add('done', done)
+          ..add('ToggleSaveIsloading', ToggleSaveIsloading)
+          ..add('GetSavedBubbles', GetSavedBubbles)
+          ..add('SaveBubble', SaveBubble)
+          ..add('SavedBubbleList', SavedBubbleList)
           ..add('GetAllBubblesError', GetAllBubblesError)
           ..add('GetAllBubblesIsloading', GetAllBubblesIsloading)
           ..add('GetAllBubblesSuccess', GetAllBubblesSuccess)
+          ..add('NearbyIsloading', NearbyIsloading)
+          ..add('NearbySuccess', NearbySuccess)
           ..add('GetAllPrimeError', GetAllPrimeError)
           ..add('GetAllPrimeIsloading', GetAllPrimeIsloading)
           ..add('GetAllPrimeSuccess', GetAllPrimeSuccess)
@@ -264,6 +298,7 @@ class _$HomeState extends HomeState {
           ..add('FilteredBUBBLElists2', FilteredBUBBLElists2)
           ..add('BUBBLElistS3', BUBBLElistS3)
           ..add('FilteredBUBBLElists3', FilteredBUBBLElists3)
+          ..add('Used_From_All_Lists', Used_From_All_Lists)
           ..add('GetBubbles', GetBubbles)
           ..add('GetPrimeBubbles', GetPrimeBubbles)
           ..add('GetNewBubbles', GetNewBubbles)
@@ -301,6 +336,28 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   bool? get done => _$this._done;
   set done(bool? done) => _$this._done = done;
 
+  bool? _ToggleSaveIsloading;
+  bool? get ToggleSaveIsloading => _$this._ToggleSaveIsloading;
+  set ToggleSaveIsloading(bool? ToggleSaveIsloading) =>
+      _$this._ToggleSaveIsloading = ToggleSaveIsloading;
+
+  GetPrimeBubblesModelBuilder? _GetSavedBubbles;
+  GetPrimeBubblesModelBuilder get GetSavedBubbles =>
+      _$this._GetSavedBubbles ??= new GetPrimeBubblesModelBuilder();
+  set GetSavedBubbles(GetPrimeBubblesModelBuilder? GetSavedBubbles) =>
+      _$this._GetSavedBubbles = GetSavedBubbles;
+
+  SaveBubbleModelBuilder? _SaveBubble;
+  SaveBubbleModelBuilder get SaveBubble =>
+      _$this._SaveBubble ??= new SaveBubbleModelBuilder();
+  set SaveBubble(SaveBubbleModelBuilder? SaveBubble) =>
+      _$this._SaveBubble = SaveBubble;
+
+  List<BubbleData>? _SavedBubbleList;
+  List<BubbleData>? get SavedBubbleList => _$this._SavedBubbleList;
+  set SavedBubbleList(List<BubbleData>? SavedBubbleList) =>
+      _$this._SavedBubbleList = SavedBubbleList;
+
   String? _GetAllBubblesError;
   String? get GetAllBubblesError => _$this._GetAllBubblesError;
   set GetAllBubblesError(String? GetAllBubblesError) =>
@@ -315,6 +372,16 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   bool? get GetAllBubblesSuccess => _$this._GetAllBubblesSuccess;
   set GetAllBubblesSuccess(bool? GetAllBubblesSuccess) =>
       _$this._GetAllBubblesSuccess = GetAllBubblesSuccess;
+
+  bool? _NearbyIsloading;
+  bool? get NearbyIsloading => _$this._NearbyIsloading;
+  set NearbyIsloading(bool? NearbyIsloading) =>
+      _$this._NearbyIsloading = NearbyIsloading;
+
+  bool? _NearbySuccess;
+  bool? get NearbySuccess => _$this._NearbySuccess;
+  set NearbySuccess(bool? NearbySuccess) =>
+      _$this._NearbySuccess = NearbySuccess;
 
   String? _GetAllPrimeError;
   String? get GetAllPrimeError => _$this._GetAllPrimeError;
@@ -428,6 +495,11 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   set FilteredBUBBLElists3(List<BubbleData>? FilteredBUBBLElists3) =>
       _$this._FilteredBUBBLElists3 = FilteredBUBBLElists3;
 
+  List<BubbleData>? _Used_From_All_Lists;
+  List<BubbleData>? get Used_From_All_Lists => _$this._Used_From_All_Lists;
+  set Used_From_All_Lists(List<BubbleData>? Used_From_All_Lists) =>
+      _$this._Used_From_All_Lists = Used_From_All_Lists;
+
   GetPrimeBubblesModelBuilder? _GetBubbles;
   GetPrimeBubblesModelBuilder get GetBubbles =>
       _$this._GetBubbles ??= new GetPrimeBubblesModelBuilder();
@@ -475,9 +547,15 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _Value = $v.Value;
       _showDialogg = $v.showDialogg;
       _done = $v.done;
+      _ToggleSaveIsloading = $v.ToggleSaveIsloading;
+      _GetSavedBubbles = $v.GetSavedBubbles?.toBuilder();
+      _SaveBubble = $v.SaveBubble?.toBuilder();
+      _SavedBubbleList = $v.SavedBubbleList;
       _GetAllBubblesError = $v.GetAllBubblesError;
       _GetAllBubblesIsloading = $v.GetAllBubblesIsloading;
       _GetAllBubblesSuccess = $v.GetAllBubblesSuccess;
+      _NearbyIsloading = $v.NearbyIsloading;
+      _NearbySuccess = $v.NearbySuccess;
       _GetAllPrimeError = $v.GetAllPrimeError;
       _GetAllPrimeIsloading = $v.GetAllPrimeIsloading;
       _GetAllPrimeSuccess = $v.GetAllPrimeSuccess;
@@ -502,6 +580,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _FilteredBUBBLElists2 = $v.FilteredBUBBLElists2;
       _BUBBLElistS3 = $v.BUBBLElistS3;
       _FilteredBUBBLElists3 = $v.FilteredBUBBLElists3;
+      _Used_From_All_Lists = $v.Used_From_All_Lists;
       _GetBubbles = $v.GetBubbles?.toBuilder();
       _GetPrimeBubbles = $v.GetPrimeBubbles?.toBuilder();
       _GetNewBubbles = $v.GetNewBubbles?.toBuilder();
@@ -538,9 +617,15 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               Value: Value,
               showDialogg: showDialogg,
               done: done,
+              ToggleSaveIsloading: ToggleSaveIsloading,
+              GetSavedBubbles: _GetSavedBubbles?.build(),
+              SaveBubble: _SaveBubble?.build(),
+              SavedBubbleList: SavedBubbleList,
               GetAllBubblesError: GetAllBubblesError,
               GetAllBubblesIsloading: GetAllBubblesIsloading,
               GetAllBubblesSuccess: GetAllBubblesSuccess,
+              NearbyIsloading: NearbyIsloading,
+              NearbySuccess: NearbySuccess,
               GetAllPrimeError: GetAllPrimeError,
               GetAllPrimeIsloading: GetAllPrimeIsloading,
               GetAllPrimeSuccess: GetAllPrimeSuccess,
@@ -567,6 +652,7 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               FilteredBUBBLElists2: FilteredBUBBLElists2,
               BUBBLElistS3: BUBBLElistS3,
               FilteredBUBBLElists3: FilteredBUBBLElists3,
+              Used_From_All_Lists: Used_From_All_Lists,
               GetBubbles: _GetBubbles?.build(),
               GetPrimeBubbles: _GetPrimeBubbles?.build(),
               GetNewBubbles: _GetNewBubbles?.build(),
@@ -576,6 +662,11 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
     } catch (_) {
       late String _$failedField;
       try {
+        _$failedField = 'GetSavedBubbles';
+        _GetSavedBubbles?.build();
+        _$failedField = 'SaveBubble';
+        _SaveBubble?.build();
+
         _$failedField = 'GetBubbles';
         _GetBubbles?.build();
         _$failedField = 'GetPrimeBubbles';

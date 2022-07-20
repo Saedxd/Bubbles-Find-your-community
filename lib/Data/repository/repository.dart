@@ -24,6 +24,7 @@ import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
@@ -32,6 +33,7 @@ import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
+import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
@@ -561,5 +563,30 @@ class Repository implements IRepository {
     final Data = await _ihttpHelper.SendMediaDumpFlow(auth, title, image, type, bubble_id);
     return Data;
   }
+
+  Future<SaveBubbleModel> SaveBubble(
+      int bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.SaveBubble(auth, bubble_id);
+    return Data;
+  }
+
+  Future<GetPrimeBubblesModel> GetSavedBubbles(
+      int User_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetSavedBubbles(auth, User_id);
+    return Data;
+  }
+
+  Future<GetWhoSavedBubblesModel> GetWhoSavedBubble(
+      int Bubble_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetWhoSavedBubble(auth, Bubble_id);
+    return Data;
+  }
+
 
 }

@@ -1683,4 +1683,168 @@ class SaveEventStatusBuilder
   }
 }
 
+class _$GetSavedBubbles extends GetSavedBubbles {
+  @override
+  final int? User_id;
+
+  factory _$GetSavedBubbles([void Function(GetSavedBubblesBuilder)? updates]) =>
+      (new GetSavedBubblesBuilder()..update(updates))._build();
+
+  _$GetSavedBubbles._({this.User_id}) : super._();
+
+  @override
+  GetSavedBubbles rebuild(void Function(GetSavedBubblesBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GetSavedBubblesBuilder toBuilder() =>
+      new GetSavedBubblesBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GetSavedBubbles && User_id == other.User_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, User_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GetSavedBubbles')
+          ..add('User_id', User_id))
+        .toString();
+  }
+}
+
+class GetSavedBubblesBuilder
+    implements Builder<GetSavedBubbles, GetSavedBubblesBuilder> {
+  _$GetSavedBubbles? _$v;
+
+  int? _User_id;
+  int? get User_id => _$this._User_id;
+  set User_id(int? User_id) => _$this._User_id = User_id;
+
+  GetSavedBubblesBuilder();
+
+  GetSavedBubblesBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _User_id = $v.User_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GetSavedBubbles other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GetSavedBubbles;
+  }
+
+  @override
+  void update(void Function(GetSavedBubblesBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GetSavedBubbles build() => _build();
+
+  _$GetSavedBubbles _build() {
+    final _$result = _$v ?? new _$GetSavedBubbles._(User_id: User_id);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ToggleSaveBubble extends ToggleSaveBubble {
+  @override
+  final int? Bubble_id;
+  @override
+  final int? index;
+
+  factory _$ToggleSaveBubble(
+          [void Function(ToggleSaveBubbleBuilder)? updates]) =>
+      (new ToggleSaveBubbleBuilder()..update(updates))._build();
+
+  _$ToggleSaveBubble._({this.Bubble_id, this.index}) : super._();
+
+  @override
+  ToggleSaveBubble rebuild(void Function(ToggleSaveBubbleBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ToggleSaveBubbleBuilder toBuilder() =>
+      new ToggleSaveBubbleBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ToggleSaveBubble &&
+        Bubble_id == other.Bubble_id &&
+        index == other.index;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, Bubble_id.hashCode), index.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ToggleSaveBubble')
+          ..add('Bubble_id', Bubble_id)
+          ..add('index', index))
+        .toString();
+  }
+}
+
+class ToggleSaveBubbleBuilder
+    implements Builder<ToggleSaveBubble, ToggleSaveBubbleBuilder> {
+  _$ToggleSaveBubble? _$v;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
+  ToggleSaveBubbleBuilder();
+
+  ToggleSaveBubbleBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubble_id = $v.Bubble_id;
+      _index = $v.index;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ToggleSaveBubble other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ToggleSaveBubble;
+  }
+
+  @override
+  void update(void Function(ToggleSaveBubbleBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ToggleSaveBubble build() => _build();
+
+  _$ToggleSaveBubble _build() {
+    final _$result =
+        _$v ?? new _$ToggleSaveBubble._(Bubble_id: Bubble_id, index: index);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new

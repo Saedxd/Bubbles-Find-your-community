@@ -2102,13 +2102,17 @@ class _$SendMediaDumpFlow extends SendMediaDumpFlow {
   @override
   final String? image;
   @override
+  final String? image_type;
+  @override
   final int? Bubble_id;
 
   factory _$SendMediaDumpFlow(
           [void Function(SendMediaDumpFlowBuilder)? updates]) =>
       (new SendMediaDumpFlowBuilder()..update(updates))._build();
 
-  _$SendMediaDumpFlow._({this.title, this.image, this.Bubble_id}) : super._();
+  _$SendMediaDumpFlow._(
+      {this.title, this.image, this.image_type, this.Bubble_id})
+      : super._();
 
   @override
   SendMediaDumpFlow rebuild(void Function(SendMediaDumpFlowBuilder) updates) =>
@@ -2124,13 +2128,15 @@ class _$SendMediaDumpFlow extends SendMediaDumpFlow {
     return other is SendMediaDumpFlow &&
         title == other.title &&
         image == other.image &&
+        image_type == other.image_type &&
         Bubble_id == other.Bubble_id;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, title.hashCode), image.hashCode), Bubble_id.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, title.hashCode), image.hashCode), image_type.hashCode),
+        Bubble_id.hashCode));
   }
 
   @override
@@ -2138,6 +2144,7 @@ class _$SendMediaDumpFlow extends SendMediaDumpFlow {
     return (newBuiltValueToStringHelper('SendMediaDumpFlow')
           ..add('title', title)
           ..add('image', image)
+          ..add('image_type', image_type)
           ..add('Bubble_id', Bubble_id))
         .toString();
   }
@@ -2155,6 +2162,10 @@ class SendMediaDumpFlowBuilder
   String? get image => _$this._image;
   set image(String? image) => _$this._image = image;
 
+  String? _image_type;
+  String? get image_type => _$this._image_type;
+  set image_type(String? image_type) => _$this._image_type = image_type;
+
   int? _Bubble_id;
   int? get Bubble_id => _$this._Bubble_id;
   set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
@@ -2166,6 +2177,7 @@ class SendMediaDumpFlowBuilder
     if ($v != null) {
       _title = $v.title;
       _image = $v.image;
+      _image_type = $v.image_type;
       _Bubble_id = $v.Bubble_id;
       _$v = null;
     }
@@ -2189,13 +2201,16 @@ class SendMediaDumpFlowBuilder
   _$SendMediaDumpFlow _build() {
     final _$result = _$v ??
         new _$SendMediaDumpFlow._(
-            title: title, image: image, Bubble_id: Bubble_id);
+            title: title,
+            image: image,
+            image_type: image_type,
+            Bubble_id: Bubble_id);
     replace(_$result);
     return _$result;
   }
 }
 
-class _$SendPollFlow extends SendPollFlow {
+class _$SendPollFloww extends SendPollFloww {
   @override
   final String? Question;
   @override
@@ -2203,22 +2218,22 @@ class _$SendPollFlow extends SendPollFlow {
   @override
   final List<String>? answers;
 
-  factory _$SendPollFlow([void Function(SendPollFlowBuilder)? updates]) =>
-      (new SendPollFlowBuilder()..update(updates))._build();
+  factory _$SendPollFloww([void Function(SendPollFlowwBuilder)? updates]) =>
+      (new SendPollFlowwBuilder()..update(updates))._build();
 
-  _$SendPollFlow._({this.Question, this.bubble_id, this.answers}) : super._();
+  _$SendPollFloww._({this.Question, this.bubble_id, this.answers}) : super._();
 
   @override
-  SendPollFlow rebuild(void Function(SendPollFlowBuilder) updates) =>
+  SendPollFloww rebuild(void Function(SendPollFlowwBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SendPollFlowBuilder toBuilder() => new SendPollFlowBuilder()..replace(this);
+  SendPollFlowwBuilder toBuilder() => new SendPollFlowwBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SendPollFlow &&
+    return other is SendPollFloww &&
         Question == other.Question &&
         bubble_id == other.bubble_id &&
         answers == other.answers;
@@ -2232,7 +2247,7 @@ class _$SendPollFlow extends SendPollFlow {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendPollFlow')
+    return (newBuiltValueToStringHelper('SendPollFloww')
           ..add('Question', Question)
           ..add('bubble_id', bubble_id)
           ..add('answers', answers))
@@ -2240,9 +2255,9 @@ class _$SendPollFlow extends SendPollFlow {
   }
 }
 
-class SendPollFlowBuilder
-    implements Builder<SendPollFlow, SendPollFlowBuilder> {
-  _$SendPollFlow? _$v;
+class SendPollFlowwBuilder
+    implements Builder<SendPollFloww, SendPollFlowwBuilder> {
+  _$SendPollFloww? _$v;
 
   String? _Question;
   String? get Question => _$this._Question;
@@ -2256,9 +2271,9 @@ class SendPollFlowBuilder
   List<String>? get answers => _$this._answers;
   set answers(List<String>? answers) => _$this._answers = answers;
 
-  SendPollFlowBuilder();
+  SendPollFlowwBuilder();
 
-  SendPollFlowBuilder get _$this {
+  SendPollFlowwBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _Question = $v.Question;
@@ -2270,23 +2285,180 @@ class SendPollFlowBuilder
   }
 
   @override
-  void replace(SendPollFlow other) {
+  void replace(SendPollFloww other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$SendPollFlow;
+    _$v = other as _$SendPollFloww;
   }
 
   @override
-  void update(void Function(SendPollFlowBuilder)? updates) {
+  void update(void Function(SendPollFlowwBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  SendPollFlow build() => _build();
+  SendPollFloww build() => _build();
 
-  _$SendPollFlow _build() {
+  _$SendPollFloww _build() {
     final _$result = _$v ??
-        new _$SendPollFlow._(
+        new _$SendPollFloww._(
             Question: Question, bubble_id: bubble_id, answers: answers);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeFlowOptionsStatus extends ChangeFlowOptionsStatus {
+  @override
+  final bool? status;
+
+  factory _$ChangeFlowOptionsStatus(
+          [void Function(ChangeFlowOptionsStatusBuilder)? updates]) =>
+      (new ChangeFlowOptionsStatusBuilder()..update(updates))._build();
+
+  _$ChangeFlowOptionsStatus._({this.status}) : super._();
+
+  @override
+  ChangeFlowOptionsStatus rebuild(
+          void Function(ChangeFlowOptionsStatusBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeFlowOptionsStatusBuilder toBuilder() =>
+      new ChangeFlowOptionsStatusBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeFlowOptionsStatus && status == other.status;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, status.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ChangeFlowOptionsStatus')
+          ..add('status', status))
+        .toString();
+  }
+}
+
+class ChangeFlowOptionsStatusBuilder
+    implements
+        Builder<ChangeFlowOptionsStatus, ChangeFlowOptionsStatusBuilder> {
+  _$ChangeFlowOptionsStatus? _$v;
+
+  bool? _status;
+  bool? get status => _$this._status;
+  set status(bool? status) => _$this._status = status;
+
+  ChangeFlowOptionsStatusBuilder();
+
+  ChangeFlowOptionsStatusBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChangeFlowOptionsStatus other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeFlowOptionsStatus;
+  }
+
+  @override
+  void update(void Function(ChangeFlowOptionsStatusBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeFlowOptionsStatus build() => _build();
+
+  _$ChangeFlowOptionsStatus _build() {
+    final _$result = _$v ?? new _$ChangeFlowOptionsStatus._(status: status);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeMediaImageTaken extends ChangeMediaImageTaken {
+  @override
+  final bool? status;
+
+  factory _$ChangeMediaImageTaken(
+          [void Function(ChangeMediaImageTakenBuilder)? updates]) =>
+      (new ChangeMediaImageTakenBuilder()..update(updates))._build();
+
+  _$ChangeMediaImageTaken._({this.status}) : super._();
+
+  @override
+  ChangeMediaImageTaken rebuild(
+          void Function(ChangeMediaImageTakenBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeMediaImageTakenBuilder toBuilder() =>
+      new ChangeMediaImageTakenBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeMediaImageTaken && status == other.status;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, status.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ChangeMediaImageTaken')
+          ..add('status', status))
+        .toString();
+  }
+}
+
+class ChangeMediaImageTakenBuilder
+    implements Builder<ChangeMediaImageTaken, ChangeMediaImageTakenBuilder> {
+  _$ChangeMediaImageTaken? _$v;
+
+  bool? _status;
+  bool? get status => _$this._status;
+  set status(bool? status) => _$this._status = status;
+
+  ChangeMediaImageTakenBuilder();
+
+  ChangeMediaImageTakenBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChangeMediaImageTaken other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeMediaImageTaken;
+  }
+
+  @override
+  void update(void Function(ChangeMediaImageTakenBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeMediaImageTaken build() => _build();
+
+  _$ChangeMediaImageTaken _build() {
+    final _$result = _$v ?? new _$ChangeMediaImageTaken._(status: status);
     replace(_$result);
     return _$result;
   }

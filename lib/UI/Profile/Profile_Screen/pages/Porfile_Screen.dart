@@ -19,6 +19,7 @@ import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_bloc.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_event.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_state.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/VerifyProfile.dart';
+import 'package:bubbles/UI/Profile/Saved_Screen/Pages/SavedBubbles_Screen.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/pages/Settings_screen.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 
@@ -1188,16 +1189,16 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    // WidgetsBinding.instance!
-                                                    //     .addPostFrameCallback(
-                                                    //   (_) => Navigator.push(
-                                                    //     context,
-                                                    //     MaterialPageRoute(
-                                                    //         builder:
-                                                    //             (context) =>
-                                                    //                 Followed()),
-                                                    //   ),
-                                                    // );
+                                                    WidgetsBinding.instance!
+                                                        .addPostFrameCallback(
+                                                      (_) => Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder:
+                                                                (context) =>
+                                                                    SavedBubbles(User_id: state.ProfileDate!.user!.id!,)),
+                                                      ),
+                                                    );
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1231,7 +1232,8 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Text('  Saved',
+
+                                                        Text('Saved Bubbles',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1246,7 +1248,7 @@ class _ProfileState extends State<Profile> {
                                                                       0, 0, 1),
                                                             )),
                                                         Text(""),
-                                                        Text("Comming soon",style: TextStyle(
+                                                        Text("",style: TextStyle(
                                                             color: Colors.black
                                                             ,fontSize: 12
                                                         ),)

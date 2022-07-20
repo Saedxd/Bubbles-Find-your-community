@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/pages/FlowsChat_Screen.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
@@ -13,6 +15,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/core/widgets/OwnMessgaeCrad.dart';
 import 'package:bubbles/core/widgets/RecordView.dart';
@@ -38,24 +41,45 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 // ignore: library_prefixes
 import 'package:http/http.dart' as http;
+
 class GroupChat extends StatefulWidget {
-  GroupChat({Key? key, this.plan_Title, this.MY_ID,required this.bubble_id,required this.Plan_Description}) : super(key: key);
+  GroupChat({Key? key,
+    this.plan_Title,
+    this.MY_ID,required
+    this.bubble_id,required
+    this.Plan_Description,
+  }) : super(key: key);
   String? plan_Title = "";
   String Plan_Description = "";
   int? MY_ID;
   int bubble_id;
+  // FlowData?  flow;
+  // bool IsNested;
 
   @override
   State<GroupChat> createState() => _GroupChatState();
 }
 
-class _GroupChatState extends State<GroupChat> {
+class _GroupChatState extends State<GroupChat>{
+  FlowData  flow = FlowData();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _MediaDumpController = TextEditingController();
   final TextEditingController _FlowTitleController = TextEditingController();
   final TextEditingController _FlowDescriptionController = TextEditingController();
   final TextEditingController _SendMessageController = TextEditingController();
   final TextEditingController _SearchController = TextEditingController();
+  final TextEditingController _PollQuestionController = TextEditingController();
+  final TextEditingController _PollAnswer1Controller = TextEditingController();
+  final TextEditingController _PollAnswer2Controller = TextEditingController();
+  final TextEditingController _PollAnswer3Controller = TextEditingController();
+  final TextEditingController _PollAnswer4Controller = TextEditingController();
+  final _PollkeyQuestion = GlobalKey<FormState>();
+  final _Pollkey1 = GlobalKey<FormState>();
+  final _Pollkey2 = GlobalKey<FormState>();
+  final _Pollkey3 = GlobalKey<FormState>();
+  final _Pollkey4 = GlobalKey<FormState>();
   final _formkey11 = GlobalKey<FormState>();
+  final _formkey12 = GlobalKey<FormState>();
   late FocusNode FocuseNODE;
   final ScrollController _controller = ScrollController();
   final _GroupChatBloc = sl<GroupChatBloc>();
@@ -63,10 +87,14 @@ class _GroupChatState extends State<GroupChat> {
   final _formkey2 = GlobalKey<FormState>();
   final _formkey3 = GlobalKey<FormState>();
   FocusNode _focus = FocusNode();
-  RecorderView Recorder =RecorderView(onSaved: (){},);
   Dio dio = Dio();
   late FocusNode FoucesNodeFlowTitle;
   late FocusNode FoucesNodeFlowDescription;
+  late FocusNode FoucesNodePollQuestion;
+  late FocusNode FoucesNodePollAnswer1;
+  late FocusNode FoucesNodePollAnswer2;
+  late FocusNode FoucesNodePollAnswer3;
+  late FocusNode FoucesNodePollAnswer4;
   List<GroupChatMessage> messages = [];
   List<String> records = [];
   List<UserDATA> UserDaata = [];
@@ -87,15 +115,23 @@ class _GroupChatState extends State<GroupChat> {
   String HisAlias = "";
   String MyAvatar = "";
   String HisAvatar = "";
-  Timer? timer;
   String? base64String;
   Uint8List? Image1;
   Uint8List? Image122;
   File? filee;
   String? path;
   String? type;
+  List<String> TEMP = ["Selfie","Funny","Action","Memories"];
 
-
+  Future<String> _createFileFromString(String Base64) async {
+    final encodedStr = Base64;
+    Uint8List bytes = base64.decode(encodedStr);
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = File(
+        "$dir/" + DateTime.now().millisecondsSinceEpoch.toString() + ".aac");
+    await file.writeAsBytes(bytes);
+    return file.path;
+  }
 
   void ListenForWhoJoinedBUbble() async {
     socket!.on("join_bubble", (msg) {
@@ -108,6 +144,44 @@ class _GroupChatState extends State<GroupChat> {
 //{username: saedxd}
 //{username: Saed}
 
+
+    });
+  }
+
+  void ListenForTopicFlows() async {
+    socket!.on("receive_topic_message_send", (msg) {
+print(msg);
+if (widget.MY_ID!.toString()!=msg["user_id"])
+SetHisTopicFlow(
+    msg["title"],
+    msg["content"],
+    msg["avatar"],
+    msg["username"],
+    msg["color"],
+    msg["message_id"],
+);
+//{username: Saed, user_id: 475, title: good , content: you , message_id: 30, type: TopicFlow, color: 0xffff9800, avatar: https://admin.bubbles.app/public/storage/avatar/5L0NBaw6dcN51MI2hCmtzNnEoH0LAdTyqB5Wa0va.png}
+//{username: Saed, user_id: 475, title: good , content: bgg , message_id: 31, type: TopicFlow, color: 0xffff9800, avatar: https://admin.bubbles.app/public/storage/avatar/5L0NBaw6dcN51MI2hCmtzNnEoH0LAdTyqB5Wa0va.png}
+    });
+  }
+
+
+  void ListenForMediaDumpFlows() async {
+    socket!.on("receive_media_message_send", (msg) {
+      print(msg);
+   //   if (widget.MY_ID!.toString()!=msg["user_id"])
+        SetHisMediaDump(
+          msg["image"],
+        msg["title"],
+          msg["avatar"],
+          msg["username"],
+          msg["color"],
+          msg["message_id"],
+          msg["type"],
+        );
+
+//{username: Saed, user_id: 475, title: good , content: you , message_id: 30, type: TopicFlow, color: 0xffff9800, avatar: https://admin.bubbles.app/public/storage/avatar/5L0NBaw6dcN51MI2hCmtzNnEoH0LAdTyqB5Wa0va.png}
+//{username: Saed, user_id: 475, title: good , content: bgg , message_id: 31, type: TopicFlow, color: 0xffff9800, avatar: https://admin.bubbles.app/public/storage/avatar/5L0NBaw6dcN51MI2hCmtzNnEoH0LAdTyqB5Wa0va.png}
     });
   }
 
@@ -118,130 +192,122 @@ class _GroupChatState extends State<GroupChat> {
       print(msg["username"]);
       print(msg["username"].toString().substring(17));
 
-      if (MyAlias==msg["username"].toString().substring(17)){
+      if (MyAlias==msg["username"].toString().substring(17))
+      {
 
       }
 
-// {username: leave Bubble Now:saedxd}
 
     });
   }
 
 
-
-
-
+  // void SendTopicFlow(String Title, String Description) {
+  //   // socket!.emit("send_message",
+  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
+  // }
   //
-  // void GivethemMyID() {
-  //   print("Sent message");
-  //   socket!.emit("send_dm_to_bubble",
-  //       {
-  //         "message":"Hey I am new here HERE IS MY ID-",
-  //         "room":"bubble_${widget.bubble_id}",
-  //         "type":"text",
-  //          "message_id":widget.MY_ID
-  //       });
+  //
+  //
+  //
+  // void SendPollFlow(String Question, List<String> Answers) {
+  //   // socket!.emit("send_message",
+  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
+  // }
+  //
+  // void SendMediadump(String MediaDumpImage, String MediaDumpTitle) {
+  //   // socket!.emit("send_message",
+  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
   // }
 
-  void sendIJoinedBubble(int Bubble_id) {
-    print("Sent Status joined");
-    socket!.emit("request_join_bubble",
-        {"room": "bubble_${Bubble_id}"});
-    //GivethemMyID();
-  }
-
-  void sendILeftBubble(int Bubble_id) {
-    print("Sent Status left");
-    socket!.emit("request_leave_bubble",
-        {"room": "bubble_${Bubble_id}"});
-  }
-
-
-
-
-
-
-
-  void SetHisReplyToVoice(String message, String Comment, String type) {
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-    InstanceMessages.ISreply = true;
-    InstanceMessages.ModelType = "ReplyVoice";
-
-    InstanceMessages.RepliedTOAlias = type == "receiver" ? MyAlias : HisAlias;
-    InstanceMessages.RepliedTOMessage = message;
-    InstanceMessages.RepliedTOAvatar =
-    type == "receiver" ? MyAvatar : HisAvatar;
-    InstanceMessages.ReplieDtobackground_Color =
-    type == "receiver" ? MYbackGroundColor : HisBackgroundColor;
-
-    InstanceMessages.ReplierAlias = HisAlias;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAvatar = HisAvatar;
-    InstanceMessages.Replierbackground_Color = HisBackgroundColor;
-
-    InstanceMessages.ID = 0;
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-  }
-
-  void SetmyReplyToVoice(String message, String Comment, String type) {
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-    InstanceMessages.ModelType = "ReplyVoice";
-    InstanceMessages.ISreply = true;
-    InstanceMessages.RepliedTOAlias = type == "receiver" ? HisAlias : MyAlias;
-    InstanceMessages.RepliedTOMessage = message;
-    InstanceMessages.RepliedTOAvatar =
-    type == "receiver" ? HisAvatar : MyAvatar;
-    InstanceMessages.ReplieDtobackground_Color =
-    type == "receiver" ? HisBackgroundColor : MYbackGroundColor;
-
-    InstanceMessages.ReplierAlias = MyAlias;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAvatar = MyAvatar;
-    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
-    //
-    InstanceMessages.ID = 0;
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-    print("model added");
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-  }
-
-
-  void SetMyVoiceMessage(String Path){
+  void SetMyMediaDump(String MediaDumpImage, String MediaDumpTitle) {
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: MyAvatar,
         Alias: MyAlias,
         ISreply: false);
-    messageModel.ModelType = "Voice";
-    messageModel.ISNOdeJS = true;
+    messageModel.MediaDumpImageFile = Fileee;
+    messageModel.MediaDumpTitle = MediaDumpTitle;
+    messageModel.ModelType = "MediaDump";
+    messageModel.background_Color = MYbackGroundColor;
+    messageModel.Image_type = "File";
+    messageModel.Type = "sender";
+    messageModel.IsBackEnd = false;
+    messageModel.ID = 0;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    _GroupChatBloc.add(
+        SendMediaDumpFlow((b) =>
+        b   ..title =MediaDumpTitle
+            ..Bubble_id =widget.bubble_id
+            ..image = MediaDumpImage
+        ));
+  }
+
+
+  void SetHisMediaDump(String MediaDumpImage, String MediaDumpTitle,String avatar , String Alias ,String background_Color ,int Message_id,String type) {
+
+print("Settled ");
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: avatar,
+        Alias: Alias,
+        ISreply: false);
+
+    if (type=="Base64") {
+      Uint8List?  _bytesImage = Base64Decoder().convert(MediaDumpImage);
+      messageModel.MediaDumpImageuntil64 = _bytesImage;
+      messageModel.Image_type = "Uint8List";
+    }else if (type=="backend"){
+      messageModel.MediaDumpImagePath = MediaDumpImage;
+      messageModel.Image_type = "backend";
+    }
+
+
+    messageModel.IsBackEnd = false;
+
+    messageModel.MediaDumpTitle = MediaDumpTitle;
+    messageModel.ModelType = "MediaDump";
+
+    messageModel.background_Color = int.parse(background_Color);
+    messageModel.Type = "receiver";
+
+    messageModel.ID = Message_id;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+  }
+
+  void SetMyPollFlow(String Question, List<String> Answers) {
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: MyAvatar,
+        Alias: MyAlias,
+        ISreply: false);
+    messageModel.PollAnswers = Answers;
+    messageModel.PollQuestion = Question;
+    messageModel.ModelType = "PollFlow";
     messageModel.background_Color = MYbackGroundColor;
     messageModel.Type = "sender";
-    messageModel.message = Path;
 
     messageModel.ID = 0;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
 
     _GroupChatBloc.add(
-        SendMessage((b) =>
-        b..type = "audio"
-          ..message = base64String
-          ..bubble_id = widget.bubble_id
-          ..main_type = 1
+        SendPollFloww((b) =>
+        b ..bubble_id =widget.bubble_id
+            ..answers = Answers
+            ..Question = Question
         ));
-
   }
 
-  void SetHisVoiceMessage(String Path) {
+  void SetHisPollFlow(String Question, List<String> Answers,String avatar , String Alias ,String background_Color ,int Message_id) {
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: HisAvatar,
         Alias: HisAlias,
         ISreply: false);
-    messageModel.message = Path;
-    messageModel.ModelType = "Voice";
-    messageModel.ISNOdeJS = true;
+    messageModel.PollAnswers = Answers;
+    messageModel.PollQuestion = Question;
+    messageModel.ModelType = "PollFlow";
     messageModel.background_Color = HisBackgroundColor;
     messageModel.Type = "receiver";
 
@@ -253,380 +319,84 @@ class _GroupChatState extends State<GroupChat> {
 
 
 
-
-  void SetMyReplyToImage(
-      String Comment,
-      String RepliedTOAlias,
-      String repliedToAvatar,
-      String RepliedTo_BackGroundColor
-      ,int ReplyMessage_id,
-      String type
-      ){
-
-    var Colore = int.parse(RepliedTo_BackGroundColor);
-
-
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-    InstanceMessages.ModelType = "ReplyImage";
-    InstanceMessages.ISreply = true;
-    InstanceMessages.RepliedTOAlias = RepliedTOAlias;
-    InstanceMessages.Image_type = type;
-
-
-    if (type=="Uint8List") {
-      InstanceMessages.Image1 = Image122;
-    }else if (type=="File"){
-      InstanceMessages.Image2 = filee ;
-    }else if (type=="Backend"){
-      InstanceMessages.RepliedTOMessage = path;
-    }
-
-
-
-
-
-
-    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
-
-    InstanceMessages.ReplieDtobackground_Color =Colore;
-    InstanceMessages.ReplyMessage_id =ReplyMessage_id;
-
-
-    InstanceMessages.ReplierAlias = MyAlias;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAvatar = MyAvatar;
-    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
-
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-    print("model added");
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-
-
-    print(Image122);
-
-    _GroupChatBloc.add(
-        addReply((b) => b
-          ..comment =_SendMessageController .text
-          ..message_id = ReplyMessage_id
-          ..Bubble_id = widget.bubble_id
-          ..RepliedToColor = RepliedTo_BackGroundColor
-          ..RepliedToAvatar = repliedToAvatar
-          ..RepliedToAlias = RepliedTOAlias
-          ..type = type
-          ..Uint8 =Image122
-          ..File_file = filee
-          ..Message = path
-        ));
-  }
-
-  void SetHisReplyToImage(
-      String message,
-      String Comment,
-      String RepliedTOAlias,
-      String repliedToAvatar,
-      String RepliedTo_BackGroundColor,
-      String replierAvatar,
-      String ReplierAlias,
-      String ReplierColor,
-      int ReplyMessage_id,
-      ){
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-
-    String type =  (RepliedTo_BackGroundColor.substring(10));
-
-
-    if (type=="Uint8List") {
-      Uint8List?  _bytesImage = Base64Decoder().convert(message);
-      InstanceMessages.Image1 = _bytesImage;
-    }else if (type=="File"){
-      Uint8List?  _bytesImage = Base64Decoder().convert(message);
-      InstanceMessages.Image1 = _bytesImage;
-    }else if (type=="Backend"){
-      InstanceMessages.RepliedTOMessage = message;
-    }
-
-
-
-
-    var Colore = int.parse(RepliedTo_BackGroundColor.substring(0,10));
-    var Color_ = int.parse(ReplierColor);
-
-    InstanceMessages.ISNOdeJS = true;
-    InstanceMessages.IsBackEnd = false;
-    InstanceMessages.ISreply = true;
-    InstanceMessages.ModelType = "ReplyImage";
-    InstanceMessages.is_base64 = false;
-    InstanceMessages.Image_type =type!="File"? type:"Uint8List";
-
-
-
-
-    InstanceMessages.RepliedTOAlias = RepliedTOAlias;
-
-    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
-    InstanceMessages.ReplieDtobackground_Color =Colore;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAlias = ReplierAlias;
-    InstanceMessages.ReplierAvatar =replierAvatar;
-    InstanceMessages.Replierbackground_Color = Color_;
-
-    InstanceMessages.ID = 0;
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-  }
-
-
-
-
-  void SetMyImage(
-      File Path,
-      ){
+  void SetMyTopicFlow(String Title, String Description) {
+    print(Title);
+    print("im here");
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: MyAvatar,
         Alias: MyAlias,
         ISreply: false);
-    messageModel.IsBackEnd = false;
-    messageModel.Image_type = "File";
-    messageModel.ISNOdeJS = false;
-    messageModel.ModelType = "Image";
+    messageModel.TopicFlowDescription = Description;
+    messageModel.TopicFlowTitle = Title;
+    messageModel.ModelType = "TopicFlow";
     messageModel.background_Color = MYbackGroundColor;
     messageModel.Type = "sender";
-    messageModel.Image2 = Path;
-    messageModel.is_base64 = true;
+
     messageModel.ID = 0;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
 
-
     _GroupChatBloc.add(
-        SendMessage((b) =>
-        b
-          ..type = "image"
-          ..message = base64Image
-          ..bubble_id = widget.bubble_id
-          ..main_type = 1
+        SendTopicFlow((b) =>
+        b ..Bubble_id = widget.bubble_id
+          ..Title =Title
+          ..Content =Description
         ));
+
   }
 
 
-  void SetHisImage(
-      String Path,
-      String Sender_id,
-      int Message_id,
-      String Avatar,
-      String Alias,
-      String Color,
-      ){
-    var Senderr_id = int.parse(Sender_id);
-    var Color_ = int.parse(Color);
-    Uint8List?  _bytesImage = Base64Decoder().convert(Path);
-
-    // Image.memory(_bytesImage)
-    // print(Path);
-    // print(decoded);
-
+  void SetHisTopicFlow(String Title , String Description ,String avatar , String Alias ,String background_Color ,int Message_id) {
+  print("SETTLED");
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
-        Avatar: Avatar,
+        Avatar: avatar,
         Alias: Alias,
         ISreply: false);
-
-    messageModel.IsBackEnd = false;
-    messageModel.Image_type = "Uint8List";
-    messageModel.ISNOdeJS = true;
-    messageModel.is_base64 = true;
-    messageModel.Image1 = _bytesImage;
-    messageModel.ModelType = "Image";
-    messageModel.background_Color = Color_;
-    messageModel.Type = "receiver";
-    messageModel.User_ID = Senderr_id;
+    messageModel.TopicFlowDescription = Description;
+    messageModel.TopicFlowTitle = Title;
+    messageModel.ModelType = "TopicFlow";
+    messageModel.background_Color = int.parse(background_Color);
 
     messageModel.ID = Message_id;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
   }
 
-
-
-  void SetmyReplyMessage(
-      String message,
-      String Comment,
-      String RepliedTOAlias,
-      String repliedToAvatar,
-      String RepliedTo_BackGroundColor,
-      int Message_id) {
-
-    var Colore = int.parse(RepliedTo_BackGroundColor);
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-    InstanceMessages.ModelType = "ReplyMessage";
-    InstanceMessages.ISreply = true;
-    InstanceMessages.is_base64 = false;
-    InstanceMessages.IsBackEnd = false;
-    InstanceMessages.RepliedTOAlias= RepliedTOAlias;
-    InstanceMessages.RepliedTOMessage = message;
-    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
-    InstanceMessages.ID = Message_id;
-    InstanceMessages.ReplieDtobackground_Color =Colore;
-
-    InstanceMessages.ISNOdeJS = true;
-    InstanceMessages.ReplierAlias = MyAlias;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAvatar = MyAvatar;
-    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
-    InstanceMessages.ReplyMessage_id = 0;
-
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-    print("model added");
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-
-
-
-
-    _GroupChatBloc.add(
-        addReply((b) => b
-          ..comment =_SendMessageController .text
-          ..message_id = Message_id
-          ..Bubble_id = widget.bubble_id
-          ..RepliedToColor = RepliedTo_BackGroundColor
-          ..RepliedToAvatar = repliedToAvatar
-          ..RepliedToAlias = RepliedTOAlias
-          ..Message = message
-          ..type ="text"
-        ));
-
-
-  }
-
-
-
-  void SetHisReplyMessage(
-      String message,
-      String Comment,
-      String RepliedTOAlias,
-      String repliedToAvatar,
-      String RepliedTo_BackGroundColor,
-      String replierAvatar,
-      String ReplierAlias,
-      String ReplierColor
-      ,int ReplyMessage_id,
-      ){
-
-    var Colore = int.parse(RepliedTo_BackGroundColor);
-    var Color_ = int.parse(ReplierColor);
-    GroupChatMessage InstanceMessages = GroupChatMessage();
-    InstanceMessages.ISreply = true;
-    InstanceMessages.IsBackEnd = false;
-    InstanceMessages.is_base64 = false;
-    InstanceMessages.ModelType = "ReplyMessage";
-    InstanceMessages.ISNOdeJS = true;
-    InstanceMessages.RepliedTOAlias =RepliedTOAlias;
-    InstanceMessages.RepliedTOMessage = message;
-    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
-    InstanceMessages.ID = 0;
-    InstanceMessages.ReplieDtobackground_Color =Colore;
-
-
-
-    InstanceMessages.ReplierAlias = ReplierAlias;
-    InstanceMessages.ReplierMessage = Comment;
-    InstanceMessages.ReplierAvatar = replierAvatar;
-    InstanceMessages.Replierbackground_Color = Color_;
-
-    InstanceMessages.ReplyMessage_id = ReplyMessage_id;
-    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
-
-    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
-  }
-
-
-
-
-  void setHisMessage(String message,String Sender_id, int Message_id,String Avatar,String Alias,String Color) {
-    try {
-      print("setHisMessage");
-      var Senderr_id = int.parse(Sender_id);
-      var Colore = int.parse(Color);
-      GroupChatMessage messageModel = GroupChatMessage(
-          message: message,
-          time: DateFormat.jm().format(DateTime.now()),
-          Avatar: Avatar,
-          Alias: Alias,
-          ISreply: false);
-      messageModel.ISNOdeJS = true;
-      messageModel.is_base64 = false;
-      messageModel.IsBackEnd = false;
-      messageModel.ModelType = "Message";
-      messageModel.background_Color = Colore;
-      messageModel.Type = "receiver";
-      messageModel.User_ID = Senderr_id;
-      messageModel.ID = Message_id;
-
-
-
-
-
-      _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-
-    }catch(e){
-      print(e);
-    }
-  }
-
-
-  void setMYMessage(String message,int Message_id,int User_ID) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        message: message,
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: MyAvatar,
-        Alias: MyAlias,
-        ISreply: false);
-    messageModel.ISNOdeJS = true;
-    messageModel.is_base64 = false;
-    messageModel.ModelType ="Message" ;
-    //"Message"
-    messageModel.background_Color = MYbackGroundColor;
-    messageModel.Type = "sender";
-    messageModel.User_ID = User_ID;
-    messageModel.ID = Message_id;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-
-    _GroupChatBloc.add( SendMessage((b) => b
-      ..type = "text"
-      ..message = _SendMessageController.text
-      ..bubble_id = widget.bubble_id
-      ..main_type = 1
-    ));
-
-    // sendMessage(event.message!,
-    //     "text",event.bubble_id!, state.SendBubbleMessage!.message_id!.toInt());
-    // sendMessage(_SendMessageController.text,
-    //     "text",widget.bubble_id, 1);
-  }
 
   @override
   void initState() {
     super.initState();
-//  socket!.io..disconnect()..connect();
-    ListenForWhoJoinedBUbble();
-    ListenForWhoLeftBUbble();
-    sendIJoinedBubble(widget.bubble_id);
-    DIditonce2 = false;
-    Diditonces = true;
-    Diditoncess = true;
+
+  ListenForWhoJoinedBUbble();
+  ListenForWhoLeftBUbble();
+    ListenForTopicFlows();
+    ListenForMediaDumpFlows();
+  sendIJoinedBubble(widget.bubble_id);
+  DIditonce2 = false;
+  Diditonces = true;
+  Diditoncess = true;
     _focus = FocusNode();
     FocuseNODE = FocusNode();
     FoucesNodeFlowDescription = FocusNode();
     FoucesNodeFlowTitle = FocusNode();
+    FoucesNodePollQuestion = FocusNode();
+    FoucesNodePollAnswer1 = FocusNode();
+    FoucesNodePollAnswer2 = FocusNode();
+    FoucesNodePollAnswer3 = FocusNode();
+    FoucesNodePollAnswer4 = FocusNode();
 
-    // ListenForWhoJoinedBUbble();
-    // ListenForWhoLeftBUbble();
-    _GroupChatBloc.add(GetOldMessages((b) => b
-      ..bubble_id = widget.bubble_id
-    ));
-    _FlowDescriptionController.addListener(() {
-      _GroupChatBloc.add(DescriptionLength((b) =>
-      b..DescriptionLengthh = _FlowDescriptionController.text.length));
-    });
+  // ListenForWhoJoinedBUbble();
+  // ListenForWhoLeftBUbble();
+  _GroupChatBloc.add(GetOldMessages((b) =>
+  b
+    ..bubble_id = widget.bubble_id
+  ));
+  _FlowDescriptionController.addListener(() {
+    _GroupChatBloc.add(DescriptionLength((b) =>
+    b..DescriptionLengthh = _FlowDescriptionController.text.length));
+  });
+
+
     _GroupChatBloc.add(GetAlias((b) => b..My_ID = widget.MY_ID));
     _SendMessageController.addListener(() {
       _GroupChatBloc.add(SendStatus((b) => b
@@ -684,6 +454,13 @@ class _GroupChatState extends State<GroupChat> {
                       msg["message"], msg["user_id"], msg["message_id"],
                       msg["avatar"], msg["username"], msg["color"]);
                 }
+
+                if(msg["type"]=="audio"){
+                  SetHisVoiceMessage(
+                      msg["message"], msg["user_id"], msg["message_id"],
+                      msg["avatar"], msg["username"], msg["color"]);
+                }
+
               }
             });
           }
@@ -691,13 +468,9 @@ class _GroupChatState extends State<GroupChat> {
           void ListenForReplyMessage() async {
             socket!.on("receive_reply_dm_bubble", (msg) {
               print(msg);
-
               if (msg["user_id"].toString()!=widget.MY_ID.toString()) {
-                print(msg["Hiscolor"].toString().substring(10));
+
                 if (msg["Hiscolor"].toString().substring(10)=="text"){
-
-                  print("inside text");
-
 
                   SetHisReplyMessage(
                     msg["message"],
@@ -716,21 +489,10 @@ class _GroupChatState extends State<GroupChat> {
 
 
 
-                } else if (
-                msg["Hiscolor"].toString().substring(10) == "Backend"
-                    ||
-                    msg["Hiscolor"].toString().substring(10)=="Uint8List"
-                    ||msg["Hiscolor"].toString().substring(10)=="File"
-                ) {
-
-
-                }else if (
-                msg["Hiscolor"].toString().substring(10) == "Backend"
-                    ||
-                    msg["Hiscolor"].toString().substring(10)=="Uint8List"
-                    ||msg["Hiscolor"].toString().substring(10)=="File"
-                ) {
-
+                }
+                else if ( msg["Hiscolor"].toString().substring(10) == "Backend"
+                    ||msg["Hiscolor"].toString().substring(10)=="Uint8List"
+                    ||msg["Hiscolor"].toString().substring(10)=="File"){
 
 
                   SetHisReplyToImage(
@@ -744,9 +506,22 @@ class _GroupChatState extends State<GroupChat> {
                     msg["color"],
                     msg["message_id"],
                   );
+                }   else if (msg["Hiscolor"].toString().substring(10)=="ReplyVoice"){
 
 
+                  SetHisReplyToVoice(
+                    msg["message"],
+                    msg["comment"],
+                    msg["HisAlias"],
+                    msg["Hisavatar"],
+                    msg["Hiscolor"].toString().substring(0,10),
+                    msg["avatar"] ,
+                    msg["username"] ,
+                    msg["color"],
+                    msg["message_id"],
+                  );
                 }
+                //
               }
             });
           }
@@ -879,14 +654,7 @@ class _GroupChatState extends State<GroupChat> {
                 });
           }
 
-          // if (state.success! && Diditoncess) {
-          //   if (state.messages!.isNotEmpty){
-          //     LAST_MESSAGE_ID = state.messages![0].ID!.toInt();
-          //   }
-          //
-          //
-          //   Diditoncess = false;
-          // }
+
           alreatDialogBuilder(
               BuildContext Context,
               double h,
@@ -1139,7 +907,7 @@ class _GroupChatState extends State<GroupChat> {
                 });
           }
 
-
+//Count/total*100 you get percent width size
           if (state.AliasISsuccess! && !DIditonce2) {
             ListenForMessages();
             ListenForReplyMessage();
@@ -1173,607 +941,15 @@ class _GroupChatState extends State<GroupChat> {
                    ));
                  }
                 },
-
-                endDrawer:Column(
-                  children: [
-                    Expanded(child:  Drawer(
-
-                      child: SafeArea(
-                        child:
-
-                        Column(
-                          children: [
-                            Container(
-                              width: w,
-                              height: h/4,
-                              color: Color(0xff15D078),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Row(
-                                          children: [
-                                            IconButton(
-                                                onPressed: (){
-                                                  Navigator.pop(context);
-                                                }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
-                                          Text(widget.plan_Title.toString(),
-                                                textAlign: TextAlign.left,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  color: Color.fromRGBO(47, 47, 47, 1),
-                                                  fontFamily: 'Red Hat Display',
-                                                  fontSize: 21,
-                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                  fontWeight: FontWeight.w600,
-                                                  height: 1
-                                              ),),
-                                          
-                                          ],
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(right: h/100),
-                                        child: IconButton(
-                                            onPressed: (){
-                                              Navigator.pop(context);
-                                            }, icon:
-                                        SvgPicture.asset(
-                                          "Assets/images/Gallary.svg",
-                                          width: w / 16,
-                                        )
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                  Flexible(
-                                    child: Container(
-                                      width: w/1.3,
-                                      child: Center(
-                                        child:
-
-                                        Row(
-                                          children: [
-                                            Text(widget.Plan_Description.toString(),
-                                              textAlign: TextAlign.left,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: Color.fromRGBO(46, 46, 46, 1),
-                                                fontFamily: 'Red Hat Text',
-                                                fontSize: 13,
-                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.6
-                                            ),),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  // Expanded(
-                                  //   child: Container(
-                                  //     width: w,
-                                  //     height: h/6,
-                                  //     margin: EdgeInsets.only(left: h/50),
-                                  //     child: ScrollConfiguration(
-                                  //       behavior: MyBehavior(),
-                                  //       child:
-                                  //       ListView.separated(
-                                  //         cacheExtent : 500,
-                                  //         // shrinkWrap: true,
-                                  //         physics: BouncingScrollPhysics(),
-                                  //         scrollDirection: Axis.horizontal,
-                                  //         itemCount: 20,
-                                  //         itemBuilder: (BuildContext context,
-                                  //             int index) {
-                                  //           return CircleAvatar(
-                                  //             radius: 25,
-                                  //           );
-                                  //
-                                  //         }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: h/100); },),
-                                  //     ),
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ),
-                            SingleChildScrollView(
-                                physics: BouncingScrollPhysics(
-                                    parent: AlwaysScrollableScrollPhysics()
-                                ),
-                                child:   Container(
-                                  width: w,
-                                  height: h/1.7,
-                                  child:
-                                  Column(
-                                    children: [
-
-                                      SizedBox(height: h/40,),
-                                      InkWell(
-                                        onTap: (){
-                                          WidgetsBinding.instance!
-                                              .addPostFrameCallback((_) => Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                SprintLobby(plan_title: widget.plan_Title!,Bubble_id: widget.bubble_id,my_id: widget.MY_ID!,)),
-                                          ));
-                                        },
-                                        child: Container(
-                                          width: w/1.4,
-                                          height: h/9.5,
-                                          decoration: BoxDecoration(
-                                            borderRadius : BorderRadius.only(
-                                              topLeft: Radius.circular(50),
-                                              topRight: Radius.circular(5),
-                                              bottomLeft: Radius.circular(50),
-                                              bottomRight: Radius.circular(5),
-                                            ),
-                                            boxShadow : [BoxShadow(
-                                                color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-                                                offset: Offset(0,0),
-                                                blurRadius: 10.645160675048828
-                                            )],
-                                            color : Color.fromRGBO(96, 96, 96, 1),
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                //   margin: EdgeInsets.only(right: h/100),
-                                                child: Stack(
-                                                  children: [
-
-                                                    SvgPicture.asset(
-                                                      "Assets/images/Exclude.svg",
-                                                      color: Color(0xff15D078),
-                                                      width: w/5,
-                                                    ),
-                                                    Positioned(
-                                                      top: h/30,
-                                                      left: h/25,
-                                                      child: SvgPicture.asset(
-                                                        "Assets/images/S3EQA.svg",
-                                                        width: w/24,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(right: h/100),
-                                                child: Column(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                  children: [
-
-                                                    Container(
-                                                      margin: EdgeInsets.only(right: h/15),
-                                                      child: RichText(
-                                                        textAlign: TextAlign.left,
-                                                        text: TextSpan(
-
-                                                          children: <TextSpan>[
-                                                            TextSpan(
-                                                              text: state.GetInsideUsersSuccess!?state.GetUsersInsideBubble!.users!.length.toString():"0",
-                                                              style: TextStyle(
-                                                                  color: Color.fromRGBO(234, 234, 234, 1),
-                                                                  fontFamily: 'Red Hat Text',
-                                                                  fontSize: 16,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.w900,
-                                                                  height: 1
-                                                              ),
-                                                              children: [
-                                                                TextSpan(
-                                                                  text: " Users",
-                                                                  style: TextStyle(
-                                                                      color: Color.fromRGBO(234, 234, 234, 1),
-                                                                      fontFamily: 'Red Hat Text',
-                                                                      fontSize: 16,
-                                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                      fontWeight: FontWeight.w400,
-                                                                      height: 1
-                                                                  ),)
-
-                                                              ],
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-
-                                                    Text('in Sprints Lobby'
-                                                      , textAlign: TextAlign.left, style: TextStyle(
-                                                          color: Color(0xff15D078),
-                                                          fontFamily: 'Red Hat Text',
-                                                          fontSize: 17,
-                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                          fontWeight: FontWeight.w400,
-                                                          height: 1
-                                                      ),)
-                                                  ],
-                                                ),
-                                              ),
-                                              IconButton(
-                                                onPressed: (){},
-                                                icon: Icon(Icons.chevron_right,size: h/20,color: Color(0xff15D078),),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(left: h/50),
-                                            child: Text('Active Users', textAlign: TextAlign.left, style: TextStyle(
-                                                color: Color.fromRGBO(255, 255, 255, 1),
-                                                fontFamily: 'Red Hat Display',
-                                                fontSize: 18,
-                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                fontWeight: FontWeight.w700,
-                                                height: 1
-                                            ),),
-                                          ),
-                                          Text(""),
-                                          Container(
-                                            margin: EdgeInsets.only(left: h/50),
-                                            child: IconButton(
-                                              onPressed: (){
-                                                Navigator.pop(context);
-                                              }, icon:
-                                            SvgPicture.asset("Assets/images/active.svg",),
-                                            ),
-                                          ),
-
-                                        ],
-                                      ),
-                                      Container(
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(15),
-                                              bottomRight: Radius.circular(15),
-                                              topLeft: Radius.circular(15),
-                                              topRight: Radius.circular(15),
-                                            ),
-                                          ),
-                                          width: w / 1.4,
-                                          height: h / 15,
-                                          child: Form(
-                                            key: _formkey11,
-                                            child: TextFormField(
-                                              textInputAction: TextInputAction.search,
-                                              controller: _SearchController,
-                                              focusNode: FocuseNODE,
-                                              onFieldSubmitted: (value) {},
-                                              onChanged: (value){
-                                                _GroupChatBloc.add(SearchInsideBubbleUser((b) => b
-                                                  ..Keyword = value
-                                                ));
-                                              },
-                                              cursorColor: Colors.grey,
-                                              style: const TextStyle(
-                                                  color: Colors.orange, fontSize: 16.5),
-                                              decoration: InputDecoration(
-                                                border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(30.0),
-                                                  borderSide: const BorderSide(
-                                                      color: Color(0xff939393), width: 10),
-                                                ),
-                                                focusedBorder: const OutlineInputBorder(
-                                                  borderRadius:
-                                                  BorderRadius.all(Radius.circular(30.0)),
-                                                  borderSide: BorderSide(
-                                                      color: Color(0xff939393), width: 3),
-                                                ),
-                                                enabledBorder: const OutlineInputBorder(
-                                                  borderRadius:
-                                                  BorderRadius.all(Radius.circular(30.0)),
-                                                  borderSide: BorderSide(
-                                                      color: Color(0xff939393), width: 3),
-                                                ),
-                                                prefixIcon: IconButton(
-                                                    icon: SvgPicture.asset(
-                                                      'Assets/images/Vector(1).svg',
-                                                    ),
-                                                    onPressed: null //do something,
-                                                ),
-                                                filled: true,
-                                                fillColor: Colors.transparent,
-                                                contentPadding: const EdgeInsets.symmetric(
-                                                    horizontal: 12, vertical: 20),
-                                                hintText: "Search",
-                                                hintStyle:   TextStyle(
-                                                    color: Color.fromRGBO(147, 147, 147, 1),
-                                                    fontFamily: 'Red Hat Text',
-                                                    fontSize: 15,
-                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 1
-                                                ),
-                                              ),
-                                              keyboardType: TextInputType.text,
-                                            ),
-                                          )),
-                                      SizedBox(height: h/45,),
-
-                                      state.GetInsideUsersSuccess!
-                                          ?  Expanded(
-                                          child:    Container(
-                                            width: w,
-                                            height: h/1.266,
-                                            margin: EdgeInsets.only(right: h/40),
-                                            child: ScrollConfiguration(
-                                              behavior: MyBehavior(),
-                                              child: ListView.separated(
-                                                shrinkWrap: true,
-                                                padding: EdgeInsets.zero,
-                                                physics: NeverScrollableScrollPhysics(
-                                                ),
-                                                scrollDirection: Axis.vertical,
-                                                itemCount: state.FilteredInsideBubbleUsers!.length,
-                                                separatorBuilder: (BuildContext context, int index) {
-                                                  return SizedBox(
-                                                    height: 5,
-                                                  );
-                                                },
-                                                itemBuilder: (BuildContext context, int index) {
-
-                                                  var myInt = int.parse(state.FilteredInsideBubbleUsers![index].Background_Color.toString());
-                                                  var BackgroundColor= myInt;
-
-
-                                                  return
-
-                                                    Slidable(
-                                                      closeOnScroll: true,
-                                                      key:  ValueKey(state.FilteredInsideBubbleUsers![index].id!),
-                                                      endActionPane: ActionPane(
-                                                        motion: const ScrollMotion(),
-                                                        children: [
-                                                          Expanded(
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),
-                                                                );
-                                                                else
-                                                                  print("its your account");
-                                                              },
-                                                              child: Container(
-                                                                width: w / 6,
-                                                                height: h / 9,
-                                                                decoration: const BoxDecoration(
-                                                                  color: const Color(0xffCF6D38),
-                                                                  borderRadius: BorderRadius.only(
-                                                                    bottomRight: const Radius.circular(0),
-                                                                    topRight: Radius.circular(0),
-                                                                  ),
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
-                                                                  children: [
-                                                                    SvgPicture.asset(
-                                                                        "Assets/images/Vector2.svg",
-                                                                        width: h / 26,
-                                                                        color: Colors.white),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: InkWell(
-                                                              onTap: () {
-                                                                //    if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
-                                                                alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
-                                                              },
-                                                              child: Container(
-                                                                width: w / 6,
-                                                                height: h / 9,
-                                                                decoration:  BoxDecoration(
-                                                                  color : state.FilteredInsideBubbleUsers![index].is_frined!?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
-                                                                  borderRadius: BorderRadius.only(
-                                                                    bottomRight: const Radius.circular(5),
-                                                                    topRight: Radius.circular(5),
-                                                                  ),
-                                                                ),
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
-                                                                  children: [
-                                                                    state.GetInsideUsersSuccess!?
-                                                                    state.FilteredInsideBubbleUsers![index].id==widget.MY_ID
-                                                                        ?Icon(Icons.person)
-                                                                 :    state.FilteredInsideBubbleUsers![index].is_frined!
-                                                                       ?     SvgPicture.asset(
-                                                                      "Assets/images/True_Mark.svg",
-                                                                color: Colors.white,
-                                                                width: h / 26,
-                                                              )
-                                                                        :   SvgPicture.asset(
-                                                                      "Assets/images/Add_friend.svg",
-                                                                      color: Colors.white,
-                                                                      width: h / 26,
-                                                                    )
-
-
-                                                                        :state.GetInsideUsersISloading!
-                                                                        ?    Center(
-                                                                              child: listLoader(
-                                                                              context: context))
-                                                                        :    Expanded(
-                                                                      child:    Container(
-                                                                        child: Text("Error"),
-                                                                      ),)
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          WidgetsBinding.instance!
-                                                              .addPostFrameCallback((_) =>     Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                              builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),));
-                                                        },
-                                                        child: Column(
-                                                          children: [
-                                                            Container(
-                                                              margin: EdgeInsets.only(left: h/40),
-                                                              width: w / 1.2,
-                                                              height: h / 13,
-                                                              decoration: BoxDecoration(
-                                                                color: ColorS.secondaryContainer,
-                                                                borderRadius: BorderRadius.only(
-                                                                  bottomLeft: Radius.circular(40),
-                                                                  bottomRight: Radius.circular(5),
-                                                                  topLeft: Radius.circular(40),
-                                                                  topRight: Radius.circular(5),
-                                                                ),
-                                                                boxShadow: [
-                                                                  BoxShadow(
-                                                                      color: ColorS.primaryVariant ,
-                                                                      offset: Offset(0, 0),
-                                                                      blurRadius: 2)
-                                                                ],
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Column(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment.center,
-                                                                    children: [
-                                                                      //FrinedsStatus
-                                                                      Stack(
-                                                                          children:[
-                                                                            Row(
-                                                                              mainAxisAlignment:
-                                                                              MainAxisAlignment.center,
-                                                                              children: [
-                                                                                Text("  "),
-                                                                                Container(
-                                                                                  width: w/6,
-                                                                                  height: h / 15,
-                                                                                  child:   CachedNetworkImage(
-                                                                                    imageUrl:
-                                                                                    state.FilteredInsideBubbleUsers![index].Avatar!,
-                                                                                    errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                                                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                                      radius: 30,
-                                                                                      backgroundImage: imageProvider,
-                                                                                      backgroundColor:   Color(BackgroundColor),
-                                                                                    ),
-                                                                                  ),
-
-                                                                                ),
-
-                                                                              ],
-                                                                            ),
-                                                                            // state.ChangeStateSuccess!?
-                                                                            // FrinedsStatus[index]==1?
-                                                                            // Positioned(
-                                                                            //   bottom: 0,
-                                                                            //   right: 0,
-                                                                            //   child:
-                                                                            //   CircleAvatar(
-                                                                            //       backgroundColor:ColorS.secondaryContainer,
-                                                                            //       radius: 10,
-                                                                            //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
-                                                                            // )
-                                                                            //     :Text("")
-                                                                            //     :Text("")
-
-                                                                            //: Center(
-                                                                            //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
-                                                                            //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
-                                                                          ]
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  SizedBox(width: 10,),
-
-                                                                  Text(
-                                                                      state.FilteredInsideBubbleUsers![index].Alias!,
-                                                                      textAlign: TextAlign.left,
-                                                                      style: _TextTheme.headline3!.copyWith(
-                                                                          fontFamily: 'Red Hat Display',
-                                                                          fontWeight: FontWeight.w400
-                                                                          ,fontSize: 22
-                                                                      )
-
-                                                                  ),
-
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-
-
-
-                                                },
-                                              ),
-                                            ),
-                                          )
-                                      )
-                                          :   state.GetInsideUsersISloading!
-                                          ?    Expanded(
-                                          child:    Container(
-                                              width: w,
-                                              height: h/1.266,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                                children: [
-                                                  Center(
-                                                      child: listLoader(
-                                                          context: context)),
-                                                ],
-                                              )))
-                                          :    Expanded(
-                                        child:    Container(
-                                          width: w,
-                                          height: h/1.266,
-                                          child: Text("Error"),
-                                        ),)
-
-
-                                    ],
-                                  ),
-                                ))
-
-                          ],
-                        ),
-                      ),
-                    ),),
-                    SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
-                  ],
-                ),
+                endDrawer:Drawerr(w, h, context, state, alreatDialogBuilder, ColorS, _TextTheme),
                 body: SafeArea(
                   child: Stack(
                     children: [
                       Column(
                         children: [
                           SizedBox(
-                            height: h / 13,
+                            height: h / 30,
                           ),
-
                           state.success!
                               ? Expanded(
                             child: ScrollConfiguration(
@@ -1790,6 +966,8 @@ class _GroupChatState extends State<GroupChat> {
                                         int index) {
                                       return SwipeTo(
                                           onRightSwipe: () {
+                                            print(AllBubblesStatus);
+                                            print(AllBubblesIDS);
                                           bool GetInStatus = false;
                                           for(int j =0;j<AllBubblesIDS!.length;j++){
                                             if (widget.bubble_id==AllBubblesIDS![j]){
@@ -1989,63 +1167,106 @@ class _GroupChatState extends State<GroupChat> {
                                                         children: [
 
                                                           state.messages![index].Image_type.toString()=="Uint8List"
-                                                              ? Container(
-                                                              width: w / 1.5,
-                                                              height: h / 4,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius.circular(20),
-                                                                  topRight: Radius.circular(20),
-                                                                  bottomLeft: Radius.circular(0),
-                                                                  bottomRight: Radius.circular(0),
-                                                                ),
-                                                                boxShadow: [
-                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                ],
-                                                              ),
-                                                              child: ClipRRect(
-                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                  child:Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
-                                                              ))
-                                                              : state.messages![index].Image_type.toString()=="Backend"
-                                                              ?Container(
-                                                              width: w / 1.5,
-                                                              height: h / 4,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius.circular(20),
-                                                                  topRight: Radius.circular(20),
-                                                                  bottomLeft: Radius.circular(0),
-                                                                  bottomRight: Radius.circular(0),
-                                                                ),
-                                                                boxShadow: [
-                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                ],
-                                                              ),
-                                                              child: ClipRRect(
-                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                  child:Image.network(state.messages![index].message!,fit: BoxFit.fill,)
-                                                              ))
-                                                              :Container(
-                                                              width: w / 1.5,
-                                                              height: h / 4,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.only(
-                                                                  topLeft: Radius.circular(20),
-                                                                  topRight: Radius.circular(20),
-                                                                  bottomLeft: Radius.circular(0),
-                                                                  bottomRight: Radius.circular(0),
-                                                                ),
-                                                                boxShadow: [
-                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                ],
-                                                              ),
-                                                              child: ClipRRect(
-                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                  child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
-                                                              ))
-                                                        ],
+                                                              ?  InkWell(
+                                                            onTap: (){
+                                                              //DirectChat
+                                                              WidgetsBinding.instance!
+                                                                  .addPostFrameCallback((_) =>     Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                  builder: (context) => HeroImage(Uint8List2: state.messages![index].Image1!, Image_Type: 'Uint8List',id: state.messages![index].ID,),),
+                                                              ));
 
+                                                            },
+                                                            child: Hero(
+                                                                tag: "Image${state.messages![index].ID}",
+                                                                child:Material(
+                                                                    type: MaterialType.transparency,
+                                                                    child : Container(
+                                                                        width: w / 1.5,
+                                                                        height: h / 4,
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius: BorderRadius.only(
+                                                                            topLeft: Radius.circular(20),
+                                                                            topRight: Radius.circular(20),
+                                                                            bottomLeft: Radius.circular(0),
+                                                                            bottomRight: Radius.circular(0),
+                                                                          ),
+                                                                          boxShadow: [
+                                                                            BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                          ],
+                                                                        ),
+                                                                        child: ClipRRect(
+                                                                            borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                            child:Image.memory(state.messages![index].Image1!)
+                                                                        )))),
+                                                          )
+                                                              : state.messages![index].Image_type.toString()=="Backend"
+                                                              ?  InkWell(
+                                                            onTap: (){
+                                                              //DirectChat
+                                                              WidgetsBinding.instance!
+                                                                  .addPostFrameCallback((_) =>     Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                  builder: (context) => HeroImage(path: state.messages![index].message!, Image_Type: 'Backend',id: state.messages![index].ID,),),
+                                                              ));
+                                                            },
+                                                            child: Hero(
+                                                                tag: "Image${state.messages![index].ID}",
+                                                                child:  Material(
+                                                                    type: MaterialType.transparency,
+                                                                    child : Container(
+                                                              width: w / 1.5,
+                                                              height: h / 4,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius.circular(20),
+                                                                  topRight: Radius.circular(20),
+                                                                  bottomLeft: Radius.circular(0),
+                                                                  bottomRight: Radius.circular(0),
+                                                                ),
+                                                                boxShadow: [
+                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                ],
+                                                              ),
+                                                              child: ClipRRect(
+                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                  child:Image.network(state.messages![index].message!)
+                                                              )))))
+                                                              :  InkWell(
+                                                        onTap: (){
+                                                          //DirectChat
+                                                          WidgetsBinding.instance!
+                                                              .addPostFrameCallback((_) =>     Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                              builder: (context) => HeroImage(Image: state.messages![index].Image2!, Image_Type: 'File',id: state.messages![index].ID,),),
+                                                          ));
+                                                        },
+                                                        child: Hero(
+                                                          tag: "Image${state.messages![index].ID}",
+                                                          child: Material(
+                                                              type: MaterialType.transparency,
+                                                              child :Container(
+                                                              width: w / 1.5,
+                                                              height: h / 4,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.only(
+                                                                  topLeft: Radius.circular(20),
+                                                                  topRight: Radius.circular(20),
+                                                                  bottomLeft: Radius.circular(0),
+                                                                  bottomRight: Radius.circular(0),
+                                                                ),
+                                                                boxShadow: [
+                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
+                                                                ],
+                                                              ),
+                                                              child: ClipRRect(
+                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
+                                                                  child:Image.file(state.messages![index].Image2!)
+                                                              )))))
+                                                        ],
                                                       ),
                                                     ],
                                                   ),
@@ -2325,18 +1546,19 @@ class _GroupChatState extends State<GroupChat> {
                                                                       const SizedBox(
                                                                         width: 5,
                                                                       ),
-                                                                      Container(
-                                                                        width: w / 8,
-                                                                        height: h / 79,
-                                                                        child: Text(
-                                                                          state.messages![index].RepliedTOMessage.toString()
-                                                                          // state.RepliedToMessage.toString()
-                                                                          ,
-                                                                          textAlign: TextAlign.left,
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          style: const TextStyle(color: Color.fromRGBO(196, 196, 196, 1), fontFamily: 'Red Hat Text', fontSize: 10.539999961853027, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w300, height: 1),
-                                                                        ),
-                                                                      ),
+                                                            Container(
+                                                              width: w / 5,
+                                                              height: h / 10,
+                                                                margin: EdgeInsets.only(top: h/100),
+                                                              child:
+                                                              Text('Sticker...', textAlign: TextAlign.left, style: TextStyle(
+                                                                  color: Color.fromRGBO(196, 196, 196, 1),
+                                                                  fontFamily: 'Sofia Pro',
+                                                                  fontSize: 7.539999961853027,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.w400,
+                                                                  height: 1
+                                                              ),)),
                                                                     ],
                                                                   ),
                                                                 ],
@@ -2471,13 +1693,42 @@ class _GroupChatState extends State<GroupChat> {
                                                                       const SizedBox(
                                                                         width: 5,
                                                                       ),
+
                                                                       Container(
                                                                           width: w / 5,
                                                                           height: h / 10,
                                                                           child:
 
                                                                           state.messages![index].Image_type.toString()=="Uint8List"
-                                                                              ? Container(
+                                                                              ? InkWell(
+                                                                            onTap: (){
+
+                                                                            },
+                                                                                child: Container(
+                                                                                width: w / 5,
+                                                                                height: h / 10,
+                                                                                decoration: BoxDecoration(
+                                                                                  borderRadius: BorderRadius.only(
+                                                                                    topLeft: Radius.circular(0),
+                                                                                    topRight: Radius.circular(0),
+                                                                                    bottomLeft: Radius.circular(0),
+                                                                                    bottomRight: Radius.circular(0),
+                                                                                  ),
+                                                                                ),
+                                                                                child:
+                                                                                    Image.memory(state.messages![index].Image1!,)
+
+
+
+                                                                                ),
+                                                                              )
+                                                                              : state.messages![index].Image_type.toString()=="Backend"
+                                                                              ?InkWell(
+                                                                              onTap: (){
+
+                                                                              },
+                                                                              child:
+                                                                          Container(
                                                                               width: w / 5,
                                                                               height: h / 10,
                                                                               decoration: BoxDecoration(
@@ -2487,20 +1738,18 @@ class _GroupChatState extends State<GroupChat> {
                                                                                   bottomLeft: Radius.circular(0),
                                                                                   bottomRight: Radius.circular(0),
                                                                                 ),
-                                                                                boxShadow: [
-                                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                ],
                                                                               ),
-                                                                              child: ClipRRect(
-                                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                  child:
-                                                                                  Image.memory(state.messages![index].Image1!,fit: BoxFit.fill,)
-
+                                                                              child:
+                                                                                  Image.network(state.messages![index].RepliedTOMessage!,)
 
 
                                                                               ))
-                                                                              :    state.messages![index].Image_type.toString()=="Backend"
-                                                                              ?Container(
+                                                                              :InkWell(
+                                                                              onTap: (){
+
+                                                                              },
+                                                                              child:
+                                                                          Container(
                                                                               width: w / 5,
                                                                               height: h / 10,
                                                                               decoration: BoxDecoration(
@@ -2510,35 +1759,10 @@ class _GroupChatState extends State<GroupChat> {
                                                                                   bottomLeft: Radius.circular(0),
                                                                                   bottomRight: Radius.circular(0),
                                                                                 ),
-                                                                                boxShadow: [
-                                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                ],
                                                                               ),
-                                                                              child: ClipRRect(
-                                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                  child:
-                                                                                  Image.network(state.messages![index].RepliedTOMessage!,fit: BoxFit.fill,)
-
-
-                                                                              ))
-                                                                              :Container(
-                                                                              width: w / 5,
-                                                                              height: h / 10,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius: BorderRadius.only(
-                                                                                  topLeft: Radius.circular(0),
-                                                                                  topRight: Radius.circular(0),
-                                                                                  bottomLeft: Radius.circular(0),
-                                                                                  bottomRight: Radius.circular(0),
-                                                                                ),
-                                                                                boxShadow: [
-                                                                                  BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.20000000298023224), offset: Offset(0, 1), blurRadius: 11)
-                                                                                ],
-                                                                              ),
-                                                                              child: ClipRRect(
-                                                                                  borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                                                                  child:Image.file(state.messages![index].Image2!,fit: BoxFit.fill,)
-                                                                              ))
+                                                                              child:Image.file(state.messages![index].Image2!,)
+                                                                              )
+                                                                      ),
                                                                       )
                                                                       // Container(
                                                                       //   width: w / 8,
@@ -2622,13 +1846,11 @@ class _GroupChatState extends State<GroupChat> {
                                               ],
                                             )
                                                 : state.messages![index].ModelType =="TopicFlow"
-                                                ? TopicFlowWidget(
-                                                state,
-                                                index)
+                                                ? TopicFlowWidget(  state,index,state.messages![index].ID!)
                                                 : state.messages![index].ModelType == "PollFlow"
                                                 ? PollFlowWidget(state, index)
-                                                : state.messages![index].ModelType == "TopicFlow"
-                                                ? const Text("")
+                                                : state.messages![index].ModelType == "MediaDump"
+                                                ? MediaDumpWidget(state, index)
                                                 : const Text("")
                                                 : const Text("empty"),
                                           ));
@@ -2644,28 +1866,34 @@ class _GroupChatState extends State<GroupChat> {
                                 )),
                           )
                               : state.isLoading!
-                              ?  Container(
-                              width: w,
-                              height: h/1.28,
-                              child: Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.center,
-                                children: [
-                                  Center(
-                                      child: listLoader(
-                                          context: context)),
-                                ],
-                              ))
-                              :  Container(
-                            width: w,
-                            height: h / 3,
-                            child: Text("Error"),
-                          ),
+                              ?  Expanded(
+                                child: Container(
+                            
+                                width: w,
+                                height: h/1.28,
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  children: [
+                                    Center(
+                                        child: listLoader(
+                                            context: context)),
+                                  ],
+                                )),
+                              )
+                              :  Expanded(
+                                child: Container(
+                                      width: w,
+                                      height: h / 3,
+                                      child: Text("Error"),
+                                    ),
+                              ),
+                                SizedBox(height: 5,),
 
 
 
                                 Container(
-                                  height:state.Isreply!?h/7: h / 10,
+                                  height:state.Isreply!?h/7: h / 12,
                                   decoration: BoxDecoration(
                                       boxShadow: const [
                                         BoxShadow(
@@ -2682,455 +1910,481 @@ class _GroupChatState extends State<GroupChat> {
                                       state.Isreply!
                                           ? ReplyWidgett(state)
                                           :  Container(),
-                                      Row(
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                            padding: EdgeInsets.only(
-                                                left: h / 100,
-                                                top: h / 50,
-                                                bottom: h / 70),
-                                            child: CircleAvatar(
-                                              radius: 25,
-                                              backgroundColor: const Color(0xff15D078),
-                                              child: Center(
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    bool GetInStatus = false;
-                                                    for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                      if (widget.bubble_id==AllBubblesIDS![j]){
-                                                        if (AllBubblesStatus![j]==1)
-                                                          GetInStatus = true;
+                                      
+                                      Expanded(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+
+                                            Container(
+                                              padding: EdgeInsets.only(
+                                                  left: h / 100,
+                                        ),
+                                              child: CircleAvatar(
+                                                radius: 25,
+                                                backgroundColor: const Color(0xff15D078),
+                                                child: Center(
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      bool GetInStatus = false;
+                                                      for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                        if (widget.bubble_id==AllBubblesIDS![j]){
+                                                          if (AllBubblesStatus![j]==1)
+                                                            GetInStatus = true;
+                                                        }
                                                       }
-                                                    }
-                                                    if (GetInStatus) {
-                                                      // dIALOG1();
-                                                    }else{
-                                                      OutsideBubbleAlreat();
-                                                    }
-                                                  },
-                                                  child: const Icon(
-                                                    Icons.add,
-                                                    size: 35,
-                                                    color: Colors.white,
+                                                      if (GetInStatus) {
+                                                        dIALOG1();
+                                                        _GroupChatBloc.add(ChangeFlowOptionsStatus((b) =>
+                                                        b..status = true
+                                                        ));
+                                                      }else{
+                                                        OutsideBubbleAlreat();
+                                                      }
+                                                    },
+                                                    child:  Icon(
+                                                      state.FlowOptionsOpened!?Icons.arrow_drop_down_sharp:
+                                                      Icons.add,
+                                                      size: 35,
+                                                      color: Colors.white,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
 
-                                          !state.KetbaordStatuss!
-                                              ? Row(
-                                            children: [
-                                              RecorderView(
-                                                onSaved: _onRecordComplete,
-                                                bubble_id: widget.bubble_id,
-                                              ),
-                                              Container(
-                                                width: w / 10,
-                                                padding:
-                                                EdgeInsets.only(top: h / 50),
-                                                child: IconButton(
-                                                    onPressed: (){
-                                              bool GetInStatus = false;
-                                              for(int j =0;j<AllBubblesIDS!.length;j++){
-                                              if (widget.bubble_id==AllBubblesIDS![j]){
-                                              if (AllBubblesStatus![j]==1)
-                                              GetInStatus = true;
-                                                  }
-                                              }
+                                            !state.KetbaordStatuss!
+                                                ? Row(
+                                              children: [
+                                                RecorderView(
+                                                  onSaved: _onRecordComplete,
+                                                  bubble_id: widget.bubble_id,
+                                                  Want_test: true,
+                                                ),
+                                                Container(
+                                                  width: w / 10,
+                                                  child: IconButton(
+                                                      onPressed: (){
+                                                bool GetInStatus = false;
+                                                for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                if (widget.bubble_id==AllBubblesIDS![j]){
+                                                if (AllBubblesStatus![j]==1)
+                                                GetInStatus = true;
+                                                    }
+                                                }
 
-                                              if ( GetInStatus) {
-                                                PhotoFlowDialog();
-                                              }else{
-                                                OutsideBubbleAlreat();
-                                              }
-
-                                                    },
-                                                    icon: SvgPicture.asset(
-                                                      "Assets/images/cAMERA.svg",
-                                                      width: w / 16,
-                                                    )),
-                                              )
-                                            ],
-                                          )
-                                              : const Text(""),
-                                          Container(
-                                              padding: EdgeInsets.only(
-                                                  left: h / 100, top: h / 50),
-                                              width: state.KetbaordStatuss!
-                                                  ? w / 1.4
-                                                  : w / 2,
-                                              height: h / 13.5,
-                                              child: Form(
-                                                  key: _formkey3,
-                                                  child: TextFormField(
-                                                    controller: _SendMessageController,
-                                                    keyboardAppearance: Brightness.dark,
-                                                    textInputAction:
-                                                    TextInputAction.done,
-                                                    focusNode: _focus,
-                                                    onChanged: (value) { },
-                                                    onFieldSubmitted: (value)async {
-                                                      String Comment =_SendMessageController.text;
-
-                                                        bool GetInStatus = false;
-                                                      for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                        if (widget.bubble_id==AllBubblesIDS![j]){
-                                                          if (AllBubblesStatus![j]==1)
-                                                          GetInStatus = true;
+                                                if ( GetInStatus) {
+                                                  PhotoFlowDialog("ImageOnChat");
+                                                }else{
+                                                  OutsideBubbleAlreat();
+                                                }
+                                                      },
+                                                      icon: SvgPicture.asset(
+                                                        "Assets/images/cAMERA.svg",
+                                                        width: w / 16,
+                                                      )),
+                                                )
+                                              ],
+                                            )
+                                                : const Text(""),
+                                            Container(
+                                                padding: EdgeInsets.only(
+                                                    left: h / 100, top: h / 100,bottom: h/100),
+                                                width: state.KetbaordStatuss!
+                                                    ? w / 1.4
+                                                    : w / 2,
+                                                height: h / 13.5,
+                                                child: Form(
+                                                    key: _formkey3,
+                                                    child: TextFormField(
+                                                      controller: _SendMessageController,
+                                                      keyboardAppearance: Brightness.dark,
+                                                      textInputAction:
+                                                      TextInputAction.done,
+                                                      focusNode: _focus,
+                                                      onChanged: (value) {
+                                                        if (_SendMessageController.text.isNotEmpty) {
+                                                          _GroupChatBloc.add(
+                                                              KetbaordStatus((b) => b..status = true)); //toggle ui view
+                                                        } else {
+                                                          _GroupChatBloc.add(KetbaordStatus((b) => b..status = false));
                                                         }
-                                                      }
+                                                      },
 
-
-                                                         if ( GetInStatus) {
-                                                           if (state.Status!) {
-                                                             if (state.Isreply ==
-                                                                 true &&
-                                                                 state.type ==
-                                                                     "Message" &&
-                                                                 _SendMessageController
-                                                                     .text
-                                                                     .isNotEmpty) {
-                                                               _GroupChatBloc.add(
-                                                                   ShowReplyWidget((
-                                                                       b) => b..Isreply = false));
-
-
-                                                               String message = state
-                                                                   .RepliedToMessage!;
-                                                               String ALias = state
-                                                                   .AliasForRepliedTo!;
-                                                               String Avatar = state
-                                                                   .AvatarPathForRepliedTo!;
-                                                               String Color = state
-                                                                   .ColorForRepliedTo!
-                                                                   .toString();
-
-                                                               SetmyReplyMessage(
-                                                                   message, Comment,
-                                                                   ALias,
-                                                                   Avatar, Color,
-                                                                   Message_id);
-                                                               _SendMessageController
-                                                                   .clear();
-                                                             } else
-                                                             if (state.Isreply ==
-                                                                 true &&
-                                                                 state.type ==
-                                                                     "Image" &&
-                                                                 _SendMessageController
-                                                                     .text
-                                                                     .isNotEmpty) {
-                                                               _GroupChatBloc.add(
-                                                                   ShowReplyWidget((
-                                                                       b) => b..Isreply = false));
-
-
-                                                               // String path= "";
-
-
-                                                               if (state
-                                                                   .Image_type ==
-                                                                   "Backend") {
-                                                                 path =
-                                                                 state
-                                                                     .RepliedToMessage!;
-                                                               } else if (state
-                                                                   .Image_type ==
-                                                                   "File") {
-                                                                 filee =
-                                                                 state.File_image!;
-                                                               } else if (state
-                                                                   .Image_type ==
-                                                                   "Uint8List") {
-                                                                 Image122 =
-                                                                 state.Image1!;
-                                                               }
-
-
-                                                               SetMyReplyToImage(
-                                                                   Comment, state
-                                                                   .AliasForRepliedTo!,
-                                                                   state
-                                                                       .AvatarPathForRepliedTo!,
-                                                                   state
-                                                                       .ColorForRepliedTo!,
-                                                                   Message_id,
-                                                                   state.Image_type!
-                                                               );
-                                                             }
-                                                             else
-                                                             if (state.Isreply ==
-                                                                 true &&
-                                                                 state.type ==
-                                                                     "Voice" &&
-                                                                 _SendMessageController
-                                                                     .text
-                                                                     .isNotEmpty) {
-                                                               _GroupChatBloc.add(
-                                                                   ShowReplyWidget(
-                                                                           (b) =>
-                                                                       b
-                                                                         ..Isreply =
-                                                                         false));
-
-
-                                                               //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                               _GroupChatBloc.add(
-                                                                   addReply((b) =>
-                                                                   b
-                                                                     ..comment = _SendMessageController
-                                                                         .text
-                                                                     ..message_id = Message_id));
-                                                             }
-                                                             else
-                                                             if (_SendMessageController
-                                                                 .text.isNotEmpty &&
-                                                                 state.Isreply ==
-                                                                     false) {
-                                                               setMYMessage(
-                                                                   _SendMessageController
-                                                                       .text, 1,
-                                                                   widget.MY_ID!);
-
-                                                               _controller
-                                                                   .animateTo(
-                                                                 _controller
-                                                                     .position
-                                                                     .minScrollExtent,
-                                                                 duration: Duration(
-                                                                     microseconds: 2),
-                                                                 curve: Curves
-                                                                     .easeIn,
-                                                               );
-                                                             }
-                                                           }
-                                                           _SendMessageController.clear();
-                                                         }else{
-                                                           OutsideBubbleAlreat();
-                                                         }
-
-
-                                                    },
-                                                    cursorColor: Colors.black,
-                                                    style: const TextStyle(
-                                                        fontSize: 19,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.brown),
-                                                    decoration: InputDecoration(
-                                                      border: OutlineInputBorder(
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                              30)),
-                                                      filled: true,
-                                                      fillColor:
-                                                      const Color(0xffEAEAEA),
-                                                      contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                          horizontal: 12,
-                                                          vertical: h / 100),
-                                                      hintText: 'Sup?..',
-                                                      hintStyle: const TextStyle(
-                                                          color: Color.fromRGBO(
-                                                              96, 96, 96, 1),
-                                                          fontFamily: 'Red Hat Text',
-                                                          fontSize: 13,
-                                                          letterSpacing:
-                                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                                          fontWeight: FontWeight.w300,
-                                                          height: 1),
-                                                    ),
-                                                    keyboardType: TextInputType.text,
-                                                  ))),
-                                          state.KetbaordStatuss!
-                                              ? Row(
-                                            children: [
-                                              Container(
-                                                width: w / 10,
-                                                height: h / 10,
-                                                child: Row(
-                                                  children: [
-                                                    Expanded(
-                                                      child: Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: h / 50),
-                                                        child: IconButton(
-                                                          icon: const Icon(
-                                                            Icons.send,
-                                                            size: 30,
-                                                          ),
-                                                          onPressed: ()async{
-
-                                                            String Comment =
-                                                                _SendMessageController
-                                                                    .text;
-                                                            bool GetInStatus = false;
-                                                            for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                            if (widget.bubble_id==AllBubblesIDS![j]){
+                                                      onFieldSubmitted: (value)async {
+                                                        String Comment =
+                                                            _SendMessageController
+                                                                .text;
+                                                        bool GetInStatus = false;
+                                                        for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                          if (widget.bubble_id==AllBubblesIDS![j]){
                                                             if (AllBubblesStatus![j]==1)
-                                                            GetInStatus = true;
-                                                            }
-                                                            }
+                                                              GetInStatus = true;
+                                                          }
+                                                        }
 
 
-                                                            if ( GetInStatus) {
-                                                              if (state.Status!) {
-                                                                if (state.Isreply ==
-                                                                    true &&
-                                                                    state.type ==
-                                                                        "Message" &&
-                                                                    _SendMessageController
-                                                                        .text
-                                                                        .isNotEmpty) {
-                                                                  _GroupChatBloc
-                                                                      .add(
-                                                                      ShowReplyWidget((
-                                                                          b) => b..Isreply = false));
+                                                        if ( GetInStatus) {
+                                                  if (_SendMessageController
+                                                      .text.trim().length!=0) {
+                                                    if (state.Status!) {
+                                                      if (state.Isreply ==
+                                                          true &&
+                                                          state.type ==
+                                                              "Message" &&
+                                                          _SendMessageController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                        _GroupChatBloc
+                                                            .add(
+                                                            ShowReplyWidget((b) => b..Isreply = false));
+
+                                                        String message = state
+                                                            .RepliedToMessage!;
+
+                                                        String ALias = state
+                                                            .AliasForRepliedTo!;
+                                                        String Avatar = state
+                                                            .AvatarPathForRepliedTo!;
+                                                        String Color = state
+                                                            .ColorForRepliedTo!
+                                                            .toString();
+
+                                                        SetmyReplyMessage(
+                                                            message,
+                                                            Comment,
+                                                            ALias,
+                                                            Avatar, Color,
+                                                            Message_id);
+                                                        _SendMessageController
+                                                            .clear();
+                                                      } else if (state
+                                                          .Isreply ==
+                                                          true &&
+                                                          state.type ==
+                                                              "Image" &&
+                                                          _SendMessageController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                        _GroupChatBloc
+                                                            .add(
+                                                            ShowReplyWidget((b) => b..Isreply = false));
 
 
-                                                                  String message = state
-                                                                      .RepliedToMessage!;
-                                                                  String ALias = state
-                                                                      .AliasForRepliedTo!;
-                                                                  String Avatar = state
-                                                                      .AvatarPathForRepliedTo!;
-                                                                  String Color = state
-                                                                      .ColorForRepliedTo!
-                                                                      .toString();
+                                                        // String path= "";
 
-                                                                  SetmyReplyMessage(
-                                                                      message,
-                                                                      Comment,
-                                                                      ALias,
-                                                                      Avatar, Color,
-                                                                      Message_id);
+
+                                                        if (state
+                                                            .Image_type ==
+                                                            "Backend") {
+                                                          path =
+                                                          state
+                                                              .RepliedToMessage!;
+                                                        } else if (state
+                                                            .Image_type ==
+                                                            "File") {
+                                                          filee = state
+                                                              .File_image!;
+                                                        } else if (state
+                                                            .Image_type ==
+                                                            "Uint8List") {
+                                                          Image122 =
+                                                          state.Image1!;
+                                                        }
+
+
+                                                        SetMyReplyToImage(
+                                                            Comment, state
+                                                            .AliasForRepliedTo!,
+                                                            state
+                                                                .AvatarPathForRepliedTo!,
+                                                            state
+                                                                .ColorForRepliedTo!,
+                                                            Message_id,
+                                                            state
+                                                                .Image_type!
+                                                        );
+                                                      }
+                                                      else if (state
+                                                          .Isreply ==
+                                                          true &&
+                                                          state.type ==
+                                                              "Voice" &&
+                                                          _SendMessageController
+                                                              .text
+                                                              .isNotEmpty) {
+                                                        _GroupChatBloc
+                                                            .add(
+                                                            ShowReplyWidget(
+                                                                    (b) =>
+                                                                b..Isreply = false));
+
+
+                                                        SetmyReplyToVoice(
+                                                          Comment, state
+                                                            .AliasForRepliedTo!,
+                                                          state
+                                                              .AvatarPathForRepliedTo!,
+                                                          state.ColorForRepliedTo!
+                                                          ,
+                                                          Message_id,
+                                                        );
+                                                        //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
+
+
+                                                      }
+                                                      else if (_SendMessageController
+                                                          .text
+                                                          .isNotEmpty &&
+                                                          state.Isreply ==
+                                                              false) {
+                                                        setMYMessage(
+                                                            _SendMessageController
+                                                                .text, 1,
+                                                            widget
+                                                                .MY_ID!);
+
+                                                        _controller
+                                                            .animateTo(
+                                                          _controller
+                                                              .position
+                                                              .minScrollExtent,
+                                                          duration: Duration(
+                                                              microseconds: 2),
+                                                          curve: Curves
+                                                              .easeIn,
+                                                        );
+                                                      }
+                                                    }
+                                                  }
+                                                          _SendMessageController.clear();
+                                                        }else{
+                                                          OutsideBubbleAlreat();
+                                                        }
+
+
+
+
+                                                      },
+                                                      cursorColor: Colors.black,
+                                                      style: const TextStyle(
+                                                          fontSize: 19,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: Colors.brown),
+                                                      decoration: InputDecoration(
+                                                        border: OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius.circular(
+                                                                30)),
+                                                        filled: true,
+                                                        fillColor:
+                                                        const Color(0xffEAEAEA),
+                                                        contentPadding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 12,
+                                                            vertical: h / 100),
+                                                        hintText: 'Sup?..',
+                                                        hintStyle: const TextStyle(
+                                                            color: Color.fromRGBO(
+                                                                96, 96, 96, 1),
+                                                            fontFamily: 'Red Hat Text',
+                                                            fontSize: 13,
+                                                            letterSpacing:
+                                                            0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight: FontWeight.w300,
+                                                            height: 1),
+                                                      ),
+                                                      keyboardType: TextInputType.text,
+                                                    ))),
+                                            state.KetbaordStatuss!
+                                                ? Row(
+                                              children: [
+                                                Container(
+                                                  width: w / 10,
+                                                  height: h / 10,
+                                                  child: Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          child: IconButton(
+                                                            icon: const Icon(
+                                                              Icons.send,
+                                                              size: 30,
+                                                            ),
+                                                            onPressed: ()async{
+
+
+                                                              String Comment =
                                                                   _SendMessageController
-                                                                      .clear();
-                                                                } else if (state
-                                                                    .Isreply ==
-                                                                    true &&
-                                                                    state.type ==
-                                                                        "Image" &&
-                                                                    _SendMessageController
-                                                                        .text
-                                                                        .isNotEmpty) {
-                                                                  _GroupChatBloc
-                                                                      .add(
-                                                                      ShowReplyWidget((
-                                                                          b) => b..Isreply = false));
-
-
-                                                                  // String path= "";
-
-
-                                                                  if (state
-                                                                      .Image_type ==
-                                                                      "Backend") {
-                                                                    path =
-                                                                    state
-                                                                        .RepliedToMessage!;
-                                                                  } else if (state
-                                                                      .Image_type ==
-                                                                      "File") {
-                                                                    filee = state
-                                                                        .File_image!;
-                                                                  } else if (state
-                                                                      .Image_type ==
-                                                                      "Uint8List") {
-                                                                    Image122 =
-                                                                    state.Image1!;
-                                                                  }
-
-
-                                                                  SetMyReplyToImage(
-                                                                      Comment, state
-                                                                      .AliasForRepliedTo!,
-                                                                      state
-                                                                          .AvatarPathForRepliedTo!,
-                                                                      state
-                                                                          .ColorForRepliedTo!,
-                                                                      Message_id,
-                                                                      state
-                                                                          .Image_type!
-                                                                  );
-                                                                }
-                                                                else if (state
-                                                                    .Isreply ==
-                                                                    true &&
-                                                                    state.type ==
-                                                                        "Voice" &&
-                                                                    _SendMessageController
-                                                                        .text
-                                                                        .isNotEmpty) {
-                                                                  _GroupChatBloc
-                                                                      .add(
-                                                                      ShowReplyWidget(
-                                                                              (b) =>
-                                                                          b
-                                                                            ..Isreply =
-                                                                            false));
-
-
-                                                                  //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
-
-                                                                  _GroupChatBloc
-                                                                      .add(
-                                                                      addReply((
-                                                                          b) =>
-                                                                      b
-                                                                        ..comment = _SendMessageController
-                                                                            .text
-                                                                        ..message_id = Message_id));
-                                                                }
-                                                                else
-                                                                if (_SendMessageController
-                                                                    .text
-                                                                    .isNotEmpty &&
-                                                                    state.Isreply ==
-                                                                        false) {
-                                                                  setMYMessage(
-                                                                      _SendMessageController
-                                                                          .text, 1,
-                                                                      widget
-                                                                          .MY_ID!);
-
-                                                                  _controller
-                                                                      .animateTo(
-                                                                    _controller
-                                                                        .position
-                                                                        .minScrollExtent,
-                                                                    duration: Duration(
-                                                                        microseconds: 2),
-                                                                    curve: Curves
-                                                                        .easeIn,
-                                                                  );
+                                                                      .text;
+                                                              bool GetInStatus = false;
+                                                              for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                                if (widget.bubble_id==AllBubblesIDS![j]){
+                                                                  if (AllBubblesStatus![j]==1)
+                                                                    GetInStatus = true;
                                                                 }
                                                               }
-                                                              _SendMessageController.clear();
-                                                            }else{
-                                                              OutsideBubbleAlreat();
-                                                            }
 
 
-                                                          },
-                                                          color: const Color(
-                                                              0xff15D078),
+                                                              if ( GetInStatus) {
+                                                                if (_SendMessageController
+                                                                    .text.trim().length!=0) {
+                                                                  if (state.Status!) {
+                                                                    if (state.Isreply ==
+                                                                        true &&
+                                                                        state.type ==
+                                                                            "Message" &&
+                                                                        _SendMessageController
+                                                                            .text
+                                                                            .isNotEmpty) {
+                                                                      _GroupChatBloc
+                                                                          .add(
+                                                                          ShowReplyWidget((b) => b..Isreply = false));
+
+                                                                      String message = state
+                                                                          .RepliedToMessage!;
+
+                                                                      String ALias = state
+                                                                          .AliasForRepliedTo!;
+                                                                      String Avatar = state
+                                                                          .AvatarPathForRepliedTo!;
+                                                                      String Color = state
+                                                                          .ColorForRepliedTo!
+                                                                          .toString();
+
+                                                                      SetmyReplyMessage(
+                                                                          message,
+                                                                          Comment,
+                                                                          ALias,
+                                                                          Avatar, Color,
+                                                                          Message_id);
+                                                                      _SendMessageController
+                                                                          .clear();
+                                                                    } else if (state
+                                                                        .Isreply ==
+                                                                        true &&
+                                                                        state.type ==
+                                                                            "Image" &&
+                                                                        _SendMessageController
+                                                                            .text
+                                                                            .isNotEmpty) {
+                                                                      _GroupChatBloc
+                                                                          .add(
+                                                                          ShowReplyWidget((b) => b..Isreply = false));
+
+
+                                                                      // String path= "";
+
+
+                                                                      if (state
+                                                                          .Image_type ==
+                                                                          "Backend") {
+                                                                        path =
+                                                                        state
+                                                                            .RepliedToMessage!;
+                                                                      } else if (state
+                                                                          .Image_type ==
+                                                                          "File") {
+                                                                        filee = state
+                                                                            .File_image!;
+                                                                      } else if (state
+                                                                          .Image_type ==
+                                                                          "Uint8List") {
+                                                                        Image122 =
+                                                                        state.Image1!;
+                                                                      }
+
+
+                                                                      SetMyReplyToImage(
+                                                                          Comment, state
+                                                                          .AliasForRepliedTo!,
+                                                                          state
+                                                                              .AvatarPathForRepliedTo!,
+                                                                          state
+                                                                              .ColorForRepliedTo!,
+                                                                          Message_id,
+                                                                          state
+                                                                              .Image_type!
+                                                                      );
+                                                                    }
+                                                                    else if (state
+                                                                        .Isreply ==
+                                                                        true &&
+                                                                        state.type ==
+                                                                            "Voice" &&
+                                                                        _SendMessageController
+                                                                            .text
+                                                                            .isNotEmpty) {
+                                                                      _GroupChatBloc
+                                                                          .add(
+                                                                          ShowReplyWidget(
+                                                                                  (b) =>
+                                                                              b..Isreply = false));
+
+
+                                                                      SetmyReplyToVoice(
+                                                                        Comment, state
+                                                                          .AliasForRepliedTo!,
+                                                                        state
+                                                                            .AvatarPathForRepliedTo!,
+                                                                        state.ColorForRepliedTo!
+                                                                        ,
+                                                                        Message_id,
+                                                                      );
+                                                                      //     SetMyReplyToImage(state.RepliedToMessage!,Comment,state.type!);
+
+
+                                                                    }
+                                                                    else if (_SendMessageController
+                                                                        .text
+                                                                        .isNotEmpty &&
+                                                                        state.Isreply ==
+                                                                            false) {
+                                                                      setMYMessage(
+                                                                          _SendMessageController
+                                                                              .text, 1,
+                                                                          widget
+                                                                              .MY_ID!);
+
+                                                                      _controller
+                                                                          .animateTo(
+                                                                        _controller
+                                                                            .position
+                                                                            .minScrollExtent,
+                                                                        duration: Duration(
+                                                                            microseconds: 2),
+                                                                        curve: Curves
+                                                                            .easeIn,
+                                                                      );
+                                                                    }
+                                                                  }
+                                                                }
+                                                                _SendMessageController.clear();
+                                                              }else{
+                                                                OutsideBubbleAlreat();
+                                                              }
+
+
+
+
+                                                            },
+                                                            color: const Color(
+                                                                0xff15D078),
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              )
-                                            ],
-                                          )
-                                              : const Text("")
-                                        ],
+                                                const SizedBox(
+                                                  width: 10,
+                                                )
+                                              ],
+                                            )
+                                                : const Text("")
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -3202,8 +2456,8 @@ class _GroupChatState extends State<GroupChat> {
                                       width: 23,
                                       color: ColorS.surface),
                                   onPressed: () {
-                                    _scaffoldKey.currentState!
-                                        .openEndDrawer();
+                                    // _scaffoldKey.currentState!
+                                    //     .openEndDrawer();
                                     bool GetInStatus = false;
                                     for(int j =0;j<AllBubblesIDS!.length;j++){
                                       if (widget.bubble_id==AllBubblesIDS![j]){
@@ -3235,81 +2489,677 @@ class _GroupChatState extends State<GroupChat> {
         });
   }
 
+  Column Drawerr(double w, double h, BuildContext context, GroupChatState state, Future<dynamic> alreatDialogBuilder(BuildContext Context, double h, double w, int myINdex, bool is_frined, bool is_me, int frined_id), ColorScheme ColorS, TextTheme _TextTheme) {
+    return Column(
+                children: [
+                  Expanded(child:  Drawer(
 
-Future OutsideBubbleAlreat()async
-{
-  return       showDialog(
-    builder: (BuildContext context) {
-      var h = MediaQuery.of(context).size.height;
-      var w = MediaQuery.of(context).size.width;
-      return Container(
-        child: AlertDialog(
-          backgroundColor: Color(0xffEAEAEA),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          content:  Container(
-              width: w,
-              height: h/3,
-              decoration: BoxDecoration(
-                borderRadius : BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
+                    child: SafeArea(
+                      child:
+
+                      Column(
+                        children: [
+                          Container(
+                            width: w,
+                            height: h/4,
+                            color: Color(0xff15D078),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          IconButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
+                                        Text(widget.plan_Title.toString(),
+                                              textAlign: TextAlign.left,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Color.fromRGBO(47, 47, 47, 1),
+                                                fontFamily: 'Red Hat Display',
+                                                fontSize: 21,
+                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                fontWeight: FontWeight.w800,
+                                                height: 1
+                                            ),),
+                                        
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: EdgeInsets.only(right: h/100),
+                                      child: IconButton(
+                                          onPressed: (){
+                                            Navigator.pop(context);
+                                          }, icon:
+                                      SvgPicture.asset(
+                                        "Assets/images/Gallary.svg",
+                                        width: w / 16,
+                                      )
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                Flexible(
+                                  child: Container(
+                                    width: w/1.3,
+                                    child: Center(
+                                      child:
+
+                                      Row(
+                                        children: [
+                                          Text(widget.Plan_Description.toString(),
+                                            textAlign: TextAlign.left,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(46, 46, 46, 1),
+                                              fontFamily: 'Red Hat Text',
+                                              fontSize: 13,
+                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                              fontWeight: FontWeight.w500,
+                                              height: 1.6
+                                          ),),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // Expanded(
+                                //   child: Container(
+                                //     width: w,
+                                //     height: h/6,
+                                //     margin: EdgeInsets.only(left: h/50),
+                                //     child: ScrollConfiguration(
+                                //       behavior: MyBehavior(),
+                                //       child:
+                                //       ListView.separated(
+                                //         cacheExtent : 500,
+                                //         // shrinkWrap: true,
+                                //         physics: BouncingScrollPhysics(),
+                                //         scrollDirection: Axis.horizontal,
+                                //         itemCount: 20,
+                                //         itemBuilder: (BuildContext context,
+                                //             int index) {
+                                //           return CircleAvatar(
+                                //             radius: 25,
+                                //           );
+                                //
+                                //         }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: h/100); },),
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                          SingleChildScrollView(
+                              physics: BouncingScrollPhysics(
+                                  parent: AlwaysScrollableScrollPhysics()
+                              ),
+                              child:  Container(
+                                  width: w,
+                                height: h/1.42,
+                                  child:
+                                  Column(
+                                    children: [
+
+                                      SizedBox(height: h/40,),
+                                    Container(
+                                          width: w/1.4,
+                                          height: h/9.5,
+                                          decoration: BoxDecoration(
+                                            borderRadius : BorderRadius.only(
+                                              topLeft: Radius.circular(50),
+                                              topRight: Radius.circular(5),
+                                              bottomLeft: Radius.circular(50),
+                                              bottomRight: Radius.circular(5),
+                                            ),
+                                            boxShadow : [BoxShadow(
+                                                color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                                                offset: Offset(0,0),
+                                                blurRadius: 10.645160675048828
+                                            )],
+                                            color : Color.fromRGBO(96, 96, 96, 1),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Container(
+                                                //   margin: EdgeInsets.only(right: h/100),
+                                                child: Stack(
+                                                  children: [
+
+                                                    SvgPicture.asset(
+                                                      "Assets/images/Exclude.svg",
+                                                      color: Color(0xff15D078),
+                                                      width: w/5,
+                                                    ),
+                                                    Positioned(
+                                                      top: h/26,
+                                                      left: h/25,
+                                                      child: SvgPicture.asset(
+                                                        "Assets/images/S3EQA.svg",
+                                                        width: w/24,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(right: h/100),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                  children: [
+
+                                                    Container(
+                                                      margin: EdgeInsets.only(right: h/15),
+                                                      child: RichText(
+                                                        textAlign: TextAlign.left,
+                                                        text: TextSpan(
+
+                                                          children: <TextSpan>[
+                                                            TextSpan(
+                                                              text: state.GetInsideUsersSuccess!?state.GetUsersInsideBubble!.users!.length.toString():"0",
+                                                              style: TextStyle(
+                                                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                                                  fontFamily: 'Red Hat Text',
+                                                                  fontSize: 16,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.w900,
+                                                                  height: 1
+                                                              ),
+                                                              children: [
+                                                                TextSpan(
+                                                                  text: " Users",
+                                                                  style: TextStyle(
+                                                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                                                      fontFamily: 'Red Hat Text',
+                                                                      fontSize: 16,
+                                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      height: 1
+                                                                  ),)
+
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+
+                                                    Text('in Sprints Lobby'
+                                                      , textAlign: TextAlign.left, style: TextStyle(
+                                                          color: Color(0xff15D078),
+                                                          fontFamily: 'Red Hat Text',
+                                                          fontSize: 17,
+                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                          fontWeight: FontWeight.w700,
+                                                          height: 1
+                                                      ),)
+                                                  ],
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: (){
+                                                  if (state.GetUsersInsideBubble!.users!.length>1)
+                                                  WidgetsBinding.instance!
+                                                      .addPostFrameCallback((_) => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SprintLobby(plan_title: widget.plan_Title!,Bubble_id: widget.bubble_id,my_id: widget.MY_ID!,)),
+                                                  ));
+                                                  else{
+                                                    Page2().method(_scaffoldKey.currentContext!, "notification",
+                                                        "No one is in bubble to matchmake with!", "Back");
+                                                  }
+                                                },
+                                                icon: Icon(Icons.chevron_right,size: h/20,color: Color(0xff15D078),),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.only(left: h/50),
+                                            child: Text('Active Users', textAlign: TextAlign.left, style: TextStyle(
+                                                color: Color.fromRGBO(255, 255, 255, 1),
+                                                fontFamily: 'Red Hat Display',
+                                                fontSize: 18,
+                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                fontWeight: FontWeight.w700,
+                                                height: 1
+                                            ),),
+                                          ),
+                                          Text(""),
+                                          Container(
+                                            margin: EdgeInsets.only(left: h/50),
+                                            child: IconButton(
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              }, icon:
+                                            SvgPicture.asset("Assets/images/active.svg",),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                      Container(
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(15),
+                                              bottomRight: Radius.circular(15),
+                                              topLeft: Radius.circular(15),
+                                              topRight: Radius.circular(15),
+                                            ),
+                                          ),
+                                          width: w / 1.4,
+                                          height: h / 15,
+                                          child: Form(
+                                            key: _formkey11,
+                                            child: TextFormField(
+                                              textInputAction: TextInputAction.search,
+                                              controller: _SearchController,
+                                              focusNode: FocuseNODE,
+                                              onFieldSubmitted: (value) {},
+                                              onChanged: (value){
+                                                _GroupChatBloc.add(SearchInsideBubbleUser((b) => b
+                                                  ..Keyword = value
+                                                ));
+                                              },
+                                              cursorColor: Colors.grey,
+                                              style: const TextStyle(
+                                                  color: Colors.orange, fontSize: 16.5),
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(30.0),
+                                                  borderSide: const BorderSide(
+                                                      color: Color(0xff939393), width: 10),
+                                                ),
+                                                focusedBorder: const OutlineInputBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(Radius.circular(30.0)),
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xff939393), width: 3),
+                                                ),
+                                                enabledBorder: const OutlineInputBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(Radius.circular(30.0)),
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xff939393), width: 3),
+                                                ),
+                                                prefixIcon: IconButton(
+                                                    icon: SvgPicture.asset(
+                                                      'Assets/images/Vector(1).svg',
+                                                    ),
+                                                    onPressed: null //do something,
+                                                ),
+                                                filled: true,
+                                                fillColor: Colors.transparent,
+                                                contentPadding: const EdgeInsets.symmetric(
+                                                    horizontal: 12, vertical: 20),
+                                                hintText: "Search",
+                                                hintStyle:   TextStyle(
+                                                    color: Color.fromRGBO(147, 147, 147, 1),
+                                                    fontFamily: 'Red Hat Text',
+                                                    fontSize: 15,
+                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 1
+                                                ),
+                                              ),
+                                              keyboardType: TextInputType.text,
+                                            ),
+                                          )),
+                                      SizedBox(height: h/45,),
+
+                                      state.GetInsideUsersSuccess!
+                                          ?  Expanded(
+                                          child:Container(
+                                            width: w,
+                                            height: h/1.42,
+                                            margin: EdgeInsets.only(right: h/40),
+                                            child: ScrollConfiguration(
+                                              behavior: MyBehavior(),
+                                              child: ListView.separated(
+                                                shrinkWrap: true,
+                                                padding: EdgeInsets.zero,
+                                                physics: NeverScrollableScrollPhysics(
+                                                ),
+                                                scrollDirection: Axis.vertical,
+                                                itemCount: state.FilteredInsideBubbleUsers!.length,
+                                                separatorBuilder: (BuildContext context, int index) {
+                                                  return SizedBox(
+                                                    height: 5,
+                                                  );
+                                                },
+                                                itemBuilder: (BuildContext context, int index) {
+
+                                                  var myInt = int.parse(state.FilteredInsideBubbleUsers![index].Background_Color.toString());
+                                                  var BackgroundColor= myInt;
+
+
+                                                  return
+
+                                                    Slidable(
+                                                      closeOnScroll: true,
+                                                      key:  ValueKey(state.FilteredInsideBubbleUsers![index].id!),
+                                                      endActionPane: ActionPane(
+                                                        motion: const ScrollMotion(),
+                                                        children: [
+                                                          Expanded(
+                                                            child: InkWell(
+                                                              onTap: () {
+
+                                                                if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),
+                                                                );
+                                                                else
+                                                                  print("its your account");
+                                                              },
+                                                              child: Container(
+                                                                width: w / 6,
+                                                                height: h / 9,
+                                                                decoration: const BoxDecoration(
+                                                                  color: const Color(0xffCF6D38),
+                                                                  borderRadius: BorderRadius.only(
+                                                                    bottomRight: const Radius.circular(0),
+                                                                    topRight: Radius.circular(0),
+                                                                  ),
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment.center,
+                                                                  children: [
+                                                                    SvgPicture.asset(
+                                                                        "Assets/images/Vector2.svg",
+                                                                        width: h / 26,
+                                                                        color: Colors.white),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: InkWell(
+                                                              onTap: () {
+                                                                //    if (state.FilteredInsideBubbleUsers![index].id!!=widget.MY_ID)
+                                                                alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                              },
+                                                              child: Container(
+                                                                width: w / 6,
+                                                                height: h / 9,
+                                                                decoration:  BoxDecoration(
+                                                                  color : state.FilteredInsideBubbleUsers![index].is_frined!?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                                                  borderRadius: BorderRadius.only(
+                                                                    bottomRight: const Radius.circular(5),
+                                                                    topRight: Radius.circular(5),
+                                                                  ),
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment.center,
+                                                                  children: [
+                                                                    state.GetInsideUsersSuccess!?
+                                                                    state.FilteredInsideBubbleUsers![index].id==widget.MY_ID
+                                                                        ?Icon(Icons.person)
+                                                                 :    state.FilteredInsideBubbleUsers![index].is_frined!
+                                                                       ?     SvgPicture.asset(
+                                                                      "Assets/images/True_Mark.svg",
+                                                                color: Colors.white,
+                                                                width: h / 26,
+                                                              )
+                                                                        :   SvgPicture.asset(
+                                                                      "Assets/images/Add_friend.svg",
+                                                                      color: Colors.white,
+                                                                      width: h / 26,
+                                                                    )
+
+
+                                                                        :state.GetInsideUsersISloading!
+                                                                        ?    Center(
+                                                                              child: listLoader(
+                                                                              context: context))
+                                                                        :    Expanded(
+                                                                      child:    Container(
+                                                                        child: Text("Error"),
+                                                                      ),)
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          WidgetsBinding.instance!
+                                                              .addPostFrameCallback((_) =>     Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                              builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),));
+                                                        },
+                                                        child: Column(
+                                                          children: [
+                                                            Container(
+                                                              margin: EdgeInsets.only(left: h/40),
+                                                              width: w / 1.2,
+                                                              height: h / 13,
+                                                              decoration: BoxDecoration(
+                                                                color: ColorS.secondaryContainer,
+                                                                borderRadius: BorderRadius.only(
+                                                                  bottomLeft: Radius.circular(40),
+                                                                  bottomRight: Radius.circular(5),
+                                                                  topLeft: Radius.circular(40),
+                                                                  topRight: Radius.circular(5),
+                                                                ),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                      color: ColorS.primaryVariant ,
+                                                                      offset: Offset(0, 0),
+                                                                      blurRadius: 2)
+                                                                ],
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Column(
+                                                                    mainAxisAlignment:
+                                                                    MainAxisAlignment.center,
+                                                                    children: [
+                                                                      //FrinedsStatus
+                                                                      Stack(
+                                                                          children:[
+                                                                            Row(
+                                                                              mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                              children: [
+                                                                                Text("  "),
+                                                                                Container(
+                                                                                  width: w/6,
+                                                                                  height: h / 15,
+                                                                                  child:   CachedNetworkImage(
+                                                                                    imageUrl:
+                                                                                    state.FilteredInsideBubbleUsers![index].Avatar!,
+                                                                                    errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                                    imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                                      radius: 30,
+                                                                                      backgroundImage: imageProvider,
+                                                                                      backgroundColor:   Color(BackgroundColor),
+                                                                                    ),
+                                                                                  ),
+
+                                                                                ),
+
+                                                                              ],
+                                                                            ),
+                                                                            // state.ChangeStateSuccess!?
+                                                                            // FrinedsStatus[index]==1?
+                                                                            // Positioned(
+                                                                            //   bottom: 0,
+                                                                            //   right: 0,
+                                                                            //   child:
+                                                                            //   CircleAvatar(
+                                                                            //       backgroundColor:ColorS.secondaryContainer,
+                                                                            //       radius: 10,
+                                                                            //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
+                                                                            // )
+                                                                            //     :Text("")
+                                                                            //     :Text("")
+
+                                                                            //: Center(
+                                                                            //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+                                                                            //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+                                                                          ]
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  SizedBox(width: 10,),
+
+                                                                  Text(
+                                                                      state.FilteredInsideBubbleUsers![index].Alias!,
+                                                                      textAlign: TextAlign.left,
+                                                                      style: _TextTheme.headline3!.copyWith(
+                                                                          fontFamily: 'Red Hat Display',
+                                                                          fontWeight: FontWeight.w400
+                                                                          ,fontSize: 22
+                                                                      )
+
+                                                                  ),
+
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+
+
+
+                                                },
+                                              ),
+                                            ),
+                                          )
+                                      )
+                                          :   state.GetInsideUsersISloading!
+                                          ?    Expanded(
+                                          child:    Container(
+                                              width: w,
+                                              height: h/1.266,
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                children: [
+                                                  Center(
+                                                      child: listLoader(
+                                                          context: context)),
+                                                ],
+                                              )))
+                                          :    Expanded(
+                                        child:    Container(
+                                          width: w,
+                                          height: h/1.266,
+                                          child: Text("Error"),
+                                        ),)
+
+
+                                    ],
+                                  ),
+                                ),
+                              )
+
+                        ],
+                      ),
+                    ),
+                  ),),
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
+                ],
+              );
+  }
+
+
+  Future OutsideBubbleAlreat()async{
+
+    return       showDialog(
+      builder: (BuildContext context) {
+        var h = MediaQuery.of(context).size.height;
+        var w = MediaQuery.of(context).size.width;
+        return Container(
+          child: AlertDialog(
+            backgroundColor: Color(0xffEAEAEA),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            content:  Container(
+                width: w,
+                height: h/3,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
+                  color : Color.fromRGBO(234, 234, 234, 1),
                 ),
-                color : Color.fromRGBO(234, 234, 234, 1),
+              child: Column(
+                children: [
+                  Stack(
+                    children: [
+                          Container(
+                              width: w/3,
+                              child: Image.asset("Assets/images/Ellipse 26.png",fit: BoxFit.fill,)
+                          ),
+                      Positioned(
+                        top: h/35,
+                          left: h/35,
+                          child: Image.asset("Assets/images/Vector.png")
+                      )
+
+
+                    ],
+                  ),
+                  SizedBox(height: h/40,),
+                  Text('WOOPS!', textAlign: TextAlign.center, style: TextStyle(
+                      color: Color.fromRGBO(47, 47, 47, 1),
+                      fontFamily: 'Red Hat Display',
+                      fontStyle: FontStyle.italic,
+                      fontSize: 22,
+                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                      fontWeight: FontWeight.bold,
+                      height: 1
+                  ),),
+                  SizedBox(height: h/40,),
+                  Text('Looks like you are not in this bubble! Please move closer to activate additional features.', textAlign: TextAlign.center, style: TextStyle(
+                      color: Color.fromRGBO(47, 47, 47, 1),
+                      fontFamily: 'Red Hat Text',
+                      fontSize: 12,
+                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                      fontWeight: FontWeight.w600,
+                      height: 1.25
+                  ),)
+
+
+                ],
               ),
-            child: Column(
-              children: [
-                Stack(
-                  children: [
-
-                        Container(
-                            width: w/3,
-                            child: Image.asset("Assets/images/Ellipse 26.png",fit: BoxFit.fill,)
-                        ),
-
-                    Positioned(
-                      top: h/35,
-                        left: h/35,
-                        child: Image.asset("Assets/images/Vector.png")
-                    )
-
-                  ],
-                ),
-                SizedBox(height: h/40,),
-                Text('WOOPS!', textAlign: TextAlign.center, style: TextStyle(
-                    color: Color.fromRGBO(47, 47, 47, 1),
-                    fontFamily: 'Red Hat Display',
-                    fontStyle: FontStyle.italic,
-                    fontSize: 22,
-                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                    fontWeight: FontWeight.bold,
-                    height: 1
-                ),),
-                SizedBox(height: h/40,),
-                Text('Looks like you are not in this bubble! Please move closer to activate additional features.', textAlign: TextAlign.center, style: TextStyle(
-                    color: Color.fromRGBO(47, 47, 47, 1),
-                    fontFamily: 'Red Hat Text',
-                    fontSize: 12,
-                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                    fontWeight: FontWeight.w600,
-                    height: 1.25
-                ),)
-
-
-              ],
             ),
-          ),
 
-        )
-      );
-    }, context: context
-      );
+          )
+        );
+      }, context: context
+        );
 
-    }
-
-
+      }
 
   void DecodeImage(String path,String type) {
     String decoded = utf8.decode(base64.decode(path));
@@ -3324,9 +3174,10 @@ Future OutsideBubbleAlreat()async
     print(base64Image);
     if (type =="me") {
       SetMyImage(path);
+    }else if (type =="MediaOnChat"){
+_GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     }
   }
-
 
   Future<void> EncodeVoice(String path,String type) async {
     var Voicepath =path;
@@ -3346,8 +3197,6 @@ Future OutsideBubbleAlreat()async
 
   Future<void> DecodeVoice(String path,String type) async {
     String decoded = utf8.decode(base64.decode(path));
-//todo: when you listen for voice message call this function to decode it
-    //todo : maybe download it or i dont know figure out how its going to work
     print(decoded);
 
   }
@@ -3370,15 +3219,20 @@ Future OutsideBubbleAlreat()async
 
 
 
+File? Fileee;
 
-
-  Future<void> pickImage(ImageSource source) async {
+  Future<void> pickImage(ImageSource source,String type) async {
     final image = await ImagePicker().pickImage(source: source);
+    Fileee =File(image!.path);
     if (image == null) return;
     final imagePath = File(image.path);
     print(imagePath);
     this.image = imagePath;
+    if (type=="ImageOnChat")
     encodeImage(imagePath,"me");
+    else if (type =="MediaOnChat"){
+      encodeImage(imagePath,"MediaOnChat");
+    }
   }
 
 
@@ -3481,7 +3335,8 @@ Future OutsideBubbleAlreat()async
                                   ),
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                      child:Image.memory(state.Image1!,fit: BoxFit.fill,)
+                                      child:Image.memory(state.Image1!,)
+
                                   ))
                                   : state.Image_type.toString()=="Backend"
                                   ?Container(
@@ -3500,7 +3355,7 @@ Future OutsideBubbleAlreat()async
                                   ),
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                      child:Image.network(state.RepliedToMessage!,fit: BoxFit.fill,)
+                                      child:Image.network(state.RepliedToMessage!,)
                                   ))
                                   :Container(
                                   width: w/5,
@@ -3518,7 +3373,7 @@ Future OutsideBubbleAlreat()async
                                   ),
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10),bottomLeft:Radius.circular(10),bottomRight: Radius.circular(10)   ),
-                                      child:Image.file(state.File_image!,fit: BoxFit.fill,)
+                                      child:Image.file(state.File_image!,)
                                   ))
 
 
@@ -3684,7 +3539,7 @@ Future OutsideBubbleAlreat()async
                           width: w / 2,
                           child: InkWell(
                             onTap: () {
-                              PollFlowdIALOG();
+                           PollFlowdIALOG();
                             },
                             child: Stack(
                               children: [
@@ -3755,7 +3610,7 @@ Future OutsideBubbleAlreat()async
                           child: InkWell(
                             onTap: () {
 
-                              PhotoFlowDialog();
+                              PhotoFlowDialog("ImageOnChat");
                             },
                             child: Stack(
                               children: [
@@ -3823,7 +3678,7 @@ Future OutsideBubbleAlreat()async
                         width: w / 2,
                         child: InkWell(
                             onTap: () {
-                              MediaDumpdIALOG();
+                             MediaDumpdIALOG();
                             },
                             child: Stack(children: [
                               Positioned(
@@ -3879,28 +3734,32 @@ Future OutsideBubbleAlreat()async
                               ),
                             ]))),
                   ]),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(left: h / 100, top: h / 50),
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: const Color(0xff15D078),
-                          child: Center(
-                              child: IconButton(
-                                icon: Image.asset("Assets/images/closee.png"),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Container(
+                  //       padding: EdgeInsets.only(left: h / 100, top: h / 50),
+                  //       child: CircleAvatar(
+                  //         radius: 25,
+                  //         backgroundColor: const Color(0xff15D078),
+                  //         child: Center(
+                  //             child: IconButton(
+                  //               icon: Image.asset("Assets/images/closee.png"),
+                  //               onPressed: () {
+                  //                 Navigator.of(context).pop();
+                  //               },
+                  //             )),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ));
-        });
+        }).then((value) {
+          _GroupChatBloc.add(ChangeFlowOptionsStatus((b) =>
+          b..status = false
+          ));
+    });
   }
 
   _onRecordComplete(String path) async {
@@ -3935,7 +3794,7 @@ Future OutsideBubbleAlreat()async
 
 
 
-  Future<void> PhotoFlowDialog() {
+  Future<void> PhotoFlowDialog(String type) {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -3968,7 +3827,7 @@ Future OutsideBubbleAlreat()async
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      pickImage(ImageSource.camera);
+                      pickImage(ImageSource.camera,type);
                     },
                     child: Container(
                       width: w,
@@ -3994,7 +3853,7 @@ Future OutsideBubbleAlreat()async
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      pickImage(ImageSource.gallery);
+                      pickImage(ImageSource.gallery,type);
                     },
                     child: Container(
                       width: w,
@@ -4329,6 +4188,7 @@ Future OutsideBubbleAlreat()async
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: Wrap(children: [
+
                       Container(
                         color: const Color(0xff942657),
                         child: SingleChildScrollView(
@@ -4358,16 +4218,17 @@ Future OutsideBubbleAlreat()async
                                   Container(
                                       width: w / 1.2,
                                       height: h / 7,
-                                      child: Form(
+                                      child:     Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
+                                        key: _PollkeyQuestion,
                                         child: TextFormField(
                                           maxLines: 4,
-                                          focusNode: FoucesNodeFlowDescription,
+                                          focusNode: FoucesNodePollQuestion,
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
                                           controller:
-                                          _FlowDescriptionController,
+                                          _PollQuestionController,
                                           onChanged: (value) {},
                                           onFieldSubmitted: (value) {},
                                           cursorColor: Colors.black,
@@ -4429,16 +4290,17 @@ Future OutsideBubbleAlreat()async
                                   Container(
                                       width: w / 1.2,
                                       height: h / 10,
-                                      child: Form(
+                                      child:   Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                        child: TextFormField(
+                                        key: _Pollkey1,
+                                        child:TextFormField(
                                           maxLines: 4,
-                                          focusNode: FoucesNodeFlowDescription,
+                                          focusNode: FoucesNodePollAnswer2,
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
                                           controller:
-                                          _FlowDescriptionController,
+                                          _PollAnswer1Controller,
                                           onChanged: (value) {},
 
                                           onFieldSubmitted: (value) {},
@@ -4494,23 +4356,24 @@ Future OutsideBubbleAlreat()async
                                           keyboardType: TextInputType.text,
                                           // obscureText: SecureInput_pass,
                                         ),
-                                      )),
+                                      ) ),
                                   const SizedBox(
                                     height: 10,
                                   ),
                                   Container(
                                       width: w / 1.2,
                                       height: h / 10,
-                                      child: Form(
+                                      child:   Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                        child: TextFormField(
+                                        key: _Pollkey2,
+                                        child:TextFormField(
                                           maxLines: 4,
                                           focusNode: FoucesNodeFlowDescription,
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
                                           controller:
-                                          _FlowDescriptionController,
+                                          _PollAnswer2Controller,
                                           onChanged: (value) {},
 
                                           onFieldSubmitted: (value) {},
@@ -4576,20 +4439,20 @@ Future OutsideBubbleAlreat()async
                                       Container(
                                           width: w / 1.2,
                                           height: h / 10,
-                                          child: Form(
+                                          child:    Form(
                                             autovalidateMode:
-                                            AutovalidateMode
-                                                .onUserInteraction,
-                                            child: TextFormField(
+                                            AutovalidateMode.onUserInteraction,
+                                            key: _Pollkey3,
+                                            child:TextFormField(
                                               maxLines: 4,
                                               focusNode:
-                                              FoucesNodeFlowDescription,
+                                              FoucesNodePollAnswer3,
                                               keyboardAppearance:
                                               Brightness.dark,
                                               textInputAction:
                                               TextInputAction.next,
                                               controller:
-                                              _FlowDescriptionController,
+                                              _PollAnswer3Controller,
                                               onChanged: (value) {},
 
                                               onFieldSubmitted:
@@ -4665,7 +4528,7 @@ Future OutsideBubbleAlreat()async
                                               TextInputType.text,
                                               // obscureText: SecureInput_pass,
                                             ),
-                                          )),
+                                          )  ),
                                     ],
                                   )
                                       : const Text(""),
@@ -4678,20 +4541,20 @@ Future OutsideBubbleAlreat()async
                                       Container(
                                           width: w / 1.2,
                                           height: h / 10,
-                                          child: Form(
+                                          child:   Form(
                                             autovalidateMode:
-                                            AutovalidateMode
-                                                .onUserInteraction,
+                                            AutovalidateMode.onUserInteraction,
+                                            key: _Pollkey4,
                                             child: TextFormField(
                                               maxLines: 4,
                                               focusNode:
-                                              FoucesNodeFlowDescription,
+                                              FoucesNodePollAnswer4,
                                               keyboardAppearance:
                                               Brightness.dark,
                                               textInputAction:
                                               TextInputAction.next,
                                               controller:
-                                              _FlowDescriptionController,
+                                              _PollAnswer4Controller,
                                               onChanged: (value) {},
 
                                               onFieldSubmitted:
@@ -4777,8 +4640,8 @@ Future OutsideBubbleAlreat()async
                                   InkWell(
                                     onTap: () {
                                       if (state.TextfieldSum != 4)
-                                        _GroupChatBloc.add(ChangeTextfieldSum(
-                                                (b) => b..num = 1));
+                                        _GroupChatBloc.add(ChangeTextfieldSum((b) => b..num = 1));
+
                                     },
                                     child: Container(
                                       width: w / 1.2,
@@ -4889,14 +4752,32 @@ Future OutsideBubbleAlreat()async
                                   const Text(""),
                                   InkWell(
                                     onTap: () {
-                                      if (_formkey2.currentState!.validate() &&
-                                          _formkey1.currentState!.validate()) {
-                                        Navigator.pop(context);
-                                        print("done");
-                                        SetMyTopicFlow(
-                                            _FlowTitleController.text,
-                                            _FlowDescriptionController.text);
+                                      if (_PollkeyQuestion.currentState!.validate()) {
+                                              List<String> Answers =[];
+                                              String Question ="";
+                                              Question = _PollQuestionController.text;
+                                              Answers.add(_PollAnswer1Controller.text);
+                                              Answers.add(_PollAnswer2Controller.text);
+
+                                                if (state.TextfieldSum==3) {
+
+                                                  Answers.add(_PollAnswer3Controller.text);
+
+                                                }else if (state.TextfieldSum==4) {
+
+                                                  Answers.add(_PollAnswer4Controller.text);
+
+                                                }
+
+                                        SetMyPollFlow(Question, Answers);
+                                                Navigator.pop(context);
+                                              _PollQuestionController.clear();
+                                              _PollAnswer2Controller.clear();
+                                              _PollAnswer3Controller.clear();
+                                              _PollAnswer4Controller.clear();
+                                              _PollAnswer1Controller.clear();
                                       }
+
                                     },
                                     child: Container(
                                       width: w / 5,
@@ -4972,24 +4853,43 @@ Future OutsideBubbleAlreat()async
                                     height: 5,
                                   ),
                                   const Text(""),
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Container(
-                                      width: w / 7,
-                                      height: h / 13,
-                                      margin: EdgeInsets.only(right: h / 2.5),
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(207, 109, 56, 1),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+
+                                      InkWell(
+                                        onTap: () {
+                                          PhotoFlowDialog("MediaOnChat");
+                                        },
+                                        child: Container(
+                                          width: w / 7,
+                                          height: h / 13,
+                                          decoration: const BoxDecoration(
+                                            color: Color.fromRGBO(207, 109, 56, 1),
+                                          ),
+                                          child: const Center(
+                                            child: Icon(Icons.add),
+                                          ),
+                                        ),
                                       ),
-                                      child: const Center(
-                                        child: Icon(Icons.add),
-                                      ),
-                                    ),
+                                      state.MediaImageTaken!?
+                                     Container(
+                                            width: w/2,
+                                              height: h/4,
+                                              child: Image.file(Fileee!,fit: BoxFit.fill,))
+
+                                      :   Container(
+                                        width: w/2,
+                                        height: h / 13,
+                                        child:Text(""),),
+                                   Text("")
+
+                                    ],
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 10,
+                               SizedBox(
+                                height: h/40,
                               ),
                               Container(
                                 width: w / 1.1,
@@ -5018,20 +4918,18 @@ Future OutsideBubbleAlreat()async
                                     height: 6,
                                   ),
                                   Container(
-                                      width: w / 1.2,
+                                      width: w / 1.1,
                                       child: Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                        key: _formkey1,
+                                        key: _formkey12,
                                         child: TextFormField(
-                                          focusNode: FoucesNodeFlowTitle,
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
-                                          controller: _FlowTitleController,
+                                          controller: _MediaDumpController,
                                           onChanged: (value) {},
                                           onFieldSubmitted: (value) {
-                                            FoucesNodeFlowDescription
-                                                .requestFocus();
+
                                           },
                                           cursorColor: Colors.black,
                                           validator: MultiValidator([
@@ -5088,8 +4986,85 @@ Future OutsideBubbleAlreat()async
                                 ],
                               ),
                               const Text(""),
-                              const SizedBox(
-                                height: 5,
+                               SizedBox(
+                                height: h/50,
+                              ),
+                              Container(
+                                width: w / 1.1,
+                                child: const Text(
+                                  'Examples',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 20,
+                                      letterSpacing:
+                                      0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1),
+                                ),
+                              ),
+                              SizedBox(
+                                height: h/50,
+                              ),
+                              Container(
+                                width: w,
+                                height: h/10,
+                                margin: EdgeInsets.only(left: h/50),
+                                child: ListView.separated(
+                                cacheExtent : 500,
+                                shrinkWrap: true,
+                                reverse: false,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: TEMP.length,
+                                itemBuilder: (BuildContext context,
+                                int index2) {
+                                  return
+                                    InkWell(
+                                      onTap: ()async{
+                                        await Clipboard.setData(
+                                            ClipboardData(
+                                                text: TEMP[index2]));
+                                        _MediaDumpController.text = _MediaDumpController.text + " " +  TEMP[index2];
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                              height: h/10.5,
+                                              decoration: BoxDecoration(
+                                                borderRadius : BorderRadius.only(
+                                                  topLeft: Radius.circular(5),
+                                                  topRight: Radius.circular(5),
+                                                  bottomLeft: Radius.circular(5),
+                                                  bottomRight: Radius.circular(5),
+                                                ),
+                                                color : Color.fromRGBO(196, 196, 196, 1),
+                                              ),
+                                            child:
+
+                                            Container(
+                                              margin: EdgeInsets.all(10),
+                                              child: Center(
+                                                child: Text(TEMP[index2].toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                    color: Color.fromRGBO(148, 38, 87, 1),
+                                                    fontFamily: 'Red Hat Text',
+                                                    fontSize: 15,
+                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                    fontWeight: FontWeight.normal,
+                                                    height: 1
+                                                ),),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+
+                                }, separatorBuilder: (BuildContext context, int index) {  return SizedBox(width: 10,);},
+                                ),
+                              ),
+                              SizedBox(
+                                height: h/50,
                               ),
                               Row(
                                 mainAxisAlignment:
@@ -5116,15 +5091,21 @@ Future OutsideBubbleAlreat()async
                                   const Text(""),
                                   InkWell(
                                     onTap: () {
-                                      if (_formkey2.currentState!.validate() &&
-                                          _formkey1.currentState!.validate()) {
-                                        Navigator.pop(context);
-                                        print("done");
-                                        SetMyTopicFlow(
-                                            _FlowTitleController.text,
-                                            _FlowDescriptionController.text);
+                                      var my_string =_MediaDumpController.text;
+                                      if (_formkey12.currentState!.validate() && 3 >= (my_string.split(" ").length - 1) ){
+
+
+                                       if (_MediaDumpController.text.isNotEmpty){
+
+                                         if (state.MediaImageTaken!){
+                                           SetMyMediaDump(base64Image, _MediaDumpController.text);
+                                           Navigator.pop(context);
+                                           _MediaDumpController.clear();
+                                         }
+                                       }
                                       }
                                     },
+
                                     child: Container(
                                       width: w / 5,
                                       height: h / 20,
@@ -5152,10 +5133,13 @@ Future OutsideBubbleAlreat()async
                   ),
                 );
               });
-        });
+        }).then((value) {
+      _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = false));
+      _MediaDumpController.clear();
+    });
   }
 
-  Widget TopicFlowWidget(GroupChatState state, int index) {
+  Widget TopicFlowWidget(GroupChatState state, int index,int message_id) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
     ColorScheme ColorS = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
@@ -5282,17 +5266,52 @@ Future OutsideBubbleAlreat()async
                               ),
                               color: Color.fromRGBO(20, 208, 120, 1),
                             ),
-                            child: const Center(
-                              child: Text(
-                                'Join Flow',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(47, 47, 47, 1),
-                                    fontFamily: 'Red Hat Text',
-                                    fontSize: 11,
-                                    letterSpacing: 0,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1),
+                            child: InkWell(
+                              onTap: (){
+                                        bool GetInStatus = false;
+                                        for(int j =0;j<AllBubblesIDS!.length;j++){
+                                           if (widget.bubble_id==AllBubblesIDS![j]){
+                                              if (AllBubblesStatus![j]==1)
+                                                 GetInStatus = true;
+                                           }
+                                        }
+
+                                        if ( GetInStatus) {
+                                          FlowData data = FlowData();
+                                          data.Title = state.messages![index].TopicFlowTitle.toString();
+                                          data.Content = state.messages![index].TopicFlowDescription.toString();
+                                          data.Flow_type = "TopicFlow";
+                                          data.FlowMessage_id = state.messages![index].ID;
+                                          data.ISMediaDump = false;
+                                          WidgetsBinding.instance!
+                                              .addPostFrameCallback((_) =>
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute( //receiver_id: ,my_ID: ,
+                                                  builder: (context) =>
+                                                      FlowsChat(
+                                                        Plan_Description: widget.Plan_Description,
+                                                        flow: data,
+                                                        plan_Title: widget.plan_Title,
+                                                        bubble_id: widget.bubble_id,
+                                                        MY_ID: widget.MY_ID,
+                                                      ),),));
+                                        }else{
+                                          OutsideBubbleAlreat();
+                                        }
+                              },
+                              child: const Center(
+                                child: Text(
+                                  'Join Flow',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(47, 47, 47, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 11,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1),
+                                ),
                               ),
                             ),
                           )
@@ -5315,7 +5334,150 @@ Future OutsideBubbleAlreat()async
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Row(
-      children: [],
+      children: [
+    Container(
+    height: h / 4.44,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          CircleAvatar(
+            backgroundColor:
+            Color(state.messages![index].background_Color!),
+            backgroundImage:
+            NetworkImage(state.messages![index].Avatar.toString()),
+            radius: 23,
+          ),
+        ],
+      ),
+    ),
+    SizedBox(
+    width: h / 100,
+    ),
+    Container(
+    width: w / 1.3,
+    child: Column(
+    children: [
+      Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+    Text(
+    state.messages![index].Alias.toString(),
+    textAlign: TextAlign.left,
+    style: _TextTheme.headline3!.copyWith(
+    color: ColorS.errorContainer,
+    fontWeight: FontWeight.w400,
+    fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+    ),
+    ),
+    Text(state.messages![index].time!,
+    textAlign: TextAlign.right,
+    style: _TextTheme.headline2!.copyWith(
+    fontWeight: FontWeight.w300,
+    color: const Color(0xffEAEAEA),
+    fontSize:
+    1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+    ))
+       ],
+    ),
+    const SizedBox(
+    height: 7,
+    ),
+      Container(
+        width: w/1.37,
+        decoration: BoxDecoration(
+          borderRadius : BorderRadius.only(
+            topLeft: Radius.circular(6.147541046142578),
+            topRight: Radius.circular(6.147541046142578),
+            bottomLeft: Radius.circular(6.147541046142578),
+            bottomRight: Radius.circular(6.147541046142578),
+          ),
+          boxShadow : [BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+              offset: Offset(0,0),
+              blurRadius: 13.088312149047852
+          )],
+          color : Color.fromRGBO(96, 96, 96, 1),
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: h/50,),
+            Text(state.messages![index].PollQuestion!, textAlign: TextAlign.left, style: TextStyle(
+                color: Color.fromRGBO(255, 255, 255, 1),
+                fontFamily: 'Red Hat Text',
+                fontSize: 15.159509658813477,
+                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                fontWeight: FontWeight.w300,
+                height: 1
+            ),),
+            SizedBox(height: h/50,),
+            Container(
+              width: w/1.8,
+              decoration: BoxDecoration(
+                borderRadius : BorderRadius.only(
+                  topLeft: Radius.circular(5.191571235656738),
+                  topRight: Radius.circular(5.191571235656738),
+                  bottomLeft: Radius.circular(5.191571235656738),
+                  bottomRight: Radius.circular(5.191571235656738),
+                ),
+                color : Color.fromRGBO(47, 47, 47, 1),
+              ),
+              child:  ListView.separated(
+                  cacheExtent : 500,
+                  shrinkWrap: true,
+                  reverse: false,
+                  scrollDirection: Axis.vertical,
+                  itemCount: state.messages![index].PollAnswers!.length,
+                  itemBuilder: (BuildContext context,
+                      int index2) {
+                    return InkWell(
+                        onTap: (){
+                    print("Hello");
+                    },
+                    child: Container(
+                      width: w/2,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 5,),
+                          Row(
+                              children: [
+                                SizedBox(width: 5,),
+                                CircleAvatar(
+                            backgroundColor: Color(0xff837DE2),
+                            radius: 10,
+                    ),
+
+                                SizedBox(width: 5,),
+                                Container(
+                                  width: w/2.3,
+                                  child: Text(state.messages![index].PollAnswers![index2],
+                                    textAlign: TextAlign.left, style: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 14.282208442687988,
+                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w300,
+                                      height: 1
+                                  ),),
+                                )
+                              ],
+                            ),
+                          SizedBox(height: 5,),
+                        ],
+                      ),
+                      ),
+                    );
+
+                  }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 1,); },
+              )
+            ),
+            SizedBox(height: h/50,),
+          ],
+        ),
+      )
+    ]
+    )
+    )
+      ]
     );
   }
 
@@ -5325,8 +5487,197 @@ Future OutsideBubbleAlreat()async
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return Row(
-      children: [],
+        children: [
+          Container(
+            height: h / 4.44,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor:
+                  Color(state.messages![index].background_Color!),
+                  backgroundImage:
+                  NetworkImage(state.messages![index].Avatar.toString()),
+                  radius: 23,
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: h / 100,
+          ),
+          Container(
+              width: w / 1.3,
+              child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          state.messages![index].Alias.toString(),
+                          textAlign: TextAlign.left,
+                          style: _TextTheme.headline3!.copyWith(
+                            color: ColorS.errorContainer,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                          ),
+                        ),
+                        Text(state.messages![index].time!,
+                            textAlign: TextAlign.right,
+                            style: _TextTheme.headline2!.copyWith(
+                              fontWeight: FontWeight.w300,
+                              color: const Color(0xffEAEAEA),
+                              fontSize:
+                              1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                            ))
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 7,
+                    ),
+                    Container(
+                      width: w/1.4,
+                      height: h/3.6,
+                      decoration: BoxDecoration(
+                        borderRadius : BorderRadius.only(
+                          topLeft: Radius.circular(6.147541046142578),
+                          topRight: Radius.circular(6.147541046142578),
+                          bottomLeft: Radius.circular(6.147541046142578),
+                          bottomRight: Radius.circular(6.147541046142578),
+                        ),
+                        boxShadow : [BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
+                            offset: Offset(0,0),
+                            blurRadius: 13.088312149047852
+                        )],
+                        color : Color.fromRGBO(96, 96, 96, 1),
+                      ),
+                      child: Column(
+                        children: [
+              Expanded(
+                child: Container(
+                  width: w/1.4,
+                  height: h/6,
+                  child:
+                  Column(
+                    children: [
+                    Container(
+                    width: w/1.4,
+                    height: h/6,
+                    child:
+                      ClipRRect(
+                      borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)),
+                              child:state.messages![index].Image_type=="File"
+                                  ?Image.file(Fileee!,fit: BoxFit.fill,)
+                                  :state.messages![index].Image_type.toString() =="backend"
+                                  ?Image.network(state.messages![index].MediaDumpImagePath!,fit: BoxFit.fill,)
+                                  :Image.memory(state.messages![index].MediaDumpImageuntil64!,fit: BoxFit.fill,),
+                          ),
+                    )
+                    ],
+                  )
+                ),
+              ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: w/1.4,
+                                child: Text(state.messages![index].MediaDumpTitle!, textAlign: TextAlign.left, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Text',
+                                    fontSize: 13,
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w300,
+                                    height: 1
+                                ),),
+                              ),
+                              Text(""),
+                              Text("")
+                            ],
+                          ),
+                          SizedBox(height: 5,),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: w / 4.5,
+                                height: h / 20,
+                                margin: EdgeInsets.only(bottom: h/100),
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                    bottomLeft: Radius.circular(50),
+                                    bottomRight: Radius.circular(50),
+                                  ),
+                                  color: Color.fromRGBO(20, 208, 120, 1),
+                                ),
+                                child: InkWell(
+                                  onTap: (){
+                                    bool GetInStatus = false;
+                                    for(int j =0;j<AllBubblesIDS!.length;j++){
+                                      if (widget.bubble_id==AllBubblesIDS![j]){
+                                        if (AllBubblesStatus![j]==1)
+                                          GetInStatus = true;
+                                      }
+                                    }
+
+                                    if ( GetInStatus) {
+                                      FlowData data = FlowData();
+                                      data.Title = state.messages![index].TopicFlowTitle.toString();
+                                      data.Content = state.messages![index].TopicFlowDescription.toString();
+                                      data.Flow_type = "TopicFlow";
+                                      data.FlowMessage_id = state.messages![index].ID;
+                                      data.ISMediaDump = true;
+                                      WidgetsBinding.instance!
+                                          .addPostFrameCallback((_) =>
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute( //receiver_id: ,my_ID: ,
+                                              builder: (context) =>
+                                                  FlowsChat(
+                                                    Plan_Description: widget.Plan_Description,
+                                                    flow: data,
+                                                    plan_Title: widget.plan_Title,
+                                                    bubble_id: widget.bubble_id,
+                                                    MY_ID: widget.MY_ID,
+                                                  ),),));
+                                    }else{
+                                      OutsideBubbleAlreat();
+                                    }
+                                  },
+                                  child: const Center(
+                                    child: Text(
+                                      'Join Flow',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(47, 47, 47, 1),
+                                          fontFamily: 'Red Hat Text',
+                                          fontSize: 13,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Text(""),
+                              Text("")
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ]
+              )
+          )
+        ]
     );
+
+
+
   }
 
   Widget PhotoFlowWidget(GroupChatState state, int index) {
@@ -5339,125 +5690,500 @@ Future OutsideBubbleAlreat()async
     );
   }
 
-
-  void SendTopicFlow(String Title, String Description) {
-    // socket!.emit("send_message",
-    //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  }
-
-  void SendPollFlow(String Question, List<String> Answers) {
-    // socket!.emit("send_message",
-    //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  }
-
-  void SendMediadump(String MediaDumpImage, String MediaDumpTitle) {
-    // socket!.emit("send_message",
-    //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  }
-
-  void SetMyMediaDump(String MediaDumpImage, String MediaDumpTitle) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: MyAvatar,
-        Alias: MyAlias,
-        ISreply: false);
-    messageModel.MediaDumpImage = MediaDumpImage;
-    messageModel.MediaDumpTitle = MediaDumpTitle;
-    messageModel.ModelType = "TopicFlow";
-    messageModel.background_Color = MYbackGroundColor;
-    messageModel.Type = "sender";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
-  void SetHisMediaDump(String MediaDumpImage, String MediaDumpTitle) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: HisAvatar,
-        Alias: HisAlias,
-        ISreply: false);
-    messageModel.MediaDumpImage = MediaDumpImage;
-    messageModel.MediaDumpTitle = MediaDumpTitle;
-    messageModel.ModelType = "TopicFlow";
-    messageModel.background_Color = HisBackgroundColor;
-    messageModel.Type = "receiver";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
-  void SetMyPollFlow(String Question, List<String> Answers) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: MyAvatar,
-        Alias: MyAlias,
-        ISreply: false);
-    messageModel.PollAnswers = Answers;
-    messageModel.PollQuestion = Question;
-    messageModel.ModelType = "PollFlow";
-    messageModel.background_Color = MYbackGroundColor;
-    messageModel.Type = "sender";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
-  void SetHisPollFlow(String Question, List<String> Answers) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: HisAvatar,
-        Alias: HisAlias,
-        ISreply: false);
-    messageModel.PollAnswers = Answers;
-    messageModel.PollQuestion = Question;
-    messageModel.ModelType = "PollFlow";
-    messageModel.background_Color = HisBackgroundColor;
-    messageModel.Type = "receiver";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
-  void SetMyTopicFlow(String Title, String Description) {
-    print(Title);
-    print("im here");
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: MyAvatar,
-        Alias: MyAlias,
-        ISreply: false);
-    messageModel.TopicFlowDescription = Description;
-    messageModel.TopicFlowTitle = Title;
-    messageModel.ModelType = "TopicFlow";
-    messageModel.background_Color = MYbackGroundColor;
-    messageModel.Type = "sender";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
-  void SetHisTopicFlow(String Title, String Description) {
-    GroupChatMessage messageModel = GroupChatMessage(
-        time: DateFormat.jm().format(DateTime.now()),
-        Avatar: HisAvatar,
-        Alias: HisAlias,
-        ISreply: false);
-    messageModel.TopicFlowDescription = Description;
-    messageModel.TopicFlowTitle = Title;
-    messageModel.ModelType = "TopicFlow";
-    messageModel.background_Color = HisBackgroundColor;
-    messageModel.Type = "receiver";
-
-    messageModel.ID = 0;
-    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
-  }
-
   Future<void> OnRefresh() async {
 
   }
 
+  void sendIJoinedBubble(int Bubble_id) {
+    print("Sent Status joined");
+    socket!.emit("request_join_bubble",
+        {"room": "bubble_${Bubble_id}"});
+    //GivethemMyID();
+  }
+
+  void sendILeftBubble(int Bubble_id) {
+    print("Sent Status left");
+    socket!.emit("request_leave_bubble",
+        {"room": "bubble_${Bubble_id}"});
+  }
+
+
+
+  void SetHisReplyToVoice(
+      String message,
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor,
+      String replierAvatar,
+      String ReplierAlias,
+      String ReplierColor,
+      int ReplyMessage_id){
+    var Colore1 = int.parse(RepliedTo_BackGroundColor);
+    var Colore2 = int.parse(ReplierColor);
+
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.ISreply = true;
+    InstanceMessages.ModelType = "ReplyVoice";
+    InstanceMessages.RepliedTOAlias =RepliedTOAlias;
+    InstanceMessages.RepliedTOMessage = message;
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+    InstanceMessages.ReplieDtobackground_Color = Colore1;
+
+
+    InstanceMessages.ReplierAlias = ReplierAlias;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAvatar = replierAvatar;
+    InstanceMessages.Replierbackground_Color = Colore2;
+    InstanceMessages.ID = 0;
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+  }
+
+  void SetmyReplyToVoice(
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor
+      ,int ReplyMessage_id,
+      ){
+
+    var Colore = int.parse(RepliedTo_BackGroundColor);
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.ModelType = "ReplyVoice";
+    InstanceMessages.ISreply = true;
+    InstanceMessages.RepliedTOAlias =  RepliedTOAlias;
+    InstanceMessages.RepliedTOMessage = "Sticker..";
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+
+    InstanceMessages.ReplieDtobackground_Color =Colore;
+
+
+    InstanceMessages.ReplierAlias = MyAlias;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAvatar = MyAvatar;
+    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
+    //
+    // InstanceMessages.ID = ReplyMessage_id;
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+    print("model added");
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+
+
+    _GroupChatBloc.add(
+        addReply((b) => b
+          ..comment =_SendMessageController .text
+          ..message_id = Message_id
+          ..Message = "Sticker..."
+          ..Bubble_id = widget.bubble_id
+          ..RepliedToColor = RepliedTo_BackGroundColor
+          ..RepliedToAvatar = repliedToAvatar
+          ..RepliedToAlias = RepliedTOAlias
+          ..type = "ReplyVoice"
+        ));
+
+  }
+
+  void SetMyVoiceMessage(String Path){
+
+    File filee = File(Path);
+    Uint8List bytes = filee.readAsBytesSync();
+    base64String = base64Encode(bytes);
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: MyAvatar,
+        Alias: MyAlias,
+        ISreply: false);
+    messageModel.ModelType = "Voice";
+    messageModel.ISNOdeJS = true;
+    messageModel.background_Color = MYbackGroundColor;
+    messageModel.Type = "sender";
+    messageModel.message = Path;
+
+    messageModel.ID = 0;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    _GroupChatBloc.add(
+        SendMessage((b) =>
+        b
+          ..type = "audio"
+          ..message = base64String
+          ..bubble_id = widget.bubble_id
+          ..main_type = 1
+        ));
+
+  }
+
+  void SetHisVoiceMessage(
+      String Path,
+      String Sender_id,
+      int Message_id,
+      String Avatar,
+      String Alias,
+      String Color,)async {
+
+    String file = await _createFileFromString(Path);
+    var Colore = int.parse(Color);
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: Avatar,
+        Alias: Alias,
+        ISreply: false);
+    messageModel.message = file;
+    messageModel.ModelType = "Voice";
+    messageModel.ISNOdeJS = true;
+    messageModel.background_Color = Colore;
+    messageModel.Type = "receiver";
+
+    messageModel.ID = Message_id;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+  }
+
+  void SetMyReplyToImage(
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor
+      ,int ReplyMessage_id,
+      String type
+      ){
+
+    var Colore = int.parse(RepliedTo_BackGroundColor);
+
+
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.ModelType = "ReplyImage";
+    InstanceMessages.ISreply = true;
+    InstanceMessages.RepliedTOAlias = RepliedTOAlias;
+    InstanceMessages.Image_type = type;
+
+
+    if (type=="Uint8List") {
+      InstanceMessages.Image1 = Image122;
+    }else if (type=="File"){
+      InstanceMessages.Image2 = filee ;
+    }else if (type=="Backend"){
+      InstanceMessages.RepliedTOMessage = path;
+    }
+
+
+
+
+
+
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+
+    InstanceMessages.ReplieDtobackground_Color =Colore;
+    InstanceMessages.ReplyMessage_id =ReplyMessage_id;
+
+
+    InstanceMessages.ReplierAlias = MyAlias;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAvatar = MyAvatar;
+    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
+
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+    print("model added");
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+
+
+    print(Image122);
+
+    _GroupChatBloc.add(
+        addReply((b) => b
+          ..comment =_SendMessageController .text
+          ..message_id = ReplyMessage_id
+          ..Bubble_id = widget.bubble_id
+          ..RepliedToColor = RepliedTo_BackGroundColor
+          ..RepliedToAvatar = repliedToAvatar
+          ..RepliedToAlias = RepliedTOAlias
+          ..type = type
+          ..Uint8 =Image122
+          ..File_file = filee
+          ..Message = path
+        ));
+  }
+
+  void SetHisReplyToImage(
+      String message,
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor,
+      String replierAvatar,
+      String ReplierAlias,
+      String ReplierColor,
+      int ReplyMessage_id,
+      ){
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+
+    String type =  (RepliedTo_BackGroundColor.substring(10));
+
+
+    if (type=="Uint8List") {
+      Uint8List?  _bytesImage = Base64Decoder().convert(message);
+      InstanceMessages.Image1 = _bytesImage;
+    }else if (type=="File"){
+      Uint8List?  _bytesImage = Base64Decoder().convert(message);
+      InstanceMessages.Image1 = _bytesImage;
+    }else if (type=="Backend"){
+      InstanceMessages.RepliedTOMessage = message;
+    }
+
+
+
+
+    var Colore = int.parse(RepliedTo_BackGroundColor.substring(0,10));
+    var Color_ = int.parse(ReplierColor);
+
+    InstanceMessages.ISNOdeJS = true;
+    InstanceMessages.IsBackEnd = false;
+    InstanceMessages.ISreply = true;
+    InstanceMessages.ModelType = "ReplyImage";
+    InstanceMessages.is_base64 = false;
+    InstanceMessages.Image_type =type!="File"? type:"Uint8List";
+
+
+
+
+    InstanceMessages.RepliedTOAlias = RepliedTOAlias;
+
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+    InstanceMessages.ReplieDtobackground_Color =Colore;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAlias = ReplierAlias;
+    InstanceMessages.ReplierAvatar =replierAvatar;
+    InstanceMessages.Replierbackground_Color = Color_;
+
+    InstanceMessages.ID = 0;
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+  }
+
+  void SetMyImage(
+      File Path,
+      ){
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: MyAvatar,
+        Alias: MyAlias,
+        ISreply: false);
+    messageModel.IsBackEnd = false;
+    messageModel.Image_type = "File";
+    messageModel.ISNOdeJS = false;
+    messageModel.ModelType = "Image";
+    messageModel.background_Color = MYbackGroundColor;
+    messageModel.Type = "sender";
+    messageModel.Image2 = Path;
+    messageModel.is_base64 = true;
+    messageModel.ID = 0;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+
+    _GroupChatBloc.add(
+        SendMessage((b) =>
+        b
+          ..type = "image"
+          ..message = base64Image
+          ..bubble_id = widget.bubble_id
+          ..main_type = 1
+        ));
+  }
+
+
+  void SetHisImage(
+      String Path,
+      String Sender_id,
+      int Message_id,
+      String Avatar,
+      String Alias,
+      String Color,
+      ){
+    var Senderr_id = int.parse(Sender_id);
+    var Color_ = int.parse(Color);
+    Uint8List?  _bytesImage = Base64Decoder().convert(Path);
+
+    // Image.memory(_bytesImage)
+    // print(Path);
+    // print(decoded);
+
+    GroupChatMessage messageModel = GroupChatMessage(
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: Avatar,
+        Alias: Alias,
+        ISreply: false);
+
+    messageModel.IsBackEnd = false;
+    messageModel.Image_type = "Uint8List";
+    messageModel.ISNOdeJS = true;
+    messageModel.is_base64 = true;
+    messageModel.Image1 = _bytesImage;
+    messageModel.ModelType = "Image";
+    messageModel.background_Color = Color_;
+    messageModel.Type = "receiver";
+    messageModel.User_ID = Senderr_id;
+
+    messageModel.ID = Message_id;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+  }
+
+  void SetmyReplyMessage(
+      String message,
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor,
+      int Message_id) {
+
+    var Colore = int.parse(RepliedTo_BackGroundColor);
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.ModelType = "ReplyMessage";
+    InstanceMessages.ISreply = true;
+    InstanceMessages.is_base64 = false;
+    InstanceMessages.IsBackEnd = false;
+    InstanceMessages.RepliedTOAlias= RepliedTOAlias;
+    InstanceMessages.RepliedTOMessage = message;
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+    InstanceMessages.ID = Message_id;
+    InstanceMessages.ReplieDtobackground_Color =Colore;
+
+    InstanceMessages.ISNOdeJS = true;
+    InstanceMessages.ReplierAlias = MyAlias;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAvatar = MyAvatar;
+    InstanceMessages.Replierbackground_Color = MYbackGroundColor;
+    InstanceMessages.ReplyMessage_id = 0;
+
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+    print("model added");
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+
+
+
+
+    _GroupChatBloc.add(
+        addReply((b) => b
+          ..comment =_SendMessageController .text
+          ..message_id = Message_id
+          ..Bubble_id = widget.bubble_id
+          ..RepliedToColor = RepliedTo_BackGroundColor
+          ..RepliedToAvatar = repliedToAvatar
+          ..RepliedToAlias = RepliedTOAlias
+          ..Message = message
+          ..type ="text"
+        ));
+
+
+  }
+
+  void SetHisReplyMessage(
+      String message,
+      String Comment,
+      String RepliedTOAlias,
+      String repliedToAvatar,
+      String RepliedTo_BackGroundColor,
+      String replierAvatar,
+      String ReplierAlias,
+      String ReplierColor
+      ,int ReplyMessage_id,
+      ){
+
+    var Colore = int.parse(RepliedTo_BackGroundColor);
+    var Color_ = int.parse(ReplierColor);
+    GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.ISreply = true;
+    InstanceMessages.IsBackEnd = false;
+    InstanceMessages.is_base64 = false;
+    InstanceMessages.ModelType = "ReplyMessage";
+    InstanceMessages.ISNOdeJS = true;
+    InstanceMessages.RepliedTOAlias =RepliedTOAlias;
+    InstanceMessages.RepliedTOMessage = message;
+    InstanceMessages.RepliedTOAvatar =repliedToAvatar;
+    InstanceMessages.ID = 0;
+    InstanceMessages.ReplieDtobackground_Color =Colore;
+
+
+
+    InstanceMessages.ReplierAlias = ReplierAlias;
+    InstanceMessages.ReplierMessage = Comment;
+    InstanceMessages.ReplierAvatar = replierAvatar;
+    InstanceMessages.Replierbackground_Color = Color_;
+
+    InstanceMessages.ReplyMessage_id = ReplyMessage_id;
+    InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
+
+    _GroupChatBloc.add(AddModel((b) => b..message = InstanceMessages));
+  }
+
+
+
+
+  void setHisMessage(String message,String Sender_id, int Message_id,String Avatar,String Alias,String Color) {
+    try {
+      print("setHisMessage");
+      var Senderr_id = int.parse(Sender_id);
+      var Colore = int.parse(Color);
+      GroupChatMessage messageModel = GroupChatMessage(
+          message: message,
+          time: DateFormat.jm().format(DateTime.now()),
+          Avatar: Avatar,
+          Alias: Alias,
+          ISreply: false);
+      messageModel.ISNOdeJS = true;
+      messageModel.is_base64 = false;
+      messageModel.IsBackEnd = false;
+      messageModel.ModelType = "Message";
+      messageModel.background_Color = Colore;
+      messageModel.Type = "receiver";
+      messageModel.User_ID = Senderr_id;
+      messageModel.ID = Message_id;
+
+
+
+
+
+      _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    }catch(e){
+      print(e);
+    }
+  }
+
+
+  void setMYMessage(String message,int Message_id,int User_ID) {
+    GroupChatMessage messageModel = GroupChatMessage(
+        message: message,
+        time: DateFormat.jm().format(DateTime.now()),
+        Avatar: MyAvatar,
+        Alias: MyAlias,
+        ISreply: false);
+    messageModel.ISNOdeJS = true;
+    messageModel.is_base64 = false;
+    messageModel.ModelType ="Message" ;
+    //"Message"
+    messageModel.background_Color = MYbackGroundColor;
+    messageModel.Type = "sender";
+    messageModel.User_ID = User_ID;
+    messageModel.ID = Message_id;
+    _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    _GroupChatBloc.add( SendMessage((b) => b
+      ..type = "text"
+      ..message = _SendMessageController.text
+      ..bubble_id = widget.bubble_id
+      ..main_type = 1
+    ));
+
+    // sendMessage(event.message!,
+    //     "text",event.bubble_id!, state.SendBubbleMessage!.message_id!.toInt());
+    // sendMessage(_SendMessageController.text,
+    //     "text",widget.bubble_id, 1);
+  }
+
 }
+
 class UserDATA{
   int? id;
   String? Avatar;
@@ -5468,3 +6194,72 @@ String? Serial;
   String? boi;
   bool? is_frined;
 }
+
+class FlowData{
+int? FlowMessage_id;
+String? Flow_type;
+String? Title;
+String? Content;
+bool? ISMediaDump;
+}
+
+class HeroImage extends StatefulWidget {
+   HeroImage({Key? key, this.path, this.Image,required this.Image_Type, this.Uint8List2,this.id}) : super(key: key);
+    File? Image;
+    String? path;
+    String Image_Type;
+    Uint8List? Uint8List2;
+    int? id;
+
+
+  @override
+  State<HeroImage> createState() => _HeroImageState();
+}
+
+class _HeroImageState extends State<HeroImage> {
+  @override
+  Widget build(BuildContext context) {
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
+    var h = MediaQuery.of(context).size.height;
+    var w = MediaQuery.of(context).size.width;
+    return  Scaffold(
+      body: Hero(
+        tag: "Image${widget.id}",
+        child:Material(
+        type: MaterialType.transparency,
+        child :InkWell(
+        onTap: (){
+      Navigator.pop(context);
+    },
+    child: Container(
+            width: w,
+            height: h,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Container(
+                    width: w/1.1,
+                    height: h/2.5,
+                    child:widget.Image_Type=="Uint8List"
+                        ?Image.memory(widget.Uint8List2!)
+                        :widget.Image_Type=="Backend"
+                        ?Image.network(widget.path!)
+                        :Image.file(widget.Image!),
+
+                  ),
+                ),
+              ],
+            ),
+          ),
+        )
+        ),
+      ),
+      );
+
+  }
+}
+
+
+

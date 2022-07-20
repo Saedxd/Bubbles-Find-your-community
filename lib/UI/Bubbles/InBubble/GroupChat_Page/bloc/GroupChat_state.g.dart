@@ -14,7 +14,11 @@ class _$GroupChatState extends GroupChatState {
   @override
   final bool? success;
   @override
+  final bool? MediaImageTaken;
+  @override
   final bool? KetbaordStatuss;
+  @override
+  final bool? FlowOptionsOpened;
   @override
   final bool? Done;
   @override
@@ -51,6 +55,12 @@ class _$GroupChatState extends GroupChatState {
   final GetAliasModel? GetAliasForInsideBubbleUser;
   @override
   final SendBubbleMessageModel? SendBubbleTopicFlow;
+  @override
+  final SendBubbleMessageModel? SendBubblePollFow;
+  @override
+  final SendBubbleMessageModel? SendBubbleMediaDump;
+  @override
+  final SendBubbleMessageModel? SendBubbleFootPrint;
   @override
   final SendBubbleMessageModel? SendBubbleMessage;
   @override
@@ -121,7 +131,9 @@ class _$GroupChatState extends GroupChatState {
       {this.error,
       this.isLoading,
       this.success,
+      this.MediaImageTaken,
       this.KetbaordStatuss,
+      this.FlowOptionsOpened,
       this.Done,
       this.AliasISLoading,
       this.AliasISsuccess,
@@ -140,6 +152,9 @@ class _$GroupChatState extends GroupChatState {
       this.EventOldMessages,
       this.GetAliasForInsideBubbleUser,
       this.SendBubbleTopicFlow,
+      this.SendBubblePollFow,
+      this.SendBubbleMediaDump,
+      this.SendBubbleFootPrint,
       this.SendBubbleMessage,
       this.SendBubbleReply,
       this.GetUsersInsideBubble,
@@ -188,7 +203,9 @@ class _$GroupChatState extends GroupChatState {
         error == other.error &&
         isLoading == other.isLoading &&
         success == other.success &&
+        MediaImageTaken == other.MediaImageTaken &&
         KetbaordStatuss == other.KetbaordStatuss &&
+        FlowOptionsOpened == other.FlowOptionsOpened &&
         Done == other.Done &&
         AliasISLoading == other.AliasISLoading &&
         AliasISsuccess == other.AliasISsuccess &&
@@ -207,6 +224,9 @@ class _$GroupChatState extends GroupChatState {
         EventOldMessages == other.EventOldMessages &&
         GetAliasForInsideBubbleUser == other.GetAliasForInsideBubbleUser &&
         SendBubbleTopicFlow == other.SendBubbleTopicFlow &&
+        SendBubblePollFow == other.SendBubblePollFow &&
+        SendBubbleMediaDump == other.SendBubbleMediaDump &&
+        SendBubbleFootPrint == other.SendBubbleFootPrint &&
         SendBubbleMessage == other.SendBubbleMessage &&
         SendBubbleReply == other.SendBubbleReply &&
         GetUsersInsideBubble == other.GetUsersInsideBubble &&
@@ -260,7 +280,7 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), KetbaordStatuss.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
                                                                                 index_For_Message_List.hashCode),
                                                                             AddModelISloading.hashCode),
                                                                         AddModelSUccess.hashCode),
@@ -288,7 +308,9 @@ class _$GroupChatState extends GroupChatState {
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
+          ..add('MediaImageTaken', MediaImageTaken)
           ..add('KetbaordStatuss', KetbaordStatuss)
+          ..add('FlowOptionsOpened', FlowOptionsOpened)
           ..add('Done', Done)
           ..add('AliasISLoading', AliasISLoading)
           ..add('AliasISsuccess', AliasISsuccess)
@@ -307,6 +329,9 @@ class _$GroupChatState extends GroupChatState {
           ..add('EventOldMessages', EventOldMessages)
           ..add('GetAliasForInsideBubbleUser', GetAliasForInsideBubbleUser)
           ..add('SendBubbleTopicFlow', SendBubbleTopicFlow)
+          ..add('SendBubblePollFow', SendBubblePollFow)
+          ..add('SendBubbleMediaDump', SendBubbleMediaDump)
+          ..add('SendBubbleFootPrint', SendBubbleFootPrint)
           ..add('SendBubbleMessage', SendBubbleMessage)
           ..add('SendBubbleReply', SendBubbleReply)
           ..add('GetUsersInsideBubble', GetUsersInsideBubble)
@@ -358,10 +383,20 @@ class GroupChatStateBuilder
   bool? get success => _$this._success;
   set success(bool? success) => _$this._success = success;
 
+  bool? _MediaImageTaken;
+  bool? get MediaImageTaken => _$this._MediaImageTaken;
+  set MediaImageTaken(bool? MediaImageTaken) =>
+      _$this._MediaImageTaken = MediaImageTaken;
+
   bool? _KetbaordStatuss;
   bool? get KetbaordStatuss => _$this._KetbaordStatuss;
   set KetbaordStatuss(bool? KetbaordStatuss) =>
       _$this._KetbaordStatuss = KetbaordStatuss;
+
+  bool? _FlowOptionsOpened;
+  bool? get FlowOptionsOpened => _$this._FlowOptionsOpened;
+  set FlowOptionsOpened(bool? FlowOptionsOpened) =>
+      _$this._FlowOptionsOpened = FlowOptionsOpened;
 
   bool? _Done;
   bool? get Done => _$this._Done;
@@ -454,6 +489,24 @@ class GroupChatStateBuilder
       _$this._SendBubbleTopicFlow ??= new SendBubbleMessageModelBuilder();
   set SendBubbleTopicFlow(SendBubbleMessageModelBuilder? SendBubbleTopicFlow) =>
       _$this._SendBubbleTopicFlow = SendBubbleTopicFlow;
+
+  SendBubbleMessageModelBuilder? _SendBubblePollFow;
+  SendBubbleMessageModelBuilder get SendBubblePollFow =>
+      _$this._SendBubblePollFow ??= new SendBubbleMessageModelBuilder();
+  set SendBubblePollFow(SendBubbleMessageModelBuilder? SendBubblePollFow) =>
+      _$this._SendBubblePollFow = SendBubblePollFow;
+
+  SendBubbleMessageModelBuilder? _SendBubbleMediaDump;
+  SendBubbleMessageModelBuilder get SendBubbleMediaDump =>
+      _$this._SendBubbleMediaDump ??= new SendBubbleMessageModelBuilder();
+  set SendBubbleMediaDump(SendBubbleMessageModelBuilder? SendBubbleMediaDump) =>
+      _$this._SendBubbleMediaDump = SendBubbleMediaDump;
+
+  SendBubbleMessageModelBuilder? _SendBubbleFootPrint;
+  SendBubbleMessageModelBuilder get SendBubbleFootPrint =>
+      _$this._SendBubbleFootPrint ??= new SendBubbleMessageModelBuilder();
+  set SendBubbleFootPrint(SendBubbleMessageModelBuilder? SendBubbleFootPrint) =>
+      _$this._SendBubbleFootPrint = SendBubbleFootPrint;
 
   SendBubbleMessageModelBuilder? _SendBubbleMessage;
   SendBubbleMessageModelBuilder get SendBubbleMessage =>
@@ -615,7 +668,9 @@ class GroupChatStateBuilder
       _error = $v.error;
       _isLoading = $v.isLoading;
       _success = $v.success;
+      _MediaImageTaken = $v.MediaImageTaken;
       _KetbaordStatuss = $v.KetbaordStatuss;
+      _FlowOptionsOpened = $v.FlowOptionsOpened;
       _Done = $v.Done;
       _AliasISLoading = $v.AliasISLoading;
       _AliasISsuccess = $v.AliasISsuccess;
@@ -635,6 +690,9 @@ class GroupChatStateBuilder
       _GetAliasForInsideBubbleUser =
           $v.GetAliasForInsideBubbleUser?.toBuilder();
       _SendBubbleTopicFlow = $v.SendBubbleTopicFlow?.toBuilder();
+      _SendBubblePollFow = $v.SendBubblePollFow?.toBuilder();
+      _SendBubbleMediaDump = $v.SendBubbleMediaDump?.toBuilder();
+      _SendBubbleFootPrint = $v.SendBubbleFootPrint?.toBuilder();
       _SendBubbleMessage = $v.SendBubbleMessage?.toBuilder();
       _SendBubbleReply = $v.SendBubbleReply?.toBuilder();
       _GetUsersInsideBubble = $v.GetUsersInsideBubble?.toBuilder();
@@ -693,7 +751,9 @@ class GroupChatStateBuilder
               error: error,
               isLoading: isLoading,
               success: success,
+              MediaImageTaken: MediaImageTaken,
               KetbaordStatuss: KetbaordStatuss,
+              FlowOptionsOpened: FlowOptionsOpened,
               Done: Done,
               AliasISLoading: AliasISLoading,
               AliasISsuccess: AliasISsuccess,
@@ -713,6 +773,9 @@ class GroupChatStateBuilder
               GetAliasForInsideBubbleUser:
                   _GetAliasForInsideBubbleUser?.build(),
               SendBubbleTopicFlow: _SendBubbleTopicFlow?.build(),
+              SendBubblePollFow: _SendBubblePollFow?.build(),
+              SendBubbleMediaDump: _SendBubbleMediaDump?.build(),
+              SendBubbleFootPrint: _SendBubbleFootPrint?.build(),
               SendBubbleMessage: _SendBubbleMessage?.build(),
               SendBubbleReply: _SendBubbleReply?.build(),
               GetUsersInsideBubble: _GetUsersInsideBubble?.build(),
@@ -758,6 +821,12 @@ class GroupChatStateBuilder
         _GetAliasForInsideBubbleUser?.build();
         _$failedField = 'SendBubbleTopicFlow';
         _SendBubbleTopicFlow?.build();
+        _$failedField = 'SendBubblePollFow';
+        _SendBubblePollFow?.build();
+        _$failedField = 'SendBubbleMediaDump';
+        _SendBubbleMediaDump?.build();
+        _$failedField = 'SendBubbleFootPrint';
+        _SendBubbleFootPrint?.build();
         _$failedField = 'SendBubbleMessage';
         _SendBubbleMessage?.build();
         _$failedField = 'SendBubbleReply';

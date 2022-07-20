@@ -46,6 +46,7 @@ import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
@@ -58,6 +59,7 @@ import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/ProfileDataModel/UserProfileData.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/RemoveFromDirectModel/RemoveFromDirectModel.dart';
+import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/SearchFrinedsModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/UserModell.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
@@ -87,6 +89,7 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  SaveBubbleModel,
   NotifyMeCloseToBubbleModel,
   GetUsersInsideBubbleModel,
   InOutUserStatusModel,
@@ -162,6 +165,7 @@ part 'serializer.g.dart';
   NewPollAnswersModel,
   FlowChatModel,
   FlowMessagesModel,
+  GetWhoSavedBubblesModel,
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -173,6 +177,23 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(GetWhoSavedBubblesModel),
+        ],
+      )),
+          () => ListBuilder<GetWhoSavedBubblesModel>())
+  //
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(SaveBubbleModel),
+        ],
+      )),
+          () => ListBuilder<SaveBubbleModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

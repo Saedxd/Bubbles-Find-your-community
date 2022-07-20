@@ -370,45 +370,71 @@ class _FlowsChatState extends State<FlowsChat>{
                                           }
 
                                           if ( GetInStatus) {
-                                            //  print(state.messages![index].message);
-                                            _focus.requestFocus();
-                                            SystemChannels.textInput.invokeMethod('TextInput.show');
-                                            if (state.messages![index].ISreply == false) {
-                                              Message_id = state.messages![index].ID!;
+                                            if (!widget.flow.ISMediaDump!) {
+                                              _focus.requestFocus();
+                                              SystemChannels.textInput
+                                                  .invokeMethod(
+                                                  'TextInput.show');
+                                              if (state.messages![index]
+                                                  .ISreply == false) {
+                                                Message_id =
+                                                state.messages![index].ID!;
 
 
-                                              type = state.messages![index].ModelType.toString();
+                                                type = state.messages![index]
+                                                    .ModelType.toString();
 
-                                              _FlowsChat_Bloc.add(
-                                                  ShowReplyWidget((b) =>
-                                                  b..Type = state.messages![index].ModelType.toString()
-                                                    ..Isreply = true
-                                                    ..ColorForRepliedTo = state.messages![index] .background_Color!.toString()
-                                                    ..RepliedToMessage = state.messages![index].message  .toString()
-                                                    ..AliasForRepliedTo = state.messages![index].Alias  .toString()
-                                                    ..AvatarPathForRepliedTo = state.messages![index].Avatar  .toString()
-                                                    ..Image1 = state.messages![index].Image1
-                                                    ..File_image = state.messages![index].Image2
-                                                    ..Image_type = state.messages![index].Image_type
+                                                _FlowsChat_Bloc.add(
+                                                    ShowReplyWidget((b) =>
+                                                    b
+                                                      ..Type = state
+                                                          .messages![index]
+                                                          .ModelType.toString()
+                                                      ..Isreply = true
+                                                      ..ColorForRepliedTo = state
+                                                          .messages![index]
+                                                          .background_Color!
+                                                          .toString()
+                                                      ..RepliedToMessage = state
+                                                          .messages![index]
+                                                          .message.toString()
+                                                      ..AliasForRepliedTo = state
+                                                          .messages![index]
+                                                          .Alias.toString()
+                                                      ..AvatarPathForRepliedTo = state
+                                                          .messages![index]
+                                                          .Avatar.toString()
+                                                      ..Image1 = state
+                                                          .messages![index]
+                                                          .Image1
+                                                      ..File_image = state
+                                                          .messages![index]
+                                                          .Image2
+                                                      ..Image_type = state
+                                                          .messages![index]
+                                                          .Image_type
 
-                                                  )
-                                              );
+                                                    )
+                                                );
 
-                                              print(state.messages![index].message.toString());
-                                            }
+                                                print(state.messages![index]
+                                                    .message.toString());
+                                              }
 
 
-                                            else if (state.messages![index].ISreply == true) {
-                                              //todo : this is for reply to reply
-                                              // idd = state.OldMessages!.messages![index].replies![0].id!;
-                                              // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
-                                              // b
-                                              //   ..Isreply = true
-                                              //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
-                                              //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
-                                              //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
-                                              //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
-                                              // ));
+                                              else if (state.messages![index]
+                                                  .ISreply == true) {
+                                                //todo : this is for reply to reply
+                                                // idd = state.OldMessages!.messages![index].replies![0].id!;
+                                                // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
+                                                // b
+                                                //   ..Isreply = true
+                                                //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
+                                                //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
+                                                //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
+                                                //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
+                                                // ));
+                                              }
                                             }
                                           }else{
                                             OutsideBubbleAlreat();
@@ -1272,11 +1298,15 @@ class _FlowsChatState extends State<FlowsChat>{
                                       ],
                                       color: Color(0xff303030)
                                   ),
-                                  child: Column(
+                                  child:     !widget.flow.ISMediaDump!?
+
+                                  Column(
                                     children: [
+
                                       state.Isreply!
                                           ? ReplyWidgett(state)
                                           :  Container(),
+
                                       
                                       Expanded(
                                         child: Row(
@@ -1716,7 +1746,56 @@ class _FlowsChatState extends State<FlowsChat>{
                                         ),
                                       ),
                                     ],
-                                  ),
+                                  ):Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: w,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: w / 7,
+                                              child: IconButton(
+                                                  onPressed: (){
+                                                    bool GetInStatus = false;
+                                                    for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                      if (widget.bubble_id==AllBubblesIDS![j]){
+                                                        if (AllBubblesStatus![j]==1)
+                                                          GetInStatus = true;
+                                                      }
+                                                    }
+
+                                                    if ( GetInStatus) {
+                                                      pickImage(ImageSource.camera);
+                                                    }else{
+                                                      OutsideBubbleAlreat();
+                                                    }
+                                                  },
+                                                  icon: SvgPicture.asset(
+                                                    "Assets/images/cAMERA.svg",
+                                                    width: w / 7,
+                                                    fit: BoxFit.fill,
+                                                  )),
+                                            ),
+                                            SizedBox(width: 10,),
+                                            Container(
+                                              child: IconButton(
+                                                  onPressed: (){
+                                                    pickImage(ImageSource.gallery);
+                                                  }, icon:
+                                              SvgPicture.asset(
+                                                "Assets/images/Gallary.svg",
+                                                width: w / 9,
+                                                color: Colors.white,
+                                              )
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  )
                                 )
 
                         ],
@@ -2775,7 +2854,9 @@ class _HeroImageState extends State<HeroImage> {
     var w = MediaQuery.of(context).size.width;
     return Hero(
       tag: "Image${widget.id}",
-      child: InkWell(
+      child: Material(
+        type: MaterialType.transparency,
+        child :InkWell(
         onTap: (){
       Navigator.pop(context);
     },
@@ -2801,6 +2882,7 @@ class _HeroImageState extends State<HeroImage> {
             ),
           ],
         ),
+      ),
       ),
       ),
     );
