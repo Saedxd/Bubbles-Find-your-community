@@ -25,24 +25,24 @@ part 'DataPrimeBubbles.g.dart';
 abstract class DataPrimeBubbles
     implements Built<DataPrimeBubbles,DataPrimeBubblesBuilder> {
 
-  String? get title;//
-  String? get color;//
-  String? get location;//
-  String? get description;//
-  String? get draw_type;//
+  String? get title;
+  String? get color;
+  String? get location;
+  String? get description;
+  String? get draw_type;
   String? get type;
-  double? get lat;//
-  double? get lng;//
+  double? get lat;
+  double? get lng;
   String? get is_available;
   String? get start_event_date;
   String? get end_event_date;
   BuiltList<OrganizersListModel>? get organizers;
   BuiltList<ImagesEventListModel>? get images;
   BuiltList<DatesEventListModel>? get dates;
-  int? get id;//
+  int? get id;
   double? get radius;
   CreatedByModel? get created_by;
-
+  bool? get is_save;
 
 
 

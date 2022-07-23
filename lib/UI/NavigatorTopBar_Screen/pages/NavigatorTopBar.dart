@@ -12,9 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
+import 'package:move_to_background/move_to_background.dart';
 
-
-
+int BackGroundCounter = 0;
 class NavigatorTopBar extends StatefulWidget {
    NavigatorTopBar({Key? key, this.GOtoDirect}) : super(key: key);
 int? GOtoDirect = 0;
@@ -56,7 +56,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
     switch (state) {
       case AppLifecycleState.resumed:
-
+        BackGroundCounter = 0;
         break;
       case AppLifecycleState.inactive:
 
@@ -127,6 +127,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   @override
   void initState() {
     super.initState();
+    BackGroundCounter = 0;
     AllBubblesStatus = List.filled(100000,0);
     AllBubblesStatusTry = List.filled(10000,true);
     AllNearBubblesStatusTry = List.filled(10000,true);
@@ -155,7 +156,18 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return  WillPopScope(
-        onWillPop: ()async=>true,
+        onWillPop: ()async{
+          print(BackGroundCounter);
+          if (BackGroundCounter==0) {
+            BackGroundCounter++;
+            return false;
+          } else if  (BackGroundCounter==1) {
+           await MoveToBackground.moveTaskToBack();
+           //  var _androidAppRetain = MethodChannel("android_app_retain");
+            //   _androidAppRetain.invokeMethod("sendToBackground");
+          }
+          return false;
+        },
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {

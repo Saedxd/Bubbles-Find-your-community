@@ -5,6 +5,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Scree
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 
 class Plan_Screen extends StatefulWidget {
-  Plan_Screen({Key? key,required this.Event_id,required this.Event_name}) : super(key: key);
-int Event_id = 0;
-String Event_name = "";
+  Plan_Screen({Key? key,
+    required  this.Bubble,
+    required  this.my_id
+  //  required this.Event_id,required this.Event_name
+  }) : super(key: key);
+  BubbleData? Bubble;
+  int? my_id;
+// int Event_id = 0;
+// String Event_name = "";
   @override
   State<Plan_Screen> createState() => _Plan_ScreenState();
 }
@@ -30,12 +37,12 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
   void initState() {
     super.initState();
     socket!.io..disconnect()..connect();
-    _PlanPage_Bloc.add(GetDetailedPlan((b) => b
-    ..Event_id=widget.Event_id
-    ));
+    // _PlanPage_Bloc.add(GetDetailedPlan((b) => b
+    // ..Event_id=widget.Event_id
+    // ));
     _PlanPage_Bloc.add(GetProfile());
     _PlanPage_Bloc.add(GetWhoSavedBubble((b) =>
-    b..Bubble_id = widget.Event_id
+    b..Bubble_id = widget.Bubble!.id
     ));
 }
 
@@ -50,6 +57,17 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
         bloc: _PlanPage_Bloc,
         builder: (BuildContext Context, PlanPageState state)
     {
+      String Value = widget.Bubble!.Color.toString();
+      if (Value.contains("#", 0)) {
+        Value = Value.substring(1);
+        Value = "0xff$Value";
+      }
+      var BackgroundColor;
+      var myInt = int.parse(Value);
+      BackgroundColor  = myInt;
+
+
+
 
       return
       Scaffold(
@@ -62,33 +80,13 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                 children: [
                   Stack(
                     children: [
-                      state.success!
-                          ?Container(
+                      Container(
                         width: w,
-                        height: h / 4,
+                        height: h / 2,
                         margin: EdgeInsets.only(top: h / 50),
-                        child: Image.network(state.GetDetailedPlann!.data!.images![0].image.toString(),
+                        child: Image.network(widget.Bubble!.image.toString(),
                           fit: BoxFit.fill,),
-                      )
-                          :state.isLoading!
-                          ?Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Center(
-                              child: listLoader(
-                                  context:
-                                  context)),
-                        ],
-                      )
-                          :Text(state.error!,
-                        textAlign: TextAlign.left, style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontFamily: 'Red Hat Display',
-                            fontSize: 22,
-                            letterSpacing: 0.2,
-                            fontWeight: FontWeight.w600,
-                            height: 1
-                        ),),
+                      ),
                       Container(
                         width: w,
                         height: h/14,
@@ -105,8 +103,13 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               blurRadius: 4
                           )
                           ],
-                          color: Color.fromRGBO(148, 38, 87, 1),
-                        ),
+                          color:
+                          Color(  BackgroundColor)
+
+
+
+                          ),
+
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -126,54 +129,56 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                 ),
                               ],
                             ),
-                            Container(
-                              width: w/1.5,
-                              child: Text(
-                                widget.Event_name
-                                ,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 22,
-                                    letterSpacing: 0.2,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1
-                                ),),
-                            ),
-
-
-                            Column(
-                              children: [
-                                Container(
-                                  width: w/7,
-                                  child: Row(
-                                    children: [
-                                      IconButton(
-                                        icon: SvgPicture.asset(
-                                          "Assets/images/SAVE.svg",
-                                          width: h / 8,
-                                        ),
-                                        onPressed: () {
-                                          _PlanPage_Bloc.add(ToggleSaveBubble((b) =>
-                                          b..Bubble_id = widget.Event_id
-                                          ));
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                            Flexible(
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      widget.Bubble!.Title!,
+                                      textAlign: TextAlign.left,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                          fontFamily: 'Red Hat Display',
+                                          fontSize: 22,
+                                          letterSpacing: 0.2,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1
+                                      ),),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
+
+
+
+
                           ],
                         ),
 
                       ),
-               
+                      Positioned(
+                        left: h/2.4,
+                        bottom: h/2.4,
+                        child: IconButton(
+                          iconSize:  h/10,
+                          icon:
+                          SvgPicture.asset(
+                            state.is_Saved!
+                                ?"Assets/images/BiggerSaved.svg"
+                                :"Assets/images/SAVE.svg",
+                            fit: BoxFit.fill,
+                          ),
+
+                          onPressed: () {
+                            _PlanPage_Bloc.add(ToggleSaveBubble((b) =>
+                            b..Bubble_id = widget.Bubble!.id
+                            ));
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                
-                  state.success!?
                   Column(
                     children: [
                       SizedBox(height: h / 50,),
@@ -189,15 +194,13 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               height: 1
                           ),)
                       ),
-
                       SizedBox(height: h / 50,),
-
                       Container(
                         width: w/1.2,
-                        child: Text("At ${state.GetDetailedPlann!.data!.location.toString()}",
+                        child: Text("At ${widget.Bubble!.location.toString()}",
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: Color.fromRGBO(20, 208, 120, 1),
+                              color:     Color(BackgroundColor),
                               fontFamily: 'Red Hat Display',
                               fontSize: 22,
                               fontStyle: FontStyle.italic,
@@ -206,13 +209,10 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               height: 1
                           ),),
                       ),
-
                       SizedBox(height: h / 50,),
-
-
                       Container(
                         width: w/1.2,
-                        child: Text("${state.GetDetailedPlann!.data!.description.toString()}",
+                        child: Text("${widget.Bubble!.Description.toString()}",
                           textAlign: TextAlign.left,
                           style:TextStyle(
                               color: Color.fromRGBO(255, 255, 255, 1),
@@ -223,9 +223,8 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               height: 1.6363636363636365
                           ),),
                       ),
-
                       SizedBox(height: h / 50,),
-                      state.GetDetailedPlann!.data!.created_by!.type=="user"?
+        widget.Bubble!.User_type=="user"?
                       Container(
                           width: w,
                           child: Row(
@@ -270,7 +269,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               ]
                           )
                       ):Text(""),
-                      state.GetDetailedPlann!.data!.created_by!.type=="user"
+    widget.Bubble!.User_type=="user"
                           ?    Container(
                         width: w,
                         child: Row(
@@ -305,9 +304,9 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                         ),
                                       ),
                                       Text(
-                                          ' ${state.GetDetailedPlann!.data!.start_event_date.toString()}\n'
+                                          ' ${widget.Bubble!.StartDate.toString()}\n'
                                               '  To \n'
-                                              ' ${state.GetDetailedPlann!.data!.end_event_date.toString()}',
+                                              ' ${widget.Bubble!.endDate.toString()}',
                                           textAlign:
                                           TextAlign.left,
                                           style: _TextTheme
@@ -332,7 +331,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                 const BouncingScrollPhysics(),
                                 scrollDirection:
                                 Axis.vertical,
-                                itemCount:state.GetDetailedPlann!.data!.dates!.length,
+                                itemCount: widget.Bubble!.dates!.length,
                                 itemBuilder:
                                     (BuildContext context,
                                     int index) {
@@ -345,7 +344,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                       ),
                                       Flexible(
                                         child: Text(
-                                            state.GetDetailedPlann!.data!.dates![index].date.toString(),
+                                            widget.Bubble!.dates![index].date.toString(),
                                             textAlign:
                                             TextAlign
                                                 .left,
@@ -372,7 +371,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text('Organizers:', textAlign: TextAlign.left, style: TextStyle(
-                              color: Color.fromRGBO(20, 208, 120, 1),
+                              color:     Color(BackgroundColor),
                               fontFamily: 'Red Hat Text',
                               fontSize: 22,
                               fontStyle: FontStyle.italic,
@@ -380,8 +379,9 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               fontWeight: FontWeight.w600,
                               height: 1
                           ),),
-                          Text('${state.GetWhoSavedBubbles!.data!.length} people saved it:', textAlign: TextAlign.left, style: TextStyle(
-                              color: Color.fromRGBO(20, 208, 120, 1),
+
+                          Text('${!state.success!?0:state.GetWhoSavedBubbles!.data!.length} people saved it:', textAlign: TextAlign.left, style: TextStyle(
+                              color:   Color(BackgroundColor),
                               fontFamily: 'Red Hat Text',
                               fontSize: 22,
                               fontStyle: FontStyle.italic,
@@ -395,14 +395,14 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                       Row(
                         children: [
                           SizedBox(width: h/30,),
-                          state.GetDetailedPlann!.data!.organizers!.length!=0?
+                          widget.Bubble!.Organizers!.length!=0?
                           Container(
                             width: w/3.5,height: h/15,
                             child: ListView.builder(
-                              itemCount: state.GetDetailedPlann!.data!.organizers!.length<3?state.GetDetailedPlann!.data!.organizers!.length:3,
+                              itemCount: widget.Bubble!.Organizers!.length<3?widget.Bubble!.Organizers!.length:3,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
-                                String Value = state.GetDetailedPlann!.data!.organizers![index].background_color.toString();
+                                String Value = widget.Bubble!.Organizers![index].background_color.toString();
                                 if (Value.contains("#",0)){
                                   Value = Value.substring(1);
                                   Value = "0xff$Value";
@@ -425,7 +425,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                                 children: [
                                                   CircleAvatar(
                                                     backgroundColor: Color(BackgroundColor),
-                                                    //    backgroundImage: NetworkImage(state.GetDetailedPlann!.data!.organizers![index].avatar.toString()),
+                                                    //    backgroundImage: NetworkImage(.data!.organizers![index].avatar.toString()),
                                                   )
                                                 ],
 
@@ -440,8 +440,8 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               },
                             ),
                           ):Container(    width: w/2.5,height: h/15,child: Center(child: Text("None"))),
-                          state.GetDetailedPlann!.data!.organizers!.length!=0?
-                          Text("+${state.GetDetailedPlann!.data!.organizers!.length.toString()}"
+    widget.Bubble!.Organizers!.length!=0?
+                          Text("+${widget.Bubble!.Organizers!.length.toString()}"
                             , textAlign: TextAlign.left, style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Red Hat Text',
@@ -452,11 +452,13 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                 height: 1
                             ),):Text(""),
                           SizedBox(width: h/30,),
+
+
                           Container(
                             width: w/3.5,height: h/15,
                             //  color: Colors.pink,
                             child: ListView.builder(
-                              itemCount: state.GetWhoSavedBubbles!.data!.length<3? state.GetWhoSavedBubbles!.data!.length:3,
+                              itemCount:!state.success!?0: state.GetWhoSavedBubbles!.data!.length<3? state.GetWhoSavedBubbles!.data!.length:3,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
                                 String Value =  state.GetWhoSavedBubbles!.data![index].background_color.toString();
@@ -497,6 +499,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               },
                             ),
                           ),
+                          !state.success!?Text(""):
                           state.GetWhoSavedBubbles!.data!.length!=0?
                           Text("+${state.GetWhoSavedBubbles!.data!.length}"
                             , textAlign: TextAlign.left, style: TextStyle(
@@ -513,21 +516,8 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                       )
 
                     ],
-                  )
-                      : state.isLoading!
-                      ? Center(
-                      child: listLoader(
-                          context:
-                          context))
-                      : Text(state.error!,
-                    textAlign: TextAlign.left, style: TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
-                        fontFamily: 'Red Hat Display',
-                        fontSize: 22,
-                        letterSpacing: 0.2,
-                        fontWeight: FontWeight.w600,
-                        height: 1
-                    ),),
+                  ),
+
                   SizedBox(height: h/4,),
 
                   Row(
@@ -543,11 +533,11 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                             bottomLeft: Radius.circular(27),
                             bottomRight: Radius.circular(27),
                           ),
-                          color: Color.fromRGBO(20, 208, 120, 1),
+                          color:   Color(BackgroundColor),
                         ),
                         child:    InkWell(
                           onTap: () {
-                            if ( state.success!) {
+
                               WidgetsBinding.instance!
                                   .addPostFrameCallback(
                                       (_) =>
@@ -555,15 +545,14 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              GroupChat(plan_Title: state
-                                                  .GetDetailedPlann!.data!.title
-                                                  .toString(),
-                                                MY_ID: state.ProfileDate!.user!
-                                                    .id!,
-                                                bubble_id: widget.Event_id, Plan_Description: state.GetDetailedPlann!.data!.description.toString(),
+                                              GroupChat(plan_Title:widget.Bubble!.Title!,
+                                                MY_ID: widget.my_id,
+                                                bubble_id: widget.Bubble!.id!,
+                                                Plan_Description: widget.Bubble!.Description!,
+                                                Bubble_Color: BackgroundColor,
                                               ),),
                                       ));
-                            }
+
                           },
                           child:Center(
                             child:
@@ -582,29 +571,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                       ),
                     ],
                   ),
-                  // Expanded(
-                  //   child: CustomScrollView(
-                  //       slivers: [
-                  //         SliverAppBar(
-                  //           automaticallyImplyLeading: true,
-                  //           pinned: false,
-                  //           floating: false,
-                  //           expandedHeight:  h / 1.5,
-                  //           flexibleSpace: FlexibleSpaceBar(
-                  //             centerTitle: true,
-                  //             title:
-                  //
-                  //           ),
-                  //         ),
-                  //         SliverList(
-                  //
-                  //             delegate: SliverChildListDelegate([
-                  //
-                  //
-                  //
-                  //             ])),
-                  //       ]),
-                  // ),
+
                  
                 ],
               ),

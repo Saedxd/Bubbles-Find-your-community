@@ -216,15 +216,7 @@ class _ProfileState extends State<Profile> {
                         child: Stack(
                           children: [
                             !state.isLoadingProfileUpdate!?
-                            state.GOtoFrined!
-                                ? Container(
-                                    width: w,
-                                    height: h,
-                                    child: ShowCaseWidget(
-                                        builder: Builder(
-                                            builder: (context) =>
-                                                Friendlist(is_WithoutTopBar: false,))))
-                                : Column(children: [
+                          Column(children: [
                                     SizedBox(
                                       height: h / 17,
                                     ),
@@ -1120,17 +1112,16 @@ class _ProfileState extends State<Profile> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
+
                                                 InkWell(
                                                   onTap: () {
-                                                    // GOtoFrined = true;
-                                                    // setState(() { });
-
-
-                                                    _ProfileBloc.add(
-                                                        GOtoFrinedlIST((b) =>
-                                                        b..Status = true
-                                                        ));
-                                                   print(state.GOtoFrined);
+                                                    WidgetsBinding.instance!
+                                                        .addPostFrameCallback((_) => Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                Friendlist(is_WithoutTopBar: true,)
+                                                        )));
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1189,16 +1180,24 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
-                                                        .addPostFrameCallback(
-                                                      (_) => Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder:
-                                                                (context) =>
-                                                                    SavedBubbles(User_id: state.ProfileDate!.user!.id!,)),
-                                                      ),
-                                                    );
+                                                    if (state.success!) {
+                                                      WidgetsBinding.instance!
+                                                          .addPostFrameCallback(
+                                                            (_) =>
+                                                            Navigator.push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (
+                                                                      context) =>
+                                                                      SavedBubbles(
+                                                                        User_id: state
+                                                                            .ProfileDate!
+                                                                            .user!
+                                                                            .id!,)),
+                                                            ),
+                                                      );
+                                                    }
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,

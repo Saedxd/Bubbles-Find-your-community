@@ -49,14 +49,18 @@ class _FriendlistState extends State<Friendlist> {
   int COUNTERDiditonce = 0;
   int Index =0;
   void ListenForONlineFriends() {
-    if(socket!.disconnected!=  null &&!socket!.disconnected) {
-      socket!.on("friend_online", (value) {
-        print(value);
-        if (value["status"] != "offline") {
-          FrinedsStatus[value["index"]] = 1;
-        }
-        _FriendlistBloc.add(RefreshState());
-      });
+    try {
+      if (socket!.disconnected != null && !socket!.disconnected) {
+        socket!.on("friend_online", (value) {
+          print(value);
+          if (value["status"] != "offline") {
+            FrinedsStatus[value["index"]] = 1;
+          }
+          _FriendlistBloc.add(RefreshState());
+        });
+      }
+    }catch(e){
+      print(e);
     }
   }
 
@@ -229,8 +233,8 @@ class _FriendlistState extends State<Friendlist> {
                                   Navigator.pop(context);
                                   _FriendlistBloc.add(RemoveFriend((b) => b
                                     ..friend_id = Freindid
+                                      ..index = index
                                   ));
-                                  _FriendlistBloc.add(GetFreinds());
                                   FrinedsID.removeAt(Index);
                                 },
                                 child: Container(
@@ -283,10 +287,33 @@ class _FriendlistState extends State<Friendlist> {
                     SizedBox(
                       height:widget.is_WithoutTopBar?h/21: h/14,
                     ),
-                    Text(""),
+                    !widget.is_WithoutTopBar?
+                    Text(""):Container(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        widget.is_WithoutTopBar?
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      left: h / 100),
+                                  child: IconButton(
+                                    icon: SvgPicture.asset(
+                                        "Assets/images/Frame 11.svg",
+                                        width: h/20,
+                                        color: ColorS.surface),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )),
+
+
+                            ],
+                          ),
+                        ):
                         Text(""),
                         Text(
                           'Friend list',
@@ -333,7 +360,7 @@ class _FriendlistState extends State<Friendlist> {
                     Text(""),
 
                     ( Checknow?(state.success!): false)
-                        ?state.GetFriends!.friends!.length==0
+                        ?state.FrinedList!.length==0
                     ?Container(
                       width: w,
                       height: h/1.266,
@@ -428,7 +455,7 @@ class _FriendlistState extends State<Friendlist> {
                                 physics: AlwaysScrollableScrollPhysics(
                                     ),
                                 scrollDirection: Axis.vertical,
-                                itemCount: state.GetFriends!.friends!.length,
+                                itemCount:state.FrinedList!.length,
                                 separatorBuilder: (BuildContext context, int index) {
                                   return SizedBox(
                                     height: 5,
@@ -436,7 +463,7 @@ class _FriendlistState extends State<Friendlist> {
                                 },
                                 itemBuilder: (BuildContext context, int index) {
 
-                                  String Value = state.GetFriends!.friends![index].background_color.toString();
+                                  String Value = state.FrinedList![index].Color.toString();
                                   var myInt = int.parse(Value);
                                   var BackgroundColor= myInt;
 
@@ -445,10 +472,9 @@ class _FriendlistState extends State<Friendlist> {
                                     InkWell(
                                       onTap: (){
                                         Navigator.push(
-                                          context,
-                                          MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                            builder: (context) => Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,),),
-                                        );
+                                            context,
+                                            MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                builder: (context) => Sprints(my_ID:state.FrinedList![index].my_id!, IS_sprints: false, receiver_id:state.FrinedList![index].ID!,His_Alias: state.FrinedList![index].Alias.toString())   ));
                                       },
                                       child: Slidable(
                                         closeOnScroll: true,
@@ -457,7 +483,7 @@ class _FriendlistState extends State<Friendlist> {
                                           motion: const ScrollMotion(),
                                           dismissible: DismissiblePane(onDismissed: () {
                                              Index = index;
-                                            Freindid = state.GetFriends!.friends![index].id!;
+                                            Freindid = state.FrinedList![index].ID!;
                                             print("Dissmissed");
                                             alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
                                           }),
@@ -466,9 +492,9 @@ class _FriendlistState extends State<Friendlist> {
                                               child: InkWell(
                                                 onTap: () {
                                                   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                      builder: (context) =>Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,) ));
+                                                      context,
+                                                      MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                          builder: (context) => Sprints(my_ID:state.FrinedList![index].my_id!, IS_sprints: false, receiver_id:state.FrinedList![index].ID!,His_Alias: state.FrinedList![index].Alias.toString())   ));
                                                 },
                                                 child: Container(
                                                   width: w / 5,
@@ -476,8 +502,6 @@ class _FriendlistState extends State<Friendlist> {
                                                   decoration: const BoxDecoration(
                                                     color: const Color(0xffCF6D38),
                                                     borderRadius: BorderRadius.only(
-                                                      bottomRight: const Radius.circular(5),
-                                                      topRight: Radius.circular(5),
                                                     ),
                                                   ),
                                                   child: Row(
@@ -496,7 +520,7 @@ class _FriendlistState extends State<Friendlist> {
                                             Expanded(
                                               child: InkWell(
                                                 onTap: () {
-                                                  Freindid = state.GetFriends!.friends![index].id!;
+                                                  Freindid = state.FrinedList![index].ID!;
                                                   alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
                                                 },
                                                 child: Container(
@@ -529,7 +553,7 @@ class _FriendlistState extends State<Friendlist> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                builder: (context) => Sprints(my_ID: state.GetFriends!.friends![index].me_id!, IS_sprints: false, receiver_id: state.GetFriends!.friends![index].id!,His_Alias: state.GetFriends!.friends![index].alias!,)   ));
+                                                builder: (context) => Sprints(my_ID:state.FrinedList![index].my_id!, IS_sprints: false, receiver_id:state.FrinedList![index].ID!,His_Alias: state.FrinedList![index].Alias.toString())   ));
                                           },
                                           child: Column(
                                             children: [
@@ -568,7 +592,7 @@ class _FriendlistState extends State<Friendlist> {
                                                             children: [
                                                               Text("  "),
                                                               Hero(
-                                                                tag: "Image${state.GetFriends!.friends![index].id}",
+                                                                tag: "Image${state.FrinedList![index].ID.toString()}",
                                                                 child:        Material(
                                                                   type: MaterialType.transparency,
                                                                   child : Container(
@@ -579,14 +603,11 @@ class _FriendlistState extends State<Friendlist> {
                                                                       Navigator.push(
                                                                         context,
                                                                         MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                                          builder: (context) => HeroImage(path:   state.GetFriends!.friends![index].avatar.toString(),color:  BackgroundColor,id:state.GetFriends!.friends![index].id ,),),
+                                                                          builder: (context) => HeroImage(path:    state.FrinedList![index].Avatar.toString(),color:    int.parse(state.FrinedList![index].Color!),id:state.FrinedList![index].ID,),),
                                                                       );
                                                                     },
                                                                     child: CachedNetworkImage(
-                                                                      imageUrl:
-                                                                      state.GetFriends!.friends![index].avatar.toString()!=null
-                                                                          ? state.GetFriends!.friends![index].avatar.toString():"Assets/images/DefaultAvatar.png",
-
+                                                                      imageUrl:     state.FrinedList![index].Avatar.toString(),
                                                                       errorWidget: (context, url, error) => Center(child: Text("Error")),
                                                                       imageBuilder: (context, imageProvider) => CircleAvatar(
                                                                         radius: 30,
@@ -625,7 +646,7 @@ class _FriendlistState extends State<Friendlist> {
                                                     SizedBox(width: 10,),
 
                                                     Text(
-                                                        state.GetFriends!.friends![index].alias.toString(),
+                                                        state.FrinedList![index].Alias.toString(),
                                                         textAlign: TextAlign.left,
                                                         style: _TextTheme.headline3!.copyWith(
                                                             fontFamily: 'Red Hat Display',
@@ -731,4 +752,14 @@ class _HeroImageState extends State<HeroImage> {
       ),
     );
   }
+}
+
+class FrinedsData{
+  String? Color;
+  String? Avatar;
+  String? Alias;
+  int? ID;
+  int? my_id;
+  bool? is_Frined;
+
 }

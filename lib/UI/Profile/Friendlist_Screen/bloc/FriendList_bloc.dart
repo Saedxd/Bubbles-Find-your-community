@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
+import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 
 import 'FriendList_event.dart';
 import 'FriendList_state.dart';
@@ -47,12 +48,32 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
         print('get Success data ${date}');
         yield state.rebuild((b) =>
         b
-          ..isLoading = false
+          ..isLoading = true
           ..error = ""
-          ..success = true
+          ..success = false
           ..GetFriends.replace(date)
 
         );
+
+
+        for(int i=0;i<state.GetFriends!.friends!.length;i++) {
+          FrinedsData data = FrinedsData();
+          data.Color = state.GetFriends!.friends![i].background_color!;
+          data.ID = state.GetFriends!.friends![i].id;
+          data.my_id = state.GetFriends!.friends![i].me_id;
+          data.Alias = state.GetFriends!.friends![i].alias;
+          data.Avatar = state.GetFriends!.friends![i].avatar;
+
+         state.FrinedList!.add(data);
+
+        }
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+        );
+
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>
@@ -88,35 +109,16 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
 
     if (event is RemoveFriend) {
       try {
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = true
-          ..error = ""
-          ..success = false
-          ..RemoveFriend = null
-        );
 
+
+
+        state.FrinedList!.removeAt(event.index!);
         final date = await _repository.RemoveFriend(event.friend_id!);
 
 
-        print('get Success data ${date}');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = ""
-          ..success = true
-          ..RemoveFriend.replace(date)
 
-        );
       } catch (e) {
         print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..RemoveFriend = null
-        );
       }
     }
 

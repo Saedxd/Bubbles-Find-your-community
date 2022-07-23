@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 
 import '../Pages/SavedBubbles_Screen.dart';
 import 'Saved_event.dart';
@@ -60,12 +61,17 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
           Bubbledata.Creator_Avatar = state.GetSavedBubbles!.data![i].created_by!.user!.avatar;
           Bubbledata.Creator_Color = state.GetSavedBubbles!.data![i].created_by!.user!.background_color;
           Bubbledata.User_type = state.GetSavedBubbles!.data![i].created_by!.type;
+          Bubbledata.Description = state.GetSavedBubbles!.data![i].description.toString();
+          Bubbledata.Organizers = state.GetSavedBubbles!.data![i].organizers!;
+          Bubbledata.dates = state.GetSavedBubbles!.data![i].dates!;
           String Value = state.GetSavedBubbles!.data![i].color.toString();
+
 
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
             Value = "0xff$Value";
           }
+
           var myInt = int.parse(Value);
           var BackgroundColor = myInt;
 

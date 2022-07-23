@@ -17,7 +17,7 @@ abstract class NewPollAnswersModel
 
   int? get id;
   int? get rate;
-  String? get answer;
+  int? get answer;//todo : change to String
 
 
   NewPollAnswersModel._();

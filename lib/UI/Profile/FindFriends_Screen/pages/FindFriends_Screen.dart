@@ -690,7 +690,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                             _controller.position
                                                                 .minScrollExtent,
                                                             duration: Duration(
-                                                                microseconds: 1),
+                                                                milliseconds: 2000),
                                                             curve: Curves.easeIn,
                                                           );
                                                           WidgetsBinding.instance!

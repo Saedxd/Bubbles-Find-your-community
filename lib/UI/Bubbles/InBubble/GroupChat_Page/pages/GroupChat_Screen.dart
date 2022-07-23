@@ -33,6 +33,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:swipe_to/swipe_to.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -48,11 +49,13 @@ class GroupChat extends StatefulWidget {
     this.MY_ID,required
     this.bubble_id,required
     this.Plan_Description,
+    required  this.Bubble_Color
   }) : super(key: key);
   String? plan_Title = "";
   String Plan_Description = "";
   int? MY_ID;
   int bubble_id;
+  int Bubble_Color;
   // FlowData?  flow;
   // bool IsNested;
 
@@ -61,6 +64,7 @@ class GroupChat extends StatefulWidget {
 }
 
 class _GroupChatState extends State<GroupChat>{
+  final PanelController PanelControllerr = PanelController();
   FlowData  flow = FlowData();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _MediaDumpController = TextEditingController();
@@ -82,6 +86,7 @@ class _GroupChatState extends State<GroupChat>{
   final _formkey12 = GlobalKey<FormState>();
   late FocusNode FocuseNODE;
   final ScrollController _controller = ScrollController();
+  final ScrollController Controllerrr = ScrollController();
   final _GroupChatBloc = sl<GroupChatBloc>();
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
@@ -185,6 +190,22 @@ SetHisTopicFlow(
     });
   }
 
+  void ListenForPollFlows() async {
+    socket!.on("receive_poll_message_send", (msg) {
+      print(msg);
+
+   if (widget.MY_ID!.toString()!=msg["user_id"])
+        SetHisPollFlow(
+          msg["title"],
+          msg["answers"],
+          msg["avatar"],
+          msg["username"],
+          msg["color"],
+          msg["message_id"],
+        );
+  });
+  }
+
   void ListenForWhoLeftBUbble() async {
     socket!.on("leave_bubble", (msg) {
       print("Listenting");
@@ -202,24 +223,6 @@ SetHisTopicFlow(
   }
 
 
-  // void SendTopicFlow(String Title, String Description) {
-  //   // socket!.emit("send_message",
-  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  // }
-  //
-  //
-  //
-  //
-  // void SendPollFlow(String Question, List<String> Answers) {
-  //   // socket!.emit("send_message",
-  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  // }
-  //
-  // void SendMediadump(String MediaDumpImage, String MediaDumpTitle) {
-  //   // socket!.emit("send_message",
-  //   //     {"message": message.toString(), "to": UserDestination_ID.toString()});
-  // }
-
   void SetMyMediaDump(String MediaDumpImage, String MediaDumpTitle) {
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
@@ -234,18 +237,37 @@ SetHisTopicFlow(
     messageModel.Type = "sender";
     messageModel.IsBackEnd = false;
     messageModel.ID = 0;
+    messageModel.CanReply = false;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    FlowData data = FlowData();
+
+
+    data.Flow_Icon =  "Assets/images/Layer_1-2_1_.svg";
+    data.ISMediaDump = true;
+    data.Title = MediaDumpTitle;
+    data.File_Image = Fileee;
+    data.Who_Made_it_Alias =MyAlias;
+    data.Who_Made_it_Avatar = MyAvatar;
+    data.Who_Made_it_ID = 0;
+    data.Flow_type ="MediaDump";
+    data.Who_Made_it_Color = MYbackGroundColor;
+    data.Image_type = "File";
+
+
 
     _GroupChatBloc.add(
         SendMediaDumpFlow((b) =>
         b   ..title =MediaDumpTitle
             ..Bubble_id =widget.bubble_id
             ..image = MediaDumpImage
+            ..Flow = data
         ));
   }
 
 
-  void SetHisMediaDump(String MediaDumpImage, String MediaDumpTitle,String avatar , String Alias ,String background_Color ,int Message_id,String type) {
+  void SetHisMediaDump(String MediaDumpImage, String MediaDumpTitle,String avatar
+      , String Alias ,String background_Color ,int Message_id,String type) {
 
 print("Settled ");
     GroupChatMessage messageModel = GroupChatMessage(
@@ -263,7 +285,7 @@ print("Settled ");
       messageModel.Image_type = "backend";
     }
 
-
+messageModel.CanReply = false;
     messageModel.IsBackEnd = false;
 
     messageModel.MediaDumpTitle = MediaDumpTitle;
@@ -274,6 +296,33 @@ print("Settled ");
 
     messageModel.ID = Message_id;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+FlowData data = FlowData();
+
+data.Flow_type ="TopicFlow";
+data.ISMediaDump = false;
+data.Title = MediaDumpTitle;
+
+if (type=="Base64") {
+  Uint8List?  _bytesImage = Base64Decoder().convert(MediaDumpImage);
+  data.Uint8_Image = _bytesImage;
+  data.Image_type = "Uint8List";
+}else if (type=="backend"){
+  data.BACKEND_PATH = MediaDumpImage;
+  data.Image_type = "backend";
+}
+
+data.Who_Made_it_Alias =Alias;
+data.Who_Made_it_Avatar = avatar;
+data.Flow_Icon = "Assets/images/notifiy.svg";
+data.Who_Made_it_Color = int.parse(background_Color);
+data.Who_Made_it_ID = Message_id;
+
+
+
+
+
+_GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
   }
 
   void SetMyPollFlow(String Question, List<String> Answers) {
@@ -282,6 +331,7 @@ print("Settled ");
         Avatar: MyAvatar,
         Alias: MyAlias,
         ISreply: false);
+    messageModel.CanReply = false;
     messageModel.PollAnswers = Answers;
     messageModel.PollQuestion = Question;
     messageModel.ModelType = "PollFlow";
@@ -291,28 +341,63 @@ print("Settled ");
     messageModel.ID = 0;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
 
+    FlowData data = FlowData();
+    data.Flow_Icon =  "Assets/images/123323232.svg";
+    data.ISMediaDump = false;
+    data.Title = Question;
+    for(int j=0;j<Answers.length;j++)
+      data.Answers.add(Answers[j].toString());
+
+    data.Flow_type ="PollFlow";
+    data.Who_Made_it_Alias =MyAlias;
+    data.Who_Made_it_Avatar = MyAvatar;
+    data.Who_Made_it_ID = 0;
+    data.Who_Made_it_Color = MYbackGroundColor;
+
     _GroupChatBloc.add(
         SendPollFloww((b) =>
         b ..bubble_id =widget.bubble_id
             ..answers = Answers
             ..Question = Question
+            ..Flow = data
         ));
+
+
   }
 
-  void SetHisPollFlow(String Question, List<String> Answers,String avatar , String Alias ,String background_Color ,int Message_id) {
+  void SetHisPollFlow(String Question, List<dynamic> Answers ,String avatar 
+      , String Alias ,String background_Color ,int Message_id) {
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
-        Avatar: HisAvatar,
-        Alias: HisAlias,
+        Avatar: avatar,
+        Alias: Alias,
         ISreply: false);
-    messageModel.PollAnswers = Answers;
+    messageModel.CanReply = false;
+    for(int i=0;i<Answers.length;i++)
+    messageModel.PollAnswers.add(Answers[i].toString());
     messageModel.PollQuestion = Question;
     messageModel.ModelType = "PollFlow";
-    messageModel.background_Color = HisBackgroundColor;
+
+    messageModel.background_Color = int.parse(background_Color);
     messageModel.Type = "receiver";
 
-    messageModel.ID = 0;
+    messageModel.ID = Message_id;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+    FlowData data = FlowData();
+    data.Flow_Icon =  "Assets/images/123323232.svg";
+    data.ISMediaDump = false;
+    data.Title = Question;
+    for(int j=0;j<Answers.length;j++)
+      data.Answers.add(Answers[j].toString());
+
+    data.Flow_type ="PollFlow";
+    data.Who_Made_it_Alias =Alias;
+    data.Who_Made_it_Avatar = avatar;
+    data.Who_Made_it_ID = Message_id;
+    data.Who_Made_it_Color = int.parse(background_Color);
+
+    _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
   }
 
 
@@ -327,6 +412,7 @@ print("Settled ");
         Avatar: MyAvatar,
         Alias: MyAlias,
         ISreply: false);
+    messageModel.CanReply = false;
     messageModel.TopicFlowDescription = Description;
     messageModel.TopicFlowTitle = Title;
     messageModel.ModelType = "TopicFlow";
@@ -336,23 +422,38 @@ print("Settled ");
     messageModel.ID = 0;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
 
+    FlowData data = FlowData();
+    data.Flow_type ="TopicFlow";
+    data.ISMediaDump = false;
+    data.Title = Title;
+    data.Content =Description;
+    data.Who_Made_it_Alias =MyAlias;
+    data.Who_Made_it_Avatar = MyAvatar;
+    data.Flow_Icon = "Assets/images/notifiy.svg";
+    data.Who_Made_it_Color = MYbackGroundColor;
+
     _GroupChatBloc.add(
         SendTopicFlow((b) =>
         b ..Bubble_id = widget.bubble_id
           ..Title =Title
           ..Content =Description
+            ..Flow= data
         ));
+
+
 
   }
 
 
-  void SetHisTopicFlow(String Title , String Description ,String avatar , String Alias ,String background_Color ,int Message_id) {
+  void SetHisTopicFlow(String Title , String Description ,String avatar , String Alias ,String background_Color
+      ,int Message_id) {
   print("SETTLED");
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: avatar,
         Alias: Alias,
         ISreply: false);
+    messageModel.CanReply = false;
     messageModel.TopicFlowDescription = Description;
     messageModel.TopicFlowTitle = Title;
     messageModel.ModelType = "TopicFlow";
@@ -360,6 +461,25 @@ print("Settled ");
 
     messageModel.ID = Message_id;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+
+  FlowData data = FlowData();
+
+  data.Flow_type ="TopicFlow";
+  data.ISMediaDump = false;
+  data.Title = Title;
+  data.Content =Description;
+  data.Who_Made_it_Alias =Alias;
+  data.Who_Made_it_Avatar = avatar;
+  data.Flow_Icon = "Assets/images/notifiy.svg";
+  data.Who_Made_it_Color = int.parse(background_Color);
+  data.Who_Made_it_ID = Message_id;
+
+
+
+
+  _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
+
   }
 
 
@@ -371,6 +491,7 @@ print("Settled ");
   ListenForWhoLeftBUbble();
     ListenForTopicFlows();
     ListenForMediaDumpFlows();
+    ListenForPollFlows();
   sendIJoinedBubble(widget.bubble_id);
   DIditonce2 = false;
   Diditonces = true;
@@ -409,6 +530,20 @@ print("Settled ");
         _GroupChatBloc.add(KetbaordStatus((b) => b..status = false));
       }
     });
+
+    _controller.addListener(() {
+      if (_controller.position.atEdge){
+      _GroupChatBloc.add(ShowFloatingActionButton((b) =>
+      b..status = false
+      ));
+      }else {
+        _GroupChatBloc.add(ShowFloatingActionButton((b) =>
+        b..status = true
+        ));
+      }
+
+    });
+
   }
 
 
@@ -977,52 +1112,77 @@ print("Settled ");
                                           }
 
                                           if ( GetInStatus) {
-                                            //  print(state.messages![index].message);
-                                            _focus.requestFocus();
-                                            SystemChannels.textInput.invokeMethod('TextInput.show');
-                                            if (state.messages![index].ISreply == false) {
-                                              Message_id = state.messages![index].ID!;
+                                            if (state.messages![index].CanReply!) {
+                                              //  print(state.messages![index].message);
+                                              _focus.requestFocus();
+                                              SystemChannels.textInput
+                                                  .invokeMethod(
+                                                  'TextInput.show');
+                                              if (state.messages![index]
+                                                  .ISreply == false) {
+                                                Message_id =
+                                                state.messages![index].ID!;
 
 
-                                              type = state.messages![index].ModelType.toString();
+                                                type = state.messages![index]
+                                                    .ModelType.toString();
 
-                                              _GroupChatBloc.add(
-                                                  ShowReplyWidget((b) =>
-                                                  b
-                                                    ..Type = state.messages![index].ModelType.toString()
-                                                    ..Isreply = true
-                                                    ..ColorForRepliedTo = state.messages![index]
-                                                        .background_Color!.toString()
-                                                    ..RepliedToMessage = state.messages![index].message
-                                                        .toString()
-                                                    ..AliasForRepliedTo = state.messages![index].Alias
-                                                        .toString()
-                                                    ..AvatarPathForRepliedTo = state.messages![index].Avatar
-                                                        .toString()
-                                                    ..Image1 = state.messages![index].Image1
-                                                    ..File_image = state.messages![index].Image2
-                                                    ..Image_type = state.messages![index].Image_type
-                                                    // ..is_Nodejs = state.messages![index].ISNOdeJS
-                                                    // ..is_Backend = state.messages![index].IsBackEnd
-                                                    //   ..Is_base64 = state.messages![index].is_base64
-                                                  )
-                                              );
+                                                _GroupChatBloc.add(
+                                                    ShowReplyWidget((b) =>
+                                                    b
+                                                      ..Type = state
+                                                          .messages![index]
+                                                          .ModelType.toString()
+                                                      ..Isreply = true
+                                                      ..ColorForRepliedTo = state
+                                                          .messages![index]
+                                                          .background_Color!
+                                                          .toString()
+                                                      ..RepliedToMessage = state
+                                                          .messages![index]
+                                                          .message
+                                                          .toString()
+                                                      ..AliasForRepliedTo = state
+                                                          .messages![index]
+                                                          .Alias
+                                                          .toString()
+                                                      ..AvatarPathForRepliedTo = state
+                                                          .messages![index]
+                                                          .Avatar
+                                                          .toString()
+                                                      ..Image1 = state
+                                                          .messages![index]
+                                                          .Image1
+                                                      ..File_image = state
+                                                          .messages![index]
+                                                          .Image2
+                                                      ..Image_type = state
+                                                          .messages![index]
+                                                          .Image_type
+                                                      // ..is_Nodejs = state.messages![index].ISNOdeJS
+                                                      // ..is_Backend = state.messages![index].IsBackEnd
+                                                      //   ..Is_base64 = state.messages![index].is_base64
+                                                    )
+                                                );
 
-                                              print(state.messages![index].message.toString());
-                                            }
+                                                print(state.messages![index]
+                                                    .message.toString());
+                                              }
 
 
-                                            else if (state.messages![index].ISreply == true) {
-                                              //todo : this is for reply to reply
-                                              // idd = state.OldMessages!.messages![index].replies![0].id!;
-                                              // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
-                                              // b
-                                              //   ..Isreply = true
-                                              //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
-                                              //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
-                                              //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
-                                              //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
-                                              // ));
+                                              else if (state.messages![index]
+                                                  .ISreply == true) {
+                                                //todo : this is for reply to reply
+                                                // idd = state.OldMessages!.messages![index].replies![0].id!;
+                                                // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
+                                                // b
+                                                //   ..Isreply = true
+                                                //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
+                                                //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
+                                                //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
+                                                //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
+                                                // ));
+                                              }
                                             }
                                           }else{
                                             OutsideBubbleAlreat();
@@ -1853,6 +2013,7 @@ print("Settled ");
                                                 ? MediaDumpWidget(state, index)
                                                 : const Text("")
                                                 : const Text("empty"),
+
                                           ));
                                     },
                                     separatorBuilder:
@@ -1923,7 +2084,7 @@ print("Settled ");
                                         ),
                                               child: CircleAvatar(
                                                 radius: 25,
-                                                backgroundColor: const Color(0xff15D078),
+                                                backgroundColor: Color(widget.Bubble_Color),
                                                 child: Center(
                                                   child: InkWell(
                                                     onTap: () {
@@ -2208,9 +2369,10 @@ print("Settled ");
                                                       Expanded(
                                                         child: Container(
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon:  Icon(
                                                               Icons.send,
                                                               size: 30,
+                                                              color: Color(widget.Bubble_Color),
                                                             ),
                                                             onPressed: ()async{
 
@@ -2392,10 +2554,130 @@ print("Settled ");
 
                         ],
                       ),
+                      SlidingUpPanel(
+                          controller: PanelControllerr,
+                          color: ColorS.onPrimaryContainer,
+                          maxHeight: h/3.6,
+                          minHeight: h/9.5,
+                          slideDirection: SlideDirection.DOWN,
+                          onPanelOpened: () {
+                            Controllerrr.animateTo(
+                              Controllerrr.position
+                                  .minScrollExtent,
+                              duration: Duration(
+                                  milliseconds: 2000),
+                              curve: Curves.easeIn,
+                            );
+                          },
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          panel: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                ),
+                              ),
+                              width: w,
+                              height: h * 2,
+                              child:Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  state.success!?
+                                  Container(
+                                    width: w,
+                                    height: h/6,
+                                    margin: EdgeInsets.only(top: h/20),
+                                    child:  ListView.separated(
+                                      cacheExtent : 500,
+                                      shrinkWrap: true,
+                                      reverse: false,
+                                      controller: Controllerrr,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: state.FlowList!.length,
+                                      itemBuilder: (BuildContext context,
+                                      int index) {
+                                        return Stack(
+                                          children: [
+                                            InkWell(
+                                              onTap: (){
+                                          if (state.FlowList![index].Flow_type==""){
+
+                                          }else if (state.FlowList![index].Flow_type==""){
+
+                                          }else if (state.FlowList![index].Flow_type==""){
+
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                        radius: h/15,
+                                        child: SvgPicture.asset(state.FlowList![index].Flow_Icon!,width: h/23,)
+                                        ),
+                                        ),
+                                            Positioned(
+                                              top: h/11,
+                                              left: h/12,
+                                              child: CircleAvatar(
+                                                backgroundImage: NetworkImage(state.FlowList![index].Who_Made_it_Avatar!),
+                                                backgroundColor: Color(state.FlowList![index].Who_Made_it_Color!),
+                                                radius: 13,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+
+
+                                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); },
+                                                                ),
+                                  ):
+                                  state.isLoading!
+                                      ? Container(
+                                        width: w,
+                                        height: h/6,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                                child: listLoader(
+                                                    context: context)),
+                                          ],
+                                        ),
+                                  )
+                                      :   Container(
+                                      width: w,
+                                    height: h/6,
+                                      child: Text("Error"),
+
+                                  ),
+
+                                  Container(
+                                    width: w / 3.9,
+                                    height: h / 130,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      color: ColorS.onTertiary,
+                                    ),
+                                    //
+                                  ),
+                                  SizedBox(
+                                    height: h / 70,
+                                  ),
+                                ],
+                              ))),
                       Container(
                         width: w,
                         height: h / 15,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
                             topRight: Radius.circular(0),
@@ -2408,7 +2690,7 @@ print("Settled ");
                           //       offset: Offset(0, 4),
                           //       blurRadius: 4)
                           // ],
-                          color: Color(0xff942657),
+                          color: Color(widget.Bubble_Color)
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -2482,9 +2764,27 @@ print("Settled ");
                           ],
                         ),
                       ),
-                    ],
+
+                      ],
                   ),
                 ),
+                floatingActionButton: state.ShowFloatingActionButtonn!?Container(
+
+                  margin: EdgeInsets.only(bottom: h/14),
+                    child: FloatingActionButton(onPressed: () {
+                      _controller.animateTo(
+                        _controller.position
+                            .minScrollExtent,
+                        duration: Duration(
+                            milliseconds: 200),
+                        curve: Curves.easeIn,
+                      );
+                    },
+                    backgroundColor:Color(widget.Bubble_Color),
+                      child: Icon(Icons.keyboard_arrow_down,color: Colors.black,size: h/20,),
+                    )
+
+                ):Text("")
               ));
         });
   }
@@ -2502,7 +2802,7 @@ print("Settled ");
                           Container(
                             width: w,
                             height: h/4,
-                            color: Color(0xff15D078),
+                         color: Color(widget.Bubble_Color),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
@@ -2636,7 +2936,7 @@ print("Settled ");
 
                                                     SvgPicture.asset(
                                                       "Assets/images/Exclude.svg",
-                                                      color: Color(0xff15D078),
+                                                      color: Color(widget.Bubble_Color),
                                                       width: w/5,
                                                     ),
                                                     Positioned(
@@ -2694,7 +2994,7 @@ print("Settled ");
 
                                                     Text('in Sprints Lobby'
                                                       , textAlign: TextAlign.left, style: TextStyle(
-                                                          color: Color(0xff15D078),
+                                                          color: Color(widget.Bubble_Color),
                                                           fontFamily: 'Red Hat Text',
                                                           fontSize: 17,
                                                           letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
@@ -2719,7 +3019,7 @@ print("Settled ");
                                                         "No one is in bubble to matchmake with!", "Back");
                                                   }
                                                 },
-                                                icon: Icon(Icons.chevron_right,size: h/20,color: Color(0xff15D078),),
+                                                icon: Icon(Icons.chevron_right,size: h/20,    color: Color(widget.Bubble_Color),),
                                               )
                                             ],
                                           ),
@@ -3443,7 +3743,10 @@ File? Fileee;
 
 
 
-
+//    "Assets/images/notifiy.svg", topic
+//       "Assets/images/123323232.svg", new poll
+//      "Assets/images/12123123.svg", footprint
+//          "Assets/images/Layer_1-2_1_.svg", media dump
   Future<void> dIALOG1() {
     TextTheme _textthem = Theme.of(context).textTheme;
     ColorScheme COLOR = Theme.of(context).colorScheme;
@@ -4764,7 +5067,7 @@ File? Fileee;
                                                   Answers.add(_PollAnswer3Controller.text);
 
                                                 }else if (state.TextfieldSum==4) {
-
+                                                  Answers.add(_PollAnswer3Controller.text);
                                                   Answers.add(_PollAnswer4Controller.text);
 
                                                 }
@@ -5257,14 +5560,14 @@ File? Fileee;
                           Container(
                             width: w / 5,
                             height: h / 24,
-                            decoration: const BoxDecoration(
+                            decoration:  BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(50),
                                 topRight: Radius.circular(50),
                                 bottomLeft: Radius.circular(50),
                                 bottomRight: Radius.circular(50),
                               ),
-                              color: Color.fromRGBO(20, 208, 120, 1),
+                              color:  Color(widget.Bubble_Color),
                             ),
                             child: InkWell(
                               onTap: (){
@@ -5401,14 +5704,18 @@ File? Fileee;
         child: Column(
           children: [
             SizedBox(height: h/50,),
-            Text(state.messages![index].PollQuestion!, textAlign: TextAlign.left, style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 1),
-                fontFamily: 'Red Hat Text',
-                fontSize: 15.159509658813477,
-                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                fontWeight: FontWeight.w300,
-                height: 1
-            ),),
+            Container(
+              width: w/1.5,
+              child: Text(state.messages![index].PollQuestion!,
+                textAlign: TextAlign.left, style: TextStyle(
+                  color: Color.fromRGBO(255, 255, 255, 1),
+                  fontFamily: 'Red Hat Text',
+                  fontSize: 15.159509658813477,
+                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                  fontWeight: FontWeight.w300,
+                  height: 1
+              ),),
+            ),
             SizedBox(height: h/50,),
             Container(
               width: w/1.8,
@@ -5426,7 +5733,7 @@ File? Fileee;
                   shrinkWrap: true,
                   reverse: false,
                   scrollDirection: Axis.vertical,
-                  itemCount: state.messages![index].PollAnswers!.length,
+                  itemCount: state.messages![index].PollAnswers.length,
                   itemBuilder: (BuildContext context,
                       int index2) {
                     return InkWell(
@@ -5449,7 +5756,7 @@ File? Fileee;
                                 SizedBox(width: 5,),
                                 Container(
                                   width: w/2.3,
-                                  child: Text(state.messages![index].PollAnswers![index2],
+                                  child: Text(state.messages![index].PollAnswers[index2],
                                     textAlign: TextAlign.left, style: TextStyle(
                                       color: Color.fromRGBO(255, 255, 255, 1),
                                       fontFamily: 'Red Hat Text',
@@ -5471,6 +5778,75 @@ File? Fileee;
               )
             ),
             SizedBox(height: h/50,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: w / 4.5,
+                  height: h / 20,
+                  margin: EdgeInsets.only(bottom: h/100),
+                  decoration:  BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                    color:  Color(widget.Bubble_Color),
+                  ),
+                  child: InkWell(
+                    onTap: (){
+                      bool GetInStatus = false;
+                      for(int j =0;j<AllBubblesIDS!.length;j++){
+                        if (widget.bubble_id==AllBubblesIDS![j]){
+                          if (AllBubblesStatus![j]==1)
+                            GetInStatus = true;
+                        }
+                      }
+
+                      if ( GetInStatus) {
+                        FlowData data = FlowData();
+                        data.Title = state.messages![index].TopicFlowTitle.toString();
+                        data.Content = state.messages![index].TopicFlowDescription.toString();
+                        data.Flow_type = "NewPoll";
+                        data.FlowMessage_id = state.messages![index].ID;
+                        data.ISMediaDump = false;
+                        WidgetsBinding.instance!
+                            .addPostFrameCallback((_) =>
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute( //receiver_id: ,my_ID: ,
+                                builder: (context) =>
+                                    FlowsChat(
+                                      Plan_Description: widget.Plan_Description,
+                                      flow: data,
+                                      plan_Title: widget.plan_Title,
+                                      bubble_id: widget.bubble_id,
+                                      MY_ID: widget.MY_ID,
+                                    ),),));
+                      }else{
+                        OutsideBubbleAlreat();
+                      }
+                    },
+                    child: const Center(
+                      child: Text(
+                        'Join Flow',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color.fromRGBO(47, 47, 47, 1),
+                            fontFamily: 'Red Hat Text',
+                            fontSize: 13,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w600,
+                            height: 1),
+                      ),
+                    ),
+                  ),
+                ),
+                Text(""),
+                Text("")
+              ],
+            )
           ],
         ),
       )
@@ -5582,7 +5958,8 @@ File? Fileee;
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Container(
-                                width: w/1.4,
+                                width: w/1.9,
+                                margin: EdgeInsets.only(left: h/70),
                                 child: Text(state.messages![index].MediaDumpTitle!, textAlign: TextAlign.left, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Text',
@@ -5605,14 +5982,14 @@ File? Fileee;
                                 width: w / 4.5,
                                 height: h / 20,
                                 margin: EdgeInsets.only(bottom: h/100),
-                                decoration: const BoxDecoration(
+                                decoration:  BoxDecoration(
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(50),
                                     topRight: Radius.circular(50),
                                     bottomLeft: Radius.circular(50),
                                     bottomRight: Radius.circular(50),
                                   ),
-                                  color: Color.fromRGBO(20, 208, 120, 1),
+                                  color:  Color(widget.Bubble_Color),
                                 ),
                                 child: InkWell(
                                   onTap: (){
@@ -5723,6 +6100,7 @@ File? Fileee;
     var Colore2 = int.parse(ReplierColor);
 
     GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.CanReply = false;
     InstanceMessages.ISreply = true;
     InstanceMessages.ModelType = "ReplyVoice";
     InstanceMessages.RepliedTOAlias =RepliedTOAlias;
@@ -5751,6 +6129,7 @@ File? Fileee;
 
     var Colore = int.parse(RepliedTo_BackGroundColor);
     GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.CanReply = false;
     InstanceMessages.ModelType = "ReplyVoice";
     InstanceMessages.ISreply = true;
     InstanceMessages.RepliedTOAlias =  RepliedTOAlias;
@@ -5853,6 +6232,7 @@ File? Fileee;
 
 
     GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.CanReply = false;
     InstanceMessages.ModelType = "ReplyImage";
     InstanceMessages.ISreply = true;
     InstanceMessages.RepliedTOAlias = RepliedTOAlias;
@@ -5920,7 +6300,7 @@ File? Fileee;
 
     String type =  (RepliedTo_BackGroundColor.substring(10));
 
-
+    InstanceMessages.CanReply = false;
     if (type=="Uint8List") {
       Uint8List?  _bytesImage = Base64Decoder().convert(message);
       InstanceMessages.Image1 = _bytesImage;
@@ -6039,6 +6419,7 @@ File? Fileee;
 
     var Colore = int.parse(RepliedTo_BackGroundColor);
     GroupChatMessage InstanceMessages = GroupChatMessage();
+    InstanceMessages.CanReply = false;
     InstanceMessages.ModelType = "ReplyMessage";
     InstanceMessages.ISreply = true;
     InstanceMessages.is_base64 = false;
@@ -6103,7 +6484,7 @@ File? Fileee;
     InstanceMessages.RepliedTOAvatar =repliedToAvatar;
     InstanceMessages.ID = 0;
     InstanceMessages.ReplieDtobackground_Color =Colore;
-
+    InstanceMessages.CanReply = false;
 
 
     InstanceMessages.ReplierAlias = ReplierAlias;
@@ -6159,6 +6540,7 @@ File? Fileee;
         Avatar: MyAvatar,
         Alias: MyAlias,
         ISreply: false);
+
     messageModel.ISNOdeJS = true;
     messageModel.is_base64 = false;
     messageModel.ModelType ="Message" ;
@@ -6200,7 +6582,20 @@ int? FlowMessage_id;
 String? Flow_type;
 String? Title;
 String? Content;
+String? Image;
 bool? ISMediaDump;
+List<String> Answers=[];
+String? Who_Made_it_Avatar;
+int? Who_Made_it_Color;
+String? Who_Made_it_Alias;
+int? Who_Made_it_ID;
+String? Flow_Icon;
+
+File? File_Image;
+String? BACKEND_PATH;
+Uint8List? Uint8_Image;
+
+String? Image_type;
 }
 
 class HeroImage extends StatefulWidget {

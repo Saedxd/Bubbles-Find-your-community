@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';

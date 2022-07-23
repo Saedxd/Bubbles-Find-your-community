@@ -527,14 +527,12 @@ class Repository implements IRepository {
     return Data;
   }
   Future<SendBubbleMessageModel> SendPollFlow(
-      String comment,
       String title,
-      int type,//new_poll
       int bubble_id,
       List<String> answers
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.SendPollFlow(auth, comment, title, type, bubble_id, answers);
+    final Data = await _ihttpHelper.SendPollFlow(auth, title, bubble_id, answers);
     return Data;
   }
 

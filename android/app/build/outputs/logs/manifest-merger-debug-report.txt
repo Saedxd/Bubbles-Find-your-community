@@ -36,6 +36,7 @@ MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_an
 MERGED from [:audio_session] G:\Bubbles\build\audio_session\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
 MERGED from [:flutter_sms] G:\Bubbles\build\flutter_sms\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:move_to_background] G:\Bubbles\build\move_to_background\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\930bea215b113ab3c69675a808bfd1e1\multidex-2.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.facebook.android:facebook-login:14.1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3e48e08bec04f62c6ddf511a4e588afe\jetified-facebook-login-14.0.0\AndroidManifest.xml:21:1-31:12
 MERGED from [com.google.firebase:firebase-auth:21.0.3] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\857718b1693e39a23a8d9e894bc561e4\jetified-firebase-auth-21.0.3\AndroidManifest.xml:17:1-73:12
@@ -604,6 +605,8 @@ MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_sms] G:\Bubbles\build\flutter_sms\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:flutter_sms] G:\Bubbles\build\flutter_sms\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:move_to_background] G:\Bubbles\build\move_to_background\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:move_to_background] G:\Bubbles\build\move_to_background\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\930bea215b113ab3c69675a808bfd1e1\multidex-2.0.0\AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\930bea215b113ab3c69675a808bfd1e1\multidex-2.0.0\AndroidManifest.xml:20:5-43
 MERGED from [com.facebook.android:facebook-login:14.1.0] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\3e48e08bec04f62c6ddf511a4e588afe\jetified-facebook-login-14.0.0\AndroidManifest.xml:24:5-26:41

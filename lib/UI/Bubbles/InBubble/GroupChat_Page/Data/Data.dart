@@ -25,6 +25,7 @@ class GroupChatMessage {
   bool? IsBackEnd=false;
   bool? ISreply;
   bool? ISNOdeJS;
+  bool? CanReply = true;
   String? Alias="";
   String? Type="";
   int? background_Color;
@@ -39,7 +40,7 @@ class GroupChatMessage {
   String? TopicFlowDescription;
 
   String? PollQuestion;
-  List<String>? PollAnswers;
+  List<String> PollAnswers=[];
 
   File? MediaDumpImageFile;
   String? MediaDumpImagePath;

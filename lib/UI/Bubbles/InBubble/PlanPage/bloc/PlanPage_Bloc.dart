@@ -54,13 +54,19 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
         final date = await _repository.GetEventDetails(event.Event_id!);
         print(date);
 
+
+
         yield state.rebuild((b) => b
-          ..isLoading = false
-          ..error = ""
-          ..success= true
+
           ..GetDetailedPlann.replace(date)
         );
 
+        yield state.rebuild((b) => b
+          ..is_Saved = state.GetDetailedPlann!.data!.is_save
+            ..isLoading = false
+            ..error = ""
+            ..success= true
+        );
 
 
       // } catch (e) {
@@ -106,9 +112,12 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
     if (event is ToggleSaveBubble) {
       try {
 
-        // yield state.rebuild((b) =>
-        // b ..ToggleSaveIsloading = true  );
-        //    state.SavedBubbleList!.removeAt(event.index!);
+
+        yield state.rebuild((b) =>
+        b..is_Saved = !state.is_Saved!
+        );
+
+
         final date = await _repository.SaveBubble(event.Bubble_id!);
 
         yield state.rebuild((b) =>

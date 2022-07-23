@@ -23,6 +23,8 @@ class _$FriendListState extends FriendListState {
   final GetFriendsModel? GetFriends;
   @override
   final RemoveFriendModel? RemoveFriend;
+  @override
+  final List<FrinedsData>? FrinedList;
 
   factory _$FriendListState([void Function(FriendListStateBuilder)? updates]) =>
       (new FriendListStateBuilder()..update(updates))._build();
@@ -35,7 +37,8 @@ class _$FriendListState extends FriendListState {
       this.ChangeStateLoading,
       this.ChangeStateSuccess,
       this.GetFriends,
-      this.RemoveFriend})
+      this.RemoveFriend,
+      this.FrinedList})
       : super._();
 
   @override
@@ -57,7 +60,8 @@ class _$FriendListState extends FriendListState {
         ChangeStateLoading == other.ChangeStateLoading &&
         ChangeStateSuccess == other.ChangeStateSuccess &&
         GetFriends == other.GetFriends &&
-        RemoveFriend == other.RemoveFriend;
+        RemoveFriend == other.RemoveFriend &&
+        FrinedList == other.FrinedList;
   }
 
   @override
@@ -67,13 +71,15 @@ class _$FriendListState extends FriendListState {
             $jc(
                 $jc(
                     $jc(
-                        $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                            success.hashCode),
-                        IsRefresh.hashCode),
-                    ChangeStateLoading.hashCode),
-                ChangeStateSuccess.hashCode),
-            GetFriends.hashCode),
-        RemoveFriend.hashCode));
+                        $jc(
+                            $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
+                                success.hashCode),
+                            IsRefresh.hashCode),
+                        ChangeStateLoading.hashCode),
+                    ChangeStateSuccess.hashCode),
+                GetFriends.hashCode),
+            RemoveFriend.hashCode),
+        FrinedList.hashCode));
   }
 
   @override
@@ -86,7 +92,8 @@ class _$FriendListState extends FriendListState {
           ..add('ChangeStateLoading', ChangeStateLoading)
           ..add('ChangeStateSuccess', ChangeStateSuccess)
           ..add('GetFriends', GetFriends)
-          ..add('RemoveFriend', RemoveFriend))
+          ..add('RemoveFriend', RemoveFriend)
+          ..add('FrinedList', FrinedList))
         .toString();
   }
 }
@@ -133,6 +140,11 @@ class FriendListStateBuilder
   set RemoveFriend(RemoveFriendModelBuilder? RemoveFriend) =>
       _$this._RemoveFriend = RemoveFriend;
 
+  List<FrinedsData>? _FrinedList;
+  List<FrinedsData>? get FrinedList => _$this._FrinedList;
+  set FrinedList(List<FrinedsData>? FrinedList) =>
+      _$this._FrinedList = FrinedList;
+
   FriendListStateBuilder();
 
   FriendListStateBuilder get _$this {
@@ -146,6 +158,7 @@ class FriendListStateBuilder
       _ChangeStateSuccess = $v.ChangeStateSuccess;
       _GetFriends = $v.GetFriends?.toBuilder();
       _RemoveFriend = $v.RemoveFriend?.toBuilder();
+      _FrinedList = $v.FrinedList;
       _$v = null;
     }
     return this;
@@ -177,7 +190,8 @@ class FriendListStateBuilder
               ChangeStateLoading: ChangeStateLoading,
               ChangeStateSuccess: ChangeStateSuccess,
               GetFriends: _GetFriends?.build(),
-              RemoveFriend: _RemoveFriend?.build());
+              RemoveFriend: _RemoveFriend?.build(),
+              FrinedList: FrinedList);
     } catch (_) {
       late String _$failedField;
       try {

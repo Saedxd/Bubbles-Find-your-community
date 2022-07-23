@@ -32,6 +32,7 @@ abstract class GetFreinds extends FriendListEvent
 abstract class RemoveFriend extends FriendListEvent
     implements Built<RemoveFriend,RemoveFriendBuilder> {
 int? get friend_id;
+int? get index;
   RemoveFriend._();
   factory RemoveFriend([updates(RemoveFriendBuilder b)]) = _$RemoveFriend;
 }

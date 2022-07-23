@@ -213,6 +213,7 @@ abstract class SendTopicFlow extends GroupChatevent
   String? get Title;
   String? get Content;
   int? get Bubble_id;
+  FlowData? get Flow;
   SendTopicFlow._();
   factory SendTopicFlow([updates(SendTopicFlowBuilder b)]) = _$SendTopicFlow;
 }
@@ -221,6 +222,7 @@ abstract class SendFootPrintFlow extends GroupChatevent
     implements Built<SendFootPrintFlow,SendFootPrintFlowBuilder> {
   String? get title;
   String? get image;
+  FlowData? get Flow;
   int? get Bubble_id;
   SendFootPrintFlow._();
   factory SendFootPrintFlow([updates(SendFootPrintFlowBuilder b)]) = _$SendFootPrintFlow;
@@ -232,6 +234,7 @@ abstract class SendMediaDumpFlow extends GroupChatevent
   String? get image;
   String? get image_type;
   int? get Bubble_id;
+  FlowData? get Flow;
   SendMediaDumpFlow._();
   factory SendMediaDumpFlow([updates(SendMediaDumpFlowBuilder b)]) = _$SendMediaDumpFlow;
 }
@@ -241,6 +244,7 @@ abstract class SendPollFloww extends GroupChatevent
   String? get Question;
   int? get bubble_id;
   List<String>? get answers;
+  FlowData? get Flow;
   SendPollFloww._();
   factory SendPollFloww([updates(SendPollFlowwBuilder b)]) = _$SendPollFloww;
 }
@@ -260,3 +264,16 @@ abstract class ChangeMediaImageTaken extends GroupChatevent
   factory ChangeMediaImageTaken([updates(ChangeMediaImageTakenBuilder b)]) = _$ChangeMediaImageTaken;
 }
 
+abstract class ShowFloatingActionButton extends GroupChatevent
+    implements Built<ShowFloatingActionButton, ShowFloatingActionButtonBuilder> {
+  bool? get status;
+  ShowFloatingActionButton._();
+  factory ShowFloatingActionButton([updates(ShowFloatingActionButtonBuilder b)]) = _$ShowFloatingActionButton;
+}
+
+abstract class AddFlowModel extends GroupChatevent
+    implements Built<AddFlowModel, AddFlowModelBuilder> {
+  FlowData? get Flow;
+  AddFlowModel._();
+  factory AddFlowModel([updates(AddFlowModelBuilder b)]) = _$AddFlowModel;
+}

@@ -19,6 +19,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   String? get error;
   bool? get isLoading;
   bool? get success;
+  bool? get Searchsuccess;
   double? get Value;
 
   bool? get showDialogg;
@@ -64,16 +65,18 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get GetprofileISloading;
   bool? get GetprofileSuccess;
 
+  bool? get ChangeViewStatus;
+
   List<BubbleData>? get BUBBLElistS1;
-  List<BubbleData>? get FilteredBUBBLElists1;
-
   List<BubbleData>? get BUBBLElistS2;
-  List<BubbleData>? get FilteredBUBBLElists2;
-
   List<BubbleData>? get BUBBLElistS3;
-  List<BubbleData>? get FilteredBUBBLElists3;
+  List<BubbleData>? get BUBBLElistS4;
+
 
   List<BubbleData>? get Used_From_All_Lists;
+  List<BubbleData>? get FilteredBubbleList;
+
+  List<bool>? get Saved_Status;
 
   GetPrimeBubblesModel? get GetBubbles;
   GetPrimeBubblesModel? get GetPrimeBubbles;
@@ -93,7 +96,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetNewBubblesError = ""
       ..GetAllPrimeError = ""
       ..isLoading = false
-      ..ShapStatus = false
+      ..Searchsuccess = false
+      ..ShapStatus = true
       ..NearbyIsloading = false
       ..NearbySuccess = false
       ..ToggleSaveIsloading = false
@@ -107,6 +111,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetAllBubblesSuccess = false
       ..GetprofileISloading = false
       ..GetprofileSuccess = false
+      ..ChangeViewStatus = false
       ..Value=0
       ..NewValue = 50
       ..ValueLOading=false
@@ -124,13 +129,14 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..Userlng =23.7267
         ..BubblesRaduis =[]
         ..Used_From_All_Lists =[]
+        ..FilteredBubbleList =[]
         ..BUBBLElistS1 =[]
         ..SavedBubbleList =[]
-        ..FilteredBUBBLElists1 =[]
         ..BUBBLElistS2 =[]
-        ..FilteredBUBBLElists2 =[]
         ..BUBBLElistS3 =[]
-        ..FilteredBUBBLElists3 =[]
+        ..BUBBLElistS4 =[]
+        ..Saved_Status =[]
+
         ..marker2 ={}
         ..circle ={}
         ..locationn =[]

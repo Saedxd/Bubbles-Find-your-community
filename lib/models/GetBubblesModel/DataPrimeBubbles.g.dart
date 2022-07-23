@@ -142,6 +142,13 @@ class _$DataPrimeBubblesSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(CreatedByModel)));
     }
+    value = object.is_save;
+    if (value != null) {
+      result
+        ..add('is_save')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
     return result;
   }
 
@@ -232,6 +239,10 @@ class _$DataPrimeBubblesSerializer
                   specifiedType: const FullType(CreatedByModel))!
               as CreatedByModel);
           break;
+        case 'is_save':
+          result.is_save = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
       }
     }
 
@@ -274,6 +285,8 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
   final double? radius;
   @override
   final CreatedByModel? created_by;
+  @override
+  final bool? is_save;
 
   factory _$DataPrimeBubbles(
           [void Function(DataPrimeBubblesBuilder)? updates]) =>
@@ -296,7 +309,8 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
       this.dates,
       this.id,
       this.radius,
-      this.created_by})
+      this.created_by,
+      this.is_save})
       : super._();
 
   @override
@@ -327,7 +341,8 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
         dates == other.dates &&
         id == other.id &&
         radius == other.radius &&
-        created_by == other.created_by;
+        created_by == other.created_by &&
+        is_save == other.is_save;
   }
 
   @override
@@ -349,28 +364,30 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
                                                             $jc(
                                                                 $jc(
                                                                     $jc(
-                                                                        0,
-                                                                        title
+                                                                        $jc(
+                                                                            0,
+                                                                            title
+                                                                                .hashCode),
+                                                                        color
                                                                             .hashCode),
-                                                                    color
+                                                                    location
                                                                         .hashCode),
-                                                                location
+                                                                description
                                                                     .hashCode),
-                                                            description
-                                                                .hashCode),
-                                                        draw_type.hashCode),
-                                                    type.hashCode),
-                                                lat.hashCode),
-                                            lng.hashCode),
-                                        is_available.hashCode),
-                                    start_event_date.hashCode),
-                                end_event_date.hashCode),
-                            organizers.hashCode),
-                        images.hashCode),
-                    dates.hashCode),
-                id.hashCode),
-            radius.hashCode),
-        created_by.hashCode));
+                                                            draw_type.hashCode),
+                                                        type.hashCode),
+                                                    lat.hashCode),
+                                                lng.hashCode),
+                                            is_available.hashCode),
+                                        start_event_date.hashCode),
+                                    end_event_date.hashCode),
+                                organizers.hashCode),
+                            images.hashCode),
+                        dates.hashCode),
+                    id.hashCode),
+                radius.hashCode),
+            created_by.hashCode),
+        is_save.hashCode));
   }
 
   @override
@@ -392,7 +409,8 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
           ..add('dates', dates)
           ..add('id', id)
           ..add('radius', radius)
-          ..add('created_by', created_by))
+          ..add('created_by', created_by)
+          ..add('is_save', is_save))
         .toString();
   }
 }
@@ -478,6 +496,10 @@ class DataPrimeBubblesBuilder
   set created_by(CreatedByModelBuilder? created_by) =>
       _$this._created_by = created_by;
 
+  bool? _is_save;
+  bool? get is_save => _$this._is_save;
+  set is_save(bool? is_save) => _$this._is_save = is_save;
+
   DataPrimeBubblesBuilder();
 
   DataPrimeBubblesBuilder get _$this {
@@ -500,6 +522,7 @@ class DataPrimeBubblesBuilder
       _id = $v.id;
       _radius = $v.radius;
       _created_by = $v.created_by?.toBuilder();
+      _is_save = $v.is_save;
       _$v = null;
     }
     return this;
@@ -540,7 +563,8 @@ class DataPrimeBubblesBuilder
               dates: _dates?.build(),
               id: id,
               radius: radius,
-              created_by: _created_by?.build());
+              created_by: _created_by?.build(),
+              is_save: is_save);
     } catch (_) {
       late String _$failedField;
       try {

@@ -17,6 +17,8 @@ abstract class PlanPageState implements Built<PlanPageState, PlanPageStateBuilde
   bool? get isLoading;
   bool? get success;
 
+  bool? get is_Saved;
+
   bool? get ToggleSaveIsloading;
 
   ProfileDateModel? get ProfileDate;
@@ -34,6 +36,7 @@ abstract class PlanPageState implements Built<PlanPageState, PlanPageStateBuilde
       ..error = ""
       ..isLoading = false
       ..success = false
+      ..is_Saved = false
         ..GetDetailedPlann = null
         ..SaveBubble = null
         ..ProfileDate =null

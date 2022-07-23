@@ -310,9 +310,7 @@ abstract class IHttpHelper {
       );
   Future<SendBubbleMessageModel> SendPollFlow(
       String Auth,
-      String comment,
-      String title,
-      int type,//new_poll
+      String Question,
       int bubble_id,
       List<String> answers
       );

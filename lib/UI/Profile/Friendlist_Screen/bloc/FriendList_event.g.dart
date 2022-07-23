@@ -121,11 +121,13 @@ class GetFreindsBuilder implements Builder<GetFreinds, GetFreindsBuilder> {
 class _$RemoveFriend extends RemoveFriend {
   @override
   final int? friend_id;
+  @override
+  final int? index;
 
   factory _$RemoveFriend([void Function(RemoveFriendBuilder)? updates]) =>
       (new RemoveFriendBuilder()..update(updates))._build();
 
-  _$RemoveFriend._({this.friend_id}) : super._();
+  _$RemoveFriend._({this.friend_id, this.index}) : super._();
 
   @override
   RemoveFriend rebuild(void Function(RemoveFriendBuilder) updates) =>
@@ -137,18 +139,21 @@ class _$RemoveFriend extends RemoveFriend {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is RemoveFriend && friend_id == other.friend_id;
+    return other is RemoveFriend &&
+        friend_id == other.friend_id &&
+        index == other.index;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, friend_id.hashCode));
+    return $jf($jc($jc(0, friend_id.hashCode), index.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('RemoveFriend')
-          ..add('friend_id', friend_id))
+          ..add('friend_id', friend_id)
+          ..add('index', index))
         .toString();
   }
 }
@@ -161,12 +166,17 @@ class RemoveFriendBuilder
   int? get friend_id => _$this._friend_id;
   set friend_id(int? friend_id) => _$this._friend_id = friend_id;
 
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
   RemoveFriendBuilder();
 
   RemoveFriendBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _friend_id = $v.friend_id;
+      _index = $v.index;
       _$v = null;
     }
     return this;
@@ -187,7 +197,8 @@ class RemoveFriendBuilder
   RemoveFriend build() => _build();
 
   _$RemoveFriend _build() {
-    final _$result = _$v ?? new _$RemoveFriend._(friend_id: friend_id);
+    final _$result =
+        _$v ?? new _$RemoveFriend._(friend_id: friend_id, index: index);
     replace(_$result);
     return _$result;
   }

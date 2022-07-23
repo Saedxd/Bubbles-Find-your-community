@@ -76,9 +76,13 @@ class _$GroupChatState extends GroupChatState {
   @override
   final List<UserDATA>? FilteredInsideBubbleUsers;
   @override
+  final List<FlowData>? FlowList;
+  @override
   final bool? GetInsideUsersISloading;
   @override
   final bool? GetInsideUsersSuccess;
+  @override
+  final bool? ShowFloatingActionButtonn;
   @override
   final bool? AddFreindSuccess;
   @override
@@ -162,8 +166,10 @@ class _$GroupChatState extends GroupChatState {
       this.User,
       this.InsideBubbleUsers,
       this.FilteredInsideBubbleUsers,
+      this.FlowList,
       this.GetInsideUsersISloading,
       this.GetInsideUsersSuccess,
+      this.ShowFloatingActionButtonn,
       this.AddFreindSuccess,
       this.FreindAddlOADING,
       this.AddNewFriend,
@@ -234,8 +240,10 @@ class _$GroupChatState extends GroupChatState {
         User == other.User &&
         InsideBubbleUsers == other.InsideBubbleUsers &&
         FilteredInsideBubbleUsers == other.FilteredInsideBubbleUsers &&
+        FlowList == other.FlowList &&
         GetInsideUsersISloading == other.GetInsideUsersISloading &&
         GetInsideUsersSuccess == other.GetInsideUsersSuccess &&
+        ShowFloatingActionButtonn == other.ShowFloatingActionButtonn &&
         AddFreindSuccess == other.AddFreindSuccess &&
         FreindAddlOADING == other.FreindAddlOADING &&
         AddNewFriend == other.AddNewFriend &&
@@ -280,7 +288,7 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), FlowList.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), ShowFloatingActionButtonn.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
                                                                                 index_For_Message_List.hashCode),
                                                                             AddModelISloading.hashCode),
                                                                         AddModelSUccess.hashCode),
@@ -339,8 +347,10 @@ class _$GroupChatState extends GroupChatState {
           ..add('User', User)
           ..add('InsideBubbleUsers', InsideBubbleUsers)
           ..add('FilteredInsideBubbleUsers', FilteredInsideBubbleUsers)
+          ..add('FlowList', FlowList)
           ..add('GetInsideUsersISloading', GetInsideUsersISloading)
           ..add('GetInsideUsersSuccess', GetInsideUsersSuccess)
+          ..add('ShowFloatingActionButtonn', ShowFloatingActionButtonn)
           ..add('AddFreindSuccess', AddFreindSuccess)
           ..add('FreindAddlOADING', FreindAddlOADING)
           ..add('AddNewFriend', AddNewFriend)
@@ -546,6 +556,10 @@ class GroupChatStateBuilder
   set FilteredInsideBubbleUsers(List<UserDATA>? FilteredInsideBubbleUsers) =>
       _$this._FilteredInsideBubbleUsers = FilteredInsideBubbleUsers;
 
+  List<FlowData>? _FlowList;
+  List<FlowData>? get FlowList => _$this._FlowList;
+  set FlowList(List<FlowData>? FlowList) => _$this._FlowList = FlowList;
+
   bool? _GetInsideUsersISloading;
   bool? get GetInsideUsersISloading => _$this._GetInsideUsersISloading;
   set GetInsideUsersISloading(bool? GetInsideUsersISloading) =>
@@ -555,6 +569,11 @@ class GroupChatStateBuilder
   bool? get GetInsideUsersSuccess => _$this._GetInsideUsersSuccess;
   set GetInsideUsersSuccess(bool? GetInsideUsersSuccess) =>
       _$this._GetInsideUsersSuccess = GetInsideUsersSuccess;
+
+  bool? _ShowFloatingActionButtonn;
+  bool? get ShowFloatingActionButtonn => _$this._ShowFloatingActionButtonn;
+  set ShowFloatingActionButtonn(bool? ShowFloatingActionButtonn) =>
+      _$this._ShowFloatingActionButtonn = ShowFloatingActionButtonn;
 
   bool? _AddFreindSuccess;
   bool? get AddFreindSuccess => _$this._AddFreindSuccess;
@@ -700,8 +719,10 @@ class GroupChatStateBuilder
       _User = $v.User;
       _InsideBubbleUsers = $v.InsideBubbleUsers;
       _FilteredInsideBubbleUsers = $v.FilteredInsideBubbleUsers;
+      _FlowList = $v.FlowList;
       _GetInsideUsersISloading = $v.GetInsideUsersISloading;
       _GetInsideUsersSuccess = $v.GetInsideUsersSuccess;
+      _ShowFloatingActionButtonn = $v.ShowFloatingActionButtonn;
       _AddFreindSuccess = $v.AddFreindSuccess;
       _FreindAddlOADING = $v.FreindAddlOADING;
       _AddNewFriend = $v.AddNewFriend?.toBuilder();
@@ -783,8 +804,10 @@ class GroupChatStateBuilder
               User: User,
               InsideBubbleUsers: InsideBubbleUsers,
               FilteredInsideBubbleUsers: FilteredInsideBubbleUsers,
+              FlowList: FlowList,
               GetInsideUsersISloading: GetInsideUsersISloading,
               GetInsideUsersSuccess: GetInsideUsersSuccess,
+              ShowFloatingActionButtonn: ShowFloatingActionButtonn,
               AddFreindSuccess: AddFreindSuccess,
               FreindAddlOADING: FreindAddlOADING,
               AddNewFriend: _AddNewFriend?.build(),

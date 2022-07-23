@@ -43,9 +43,15 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
   }
 
 
-  void SendPollFlow(String Question, List<String> Answers) {
-    // socket!.emit("send_poll_message_bubble",
-    //     {"message": message.toString(), "to": UserDestination_ID.toString()});
+  void SendPollFlow(String Question, List<String> Answers,int bubble_id,int message_id) {
+    socket!.emit("send_poll_message_bubble",
+        {
+          "title": Question,
+          "answers": Answers,
+          "message_id": message_id,
+          "room":"bubble_$bubble_id",
+          "type": "Newpoll"
+        });
   }
 
   void SendMediadump(String MediaDumpImage, String MediaDumpTitle,int message_id,String type,int bubble_id) {
@@ -342,7 +348,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
     }
 
     if (event is GetOldMessages) {
-      try {
+    //  try {
         yield state.rebuild((b) => b
           ..error = ""
           ..success= false
@@ -399,6 +405,25 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.ModelType ="TopicFlow";
               InstanceMessages.TopicFlowDescription = state.EventOldMessages!.messages![i].message!.content.toString();
               InstanceMessages.TopicFlowTitle = state.EventOldMessages!.messages![i].message!.title.toString();
+              InstanceMessages.CanReply = false;
+
+              FlowData data = FlowData();
+              data.Flow_type ="TopicFlow";
+              data.ISMediaDump = false;
+              data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
+              data.Content =state.EventOldMessages!.messages![i].message!.content.toString();
+              data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
+              data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Flow_Icon = "Assets/images/notifiy.svg";
+
+//      "Assets/images/12123123.svg", footprint Icon
+
+
+              String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+              data.Who_Made_it_Color = int.parse(Value);
+
+              state.FlowList!.add(data);
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="media") {
@@ -406,19 +431,61 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.MediaDumpImagePath = state.EventOldMessages!.messages![i].message!.image.toString();
               InstanceMessages.MediaDumpTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.Image_type = "backend";
+              InstanceMessages.CanReply = false;
+
+
+              FlowData data = FlowData();
+
+              data.Flow_Icon =  "Assets/images/Layer_1-2_1_.svg";
+              data.ISMediaDump = true;
+              data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
+              data.Image = state.EventOldMessages!.messages![i].message!.image.toString();
+              data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
+              data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Flow_type ="MediaDump";
+
+              String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+              data.Who_Made_it_Color = int.parse(Value);
+
+              state.FlowList!.add(data);
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="poll") {
               InstanceMessages.ModelType ="PollFlow";
               InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-              for(int i=0;i<state.EventOldMessages!.messages![i].message!.answers!.length;i++)
-              InstanceMessages.PollAnswers![i] =  state.EventOldMessages!.messages![i].message!.answers![i].answer.toString();
+              print(state.EventOldMessages!.messages![i].message!.answers!.length);
+              for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
+              InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
+              InstanceMessages.CanReply = false;
+
+
+
+              FlowData data = FlowData();
+              data.Flow_Icon =  "Assets/images/123323232.svg";
+              data.ISMediaDump = true;
+              data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
+              for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
+                data.Answers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
+
+              data.Flow_type ="PollFlow";
+              data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
+              data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+
+
+              String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+              data.Who_Made_it_Color = int.parse(Value);
+
+              state.FlowList!.add(data);
+
             }
 
 
 
 
           }else{
+            InstanceMessages.CanReply = false;
             InstanceMessages.ISreply = true;
             String Value = state.EventOldMessages!.messages![i].message!.sender_background_color.toString();
             InstanceMessages.RepliedTOAlias =      state.EventOldMessages!.messages![i].message!.sender_name.toString();
@@ -470,15 +537,15 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..success= true
         );
 
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..isLoading = false
-          ..error = "something went wrong"
-          ..success= false
-          ..GetAliasMinee = null
-        );
-      }
+      // } catch (e) {
+      //   print('get Error $e');
+      //   yield state.rebuild((b) => b
+      //     ..isLoading = false
+      //     ..error = "something went wrong"
+      //     ..success= false
+      //     ..GetAliasMinee = null
+      //   );
+      // }
     }
 
     if (event is SendMessage) {
@@ -692,6 +759,7 @@ print("Emitteddd");
 
 
     }
+
     if (event is AddFrined) {
       try {
         yield state.rebuild((b) => b
@@ -722,6 +790,7 @@ print("Emitteddd");
         );
       }
     }
+
     if (event is RemoveFriend) {
       try {
 
@@ -748,10 +817,13 @@ print("Emitteddd");
         );
 
         state.messages![0].ID = state.SendBubbleTopicFlow!.message_id!.toInt();
-        // print( state.messages![0].ID);
-        // print( state.messages![0].Avatar);
-        // print( state.messages![0].message);
-        //todo : make state.success in true so we could after that let users use the join flow button
+
+        state.FlowList!.insert(0,event.Flow!);
+        state.FlowList![0].Who_Made_it_ID = state.SendBubbleTopicFlow!.message_id!.toInt();
+        print( state.FlowList![0].Who_Made_it_ID);
+        print( state.FlowList![0].Who_Made_it_Alias);
+
+
 
 
         SendTopicFloww(event.Title!,
@@ -771,6 +843,7 @@ print("Emitteddd");
       //
       // }
     }
+
     if (event is SendMediaDumpFlow) {
      // try {
 
@@ -785,6 +858,11 @@ print("Emitteddd");
         state.messages![0].ID = state.SendBubbleMediaDump!.message_id!.toInt();
 
         //todo : make state.success in true so we could after that let users use the join flow button
+        state.FlowList!.insert(0,event.Flow!);
+        state.FlowList![0].Who_Made_it_ID = state.SendBubbleMediaDump!.message_id!.toInt();
+        print( state.FlowList![0].Who_Made_it_ID);
+        print( state.FlowList![0].Who_Made_it_Alias);
+
 
 
         SendMediadump(event.image!,event.title!,state.messages![0].ID! ,"Base64",event.Bubble_id!);
@@ -803,47 +881,71 @@ print("Emitteddd");
       //
       // }
     }
-    // if (event is SendPollFloww) {
-    //  // try {
-    //
-    //
-    //
-    //     final date2 = await _repository.SendPollFlow(event.Bubble_id!, event.Content!, event.Title!, 4);
-    //
-    //     yield state.rebuild((b) => b
-    //       ..SendBubbleTopicFlow.replace(date2)
-    //     );
-    //
-    //     state.messages![0].ID = state.SendBubbleTopicFlow!.message_id!.toInt();
-    //     // print( state.messages![0].ID);
-    //     // print( state.messages![0].Avatar);
-    //     // print( state.messages![0].message);
-    //     //todo : make state.success in true so we could after that let users use the join flow button
-    //
-    //
-    //     SendTopicFloww(event.Title!,
-    //         event.Content!,event.Bubble_id!, state.SendBubbleTopicFlow!.message_id!.toInt(),"TopicFlow");
-    //
-    //     print("Emitteddd");
-    //
-    //
-    //
-    //   // } catch (e) {
-    //   //   print('get Error $e');
-    //   //   yield state.rebuild((b) => b
-    //   //     ..SendMessageISloading= false
-    //   //     ..SendMessageSuccess = false
-    //   //     ..SendBubbleMessage = null
-    //   //   );
-    //   //
-    //   // }
-    // }
+
+    if (event is SendPollFloww) {
+     // try {
+
+
+
+        final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!);
+
+        yield state.rebuild((b) => b
+          ..SendBubblePollFow.replace(date2)
+        );
+
+        state.messages![0].ID = state.SendBubblePollFow!.message_id!.toInt();
+
+        state.FlowList!.insert(0,event.Flow!);
+
+        state.FlowList![0].Who_Made_it_ID = state.SendBubblePollFow!.message_id!.toInt();
+        print( state.FlowList![0].Who_Made_it_ID);
+        print( state.FlowList![0].Who_Made_it_Alias);
+
+
+
+        SendPollFlow(event.Question!,event.answers!,event.bubble_id!,state.SendBubblePollFow!.message_id!.toInt());
+
+        print("Emitteddd");
+
+
+
+      // } catch (e) {
+      //   print('get Error $e');
+      //   yield state.rebuild((b) => b
+      //     ..SendMessageISloading= false
+      //     ..SendMessageSuccess = false
+      //     ..SendBubbleMessage = null
+      //   );
+      //
+      // }
+    }
 
     if (event is ChangeMediaImageTaken) {
 
       yield state.rebuild((b) => b
         ..MediaImageTaken = event.status!
       );
+    }
+
+    if (event is ShowFloatingActionButton) {
+
+      yield state.rebuild((b) => b
+        ..ShowFloatingActionButtonn = event.status!
+      );
+    }
+
+
+    if (event is AddFlowModel) {
+      try {
+
+
+        state.FlowList!.insert(0,event.Flow!);
+
+
+      } catch (e) {
+        print('get Error $e');
+
+      }
     }
   }
 

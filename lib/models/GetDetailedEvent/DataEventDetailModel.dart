@@ -36,7 +36,7 @@ abstract class DataEventDetailModel
   int? get id;
   double? get radius;
   CreatedByModel? get created_by;
-
+  bool? get is_save;
 
 
   DataEventDetailModel._();

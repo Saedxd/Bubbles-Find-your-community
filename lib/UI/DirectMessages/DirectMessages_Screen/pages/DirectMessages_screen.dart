@@ -131,10 +131,8 @@ class _DirectMessagesState extends State<DirectMessages> {
           return Scaffold(
             resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
-            body: Stack(children: [
-              Selected[0] == 1
-                  ? Container(width: w, height: h, child:  Friendlist(is_WithoutTopBar: false,))
-                  : Column(
+            body:
+             Column(
                       children: [
                         SizedBox(
                           height: h / 11,
@@ -244,9 +242,14 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                 size: h / 34,
                                               ),
                                               onPressed: () {
-                                                Selected = List.filled(3, 0);
-                                                Selected[0] = 1;
-                                                setState(() {});
+
+                                                WidgetsBinding.instance!
+                                                    .addPostFrameCallback((_) => Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                    builder: (context) =>
+                                                          Friendlist(is_WithoutTopBar: true,)
+                                                    )));
                                               },
                                             ),
                                           )
@@ -306,6 +309,36 @@ class _DirectMessagesState extends State<DirectMessages> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset("Assets/images/DirectEmpty.png"),
+                              SizedBox(height: h/40,),
+                              Container(
+                                  width: w/1.4,
+                                  height: h/13,
+                                  decoration: BoxDecoration(
+                                    borderRadius : BorderRadius.only(
+                                      topLeft: Radius.circular(20.5),
+                                      topRight: Radius.circular(20.5),
+                                      bottomLeft: Radius.circular(20.5),
+                                      bottomRight: Radius.circular(20.5),
+                                    ),
+                                    boxShadow : [BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
+                                        offset: Offset(0,0),
+                                        blurRadius: 10
+                                    )],
+                                    color : Color.fromRGBO(207, 109, 56, 1),
+                                  ),
+                                child: Center(
+                                  child:
+                                  Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 21.5,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1
+                                  ),),
+                                ),
+                              ),
                               SizedBox(height: h/40,),
                               Container(
                                 width: w/1.6,
@@ -669,7 +702,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                   )
                       ],
                     ),
-            ]),
+
           );
         });
   }

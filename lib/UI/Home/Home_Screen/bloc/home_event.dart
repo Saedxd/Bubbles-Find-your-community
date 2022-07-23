@@ -151,11 +151,12 @@ bool? get MakeHimBEableTOSEtBubbles;
   factory OpenDoorTObeAbleTOsetBubble([updates(OpenDoorTObeAbleTOsetBubbleBuilder b)]) = _$OpenDoorTObeAbleTOsetBubble;
 }
 
-abstract class SearchBubblesLists extends HomeEvent
-    implements Built<SearchBubblesLists,SearchBubblesListsBuilder> {
+abstract class SearchBubblesList extends HomeEvent
+    implements Built<SearchBubblesList,SearchBubblesListBuilder> {
   String? get Keyword;
-  SearchBubblesLists._();
-  factory SearchBubblesLists([updates(SearchBubblesListsBuilder b)]) = _$SearchBubblesLists;
+  bool? get Change_ViewStatus;
+  SearchBubblesList._();
+  factory SearchBubblesList([updates(SearchBubblesListBuilder b)]) = _$SearchBubblesList;
 }
 
 
@@ -227,6 +228,27 @@ abstract class ToggleSaveBubble extends HomeEvent
     implements Built<ToggleSaveBubble,ToggleSaveBubbleBuilder> {
   int? get Bubble_id;
   int? get index;
+  String? get List_type;
+  bool? get Saved_Status;
   ToggleSaveBubble._();
   factory ToggleSaveBubble([updates(ToggleSaveBubbleBuilder b)]) = _$ToggleSaveBubble;
+}
+abstract class ToggleSaveBubbleEventScreen extends HomeEvent
+    implements Built<ToggleSaveBubbleEventScreen,ToggleSaveBubbleEventScreenBuilder> {
+  int? get Bubble_id;
+  int? get index;
+  String? get List_type;
+  bool? get Saved_Status;
+  ToggleSaveBubbleEventScreen._();
+  factory ToggleSaveBubbleEventScreen([updates(ToggleSaveBubbleEventScreenBuilder b)]) = _$ToggleSaveBubbleEventScreen;
+}
+
+
+
+abstract class GiveHimListOfBoolean extends HomeEvent
+    implements Built<GiveHimListOfBoolean,GiveHimListOfBooleanBuilder> {
+  List<bool>? get List_Saved_Status;
+
+  GiveHimListOfBoolean._();
+  factory GiveHimListOfBoolean([updates(GiveHimListOfBooleanBuilder b)]) = _$GiveHimListOfBoolean;
 }

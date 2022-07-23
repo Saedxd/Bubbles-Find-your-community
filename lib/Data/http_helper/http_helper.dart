@@ -1772,7 +1772,6 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       throw NetworkException();
     }
   }
-  //
 
   @override
   Future<GetDetailedEvent> GetEventDetails(
@@ -2215,6 +2214,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
           .post('in/bubble',data: formData, options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth",
+        "Accept-Encoding" :"gzip, deflate, br"
       }));
 
       if (response.statusCode == 200) {
@@ -2656,9 +2656,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   @override
   Future<SendBubbleMessageModel> SendPollFlow(
       String Auth,
-      String comment,
       String Question,
-      int type,//new_poll
       int bubble_id,
       List<String> answers
       ) async {

@@ -246,15 +246,20 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   AlignmentTween aB =
   AlignmentTween(begin: Alignment.bottomRight, end: Alignment.bottomLeft);
   Listenable? listenable;
+  AnimationController? _controller;
   @override
   void initState() {
     super.initState();
     _EmailFocusNode = FocusNode();
     getFcmToken();
-    listenable = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    )..repeat();
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 250), value: 1);
+    _controller!.repeat(reverse: true);
+    // listenable = AnimationController(
+    //   duration: const Duration(seconds: 5),
+    //   vsync: this,
+    // )..repeat();
+
     _bc = AnimationController(
       duration: const Duration(seconds: 5),
       vsync: this,
@@ -280,26 +285,25 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   // Color lol2 =  Color(0xffCF6D38);
   @override
   void dispose() {
-    super.dispose();
+    _controller!.dispose();
     _EmailController.dispose();
-    // if (_bc!=null)
     _bc!.dispose();
-    listenable!.removeListener(() { });
+    super.dispose();
   }
   Animatable<Color?> darkBackground =  TweenSequence<Color?>(
     [
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xff932557).withOpacity(0.9),
-          end: Color(0xffA93064).withOpacity(0.9),
+          begin: Color(0xffA93064).withOpacity(0.5),
+          end: Color(0xff932557).withOpacity(0.5),
         )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:Color(0xffA93064).withOpacity(0.9),
-          end: Color(0xff932557).withOpacity(0.9),
+          begin:Color(0xff932557).withOpacity(0.5),
+          end: Color(0xffA93064).withOpacity(0.5),
         )as Animatable<Color?>,
       ),
     ],
@@ -310,15 +314,16 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xff932557).withOpacity(0.9),
-          end:  Color(0xffB9484C).withOpacity(0.9),
+          begin:Color(0xff932557).withOpacity(0.5),
+          end: Color(0xffB9484C).withOpacity(0.5),
         )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:  Color(0xffB9484C).withOpacity(0.9),
-          end: Color(0xff932557).withOpacity(0.9),
+          begin: Color(0xffB9484C).withOpacity(0.5),
+          end:Color(0xff932557).withOpacity(0.5),
+
         )as Animatable<Color?>,
       ),
     ],
@@ -329,16 +334,16 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xff932557).withOpacity(0.9),//
-          end: Color(0xffA93064).withOpacity(0.9),
-        ) as Animatable<Color?>,
+          begin:Color(0xff932557).withOpacity(0.5),
+          end: Color(0xffB9484C).withOpacity(0.5),
+        )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xffA93064).withOpacity(0.9),
-          end:Color(0xff932557).withOpacity(0.9),
-        ) as Animatable<Color?>,
+          begin:Color(0xffB9484C).withOpacity(0.5),
+          end: Color(0xff932557).withOpacity(0.5),
+        )as Animatable<Color?>,
       ),
     ],
   );
@@ -368,11 +373,10 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
 
     return  AnimatedBuilder(
-        animation:  listenable!,
+        animation:  _bc!,
         builder: (context, child)
     {
       return
-
 
         BlocBuilder(
             bloc: _Loginbloc,
@@ -1065,6 +1069,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                                       ? Center(
                                       child: listLoader(context: context))
                                       : Container(),
+
+                                  // RotationTransition(
+                                  //   turns:_controller as Animation<double>,
+                                  //   child: SizedBox(
+                                  //     child: SvgPicture.asset('assets/app_logo.svg'),
+                                  //     height: 150,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ))));

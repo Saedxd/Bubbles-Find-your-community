@@ -1102,79 +1102,91 @@ class OpenDoorTObeAbleTOsetBubbleBuilder
   }
 }
 
-class _$SearchBubblesLists extends SearchBubblesLists {
+class _$SearchBubblesList extends SearchBubblesList {
   @override
   final String? Keyword;
+  @override
+  final bool? Change_ViewStatus;
 
-  factory _$SearchBubblesLists(
-          [void Function(SearchBubblesListsBuilder)? updates]) =>
-      (new SearchBubblesListsBuilder()..update(updates))._build();
+  factory _$SearchBubblesList(
+          [void Function(SearchBubblesListBuilder)? updates]) =>
+      (new SearchBubblesListBuilder()..update(updates))._build();
 
-  _$SearchBubblesLists._({this.Keyword}) : super._();
+  _$SearchBubblesList._({this.Keyword, this.Change_ViewStatus}) : super._();
 
   @override
-  SearchBubblesLists rebuild(
-          void Function(SearchBubblesListsBuilder) updates) =>
+  SearchBubblesList rebuild(void Function(SearchBubblesListBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  SearchBubblesListsBuilder toBuilder() =>
-      new SearchBubblesListsBuilder()..replace(this);
+  SearchBubblesListBuilder toBuilder() =>
+      new SearchBubblesListBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is SearchBubblesLists && Keyword == other.Keyword;
+    return other is SearchBubblesList &&
+        Keyword == other.Keyword &&
+        Change_ViewStatus == other.Change_ViewStatus;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, Keyword.hashCode));
+    return $jf($jc($jc(0, Keyword.hashCode), Change_ViewStatus.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SearchBubblesLists')
-          ..add('Keyword', Keyword))
+    return (newBuiltValueToStringHelper('SearchBubblesList')
+          ..add('Keyword', Keyword)
+          ..add('Change_ViewStatus', Change_ViewStatus))
         .toString();
   }
 }
 
-class SearchBubblesListsBuilder
-    implements Builder<SearchBubblesLists, SearchBubblesListsBuilder> {
-  _$SearchBubblesLists? _$v;
+class SearchBubblesListBuilder
+    implements Builder<SearchBubblesList, SearchBubblesListBuilder> {
+  _$SearchBubblesList? _$v;
 
   String? _Keyword;
   String? get Keyword => _$this._Keyword;
   set Keyword(String? Keyword) => _$this._Keyword = Keyword;
 
-  SearchBubblesListsBuilder();
+  bool? _Change_ViewStatus;
+  bool? get Change_ViewStatus => _$this._Change_ViewStatus;
+  set Change_ViewStatus(bool? Change_ViewStatus) =>
+      _$this._Change_ViewStatus = Change_ViewStatus;
 
-  SearchBubblesListsBuilder get _$this {
+  SearchBubblesListBuilder();
+
+  SearchBubblesListBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _Keyword = $v.Keyword;
+      _Change_ViewStatus = $v.Change_ViewStatus;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(SearchBubblesLists other) {
+  void replace(SearchBubblesList other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$SearchBubblesLists;
+    _$v = other as _$SearchBubblesList;
   }
 
   @override
-  void update(void Function(SearchBubblesListsBuilder)? updates) {
+  void update(void Function(SearchBubblesListBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  SearchBubblesLists build() => _build();
+  SearchBubblesList build() => _build();
 
-  _$SearchBubblesLists _build() {
-    final _$result = _$v ?? new _$SearchBubblesLists._(Keyword: Keyword);
+  _$SearchBubblesList _build() {
+    final _$result = _$v ??
+        new _$SearchBubblesList._(
+            Keyword: Keyword, Change_ViewStatus: Change_ViewStatus);
     replace(_$result);
     return _$result;
   }
@@ -1764,12 +1776,18 @@ class _$ToggleSaveBubble extends ToggleSaveBubble {
   final int? Bubble_id;
   @override
   final int? index;
+  @override
+  final String? List_type;
+  @override
+  final bool? Saved_Status;
 
   factory _$ToggleSaveBubble(
           [void Function(ToggleSaveBubbleBuilder)? updates]) =>
       (new ToggleSaveBubbleBuilder()..update(updates))._build();
 
-  _$ToggleSaveBubble._({this.Bubble_id, this.index}) : super._();
+  _$ToggleSaveBubble._(
+      {this.Bubble_id, this.index, this.List_type, this.Saved_Status})
+      : super._();
 
   @override
   ToggleSaveBubble rebuild(void Function(ToggleSaveBubbleBuilder) updates) =>
@@ -1784,19 +1802,26 @@ class _$ToggleSaveBubble extends ToggleSaveBubble {
     if (identical(other, this)) return true;
     return other is ToggleSaveBubble &&
         Bubble_id == other.Bubble_id &&
-        index == other.index;
+        index == other.index &&
+        List_type == other.List_type &&
+        Saved_Status == other.Saved_Status;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, Bubble_id.hashCode), index.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, Bubble_id.hashCode), index.hashCode),
+            List_type.hashCode),
+        Saved_Status.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('ToggleSaveBubble')
           ..add('Bubble_id', Bubble_id)
-          ..add('index', index))
+          ..add('index', index)
+          ..add('List_type', List_type)
+          ..add('Saved_Status', Saved_Status))
         .toString();
   }
 }
@@ -1813,6 +1838,14 @@ class ToggleSaveBubbleBuilder
   int? get index => _$this._index;
   set index(int? index) => _$this._index = index;
 
+  String? _List_type;
+  String? get List_type => _$this._List_type;
+  set List_type(String? List_type) => _$this._List_type = List_type;
+
+  bool? _Saved_Status;
+  bool? get Saved_Status => _$this._Saved_Status;
+  set Saved_Status(bool? Saved_Status) => _$this._Saved_Status = Saved_Status;
+
   ToggleSaveBubbleBuilder();
 
   ToggleSaveBubbleBuilder get _$this {
@@ -1820,6 +1853,8 @@ class ToggleSaveBubbleBuilder
     if ($v != null) {
       _Bubble_id = $v.Bubble_id;
       _index = $v.index;
+      _List_type = $v.List_type;
+      _Saved_Status = $v.Saved_Status;
       _$v = null;
     }
     return this;
@@ -1840,8 +1875,211 @@ class ToggleSaveBubbleBuilder
   ToggleSaveBubble build() => _build();
 
   _$ToggleSaveBubble _build() {
-    final _$result =
-        _$v ?? new _$ToggleSaveBubble._(Bubble_id: Bubble_id, index: index);
+    final _$result = _$v ??
+        new _$ToggleSaveBubble._(
+            Bubble_id: Bubble_id,
+            index: index,
+            List_type: List_type,
+            Saved_Status: Saved_Status);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ToggleSaveBubbleEventScreen extends ToggleSaveBubbleEventScreen {
+  @override
+  final int? Bubble_id;
+  @override
+  final int? index;
+  @override
+  final String? List_type;
+  @override
+  final bool? Saved_Status;
+
+  factory _$ToggleSaveBubbleEventScreen(
+          [void Function(ToggleSaveBubbleEventScreenBuilder)? updates]) =>
+      (new ToggleSaveBubbleEventScreenBuilder()..update(updates))._build();
+
+  _$ToggleSaveBubbleEventScreen._(
+      {this.Bubble_id, this.index, this.List_type, this.Saved_Status})
+      : super._();
+
+  @override
+  ToggleSaveBubbleEventScreen rebuild(
+          void Function(ToggleSaveBubbleEventScreenBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ToggleSaveBubbleEventScreenBuilder toBuilder() =>
+      new ToggleSaveBubbleEventScreenBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ToggleSaveBubbleEventScreen &&
+        Bubble_id == other.Bubble_id &&
+        index == other.index &&
+        List_type == other.List_type &&
+        Saved_Status == other.Saved_Status;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc($jc($jc(0, Bubble_id.hashCode), index.hashCode),
+            List_type.hashCode),
+        Saved_Status.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ToggleSaveBubbleEventScreen')
+          ..add('Bubble_id', Bubble_id)
+          ..add('index', index)
+          ..add('List_type', List_type)
+          ..add('Saved_Status', Saved_Status))
+        .toString();
+  }
+}
+
+class ToggleSaveBubbleEventScreenBuilder
+    implements
+        Builder<ToggleSaveBubbleEventScreen,
+            ToggleSaveBubbleEventScreenBuilder> {
+  _$ToggleSaveBubbleEventScreen? _$v;
+
+  int? _Bubble_id;
+  int? get Bubble_id => _$this._Bubble_id;
+  set Bubble_id(int? Bubble_id) => _$this._Bubble_id = Bubble_id;
+
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
+  String? _List_type;
+  String? get List_type => _$this._List_type;
+  set List_type(String? List_type) => _$this._List_type = List_type;
+
+  bool? _Saved_Status;
+  bool? get Saved_Status => _$this._Saved_Status;
+  set Saved_Status(bool? Saved_Status) => _$this._Saved_Status = Saved_Status;
+
+  ToggleSaveBubbleEventScreenBuilder();
+
+  ToggleSaveBubbleEventScreenBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubble_id = $v.Bubble_id;
+      _index = $v.index;
+      _List_type = $v.List_type;
+      _Saved_Status = $v.Saved_Status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ToggleSaveBubbleEventScreen other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ToggleSaveBubbleEventScreen;
+  }
+
+  @override
+  void update(void Function(ToggleSaveBubbleEventScreenBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ToggleSaveBubbleEventScreen build() => _build();
+
+  _$ToggleSaveBubbleEventScreen _build() {
+    final _$result = _$v ??
+        new _$ToggleSaveBubbleEventScreen._(
+            Bubble_id: Bubble_id,
+            index: index,
+            List_type: List_type,
+            Saved_Status: Saved_Status);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$GiveHimListOfBoolean extends GiveHimListOfBoolean {
+  @override
+  final List<bool>? List_Saved_Status;
+
+  factory _$GiveHimListOfBoolean(
+          [void Function(GiveHimListOfBooleanBuilder)? updates]) =>
+      (new GiveHimListOfBooleanBuilder()..update(updates))._build();
+
+  _$GiveHimListOfBoolean._({this.List_Saved_Status}) : super._();
+
+  @override
+  GiveHimListOfBoolean rebuild(
+          void Function(GiveHimListOfBooleanBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  GiveHimListOfBooleanBuilder toBuilder() =>
+      new GiveHimListOfBooleanBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is GiveHimListOfBoolean &&
+        List_Saved_Status == other.List_Saved_Status;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, List_Saved_Status.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('GiveHimListOfBoolean')
+          ..add('List_Saved_Status', List_Saved_Status))
+        .toString();
+  }
+}
+
+class GiveHimListOfBooleanBuilder
+    implements Builder<GiveHimListOfBoolean, GiveHimListOfBooleanBuilder> {
+  _$GiveHimListOfBoolean? _$v;
+
+  List<bool>? _List_Saved_Status;
+  List<bool>? get List_Saved_Status => _$this._List_Saved_Status;
+  set List_Saved_Status(List<bool>? List_Saved_Status) =>
+      _$this._List_Saved_Status = List_Saved_Status;
+
+  GiveHimListOfBooleanBuilder();
+
+  GiveHimListOfBooleanBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _List_Saved_Status = $v.List_Saved_Status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(GiveHimListOfBoolean other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$GiveHimListOfBoolean;
+  }
+
+  @override
+  void update(void Function(GiveHimListOfBooleanBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  GiveHimListOfBoolean build() => _build();
+
+  _$GiveHimListOfBoolean _build() {
+    final _$result = _$v ??
+        new _$GiveHimListOfBoolean._(List_Saved_Status: List_Saved_Status);
     replace(_$result);
     return _$result;
   }

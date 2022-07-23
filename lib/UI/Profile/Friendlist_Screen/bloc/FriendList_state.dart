@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
@@ -32,6 +33,8 @@ abstract class FriendListState implements Built<FriendListState,FriendListStateB
   GetFriendsModel? get GetFriends;
   RemoveFriendModel? get RemoveFriend;
 
+  List<FrinedsData>? get FrinedList;
+
   FriendListState._();
 
   factory FriendListState([updates(FriendListStateBuilder b)]) = _$FriendListState;
@@ -45,6 +48,7 @@ abstract class FriendListState implements Built<FriendListState,FriendListStateB
       ..IsRefresh = false
         ..GetFriends =null
         ..RemoveFriend=null
+        ..FrinedList=[]
 
     );
   }

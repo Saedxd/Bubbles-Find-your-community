@@ -77,8 +77,12 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   List<UserDATA>? get InsideBubbleUsers;
   List<UserDATA>? get FilteredInsideBubbleUsers;
 
+  List<FlowData>? get FlowList;
+
   bool? get GetInsideUsersISloading;
   bool? get GetInsideUsersSuccess;
+
+  bool? get ShowFloatingActionButtonn;
 
   bool? get AddFreindSuccess;
   bool? get FreindAddlOADING;
@@ -122,6 +126,7 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       // ..is_Nodejs = false
       // ..is_Backend = false
       ..isLoading = false
+      ..ShowFloatingActionButtonn = false
       ..MediaImageTaken = false
       ..FlowOptionsOpened = false
       ..GetInsideUsersISloading = false
@@ -137,6 +142,7 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       ..KetbaordStatuss = false
       ..messages = []
       ..User = []
+      ..FlowList = []
       ..InsideBubbleUsers = []
       ..FilteredInsideBubbleUsers = []
       ..RepliedToMessage = ""

@@ -256,10 +256,7 @@ abstract class IRepository {
       int sub_message_id,
       );
   Future<SendBubbleMessageModel> SendPollFlow(
-
-      String comment,
       String title,
-      int type,//new_poll
       int bubble_id,
       List<String> answers
       );
