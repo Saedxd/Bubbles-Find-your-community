@@ -427,7 +427,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                         ],
                                       ),
                                     ),
-                          //todo: fix solution for textfield getting covered by the keyboard.
+
                           Expanded(
                             child: Container(
                                 width: w,

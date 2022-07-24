@@ -919,38 +919,28 @@ class _ProfileState extends State<Profile> {
                                                                   onToggle:
                                                                       (val) async {
                                                                     if (done) {
-                                                                      theme2 =
-                                                                          !theme2!;
+                                                                      theme2 =!theme2!;
+
 
                                                                       _ProfileBloc.add(Toggle((b) => b
-                                                                        ..Status =
-                                                                            theme2));
-                                                                      print(
-                                                                          theme2);
-                                                                      //todo : does it lag when you switch between?
+                                                                        ..Status = theme2));
 
-                                                                      // print(
-                                                                      //     "3 :Toggle : ${state.ToggleStatus!} ,theme $theme2 ");
+                                                                      print(  theme2);
 
-                                                                      if (!state
-                                                                          .ToggleStatus!) {
-                                                                        // print("DARk");
+
+                                                                         if (!state.ToggleStatus!) {
+
+
                                                                         SetThemeOn();
                                                                         setAsDark();
-                                                                        // GetTHEME();
-                                                                        // theme2 = await pref
-                                                                        //     .GetThemeON();
-                                                                      } else if (state
-                                                                          .ToggleStatus!) {
-                                                                        print(
-                                                                            "LIGHT");
+
+                                                                      } else if (state.ToggleStatus!) {
+
+                                                                        print("LIGHT");
                                                                         SetThemeOn();
                                                                         setAsLight();
-                                                                        // theme2 = await pref
-                                                                        //     .GetThemeON();
                                                                       }
-                                                                      // theme2 = await pref
-                                                                      //     .GetThemeON();
+
                                                                     }
                                                                   },
                                                                 ),

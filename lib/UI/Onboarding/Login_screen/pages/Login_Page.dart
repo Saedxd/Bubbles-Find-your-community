@@ -413,7 +413,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 }
                 DiDitOnce = false;
               }
-//todo : Email validation
+
               return
                 WillPopScope(
                     onWillPop: () async => false,

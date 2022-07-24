@@ -41,44 +41,41 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
       ) async* {
 
 
-    if (event is GetDetailedPlan) {
-      //try{
-        yield state.rebuild((b) => b
-          ..isLoading = true
-          ..error = ""
-          ..success= false
-          ..GetDetailedPlann=null
-        );
-
-
-        final date = await _repository.GetEventDetails(event.Event_id!);
-        print(date);
-
-
-
-        yield state.rebuild((b) => b
-
-          ..GetDetailedPlann.replace(date)
-        );
-
-        yield state.rebuild((b) => b
-          ..is_Saved = state.GetDetailedPlann!.data!.is_save
-            ..isLoading = false
-            ..error = ""
-            ..success= true
-        );
-
-
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..isLoading = false
-      //     ..error = "Something Went Wrong"
-      //     ..success= false
-      //     ..GetDetailedPlann = null
-      //   );
-      // }
-    }
+    // if (event is GetDetailedPlan) {
+    //   //try{
+    //
+    //
+    //     final date = await _repository.GetEventDetails(event.Event_id!);
+    //     print(date);
+    //
+    //
+    //
+    //     yield state.rebuild((b) => b
+    //
+    //       ..GetDetailedPlann.replace(date)
+    //     );
+    //
+    //     yield state.rebuild((b) => b
+    //       ..is_Saved = state.GetDetailedPlann!.data!.is_save
+    //         ..isLoading = false
+    //         ..error = ""
+    //         ..success= true
+    //     );
+    //     print(state.is_Saved);
+    //     print("state.is_Saved");
+    //
+    //
+    //
+    //   // } catch (e) {
+    //   //   print('get Error $e');
+    //   //   yield state.rebuild((b) => b
+    //   //     ..isLoading = false
+    //   //     ..error = "Something Went Wrong"
+    //   //     ..success= false
+    //   //     ..GetDetailedPlann = null
+    //   //   );
+    //   // }
+    // }
 
     if (event is GetProfile){
      //try {
@@ -140,6 +137,11 @@ class PlanPageBloc extends Bloc<PlanPageEvent, PlanPageState> {
     if (event is GetWhoSavedBubble) {
       try {
         yield state.rebuild((b) => b
+          ..is_Saved = event.is_saved!
+        );
+
+        yield state.rebuild((b) => b
+
           ..isLoading = true
           ..error = ""
           ..success = false

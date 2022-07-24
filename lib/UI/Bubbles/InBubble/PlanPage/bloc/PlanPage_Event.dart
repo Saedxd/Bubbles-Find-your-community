@@ -15,14 +15,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 part 'PlanPage_Event.g.dart';
 
 abstract class PlanPageEvent {}
-
-abstract class GetDetailedPlan extends PlanPageEvent
-    implements Built<GetDetailedPlan,GetDetailedPlanBuilder> {
-int? get Event_id;
-  GetDetailedPlan._();
-  factory GetDetailedPlan([updates(GetDetailedPlanBuilder b)]) = _$GetDetailedPlan;
-}
-
+//
+// abstract class GetDetailedPlan extends PlanPageEvent
+//     implements Built<GetDetailedPlan,GetDetailedPlanBuilder> {
+// int? get Event_id;
+//   GetDetailedPlan._();
+//   factory GetDetailedPlan([updates(GetDetailedPlanBuilder b)]) = _$GetDetailedPlan;
+// }
+//
 
 abstract class GetProfile extends PlanPageEvent
     implements Built<GetProfile,GetProfileBuilder> {
@@ -40,6 +40,8 @@ abstract class ToggleSaveBubble extends PlanPageEvent
 abstract class GetWhoSavedBubble extends PlanPageEvent
     implements Built<GetWhoSavedBubble,GetWhoSavedBubbleBuilder> {
   int? get Bubble_id;
+  bool? get is_saved;
   GetWhoSavedBubble._();
   factory GetWhoSavedBubble([updates(GetWhoSavedBubbleBuilder b)]) = _$GetWhoSavedBubble;
 }
+

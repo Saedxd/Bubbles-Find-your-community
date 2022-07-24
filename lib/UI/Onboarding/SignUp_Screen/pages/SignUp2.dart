@@ -192,7 +192,7 @@ bool Selected = false;
 
 
                                                       validator:(value){
-                                                        //todo: fix validation for all app
+
                                                         // if (!nameValidation4
                                                         //     .hasMatch(
                                                         //     value!)) {
@@ -718,7 +718,7 @@ bool Selected = false;
     //                                       TxtColor: red,
     //                                       textt: "SIGN UP",
     //                                       onPressed: () async {
-    //                                         //TODO : implemment name validation here...
+    //
     //                                         DIALOG = !DIALOG;
     //                                         if (_formkey2.currentState!.validate() &&
     //                                             _formkey3.currentState!
@@ -773,7 +773,7 @@ bool Selected = false;
     //                                                 "back");
     //                                           });
     //
-    //                                           //todo: implement nameValidation
+    //
     //
     //                                         } else if (!RegExp(
     //                                                 emailvalidaition.toString())

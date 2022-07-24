@@ -649,9 +649,9 @@ class _DirectMessagesState extends State<DirectMessages> {
                                           ) );
 
                                                 //
-                                                // todo : fix grup chat to comming soon
-                                                // todo : add the lines for socket for ios go to there package page
-                                                // todo : same for all packages
+
+
+
                                                 //
                                                 //
 

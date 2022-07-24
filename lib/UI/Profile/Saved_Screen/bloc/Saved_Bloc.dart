@@ -24,7 +24,7 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
       ) async* {
 
     if (event is GetSavedBubbles) {
-      try {
+
         yield state.rebuild((b) =>
         b
           ..isLoading = true
@@ -85,16 +85,7 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
           ..error = ""
           ..success = true
         );
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..GetSavedBubbles = null
-        );
-      }
+
     }
     if (event is UnSaveBubble) {
         try {

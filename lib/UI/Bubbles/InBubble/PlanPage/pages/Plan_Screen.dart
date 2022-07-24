@@ -1,7 +1,5 @@
-
-
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
@@ -36,14 +34,16 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
 @override
   void initState() {
     super.initState();
+    _PlanPage_Bloc.add(GetWhoSavedBubble((b) =>
+    b..Bubble_id = widget.Bubble!.id
+      ..is_saved = widget.Bubble!.is_Saved
+    ));
     socket!.io..disconnect()..connect();
     // _PlanPage_Bloc.add(GetDetailedPlan((b) => b
     // ..Event_id=widget.Event_id
     // ));
-    _PlanPage_Bloc.add(GetProfile());
-    _PlanPage_Bloc.add(GetWhoSavedBubble((b) =>
-    b..Bubble_id = widget.Bubble!.id
-    ));
+
+
 }
 
 
@@ -84,8 +84,11 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         width: w,
                         height: h / 2,
                         margin: EdgeInsets.only(top: h / 50),
-                        child: Image.network(widget.Bubble!.image.toString(),
-                          fit: BoxFit.fill,),
+                        child: Image.network
+                          (widget.Bubble!.image.toString(),
+                          fit: BoxFit.fill,
+
+                        ),
                       ),
                       Container(
                         width: w,

@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   for(int i=0;i<state.locationn!.length;i++) {
 
                     AllBubblesIDS![i] = state.locationn![i].bubble_id!;
-                    meters = state.BubblesRaduis![i];//todo : make this double value for more prefection
+                    meters = state.BubblesRaduis![i];
                    double coef = meters! * 0.0000089;
                    new_lat = state.locationn![i].lat! + coef;
                    new_long = state.locationn![i].lng! + coef / cos(state.locationn![i].lat! * 0.018);

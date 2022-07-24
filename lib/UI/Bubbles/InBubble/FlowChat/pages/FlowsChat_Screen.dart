@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_state.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/GroupChat_Screen.dart';
+
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/Data/Data.dart';
+
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
@@ -424,12 +425,12 @@ class _FlowsChatState extends State<FlowsChat>{
 
                                               else if (state.messages![index]
                                                   .ISreply == true) {
-                                                //todo : this is for reply to reply
+                                                // this is for reply to reply
                                                 // idd = state.OldMessages!.messages![index].replies![0].id!;
                                                 // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
                                                 // b
                                                 //   ..Isreply = true
-                                                //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
+                                                //   ..ColorForRepliedTo = 0xff4caf50
                                                 //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
                                                 //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
                                                 //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
@@ -1804,14 +1805,14 @@ class _FlowsChatState extends State<FlowsChat>{
                       Container(
                         width: w,
                         height: h / 15,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
                             topRight: Radius.circular(0),
                             bottomLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
                           ),
-                          color: Color(0xff942657),
+                          color: Color(widget.flow.Color!),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1935,8 +1936,7 @@ class _FlowsChatState extends State<FlowsChat>{
 
   void DecodeImage(String path,String type) {
     String decoded = utf8.decode(base64.decode(path));
-    //todo: when you listen for image message call this function to decode it
-    //todo : maybe download it or i dont know figure out how its going to work
+
     print(decoded);
   }
 

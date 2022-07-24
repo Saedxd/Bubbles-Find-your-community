@@ -45,13 +45,15 @@ try {
 //flutter logs
 //flutter build apk --split-per-abi
 
-//todo : Fix the fonts on the normal message and the overflow on create account challenge
 //todo : fix all font sizes with the new standerd
+//todo : night mode button fix
+// todo : add the lines for socket for ios go to there package page
 //todo : handdle the screen of camera when access denyied
+
 //todo : check why the verify request takes time to proceed
 //todo : Display a message when verify profile when its done done
-//todo : night mode button fix
-
+//todo: make those colors for Flows on top of screen
+//todo : import socket for ios   and same for all packages
 // CD6356
 // EB9B5D
 // 80BFC5
@@ -59,15 +61,14 @@ try {
 // 7B78F5
 // D588B1
 // 77C08A
-// 578274
-// EAEAEA
 // DEDDBF
-// 606060
 // 303030
 // 4ECEB6
 // E0A41E
 // 31576D
 // 8D4624
+
+
 
 //…or create a new repository on the command line
 //echo "# Bubbles" >> README.md
@@ -85,18 +86,9 @@ try {
 //git push -u origin main
 
 
-//git lfs migrate import --include="*.bin"
-//systemProp.http.proxyHost=localhost
-//systemProp.http.proxyPort=3128
-//systemProp.http.nonProxyHosts=localhost
-//systemProp.https.proxyHost=localhost
-//systemProp.https.proxyPort=3128
-//systemProp.https.nonProxyHosts=localhost
 
 
-//todo : fix the google sign in
-//todo : navigator top problem
-//todo : Plan page null fix
-
-
-
+//Major problems
+//todo : fix validation for all app
+//todo: fix solution for textfield getting covered by the keyboard.
+//todo : fix email auto validation where capital letters in email makes it not an email "problem"

@@ -170,7 +170,7 @@ bool DidITonce = false;
     return  BlocBuilder(
         bloc: _VerifyProfile,
         builder: (BuildContext Context, VerifyProfileState state) {
-          //todo : make loading state and MAke a message of success action and navigate back to home or porfile
+          //todo : make loading state  and navigate back to home or porfile
 if (state.success! && DidITonce){
   WidgetsBinding.instance!
       .addPostFrameCallback(

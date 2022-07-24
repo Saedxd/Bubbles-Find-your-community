@@ -3,7 +3,7 @@
 // import 'dart:io';
 // import 'dart:typed_data';
 //
-// import 'package:bubbles/UI/Bubbles/InBubble/GroupChat_Page/pages/FlowsChat_Screen.dart';
+// import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/FlowsChat_Screen.dart';
 // import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
 // import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 // import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';

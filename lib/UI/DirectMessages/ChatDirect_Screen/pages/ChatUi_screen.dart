@@ -645,12 +645,12 @@
 //                                                 .messages![index]
 //                                                 .ISreply ==
 //                                                 true) {
-//                                               //todo : this is for reply to reply
+//                                               // this is for reply to reply
 //                                               // idd = state.OldMessages!.messages![index].replies![0].id!;
 //                                               // _ChatBloc_Bloc.add(ShowReplyWidget((b) =>
 //                                               // b
 //                                               //   ..Isreply = true
-//                                               //   ..ColorForRepliedTo = 0xff4caf50//todo : replier BACKGROUND COLOR
+//                                               //   ..ColorForRepliedTo = 0xff4caf50
 //                                               //   ..RepliedToMessage = messages[index].ReplierMessage.toString()
 //                                               //   ..AliasForRepliedTo = messages[index].ReplierAlias.toString()
 //                                               //   ..AvatarPathForRepliedTo =messages[index].ReplierAvatar.toString()
