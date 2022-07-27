@@ -63,6 +63,26 @@ class _$UsersRequestsModelSerializer
         ..add('id')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.me_id;
+    if (value != null) {
+      result
+        ..add('me_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.is_friend;
+    if (value != null) {
+      result
+        ..add('is_friend')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.bio;
+    if (value != null) {
+      result
+        ..add('bio')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -102,6 +122,18 @@ class _$UsersRequestsModelSerializer
           result.id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'me_id':
+          result.me_id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'is_friend':
+          result.is_friend = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'bio':
+          result.bio = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -122,6 +154,12 @@ class _$UsersRequestsModel extends UsersRequestsModel {
   final String? avatar;
   @override
   final int? id;
+  @override
+  final int? me_id;
+  @override
+  final bool? is_friend;
+  @override
+  final String? bio;
 
   factory _$UsersRequestsModel(
           [void Function(UsersRequestsModelBuilder)? updates]) =>
@@ -133,7 +171,10 @@ class _$UsersRequestsModel extends UsersRequestsModel {
       this.alias,
       this.background_color,
       this.avatar,
-      this.id})
+      this.id,
+      this.me_id,
+      this.is_friend,
+      this.bio})
       : super._();
 
   @override
@@ -154,7 +195,10 @@ class _$UsersRequestsModel extends UsersRequestsModel {
         alias == other.alias &&
         background_color == other.background_color &&
         avatar == other.avatar &&
-        id == other.id;
+        id == other.id &&
+        me_id == other.me_id &&
+        is_friend == other.is_friend &&
+        bio == other.bio;
   }
 
   @override
@@ -162,11 +206,19 @@ class _$UsersRequestsModel extends UsersRequestsModel {
     return $jf($jc(
         $jc(
             $jc(
-                $jc($jc($jc(0, serial.hashCode), serialnumber.hashCode),
-                    alias.hashCode),
-                background_color.hashCode),
-            avatar.hashCode),
-        id.hashCode));
+                $jc(
+                    $jc(
+                        $jc(
+                            $jc(
+                                $jc($jc(0, serial.hashCode),
+                                    serialnumber.hashCode),
+                                alias.hashCode),
+                            background_color.hashCode),
+                        avatar.hashCode),
+                    id.hashCode),
+                me_id.hashCode),
+            is_friend.hashCode),
+        bio.hashCode));
   }
 
   @override
@@ -177,7 +229,10 @@ class _$UsersRequestsModel extends UsersRequestsModel {
           ..add('alias', alias)
           ..add('background_color', background_color)
           ..add('avatar', avatar)
-          ..add('id', id))
+          ..add('id', id)
+          ..add('me_id', me_id)
+          ..add('is_friend', is_friend)
+          ..add('bio', bio))
         .toString();
   }
 }
@@ -211,6 +266,18 @@ class UsersRequestsModelBuilder
   int? get id => _$this._id;
   set id(int? id) => _$this._id = id;
 
+  int? _me_id;
+  int? get me_id => _$this._me_id;
+  set me_id(int? me_id) => _$this._me_id = me_id;
+
+  bool? _is_friend;
+  bool? get is_friend => _$this._is_friend;
+  set is_friend(bool? is_friend) => _$this._is_friend = is_friend;
+
+  String? _bio;
+  String? get bio => _$this._bio;
+  set bio(String? bio) => _$this._bio = bio;
+
   UsersRequestsModelBuilder();
 
   UsersRequestsModelBuilder get _$this {
@@ -222,6 +289,9 @@ class UsersRequestsModelBuilder
       _background_color = $v.background_color;
       _avatar = $v.avatar;
       _id = $v.id;
+      _me_id = $v.me_id;
+      _is_friend = $v.is_friend;
+      _bio = $v.bio;
       _$v = null;
     }
     return this;
@@ -249,7 +319,10 @@ class UsersRequestsModelBuilder
             alias: alias,
             background_color: background_color,
             avatar: avatar,
-            id: id);
+            id: id,
+            me_id: me_id,
+            is_friend: is_friend,
+            bio: bio);
     replace(_$result);
     return _$result;
   }

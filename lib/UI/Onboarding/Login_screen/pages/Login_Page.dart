@@ -295,15 +295,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xffA93064).withOpacity(0.5),
-          end: Color(0xff932557).withOpacity(0.5),
+          begin: Color(0xffA93064).withOpacity(.9),
+          end: Color(0xff932557).withOpacity(.9),
         )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:Color(0xff932557).withOpacity(0.5),
-          end: Color(0xffA93064).withOpacity(0.5),
+          begin:Color(0xff932557).withOpacity(.9),
+          end: Color(0xffA93064).withOpacity(.9),
         )as Animatable<Color?>,
       ),
     ],
@@ -314,15 +314,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:Color(0xff932557).withOpacity(0.5),
-          end: Color(0xffB9484C).withOpacity(0.5),
+          begin:Color(0xff932557).withOpacity(.9),
+          end: Color(0xffB9484C).withOpacity(.9),
         )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin: Color(0xffB9484C).withOpacity(0.5),
-          end:Color(0xff932557).withOpacity(0.5),
+          begin: Color(0xffB9484C).withOpacity(.9),
+          end:Color(0xff932557).withOpacity(.9),
 
         )as Animatable<Color?>,
       ),
@@ -334,15 +334,15 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:Color(0xff932557).withOpacity(0.5),
-          end: Color(0xffB9484C).withOpacity(0.5),
+          begin:Color(0xff932557).withOpacity(.9),
+          end: Color(0xffB9484C).withOpacity(.9),
         )as Animatable<Color?>,
       ),
       TweenSequenceItem(
         weight: .5,
         tween: ColorTween(
-          begin:Color(0xffB9484C).withOpacity(0.5),
-          end: Color(0xff932557).withOpacity(0.5),
+          begin:Color(0xffB9484C).withOpacity(0.9),
+          end: Color(0xff932557).withOpacity(0.9),
         )as Animatable<Color?>,
       ),
     ],
@@ -392,7 +392,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
                   WidgetsBinding.instance!
                       .addPostFrameCallback((_) =>
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
@@ -404,7 +404,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 } else {
                   WidgetsBinding.instance!
                       .addPostFrameCallback((_) =>
-                      Navigator.pushReplacement(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => NavigatorTopBar(),

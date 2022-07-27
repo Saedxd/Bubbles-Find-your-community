@@ -47,5 +47,7 @@ class GroupChatMessage {
   Uint8List? MediaDumpImageuntil64;
   String? MediaDumpTitle;
 
+  bool? FlowSettledWithID;
+
   GroupChatMessage({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

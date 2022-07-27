@@ -131,12 +131,9 @@ bool Selected = false;
                                                 top: h / 40),
                                             child: InkWell(
                                               onTap: () {
-                                                widget.Users!.Email!=""
-                                                ? WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                                                WidgetsBinding.instance!.addPostFrameCallback((_) =>
                                                     Navigator.of(context).pop()
-                                                )
-                                                    :print("NOT NORMAL USER");
-
+                                                );
                                               },
                                               child: Text('< Back',
                                                   textAlign: TextAlign.left,

@@ -21,6 +21,7 @@ import 'package:bubbles/UI/Profile/Friendlist_Screen/bloc/FriendList_bloc.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_bloc.dart';
 import 'package:bubbles/UI/Profile/QrScanner_Screen/bloc/QrScreen_bloc.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_Bloc.dart';
+import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_bloc.dart';
 import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/bloc/SuggestedFrineds_Bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -59,7 +60,6 @@ Future iniGetIt() async {
   sl.registerFactory(() => ProfileBloc(sl()));
   sl.registerFactory(() => DirectMessagesBloc(sl()));
   sl.registerFactory(() => QrScreenBLoc(sl()));
-  sl.registerFactory(() => FriendRequestBloc(sl()));
   sl.registerFactory(() => TopBarBloc(sl()));
   sl.registerFactory(() => CreatorBloc(sl()));
   sl.registerFactory(() => SuggestedFrinedsBloc(sl()));
@@ -72,6 +72,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => PlanPageBloc(sl()));
   sl.registerFactory(() => FlowsBloc(sl()));
   sl.registerFactory(() => SavedBubblesBloc(sl()));
+  sl.registerFactory(() => SettingsBloc(sl()));
 }
 //we use this package for dependency injection and use for connecting all our APP with each other
 //for example we give in constructor this get_it in both http and repository so the object can come IN the Easy Way.

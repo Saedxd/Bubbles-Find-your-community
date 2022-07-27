@@ -190,6 +190,7 @@ abstract class GetUsersInsideBubble extends GroupChatevent
 abstract class SearchInsideBubbleUser extends GroupChatevent
     implements Built<SearchInsideBubbleUser,SearchInsideBubbleUserBuilder> {
   String? get Keyword;
+
   SearchInsideBubbleUser._();
   factory SearchInsideBubbleUser([updates(SearchInsideBubbleUserBuilder b)]) = _$SearchInsideBubbleUser;
 }

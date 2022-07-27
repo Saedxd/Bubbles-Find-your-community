@@ -16,6 +16,10 @@ class _$GroupChatState extends GroupChatState {
   @override
   final bool? MediaImageTaken;
   @override
+  final bool? Message_Uploading;
+  @override
+  final bool? ChangeSearchStatus;
+  @override
   final bool? KetbaordStatuss;
   @override
   final bool? FlowOptionsOpened;
@@ -136,6 +140,8 @@ class _$GroupChatState extends GroupChatState {
       this.isLoading,
       this.success,
       this.MediaImageTaken,
+      this.Message_Uploading,
+      this.ChangeSearchStatus,
       this.KetbaordStatuss,
       this.FlowOptionsOpened,
       this.Done,
@@ -210,6 +216,8 @@ class _$GroupChatState extends GroupChatState {
         isLoading == other.isLoading &&
         success == other.success &&
         MediaImageTaken == other.MediaImageTaken &&
+        Message_Uploading == other.Message_Uploading &&
+        ChangeSearchStatus == other.ChangeSearchStatus &&
         KetbaordStatuss == other.KetbaordStatuss &&
         FlowOptionsOpened == other.FlowOptionsOpened &&
         Done == other.Done &&
@@ -288,7 +296,7 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), FlowList.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), ShowFloatingActionButtonn.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), Message_Uploading.hashCode), ChangeSearchStatus.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), FlowList.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), ShowFloatingActionButtonn.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddNewFriend.hashCode),
                                                                                 index_For_Message_List.hashCode),
                                                                             AddModelISloading.hashCode),
                                                                         AddModelSUccess.hashCode),
@@ -317,6 +325,8 @@ class _$GroupChatState extends GroupChatState {
           ..add('isLoading', isLoading)
           ..add('success', success)
           ..add('MediaImageTaken', MediaImageTaken)
+          ..add('Message_Uploading', Message_Uploading)
+          ..add('ChangeSearchStatus', ChangeSearchStatus)
           ..add('KetbaordStatuss', KetbaordStatuss)
           ..add('FlowOptionsOpened', FlowOptionsOpened)
           ..add('Done', Done)
@@ -397,6 +407,16 @@ class GroupChatStateBuilder
   bool? get MediaImageTaken => _$this._MediaImageTaken;
   set MediaImageTaken(bool? MediaImageTaken) =>
       _$this._MediaImageTaken = MediaImageTaken;
+
+  bool? _Message_Uploading;
+  bool? get Message_Uploading => _$this._Message_Uploading;
+  set Message_Uploading(bool? Message_Uploading) =>
+      _$this._Message_Uploading = Message_Uploading;
+
+  bool? _ChangeSearchStatus;
+  bool? get ChangeSearchStatus => _$this._ChangeSearchStatus;
+  set ChangeSearchStatus(bool? ChangeSearchStatus) =>
+      _$this._ChangeSearchStatus = ChangeSearchStatus;
 
   bool? _KetbaordStatuss;
   bool? get KetbaordStatuss => _$this._KetbaordStatuss;
@@ -688,6 +708,8 @@ class GroupChatStateBuilder
       _isLoading = $v.isLoading;
       _success = $v.success;
       _MediaImageTaken = $v.MediaImageTaken;
+      _Message_Uploading = $v.Message_Uploading;
+      _ChangeSearchStatus = $v.ChangeSearchStatus;
       _KetbaordStatuss = $v.KetbaordStatuss;
       _FlowOptionsOpened = $v.FlowOptionsOpened;
       _Done = $v.Done;
@@ -773,6 +795,8 @@ class GroupChatStateBuilder
               isLoading: isLoading,
               success: success,
               MediaImageTaken: MediaImageTaken,
+              Message_Uploading: Message_Uploading,
+              ChangeSearchStatus: ChangeSearchStatus,
               KetbaordStatuss: KetbaordStatuss,
               FlowOptionsOpened: FlowOptionsOpened,
               Done: Done,

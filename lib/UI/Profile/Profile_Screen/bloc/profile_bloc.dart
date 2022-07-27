@@ -197,34 +197,34 @@ class ProfileBloc extends Bloc<profileEvent, profileState> {
       }
     }
 
-    if (event is Logout) {
-      try {
-        yield state.rebuild((b) => b
-          ..error = ""
-          ..LOgedOUT = false
-          ..ISloadingLogout = true
-          ..Logout =null
-        );
-
-        final date = await _repository.Logout();
-        print('get Success data ${date}');
-        yield state.rebuild((b) => b
-          ..error = ""
-          ..LOgedOUT= true
-          ..ISloadingLogout = false
-          ..Logout.replace(date)
-        );
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..error = "Something went wrong"
-          ..LOgedOUT = false
-          ..ISloadingLogout = false
-          ..Logout =null
-
-        );
-      }
-    }
+    // if (event is Logout) {
+    //   try {
+    //     yield state.rebuild((b) => b
+    //       ..error = ""
+    //       ..LOgedOUT = false
+    //       ..ISloadingLogout = true
+    //       ..Logout =null
+    //     );
+    //
+    //     final date = await _repository.Logout();
+    //     print('get Success data ${date}');
+    //     yield state.rebuild((b) => b
+    //       ..error = ""
+    //       ..LOgedOUT= true
+    //       ..ISloadingLogout = false
+    //       ..Logout.replace(date)
+    //     );
+    //   } catch (e) {
+    //     print('get Error $e');
+    //     yield state.rebuild((b) => b
+    //       ..error = "Something went wrong"
+    //       ..LOgedOUT = false
+    //       ..ISloadingLogout = false
+    //       ..Logout =null
+    //
+    //     );
+    //   }
+    // }
 
 
 

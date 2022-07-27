@@ -24,13 +24,13 @@ abstract class GetProfile extends profileEvent
 }
 
 
-abstract class Logout extends profileEvent
-    implements Built<Logout,LogoutBuilder> {
-
-  Logout._();
-
-  factory Logout([updates(LogoutBuilder b)]) = _$Logout;
-}
+// abstract class Logout extends profileEvent
+//     implements Built<Logout,LogoutBuilder> {
+//
+//   Logout._();
+//
+//   factory Logout([updates(LogoutBuilder b)]) = _$Logout;
+// }
 
 abstract class Toggle extends profileEvent
     implements Built<Toggle,ToggleBuilder> {

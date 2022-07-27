@@ -174,6 +174,17 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                             StringSelected = state.GetGender!.genders![index].title!;
                                             SelectedGenderId =state.GetGender!.genders![index].id;
                                             print(SelectedGenderId);
+
+                                            if (state.GetGender!.genders![index].title=="Others"){
+                                              WidgetsBinding.instance!.addPostFrameCallback(
+                                                      (_) => Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => WhichGender(
+                                                            Users : widget.Users
+                                                        ), )));
+
+                                            }
                                           },
                                           child: Container(
                                             width: w / 2.7,

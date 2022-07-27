@@ -25,6 +25,14 @@ class _$FriendListState extends FriendListState {
   final RemoveFriendModel? RemoveFriend;
   @override
   final List<FrinedsData>? FrinedList;
+  @override
+  final List<FrinedsData>? FrinedRequestsList;
+  @override
+  final FreindRequestsModel? FreindRequests;
+  @override
+  final DenyFriendRequestModel? DenyFriendRequest;
+  @override
+  final AceeptRequestModel? AceeptRequest;
 
   factory _$FriendListState([void Function(FriendListStateBuilder)? updates]) =>
       (new FriendListStateBuilder()..update(updates))._build();
@@ -38,7 +46,11 @@ class _$FriendListState extends FriendListState {
       this.ChangeStateSuccess,
       this.GetFriends,
       this.RemoveFriend,
-      this.FrinedList})
+      this.FrinedList,
+      this.FrinedRequestsList,
+      this.FreindRequests,
+      this.DenyFriendRequest,
+      this.AceeptRequest})
       : super._();
 
   @override
@@ -61,7 +73,11 @@ class _$FriendListState extends FriendListState {
         ChangeStateSuccess == other.ChangeStateSuccess &&
         GetFriends == other.GetFriends &&
         RemoveFriend == other.RemoveFriend &&
-        FrinedList == other.FrinedList;
+        FrinedList == other.FrinedList &&
+        FrinedRequestsList == other.FrinedRequestsList &&
+        FreindRequests == other.FreindRequests &&
+        DenyFriendRequest == other.DenyFriendRequest &&
+        AceeptRequest == other.AceeptRequest;
   }
 
   @override
@@ -72,14 +88,24 @@ class _$FriendListState extends FriendListState {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                                success.hashCode),
-                            IsRefresh.hashCode),
-                        ChangeStateLoading.hashCode),
-                    ChangeStateSuccess.hashCode),
-                GetFriends.hashCode),
-            RemoveFriend.hashCode),
-        FrinedList.hashCode));
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc(
+                                            $jc(
+                                                $jc($jc(0, error.hashCode),
+                                                    isLoading.hashCode),
+                                                success.hashCode),
+                                            IsRefresh.hashCode),
+                                        ChangeStateLoading.hashCode),
+                                    ChangeStateSuccess.hashCode),
+                                GetFriends.hashCode),
+                            RemoveFriend.hashCode),
+                        FrinedList.hashCode),
+                    FrinedRequestsList.hashCode),
+                FreindRequests.hashCode),
+            DenyFriendRequest.hashCode),
+        AceeptRequest.hashCode));
   }
 
   @override
@@ -93,7 +119,11 @@ class _$FriendListState extends FriendListState {
           ..add('ChangeStateSuccess', ChangeStateSuccess)
           ..add('GetFriends', GetFriends)
           ..add('RemoveFriend', RemoveFriend)
-          ..add('FrinedList', FrinedList))
+          ..add('FrinedList', FrinedList)
+          ..add('FrinedRequestsList', FrinedRequestsList)
+          ..add('FreindRequests', FreindRequests)
+          ..add('DenyFriendRequest', DenyFriendRequest)
+          ..add('AceeptRequest', AceeptRequest))
         .toString();
   }
 }
@@ -145,6 +175,29 @@ class FriendListStateBuilder
   set FrinedList(List<FrinedsData>? FrinedList) =>
       _$this._FrinedList = FrinedList;
 
+  List<FrinedsData>? _FrinedRequestsList;
+  List<FrinedsData>? get FrinedRequestsList => _$this._FrinedRequestsList;
+  set FrinedRequestsList(List<FrinedsData>? FrinedRequestsList) =>
+      _$this._FrinedRequestsList = FrinedRequestsList;
+
+  FreindRequestsModelBuilder? _FreindRequests;
+  FreindRequestsModelBuilder get FreindRequests =>
+      _$this._FreindRequests ??= new FreindRequestsModelBuilder();
+  set FreindRequests(FreindRequestsModelBuilder? FreindRequests) =>
+      _$this._FreindRequests = FreindRequests;
+
+  DenyFriendRequestModelBuilder? _DenyFriendRequest;
+  DenyFriendRequestModelBuilder get DenyFriendRequest =>
+      _$this._DenyFriendRequest ??= new DenyFriendRequestModelBuilder();
+  set DenyFriendRequest(DenyFriendRequestModelBuilder? DenyFriendRequest) =>
+      _$this._DenyFriendRequest = DenyFriendRequest;
+
+  AceeptRequestModelBuilder? _AceeptRequest;
+  AceeptRequestModelBuilder get AceeptRequest =>
+      _$this._AceeptRequest ??= new AceeptRequestModelBuilder();
+  set AceeptRequest(AceeptRequestModelBuilder? AceeptRequest) =>
+      _$this._AceeptRequest = AceeptRequest;
+
   FriendListStateBuilder();
 
   FriendListStateBuilder get _$this {
@@ -159,6 +212,10 @@ class FriendListStateBuilder
       _GetFriends = $v.GetFriends?.toBuilder();
       _RemoveFriend = $v.RemoveFriend?.toBuilder();
       _FrinedList = $v.FrinedList;
+      _FrinedRequestsList = $v.FrinedRequestsList;
+      _FreindRequests = $v.FreindRequests?.toBuilder();
+      _DenyFriendRequest = $v.DenyFriendRequest?.toBuilder();
+      _AceeptRequest = $v.AceeptRequest?.toBuilder();
       _$v = null;
     }
     return this;
@@ -191,7 +248,11 @@ class FriendListStateBuilder
               ChangeStateSuccess: ChangeStateSuccess,
               GetFriends: _GetFriends?.build(),
               RemoveFriend: _RemoveFriend?.build(),
-              FrinedList: FrinedList);
+              FrinedList: FrinedList,
+              FrinedRequestsList: FrinedRequestsList,
+              FreindRequests: _FreindRequests?.build(),
+              DenyFriendRequest: _DenyFriendRequest?.build(),
+              AceeptRequest: _AceeptRequest?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -199,6 +260,13 @@ class FriendListStateBuilder
         _GetFriends?.build();
         _$failedField = 'RemoveFriend';
         _RemoveFriend?.build();
+
+        _$failedField = 'FreindRequests';
+        _FreindRequests?.build();
+        _$failedField = 'DenyFriendRequest';
+        _DenyFriendRequest?.build();
+        _$failedField = 'AceeptRequest';
+        _AceeptRequest?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'FriendListState', _$failedField, e.toString());

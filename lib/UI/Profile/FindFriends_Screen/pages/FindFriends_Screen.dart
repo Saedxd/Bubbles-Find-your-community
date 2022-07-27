@@ -308,8 +308,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
+                           SizedBox(
+                            height: h/25,
                           ),
                           state.success == true
                               ? Container(
@@ -318,8 +318,6 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                   child: Column(
                                     children: [
                                      Container(
-
-                                          margin: EdgeInsets.only(top: h / 50),
                                           width: w / 3.3,
                                           height: h / 6.3,
                                     decoration:
@@ -343,30 +341,24 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   context, h, w, state);
                                             },
                                             child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Expanded(
-                                                  child: Hero(
-                                                    tag: "QRImage",
-                                                    child: QrImage(
-                                                      foregroundColor:
-                                                          Colors.black,
-                                                      data: state.ProfileDate!
-                                                          .user!.serial
-                                                          .toString(),
-                                                      version: QrVersions.auto,
-                                                      size: 200,
-                                                      gapless: true,
-                                                      // embeddedImage: AssetImage('Assets/images/bubbly design neu legacy-35.png',),
-                                                      // embeddedImageStyle: QrEmbeddedImageStyle(
-                                                      //   size: Size(h/20, h/20),
-                                                      //   ),
-                                                    ),
-                                                  ),
+                                            child: Expanded(
+                                              child: Hero(
+                                                tag: "QRImage",
+                                                child: QrImage(
+                                                  foregroundColor:
+                                                  Colors.black,
+                                                  data: state.ProfileDate!
+                                                      .user!.serial
+                                                      .toString(),
+                                                  version: QrVersions.auto,
+                                                  size: 200,
+                                                  gapless: true,
+                                                  // embeddedImage: AssetImage('Assets/images/bubbly design neu legacy-35.png',),
+                                                  // embeddedImageStyle: QrEmbeddedImageStyle(
+                                                  //   size: Size(h/20, h/20),
+                                                  //   ),
                                                 ),
-                                              ],
+                                              ),
                                             ),
                                           ),
                                         ),

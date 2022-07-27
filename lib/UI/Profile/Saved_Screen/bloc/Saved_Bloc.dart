@@ -63,7 +63,8 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
           Bubbledata.User_type = state.GetSavedBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetSavedBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetSavedBubbles!.data![i].organizers!;
-          Bubbledata.dates = state.GetSavedBubbles!.data![i].dates!;
+          state.GetSavedBubbles!.data![i].type.toString()!="Prime"?
+          Bubbledata.dates = state.GetSavedBubbles!.data![i].dates!:print("prime");
           String Value = state.GetSavedBubbles!.data![i].color.toString();
 
 

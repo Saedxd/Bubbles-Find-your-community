@@ -62,62 +62,6 @@ class GetProfileBuilder implements Builder<GetProfile, GetProfileBuilder> {
   }
 }
 
-class _$Logout extends Logout {
-  factory _$Logout([void Function(LogoutBuilder)? updates]) =>
-      (new LogoutBuilder()..update(updates))._build();
-
-  _$Logout._() : super._();
-
-  @override
-  Logout rebuild(void Function(LogoutBuilder) updates) =>
-      (toBuilder()..update(updates)).build();
-
-  @override
-  LogoutBuilder toBuilder() => new LogoutBuilder()..replace(this);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    return other is Logout;
-  }
-
-  @override
-  int get hashCode {
-    return 676553867;
-  }
-
-  @override
-  String toString() {
-    return newBuiltValueToStringHelper('Logout').toString();
-  }
-}
-
-class LogoutBuilder implements Builder<Logout, LogoutBuilder> {
-  _$Logout? _$v;
-
-  LogoutBuilder();
-
-  @override
-  void replace(Logout other) {
-    ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$Logout;
-  }
-
-  @override
-  void update(void Function(LogoutBuilder)? updates) {
-    if (updates != null) updates(this);
-  }
-
-  @override
-  Logout build() => _build();
-
-  _$Logout _build() {
-    final _$result = _$v ?? new _$Logout._();
-    replace(_$result);
-    return _$result;
-  }
-}
-
 class _$Toggle extends Toggle {
   @override
   final bool? Status;

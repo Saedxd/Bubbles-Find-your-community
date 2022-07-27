@@ -175,6 +175,8 @@ yield state.rebuild((b) => b
   ..GetAllBubblesIsloading = true
   ..GetAllBubblesError = ""
   ..GetAllBubblesSuccess= false
+    ..Bubble_lat = event.lat
+    ..Bubble_lng = event.lng
 );
 
         yield state.rebuild((b) => b
@@ -587,6 +589,7 @@ yield state.rebuild((b) => b
           Bubbledata.User_type = state.GetPrimeBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetPrimeBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetPrimeBubbles!.data![i].organizers!;
+          Bubbledata.is_Saved = state.GetPrimeBubbles!.data![i].is_save!;
          // Bubbledata.dates = state.GetPrimeBubbles!.data![i].dates!;
           String Value = state.GetPrimeBubbles!.data![i].color.toString();
 
@@ -610,7 +613,7 @@ yield state.rebuild((b) => b
 
     }
     if (event is GetNewBubbles) {
-      try {
+
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = true
           ..GetNewBubblesError = ""
@@ -671,12 +674,7 @@ yield state.rebuild((b) => b
 
 
 
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..GetNewBubbles = null
-        );
-      }
+
     }
 
     if (event is GetSavedBubbles) {

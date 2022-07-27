@@ -47,13 +47,12 @@ try {
 
 //todo : fix all font sizes with the new standerd
 //todo : night mode button fix
+
 // todo : add the lines for socket for ios go to there package page
 //todo : handdle the screen of camera when access denyied
-
 //todo : check why the verify request takes time to proceed
 //todo : Display a message when verify profile when its done done
-//todo: make those colors for Flows on top of screen
-//todo : import socket for ios   and same for all packages
+//todo : import socket for ios and same for all packages
 // CD6356
 // EB9B5D
 // 80BFC5

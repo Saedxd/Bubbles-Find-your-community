@@ -487,7 +487,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                   child: InkWell(
                                     onTap: () {
                                       //Profil.ChangeFromFrinedScreen(false);
-                                        Profile().ChangeProfileStatus( false);
+                                      //  Profile().ChangeProfileStatus( false);
 
                                       _TopBarBloc.add(
                                           ChangePAGEINDEX((b) =>  b

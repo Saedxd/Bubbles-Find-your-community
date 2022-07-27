@@ -5,6 +5,7 @@ import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMess
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
+import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/scheduler.dart';
@@ -132,7 +133,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
       if (message.notification!.title.toString() == "Friend Request") {
         navigatorKey.currentState!.push(
-            MaterialPageRoute(builder: (_) => FreindRequests())
+            MaterialPageRoute(builder: (_) =>Friendlist(is_WithoutTopBar: true))
         );
         ISNewNotifications = true;
       }
@@ -182,7 +183,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     print(message.notification!.title.toString());
     if (message.notification!.title.toString() == "#Friend Request") {
       navigatorKey.currentState!.push(
-          MaterialPageRoute(builder: (_) =>FreindRequests())
+          MaterialPageRoute(builder: (_) =>Friendlist(is_WithoutTopBar: true))
       );
     }
   }

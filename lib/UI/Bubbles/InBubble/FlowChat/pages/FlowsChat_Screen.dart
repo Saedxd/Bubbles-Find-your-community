@@ -35,6 +35,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:sizer/sizer.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:swipe_to/swipe_to.dart';
 import 'package:voice_message_package/voice_message_package.dart';
@@ -67,6 +68,7 @@ class FlowsChat extends StatefulWidget {
 
 class _FlowsChatState extends State<FlowsChat>{
   FlowData  flow = FlowData();
+  final PanelController PanelControllerr = PanelController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _SendMessageController = TextEditingController();
   final TextEditingController _SearchController = TextEditingController();
@@ -1728,9 +1730,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               }
 
 
+
                                                             },
-                                                            color: const Color(
-                                                                0xff15D078),
+                                                            color:  Color(widget.flow.Color!),
                                                           ),
                                                         ),
                                                       ),
@@ -1801,7 +1803,74 @@ class _FlowsChatState extends State<FlowsChat>{
 
                         ],
                       ),
+                      SlidingUpPanel(
+                          controller: PanelControllerr,
+                          color: ColorS.onPrimaryContainer,
+                          maxHeight: h/4,
+                          minHeight: h/9.5,
+                          slideDirection: SlideDirection.DOWN,
+                          onPanelOpened: () {
 
+                          },
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                          panel: Container(
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                ),
+                              ),
+                              width: w,
+                              height: h * 2,
+                              child:Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+
+
+
+                                  Text(widget.flow.Title!, textAlign: TextAlign.left, style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 16,
+                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1
+                                  ),),
+                                  SizedBox(height: 10,),
+                                  widget.flow.Flow_type=="TopicFlow"?
+                                  Text(widget.flow.Content!, textAlign: TextAlign.left, style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 14,
+                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w300,
+                                      height: 1
+                                  ),):Text(""),
+                                  SizedBox(height: h/18,),
+                                  Container(
+                                    width: w / 3.9,
+                                    height: h / 130,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      color: ColorS.onTertiary,
+                                    ),
+                                    //
+                                  ),
+                                  SizedBox(
+                                    height: h / 70,
+                                  ),
+                                ],
+                              ))),
                       Container(
                         width: w,
                         height: h / 15,
@@ -1855,6 +1924,7 @@ class _FlowsChatState extends State<FlowsChat>{
                           ],
                         ),
                       ),
+
                     ],
                   ),
                 ),

@@ -122,6 +122,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       bool enabled = await Location.instance.serviceEnabled();
       if (enabled) {
         var location = await _locationTracker.getLocation();
+        print("User location : $User_lat");
+        _HomeBloc.add(GetNearbyBubbles((b) =>   b
+          ..lng = location.longitude
+          ..lat = location.latitude
+        ));
 
           _googleMapController!.animateCamera(
               CameraUpdate.newCameraPosition(
@@ -143,12 +148,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             // print(newLocalData.latitude);
             User_lat = newLocalData.latitude!;
             User_long =newLocalData.longitude;
-           // print("Request called");
+         print(User_lat);
+         print(User_long);
           }
         });
 
-        print(location.longitude);
-        print(location.latitude);
       }
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {
@@ -176,6 +180,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     FocuseNODE = FocusNode();
     location = Location();
     GetTHEME();
@@ -246,9 +251,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       AllNearBubblesStatusTry![i]=false;
                       _HomeBloc.add(NotifyNearBubble((b) =>
                       b..Title = "${state.locationn![i].Title} Event"
-                      ..Distance = "${double.parse((distanceNearby/1000))} KM"
+                      ..Distance = "${(double.parse((distanceNearby/1000))).toString()} KM"
                       ));
                     }
+
 
 
 
@@ -306,6 +312,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     body: SafeArea(
                       child: Stack(
                           children:[
+
                         GoogleMap(
                           onCameraMove:(CameraPosition cameraPosition) {
                               if(!state.GetAllBubblesIsloading!){
@@ -317,8 +324,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             //LoopOnAllBUbbles();
                            // LoopOnAllBUbbles();
                             if (state.MakeHimBEableTOSEtBubble!) {
-                              Lat = location.latitude;
-                              Lng = location.longitude;
+                              // Lat = location.latitude;
+                              // Lng = location.longitude;
 
                               _HomeBloc.add(CreateBubbless((b) => b
                                 ..Radius = value
@@ -431,10 +438,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               maxHeight: h,
                               minHeight: 30,
                               onPanelOpened: () {
-                                _HomeBloc.add(GetNearbyBubbles((b) =>   b
-                                  ..lng = User_long
-                                  ..lat = User_lat
-                                ));
+
                               },
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
@@ -473,6 +477,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     SizedBox(
                                       height: h / 20,
                                     ),
+                                !state.ChangeViewStatus!?
+                                Column(
+                                  children: [
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
@@ -539,8 +546,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) => Events_Screen(
-                                                        Bubble: state.BUBBLElistS4!,
-                                                        Type: 'Nearby Primes',
+                                                          Bubble: state.BUBBLElistS4!,
+                                                          Type: 'Nearby Primes',
                                                           my_id: state.ProfileDate!.user!.id!
                                                       ),
                                                     ),
@@ -563,386 +570,410 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                     state.GetNewBubblesSuccess!
                                         ? Container(
-                                            width: w,
-                                            height: h /4,
+                                      width: w,
+                                      height: h /4,
                                       padding:EdgeInsets.only(left: h/25),
-                                            child: ListView.separated(
-                                              cacheExtent : 500,
-                                              controller:_Primecontroller ,
-                                              physics: BouncingScrollPhysics(),
-                                              scrollDirection: Axis.horizontal,
-                                              shrinkWrap: false,
-                                              itemCount: state.BUBBLElistS4!.length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                    String Value = state.BUBBLElistS4![index].Color.toString();
-                                                    if (Value.contains("#",0)){
-                                                      Value = Value.substring(1);
-                                                      Value = "0xff$Value";
-                                                    }
-                                                    var myInt = int.parse(Value);
-                                                    var BackgroundColor= myInt;
+                                      child: ListView.separated(
+                                        cacheExtent : 500,
+                                        controller:_Primecontroller ,
+                                        physics: BouncingScrollPhysics(),
+                                        scrollDirection: Axis.horizontal,
+                                        shrinkWrap: false,
+                                        itemCount: state.BUBBLElistS4!.length,
+                                        itemBuilder:
+                                            (BuildContext context,
+                                            int index) {
+                                          String Value = state.BUBBLElistS4![index].Color.toString();
+                                          if (Value.contains("#",0)){
+                                            Value = Value.substring(1);
+                                            Value = "0xff$Value";
+                                          }
+                                          var myInt = int.parse(Value);
+                                          var BackgroundColor= myInt;
 
 
-                                                return index == 0
-                                                    ? Showcase(
-                                                        key: _key,
-                                                        description:
-                                                            'Prime Bubbles are permanent public bubbles that are placed in key places',
-                                                        showArrow: true,
-                                                        showcaseBackgroundColor:  Colors.transparent,
-                                                        textColor: Colors.white,
-                                                        disableAnimation: false,
-                                                        disposeOnTap: true,
-                                                        onTargetClick: (){ },
+                                          return index == 0
+                                              ? Showcase(
+                                              key: _key,
+                                              description:
+                                              'Prime Bubbles are permanent public bubbles that are placed in key places',
+                                              showArrow: true,
+                                              showcaseBackgroundColor:  Colors.transparent,
+                                              textColor: Colors.white,
+                                              disableAnimation: false,
+                                              disposeOnTap: true,
+                                              onTargetClick: (){ },
 
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                              WidgetsBinding
-                                                                  .instance!
-                                                                  .addPostFrameCallback(
-                                                                      (_) =>   Navigator.push(
-                                                                        context,
-                                                                        MaterialPageRoute(
-                                                                          builder: (
-                                                                              context) =>
-                                                                              Plan_Screen(
-                                                                               Bubble:state.BUBBLElistS4![index],   my_id: state.ProfileDate!.user!.id   ),
-                                                                        ),
-                                                                      ));
+                                              child: InkWell(
+                                                onTap: () {
+                                                  WidgetsBinding
+                                                      .instance!
+                                                      .addPostFrameCallback(
+                                                          (_) =>   Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                          builder: (
+                                                              context) =>
+                                                              Plan_Screen(
+                                                                Bubble:state.BUBBLElistS4![index],
+                                                                my_id: state.ProfileDate!.user!.id ,
+                                                                List_Type: "PRIME",
 
-
-
-                                                          },
-                                                          child:
-
-
-
-                                                                  Container(
-                                                                    width: w/2.5,
-                                                                    height: h / 5,
-                                                                    padding: EdgeInsets.only(top: h/300),
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius : BorderRadius.only(
-                                                                        topLeft: Radius.circular(364.2384033203125),
-                                                                        topRight: Radius.circular(364.2384033203125),
-                                                                        bottomLeft: Radius.circular(14.569536209106445),
-                                                                        bottomRight: Radius.circular(14.569536209106445),
-                                                                      ),
-                                                                      color: Color(0xff606060),
-                                                                    ),child:
-
-                                                                  Column(
-                                                                      children: [
-                                                                        Stack(
-                                                                        children: [
-                                                                          CachedNetworkImage(
-                                                                            imageUrl: state.BUBBLElistS4![index].image.toString(),
-                                                                            imageBuilder: (context, imageProvider) => Container(
-                                                                              width: w/2.5,
-                                                                              height: h/6.5,
-                                                                              decoration: BoxDecoration(
-                                                                                borderRadius : BorderRadius.only(
-                                                                                  topLeft: Radius.circular(364.2384033203125),
-                                                                                  topRight: Radius.circular(364.2384033203125),
-                                                                                  bottomLeft: Radius.circular(14.569536209106445),
-                                                                                  bottomRight: Radius.circular(14.569536209106445),
-                                                                                ),
-                                                                                image:DecorationImage(image: imageProvider
-                                                                                    ,fit: BoxFit.fill
-                                                                                ),
-
-                                                                              ),
-
-                                                                            ),
-                                                                            placeholder: (context, url) => Container(    width: w/2.5,
-                                                                                height: h/6.5,child: CircularProgressIndicator()),
-                                                                            errorWidget: (context, url, error) => Container(    width: w/2.5,
-                                                                                height: h/6.5,child: Icon(Icons.error)),
-                                                                          ),
-                                                                          Positioned(
-                                                                              top: h/9,
-                                                                            child: Container(
-                                                                                width: w/2.5,
-                                                                                height: h/8,
-                                                                                padding: EdgeInsets.only(top: h/4),
-                                                                                decoration: BoxDecoration(
-                                                                                  borderRadius : BorderRadius.only(
-                                                                                    // topLeft: Radius.circular(30.2384033203125),
-                                                                                    // topRight: Radius.circular(30.2384033203125),
-                                                                                  ),
-                                                                                  gradient : LinearGradient(
-                                                                                      begin: Alignment(7.730259880964636e-14,-0.5),
-                                                                                      end: Alignment(-2,3.9593861611176705e-16),
-                                                                                      colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
-                                                                                  ),
-                                                                                )
-                                                                            ),
-                                                                          ),
-
-                                                                        ],
-                                                                        ),
-
-                                                                        Expanded(
-                                                                          child: Container(
-                                                                            decoration: BoxDecoration(
-                                                                              borderRadius : BorderRadius.only(
-                                                                                bottomLeft: Radius.circular(14.569536209106445),
-                                                                                bottomRight: Radius.circular(14.569536209106445),
-                                                                              ),
-                                                                              color: Color(0xff606060),
-                                                                            ),
-                                                                            child:
-                                                                            Column(
-                                                                              children: [
-                                                                                Row(
-                                                                                  children: [
-                                                                                    SvgPicture.asset(
-                                                                                      "Assets/images/Exclude.svg",
-                                                                                      color : Color(BackgroundColor),
-                                                                                      width: w/10,
-                                                                                    ),
-                                                                                    Flexible(
-                                                                                      child: Container(
-                                                                                        color: Colors.transparent,
-                                                                                        child: Text(state.BUBBLElistS4![index].Title!,
-                                                                                          overflow: TextOverflow.ellipsis,
-                                                                                          textAlign: TextAlign.left, style: TextStyle(
-                                                                                              color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                              fontFamily: 'Red Hat Display',
-                                                                                              fontSize: 13,
-                                                                                              letterSpacing: 0,
-                                                                                              fontWeight: FontWeight.w600,
-                                                                                              height: 1
-                                                                                          ),),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                                Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                    fontFamily: 'Red Hat Text',
-                                                                                    fontSize: 10,
-                                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                    fontWeight: FontWeight.w300,
-                                                                                    height: 1
-                                                                                ),)
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ]
+                                                              ),
+                                                        ),
+                                                      ));
 
 
 
-
-
-                                                                  ),
-
-
-                                                                  ),
+                                                },
+                                                child:
 
 
 
+                                                Container(
+                                                  width: w/2.5,
+                                                  height: h / 5,
+                                                  padding: EdgeInsets.only(top: h/300),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius : BorderRadius.only(
+                                                      topLeft: Radius.circular(364.2384033203125),
+                                                      topRight: Radius.circular(364.2384033203125),
+                                                      bottomLeft: Radius.circular(14.569536209106445),
+                                                      bottomRight: Radius.circular(14.569536209106445),
+                                                    ),
+                                                    color: Color(0xff606060),
+                                                  ),child:
 
+                                                Column(
+                                                    children: [
+                                                      Stack(
+                                                        children: [
+                                                          CachedNetworkImage(
+                                                            imageUrl: state.BUBBLElistS4![index].image.toString(),
+                                                            imageBuilder: (context, imageProvider) => Container(
+                                                              width: w/2.5,
+                                                              height: h/5.5,
+                                                              decoration: BoxDecoration(
+                                                                borderRadius : BorderRadius.only(
+                                                                  topLeft: Radius.circular(364.2384033203125),
+                                                                  topRight: Radius.circular(364.2384033203125),
+                                                                  bottomLeft: Radius.circular(14.569536209106445),
+                                                                  bottomRight: Radius.circular(14.569536209106445),
+                                                                ),
+                                                                image:DecorationImage(image: imageProvider
+                                                                    ,fit: BoxFit.fill
+                                                                ),
 
+                                                              ),
 
-
-                                                        ))
-                                                        : InkWell(
-                                                  onTap: () {
-                                                    WidgetsBinding
-                                                        .instance!
-                                                        .addPostFrameCallback(
-                                                            (_) =>   Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (
-                                                                context) =>
-                                                                Plan_Screen(Bubble:state.BUBBLElistS4![index] ,
-                                                                    my_id: state.ProfileDate!.user!.id ),
+                                                            ),
+                                                            placeholder: (context, url) => Container(    width: w/2.5,
+                                                                height: h/6.5,child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                  children: [
+                                                                    CircularProgressIndicator(),
+                                                                  ],
+                                                                )),
+                                                            errorWidget: (context, url, error) => Container(    width: w/2.5,
+                                                                height: h/6.5,child: Icon(Icons.error)),
                                                           ),
-                                                        ));
-
-
-
-                                                  },
-                                                  child:
-
-
-
-                                                  Container(
-                                                    width: w/2.5,
-                                                    height: h / 5,
-                                                    padding: EdgeInsets.only(top: h/300),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius : BorderRadius.only(
-                                                        topLeft: Radius.circular(364.2384033203125),
-                                                        topRight: Radius.circular(364.2384033203125),
-                                                        bottomLeft: Radius.circular(14.569536209106445),
-                                                        bottomRight: Radius.circular(14.569536209106445),
-                                                      ),
-                                                      color: Color(0xff606060),
-                                                    ),child:
-
-                                                  Column(
-                                                      children: [
-                                                        Stack(
-                                                          children: [
-                                                            CachedNetworkImage(
-                                                              imageUrl:state.BUBBLElistS4![index].image.toString(),
-                                                              imageBuilder: (context, imageProvider) => Container(
+                                                          Positioned(
+                                                            top: h/9,
+                                                            child: Container(
                                                                 width: w/2.5,
-                                                                height: h/6.5,
+                                                                height: h/8,
+                                                                padding: EdgeInsets.only(top: h/4),
                                                                 decoration: BoxDecoration(
                                                                   borderRadius : BorderRadius.only(
-                                                                    topLeft: Radius.circular(364.2384033203125),
-                                                                    topRight: Radius.circular(364.2384033203125),
-                                                                    bottomLeft: Radius.circular(14.569536209106445),
-                                                                    bottomRight: Radius.circular(14.569536209106445),
+                                                                    // topLeft: Radius.circular(30.2384033203125),
+                                                                    // topRight: Radius.circular(30.2384033203125),
                                                                   ),
-                                                                  image:DecorationImage(image: imageProvider
-                                                                      ,fit: BoxFit.fill
+                                                                  gradient : LinearGradient(
+                                                                      begin: Alignment(7.730259880964636e-14,-0.5),
+                                                                      end: Alignment(-2,3.9593861611176705e-16),
+                                                                      colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
                                                                   ),
-
-                                                                ),
-
-                                                              ),
-                                                              placeholder: (context, url) => Container(    width: w/2.5,
-                                                                  height: h/6.5,child: CircularProgressIndicator()),
-                                                              errorWidget: (context, url, error) => Container(    width: w/2.5,
-                                                                  height: h/6.5,child: Icon(Icons.error)),
+                                                                )
                                                             ),
-                                                            Positioned(
-                                                              top: h/9,
-                                                              child: Container(
-                                                                  width: w/2.5,
-                                                                  height: h/8,
-                                                                  padding: EdgeInsets.only(top: h/4),
-                                                                  decoration: BoxDecoration(
-                                                                    borderRadius : BorderRadius.only(
-                                                                      // topLeft: Radius.circular(30.2384033203125),
-                                                                      // topRight: Radius.circular(30.2384033203125),
-                                                                    ),
-                                                                    gradient : LinearGradient(
-                                                                        begin: Alignment(7.730259880964636e-14,-0.5),
-                                                                        end: Alignment(-2,3.9593861611176705e-16),
-                                                                        colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
-                                                                    ),
-                                                                  )
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
+                                                          ),
 
-                                                        Expanded(
-                                                          child: Container(
+                                                        ],
+                                                      ),
 
-                                                            decoration: BoxDecoration(
-                                                              borderRadius : BorderRadius.only(
-                                                                bottomLeft: Radius.circular(14.569536209106445),
-                                                                bottomRight: Radius.circular(14.569536209106445),
-                                                              ),
-                                                              color: Color(0xff606060),
+                                                      Expanded(
+                                                        child: Container(
+                                                          decoration: BoxDecoration(
+                                                            borderRadius : BorderRadius.only(
+                                                              bottomLeft: Radius.circular(14.569536209106445),
+                                                              bottomRight: Radius.circular(14.569536209106445),
                                                             ),
-                                                            child:
-                                                            Column(
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    SvgPicture.asset(
-                                                                      "Assets/images/Exclude.svg",
-                                                                      color : Color(BackgroundColor),
-                                                                      width: w/10,
+                                                            color: Color(0xff606060),
+                                                          ),
+                                                          child:
+                                                          Column(
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  SvgPicture.asset(
+                                                                    "Assets/images/Exclude.svg",
+                                                                    color : Color(BackgroundColor),
+                                                                    width: w/12,
+                                                                  ),
+                                                                  Flexible(
+                                                                    child: Container(
+                                                                      color: Colors.transparent,
+                                                                      child: Text(state.BUBBLElistS4![index].Title!,
+                                                                        overflow: TextOverflow.ellipsis,
+                                                                        textAlign: TextAlign.left, style: TextStyle(
+                                                                            color: Color.fromRGBO(255, 255, 255, 1),
+                                                                            fontFamily: 'Red Hat Display',
+                                                                            fontSize: 13,
+                                                                            letterSpacing: 0,
+                                                                            fontWeight: FontWeight.w600,
+                                                                            height: 1
+                                                                        ),),
                                                                     ),
-                                                                    Flexible(
-                                                                      child: Container(
-                                                                        color: Colors.transparent,
-                                                                        child: Text(state.BUBBLElistS4![index].Title.toString(),
-                                                                          overflow: TextOverflow.ellipsis,
-                                                                          textAlign: TextAlign.left, style: TextStyle(
-                                                                              color: Color.fromRGBO(255, 255, 255, 1),
-                                                                              fontFamily: 'Red Hat Display',
-                                                                              fontSize: 13,
-                                                                              letterSpacing: 0,
-                                                                              fontWeight: FontWeight.w600,
-                                                                              height: 1
-                                                                          ),),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(right: h/10),
+                                                                child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
                                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                                     fontFamily: 'Red Hat Text',
                                                                     fontSize: 10,
                                                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                                                     fontWeight: FontWeight.w300,
                                                                     height: 1
-                                                                ),)
-                                                              ],
-                                                            ),
+                                                                ),),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ]
+                                                      ),
+                                                    ]
 
 
 
 
 
+                                                ),
+
+
+                                                ),
+
+
+
+
+
+
+
+                                              ))
+                                              : InkWell(
+                                            onTap: () {
+                                              WidgetsBinding
+                                                  .instance!
+                                                  .addPostFrameCallback(
+                                                      (_) =>   Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (
+                                                          context) =>
+                                                          Plan_Screen(Bubble:state.BUBBLElistS4![index] ,
+                                                            my_id: state.ProfileDate!.user!.id,         List_Type: "PRIME", ),
+                                                    ),
+                                                  ));
+
+
+
+                                            },
+                                            child:
+
+
+
+                                            Container(
+                                              width: w/2.5,
+                                              height: h / 5,
+                                              padding: EdgeInsets.only(top: h/300),
+                                              decoration: BoxDecoration(
+                                                borderRadius : BorderRadius.only(
+                                                  topLeft: Radius.circular(364.2384033203125),
+                                                  topRight: Radius.circular(364.2384033203125),
+                                                  bottomLeft: Radius.circular(14.569536209106445),
+                                                  bottomRight: Radius.circular(14.569536209106445),
+                                                ),
+                                                color: Color(0xff606060),
+                                              ),child:
+
+                                            Column(
+                                                children: [
+                                                  Stack(
+                                                    children: [
+                                                      CachedNetworkImage(
+                                                        imageUrl:state.BUBBLElistS4![index].image.toString(),
+                                                        imageBuilder: (context, imageProvider) => Container(
+                                                          width: w/2.5,
+                                                          height: h/5.5,
+
+                                                          decoration: BoxDecoration(
+                                                            borderRadius : BorderRadius.only(
+                                                              topLeft: Radius.circular(364.2384033203125),
+                                                              topRight: Radius.circular(364.2384033203125),
+                                                              bottomLeft: Radius.circular(14.569536209106445),
+                                                              bottomRight: Radius.circular(14.569536209106445),
+                                                            ),
+                                                            image:DecorationImage(image: imageProvider
+                                                                ,fit: BoxFit.fill
+                                                            ),
+
+                                                          ),
+
+                                                        ),
+                                                        placeholder: (context, url) => Container(    width: w/2.5,
+                                                            height: h/6.5,child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                CircularProgressIndicator(),
+                                                              ],
+                                                            )),
+                                                        errorWidget: (context, url, error) => Container(    width: w/2.5,
+                                                            height: h/6.5,child: Icon(Icons.error)),
+                                                      ),
+                                                      Positioned(
+                                                        top: h/9,
+                                                        child: Container(
+                                                            width: w/2.5,
+                                                            height: h/8,
+                                                            padding: EdgeInsets.only(top: h/4),
+                                                            decoration: BoxDecoration(
+                                                              borderRadius : BorderRadius.only(
+                                                                // topLeft: Radius.circular(30.2384033203125),
+                                                                // topRight: Radius.circular(30.2384033203125),
+                                                              ),
+                                                              gradient : LinearGradient(
+                                                                  begin: Alignment(7.730259880964636e-14,-0.5),
+                                                                  end: Alignment(-2,3.9593861611176705e-16),
+                                                                  colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
+                                                              ),
+                                                            )
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
 
+                                                  Expanded(
+                                                    child: Container(
 
+                                                      decoration: BoxDecoration(
+                                                        borderRadius : BorderRadius.only(
+                                                          bottomLeft: Radius.circular(14.569536209106445),
+                                                          bottomRight: Radius.circular(14.569536209106445),
+                                                        ),
+                                                        color: Color(0xff606060),
+                                                      ),
+                                                      child:
+                                                      Column(
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                "Assets/images/Exclude.svg",
+                                                                color : Color(BackgroundColor),
+                                                                width: w/12,
+                                                              ),
+                                                              Flexible(
+                                                                child: Container(
+                                                                  color: Colors.transparent,
+                                                                  child: Text(state.BUBBLElistS4![index].Title.toString(),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    textAlign: TextAlign.left, style: TextStyle(
+                                                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                                                        fontFamily: 'Red Hat Display',
+                                                                        fontSize: 13,
+                                                                        letterSpacing: 0,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        height: 1
+                                                                    ),),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(right: h/10),
+                                                                child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                                    fontFamily: 'Red Hat Text',
+                                                                    fontSize: 10,
+                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                    fontWeight: FontWeight.w300,
+                                                                    height: 1
+                                                                ),),
+                                                              ),
+
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
+                                                ]
 
 
 
 
 
-
-
-                                                );
-                                              },
-                                              separatorBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return SizedBox(width: h / 100);
-                                              },
                                             ),
-                                          )
+
+
+                                            ),
+
+
+
+
+
+
+
+                                          );
+                                        },
+                                        separatorBuilder:
+                                            (BuildContext context,
+                                            int index) {
+                                          return SizedBox(width: h / 100);
+                                        },
+                                      ),
+                                    )
                                         : state.GetNewBubblesIsloading == true
-                                            ? Container(
+                                        ? Container(
                                         padding:EdgeInsets.only(left: h/25),
                                         width: w,
                                         height: h /4,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Center(
-                                                        child: listLoader(
-                                                            context: context)),
-                                                  ],
-                                                ))
-                                            : Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Center(
-                                                    child: Container(
-                                                      padding:EdgeInsets.only(left: h/25),
-                                                      width: w,
-                                                      height: h /4,
-                                                      child:
-                                                          Center(child: const Text("Waiting...")),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Center(
+                                                child: listLoader(
+                                                    context: context)),
+                                          ],
+                                        ))
+                                        : Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Center(
+                                          child: Container(
+                                            padding:EdgeInsets.only(left: h/25),
+                                            width: w,
+                                            height: h /4,
+                                            child:
+                                            Center(child: const Text("Waiting...")),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
 
 
 
+                                  ],
+                                ):Container(),
                                     const SizedBox(
                                       height: 10,
                                     ),
@@ -1534,7 +1565,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   child: ListView.separated(
 
                                                     cacheExtent : 500,
-                                                    physics: BouncingScrollPhysics(),
+                                                    physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                                                     scrollDirection:
                                                     Axis.horizontal,
                                                     itemCount: state.BUBBLElistS3!.length,
@@ -1897,7 +1928,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                    child: ListView.separated(
 
                                                      cacheExtent : 500,
-                                                     physics: BouncingScrollPhysics(),
+                                                     physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                                                      scrollDirection:
                                                      Axis.horizontal,
                                                      itemCount: state.BUBBLElistS2!.length,
@@ -2251,6 +2282,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                  height: h/40,
                                                ),
 
+
                                                state.GetNewBubblesSuccess!
                                                    ? Container(
                                                    padding:EdgeInsets.only(left: h/40),
@@ -2259,9 +2291,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                    child: ScrollConfiguration(
                                                        behavior: MyBehavior(),
                                                        child: ListView.separated(
-
                                                          cacheExtent : 500,
-                                                         physics: BouncingScrollPhysics(),
+                                                         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                                                          scrollDirection:
                                                          Axis.horizontal,
                                                          itemCount: state.BUBBLElistS1!.length,
@@ -2269,6 +2300,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                              (BuildContext
                                                          context,
                                                              int index) {
+                                                           print(state.BUBBLElistS1![index].image);
 
 
                                                            return InkWell(
@@ -2863,13 +2895,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           inactiveColor: ColorS
                                                               .onErrorContainer,
                                                           onChanged: (double  value) async {
-                                                            if (Lat!=null || lng!=null) {
+                                                          if (state.Bubble_lat!=0 || state.Bubble_lng!=0) {
                                                               this.value = value;
                                                               _HomeBloc.add(ChangeSliderValue( (b) => b..value = value));
                                                               _HomeBloc.add(CreateBubbless((b)=>b
                                                                         ..Radius = value / 1.06
-                                                                        ..lat = Lat
-                                                                        ..lng = Lng));
+                                                                        ..lat = state.Bubble_lat
+                                                                        ..lng = state.Bubble_lng));
 
                                                             }else{
                                                               Page2().method(_scaffoldKey.currentContext!, "Bubbles Help",

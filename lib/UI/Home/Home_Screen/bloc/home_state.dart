@@ -58,6 +58,9 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   double get Userlat;
   double get Userlng;
 
+  double get Bubble_lat;
+  double get Bubble_lng;
+
   bool? get ValueLOading;
   double? get NewValue;
   bool? get MakeHimBEableTOSEtBubble;
@@ -113,6 +116,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetprofileSuccess = false
       ..ChangeViewStatus = false
       ..Value=0
+      ..Bubble_lat=0
+      ..Bubble_lng=0
       ..NewValue = 50
       ..ValueLOading=false
       ..showDialogg = false

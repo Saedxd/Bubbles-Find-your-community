@@ -66,6 +66,10 @@ class _$HomeState extends HomeState {
   @override
   final double Userlng;
   @override
+  final double Bubble_lat;
+  @override
+  final double Bubble_lng;
+  @override
   final bool? ValueLOading;
   @override
   final double? NewValue;
@@ -137,6 +141,8 @@ class _$HomeState extends HomeState {
       this.BubblesRaduis,
       required this.Userlat,
       required this.Userlng,
+      required this.Bubble_lat,
+      required this.Bubble_lng,
       this.ValueLOading,
       this.NewValue,
       this.MakeHimBEableTOSEtBubble,
@@ -159,6 +165,10 @@ class _$HomeState extends HomeState {
       : super._() {
     BuiltValueNullFieldError.checkNotNull(Userlat, 'HomeState', 'Userlat');
     BuiltValueNullFieldError.checkNotNull(Userlng, 'HomeState', 'Userlng');
+    BuiltValueNullFieldError.checkNotNull(
+        Bubble_lat, 'HomeState', 'Bubble_lat');
+    BuiltValueNullFieldError.checkNotNull(
+        Bubble_lng, 'HomeState', 'Bubble_lng');
   }
 
   @override
@@ -201,6 +211,8 @@ class _$HomeState extends HomeState {
         BubblesRaduis == other.BubblesRaduis &&
         Userlat == other.Userlat &&
         Userlng == other.Userlng &&
+        Bubble_lat == other.Bubble_lat &&
+        Bubble_lng == other.Bubble_lng &&
         ValueLOading == other.ValueLOading &&
         NewValue == other.NewValue &&
         MakeHimBEableTOSEtBubble == other.MakeHimBEableTOSEtBubble &&
@@ -242,7 +254,7 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Searchsuccess.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), ToggleSaveIsloading.hashCode), GetSavedBubbles.hashCode), SaveBubble.hashCode), SavedBubbleList.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), NearbyIsloading.hashCode), NearbySuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode), Userlat.hashCode), Userlng.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Searchsuccess.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), ToggleSaveIsloading.hashCode), GetSavedBubbles.hashCode), SaveBubble.hashCode), SavedBubbleList.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), NearbyIsloading.hashCode), NearbySuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode), Userlat.hashCode), Userlng.hashCode), Bubble_lat.hashCode), Bubble_lng.hashCode),
                                                                                 ValueLOading.hashCode),
                                                                             NewValue.hashCode),
                                                                         MakeHimBEableTOSEtBubble.hashCode),
@@ -296,6 +308,8 @@ class _$HomeState extends HomeState {
           ..add('BubblesRaduis', BubblesRaduis)
           ..add('Userlat', Userlat)
           ..add('Userlng', Userlng)
+          ..add('Bubble_lat', Bubble_lat)
+          ..add('Bubble_lng', Bubble_lng)
           ..add('ValueLOading', ValueLOading)
           ..add('NewValue', NewValue)
           ..add('MakeHimBEableTOSEtBubble', MakeHimBEableTOSEtBubble)
@@ -457,6 +471,14 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   double? get Userlng => _$this._Userlng;
   set Userlng(double? Userlng) => _$this._Userlng = Userlng;
 
+  double? _Bubble_lat;
+  double? get Bubble_lat => _$this._Bubble_lat;
+  set Bubble_lat(double? Bubble_lat) => _$this._Bubble_lat = Bubble_lat;
+
+  double? _Bubble_lng;
+  double? get Bubble_lng => _$this._Bubble_lng;
+  set Bubble_lng(double? Bubble_lng) => _$this._Bubble_lng = Bubble_lng;
+
   bool? _ValueLOading;
   bool? get ValueLOading => _$this._ValueLOading;
   set ValueLOading(bool? ValueLOading) => _$this._ValueLOading = ValueLOading;
@@ -590,6 +612,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _BubblesRaduis = $v.BubblesRaduis;
       _Userlat = $v.Userlat;
       _Userlng = $v.Userlng;
+      _Bubble_lat = $v.Bubble_lat;
+      _Bubble_lng = $v.Bubble_lng;
       _ValueLOading = $v.ValueLOading;
       _NewValue = $v.NewValue;
       _MakeHimBEableTOSEtBubble = $v.MakeHimBEableTOSEtBubble;
@@ -664,6 +688,10 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
                   Userlat, 'HomeState', 'Userlat'),
               Userlng: BuiltValueNullFieldError.checkNotNull(
                   Userlng, 'HomeState', 'Userlng'),
+              Bubble_lat: BuiltValueNullFieldError.checkNotNull(
+                  Bubble_lat, 'HomeState', 'Bubble_lat'),
+              Bubble_lng: BuiltValueNullFieldError.checkNotNull(
+                  Bubble_lng, 'HomeState', 'Bubble_lng'),
               ValueLOading: ValueLOading,
               NewValue: NewValue,
               MakeHimBEableTOSEtBubble: MakeHimBEableTOSEtBubble,

@@ -178,10 +178,10 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..ColorForRepliedTo = event.ColorForRepliedTo
           ..AliasForRepliedTo = event.AliasForRepliedTo
           ..Isreply = event.Isreply
-            ..type = event.Type
-            ..Image1 = event.Image1
-            ..File_image = event.File_image
-            ..Image_type = event.Image_type
+          ..type = event.Type
+          ..Image1 = event.Image1
+          ..File_image = event.File_image
+          ..Image_type = event.Image_type
         );
 
 
@@ -364,6 +364,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           InstanceMessages.is_base64 = false;
           InstanceMessages.ID = state.EventOldMessages!.messages![i].id!.toInt();
           InstanceMessages.Type =  state.EventOldMessages!.messages![i].type.toString();
+          InstanceMessages.FlowSettledWithID =true;
 
           if (state.EventOldMessages!.messages![i].replies!.isEmpty) {
 
@@ -397,7 +398,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.TopicFlowDescription = state.EventOldMessages!.messages![i].message!.content.toString();
               InstanceMessages.TopicFlowTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
 
               FlowData data = FlowData();
               data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
@@ -423,6 +424,8 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Who_Made_it_Color = int.parse(Value);
 
               state.FlowList!.add(data);
+              print("added");
+
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="media") {
@@ -431,7 +434,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.MediaDumpTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.Image_type = "backend";
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
 
 
 
@@ -460,7 +463,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="poll") {
               InstanceMessages.ModelType ="PollFlow";
               InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
               print(state.EventOldMessages!.messages![i].message!.answers!.length);
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
               InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
@@ -573,13 +576,19 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         final date2 = await _repository.SendMessageEVENT(event.type!, event.message!, event.bubble_id!, event.main_type!);
 
         yield state.rebuild((b) => b
-          ..error = ""
-          ..SendMessageISloading= false
-          ..SendMessageSuccess = true
+          ..SendMessageISloading= true
+          ..SendMessageSuccess = false
           ..SendBubbleMessage.replace(date2)
         );
 
        state.messages![0].ID = state.SendBubbleMessage!.message_id!.toInt();
+
+        yield state.rebuild((b) => b
+
+          ..SendMessageISloading= false
+          ..SendMessageSuccess = true
+
+        );
         // print( state.messages![0].ID);
         // print( state.messages![0].Avatar);
         // print( state.messages![0].message);
@@ -747,6 +756,11 @@ print("Emitteddd");
 
       try {
         state.FilteredInsideBubbleUsers!.clear();
+//
+        yield state.rebuild((b) => b
+          ..GetInsideUsersSuccess=false
+            ..ChangeSearchStatus = event.Keyword!.isEmpty
+        );
 
 
         state.InsideBubbleUsers!.forEach((BubbbleOBject) {
@@ -754,6 +768,12 @@ print("Emitteddd");
             state.FilteredInsideBubbleUsers!.add(BubbbleOBject);
           }
         });
+
+        yield state.rebuild((b) => b
+          ..GetInsideUsersSuccess=true
+        );
+
+
 
       } catch (e) {
         print('get Error $e');
@@ -825,14 +845,18 @@ print("Emitteddd");
 
         yield state.rebuild((b) => b
           ..SendBubbleTopicFlow.replace(date2)
+          ..SendMessageISloading= true
+          ..SendMessageSuccess = false
         );
 
         state.messages![0].ID = state.SendBubbleTopicFlow!.message_id!.toInt();
 
         state.FlowList!.insert(0,event.Flow!);
         state.FlowList![0].FlowMessage_id = state.SendBubbleTopicFlow!.message_id!.toInt();
+        state.messages![0].FlowSettledWithID = true;
         print( state.FlowList![0].Who_Made_it_ID);
         print( state.FlowList![0].Who_Made_it_Alias);
+
 
 
 
@@ -864,6 +888,8 @@ print("Emitteddd");
 
         yield state.rebuild((b) => b
           ..SendBubbleMediaDump.replace(date2)
+          ..SendMessageISloading= true
+          ..SendMessageSuccess = false
         );
 
         state.messages![0].ID = state.SendBubbleMediaDump!.message_id!.toInt();
@@ -871,25 +897,11 @@ print("Emitteddd");
         //todo : make state.success in true so we could after that let users use the join flow button
         state.FlowList!.insert(0,event.Flow!);
         state.FlowList![0].FlowMessage_id = state.SendBubbleMediaDump!.message_id!.toInt();
+        state.messages![0].FlowSettledWithID = true;
         print( state.FlowList![0].Who_Made_it_ID);
         print( state.FlowList![0].Who_Made_it_Alias);
 
-
         SendMediadump(event.image!,event.title!,state.messages![0].ID! ,"Base64",event.Bubble_id!);
-
-        print("Emitteddd");
-
-
-
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..SendMessageISloading= false
-      //     ..SendMessageSuccess = false
-      //     ..SendBubbleMessage = null
-      //   );
-      //
-      // }
     }
 
     if (event is SendPollFloww) {
@@ -902,12 +914,15 @@ print("Emitteddd");
         yield state.rebuild((b) => b
           ..SendBubblePollFow.replace(date2)
         );
-
+        yield state.rebuild((b) => b
+          ..SendMessageISloading= true
+          ..SendMessageSuccess = false
+        );
         state.messages![0].ID = state.SendBubblePollFow!.message_id!.toInt();
-
         state.FlowList!.insert(0,event.Flow!);
-
         state.FlowList![0].FlowMessage_id = state.SendBubblePollFow!.message_id!.toInt();
+        state.messages![0].FlowSettledWithID = true;
+
         print( state.FlowList![0].Who_Made_it_ID);
         print( state.FlowList![0].Who_Made_it_Alias);
 

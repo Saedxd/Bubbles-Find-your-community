@@ -31,10 +31,10 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
 
   bool? get MediaImageTaken;
 
+  bool? get Message_Uploading;
 
 
-
-
+  bool? get ChangeSearchStatus;
   bool? get KetbaordStatuss;
   bool? get FlowOptionsOpened;
 
@@ -126,6 +126,8 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       // ..is_Nodejs = false
       // ..is_Backend = false
       ..isLoading = false
+      ..ChangeSearchStatus = true
+      ..Message_Uploading = false
       ..ShowFloatingActionButtonn = false
       ..MediaImageTaken = false
       ..FlowOptionsOpened = false
@@ -135,7 +137,7 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
       ..AddFreindSuccess = false
       ..CheckboxStatuss1 = false
       ..SendMessageISloading = false
-      ..SendMessageSuccess = false
+      ..SendMessageSuccess = true
       ..CheckboxStatuss2 = false
       ..UserINbubbleAliasISLoading = false
       ..UserINbubbleAliasISsuccess = false

@@ -381,7 +381,7 @@ List<bool>? Saved_Status=[];
                                                           builder: (
                                                               context) =>
                                                               Plan_Screen(
-                                                                  Bubble:widget.Bubble[index],   my_id:widget.my_id   ),
+                                                                  Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
                                                         ),
                                                       ));
                                                 },
@@ -745,7 +745,7 @@ List<bool>? Saved_Status=[];
                                                   builder: (
                                                       context) =>
                                                       Plan_Screen(
-                                                          Bubble:widget.Bubble[index],   my_id:widget.my_id   ),
+                                                          Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
                                                 ),
                                               ));
                                         },

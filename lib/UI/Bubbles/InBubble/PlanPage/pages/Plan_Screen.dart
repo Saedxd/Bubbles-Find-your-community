@@ -16,12 +16,12 @@ class Plan_Screen extends StatefulWidget {
   Plan_Screen({Key? key,
     required  this.Bubble,
     required  this.my_id
-  //  required this.Event_id,required this.Event_name
+    ,this.List_Type
   }) : super(key: key);
   BubbleData? Bubble;
   int? my_id;
-// int Event_id = 0;
-// String Event_name = "";
+
+ String? List_Type = "";
   @override
   State<Plan_Screen> createState() => _Plan_ScreenState();
 }
@@ -42,7 +42,6 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
     // _PlanPage_Bloc.add(GetDetailedPlan((b) => b
     // ..Event_id=widget.Event_id
     // ));
-
 
 }
 
@@ -160,6 +159,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         ),
 
                       ),
+
                       Positioned(
                         left: h/2.4,
                         bottom: h/2.4,
@@ -179,7 +179,8 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                             ));
                           },
                         ),
-                      ),
+                      )
+
                     ],
                   ),
                   Column(
@@ -459,7 +460,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
 
                           Container(
                             width: w/3.5,height: h/15,
-                            //  color: Colors.pink,
+                            margin: EdgeInsets.only(left: h/50),
                             child: ListView.builder(
                               itemCount:!state.success!?0: state.GetWhoSavedBubbles!.data!.length<3? state.GetWhoSavedBubbles!.data!.length:3,
                               scrollDirection: Axis.horizontal,

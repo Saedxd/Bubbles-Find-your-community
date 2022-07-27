@@ -85,6 +85,7 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
         );
       }
     }
+
     if (event is RefreshState) {
       try {
         yield state.rebuild((b) =>
@@ -119,6 +120,101 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
 
       } catch (e) {
         print('get Error $e');
+      }
+    }
+
+    if (event is FreindsRequests) {
+      try {
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..FreindRequests = null
+        );
+
+        final date = await _repository.FreindRequests();
+
+
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = true
+          ..error = ""
+          ..success = false
+          ..FreindRequests.replace(date)
+
+        );
+        for(int i=0;i<state.FreindRequests!.users!.length;i++) {
+          FrinedsData data = FrinedsData();
+          data.Color = state.FreindRequests!.users![i].background_color!;
+          data.ID = state.FreindRequests!.users![i].id;
+          data.my_id = state.FreindRequests!.users![i].me_id;
+          data.boi = state.FreindRequests!.users![i].bio;
+          data.Alias = state.FreindRequests!.users![i].alias;
+          data.Avatar = state.FreindRequests!.users![i].avatar;
+
+          state.FrinedRequestsList!.add(data);
+        }
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = ""
+          ..success = true
+        );
+
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..FreindRequests = null
+        );
+      }
+    }
+
+    if (event is DenyRequest) {
+      try {
+        state.FrinedRequestsList!.removeAt(event.index!);
+
+
+        final date = await _repository.DenyRequest(event.friend_id!);
+
+
+
+    yield state.rebuild((b) =>
+    b
+    ..DenyFriendRequest.replace(date)
+    );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) =>
+        b
+          ..isLoading = false
+          ..error = "Something went wrong"
+          ..success = false
+          ..DenyFriendRequest=null
+        );
+      }
+    }
+
+    if (event is AceeptRequest) {
+      try {
+        state.FrinedRequestsList!.removeAt(event.index!);
+        state.FrinedList!.add(event.daata!);
+
+        final date = await _repository.AceeptRequest(event.friend_id!);
+
+        yield state.rebuild((b) =>
+        b
+          ..AceeptRequest.replace(date)
+
+        );
+      } catch (e) {
+
       }
     }
 

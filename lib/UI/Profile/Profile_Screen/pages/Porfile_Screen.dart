@@ -39,7 +39,7 @@ import 'package:theme_manager/theme_manager.dart';
 import 'ChangeAvatar.dart';
 
 class Profile extends StatefulWidget {
-  ChangeProfileStatus(bool status) => createState().ChangeFromFrinedScreen(status) ;
+
   @override
   _ProfileState createState() => _ProfileState();
 }
@@ -53,14 +53,8 @@ class _ProfileState extends State<Profile> {
   final _formkey1 = GlobalKey<FormState>();
   final _formkey2 = GlobalKey<FormState>();
   final _ProfileBloc = sl<ProfileBloc>();
-  void ChangeFromFrinedScreen(bool status){
-    _ProfileBloc.add(
-        GOtoFrinedlIST((b) =>
-        b..Status =false
-        ));
-     // print(state.GOtoFrined);
-  }
   final pref = sl<IPrefsHelper>();
+
 
   HomeScreen Instance = HomeScreen();
   MyTheme theme = MyTheme();
@@ -183,7 +177,7 @@ class _ProfileState extends State<Profile> {
         return true;
       },
       child: BlocBuilder(
-          bloc:   _ProfileBloc,
+          bloc: _ProfileBloc,
           builder: (BuildContext Context, profileState state) {
             if (state.success! &&
                 state.GetprofileSuccess! &&
@@ -196,15 +190,6 @@ class _ProfileState extends State<Profile> {
               diditonce = false;
             }
 
-            if (state.success! && state.LOgedOUT!) {
-              WidgetsBinding.instance!
-                  .addPostFrameCallback((_) => Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ),
-                      ));
-            }
 
             return Scaffold(
                 resizeToAvoidBottomInset: false,
@@ -285,7 +270,7 @@ class _ProfileState extends State<Profile> {
                                                                             FontWeight
                                                                                 .w600,
                                                                         fontSize:
-                                                                            27),
+                                                                            23),
                                                                   ),
                                                                 ),
                                                               ],
@@ -408,138 +393,138 @@ class _ProfileState extends State<Profile> {
                                                     Text(""),
                                                   ],
                                                 ),
-                                                Stack(
-            children: [
-              Container(
-                  width: w / 1.2,
-                  height: h / 8,
-                  decoration: BoxDecoration(
-                    borderRadius : BorderRadius.only(
-                      topLeft: Radius.circular(36.5),
-                      topRight: Radius.circular(36.5),
-                      bottomLeft: Radius.circular(36.5),
-                      bottomRight: Radius.circular(36.5),
-                    ),
-                    boxShadow : [BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
-                        offset: Offset(0,0),
-                        blurRadius: 10
-                    )],
-                    color : Color.fromRGBO(148, 38, 87, 1),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(""),
-                    Text(""),
-                    Text(""),
-                    InkWell(
-                      onTap: (){
-                        // WidgetsBinding
-                        //   .instance!
-                        //   .addPostFrameCallback((_) =>
-                        //   Navigator
-                        //       .push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) =>
-                        //           Challenges(),
-                        //     ),
-                        //   ).then((value) {
-                        //     _ProfileBloc.add(GetProfile());
-                        //   }));
-
-                  },
-                      child: Text('earn', textAlign: TextAlign.center, style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          fontFamily: 'Red Hat Display',
-                          fontSize: 23,
-                          letterSpacing: 0,
-                          fontWeight: FontWeight.w600,
-                          height: 1
-                      ),),
-                    )
-                  ],
-                  ),
-              ),
-              Container(
-                width: w / 1.7,
-                height: h / 8,
-                decoration: BoxDecoration(
-                  borderRadius:
-                  BorderRadius.only(
-                    topLeft:
-                    Radius.circular(
-                        36.5),
-                    topRight:
-                    Radius.circular(
-                        36.5),
-                    bottomLeft:
-                    Radius.circular(
-                        36.5),
-                    bottomRight:
-                    Radius.circular(
-                        36.5),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Color.fromRGBO(
-                            0,
-                            0,
-                            0,
-                            0.4000000059604645),
-                        offset:
-                        Offset(0, 0),
-                        blurRadius: 10)
-                  ],
-                  color: COLOR.onPrimary,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(""),
-                    SvgPicture.asset(
-                      "Assets/images/BeCoins(1).svg",
-                      width: w / 5,
-                      height: h / 12,
-                    ),
-                 Text("Comming soon",style: TextStyle(
-                     color: Colors.black
-                     ,fontSize: 12
-                 ),)
-                 //    state.success!?
-                 //
-                 // //    Text(
-                 // // //     state.ProfileDate!.user!.points!.toString()
-                 // //      , textAlign: TextAlign.center, style: TextStyle(
-                 // //        color: Color.fromRGBO(47, 47, 47, 1),
-                 // //        fontFamily: 'Red Hat Display',
-                 // //        fontSize: 25,
-                 // //        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                 // //        fontWeight: FontWeight.w900,
-                 // //        height: 1
-                 // //    ),)
-                 //        : state.isLoading == true
-                 //        ? Container(
-                 //            child: Row(
-                 //              mainAxisAlignment:
-                 //              MainAxisAlignment
-                 //                  .center,
-                 //              children: [
-                 //                Center(
-                 //                    child: listLoader(
-                 //                        context:
-                 //                        context)),
-                 //              ],
-                 //            ))
-                 //    :Container(),
-                 //    Text(""),
-                  ],
-                ),
-              ),
-            ],
-
-                                                ),
+            //                                     Stack(
+            // children: [
+            //   Container(
+            //       width: w / 1.2,
+            //       height: h / 8,
+            //       decoration: BoxDecoration(
+            //         borderRadius : BorderRadius.only(
+            //           topLeft: Radius.circular(36.5),
+            //           topRight: Radius.circular(36.5),
+            //           bottomLeft: Radius.circular(36.5),
+            //           bottomRight: Radius.circular(36.5),
+            //         ),
+            //         boxShadow : [BoxShadow(
+            //             color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
+            //             offset: Offset(0,0),
+            //             blurRadius: 10
+            //         )],
+            //         color : Color.fromRGBO(148, 38, 87, 1),
+            //       ),
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //       children: [
+            //         Text(""),
+            //         Text(""),
+            //         Text(""),
+            //         InkWell(
+            //           onTap: (){
+            //             // WidgetsBinding
+            //             //   .instance!
+            //             //   .addPostFrameCallback((_) =>
+            //             //   Navigator
+            //             //       .push(
+            //             //     context,
+            //             //     MaterialPageRoute(
+            //             //       builder: (context) =>
+            //             //           Challenges(),
+            //             //     ),
+            //             //   ).then((value) {
+            //             //     _ProfileBloc.add(GetProfile());
+            //             //   }));
+            //
+            //       },
+            //           child: Text('earn', textAlign: TextAlign.center, style: TextStyle(
+            //               color: Color.fromRGBO(255, 255, 255, 1),
+            //               fontFamily: 'Red Hat Display',
+            //               fontSize: 23,
+            //               letterSpacing: 0,
+            //               fontWeight: FontWeight.w600,
+            //               height: 1
+            //           ),),
+            //         )
+            //       ],
+            //       ),
+            //   ),
+            //   Container(
+            //     width: w / 1.7,
+            //     height: h / 8,
+            //     decoration: BoxDecoration(
+            //       borderRadius:
+            //       BorderRadius.only(
+            //         topLeft:
+            //         Radius.circular(
+            //             36.5),
+            //         topRight:
+            //         Radius.circular(
+            //             36.5),
+            //         bottomLeft:
+            //         Radius.circular(
+            //             36.5),
+            //         bottomRight:
+            //         Radius.circular(
+            //             36.5),
+            //       ),
+            //       boxShadow: [
+            //         BoxShadow(
+            //             color: Color.fromRGBO(
+            //                 0,
+            //                 0,
+            //                 0,
+            //                 0.4000000059604645),
+            //             offset:
+            //             Offset(0, 0),
+            //             blurRadius: 10)
+            //       ],
+            //       color: COLOR.onPrimary,
+            //     ),
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //       children: [
+            //         Text(""),
+            //         SvgPicture.asset(
+            //           "Assets/images/BeCoins(1).svg",
+            //           width: w / 5,
+            //           height: h / 12,
+            //         ),
+            //      Text("Comming soon",style: TextStyle(
+            //          color: Colors.black
+            //          ,fontSize: 12
+            //      ),)
+            //      //    state.success!?
+            //      //
+            //      // //    Text(
+            //      // // //     state.ProfileDate!.user!.points!.toString()
+            //      // //      , textAlign: TextAlign.center, style: TextStyle(
+            //      // //        color: Color.fromRGBO(47, 47, 47, 1),
+            //      // //        fontFamily: 'Red Hat Display',
+            //      // //        fontSize: 25,
+            //      // //        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+            //      // //        fontWeight: FontWeight.w900,
+            //      // //        height: 1
+            //      // //    ),)
+            //      //        : state.isLoading == true
+            //      //        ? Container(
+            //      //            child: Row(
+            //      //              mainAxisAlignment:
+            //      //              MainAxisAlignment
+            //      //                  .center,
+            //      //              children: [
+            //      //                Center(
+            //      //                    child: listLoader(
+            //      //                        context:
+            //      //                        context)),
+            //      //              ],
+            //      //            ))
+            //      //    :Container(),
+            //      //    Text(""),
+            //       ],
+            //     ),
+            //   ),
+            // ],
+            //
+            //                                     ),
                                                     //
                                                     // Row(
                                                     //     mainAxisAlignment:
@@ -608,114 +593,114 @@ class _ProfileState extends State<Profile> {
                                                     //         ),
                                                     //       ),
                                                     //     ])
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                InkWell(
-                                                  onTap: () async {
-                                                    // if (state.ProfileDate!.user!
-                                                    //             .is_verify ==
-                                                    //         2 ||
-                                                    //     state.ProfileDate!.user!
-                                                    //             .is_verify ==
-                                                    //         3) {
-                                                    //   WidgetsBinding.instance!
-                                                    //       .addPostFrameCallback(
-                                                    //           (_) => Navigator
-                                                    //                   .push(
-                                                    //                 context,
-                                                    //                 MaterialPageRoute(
-                                                    //                   builder:
-                                                    //                       (context) =>
-                                                    //                           VerifyProfile(),
-                                                    //                 ),
-                                                    //               ));
-                                                    // } else if (state
-                                                    //         .ProfileDate!
-                                                    //         .user!
-                                                    //         .is_verify ==
-                                                    //     1) {
-                                                    //   Page2().method(
-                                                    //       _scaffoldKey
-                                                    //           .currentContext!,
-                                                    //       "Verification Message",
-                                                    //       """Your Already Verified!""",
-                                                    //       "back");
-                                                    // } else if (state
-                                                    //         .ProfileDate!
-                                                    //         .user!
-                                                    //         .is_verify ==
-                                                    //     0) {
-                                                    //   Page2().method(
-                                                    //       _scaffoldKey
-                                                    //           .currentContext!,
-                                                    //       "Verification Message",
-                                                    //       """We have gotten your verification request its under view!""",
-                                                    //       "back");
-                                                    // }
-                                                  },
-                                                  child: Container(
-                                                    width: w / 1.2,
-                                                    height: h / 13,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                21.5),
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                            color: Color.fromRGBO(
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                0.4000000059604645),
-                                                            offset:
-                                                                Offset(0, 0),
-                                                            blurRadius: 2)
-                                                      ],
-                                                      color: Color(0xffCF6D38),
-                                                    ),
-                                                    child: Center(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceAround,
-                                                        children: [
-                                                          Text('  Verify Profile',
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .left,
-                                                              style: _textthem
-                                                                  .headline1!
-                                                                  .copyWith(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400,
-                                                                      fontSize:
-                                                                          25)),
-
-                                                          Text(""),
-                                                          Text("Comming soon",style: TextStyle(
-                                                              color: Colors.white
-                                                              ,fontSize: 12
-                                                          ),),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
+                                                // const SizedBox(
+                                                //   height: 10,
+                                                // ),
+                                                // InkWell(
+                                                //   onTap: () async {
+                                                //     // if (state.ProfileDate!.user!
+                                                //     //             .is_verify ==
+                                                //     //         2 ||
+                                                //     //     state.ProfileDate!.user!
+                                                //     //             .is_verify ==
+                                                //     //         3) {
+                                                //     //   WidgetsBinding.instance!
+                                                //     //       .addPostFrameCallback(
+                                                //     //           (_) => Navigator
+                                                //     //                   .push(
+                                                //     //                 context,
+                                                //     //                 MaterialPageRoute(
+                                                //     //                   builder:
+                                                //     //                       (context) =>
+                                                //     //                           VerifyProfile(),
+                                                //     //                 ),
+                                                //     //               ));
+                                                //     // } else if (state
+                                                //     //         .ProfileDate!
+                                                //     //         .user!
+                                                //     //         .is_verify ==
+                                                //     //     1) {
+                                                //     //   Page2().method(
+                                                //     //       _scaffoldKey
+                                                //     //           .currentContext!,
+                                                //     //       "Verification Message",
+                                                //     //       """Your Already Verified!""",
+                                                //     //       "back");
+                                                //     // } else if (state
+                                                //     //         .ProfileDate!
+                                                //     //         .user!
+                                                //     //         .is_verify ==
+                                                //     //     0) {
+                                                //     //   Page2().method(
+                                                //     //       _scaffoldKey
+                                                //     //           .currentContext!,
+                                                //     //       "Verification Message",
+                                                //     //       """We have gotten your verification request its under view!""",
+                                                //     //       "back");
+                                                //     // }
+                                                //   },
+                                                //   child: Container(
+                                                //     width: w / 1.2,
+                                                //     height: h / 13,
+                                                //     decoration:
+                                                //         const BoxDecoration(
+                                                //       borderRadius:
+                                                //           BorderRadius.only(
+                                                //         topLeft:
+                                                //             Radius.circular(
+                                                //                 21.5),
+                                                //         topRight:
+                                                //             Radius.circular(
+                                                //                 21.5),
+                                                //         bottomLeft:
+                                                //             Radius.circular(
+                                                //                 21.5),
+                                                //         bottomRight:
+                                                //             Radius.circular(
+                                                //                 21.5),
+                                                //       ),
+                                                //       boxShadow: [
+                                                //         BoxShadow(
+                                                //             color: Color.fromRGBO(
+                                                //                 0,
+                                                //                 0,
+                                                //                 0,
+                                                //                 0.4000000059604645),
+                                                //             offset:
+                                                //                 Offset(0, 0),
+                                                //             blurRadius: 2)
+                                                //       ],
+                                                //       color: Color(0xffCF6D38),
+                                                //     ),
+                                                //     child: Center(
+                                                //       child: Row(
+                                                //         mainAxisAlignment:
+                                                //             MainAxisAlignment
+                                                //                 .spaceAround,
+                                                //         children: [
+                                                //           Text('  Verify Profile',
+                                                //               textAlign:
+                                                //                   TextAlign
+                                                //                       .left,
+                                                //               style: _textthem
+                                                //                   .headline1!
+                                                //                   .copyWith(
+                                                //                       fontWeight:
+                                                //                           FontWeight
+                                                //                               .w400,
+                                                //                       fontSize:
+                                                //                           25)),
+                                                //
+                                                //           Text(""),
+                                                //           Text("Comming soon",style: TextStyle(
+                                                //               color: Colors.white
+                                                //               ,fontSize: 12
+                                                //           ),),
+                                                //         ],
+                                                //       ),
+                                                //     ),
+                                                //   ),
+                                                // ),
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
@@ -822,15 +807,61 @@ class _ProfileState extends State<Profile> {
                                                     ),
                                                   ),
                                                 ),
-                                                Column(
-                                                  children: const [
-                                                    SizedBox(
-                                                      height: 10,
+                                                SizedBox(height: h/20,),
+                                                InkWell(
+                                                  onTap: () {
+                                            },
+                                                  child: Container(
+                                                    width: w / 1.2,
+                                                    height: h / 13,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.only(
+                                                          topLeft:
+                                                          Radius.circular(
+                                                              21.5),
+                                                          topRight:
+                                                          Radius.circular(
+                                                              21.5),
+                                                          bottomLeft:
+                                                          Radius.circular(
+                                                              21.5),
+                                                          bottomRight:
+                                                          Radius.circular(
+                                                              21.5),
+                                                        ),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                              offset:
+                                                              const Offset(
+                                                                  0, 0),
+                                                              blurRadius: 12)
+                                                        ],
+                                                        color: COLOR.onPrimary),
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                      children: [
+                                                        Text('     Send us your feedback', textAlign: TextAlign.left,
+                                                        style: _textthem
+                                                        .headline1!
+                                                        .copyWith(
+                                                    fontWeight:
+                                                    FontWeight.w400,
+                                                      fontSize: 24,
+                                                      color:
+                                                      Color.fromRGBO(
+                                                          0, 0, 0, 1),
+                                                    )),
+                                                        Text(""),
+                                                        SvgPicture.asset("Assets/images/sendFeedBack.svg"),
+                                                        Text(""),
+                                                      ],
                                                     ),
-                                                    Text(""),
-                                                    Text(""),
-                                                  ],
+                                                  ),
                                                 ),
+                                             SizedBox(height: h/20,),
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
@@ -1222,7 +1253,7 @@ class _ProfileState extends State<Profile> {
                                                               .spaceAround,
                                                       children: [
 
-                                                        Text('Saved Bubbles',
+                                                        Text('  Saved Bubbles',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1293,7 +1324,7 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Text('  Followed',
+                                                        Text('Subscribed',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1308,7 +1339,7 @@ class _ProfileState extends State<Profile> {
                                                                       0, 0, 1),
                                                             )),
                                                         Text(""),
-                                                        Text("Comming soon  ",style: TextStyle(
+                                                        Text("",style: TextStyle(
                                                             color: Colors.black
                                                             ,fontSize: 12
                                                         ),)
@@ -1320,74 +1351,7 @@ class _ProfileState extends State<Profile> {
                                                   height: 5,
                                                 ),
 
-                                                InkWell(
-                                                  onTap: () {
-                                                    if (timer!=null)
-                                                    timer!.cancel();
-                                                    if (timer2!=null)
-                                                    timer2!.cancel();
-                                                    if (timer23!=null)
-                                                    timer23!.cancel();
-                                                    if (timer12!=null)
-                                                    timer12!.cancel();
-                                                    if (timer1212!=null)
-                                                    timer1212!.cancel();
-                                                    socket!.clearListeners();
-                                                    socket!.disconnect();
-                                                    _ProfileBloc.add(Logout());
-                                                  },
-                                                  child: Container(
-                                                    width: w / 1.2,
-                                                    height: h / 13,
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                        ),
-                                                        boxShadow: [
-                                                          BoxShadow(
-                                                              offset:
-                                                                  const Offset(
-                                                                      0, 0),
-                                                              blurRadius: 12)
-                                                        ],
-                                                        color: COLOR.onPrimary),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      children: [
-                                                        Text('Logout',
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: _textthem
-                                                                .headline1!
-                                                                .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 25,
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                            )),
-                                                        Text(""),
-                                                        Text(""),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
+
                                               ],
                                             ),
                                           ),
@@ -1403,9 +1367,7 @@ class _ProfileState extends State<Profile> {
                     state.isLoadingProfileUpdate == true
                         ? Center(child: listLoader(context: context))
                         : SizedBox(),
-                    state.ISloadingLogout == true
-                        ? Center(child: listLoader(context: context))
-                        : SizedBox(),
+
                   ],
                 ));
           }),
@@ -1675,7 +1637,6 @@ class _ProfileState extends State<Profile> {
         isDismissible: true,
         context: context,
         shape: const RoundedRectangleBorder(
-          // <-- SEE HERE
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(10.0),
           ),

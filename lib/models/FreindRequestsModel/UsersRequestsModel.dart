@@ -41,8 +41,9 @@ abstract class UsersRequestsModel
   String? get background_color;
   String? get avatar;
   int? get id;
-
-
+  int? get me_id;
+  bool? get is_friend;
+  String? get bio;
 
   UsersRequestsModel._();
   factory UsersRequestsModel([void Function(UsersRequestsModelBuilder b)? updates]) =  _$UsersRequestsModel;

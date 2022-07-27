@@ -50,33 +50,51 @@ bool DiditOnce = false;
             DiditOnce = false;
           }
           return   Scaffold(
-            backgroundColor: AppColor,
+            backgroundColor: Color(0xffEAEAEA),
             body: SafeArea(
               child: Column(
                 children: [
-
-                  Container(
-                    width: w/1.2,
-                    margin: EdgeInsets.only(top: h/40),
-                    child: InkWell(
-                      onTap: (){
-                        WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                            Navigator.of(context).pop()
-                        );
-                      },
-                      child: Text('< Back',
-                          textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
-                              fontSize: 3.5 *
-                                  SizeConfig
-                                      .blockSizeVertical!
-                                      .toDouble(),
-                              letterSpacing: 0.3,
-                              fontWeight: FontWeight.w300,
-                              height: 1
-                          )),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: w/7,
+                        margin: EdgeInsets.only(top: h/40),
+                        child: InkWell(
+                          onTap: (){
+                            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                                Navigator.of(context).pop()
+                            );
+                          },
+                          child: Text('<',
+                              textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
+                                  color: Color.fromRGBO(148, 38, 87, 1),
+                                  fontSize: 5 *
+                                      SizeConfig
+                                          .blockSizeVertical!
+                                          .toDouble(),
+                                  letterSpacing: 0.3,
+                                  fontWeight: FontWeight.w300,
+                                  height: 1
+                              )),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: h/40),
+                        child: Text('How do you identify?', textAlign: TextAlign.center, style: TextStyle(
+                            color: Color.fromRGBO(148, 38, 87, 1),
+                            fontFamily: 'Red Hat Text',
+                            fontSize: 23,
+                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                            fontWeight: FontWeight.w600,
+                            height: 1
+                        ),),
+                      ),
+                      Text(""),
+                      Text("")
+                    ],
                   ),
-
+                  SizedBox(height: h/20,),
                   Center(
                     child: Stack(
                       children: [
@@ -163,9 +181,7 @@ bool DiditOnce = false;
                       ],
                     ),
                   ),
-
-
-                  GestureDetector(
+                  InkWell(
                     onTap: (){
                       if (SelectedGenderId!=1000) {
                         widget.Users!.SetGender(SelectedGenderId);
@@ -183,7 +199,7 @@ bool DiditOnce = false;
                     child: Container(
                       width: w/1.3,
                       height: h/15,
-                      margin: EdgeInsets.only(top: h/20),
+                      margin: EdgeInsets.only(top: h/30),
                       decoration: BoxDecoration(
                         borderRadius : BorderRadius.only(
                           topLeft: Radius.circular(5),
@@ -204,9 +220,7 @@ bool DiditOnce = false;
                         ),),
                       ),
                     ),
-                  )
-
-
+                  ),
                 ],
               ),
             ),

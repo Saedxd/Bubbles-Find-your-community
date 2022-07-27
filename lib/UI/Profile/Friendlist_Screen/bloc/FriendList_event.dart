@@ -5,6 +5,7 @@ library FriendList_event;
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -51,4 +52,31 @@ abstract class RefreshState extends FriendListEvent
 
   RefreshState._();
   factory RefreshState([updates(RefreshStateBuilder b)]) = _$RefreshState;
+}
+
+abstract class FreindsRequests extends FriendListEvent
+    implements Built<FreindsRequests,FreindsRequestsBuilder> {
+
+  FreindsRequests._();
+  factory FreindsRequests([updates(FreindsRequestsBuilder b)]) = _$FreindsRequests;
+}
+
+abstract class AceeptRequest extends FriendListEvent
+    implements Built<AceeptRequest,AceeptRequestBuilder> {
+  int? get friend_id;
+  int? get index;
+  FrinedsData? get daata;
+
+  AceeptRequest._();
+  factory AceeptRequest([updates(AceeptRequestBuilder b)]) = _$AceeptRequest;
+}
+
+
+abstract class DenyRequest extends FriendListEvent
+    implements Built<DenyRequest,DenyRequestBuilder> {
+  int? get friend_id;
+  int? get index;
+
+  DenyRequest._();
+  factory DenyRequest([updates(DenyRequestBuilder b)]) = _$DenyRequest;
 }
