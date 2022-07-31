@@ -88,9 +88,12 @@ class DirectMessagesBloc extends Bloc<DirectMessagesEvent, DirectMessagesState> 
           DmData.lastMessage = state.OldMessages!.messages![i].message.toString();
           DmData.id = state.OldMessages!.messages![i].receiver_id;
           DmData.MY_id = state.OldMessages!.messages![i].me;
+         // DmData.Msg_Type = state.OldMessages!.messages![i].sms_type;
+          DmData.lastMessage.toString().substring(0,5)=="https"?
+               DmData.lastMessage = "Sticker"
+          :print("NVM");
           DmData.Replies = state.OldMessages!.messages![i].replies!.isNotEmpty?
-          state.OldMessages!.messages![i].replies![0].comment.toString():
-              "";
+          state.OldMessages!.messages![i].replies![0].comment.toString():"";
 
 
           state.FilteredDmlist!.add(DmData);

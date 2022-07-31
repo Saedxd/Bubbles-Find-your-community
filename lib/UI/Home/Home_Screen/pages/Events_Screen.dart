@@ -38,6 +38,7 @@ class _Events_ScreenState extends State<Events_Screen> {
   final _formKey3 = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 List<bool>? Saved_Status=[];
+
 @override
   void initState() {
     super.initState();
@@ -137,7 +138,7 @@ List<bool>? Saved_Status=[];
                                   itemBuilder: (BuildContext context, int index) {
                                     return
                                       state.ShapStatus!
-                                              ?widget.Type!="Nearby Primes"
+                                              ?widget.Type!="Primes"
                                                   ? InkWell(
                                                 onTap: (){
                                                   WidgetsBinding
@@ -309,20 +310,26 @@ List<bool>? Saved_Status=[];
                                                                       height:
                                                                       10,
                                                                     ),
-                                                                    Container(
 
-                                                                      child:      Text(
-                                                                        widget.Bubble[index].Title.toString(),
-                                                                        textAlign: TextAlign.left,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        style: _TextTheme.headlineLarge!.copyWith(
-                                                                          color: Color(widget.Bubble[index].Color!),
-                                                                          fontSize: 13,
-                                                                          letterSpacing: 0,
-                                                                          fontWeight: FontWeight.w600,
+                                                                    Row(
+                                                                      children: [
+                                                                        Container(
+
+                                                                          child:      Text(
+                                                                            widget.Bubble[index].Title.toString(),
+                                                                            textAlign: TextAlign.left,
+                                                                            overflow: TextOverflow.ellipsis,
+                                                                            style: _TextTheme.headlineLarge!.copyWith(
+                                                                              color: Color(widget.Bubble[index].Color!),
+                                                                              fontSize: 13,
+                                                                              letterSpacing: 0,
+                                                                              fontWeight: FontWeight.w600,
+                                                                            ),
+                                                                          ),
                                                                         ),
-                                                                      ),
+                                                                      ],
                                                                     ),
+                                                                    SizedBox(height: 5,),
                                                                     Container(
                                                                       child:  Text(
                                                                         "At ${ widget.Bubble[index].location.toString()}",
@@ -467,7 +474,7 @@ List<bool>? Saved_Status=[];
                                                                   SvgPicture.asset(
                                                                     "Assets/images/Exclude.svg",
                                                                     color : Color(widget.Bubble[index].Color!),
-                                                                    width: w/10,
+                                                                    width: w/12,
                                                                   ),
                                                                   Flexible(
                                                                     child: Container(
@@ -486,14 +493,18 @@ List<bool>? Saved_Status=[];
                                                                   ),
                                                                 ],
                                                               ),
-                                                              Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                                                  fontFamily: 'Red Hat Text',
-                                                                  fontSize: 10,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.w300,
-                                                                  height: 1
-                                                              ),)
+                                                              // Container(
+                                                              //   width: w/2.3,
+                                                              //   margin: EdgeInsets.only(left: w/10),
+                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
+                                                              //       fontFamily: 'Red Hat Text',
+                                                              //       fontSize: 10,
+                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                              //       fontWeight: FontWeight.w300,
+                                                              //       height: 1
+                                                              //   ),),
+                                                              // ),
                                                             ],
                                                           ),
                                                         ),
@@ -509,7 +520,7 @@ List<bool>? Saved_Status=[];
 
                                                 ),
                                               )
-                                          :widget.Type!="Nearby Primes"
+                                          :widget.Type!="Primes"
                                           ?InkWell(
                                         onTap: (){
                                       WidgetsBinding
@@ -679,21 +690,25 @@ List<bool>? Saved_Status=[];
                                                               height:
                                                               10,
                                                             ),
-                                                            Container(
-                                                              child: Text(
-                                                                widget.Bubble[index].Title.toString(),
-                                                                textAlign: TextAlign.left,
-                                                                overflow: TextOverflow.ellipsis,
-                                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                                  color: Color(widget.Bubble[index].Color!),
-                                                                  fontSize: 25,
-                                                                  letterSpacing: 0,
-                                                                  fontWeight: FontWeight.w600,
-                                                                ),
-                                                              ),
+                                                            Row(
+                                                              children: [
+                                                                Container(
+                                                                  child: Text(
+                                                                    widget.Bubble[index].Title.toString(),
+                                                                    textAlign: TextAlign.left,
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    style: _TextTheme.headlineLarge!.copyWith(
+                                                                      color: Color(widget.Bubble[index].Color!),
+                                                                      fontSize: 25,
+                                                                      letterSpacing: 0,
+                                                                      fontWeight: FontWeight.w600,
+                                                                    ),
+                                                                  ),
 
+                                                                ),
+                                                              ],
                                                             ),
-                                                            const SizedBox(height: 5,),
+                                                            const SizedBox(height: 7,),
                                                             Container(
                                                               child:  Text(
                                                                 "At ${ widget.Bubble[index].location.toString()}",
@@ -708,14 +723,14 @@ List<bool>? Saved_Status=[];
                                                               ),
                                                             ),
                                                             const SizedBox(height: 5,),
-                                                            const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
-                                                                color: Color.fromRGBO(255, 255, 255, 1),
-                                                                fontFamily: 'Red Hat Text',
-                                                                fontSize: 12.222221851348877,
-                                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                fontWeight: FontWeight.normal,
-                                                                height: 1
-                                                            ),)
+                                                            // const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
+                                                            //     color: Color.fromRGBO(255, 255, 255, 1),
+                                                            //     fontFamily: 'Red Hat Text',
+                                                            //     fontSize: 12.222221851348877,
+                                                            //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            //     fontWeight: FontWeight.normal,
+                                                            //     height: 1
+                                                            // ),)
                                                           ],
                                                         ),
                                                       ),
@@ -850,14 +865,15 @@ List<bool>? Saved_Status=[];
                                                           ),
                                                         ],
                                                       ),
-                                                      Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                          color: Color.fromRGBO(255, 255, 255, 1),
-                                                          fontFamily: 'Red Hat Text',
-                                                          fontSize: 10,
-                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                          fontWeight: FontWeight.w300,
-                                                          height: 1
-                                                      ),)
+
+                                                      // Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                      //     color: Color.fromRGBO(255, 255, 255, 1),
+                                                      //     fontFamily: 'Red Hat Text',
+                                                      //     fontSize: 10,
+                                                      //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                      //     fontWeight: FontWeight.w300,
+                                                      //     height: 1
+                                                      // ),)
                                                     ],
                                                   ),
                                                 ),

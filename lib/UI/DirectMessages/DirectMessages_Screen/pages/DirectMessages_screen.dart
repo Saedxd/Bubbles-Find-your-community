@@ -189,16 +189,18 @@ class _DirectMessagesState extends State<DirectMessages> {
                                       ),
                                   filled: true,
                                   fillColor: Colors.transparent,
+
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 20),
-                                  hintText: "Search for Users",
-                                  hintStyle: const TextStyle(
+                                  hintText: "Search",
+                                  hintStyle:  TextStyle(
                                       color: Color.fromRGBO(147, 147, 147, 1),
-                                      fontFamily: 'Sofia Pro',
-                                      fontSize: 12.51075267791748,
-                                      letterSpacing: 0,
-                                      fontWeight: FontWeight.normal,
-                                      height: 1),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 15,
+                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1
+                                  )
                                 ),
                                 keyboardType: TextInputType.text,
                               ),
@@ -229,7 +231,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 children: [
                                   const Text(""),
                                   Container(
-                                      width: w / 10,
+                                      width: w / 14,
                                       height: h / 20,
                                       child: Row(
                                         mainAxisAlignment:
@@ -255,6 +257,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                           )
                                         ],
                                       )),
+                                  SizedBox(width: h/100,),
                                   Container(
                                     width: w / 10,
                                     height: h / 20,
@@ -602,7 +605,8 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                   child: Text(
                                                                       state.FilteredDmlist![index].Replies==""?
                                                                       state.FilteredDmlist![index].lastMessage.toString():
-                                                                      state.FilteredDmlist![index].Replies.toString(),
+                                                                      state.FilteredDmlist![index].Replies.toString()
+                                                                      ,
                                                                       overflow:
                                                                       TextOverflow
                                                                           .ellipsis,
@@ -733,6 +737,7 @@ class DmlistData{
   int? id;
   int? MY_id;
   String? Replies;
+  String? Msg_Type;
 }
 class HeroImage extends StatefulWidget {
   HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);

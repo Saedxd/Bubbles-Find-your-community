@@ -107,8 +107,7 @@ class _GroupChatState extends State<GroupChat>{
   List<GroupChatMessage> messages = [];
   List<String> records = [];
   List<UserDATA> UserDaata = [];
-  List<String> Colorss =["0xff8D4624","0xff31576D",
-    "0xffE0A41E","0xffE0A41E","0xff4ECEB6","0xff303030"
+  List<String> Colorss =["0xff8D4624","0xff31576D", "0xffE0A41E","0xffE0A41E","0xff4ECEB6","0xff303030"
     ,"0xffDEDDBF","0xff77C08A","0xffD588B1","0xff7B78F5","0xffBA477A","0xff80BFC5","0xffEB9B5D","0xffCD6356"];
   String base64Image = "";
   bool DIditonce2 = false;
@@ -1225,104 +1224,101 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                                 left: h / 50),
                                             child: state.success!
                                                 ? state.messages![index].ModelType == "Message"
-                                                ?
-                                                  Container(
-                                                    width:
-                                                    w / 1.3,
-                                                    child: Stack(
-                                                      children: [
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            Row(
-                                                              children: [
-                                                                InkWell(
-                                                                  onTap: (){
-                                                                    //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                ? Container(
+                                              width:
+                                              w / 1.3,
+                                              child: Stack(
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+                                                      Row(
+                                                        children: [
+                                                          InkWell(
+                                                            onTap: (){
+                                                              //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
 
-                                                                  },
-                                                                  child: CircleAvatar(
-                                                                    backgroundColor: Color(state
-                                                                        .messages![index]
-                                                                        .background_Color!),
-                                                                    backgroundImage: NetworkImage(state
-                                                                        .messages![index]
-                                                                        .Avatar
-                                                                        .toString()),
-                                                                    radius:
-                                                                    23,
-                                                                  ),
-                                                                ),
-                                                                SizedBox(width: 5,),
-                                                                Container(
-                                                                  margin: EdgeInsets.only(bottom: h/50),
-                                                                  child: Text(
-                                                                    state.messages![index].Alias.toString(),
-                                                                    textAlign:
-                                                                    TextAlign.left,
-                                                                    style:
-                                                                    _TextTheme.headline3!.copyWith(
-                                                                      color: ColorS.errorContainer,
-                                                                      fontWeight: FontWeight.w400,
-                                                                      fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
+                                                            },
+                                                            child: CircleAvatar(
+                                                              backgroundColor: Color(state
+                                                                  .messages![index]
+                                                                  .background_Color!),
+                                                              backgroundImage: NetworkImage(state
+                                                                  .messages![index]
+                                                                  .Avatar
+                                                                  .toString()),
+                                                              radius:
+                                                              23,
                                                             ),
-                                                           Row(
-                                                             children: [
-                                                               Text(
-                                                                   state.messages![index].time!,
-                                                                   textAlign: TextAlign.right,
-                                                                   style: _TextTheme.headline2!.copyWith(
-                                                                     fontWeight: FontWeight.w300,
-                                                                     color: const Color(0xffEAEAEA),
-                                                                     fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
-                                                                   )),
-                                                               SizedBox(width: 10,),
-                                                             ],
-                                                           )
-                                                          ],
-                                                        ),
-                                                     Container(
-                                                            width: w /  1.4,
-                                                            color: Colors.transparent,
-                                                            margin: EdgeInsets.only(left: h/50),
-                                                            child: Text(
-                                                                state.messages![index].message
-                                                                    .toString(),
-                                                                textAlign:
-                                                                TextAlign.left,
-                                                                style: _TextTheme.headline2!.copyWith(
-                                                                  fontWeight: FontWeight.w300,
-                                                                  color: Colors.transparent,
-                                                                  fontSize: 5.5 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                                )),
                                                           ),
-                                                        Positioned(
-                                                          left: h/14,
-                                                          top: h/20,
-                                                          child: Container(
-                                                            width: w /  1.4,
-                                                            margin: EdgeInsets.only(left: h/100),
+                                                          SizedBox(width: 5,),
+                                                          Container(
+                                                            margin: EdgeInsets.only(bottom: h/50),
                                                             child: Text(
-                                                                state.messages![index].message
-                                                                    .toString(),
-                                                                textAlign:
-                                                                TextAlign.left,
-                                                                style: _TextTheme.headline2!.copyWith(
-                                                                  fontWeight: FontWeight.w300,
-                                                                  color: const Color(0xffEAEAEA),
-                                                                  fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                                )),
+                                                              state.messages![index].Alias.toString(),
+                                                              textAlign:
+                                                              TextAlign.left,
+                                                              style:
+                                                              _TextTheme.headline3!.copyWith(
+                                                                color: ColorS.errorContainer,
+                                                                fontWeight: FontWeight.w400,
+                                                                fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                              ),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Text(
+                                                              state.messages![index].time!,
+                                                              textAlign: TextAlign.right,
+                                                              style: _TextTheme.headline2!.copyWith(
+                                                                fontWeight: FontWeight.w300,
+                                                                color: const Color(0xffEAEAEA),
+                                                                fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                              )),
+                                                          SizedBox(width: 10,),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                  Container(
+                                                    width: w /  1.4,
+                                                    color: Colors.transparent,
+                                                    margin: EdgeInsets.only(left: h/50),
+                                                    child: Text(
+                                                        state.messages![index].message
+                                                            .toString(),
+                                                        textAlign:
+                                                        TextAlign.left,
+                                                        style: _TextTheme.headline2!.copyWith(
+                                                          fontWeight: FontWeight.w300,
+                                                          color: Colors.transparent,
+                                                          fontSize: 5.5 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                        )),
+                                                  ),
+                                                  Positioned(
+                                                    left: h/14,
+                                                    top: h/20,
+                                                    child: Container(
+                                                      width: w /  1.4,
+                                                      margin: EdgeInsets.only(left: h/100),
+                                                      child: Text(
+                                                          state.messages![index].message
+                                                              .toString(),
+                                                          textAlign:
+                                                          TextAlign.left,
+                                                          style: _TextTheme.headline2!.copyWith(
+                                                            fontWeight: FontWeight.w300,
+                                                            color: const Color(0xffEAEAEA),
+                                                            fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                          )),
                                                     ),
-                                                  )
-
-
+                                                  ),
+                                                ],
+                                              ),
+                                            )
                                                 : state.messages![index].ModelType == "Image"
                                                 ? Row(
                                               children: [
@@ -1565,7 +1561,7 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                               ],
                                             )
                                                 : state .messages![index].ModelType == "ReplyMessage"
-                                                ?    Container(
+                                                ?  Container(
                                               width:
                                               w / 1.3,
                                               child: Stack(
@@ -1719,7 +1715,6 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                             ]
                                               )
                                             )
-
                                                   // Positioned(
                                                   //   left: h/14,
                                                   //   top: h/20,
@@ -3230,7 +3225,7 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                           margin: EdgeInsets.only(left: h/50),
                                           child: IconButton(
                                             onPressed: (){
-                                              Navigator.pop(context);
+                                              CommingSoonPopup(context,h,w);
                                             }, icon:
                                           SvgPicture.asset("Assets/images/active.svg",),
                                           ),
@@ -3991,7 +3986,8 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           width: w / 2,
                           child: InkWell(
                             onTap: () {
-                           PollFlowBottomSheet();
+                          // PollFlowBottomSheet();
+                              CommingSoonPopup(context, h, w);
                             },
                             child: Stack(
                               children: [
@@ -7051,6 +7047,122 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     );
   }
 
+
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      ) async {
+    return showDialog(
+        context: Context,
+        barrierDismissible: false,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/50),
+              content:Container(
+                width: w/1.1,
+                height: h/3,
+                color: Colors.transparent,
+
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.01,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(""),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text('Coming Soon!',
+                                    textAlign: TextAlign.center, style: TextStyle(
+                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        fontFamily: 'Red Hat Display',
+                                        fontSize: 24,
+                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1
+                                    ),),
+                                ),
+                                SizedBox(width: w/4.2,)
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: h/15.5,
+                                    width: w/1.4,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(4.142857074737549),
+                                        topRight: Radius.circular(4.142857074737549),
+                                        bottomLeft: Radius.circular(4.142857074737549),
+                                        bottomRight: Radius.circular(4.142857074737549),
+                                      ),
+                                      boxShadow : [BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: Offset(0,0),
+                                          blurRadius: 6.628571510314941
+                                      )],
+                                      color : Color.fromRGBO(168, 48, 99, 1),
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          fontFamily: 'Red Hat Text',
+                                          fontSize: 14,
+                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: h/10,)
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/7,
+                      bottom: h/5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
+  }
 
 
 

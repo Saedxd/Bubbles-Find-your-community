@@ -489,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           child: Row(
                                             children: [
                                               Text(
-                                                'Nearby Primes',
+                                                'Prime Bubbles',
                                                 textAlign: TextAlign.left,
                                                 style: _TextTheme.headlineLarge!.copyWith(
                                                   fontSize: 17,
@@ -547,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     MaterialPageRoute(
                                                       builder: (context) => Events_Screen(
                                                           Bubble: state.BUBBLElistS4!,
-                                                          Type: 'Nearby Primes',
+                                                          Type: 'Primes',
                                                           my_id: state.ProfileDate!.user!.id!
                                                       ),
                                                     ),
@@ -641,7 +641,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       bottomLeft: Radius.circular(14.569536209106445),
                                                       bottomRight: Radius.circular(14.569536209106445),
                                                     ),
-                                                    color: Color(0xff606060),
+                                                    color: Colors.white
                                                   ),child:
 
                                                 Column(
@@ -704,8 +704,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         child: Container(
                                                           decoration: BoxDecoration(
                                                             borderRadius : BorderRadius.only(
-                                                              bottomLeft: Radius.circular(14.569536209106445),
-                                                              bottomRight: Radius.circular(14.569536209106445),
+
                                                             ),
                                                             color: Color(0xff606060),
                                                           ),
@@ -736,17 +735,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                   ),
                                                                 ],
                                                               ),
-                                                              Container(
-                                                                margin: EdgeInsets.only(right: h/10),
-                                                                child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                                                    fontFamily: 'Red Hat Text',
-                                                                    fontSize: 10,
-                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                    fontWeight: FontWeight.w300,
-                                                                    height: 1
-                                                                ),),
-                                                              ),
+                                                              // Container(
+                                                              //   margin: EdgeInsets.only(right: h/10),
+                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
+                                                              //       fontFamily: 'Red Hat Text',
+                                                              //       fontSize: 10,
+                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                              //       fontWeight: FontWeight.w300,
+                                                              //       height: 1
+                                                              //   ),),
+                                                              // ),
                                                             ],
                                                           ),
                                                         ),
@@ -802,7 +801,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                   bottomLeft: Radius.circular(14.569536209106445),
                                                   bottomRight: Radius.circular(14.569536209106445),
                                                 ),
-                                                color: Color(0xff606060),
+                                                color: Colors.white,
                                               ),child:
 
                                             Column(
@@ -865,10 +864,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     child: Container(
 
                                                       decoration: BoxDecoration(
-                                                        borderRadius : BorderRadius.only(
-                                                          bottomLeft: Radius.circular(14.569536209106445),
-                                                          bottomRight: Radius.circular(14.569536209106445),
-                                                        ),
+
                                                         color: Color(0xff606060),
                                                       ),
                                                       child:
@@ -898,17 +894,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               ),
                                                             ],
                                                           ),
-                                                              Container(
-                                                                margin: EdgeInsets.only(right: h/10),
-                                                                child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                                    color: Color.fromRGBO(255, 255, 255, 1),
-                                                                    fontFamily: 'Red Hat Text',
-                                                                    fontSize: 10,
-                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                    fontWeight: FontWeight.w300,
-                                                                    height: 1
-                                                                ),),
-                                                              ),
+                                                              // Container(
+                                                              //   margin: EdgeInsets.only(right: h/10),
+                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
+                                                              //       fontFamily: 'Red Hat Text',
+                                                              //       fontSize: 10,
+                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                              //       fontWeight: FontWeight.w300,
+                                                              //       height: 1
+                                                              //   ),),
+                                                              // ),
 
                                                         ],
                                                       ),
@@ -1065,7 +1061,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                              IconButton(
                                                onPressed: (){
-                                                print("er");
+                                                 CommingSoonPopup(context,h,w);
                                                },
                                                icon: Row(
                                                  children: [
@@ -1089,7 +1085,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                              ),
                                              IconButton(
                                                onPressed: (){
-
+                                                 CommingSoonPopup(context,h,w);
                                                },
                                                icon: Row(
                                                  children: [
@@ -1771,19 +1767,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                                                               ),
                                                                             ),
-                                                                            Container(
-                                                                              child:  Text(
-                                                                                '${state.BUBBLElistS3![index].location.toString()}',
-                                                                                textAlign: TextAlign.left,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                                                  fontSize: 13,
-                                                                                  letterSpacing: 0,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                ),
-
-                                                                              ),
-                                                                            ),
+                                                                            // Container(
+                                                                            //   child:  Text(
+                                                                            //     '${state.BUBBLElistS3![index].location.toString()}',
+                                                                            //     textAlign: TextAlign.left,
+                                                                            //     overflow: TextOverflow.ellipsis,
+                                                                            //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                            //       fontSize: 13,
+                                                                            //       letterSpacing: 0,
+                                                                            //       fontWeight: FontWeight.w600,
+                                                                            //     ),
+                                                                            //
+                                                                            //   ),
+                                                                            // ),
                                                                           ],
                                                                         ),
                                                                       ),
@@ -1938,238 +1934,248 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                          int index) {
 
 
-                                                       return InkWell(
-                                                           onTap: () {
-                                                             WidgetsBinding
-                                                                 .instance!
-                                                                 .addPostFrameCallback((_) =>
-                                                                 Navigator
-                                                                     .push(
-                                                                   context,
-                                                                   MaterialPageRoute(
-                                                                     builder: (context) =>
-                                                                         Plan_Screen(
-                                                                           Bubble:state.BUBBLElistS2![index],
-                                                                           my_id: state.ProfileDate!.user!.id ,     ),
-                                                                   ),
-                                                                 ));
-                                                           },
-                                                           child:
-                                                           Container(
-                                                             width: w / 1.6,
-                                                             height:  h / 3,
-                                                             decoration: BoxDecoration(
-                                                               borderRadius : BorderRadius.only(
-                                                                 topLeft: Radius.circular(7),
-                                                                 topRight: Radius.circular(7),
-                                                                 bottomLeft: Radius.circular(7),
-                                                                 bottomRight: Radius.circular(7),
-                                                               ),
-                                                               color : Color.fromRGBO(96, 96, 96, 1),
-                                                             ),
+                                                       return
+
+                                                         InkWell(
+                                                             onTap: () {
+                                                               WidgetsBinding
+                                                                   .instance!
+                                                                   .addPostFrameCallback((_) =>
+                                                                   Navigator
+                                                                       .push(
+                                                                     context,
+                                                                     MaterialPageRoute(
+                                                                       builder: (context) =>
+                                                                           Plan_Screen(
+                                                                             Bubble:state.BUBBLElistS2![index],
+                                                                             my_id: state.ProfileDate!.user!.id ,     ),
+                                                                     ),
+                                                                   ));
+                                                             },
                                                              child:
-                                                             Column(
-                                                               children: [
-                                                                 Stack(
-                                                                   children: [
-                                                                     Container(
-                                                                       width: w / 1.6,
-                                                                       height: h/4.2,
-                                                                       child: ClipRRect(
-                                                                         borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                                         child:CachedNetworkImage(
-                                                                           fit: BoxFit.fitWidth,
-                                                                           imageUrl:
-                                                                           //"",
-                                                                           state.BUBBLElistS2![index].image.toString(),
-                                                                           placeholder: (context, url) => Row(
-                                                                             mainAxisAlignment: MainAxisAlignment.center,
+                                                             Container(
+                                                               width: w / 1.6,
+                                                               height:  h / 3,
+                                                               decoration: BoxDecoration(
+                                                                 borderRadius : BorderRadius.only(
+                                                                   topLeft: Radius.circular(7),
+                                                                   topRight: Radius.circular(7),
+                                                                   bottomLeft: Radius.circular(7),
+                                                                   bottomRight: Radius.circular(7),
+                                                                 ),
+                                                                 color : Color.fromRGBO(96, 96, 96, 1),
+                                                               ),
+                                                               child:
+                                                               Column(
+                                                                 children: [
+                                                                   Stack(
+                                                                     children: [
+                                                                       Container(
+                                                                         width: w / 1.6,
+                                                                         height: h/4.2,
+                                                                         child: ClipRRect(
+                                                                           borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                           child:CachedNetworkImage(
+                                                                             fit: BoxFit.fitWidth,
+                                                                             imageUrl:
+                                                                             //"",
+                                                                             state.BUBBLElistS2![index].image.toString(),
+                                                                             placeholder: (context, url) => Row(
+                                                                               mainAxisAlignment: MainAxisAlignment.center,
+                                                                               children: [
+                                                                                 Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                               ],
+                                                                             ),
+                                                                             errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                           ),
+                                                                         ),
+                                                                       ),
+                                                                       Transform.rotate(
+                                                                         angle: -179.99999499104388 * (math.pi / 180),
+                                                                         child: Container(
+                                                                             width: w / 1.6,
+                                                                             height: h/4.2,
+                                                                             decoration: BoxDecoration(
+                                                                               borderRadius : BorderRadius.only(
+                                                                                 topLeft: Radius.circular(7),
+                                                                                 //    topRight: Radius.circular(7),
+                                                                                 bottomLeft: Radius.circular(7),
+                                                                                 bottomRight: Radius.circular(7),
+                                                                               ),
+                                                                               gradient : LinearGradient(
+                                                                                   begin: Alignment(5.730259880964636e-14,-2),
+                                                                                   end: Alignment(2,3.9593861611176705e-16),
+                                                                                   colors: [Colors.transparent,Color(state.BUBBLElistS2![index].Color!),]
+                                                                               ),
+                                                                             )
+                                                                         ),
+                                                                       ),
+                                                                       Container(
+                                                                           width: w / 1.6,
+                                                                           height: h/11.89,
+                                                                           child:Row(
+                                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                              children: [
-                                                                               Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                               state.BUBBLElistS2![index].type!="Prime"
+                                                                                   ?  state.BUBBLElistS2![index].User_type!="admin"
+                                                                                   ?  Row(
+                                                                                 children: [
+                                                                                   CircleAvatar(
+                                                                                     radius: 17,
+                                                                                     backgroundColor: Color(int.parse(state.BUBBLElistS2![index].Creator_Color!)),
+                                                                                     backgroundImage: NetworkImage(state.BUBBLElistS2![index].Creator_Avatar!),
+                                                                                   ),
+                                                                                   SizedBox(width: 10,),
+                                                                                   Text(state.BUBBLElistS2![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
+                                                                                       color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                       fontFamily: 'Red Hat Display',
+                                                                                       fontSize: 10.477987289428711,
+                                                                                       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                       fontWeight: FontWeight.w600,
+                                                                                       height: 1
+                                                                                   ),),
+
+                                                                                 ],
+                                                                               )
+                                                                                   :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                                   color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                   fontFamily: 'Red Hat Display',
+                                                                                   fontSize: 10.477987289428711,
+                                                                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                   fontWeight: FontWeight.w600,
+                                                                                   height: 1
+                                                                               ),)
+                                                                                   :Text(""),
+
+                                                                               Text(""),
+                                                                               Text(""),
+
+                                                                             ],
+                                                                           )
+
+
+
+
+
+
+                                                                       ),
+                                                                       Positioned(
+                                                                         left: h/35,
+                                                                         bottom: h/8,
+                                                                         child: Container(
+                                                                           width:w,
+                                                                           height: h/6.89,
+                                                                           child:
+                                                                           IconButton(
+                                                                             icon:SvgPicture.asset(
+                                                                               state.BUBBLElistS2![index].is_Saved!
+                                                                                   ?"Assets/images/BiggerSaved.svg"
+                                                                                   :"Assets/images/SAVE.svg"
+                                                                               ,width:  !state.BUBBLElistS2![index].is_Saved!? w/8: w/6,
+                                                                             ) ,
+                                                                             onPressed: (){
+                                                                               _HomeBloc.add(
+                                                                                   ToggleSaveBubble((b) => b
+                                                                                     ..Bubble_id = state.BUBBLElistS2![index].id
+                                                                                     ..index = index
+                                                                                     ..List_type = 'Nearby'
+                                                                                     ..Saved_Status =   state.BUBBLElistS2![index].is_Saved!
+                                                                                   )
+                                                                               );
+                                                                             },
+                                                                           ),
+                                                                         ),
+                                                                       )
+                                                                     ],
+                                                                   ),
+
+
+                                                                   Row(
+                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                     children: [
+                                                                       Flexible(
+                                                                         child:
+                                                                         Container(
+                                                                           margin: EdgeInsets.only(left: h/50),
+                                                                           child: Column(
+                                                                             children: [
+                                                                               const SizedBox(
+                                                                                 height:
+                                                                                 10,
+                                                                               ),
+
+                                                                                   Row(
+                                                                                     children: [
+                                                                                       Container(
+                                                                                         width: w /3,
+                                                                                         child:  Text(
+                                                                                           state.BUBBLElistS2![index].Title.toString(),
+                                                                                           overflow: TextOverflow.ellipsis,
+                                                                                           textAlign: TextAlign.left,
+                                                                                           style: _TextTheme.headlineLarge!.copyWith(
+                                                                                             color: Color(state.BUBBLElistS2![index].Color!.toInt()),
+                                                                                             fontSize: 19,
+                                                                                             letterSpacing: 0,
+                                                                                             fontWeight: FontWeight.w600,
+                                                                                           ),
+                                                                                         ),
+
+                                                                                       ),
+                                                                                     ],
+                                                                                   ),
+
+                                                                               SizedBox(height: 6,),
+
+                                                                                   Container(
+                                                                                     child:  Text(
+                                                                                       'At ${state.BUBBLElistS2![index].location.toString()}',
+                                                                                       textAlign: TextAlign.left,
+                                                                                       overflow: TextOverflow.ellipsis,
+                                                                                       style: _TextTheme.headlineLarge!.copyWith(
+                                                                                         fontSize: 13,
+                                                                                         letterSpacing: 0,
+                                                                                         fontWeight: FontWeight.w600,
+                                                                                       ),
+
+                                                                                     ),
+
+                                                                               ),
+                                                                               // Container(
+                                                                               //   child:  Text(
+                                                                               //     '${state.BUBBLElistS1![index].location.toString()}',
+                                                                               //     textAlign: TextAlign.left,
+                                                                               //     overflow: TextOverflow.ellipsis,
+                                                                               //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                               //       fontSize: 13,
+                                                                               //       letterSpacing: 0,
+                                                                               //       fontWeight: FontWeight.w600,
+                                                                               //     ),
+                                                                               //
+                                                                               //   ),
+                                                                               // ),
                                                                              ],
                                                                            ),
-                                                                           errorWidget: (context, url, error) => Icon(Icons.error),
                                                                          ),
                                                                        ),
-                                                                     ),
-                                                                     Transform.rotate(
-                                                                       angle: -179.99999499104388 * (math.pi / 180),
-                                                                       child: Container(
-                                                                           width: w / 1.6,
-                                                                           height: h/4.2,
-                                                                           decoration: BoxDecoration(
-                                                                             borderRadius : BorderRadius.only(
-                                                                               topLeft: Radius.circular(7),
-                                                                               //    topRight: Radius.circular(7),
-                                                                               bottomLeft: Radius.circular(7),
-                                                                               bottomRight: Radius.circular(7),
-                                                                             ),
-                                                                             gradient : LinearGradient(
-                                                                                 begin: Alignment(5.730259880964636e-14,-2),
-                                                                                 end: Alignment(2,3.9593861611176705e-16),
-                                                                                 colors: [Colors.transparent,Color(state.BUBBLElistS2![index].Color!),]
-                                                                             ),
-                                                                           )
+                                                                       SvgPicture.asset(
+                                                                         "Assets/images/Exclude.svg",
+                                                                         color : Color(state.BUBBLElistS2![index].Color!),
                                                                        ),
-                                                                     ),
-                                                                     Container(
-                                                                         width: w / 1.6,
-                                                                         height: h/11.89,
-                                                                         child:Row(
-                                                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                           children: [
-                                                                             state.BUBBLElistS2![index].type!="Prime"
-                                                                                 ?  state.BUBBLElistS2![index].User_type!="admin"
-                                                                                 ?  Row(
-                                                                               children: [
-                                                                                 CircleAvatar(
-                                                                                   radius: 17,
-                                                                                   backgroundColor: Color(int.parse(state.BUBBLElistS2![index].Creator_Color!)),
-                                                                                   backgroundImage: NetworkImage(state.BUBBLElistS2![index].Creator_Avatar!),
-                                                                                 ),
-                                                                                 SizedBox(width: 10,),
-                                                                                 Text(state.BUBBLElistS2![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
-                                                                                     color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                     fontFamily: 'Red Hat Display',
-                                                                                     fontSize: 10.477987289428711,
-                                                                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                     fontWeight: FontWeight.w600,
-                                                                                     height: 1
-                                                                                 ),),
 
-                                                                               ],
-                                                                             )
-                                                                                 :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                                                                 color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                 fontFamily: 'Red Hat Display',
-                                                                                 fontSize: 10.477987289428711,
-                                                                                 letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                 fontWeight: FontWeight.w600,
-                                                                                 height: 1
-                                                                             ),)
-                                                                                 :Text(""),
+                                                                     ],
+                                                                   )
 
-                                                                             Text(""),
-                                                                             Text(""),
 
-                                                                           ],
-                                                                         )
+                                                                 ],
+                                                               ),
+
+
+                                                             )
 
 
 
 
-
-
-                                                                     ),
-                                                                     Positioned(
-                                                                       left: h/35,
-                                                                       bottom: h/8,
-                                                                       child: Container(
-                                                                         width:w,
-                                                                         height: h/6.89,
-                                                                         child:
-                                                                         IconButton(
-                                                                           icon:SvgPicture.asset(
-                                                                             !state.isLoading!?
-                                                                             state.BUBBLElistS2![index].is_Saved!
-                                                                                 ?"Assets/images/BiggerSaved.svg"
-                                                                                 :"Assets/images/SAVE.svg"
-                                                                                 :""
-                                                                             ,width:  !state.BUBBLElistS2![index].is_Saved!? w/8: w/6,
-                                                                           ) ,
-                                                                           onPressed: (){
-                                                                             _HomeBloc.add(
-                                                                                 ToggleSaveBubble((b) => b
-                                                                                   ..Bubble_id = state.BUBBLElistS2![index].id
-                                                                                   ..index = index
-                                                                                   ..List_type = 'Nearby'
-                                                                                   ..Saved_Status =   state.BUBBLElistS2![index].is_Saved!
-                                                                                 )
-                                                                             );
-                                                                           },
-                                                                         ),
-                                                                       ),
-                                                                     )
-                                                                   ],
-                                                                 ),
-
-
-                                                                 Row(
-                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                   children: [
-                                                                     Flexible(
-                                                                       child:
-                                                                       Container(
-                                                                         margin: EdgeInsets.only(left: h/50),
-                                                                         child: Column(
-                                                                           children: [
-                                                                             const SizedBox(
-                                                                               height:
-                                                                               10,
-                                                                             ),
-                                                                             Container(
-                                                                               child:  Text(
-                                                                                 state.BUBBLElistS2![index].Title.toString(),
-                                                                                 overflow: TextOverflow.ellipsis,
-                                                                                 textAlign: TextAlign.left,
-                                                                                 style: _TextTheme.headlineLarge!.copyWith(
-                                                                                   color: Color(state.BUBBLElistS2![index].Color!.toInt()),
-                                                                                   fontSize: 19,
-                                                                                   letterSpacing: 0,
-                                                                                   fontWeight: FontWeight.w600,
-                                                                                 ),
-                                                                               ),
-
-                                                                             ),
-                                                                             Container(
-                                                                               child:  Text(
-                                                                                 'At ${state.BUBBLElistS2![index].location.toString()}',
-                                                                                 textAlign: TextAlign.left,
-                                                                                 overflow: TextOverflow.ellipsis,
-                                                                                 style: _TextTheme.headlineLarge!.copyWith(
-                                                                                   fontSize: 13,
-                                                                                   letterSpacing: 0,
-                                                                                   fontWeight: FontWeight.w600,
-                                                                                 ),
-
-                                                                               ),
-                                                                             ),
-                                                                             Container(
-                                                                               child:  Text(
-                                                                                 '${state.BUBBLElistS2![index].location.toString()}',
-                                                                                 textAlign: TextAlign.left,
-                                                                                 overflow: TextOverflow.ellipsis,
-                                                                                 style: _TextTheme.headlineLarge!.copyWith(
-                                                                                   fontSize: 13,
-                                                                                   letterSpacing: 0,
-                                                                                   fontWeight: FontWeight.w600,
-                                                                                 ),
-
-                                                                               ),
-                                                                             ),
-                                                                           ],
-                                                                         ),
-                                                                       ),
-                                                                     ),
-                                                                     SvgPicture.asset(
-                                                                       "Assets/images/Exclude.svg",
-                                                                       color : Color(state.BUBBLElistS2![index].Color!),
-                                                                     ),
-
-                                                                   ],
-                                                                 )
-
-
-                                                               ],
-                                                             ),
-
-
-                                                           )
-
-
-
-
-                                                       );
+                                                         );
                                                      },
                                                      separatorBuilder:
                                                          (BuildContext
@@ -2416,15 +2422,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                                                                  Text(""),
                                                                                  Text(""),
-
                                                                                ],
                                                                              )
-
-
-
-
-
-
                                                                          ),
                                                                          Positioned(
                                                                            left: h/35,
@@ -2470,20 +2469,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                    height:
                                                                                    10,
                                                                                  ),
-                                                                                 Container(
-                                                                                   child:  Text(
-                                                                                     state.BUBBLElistS1![index].Title.toString(),
-                                                                                     overflow: TextOverflow.ellipsis,
-                                                                                     textAlign: TextAlign.left,
-                                                                                     style: _TextTheme.headlineLarge!.copyWith(
-                                                                                       color: Color(state.BUBBLElistS1![index].Color!.toInt()),
-                                                                                       fontSize: 19,
-                                                                                       letterSpacing: 0,
-                                                                                       fontWeight: FontWeight.w600,
-                                                                                     ),
-                                                                                   ),
+                                                                                 Row(
+                                                                                   children: [
+                                                                                     Container(
+                                                                                       width: w /3,
+                                                                                       child:  Text(
+                                                                                         state.BUBBLElistS1![index].Title.toString(),
+                                                                                         overflow: TextOverflow.ellipsis,
+                                                                                         textAlign: TextAlign.left,
+                                                                                         style: _TextTheme.headlineLarge!.copyWith(
+                                                                                           color: Color(state.BUBBLElistS1![index].Color!.toInt()),
+                                                                                           fontSize: 19,
+                                                                                           letterSpacing: 0,
+                                                                                           fontWeight: FontWeight.w600,
+                                                                                         ),
+                                                                                       ),
 
+                                                                                     ),
+                                                                                   ],
                                                                                  ),
+                                                                                 SizedBox(height: 6,),
                                                                                  Container(
                                                                                    child:  Text(
                                                                                      'At ${state.BUBBLElistS1![index].location.toString()}',
@@ -2496,20 +2501,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                      ),
 
                                                                                    ),
-                                                                                 ),
-                                                                                 Container(
-                                                                                   child:  Text(
-                                                                                     '${state.BUBBLElistS1![index].location.toString()}',
-                                                                                     textAlign: TextAlign.left,
-                                                                                     overflow: TextOverflow.ellipsis,
-                                                                                     style: _TextTheme.headlineLarge!.copyWith(
-                                                                                       fontSize: 13,
-                                                                                       letterSpacing: 0,
-                                                                                       fontWeight: FontWeight.w600,
-                                                                                     ),
 
-                                                                                   ),
                                                                                  ),
+                                                                                 // Container(
+                                                                                 //   child:  Text(
+                                                                                 //     '${state.BUBBLElistS1![index].location.toString()}',
+                                                                                 //     textAlign: TextAlign.left,
+                                                                                 //     overflow: TextOverflow.ellipsis,
+                                                                                 //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                                 //       fontSize: 13,
+                                                                                 //       letterSpacing: 0,
+                                                                                 //       fontWeight: FontWeight.w600,
+                                                                                 //     ),
+                                                                                 //
+                                                                                 //   ),
+                                                                                 // ),
                                                                                ],
                                                                              ),
                                                                            ),
@@ -2595,7 +2601,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         :state.Searchsuccess!?
                                     Container(
           width: w/1.1,
-          height: h/2,
+          height: h/1.25,
           child :
           ScrollConfiguration(
           behavior: MyBehavior(),
@@ -2778,19 +2784,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       height:
                                       10,
                                     ),
-                                    Container(
-                                      child: Text(
-                                        state.FilteredBubbleList![index].Title.toString(),
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: _TextTheme.headlineLarge!.copyWith(
-                                          color: Color(state.FilteredBubbleList![index].Color!),
-                                          fontSize: 25,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            state.FilteredBubbleList![index].Title.toString(),
+                                            textAlign: TextAlign.left,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: _TextTheme.headlineLarge!.copyWith(
+                                              color: Color(state.FilteredBubbleList![index].Color!),
+                                              fontSize: 25,
+                                              letterSpacing: 0,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
 
+                                        ),
+                                      ],
                                     ),
                                     const SizedBox(height: 5,),
                                     Container(
@@ -2807,14 +2817,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                     ),
                                     const SizedBox(height: 5,),
-                                    const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
-                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                        fontFamily: 'Red Hat Text',
-                                        fontSize: 12.222221851348877,
-                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.normal,
-                                        height: 1
-                                    ),)
+                                    // const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
+                                    //     color: Color.fromRGBO(255, 255, 255, 1),
+                                    //     fontFamily: 'Red Hat Text',
+                                    //     fontSize: 12.222221851348877,
+                                    //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    //     fontWeight: FontWeight.normal,
+                                    //     height: 1
+                                    // ),)
                                   ],
                                 ),
                               ),
@@ -3099,7 +3109,121 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       size: 30.0,
     );
   }
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      ) async {
+    return showDialog(
+        context: Context,
+        barrierDismissible: false,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/50),
+              content:Container(
+                width: w/1.1,
+                height: h/3,
+                color: Colors.transparent,
 
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.01,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(""),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text('Coming Soon!',
+                                    textAlign: TextAlign.center, style: TextStyle(
+                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        fontFamily: 'Red Hat Display',
+                                        fontSize: 24,
+                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1
+                                    ),),
+                                ),
+                                SizedBox(width: w/4.2,)
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: h/15.5,
+                                    width: w/1.4,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(4.142857074737549),
+                                        topRight: Radius.circular(4.142857074737549),
+                                        bottomLeft: Radius.circular(4.142857074737549),
+                                        bottomRight: Radius.circular(4.142857074737549),
+                                      ),
+                                      boxShadow : [BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: Offset(0,0),
+                                          blurRadius: 6.628571510314941
+                                      )],
+                                      color : Color.fromRGBO(168, 48, 99, 1),
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          fontFamily: 'Red Hat Text',
+                                          fontSize: 14,
+                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: h/10,)
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/7,
+                      bottom: h/5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
+  }
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),

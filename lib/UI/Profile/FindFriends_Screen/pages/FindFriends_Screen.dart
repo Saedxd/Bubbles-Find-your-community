@@ -341,8 +341,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   context, h, w, state);
                                             },
                                             child: Center(
-                                            child: Expanded(
-                                              child: Hero(
+                                            child: Hero(
                                                 tag: "QRImage",
                                                 child: QrImage(
                                                   foregroundColor:
@@ -359,7 +358,6 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   //   ),
                                                 ),
                                               ),
-                                            ),
                                           ),
                                         ),
                                       ),

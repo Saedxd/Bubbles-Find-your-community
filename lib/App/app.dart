@@ -248,7 +248,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
        //        .setBrightnessPreference(BrightnessPreference.dark);
          return
            brightness==Brightness.light
-                ?themeee.lightTheme
+                ?themeee.darkTheme
                 :themeee.darkTheme;
 
         },

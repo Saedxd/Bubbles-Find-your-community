@@ -44,6 +44,7 @@ try {
 //// flutter pub get && flutter pub run build_runner watch
 //flutter logs
 //flutter build apk --split-per-abi
+//flutter build appbundle
 
 //todo : fix all font sizes with the new standerd
 //todo : night mode button fix
