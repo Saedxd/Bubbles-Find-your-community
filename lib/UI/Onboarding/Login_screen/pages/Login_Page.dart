@@ -82,6 +82,26 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
     ),
   );
 
+  //
+  // @override
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //
+  //   switch (state) {
+  //     case AppLifecycleState.resumed:
+  //       BackGroundCounter = 0;
+  //       break;
+  //     case AppLifecycleState.inactive:
+  //
+  //       break;
+  //     case AppLifecycleState.paused:
+  //
+  //       break;
+  //     case AppLifecycleState.detached:
+  //
+  //       break;
+  //   }
+  //
+  // }
   void SignOutGOogle() {
     googleSignIn!.signOut();
   }

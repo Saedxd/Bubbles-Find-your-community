@@ -3,6 +3,7 @@
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/bloc/GroupChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/bloc/PrimePlan_bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/bloc/Sprints_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
@@ -73,6 +74,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => FlowsBloc(sl()));
   sl.registerFactory(() => SavedBubblesBloc(sl()));
   sl.registerFactory(() => SettingsBloc(sl()));
+  sl.registerFactory(() => PrimePlanBloc(sl()));
 }
 //we use this package for dependency injection and use for connecting all our APP with each other
 //for example we give in constructor this get_it in both http and repository so the object can come IN the Easy Way.

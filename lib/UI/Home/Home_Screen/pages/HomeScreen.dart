@@ -5,6 +5,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_bloc.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
@@ -40,9 +41,9 @@ import 'dart:math' as math;
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_collection/built_collection.dart';
+import 'package:http/http.dart' as http;
 
-
-
+bool ChangeUistatus=false;
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -53,20 +54,25 @@ List<bool>? AllBubblesStatusTry=[];
 List<bool>? AllNearBubblesStatusTry=[];
 Timer? timer;
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  double? Lat;
-  double? Lng;
-  final pref = sl<IPrefsHelper>();
-  final _HomeBloc = sl<HomeBloc>();
+  final GlobalKey globalKey = GlobalKey();
   final ScrollController _Primecontroller = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _SearchController = TextEditingController();
-  final _formkey1 = GlobalKey<FormState>();
   final Completer<GoogleMapController> _controller = Completer();
   final PanelController PanelControllerr = PanelController();
-  final _key = GlobalKey();
-  late FocusNode FocuseNODE;
+  final _formkey1 = GlobalKey<FormState>();
+  Location _locationTracker = Location();
   DateTime selectedDate = DateTime.now();
   Geolocator? instance = Geolocator();
+  Random random =  Random();
+  final _key = GlobalKey();
+  Data Dataa = Data();
+
+  final pref = sl<IPrefsHelper>();
+  final _HomeBloc = sl<HomeBloc>();
+  double? Lat;
+  double? Lng;
+  late FocusNode FocuseNODE;
   bool? serviceEnabled;
   CameraPosition? UserPostion;
   DateTime? Time;
@@ -78,9 +84,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool? done2 = false;
   bool? done1 = false;
   double value = 0;
-  Random random =  Random();
+
   StreamSubscription? _locationSubscription;
-  Location _locationTracker = Location();
+
   GoogleMapController? _googleMapController;
   bool? diditonceee= false;
 
@@ -98,7 +104,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Marker? marker;
   LatLng? UserLocation;
   bool DiditOnces = false;
-  Data Dataa = Data();
+  var dataBytes;
+  var bytes;
+  String Avatar="";
   Uint8List? markerIcon;
   bool doit = false;
   double? lat;
@@ -114,54 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   double? User_long=0 ;
   int counter = 0;
   GoogleMap? myMap;
-
   String MyName = "";
-
-  Future<void> getCurrentLocation() async {
-    try {
-      bool enabled = await Location.instance.serviceEnabled();
-      if (enabled) {
-        var location = await _locationTracker.getLocation();
-        print("User location : $User_lat");
-        _HomeBloc.add(GetNearbyBubbles((b) =>   b
-          ..lng = location.longitude
-          ..lat = location.latitude
-        ));
-
-          _googleMapController!.animateCamera(
-              CameraUpdate.newCameraPosition(
-                CameraPosition(
-                    target: LatLng(location.latitude!, location.longitude!),
-                    zoom: 12.151926040649414),
-              ));
-
-        _locationSubscription =
-            _locationTracker.onLocationChanged.listen((newLocalData) {
-          if (_googleMapController != null) {
-            // print(newLocalData.latitude);
-            // print(newLocalData.longitude);
-            // UserLocation = LatLng(newLocalData.latitude! ,newLocalData.longitude!);
-            _HomeBloc.add(UserMoved((b) => b
-              ..lng = newLocalData.longitude!
-              ..lat = newLocalData.latitude!));
-            // print(newLocalData.longitude);
-            // print(newLocalData.latitude);
-            User_lat = newLocalData.latitude!;
-            User_long =newLocalData.longitude;
-         print(User_lat);
-         print(User_long);
-          }
-        });
-
-      }
-    } on PlatformException catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        debugPrint("Permission Denied");
-      }
-    }
-
-
-  }
 
 
   @override
@@ -184,8 +145,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     FocuseNODE = FocusNode();
     location = Location();
     GetTHEME();
-    print("initState called");
-    getCurrentLocation();
+
+
     DiditOnces = true;
     _HomeBloc.add(GetAllBubbles());
     _HomeBloc.add(Getprofile());
@@ -200,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _HomeBloc.add(GetPrimeBubbles());
     _HomeBloc.add(GetNewBubbles());
     _HomeBloc.add(GetPopularNowBubbles());
-
+    GetnearBybubbles();
     _SearchController.addListener(() {
 
       if (_SearchController.text.isEmpty){
@@ -208,12 +169,72 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         b..Keyword =""
             ..Change_ViewStatus = false
         ));
-        print("Made it to false");
+
       }
 
     });
+  }
+
+  Future<void> GetAvatarr(String avatar)async{
+    var request = await http.get(Uri.parse("${avatar}"));
+    bytes = await request.bodyBytes;
+    dataBytes = await bytes;
+  await  getCurrentLocation();
+  }
+
+
+  Future<void> GetnearBybubbles() async {
+    bool enabled = await Location.instance.serviceEnabled();
+    if (enabled) {
+      var location = await _locationTracker.getLocation();
+
+      _HomeBloc.add(GetNearbyBubbles((b) =>
+      b
+        ..lng = location.longitude
+        ..lat = location.latitude
+      ));
+
+      _googleMapController!.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+                target: LatLng(location.latitude!, location.longitude!),
+                zoom: 12.151926040649414),
+          ));
+
+    }
+  }
+  Future<void> getCurrentLocation() async {
+    try {
+      bool enabled = await Location.instance.serviceEnabled();
+      if (enabled) {
+
+        _locationSubscription =
+            _locationTracker.onLocationChanged.listen((newLocalData) {
+              if (_googleMapController != null) {
+                // UserLocation = LatLng(newLocalData.latitude! ,newLocalData.longitude!);
+                  _HomeBloc.add(UserMoved((b) => b
+                    ..lng = newLocalData.longitude!
+                    ..lat = newLocalData.latitude!
+                    ..avatar = Avatar
+                      ..Uint8 = dataBytes
+                  ));
+
+                User_lat = newLocalData.latitude!;
+                User_long =newLocalData.longitude;
+              }
+            });
+
+      }
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        debugPrint("Permission Denied");
+      }
+    }
+
 
   }
+  int counter2 =0;
+  bool Diditoncessa =true;
 
   @override
   Widget build(BuildContext context) {
@@ -227,52 +248,222 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           onTap: () {FocusScope.of(context).attach(context);},
           child: BlocBuilder(
               bloc: _HomeBloc,
-              builder: (BuildContext Context, HomeState state){
+              builder: (BuildContext Context, HomeState state)  {
 
 
                 void LoopOnAllBUbbles(HomeState state)async{
                   try{
+                    counter2++;
                      locationslength = state.locationn!.length;
+                     final Uint8List markerIcon = await  getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
 
-                  for(int i=0;i<state.locationn!.length;i++) {
-
-                    AllBubblesIDS![i] = state.locationn![i].bubble_id!;
-                    meters = state.BubblesRaduis![i];
-                   double coef = meters! * 0.0000089;
-                   new_lat = state.locationn![i].lat! + coef;
-                   new_long = state.locationn![i].lng! + coef / cos(state.locationn![i].lat! * 0.018);
-                  distanceNearby = geo.Geolocator.distanceBetween(User_lat!,User_long!,new_lat!,new_long!);
-                    distanceinside = geo.Geolocator.distanceBetween(User_lat!,User_long!,state.locationn![i].lat!,state.locationn![i].lng!);
+                     for(int i=0;i<state.locationn!.length;i++) {
 
 
-                    if ((distanceNearby/1000)<=5 && !(distanceinside<=meters) && AllNearBubblesStatusTry![i]){
-                      print("there is a bubble ${(distanceNearby/1000).toString().substring(0,4)} KM ahead of me ");
-                      print("${(distanceNearby/1000).toString().substring(3)}");
-                      AllNearBubblesStatusTry![i]=false;
-                      _HomeBloc.add(NotifyNearBubble((b) =>
-                      b..Title = "${state.locationn![i].Title} Event"
-                      ..Distance = "${(double.parse((distanceNearby/1000))).toString()} KM"
-                      ));
+            AllBubblesIDS![i] = state.locationn![i].bubble_id!;
+            meters = state.BubblesRaduis![i];
+            double coef = meters! * 0.0000089;
+            new_lat = state.locationn![i].lat! + coef;
+            new_long = state.locationn![i].lng! + coef / cos(state.locationn![i]
+                .lat! * 0.018);
+            distanceNearby = geo.Geolocator.distanceBetween(
+                User_lat!, User_long!, new_lat!, new_long!);
+            distanceinside = geo.Geolocator.distanceBetween(
+                User_lat!, User_long!, state.locationn![i].lat!,
+                state.locationn![i].lng!);
+
+
+            if ((distanceNearby / 1000) <= 5 && !(distanceinside <= meters) &&
+                AllNearBubblesStatusTry![i]) {
+              // print("there is a bubble ${(distanceNearby / 1000)
+              //     .toString()
+              //     .substring(0, 4)} KM ahead of me ");
+              // print("${(distanceNearby / 1000).toString().substring(3)}");
+              AllNearBubblesStatusTry![i] = false;
+              _HomeBloc.add(NotifyNearBubble((b) =>
+              b
+                ..Title = "${state.locationn![i].Title} Event"
+                ..Distance = "${(double.parse((distanceNearby / 1000)))
+                    .toString()} KM"
+              ));
+            }
+
+
+
+            if (distanceinside <= meters && AllBubblesStatusTry![i]) {
+              AllBubblesStatus![i] = 1;
+              // print("your inside a ${state.locationn![i].Title} Event");
+              AllBubblesStatusTry![i] = false;
+              _HomeBloc.add(UserJoinedBubble((b) =>
+              b..Bubble_id = state.locationn![i].bubble_id!
+              ));
+            } else
+            if (!(distanceinside <= meters) && !AllBubblesStatusTry![i]) {
+              AllBubblesStatus![i] = 0;
+              AllBubblesStatusTry![i] = true;
+              // print("YOu left the area of a ${state.locationn![i]
+              //     .Title} Event");
+              // sendILeftBubble(state.locationn![i].bubble_id!);
+              _HomeBloc.add(UserLeftBubble((b) =>
+              b..Bubble_id = state.locationn![i].bubble_id!
+              ));
+            }
+
+
+                   if (counter2==1) {
+
+          for(int i=0;i<state.GetBubbles!.data!.length;i++) {
+            String Value = state.GetBubbles!.data![i].color!;
+            if (Value.contains("#", 0)) {
+              Value = Value.substring(1);
+              Value = "0xff$Value";
+            }
+            var myInt = int.parse(Value);
+            var BackgroundColor = myInt;
+            if (state.GetBubbles!.data![i].draw_type != "polygon") {
+              _HomeBloc.add(AddMarker((b) =>
+              b
+                ..circle = Circle(
+                    circleId: CircleId(
+                        state.GetBubbles!.data![i].id.toString()),
+                    radius: state.GetBubbles!.data![i].radius!,
+                    zIndex: 2,
+                    strokeColor: Colors.transparent,
+                    center: LatLng(state.GetBubbles!.data![i].lat!,
+                        state.GetBubbles!.data![i].lng!),
+                    fillColor: Color(BackgroundColor).withAlpha(
+                        100),
+                    onTap: () async {
+                      BubbleData Bubbledata = BubbleData();
+
+                      Bubbledata.Title =
+                          state.GetBubbles!.data![i].title.toString();
+                      Bubbledata.location =
+                          state.GetBubbles!.data![i].location.toString();
+
+                      if (state.GetSavedBubbles!.data![i].type.toString() !=
+                          "Prime") {
+                        Bubbledata.StartDate =
+                            state.GetBubbles!.data![i].start_event_date
+                                .toString();
+                        Bubbledata.endDate =
+                            state.GetBubbles!.data![i].end_event_date
+                                .toString();
+                      }
+                      Bubbledata.image =
+                          state.GetBubbles!.data![i].images![0].image
+                              .toString();
+
+
+                      Bubbledata.id = state.GetBubbles!.data![i].id!.toInt();
+                      Bubbledata.type =
+                          state.GetBubbles!.data![i].type.toString();
+                      Bubbledata.Creator_Alias =
+                          state.GetBubbles!.data![i].created_by!.user!.alias ??
+                              "";
+                      Bubbledata.Creator_Avatar =
+                          state.GetBubbles!.data![i].created_by!.user!.avatar;
+                      Bubbledata.Creator_Color =
+                          state.GetBubbles!.data![i].created_by!.user!
+                              .background_color;
+                      Bubbledata.User_type =
+                          state.GetBubbles!.data![i].created_by!.type;
+                      Bubbledata.Description =
+                          state.GetBubbles!.data![i].description.toString();
+
+
+                      Bubbledata.Organizers =
+                      state.GetBubbles!.data![i].organizers!;
+                      Bubbledata.is_Saved =
+                      state.GetBubbles!.data![i].is_save!;
+                      // Bubbledata.dates = state.GetPrimeBubbles!.data![i].dates!;
+                      String Value = state.GetBubbles!.data![i].color
+                          .toString();
+
+                      if (Value.contains("#", 0)) {
+                        Value = Value.substring(1);
+                        Value = "0xff$Value";
+                      }
+                      var myInt = int.parse(Value);
+                      var BackgroundColor = myInt;
+
+                      Bubbledata.Color = BackgroundColor;
+                      _HomeBloc.add(ChangeToDetailUiState((
+                          b) => b..Bubbledata = Bubbledata));
+                    })
+                ..marker = Marker(
+                  markerId: MarkerId(
+                      (state.GetBubbles!.data![i].id! + 1000)
+                          .toString()),
+                  position: LatLng(state.GetBubbles!.data![i].lat!,
+                      state.GetBubbles!.data![i].lng!),
+                  icon: BitmapDescriptor.fromBytes(markerIcon),
+                  onTap: () {
+                    BubbleData Bubbledata = BubbleData();
+
+                    Bubbledata.Title =
+                        state.GetBubbles!.data![i].title.toString();
+                    Bubbledata.location =
+                        state.GetBubbles!.data![i].location.toString();
+                    if (state.GetBubbles!.data![i].type.toString() !=
+                        "Prime") {
+                      Bubbledata.StartDate =
+                          state.GetBubbles!.data![i].start_event_date
+                              .toString();
+                      Bubbledata.endDate =
+                          state.GetBubbles!.data![i].end_event_date
+                              .toString();
+                      Bubbledata.dates =
+                          state.GetBubbles!.data![i].dates;
                     }
+                    Bubbledata.image =
+                        state.GetBubbles!.data![i].images![0].image
+                            .toString();
 
+                    Bubbledata.id =
+                        state.GetBubbles!.data![i].id!.toInt();
+                    Bubbledata.type =
+                        state.GetBubbles!.data![i].type.toString();
+                    Bubbledata.Creator_Alias =
+                        state.GetBubbles!.data![i].created_by!.user!
+                            .alias;
+                    Bubbledata.Creator_Avatar =
+                        state.GetBubbles!.data![i].created_by!.user!
+                            .avatar;
+                    Bubbledata.Creator_Color =
+                        state.GetBubbles!.data![i].created_by!.user!
+                            .background_color;
+                    Bubbledata.User_type =
+                        state.GetBubbles!.data![i].created_by!.type;
+                    Bubbledata.Description =
+                        state.GetBubbles!.data![i].description
+                            .toString();
+                    Bubbledata.Organizers =
+                    state.GetBubbles!.data![i].organizers!;
+                    Bubbledata.is_Saved =
+                    state.GetBubbles!.data![i].is_save!;
+                    // Bubbledata.dates = state.GetPrimeBubbles!.data![i].dates!;
+                    String Value = state.GetBubbles!.data![i].color
+                        .toString();
 
+                    if (Value.contains("#", 0)) {
+                      Value = Value.substring(1);
+                      Value = "0xff$Value";
+                    }
+                    var myInt = int.parse(Value);
+                    var BackgroundColor = myInt;
 
+                    Bubbledata.Color = BackgroundColor;
+                    _HomeBloc.add(ChangeToDetailUiState((b) =>
+                    b
+                      ..Bubbledata = Bubbledata
+                      ..Status = true));
+                  },
 
-                   if (distanceinside<=meters && AllBubblesStatusTry![i]){
-                     AllBubblesStatus![i]=1;
-                     print("your inside a ${state.locationn![i].Title} Event");
-                     AllBubblesStatusTry![i] = false;
-                     _HomeBloc.add(UserJoinedBubble((b) =>
-                     b..Bubble_id = state.locationn![i].bubble_id!
-                     ));
-                   }else if (!(distanceinside<=meters) && !AllBubblesStatusTry![i] ){
-                     AllBubblesStatus![i]=0;
-                     AllBubblesStatusTry![i] = true;
-                     print("YOu left the area of a ${state.locationn![i].Title} Event");
-                    // sendILeftBubble(state.locationn![i].bubble_id!);
-                     _HomeBloc.add(UserLeftBubble((b) =>
-                     b..Bubble_id = state.locationn![i].bubble_id!
-                     ));
+                )
+              ));
+            }
+          }
                    }
 
                   }
@@ -280,30 +471,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     print(e);
                   }
                 }
-
-                if (state.GetprofileSuccess!){
+                if (state.GetprofileSuccess! && Diditoncessa == true){
                   MyName = state.ProfileDate!.user!.alias.toString();
+                  Avatar = state.ProfileDate!.user!.avatar.toString();
+                   GetAvatarr(Avatar);
+                  Diditoncessa = false;
                 }
-
-
-
                 if (state.GetAllBubblesSuccess! && diditonceee == true){
-                  // ListenForWhoJoinedBUbble();
-                  // ListenForWhoLeftBUbble();
-
-                  LoopOnAllBUbbles(state);
                   diditonceee = false;
+                  LoopOnAllBUbbles(state);
 
-
-                  timer = Timer.periodic(Duration(seconds: 10), (Timer t)async{
+                  timer = Timer.periodic(Duration(seconds: 30), (Timer t)async{
                     return
                       LoopOnAllBUbbles(state);
                   });
-
-
                 }
-
-
 
                 return WillPopScope(
                   onWillPop: () async => false,
@@ -312,7 +494,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     body: SafeArea(
                       child: Stack(
                           children:[
-
+                          //  MyMarker(globalKey),
                         GoogleMap(
                           onCameraMove:(CameraPosition cameraPosition) {
                               if(!state.GetAllBubblesIsloading!){
@@ -321,8 +503,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           },
                           myLocationButtonEnabled: true,
                           onTap: (location) {
-                            //LoopOnAllBUbbles();
-                           // LoopOnAllBUbbles();
+                      if (state.ShowBubbleDetailsUI!){
+
+
+                        _HomeBloc.add(ChangeToDetailUiState((b) =>b..Status = false ));
+                      }
                             if (state.MakeHimBEableTOSEtBubble!) {
                               // Lat = location.latitude;
                               // Lng = location.longitude;
@@ -352,21 +537,161 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             _controller.complete(controller);
                             isMapCreated = true;
                             changeMapMode();
-                            print(
-                                "Map Created----------------------------------------------");
                           },
                           myLocationEnabled: false,
                           zoomGesturesEnabled: true,
                         ),
+                        state.ShowBubbleDetailsUI!
+                            ?Positioned(
+                          bottom: h/17,
+                          left: 0,
+                          right: 0,
+                          child: InkWell(
+                          onTap: (){
+                            if (state.DetailBubbledata!.type=="Prime"){
+                              WidgetsBinding
+                                  .instance!
+                                  .addPostFrameCallback((_) =>
+                                  Navigator
+                                      .push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrimePlan_page(
+                                            Bubble: state.DetailBubbledata,
+                                            my_id: state.ProfileDate!.user!
+                                                .id,),
+                                    ),
+                                  ));
+                            }else {
+                              WidgetsBinding
+                                  .instance!
+                                  .addPostFrameCallback((_) =>
+                                  Navigator
+                                      .push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Plan_Screen(
+                                            Bubble: state.DetailBubbledata,
+                                            my_id: state.ProfileDate!.user!
+                                                .id,),
+                                    ),
+                                  ));
+                            }
+                          },
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                    width: w/1.1,
+                                    height: h/8.6,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(100),
+                                        topRight: Radius.circular(100),
+                                        bottomLeft: Radius.circular(100),
+                                        bottomRight: Radius.circular(100),
+                                      ),
+                                      color : Color.fromRGBO(255, 255, 255, 1),
+                                    ),
+                                  child:Row(
+                                    children: [
+                                      SizedBox(width: w/20,),
+                                      CircleAvatar(
+                                        radius: h/24,
+                                        backgroundImage: NetworkImage(state.DetailBubbledata!.image!),
+                                      ),
+                                      SizedBox(width: w/20,),
+                                      Container(
+                                        height: h/8.6,
+                                        width: w/2.3,
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: w/2.3,
+                                              child: Text(state.DetailBubbledata!.Title!,
+                                                textAlign: TextAlign.left, style: TextStyle(
+                                                  color:  Color(state.DetailBubbledata!.Color!),
+                                                 fontFamily: 'Red Hat Display',
+                                                  fontSize: 16,
+                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                  fontWeight: FontWeight.w600,
+                                                  height: 1
+                                              ),),
+                                            ),
+                                            SizedBox(height: w/65,),
+                                             Container(
+                                          width: w/2.3,
+                                          child:
+                                          Text('At ${state.DetailBubbledata!.location!}', textAlign: TextAlign.left, style: TextStyle(
+                                                color: Color.fromRGBO(96, 96, 96, 1),
+                                                fontFamily: 'Red Hat Display',
+                                                fontSize: 12,
+                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                fontWeight: FontWeight.w600,
+                                                height: 1
+                                            ),),
+                                        ),
+                                            SizedBox(height: w/120,),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                children: [
+                                                  CircleAvatar(radius: 8,
+                                                    backgroundImage: NetworkImage(state.DetailBubbledata!.Creator_Avatar??""),
+                                                    backgroundColor: Color(int.parse(state.DetailBubbledata!.Creator_Color??"0xff000000")),
+                                                  ),
+
+                                                  SizedBox(width: w/35,),
+                                                  Text(state.DetailBubbledata!.Creator_Alias??"Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                      color: Color.fromRGBO(96, 96, 96, 1),
+                                                      fontFamily: 'Red Hat Display',
+                                                      fontSize: 9,
+                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                      fontWeight: FontWeight.w600,
+                                                      height: 1
+                                                  ),)
+                                                ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                          height: h/8.6,
+                                          width: w/5,
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SvgPicture.asset(
+                                                "Assets/images/Exclude.svg",
+                                                color : Color(state.DetailBubbledata!.Color!),
+                                                width: w/7,
+                                              ),
+                                            ]
+                                          )
+                                      )
+                                    ],
+                                  )
+
+
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                            :Text(""),
+
 
                         state.GetprofileSuccess!
                             ? state.ProfileDate!.user!.is_creator == 1
-                                ? Positioned(
+                                ? !state.ShowBubbleDetailsUI!
+                            ?Positioned(
                                     bottom: h / 50,
                                     right: 0,
                                     child: InkWell(
                                       onTap: () {
-                                        print("clicked");
+
                                         _HomeBloc.add(ShowDialoog());
                                         MYcolor = Color(
                                                 (math.Random().nextDouble() *
@@ -406,7 +731,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                   true));
                                                   }
                                                   await getCenter();
-                                                  print("clicked");
+
                                                   _HomeBloc.add(ShowDialoog());
                                                   MYcolor = Color((math.Random()
                                                                   .nextDouble() *
@@ -427,6 +752,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         ]),
                                       ),
                                     ))
+                             :Text("")
                                 : Text("")
                             : Text(""),
 
@@ -614,7 +940,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         MaterialPageRoute(
                                                           builder: (
                                                               context) =>
-                                                              Plan_Screen(
+                                                              PrimePlan_page(
                                                                 Bubble:state.BUBBLElistS4![index],
                                                                 my_id: state.ProfileDate!.user!.id ,
                                                                 List_Type: "PRIME",
@@ -778,7 +1104,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     MaterialPageRoute(
                                                       builder: (
                                                           context) =>
-                                                          Plan_Screen(Bubble:state.BUBBLElistS4![index] ,
+                                                          PrimePlan_page(Bubble:state.BUBBLElistS4![index] ,
                                                             my_id: state.ProfileDate!.user!.id,         List_Type: "PRIME", ),
                                                     ),
                                                   ));
@@ -1002,7 +1328,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                     ..Keyword = keyword
                                                         ..Change_ViewStatus = keyword.isNotEmpty
                                                     ));
-                                                    print(state.ChangeViewStatus);
+
 
                                                   },
                                                   style: const TextStyle(
@@ -2306,7 +2632,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                              (BuildContext
                                                          context,
                                                              int index) {
-                                                           print(state.BUBBLElistS1![index].image);
+
 
 
                                                            return InkWell(
@@ -2984,11 +3310,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         //       ));
                                                         // }else{
                                                         await getCenter();
-
-                                                        print(centerLatLng!
-                                                            .latitude);
-                                                        print(centerLatLng!
-                                                            .longitude);
                                                         Dataa.lng =
                                                             centerLatLng!
                                                                 .longitude;
@@ -3102,13 +3423,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     });
   }
 
-
   Widget listLoader({context}) {
     return const SpinKitThreeBounce(
       color: Colors.blue,
       size: 30.0,
     );
   }
+
   CommingSoonPopup(
       BuildContext Context,
       double h,
@@ -3122,9 +3443,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               backgroundColor: Colors.transparent,
               insetPadding: EdgeInsets.all(h/50),
               content:Container(
-                width: w/1.1,
+                width: w/1,
                 height: h/3,
-                color: Colors.transparent,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098),
+                    topRight: Radius.circular(8.285714149475098),
+                    bottomLeft: Radius.circular(8.285714149475098),
+                    bottomRight: Radius.circular(8.285714149475098),
+                  ),
+                  color: Colors.transparent,
+                ),
+
 
                 child: Stack(
                   children: [
@@ -3132,7 +3462,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     Positioned(
                       top: h/12.5,
                       child: Container(
-                        width: w/1.01,
+                        width: w/1.0,
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
@@ -3224,6 +3554,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           );
         });
   }
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
@@ -3249,14 +3580,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   changeMapMode() {
-    print(theme);
-    print("THEME-----------------");
+
     if (theme!) {
       getJsonFile('Assets/dark_map_style.json').then(setMapStyle);
     } else {
       getJsonFile('Assets/light_map_style.json').then(setMapStyle);
     }
-    print("Status in change mode : $theme");
+
   }
 
   void setMapStyle(String mapStyle) {
@@ -3265,7 +3595,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Future<void> GetTHEME() async {
     theme = await pref.GetThemeON();
-    print(theme);
+
   }
 
   Future<void> SetLatLng() async {
@@ -3299,4 +3629,50 @@ String? Creator_Color;
 String? Creator_Avatar;
 String? User_type;
 bool? is_Saved;
+}
+
+class MyMarker extends StatelessWidget {
+  // declare a global key and get it trough Constructor
+
+  MyMarker(this.globalKeyMyWidget);
+  final GlobalKey globalKeyMyWidget;
+
+  @override
+  Widget build(BuildContext context) {
+    // wrap your widget with RepaintBoundary and
+    // pass your global key to RepaintBoundary
+    return RepaintBoundary(
+      key: globalKeyMyWidget,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            width: 250,
+            height: 180,
+            decoration:
+            BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+          ),
+          Container(
+              width: 220,
+              height: 150,
+              decoration:
+              BoxDecoration(color: Colors.amber, shape: BoxShape.circle),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.accessibility,
+                    color: Colors.white,
+                    size: 35,
+                  ),
+                  Text(
+                    'Widget',
+                    style: TextStyle(color: Colors.white, fontSize: 25),
+                  ),
+                ],
+              )),
+        ],
+      ),
+    );
+  }
 }

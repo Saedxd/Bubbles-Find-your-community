@@ -34,6 +34,7 @@ class SprintsChat {
   Uint8List? Image1;
   String? VoicePath;
 
+  bool? MsgSentSuccessfuly = false;
 
   SprintsChat({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

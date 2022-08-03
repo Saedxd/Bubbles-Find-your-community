@@ -21,13 +21,12 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   bool? get success;
   bool? get Searchsuccess;
   double? get Value;
-
   bool? get showDialogg;
   bool? get done;
-
-
-
   bool? get ToggleSaveIsloading;
+
+  bool? get ShowBubbleDetailsUI;
+  BubbleData? get DetailBubbledata;
 
   GetPrimeBubblesModel? get GetSavedBubbles;
   SaveBubbleModel? get SaveBubble;
@@ -99,6 +98,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetNewBubblesError = ""
       ..GetAllPrimeError = ""
       ..isLoading = false
+      ..ShowBubbleDetailsUI = false
       ..Searchsuccess = false
       ..ShapStatus = true
       ..NearbyIsloading = false
@@ -130,6 +130,7 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..ProfileDate =null
         ..GetNearbyBubbles =null
         ..GetPopularNowBubbles =null
+        ..DetailBubbledata =null
         ..Userlat =37.9715
         ..Userlng =23.7267
         ..BubblesRaduis =[]

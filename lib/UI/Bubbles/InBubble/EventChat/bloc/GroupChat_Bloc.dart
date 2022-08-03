@@ -359,24 +359,28 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
         for (int i = 0;i<state.EventOldMessages!.messages!.length;i++){
           GroupChatMessage InstanceMessages = GroupChatMessage();
+
           InstanceMessages.ISNOdeJS = false;
           InstanceMessages.IsBackEnd = true;
           InstanceMessages.is_base64 = false;
+          InstanceMessages.MessageSettledWIthID = true;
           InstanceMessages.ID = state.EventOldMessages!.messages![i].id!.toInt();
-          InstanceMessages.Type =  state.EventOldMessages!.messages![i].type.toString();
+          InstanceMessages.Type = state.EventOldMessages!.messages![i].type.toString();
           InstanceMessages.FlowSettledWithID =true;
 
           if (state.EventOldMessages!.messages![i].replies!.isEmpty) {
+            DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
+            String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
 
 
             InstanceMessages.ISreply = false;
             InstanceMessages.Alias = state.EventOldMessages!.messages![i].message!.sender_name.toString();
             InstanceMessages.Avatar =  state.EventOldMessages!.messages![i].message!.sender_image.toString();
-            String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+            if (Value.isNotEmpty)
             InstanceMessages.background_Color = int.parse(Value);
             InstanceMessages.message = state.EventOldMessages!.messages![i].message!.message.toString();
-            DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
             InstanceMessages.time = DateFormat.jm().format(datee);
+
 
 
 
@@ -461,10 +465,12 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="poll") {
+
+
               InstanceMessages.ModelType ="PollFlow";
               InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
-              print(state.EventOldMessages!.messages![i].message!.answers!.length);
+
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
               InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
               InstanceMessages.CanReply = false;
@@ -515,51 +521,27 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
 
 
-
               if (state.EventOldMessages!.messages![i].message!.type.toString()=="text") {
                 InstanceMessages.ModelType = "ReplyMessage";
               }
+
               if (state.EventOldMessages!.messages![i].message!.type.toString()=="audio") {
                 InstanceMessages.ModelType = "ReplyVoice";
               }
+
               if (state.EventOldMessages!.messages![i].message!.type.toString()=="image") {
                 InstanceMessages.ModelType = "ReplyImage";
                 InstanceMessages.Image_type = "Backend";
               }
-
-
           }
-
           state.messages!.add(InstanceMessages);
-          // print("Added");
-          // print(InstanceMessages.message);
-
-
         }
-
-
-
-
-
-
-
-
 
         yield state.rebuild((b) => b
           ..isLoading = false
           ..error = ""
           ..success= true
         );
-
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..isLoading = false
-      //     ..error = "something went wrong"
-      //     ..success= false
-      //     ..GetAliasMinee = null
-      //   );
-      // }
     }
 
     if (event is SendMessage) {
@@ -581,7 +563,9 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..SendBubbleMessage.replace(date2)
         );
 
+
        state.messages![0].ID = state.SendBubbleMessage!.message_id!.toInt();
+       state.messages![0].MessageSettledWIthID = true;
 
         yield state.rebuild((b) => b
 

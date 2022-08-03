@@ -78,209 +78,84 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
 
 
         for (int i = 0;i<state.OldMessages!.messages!.length;i++){
+          String Value = "";
+          Value = state.OldMessages!.messages![i].sender_background_color!;
+          DateTime datee = DateTime.parse(state.OldMessages!.messages![i].CreatAt.toString());
+
+          var myInt = int.parse(Value);
+          int BackgroundColor = myInt;
+
           SprintsChat InstanceMessages = SprintsChat();
+
           InstanceMessages.ISNOdeJS = false;
           InstanceMessages.IsBackEnd = true;
           InstanceMessages.is_base64 = false;
+          InstanceMessages.MsgSentSuccessfuly = true;
+          InstanceMessages.ISreply = false;
+          InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
+          InstanceMessages.Type = state.OldMessages!.messages![i].type.toString();
+          InstanceMessages.Alias = state.OldMessages!.messages![i].sender_name.toString();
+          InstanceMessages.Avatar = state.OldMessages!.messages![i].sender_image.toString();
+          InstanceMessages.background_Color = BackgroundColor;
+          InstanceMessages.message =state.OldMessages!.messages![i].message.toString();
+          InstanceMessages.time = DateFormat.jm().format(datee);
+
+
+
+
+
           if (state.OldMessages!.messages![i].replies!.isEmpty) {
 
             if (state.OldMessages!.messages![i].sms_type=="text"){
-              InstanceMessages.ISreply = false;
               InstanceMessages.ModelType = "Message";
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
-              InstanceMessages.Type =
-                  state.OldMessages!.messages![i].type.toString();
-
-              InstanceMessages.Alias =
-                  state.OldMessages!.messages![i].sender_name;
-              InstanceMessages.Avatar =
-                  state.OldMessages!.messages![i].sender_image.toString();
-              String Value = "";
-              Value = state.OldMessages!.messages![i].sender_background_color!;
-
-
-              var myInt = int.parse(Value);
-              int BackgroundColor = myInt;
-
-
-              InstanceMessages.background_Color = BackgroundColor;
-              InstanceMessages.message =
-                  state.OldMessages!.messages![i].message.toString();
-
-              DateTime datee = DateTime.parse(
-                  state.OldMessages!.messages![i].CreatAt.toString());
-
-
-              InstanceMessages.time = DateFormat.jm().format(datee);
-
             }
+
             if (state.OldMessages!.messages![i].sms_type.toString()=="audio") {
-              InstanceMessages.ISreply = false;
               InstanceMessages.ModelType ="Voice";
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
-              InstanceMessages.Type =
-                  state.OldMessages!.messages![i].type.toString();
-
-              InstanceMessages.Alias =
-                  state.OldMessages!.messages![i].sender_name.toString();
-              InstanceMessages.Avatar =
-                  state.OldMessages!.messages![i].sender_image.toString();
-              String Value = "";
-              Value = state.OldMessages!.messages![i].sender_background_color!;
-
-
-              var myInt = int.parse(Value);
-              int BackgroundColor = myInt;
-
-
-              InstanceMessages.background_Color = BackgroundColor;
-              InstanceMessages.message =
-                  state.OldMessages!.messages![i].message.toString();
-
-              DateTime datee = DateTime.parse(
-                  state.OldMessages!.messages![i].CreatAt.toString());
-
-
-              InstanceMessages.time = DateFormat.jm().format(datee);
-
             }
             if (state.OldMessages!.messages![i].sms_type.toString()=="image") {
-              InstanceMessages.ISreply = false;
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
               InstanceMessages.ModelType ="Image";
               InstanceMessages.Image_type = "Backend";
-
-              InstanceMessages.Type =
-                  state.OldMessages!.messages![i].type.toString();
-
-              InstanceMessages.Alias =
-                  state.OldMessages!.messages![i].sender_name.toString();
-              InstanceMessages.Avatar =
-                  state.OldMessages!.messages![i].sender_image.toString();
-              String Value = "";
-              Value = state.OldMessages!.messages![i].sender_background_color!;
-
-
-              var myInt = int.parse(Value);
-              int BackgroundColor = myInt;
-
-
-              InstanceMessages.background_Color = BackgroundColor;
-              InstanceMessages.message =
-                  state.OldMessages!.messages![i].message.toString();
-              print(InstanceMessages.message);
-
-              DateTime datee = DateTime.parse(
-                  state.OldMessages!.messages![i].CreatAt.toString());
-
-
-              InstanceMessages.time = DateFormat.jm().format(datee);
             }
+
 
 
           } else{
+            String Value = state.OldMessages!.messages![i].sender_background_color.toString();
+            var myInt = int.parse(Value);
+            var BackgroundColor = myInt;
+
+            String Value2 = state.OldMessages!.messages![i].replies![0].background.toString();
+            var myInt2 = int.parse(Value2);
+            var BackgroundColor2 = myInt2;
+
+            DateTime datee2 = DateTime.parse( state.OldMessages!.messages![i].replies![0].CreatAt.toString());
+
+            InstanceMessages.ISreply = true;
+            InstanceMessages.Type = state.OldMessages!.messages![i].type.toString();
+            InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
+
+            InstanceMessages.RepliedTOAlias =      state.OldMessages!.messages![i].sender_name.toString();
+            InstanceMessages.RepliedTOMessage =  state.OldMessages!.messages![i].message.toString();
+            InstanceMessages.RepliedTOAvatar =    state.OldMessages!.messages![i].sender_image.toString();
+            InstanceMessages.ReplieDtobackground_Color =BackgroundColor;
+
+            InstanceMessages.ReplierAlias = state.OldMessages!.messages![i].replies![0].alias.toString();
+            InstanceMessages.ReplierMessage = state.OldMessages!.messages![i].replies![0].comment.toString();
+            InstanceMessages.ReplierAvatar =  state.OldMessages!.messages![i].replies![0].avatar.toString();
+            InstanceMessages.Replierbackground_Color =BackgroundColor2;
+            InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
+
 
             if (state.OldMessages!.messages![i].sms_type.toString()=="text") {
-              InstanceMessages.ISreply = true;
-              InstanceMessages.Type = state.OldMessages!.messages![i].type.toString();
               InstanceMessages.ModelType = "ReplyMessage";
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
-
-
-              String Value = state.OldMessages!.messages![i].sender_background_color.toString();
-
-              var myInt = int.parse(Value);
-              var BackgroundColor = myInt;
-
-
-
-              InstanceMessages.RepliedTOAlias =      state.OldMessages!.messages![i].sender_name.toString();
-              InstanceMessages.RepliedTOMessage =  state.OldMessages!.messages![i].message.toString();
-              InstanceMessages.RepliedTOAvatar =    state.OldMessages!.messages![i].sender_image.toString();
-              InstanceMessages.ReplieDtobackground_Color =BackgroundColor;
-
-
-
-              String Value2 = state.OldMessages!.messages![i].replies![0].background.toString();
-              var myInt2 = int.parse(Value2);
-              var BackgroundColor2 = myInt2;
-
-              InstanceMessages.ReplierAlias = state.OldMessages!.messages![i].replies![0].alias.toString();
-              InstanceMessages.ReplierMessage = state.OldMessages!.messages![i].replies![0].comment.toString();
-              InstanceMessages.ReplierAvatar =  state.OldMessages!.messages![i].replies![0].avatar.toString();
-              InstanceMessages.Replierbackground_Color =BackgroundColor2;
-
-              DateTime datee2 = DateTime.parse( state.OldMessages!.messages![i].replies![0].CreatAt.toString());
-
-              InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
             }
             if (state.OldMessages!.messages![i].sms_type.toString()=="audio") {
-              InstanceMessages.ISreply = true;
-              InstanceMessages.Type = state.OldMessages!.messages![i].type.toString();
               InstanceMessages.ModelType = "ReplyVoice";
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
-
-
-              String Value = state.OldMessages!.messages![i].sender_background_color.toString();
-
-              var myInt = int.parse(Value);
-              var BackgroundColor = myInt;
-
-
-
-              InstanceMessages.RepliedTOAlias =      state.OldMessages!.messages![i].sender_name.toString();
-              InstanceMessages.RepliedTOMessage =  state.OldMessages!.messages![i].message.toString();
-              InstanceMessages.RepliedTOAvatar =    state.OldMessages!.messages![i].sender_image.toString();
-              InstanceMessages.ReplieDtobackground_Color =BackgroundColor;
-
-
-
-              String Value2 = state.OldMessages!.messages![i].replies![0].background.toString();
-              var myInt2 = int.parse(Value2);
-              var BackgroundColor2 = myInt2;
-
-              InstanceMessages.ReplierAlias = state.OldMessages!.messages![i].replies![0].alias.toString();
-              InstanceMessages.ReplierMessage = state.OldMessages!.messages![i].replies![0].comment.toString();
-              InstanceMessages.ReplierAvatar =  state.OldMessages!.messages![i].replies![0].avatar.toString();
-              InstanceMessages.Replierbackground_Color =BackgroundColor2;
-
-              DateTime datee2 = DateTime.parse( state.OldMessages!.messages![i].replies![0].CreatAt.toString());
-
-              InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
             }
             if (state.OldMessages!.messages![i].sms_type.toString()=="image") {
-              InstanceMessages.ISreply = true;
               InstanceMessages.ModelType = "ReplyImage";
-              InstanceMessages.Type = state.OldMessages!.messages![i].type.toString();
-              InstanceMessages.ID = state.OldMessages!.messages![i].id!.toInt();
               InstanceMessages.Image_type = "Backend";
-
-              String Value = state.OldMessages!.messages![i].sender_background_color.toString();
-
-              var myInt = int.parse(Value);
-              var BackgroundColor = myInt;
-
-
-
-              InstanceMessages.RepliedTOAlias =      state.OldMessages!.messages![i].sender_name.toString();
-              InstanceMessages.RepliedTOMessage =  state.OldMessages!.messages![i].message.toString();
-              InstanceMessages.RepliedTOAvatar =    state.OldMessages!.messages![i].sender_image.toString();
-              InstanceMessages.ReplieDtobackground_Color =BackgroundColor;
-
-
-
-              String Value2 = state.OldMessages!.messages![i].replies![0].background.toString();
-              var myInt2 = int.parse(Value2);
-              var BackgroundColor2 = myInt2;
-
-              InstanceMessages.ReplierAlias = state.OldMessages!.messages![i].replies![0].alias.toString();
-              InstanceMessages.ReplierMessage = state.OldMessages!.messages![i].replies![0].comment.toString();
-              InstanceMessages.ReplierAvatar =  state.OldMessages!.messages![i].replies![0].avatar.toString();
-              InstanceMessages.Replierbackground_Color =BackgroundColor2;
-
-              DateTime datee2 = DateTime.parse( state.OldMessages!.messages![i].replies![0].CreatAt.toString());
-
-              InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
             }
 
 
@@ -465,7 +340,7 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
             event.DestinationUser_id!,
             event.comment!,event.MessageDirection_Type!, event.Model_Type!);
 
-
+        state.messages![0].MsgSentSuccessfuly = true;
         final date = await _repository.AddReply(event.comment!,event.message_id!);
         print(date);
 
@@ -498,7 +373,7 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
         );
 
         state.messages![0].ID = state.PostMessages!.message_id;
-
+        state.messages![0].MsgSentSuccessfuly = true;
         sendMessage(
             event.message!,
             state.GetAlias!.friend!.id!

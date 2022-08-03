@@ -1,6 +1,7 @@
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_Bloc.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_State.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_event.dart';
@@ -504,19 +505,36 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                     state.ShapStatus!
                                         ?InkWell(
                                       onTap: (){
-                                        WidgetsBinding
-                                            .instance!
-                                            .addPostFrameCallback(
-                                                (_) =>   Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (
-                                                    context) =>
-                                                    Plan_Screen(
-                                                        Bubble:  state.SavedBubbleList![index],   my_id: widget.User_id   ),
-                                              ),
-                                            ));
-
+                              if (state.SavedBubbleList![index].type=="Prime") {
+                                WidgetsBinding
+                                    .instance!
+                                    .addPostFrameCallback((_) =>
+                                    Navigator
+                                        .push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            PrimePlan_page(
+                                                Bubble: state.SavedBubbleList![index],
+                                                my_id: widget.User_id),
+                                      ),
+                                    ));
+                              }else {
+                                WidgetsBinding
+                                    .instance!
+                                    .addPostFrameCallback(
+                                        (_) =>
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                Plan_Screen(
+                                                    Bubble: state
+                                                        .SavedBubbleList![index],
+                                                    my_id: widget.User_id),
+                                          ),
+                                        ));
+                              }
                                       },
                                           child: Container(
                                       width: w/2.2,
@@ -712,19 +730,35 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                         )
                                         :InkWell(
                                       onTap: (){
-                                    WidgetsBinding
-                                        .instance!
-                                        .addPostFrameCallback(
-                                            (_) =>   Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (
-                                                context) =>
-                                                Plan_Screen(
-                                                    Bubble:  state.SavedBubbleList![index],   my_id: widget.User_id   ),
-                                          ),
-                                        ));
-
+                                      if (state.SavedBubbleList![index].type=="Prime") {
+                                      WidgetsBinding
+                                          .instance!
+                                          .addPostFrameCallback((_) =>
+                                      Navigator
+                                          .push(
+                                      context,
+                                      MaterialPageRoute(
+                                      builder: (context) =>
+                                      PrimePlan_page(
+                                      Bubble: state.SavedBubbleList![index],
+                                      my_id: widget.User_id),
+                                      ),
+                                      ));
+                                      }else {
+                                        WidgetsBinding
+                                            .instance!
+                                            .addPostFrameCallback(
+                                                (_) =>
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Plan_Screen(
+                                                            Bubble: state.SavedBubbleList![index],
+                                                            my_id: widget.User_id),
+                                                  ),
+                                                ));
+                                      }
                                   },
                                   child: Center(
                                       child: Container(

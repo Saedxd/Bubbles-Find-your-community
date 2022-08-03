@@ -24,6 +24,10 @@ class _$HomeState extends HomeState {
   @override
   final bool? ToggleSaveIsloading;
   @override
+  final bool? ShowBubbleDetailsUI;
+  @override
+  final BubbleData? DetailBubbledata;
+  @override
   final GetPrimeBubblesModel? GetSavedBubbles;
   @override
   final SaveBubbleModel? SaveBubble;
@@ -120,6 +124,8 @@ class _$HomeState extends HomeState {
       this.showDialogg,
       this.done,
       this.ToggleSaveIsloading,
+      this.ShowBubbleDetailsUI,
+      this.DetailBubbledata,
       this.GetSavedBubbles,
       this.SaveBubble,
       this.SavedBubbleList,
@@ -190,6 +196,8 @@ class _$HomeState extends HomeState {
         showDialogg == other.showDialogg &&
         done == other.done &&
         ToggleSaveIsloading == other.ToggleSaveIsloading &&
+        ShowBubbleDetailsUI == other.ShowBubbleDetailsUI &&
+        DetailBubbledata == other.DetailBubbledata &&
         GetSavedBubbles == other.GetSavedBubbles &&
         SaveBubble == other.SaveBubble &&
         SavedBubbleList == other.SavedBubbleList &&
@@ -254,7 +262,7 @@ class _$HomeState extends HomeState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Searchsuccess.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), ToggleSaveIsloading.hashCode), GetSavedBubbles.hashCode), SaveBubble.hashCode), SavedBubbleList.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), NearbyIsloading.hashCode), NearbySuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode), Userlat.hashCode), Userlng.hashCode), Bubble_lat.hashCode), Bubble_lng.hashCode),
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), Searchsuccess.hashCode), Value.hashCode), showDialogg.hashCode), done.hashCode), ToggleSaveIsloading.hashCode), ShowBubbleDetailsUI.hashCode), DetailBubbledata.hashCode), GetSavedBubbles.hashCode), SaveBubble.hashCode), SavedBubbleList.hashCode), GetAllBubblesError.hashCode), GetAllBubblesIsloading.hashCode), GetAllBubblesSuccess.hashCode), NearbyIsloading.hashCode), NearbySuccess.hashCode), GetAllPrimeError.hashCode), GetAllPrimeIsloading.hashCode), GetAllPrimeSuccess.hashCode), GetNewBubblesError.hashCode), GetNewBubblesIsloading.hashCode), GetNewBubblesSuccess.hashCode), ShapStatus.hashCode), marker2.hashCode), circle.hashCode), locationn.hashCode), BubblesRaduis.hashCode), Userlat.hashCode), Userlng.hashCode), Bubble_lat.hashCode), Bubble_lng.hashCode),
                                                                                 ValueLOading.hashCode),
                                                                             NewValue.hashCode),
                                                                         MakeHimBEableTOSEtBubble.hashCode),
@@ -287,6 +295,8 @@ class _$HomeState extends HomeState {
           ..add('showDialogg', showDialogg)
           ..add('done', done)
           ..add('ToggleSaveIsloading', ToggleSaveIsloading)
+          ..add('ShowBubbleDetailsUI', ShowBubbleDetailsUI)
+          ..add('DetailBubbledata', DetailBubbledata)
           ..add('GetSavedBubbles', GetSavedBubbles)
           ..add('SaveBubble', SaveBubble)
           ..add('SavedBubbleList', SavedBubbleList)
@@ -369,6 +379,16 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
   bool? get ToggleSaveIsloading => _$this._ToggleSaveIsloading;
   set ToggleSaveIsloading(bool? ToggleSaveIsloading) =>
       _$this._ToggleSaveIsloading = ToggleSaveIsloading;
+
+  bool? _ShowBubbleDetailsUI;
+  bool? get ShowBubbleDetailsUI => _$this._ShowBubbleDetailsUI;
+  set ShowBubbleDetailsUI(bool? ShowBubbleDetailsUI) =>
+      _$this._ShowBubbleDetailsUI = ShowBubbleDetailsUI;
+
+  BubbleData? _DetailBubbledata;
+  BubbleData? get DetailBubbledata => _$this._DetailBubbledata;
+  set DetailBubbledata(BubbleData? DetailBubbledata) =>
+      _$this._DetailBubbledata = DetailBubbledata;
 
   GetPrimeBubblesModelBuilder? _GetSavedBubbles;
   GetPrimeBubblesModelBuilder get GetSavedBubbles =>
@@ -591,6 +611,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
       _showDialogg = $v.showDialogg;
       _done = $v.done;
       _ToggleSaveIsloading = $v.ToggleSaveIsloading;
+      _ShowBubbleDetailsUI = $v.ShowBubbleDetailsUI;
+      _DetailBubbledata = $v.DetailBubbledata;
       _GetSavedBubbles = $v.GetSavedBubbles?.toBuilder();
       _SaveBubble = $v.SaveBubble?.toBuilder();
       _SavedBubbleList = $v.SavedBubbleList;
@@ -665,6 +687,8 @@ class HomeStateBuilder implements Builder<HomeState, HomeStateBuilder> {
               showDialogg: showDialogg,
               done: done,
               ToggleSaveIsloading: ToggleSaveIsloading,
+              ShowBubbleDetailsUI: ShowBubbleDetailsUI,
+              DetailBubbledata: DetailBubbledata,
               GetSavedBubbles: _GetSavedBubbles?.build(),
               SaveBubble: _SaveBubble?.build(),
               SavedBubbleList: SavedBubbleList,

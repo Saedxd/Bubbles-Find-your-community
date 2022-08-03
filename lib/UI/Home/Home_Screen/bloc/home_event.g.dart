@@ -553,11 +553,26 @@ class _$UserMoved extends UserMoved {
   final double? lat;
   @override
   final double? lng;
+  @override
+  final i.GlobalKey? globalKey;
+  @override
+  final String? avatar;
+  @override
+  final String? Background_Color;
+  @override
+  final Uint8List? Uint8;
 
   factory _$UserMoved([void Function(UserMovedBuilder)? updates]) =>
       (new UserMovedBuilder()..update(updates))._build();
 
-  _$UserMoved._({this.lat, this.lng}) : super._();
+  _$UserMoved._(
+      {this.lat,
+      this.lng,
+      this.globalKey,
+      this.avatar,
+      this.Background_Color,
+      this.Uint8})
+      : super._();
 
   @override
   UserMoved rebuild(void Function(UserMovedBuilder) updates) =>
@@ -569,19 +584,36 @@ class _$UserMoved extends UserMoved {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is UserMoved && lat == other.lat && lng == other.lng;
+    return other is UserMoved &&
+        lat == other.lat &&
+        lng == other.lng &&
+        globalKey == other.globalKey &&
+        avatar == other.avatar &&
+        Background_Color == other.Background_Color &&
+        Uint8 == other.Uint8;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, lat.hashCode), lng.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc($jc($jc(0, lat.hashCode), lng.hashCode),
+                    globalKey.hashCode),
+                avatar.hashCode),
+            Background_Color.hashCode),
+        Uint8.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('UserMoved')
           ..add('lat', lat)
-          ..add('lng', lng))
+          ..add('lng', lng)
+          ..add('globalKey', globalKey)
+          ..add('avatar', avatar)
+          ..add('Background_Color', Background_Color)
+          ..add('Uint8', Uint8))
         .toString();
   }
 }
@@ -597,6 +629,23 @@ class UserMovedBuilder implements Builder<UserMoved, UserMovedBuilder> {
   double? get lng => _$this._lng;
   set lng(double? lng) => _$this._lng = lng;
 
+  i.GlobalKey? _globalKey;
+  i.GlobalKey? get globalKey => _$this._globalKey;
+  set globalKey(i.GlobalKey? globalKey) => _$this._globalKey = globalKey;
+
+  String? _avatar;
+  String? get avatar => _$this._avatar;
+  set avatar(String? avatar) => _$this._avatar = avatar;
+
+  String? _Background_Color;
+  String? get Background_Color => _$this._Background_Color;
+  set Background_Color(String? Background_Color) =>
+      _$this._Background_Color = Background_Color;
+
+  Uint8List? _Uint8;
+  Uint8List? get Uint8 => _$this._Uint8;
+  set Uint8(Uint8List? Uint8) => _$this._Uint8 = Uint8;
+
   UserMovedBuilder();
 
   UserMovedBuilder get _$this {
@@ -604,6 +653,10 @@ class UserMovedBuilder implements Builder<UserMoved, UserMovedBuilder> {
     if ($v != null) {
       _lat = $v.lat;
       _lng = $v.lng;
+      _globalKey = $v.globalKey;
+      _avatar = $v.avatar;
+      _Background_Color = $v.Background_Color;
+      _Uint8 = $v.Uint8;
       _$v = null;
     }
     return this;
@@ -624,7 +677,14 @@ class UserMovedBuilder implements Builder<UserMoved, UserMovedBuilder> {
   UserMoved build() => _build();
 
   _$UserMoved _build() {
-    final _$result = _$v ?? new _$UserMoved._(lat: lat, lng: lng);
+    final _$result = _$v ??
+        new _$UserMoved._(
+            lat: lat,
+            lng: lng,
+            globalKey: globalKey,
+            avatar: avatar,
+            Background_Color: Background_Color,
+            Uint8: Uint8);
     replace(_$result);
     return _$result;
   }
@@ -2080,6 +2140,247 @@ class GiveHimListOfBooleanBuilder
   _$GiveHimListOfBoolean _build() {
     final _$result = _$v ??
         new _$GiveHimListOfBoolean._(List_Saved_Status: List_Saved_Status);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeToDetailUiState extends ChangeToDetailUiState {
+  @override
+  final BubbleData? Bubbledata;
+  @override
+  final bool? Status;
+
+  factory _$ChangeToDetailUiState(
+          [void Function(ChangeToDetailUiStateBuilder)? updates]) =>
+      (new ChangeToDetailUiStateBuilder()..update(updates))._build();
+
+  _$ChangeToDetailUiState._({this.Bubbledata, this.Status}) : super._();
+
+  @override
+  ChangeToDetailUiState rebuild(
+          void Function(ChangeToDetailUiStateBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeToDetailUiStateBuilder toBuilder() =>
+      new ChangeToDetailUiStateBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeToDetailUiState &&
+        Bubbledata == other.Bubbledata &&
+        Status == other.Status;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, Bubbledata.hashCode), Status.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ChangeToDetailUiState')
+          ..add('Bubbledata', Bubbledata)
+          ..add('Status', Status))
+        .toString();
+  }
+}
+
+class ChangeToDetailUiStateBuilder
+    implements Builder<ChangeToDetailUiState, ChangeToDetailUiStateBuilder> {
+  _$ChangeToDetailUiState? _$v;
+
+  BubbleData? _Bubbledata;
+  BubbleData? get Bubbledata => _$this._Bubbledata;
+  set Bubbledata(BubbleData? Bubbledata) => _$this._Bubbledata = Bubbledata;
+
+  bool? _Status;
+  bool? get Status => _$this._Status;
+  set Status(bool? Status) => _$this._Status = Status;
+
+  ChangeToDetailUiStateBuilder();
+
+  ChangeToDetailUiStateBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Bubbledata = $v.Bubbledata;
+      _Status = $v.Status;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChangeToDetailUiState other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeToDetailUiState;
+  }
+
+  @override
+  void update(void Function(ChangeToDetailUiStateBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeToDetailUiState build() => _build();
+
+  _$ChangeToDetailUiState _build() {
+    final _$result = _$v ??
+        new _$ChangeToDetailUiState._(Bubbledata: Bubbledata, Status: Status);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$SwitchBetweenDetailUi extends SwitchBetweenDetailUi {
+  factory _$SwitchBetweenDetailUi(
+          [void Function(SwitchBetweenDetailUiBuilder)? updates]) =>
+      (new SwitchBetweenDetailUiBuilder()..update(updates))._build();
+
+  _$SwitchBetweenDetailUi._() : super._();
+
+  @override
+  SwitchBetweenDetailUi rebuild(
+          void Function(SwitchBetweenDetailUiBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  SwitchBetweenDetailUiBuilder toBuilder() =>
+      new SwitchBetweenDetailUiBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is SwitchBetweenDetailUi;
+  }
+
+  @override
+  int get hashCode {
+    return 127570363;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('SwitchBetweenDetailUi').toString();
+  }
+}
+
+class SwitchBetweenDetailUiBuilder
+    implements Builder<SwitchBetweenDetailUi, SwitchBetweenDetailUiBuilder> {
+  _$SwitchBetweenDetailUi? _$v;
+
+  SwitchBetweenDetailUiBuilder();
+
+  @override
+  void replace(SwitchBetweenDetailUi other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$SwitchBetweenDetailUi;
+  }
+
+  @override
+  void update(void Function(SwitchBetweenDetailUiBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  SwitchBetweenDetailUi build() => _build();
+
+  _$SwitchBetweenDetailUi _build() {
+    final _$result = _$v ?? new _$SwitchBetweenDetailUi._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$AddMarker extends AddMarker {
+  @override
+  final Marker marker;
+  @override
+  final Circle circle;
+
+  factory _$AddMarker([void Function(AddMarkerBuilder)? updates]) =>
+      (new AddMarkerBuilder()..update(updates))._build();
+
+  _$AddMarker._({required this.marker, required this.circle}) : super._() {
+    BuiltValueNullFieldError.checkNotNull(marker, 'AddMarker', 'marker');
+    BuiltValueNullFieldError.checkNotNull(circle, 'AddMarker', 'circle');
+  }
+
+  @override
+  AddMarker rebuild(void Function(AddMarkerBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  AddMarkerBuilder toBuilder() => new AddMarkerBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is AddMarker &&
+        marker == other.marker &&
+        circle == other.circle;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, marker.hashCode), circle.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('AddMarker')
+          ..add('marker', marker)
+          ..add('circle', circle))
+        .toString();
+  }
+}
+
+class AddMarkerBuilder implements Builder<AddMarker, AddMarkerBuilder> {
+  _$AddMarker? _$v;
+
+  Marker? _marker;
+  Marker? get marker => _$this._marker;
+  set marker(Marker? marker) => _$this._marker = marker;
+
+  Circle? _circle;
+  Circle? get circle => _$this._circle;
+  set circle(Circle? circle) => _$this._circle = circle;
+
+  AddMarkerBuilder();
+
+  AddMarkerBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _marker = $v.marker;
+      _circle = $v.circle;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(AddMarker other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$AddMarker;
+  }
+
+  @override
+  void update(void Function(AddMarkerBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  AddMarker build() => _build();
+
+  _$AddMarker _build() {
+    final _$result = _$v ??
+        new _$AddMarker._(
+            marker: BuiltValueNullFieldError.checkNotNull(
+                marker, 'AddMarker', 'marker'),
+            circle: BuiltValueNullFieldError.checkNotNull(
+                circle, 'AddMarker', 'circle'));
     replace(_$result);
     return _$result;
   }

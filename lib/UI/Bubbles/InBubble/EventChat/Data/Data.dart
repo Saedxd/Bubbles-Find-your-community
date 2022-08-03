@@ -48,6 +48,7 @@ class GroupChatMessage {
   String? MediaDumpTitle;
 
   bool? FlowSettledWithID;
+  bool? MessageSettledWIthID;
 
   GroupChatMessage({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

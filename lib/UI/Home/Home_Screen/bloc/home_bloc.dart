@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
+import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
@@ -15,10 +16,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/marker_updates.dart';
-
+import 'package:custom_marker/marker_icon.dart';
 
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  BitmapDescriptor? customIMAGE;
+  BitmapDescriptor? customIcon;
+
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -27,8 +31,42 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
   }
   IRepository _repository;
-
-
+  // getMarkerWidget() {
+  //   return Transform.translate(
+  //     offset: Offset(50, 50),
+  //     child: RepaintBoundary(
+  //       child: SizedBox(
+  //         height: 40,
+  //         width: 40,
+  //         child: Stack(
+  //           children: [
+  //             Container(
+  //               decoration: BoxDecoration(
+  //                 image: DecorationImage(
+  //                   image: AssetImage(
+  //                       'Assets/images/Map-Marker-Free-Download-PNG.png'),
+  //                   fit: BoxFit.fitHeight,
+  //                 ),
+  //               ),
+  //             ),
+  //             Positioned(
+  //               left: 5,
+  //               top: 6,
+  //               child: ClipOval(
+  //                 child: Container(
+  //                   width: 20,
+  //                   height: 20,
+  //                   child:Image.asset("'Assets/images/DefaultAvatar.png',")
+  //                 ),
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+ // final _HomeBloc = sl<HomeBloc>();
   HomeBloc(this._repository) : super(HomeState.initail()) ;
 
   @override
@@ -99,16 +137,51 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
       }
     }
+
+
     if (event is UserMoved){
+    //  final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
+
+
+
+
+
+      // await BitmapDescriptor.(ImageConfiguration(size: Size(12, 12)),
+      //     'Assets/images/Map-Marker-Free-Download-PNG.png').then((d) {
+      //   customIcon =BitmapDescriptor.fromBytes(d);
+      //
+      // });
+     // await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(2, 2)),
+     //      'Assets/images/DefaultAvatar.png').then((d) {
+     //   customIMAGE = d;
+     // });
+
+
+
+
+
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = true
         ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= false
       );
-      state.marker2!.add(Marker(
-        markerId:  const MarkerId("UserLocation"),
-        position:  LatLng(event.lat! ,event.lng!),
-      ));
+      // state.marker2!.add(
+      //     Marker(
+      //   markerId:  const MarkerId("UserLocationPin"),
+      //   position:  LatLng(event.lat! ,event.lng!),
+      //     icon:BitmapDescriptor.fromBytes(markerIcon1),
+      //     onTap: (){ },
+      // )
+      // );
+
+
+     state.marker2!.add(Marker(
+       draggable: false,
+         markerId:  const MarkerId("UserLocationImage"),
+         position:  LatLng(event.lat!,event.lng!),
+         icon: BitmapDescriptor.fromBytes(event.Uint8!.buffer.asUint8List()),
+         onTap: (){}
+     ));
 
 
       yield state.rebuild((b) => b
@@ -140,9 +213,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         print(date);
 
         yield state.rebuild((b) => b
+
+          ..ProfileDate.replace(date)
           ..GetprofileISloading = false
           ..GetprofileSuccess= true
-          ..ProfileDate.replace(date)
         );
 
       } catch (e) {
@@ -166,6 +240,7 @@ Circle Circle22 = Circle(
     fillColor: Colors.red.withAlpha(100));
 
 Marker Marker22 = Marker(
+  draggable: false,
   markerId:  const MarkerId("New Marker"),
   position: LatLng(event.lat! ,event.lng!),
   //  icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -208,12 +283,13 @@ yield state.rebuild((b) => b
       try {
         //  final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
 
-        Circle Circle22 = const Circle(
+        Circle Circle22 =  Circle(
             circleId: CircleId("New bubble"),
           radius: 0,
           visible: false
      );
         Marker Marker22 =  Marker(
+            draggable: false,
             markerId:   MarkerId("New Marker"),
           //  icon: BitmapDescriptor.fromBytes(markerIcon),
             visible: false,
@@ -371,11 +447,14 @@ yield state.rebuild((b) => b
 
 
           BubbleData Bubbledata = BubbleData();
-
+          if (      state.GetSavedBubbles!.data![i].type.toString()!="Prime"){
+            Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
+            Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
+            Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
+          }
           Bubbledata.Title = state.GetNearbyBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNearbyBubbles!.data![i].location.toString();
-          Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
-          Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
+
           Bubbledata.image = state.GetNearbyBubbles!.data![i].images![0].image.toString();
           Bubbledata.id = state.GetNearbyBubbles!.data![i].id!.toInt();
           Bubbledata.TYPE = state.GetNearbyBubbles!.data![i].type.toString();
@@ -386,7 +465,6 @@ yield state.rebuild((b) => b
           Bubbledata.Description = state.GetNearbyBubbles!.data![i].description.toString();
           String Value = state.GetNearbyBubbles!.data![i].color.toString();
           Bubbledata.Organizers = state.GetNearbyBubbles!.data![i].organizers!;
-          Bubbledata.dates = state.GetNearbyBubbles!.data![i].dates!;
           Bubbledata.is_Saved = state.GetNearbyBubbles!.data![i].is_save;
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
@@ -491,19 +569,19 @@ yield state.rebuild((b) => b
       print(date);
 
       yield state.rebuild((b) => b
-        ..GetAllBubblesIsloading = false
+        ..GetAllBubblesIsloading = true
         ..GetAllBubblesError = ""
-        ..GetAllBubblesSuccess= true
+        ..GetAllBubblesSuccess= false
         ..GetBubbles.replace(date)
       );
 
 
 
-      final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
+  //    final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
       for(int i=0;i<state.GetBubbles!.data!.length;i++) {
         if (state.GetBubbles!.data![i].draw_type!="polygon") {
-          LatLng latlng = LatLng(state.GetBubbles!.data![i].lat!,
-              state.GetBubbles!.data![i].lng!);
+          // LatLng latlng = LatLng(state.GetBubbles!.data![i].lat!,
+          //     state.GetBubbles!.data![i].lng!);
           Locationss Location = Locationss();
           Location.lng = state.GetBubbles!.data![i].lng;
           Location.lat = state.GetBubbles!.data![i].lat;
@@ -521,19 +599,27 @@ yield state.rebuild((b) => b
           var BackgroundColor= myInt;
           print(state.GetBubbles!.data![i].title.toString());
 
-          state.circle!.add(Circle(
-              circleId: CircleId(state.GetBubbles!.data![i].id.toString()),
-              radius:
-              state.GetBubbles!.data![i].radius!.toDouble(),
-              zIndex: 2,
-              strokeColor: Colors.transparent,
-              center: latlng,
-              fillColor: Color(BackgroundColor).withAlpha(100)));
-          state.marker2!.add(Marker(
-            markerId:  MarkerId((state.GetBubbles!.data![i].id!+1000).toString()),
-            position: latlng,
-            icon: BitmapDescriptor.fromBytes(markerIcon),
-          ));
+          // state.circle!.add(Circle(
+          //     circleId: CircleId(state.GetBubbles!.data![i].id.toString()),
+          //     radius: state.GetBubbles!.data![i].radius!.toDouble(),
+          //     zIndex: 2,
+          //     strokeColor: Colors.transparent,
+          //     center: latlng,
+          //     fillColor: Color(BackgroundColor).withAlpha(100)
+          // ,onTap: ()async{
+          //   ChangeUistatus = true;
+          // }
+          // ));
+          // state.marker2!.add(Marker(
+          //   markerId: MarkerId((state.GetBubbles!.data![i].id!+1000).toString()),
+          //   position: latlng,
+          //   icon: BitmapDescriptor.fromBytes(markerIcon),
+          //   onTap:(){
+          //
+          //   },
+          // ));
+
+
         }
       }
 
@@ -541,6 +627,11 @@ yield state.rebuild((b) => b
 
 
 
+      yield state.rebuild((b) => b
+        ..GetAllBubblesIsloading = false
+        ..GetAllBubblesError = ""
+        ..GetAllBubblesSuccess= true
+      );
       //
       //
       // } catch (e) {
@@ -578,6 +669,7 @@ yield state.rebuild((b) => b
 
           Bubbledata.Title = state.GetPrimeBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetPrimeBubbles!.data![i].location.toString();
+
           Bubbledata.StartDate = state.GetPrimeBubbles!.data![i].start_event_date.toString();
           Bubbledata.endDate =state.GetPrimeBubbles!.data![i].end_event_date.toString();
           Bubbledata.image = state.GetPrimeBubbles!.data![i].images![0].image.toString();
@@ -635,11 +727,14 @@ yield state.rebuild((b) => b
 
 
           BubbleData Bubbledata = BubbleData();
-
+if (      state.GetSavedBubbles!.data![i].type.toString()!="Prime"){
+  Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
+  Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
+  Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
+}
           Bubbledata.Title = state.GetNewBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNewBubbles!.data![i].location.toString();
-          Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
-          Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
+
           Bubbledata.image = state.GetNewBubbles!.data![i].images![0].image.toString();
           Bubbledata.id = state.GetNewBubbles!.data![i].id!.toInt();
           Bubbledata.type = state.GetNewBubbles!.data![i].type.toString();
@@ -649,7 +744,7 @@ yield state.rebuild((b) => b
           Bubbledata.User_type = state.GetNewBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetNewBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetNewBubbles!.data![i].organizers!;
-          Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
+
           String Value = state.GetNewBubbles!.data![i].color.toString();
           Bubbledata.is_Saved = state.GetNewBubbles!.data![i].is_save;
 
@@ -829,10 +924,68 @@ yield state.rebuild((b) => b
 
       }
     }
+    if (event is ChangeToDetailUiState) {
+      try {
+
+
+        yield state.rebuild((b) =>
+        b ..DetailBubbledata = event.Bubbledata
+        );
+
+        yield state.rebuild((b) =>b
+          ..ShowBubbleDetailsUI = event.Status
+        );
+      } catch (e) {
+
+      }
+    }
+    if (event is SwitchBetweenDetailUi) {
+      try {
+
+        yield state.rebuild((b) =>
+        b ..isLoading = true
+        );
+
+      } catch (e) {
+
+      }
+    }
+    if (event is AddMarker) {
+      try {
+
+        state.circle!.add(event.circle);
+        state.marker2!.add(event.marker);
+
+
+
+
+      } catch (e) {
+
+      }
+    }
+
 
 
   }
 
+
+//   Stream<void> DoIT(
+//       HomeEvent event,
+//       ) async* {
+//     if (event is ChangeUiState) {
+//       try {
+//         print("GOT IT");
+//
+//         yield state.rebuild((b) =>
+//            b..ShowBubbleDetailsUI = b.ShowBubbleDetailsUI!
+//         );
+//
+//       } catch (e) {
+// print(e);
+//       }
+//     }
+//
+//   }
 
 }
 

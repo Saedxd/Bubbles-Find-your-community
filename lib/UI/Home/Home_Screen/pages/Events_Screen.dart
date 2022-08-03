@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_bloc.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
@@ -107,7 +108,7 @@ List<bool>? Saved_Status=[];
                             ),),
                           const Text(""),
                           const Text(""),
-                          widget.Type=="Nearby Primes"?Container():      IconButton(
+                          widget.Type=="Primes"?Container():      IconButton(
                         icon: SvgPicture.asset(
                           state.ShapStatus!?
                             "Assets/images/reshap1.svg"
@@ -132,6 +133,7 @@ List<bool>? Saved_Status=[];
                               GridView.builder(
                                   itemCount: widget.Bubble.length,
                                   scrollDirection: Axis.vertical,
+                                  physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
                                   state.ShapStatus!? 2:1,
                                     childAspectRatio: (5 / (widget.Type!="Nearby Primes"?5: 5.7)),),
@@ -387,7 +389,7 @@ List<bool>? Saved_Status=[];
                                                         MaterialPageRoute(
                                                           builder: (
                                                               context) =>
-                                                              Plan_Screen(
+                                                              PrimePlan_page(
                                                                   Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
                                                         ),
                                                       ));
@@ -759,7 +761,7 @@ List<bool>? Saved_Status=[];
                                                 MaterialPageRoute(
                                                   builder: (
                                                       context) =>
-                                                      Plan_Screen(
+                                                      PrimePlan_page(
                                                           Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
                                                 ),
                                               ));
