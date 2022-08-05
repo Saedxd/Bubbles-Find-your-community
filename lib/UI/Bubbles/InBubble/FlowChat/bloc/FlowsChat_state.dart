@@ -29,6 +29,7 @@ abstract class FlowsChatState implements Built<FlowsChatState,FlowsChatStateBuil
   bool? get isLoading;
   bool? get success;
 
+  bool? get ShowFloatingActionButtonn;
 
   bool? get KetbaordStatuss;
 
@@ -112,6 +113,7 @@ abstract class FlowsChatState implements Built<FlowsChatState,FlowsChatStateBuil
       ..isLoading = false
       ..GetInsideUsersISloading = false
       ..GetInsideUsersSuccess = false
+      ..ShowFloatingActionButtonn = false
       ..FreindAddlOADING = false
       ..AddFreindSuccess = false
       ..CheckboxStatuss1 = false

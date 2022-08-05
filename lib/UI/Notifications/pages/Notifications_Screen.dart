@@ -462,6 +462,7 @@ bool diditonce = false;
                                 fontWeight: FontWeight.w600, fontSize: 23),
                           ),
                           const Text(""),
+                          const Text(""),
                         ],
                       ),
 

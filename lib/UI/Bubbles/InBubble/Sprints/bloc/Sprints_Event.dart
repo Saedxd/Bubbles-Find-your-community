@@ -137,3 +137,9 @@ abstract class KetbaordStatus extends SprintsEvent
   KetbaordStatus._();
   factory KetbaordStatus([updates(KetbaordStatusBuilder b)]) = _$KetbaordStatus;
 }
+abstract class ShowFloatingActionButton extends SprintsEvent
+    implements Built<ShowFloatingActionButton, ShowFloatingActionButtonBuilder> {
+  bool? get status;
+  ShowFloatingActionButton._();
+  factory ShowFloatingActionButton([updates(ShowFloatingActionButtonBuilder b)]) = _$ShowFloatingActionButton;
+}

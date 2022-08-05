@@ -22,6 +22,12 @@ abstract class ClearError extends FlowsChatEvent
   factory ClearError([updates(ClearErrorBuilder b)]) = _$ClearError;
 }
 
+abstract class ShowFloatingActionButton extends FlowsChatEvent
+    implements Built<ShowFloatingActionButton, ShowFloatingActionButtonBuilder> {
+  bool? get status;
+  ShowFloatingActionButton._();
+  factory ShowFloatingActionButton([updates(ShowFloatingActionButtonBuilder b)]) = _$ShowFloatingActionButton;
+}
 
 abstract class KetbaordStatus extends FlowsChatEvent
     implements Built<KetbaordStatus,KetbaordStatusBuilder> {

@@ -5,6 +5,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,14 +76,37 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                         Stack(
                           children: [
                             Container(
-                              width: w,
-                              height: h / 2.6,
-                              margin: EdgeInsets.only(top: h / 50),
-                              child: Image.network
-                                (widget.Bubble!.image.toString(),
-                                fit: BoxFit.fill,
+                                width: w,
+                                height: h / 3,
+                                margin: EdgeInsets.only(top: h / 50),
+                                child:  CachedNetworkImage(
+                                  imageUrl: widget.Bubble!.image.toString(),
+                                  imageBuilder: (context, imageProvider) => Container(
+                                    width: w,
+                                    height: h / 3,
 
-                              ),
+                                    decoration: BoxDecoration(
+                                      image:DecorationImage(image: imageProvider,
+                                        fit: BoxFit.fill,
+                                      ),
+
+                                    ),
+
+                                  ),
+                                  placeholder: (context, url) => Container(
+                                      width: w,
+                                      height: h / 3,child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircularProgressIndicator(),
+                                    ],
+                                  )),
+                                  errorWidget: (context, url, error) => Container(
+                                      width: w,
+                                      height: h / 3,child: Icon(Icons.error)),
+                                )
+
+
                             ),
                             Container(
                               width: w,

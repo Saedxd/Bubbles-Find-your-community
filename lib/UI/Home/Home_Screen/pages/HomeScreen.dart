@@ -597,20 +597,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ),
                                   child:Row(
                                     children: [
-                                      SizedBox(width: w/20,),
+                                      SizedBox(width: w/30,),
                                       CircleAvatar(
-                                        radius: h/24,
+                                        radius: h/22,
                                         backgroundImage: NetworkImage(state.DetailBubbledata!.image!),
                                       ),
                                       SizedBox(width: w/20,),
                                       Container(
                                         height: h/8.6,
-                                        width: w/2.3,
+                                        width: w/2.2,
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Container(
-                                              width: w/2.3,
+                                              width: w/2.2,
                                               child: Text(state.DetailBubbledata!.Title!,
                                                 textAlign: TextAlign.left, style: TextStyle(
                                                   color:  Color(state.DetailBubbledata!.Color!),
@@ -623,7 +623,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             ),
                                             SizedBox(height: w/65,),
                                              Container(
-                                          width: w/2.3,
+                                               width: w/2.2,
                                           child:
                                           Text('At ${state.DetailBubbledata!.location!}', textAlign: TextAlign.left, style: TextStyle(
                                                 color: Color.fromRGBO(96, 96, 96, 1),
@@ -761,331 +761,329 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                              builder: (context) => SlidingUpPanel(
                               controller: PanelControllerr,
                               color: ColorS.onPrimaryContainer,
-                              maxHeight: h,
-                              minHeight: 30,
-                              onPanelOpened: () {
+                              maxHeight:  state.BUBBLElistS3!.length== 0&& state.BUBBLElistS2!.length == 0 && state.BUBBLElistS1!.length== 0
+                                 ?h/2.4
+                                 :h,
 
-                              },
+                              minHeight: 30,
+                              onPanelOpened: () { },
                               borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
                               ),
-                              panel: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                  ),
-                                ),
-                                width: w,
-                                height: h,
-                                child: Column(
-                                  children:[
-                                    SizedBox(
-                                      height: h / 70,
-                                    ),
-                                    Container(
-                                      width: w / 3.9,
-                                      height: h / 130,
-                                      decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                          bottomLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                        ),
-                                        color: ColorS.onTertiary,
-                                      ),
-                                      //
-                                    ),
-                                    SizedBox(
-                                      height: h / 20,
-                                    ),
-                                !state.ChangeViewStatus!?
-                                Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                          width: w/2,
-                                          height: h/15,
-                                          child: Row(
-                                            children: [
-                                              Text(
-                                                'Prime Bubbles',
-                                                textAlign: TextAlign.left,
-                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                  fontSize: 17,
-                                                  letterSpacing: 0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              SizedBox(width: 5,),
-                                              InkWell(
-                                                onTap: () {
-                                                  _Primecontroller.animateTo(
-                                                    _Primecontroller.position
-                                                        .minScrollExtent,
-                                                    duration: Duration(
-                                                        milliseconds: 2000),
-                                                    curve: Curves.easeIn,
-                                                  );
-                                                  WidgetsBinding.instance!
-                                                      .addPostFrameCallback(
-                                                        (_) => ShowCaseWidget.of(
-                                                        context)!
-                                                        .startShowCase(
-                                                      [
-                                                        _key,
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                                child: Container(
-                                                  width: w / 20,
-                                                  height: h / 50,
-                                                  child: Row(
-                                                    children: [
-                                                      SvgPicture.asset(
-                                                          "Assets/images/Vector22.svg",
-                                                          width: h/40,
-                                                          color: ColorS.onTertiary),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                              panel:  Container(
+                                    width: w,
+                                  height: state.BUBBLElistS3!.length== 0&& state.BUBBLElistS2!.length == 0 && state.BUBBLElistS1!.length== 0
+                                      ?h/2.5
+                                      :h,
 
-                                        SizedBox(width: 5,),
-                                        IconButton(
-                                            onPressed: (){
-                                              WidgetsBinding
-                                                  .instance!
-                                                  .addPostFrameCallback((_) =>
-                                                  Navigator
-                                                      .push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => Events_Screen(
-                                                          Bubble: state.BUBBLElistS4!,
-                                                          Type: 'Primes',
-                                                          my_id: state.ProfileDate!.user!.id!
+                                  child:Column(
+                                          children:[
+                                            SizedBox(
+                                              height: h / 70,
+                                            ),
+                                            Container(
+                                              width: w / 3.9,
+                                              height: h / 130,
+                                              decoration: BoxDecoration(
+                                                borderRadius: const BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight: Radius.circular(20),
+                                                  bottomLeft: Radius.circular(20),
+                                                  bottomRight: Radius.circular(20),
+                                                ),
+                                                color: ColorS.onTertiary,
+                                              ),
+                                              //
+                                            ),
+                                            SizedBox(
+                                              height: h / 20,
+                                            ),
+                                            !state.ChangeViewStatus!?
+                                            Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: [
+                                                    Container(
+                                                      width: w/2,
+                                                      height: h/15,
+                                                      child: Row(
+                                                        children: [
+                                                          Text(
+                                                            'Prime Bubbles',
+                                                            textAlign: TextAlign.left,
+                                                            style: _TextTheme.headlineLarge!.copyWith(
+                                                              fontSize: 17,
+                                                              letterSpacing: 0,
+                                                              fontWeight: FontWeight.w600,
+                                                            ),
+                                                          ),
+                                                          SizedBox(width: 5,),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              _Primecontroller.animateTo(
+                                                                _Primecontroller.position
+                                                                    .minScrollExtent,
+                                                                duration: Duration(
+                                                                    milliseconds: 2000),
+                                                                curve: Curves.easeIn,
+                                                              );
+                                                              WidgetsBinding.instance!
+                                                                  .addPostFrameCallback(
+                                                                    (_) => ShowCaseWidget.of(
+                                                                    context)!
+                                                                    .startShowCase(
+                                                                  [
+                                                                    _key,
+                                                                  ],
+                                                                ),
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              width: w / 20,
+                                                              height: h / 50,
+                                                              child: Row(
+                                                                children: [
+                                                                  SvgPicture.asset(
+                                                                      "Assets/images/Vector22.svg",
+                                                                      width: h/40,
+                                                                      color: ColorS.onTertiary),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
-                                                  ));
-                                            },
-                                            icon: Text('See all',
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(207, 109, 56, 1),
-                                                  fontFamily: 'Red Hat Display',
-                                                  fontSize: 11,
-                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1
-                                              ),)
 
-                                        )
-                                      ],
-                                    ),
-
-                                    state.GetNewBubblesSuccess!
-                                        ? Container(
-                                      width: w,
-                                      height: h /4,
-                                      padding:EdgeInsets.only(left: h/25),
-                                      child: ListView.separated(
-                                        cacheExtent : 500,
-                                        controller:_Primecontroller ,
-                                        physics: BouncingScrollPhysics(),
-                                        scrollDirection: Axis.horizontal,
-                                        shrinkWrap: false,
-                                        itemCount: state.BUBBLElistS4!.length,
-                                        itemBuilder:
-                                            (BuildContext context,
-                                            int index) {
-                                          String Value = state.BUBBLElistS4![index].Color.toString();
-                                          if (Value.contains("#",0)){
-                                            Value = Value.substring(1);
-                                            Value = "0xff$Value";
-                                          }
-                                          var myInt = int.parse(Value);
-                                          var BackgroundColor= myInt;
-
-
-                                          return index == 0
-                                              ? Showcase(
-                                              key: _key,
-                                              description:
-                                              'Prime Bubbles are permanent public bubbles that are placed in key places',
-                                              showArrow: true,
-                                              showcaseBackgroundColor:  Colors.transparent,
-                                              textColor: Colors.white,
-                                              disableAnimation: false,
-                                              disposeOnTap: true,
-                                              onTargetClick: (){ },
-
-                                              child: InkWell(
-                                                onTap: () {
-                                                  WidgetsBinding
-                                                      .instance!
-                                                      .addPostFrameCallback(
-                                                          (_) =>   Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (
-                                                              context) =>
-                                                              PrimePlan_page(
-                                                                Bubble:state.BUBBLElistS4![index],
-                                                                my_id: state.ProfileDate!.user!.id ,
-                                                                List_Type: "PRIME",
-
+                                                    SizedBox(width: 5,),
+                                                    SizedBox(width: 5,),
+                                                    InkWell(
+                                                      onTap: (){
+                                                        WidgetsBinding
+                                                            .instance!
+                                                            .addPostFrameCallback((_) =>
+                                                            Navigator
+                                                                .push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder: (context) => Events_Screen(
+                                                                    Bubble: state.BUBBLElistS4!,
+                                                                    Type: 'Primes',
+                                                                    my_id: state.ProfileDate!.user!.id!
+                                                                ),
                                                               ),
-                                                        ),
-                                                      ));
-
-
-
-                                                },
-                                                child:
-
-
-
-                                                Container(
-                                                  width: w/2.5,
-                                                  height: h / 5,
-                                                  padding: EdgeInsets.only(top: h/300),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius : BorderRadius.only(
-                                                      topLeft: Radius.circular(364.2384033203125),
-                                                      topRight: Radius.circular(364.2384033203125),
-                                                      bottomLeft: Radius.circular(14.569536209106445),
-                                                      bottomRight: Radius.circular(14.569536209106445),
+                                                            ));
+                                                      },
+                                                      child: Text('See all',
+                                                        textAlign: TextAlign.right,
+                                                        style: TextStyle(
+                                                            color: Color.fromRGBO(207, 109, 56, 1),
+                                                            fontFamily: 'Red Hat Display',
+                                                            fontSize: 13,
+                                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                            fontWeight: FontWeight.w400,
+                                                            height: 1
+                                                        ),),
                                                     ),
-                                                    color: Colors.white
-                                                  ),child:
+                                                    SizedBox(width: 0,),
+                                                  ],
+                                                ),
 
-                                                Column(
-                                                    children: [
-                                                      Stack(
-                                                        children: [
-                                                          CachedNetworkImage(
-                                                            imageUrl: state.BUBBLElistS4![index].image.toString(),
-                                                            imageBuilder: (context, imageProvider) => Container(
+                                                state.GetNewBubblesSuccess!
+                                                    ? Container(
+                                                  width: w,
+                                                  height: h /4,
+                                                  child: ListView.separated(
+                                                    cacheExtent : 500,
+                                                    controller:_Primecontroller ,
+                                                    physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                    scrollDirection: Axis.horizontal,
+                                                    shrinkWrap: false,
+                                                    itemCount: state.BUBBLElistS4!.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                        int index) {
+                                                      String Value = state.BUBBLElistS4![index].Color.toString();
+                                                      if (Value.contains("#",0)){
+                                                        Value = Value.substring(1);
+                                                        Value = "0xff$Value";
+                                                      }
+                                                      var myInt = int.parse(Value);
+                                                      var BackgroundColor= myInt;
+
+
+                                                      return index == 0
+                                                          ? Showcase(
+                                                          key: _key,
+                                                          description:
+                                                          'Prime Bubbles are permanent public bubbles that are placed in key places',
+                                                          showArrow: true,
+                                                          showcaseBackgroundColor:  Colors.transparent,
+                                                          textColor: Colors.white,
+                                                          disableAnimation: false,
+                                                          disposeOnTap: true,
+                                                          onTargetClick: (){ },
+
+                                                          child:  InkWell(
+                                                            onTap: () {
+                                                              WidgetsBinding
+                                                                  .instance!
+                                                                  .addPostFrameCallback(
+                                                                      (_) =>   Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder: (
+                                                                          context) =>
+                                                                          PrimePlan_page(Bubble:state.BUBBLElistS4![index] ,
+                                                                            my_id: state.ProfileDate!.user!.id,         List_Type: "PRIME", ),
+                                                                    ),
+                                                                  ));
+
+
+
+                                                            },
+                                                            child:
+
+
+
+                                                            Container(
                                                               width: w/2.5,
-                                                              height: h/5.5,
+                                                              height: h / 5,
+                                                              margin: EdgeInsets.only(left: h/40),
+                                                              padding: EdgeInsets.only(top: h/300),
                                                               decoration: BoxDecoration(
                                                                 borderRadius : BorderRadius.only(
                                                                   topLeft: Radius.circular(364.2384033203125),
                                                                   topRight: Radius.circular(364.2384033203125),
-                                                                  bottomLeft: Radius.circular(14.569536209106445),
-                                                                  bottomRight: Radius.circular(14.569536209106445),
+                                                                  bottomRight: Radius.circular(40.569536209106445),
+                                                                  bottomLeft: Radius.circular(40.569536209106445),
+
                                                                 ),
-                                                                image:DecorationImage(image: imageProvider
-                                                                    ,fit: BoxFit.fill
-                                                                ),
+                                                                color: Colors.white,
+                                                              ),child:
 
-                                                              ),
-
-                                                            ),
-                                                            placeholder: (context, url) => Container(    width: w/2.5,
-                                                                height: h/6.5,child: Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                  children: [
-                                                                    CircularProgressIndicator(),
-                                                                  ],
-                                                                )),
-                                                            errorWidget: (context, url, error) => Container(    width: w/2.5,
-                                                                height: h/6.5,child: Icon(Icons.error)),
-                                                          ),
-                                                          Positioned(
-                                                            top: h/9,
-                                                            child: Container(
-                                                                width: w/2.5,
-                                                                height: h/8,
-                                                                padding: EdgeInsets.only(top: h/4),
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius : BorderRadius.only(
-                                                                    // topLeft: Radius.circular(30.2384033203125),
-                                                                    // topRight: Radius.circular(30.2384033203125),
-                                                                  ),
-                                                                  gradient : LinearGradient(
-                                                                      begin: Alignment(7.730259880964636e-14,-0.5),
-                                                                      end: Alignment(-2,3.9593861611176705e-16),
-                                                                      colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
-                                                                  ),
-                                                                )
-                                                            ),
-                                                          ),
-
-                                                        ],
-                                                      ),
-
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                            borderRadius : BorderRadius.only(
-
-                                                            ),
-                                                            color: Color(0xff606060),
-                                                          ),
-                                                          child:
-                                                          Column(
-                                                            children: [
-                                                              Row(
+                                                            Column(
                                                                 children: [
-                                                                  SvgPicture.asset(
-                                                                    "Assets/images/Exclude.svg",
-                                                                    color : Color(BackgroundColor),
-                                                                    width: w/12,
+                                                                  Stack(
+                                                                    children: [
+                                                                      CachedNetworkImage(
+                                                                        imageUrl:state.BUBBLElistS4![index].image.toString(),
+                                                                        imageBuilder: (context, imageProvider) => Container(
+                                                                          width: w/2.5,
+                                                                          height: h/5.5,
+
+                                                                          decoration: BoxDecoration(
+                                                                            borderRadius : BorderRadius.only(
+                                                                              topLeft: Radius.circular(364.2384033203125),
+                                                                              topRight: Radius.circular(364.2384033203125),
+                                                                              bottomLeft: Radius.circular(14.569536209106445),
+                                                                              bottomRight: Radius.circular(14.569536209106445),
+                                                                            ),
+                                                                            image:DecorationImage(image: imageProvider
+                                                                                ,fit: BoxFit.fill
+                                                                            ),
+
+                                                                          ),
+
+                                                                        ),
+                                                                        placeholder: (context, url) => Container(    width: w/2.5,
+                                                                            height: h/6.5,child: Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                              children: [
+                                                                                CircularProgressIndicator(),
+                                                                              ],
+                                                                            )),
+                                                                        errorWidget: (context, url, error) => Container(    width: w/2.5,
+                                                                            height: h/6.5,child: Icon(Icons.error)),
+                                                                      ),
+                                                                      Positioned(
+                                                                        top: h/9,
+                                                                        child: Container(
+                                                                            width: w/2.5,
+                                                                            height: h/8,
+                                                                            padding: EdgeInsets.only(top: h/4),
+                                                                            decoration: BoxDecoration(
+                                                                              borderRadius : BorderRadius.only(
+                                                                                // topLeft: Radius.circular(30.2384033203125),
+                                                                                // topRight: Radius.circular(30.2384033203125),
+                                                                              ),
+                                                                              gradient : LinearGradient(
+                                                                                  begin: Alignment(7.730259880964636e-14,-0.5),
+                                                                                  end: Alignment(-2,3.9593861611176705e-16),
+                                                                                  colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
+                                                                              ),
+                                                                            )
+                                                                        ),
+                                                                      ),
+                                                                    ],
                                                                   ),
-                                                                  Flexible(
+
+                                                                  Expanded(
                                                                     child: Container(
-                                                                      color: Colors.transparent,
-                                                                      child: Text(state.BUBBLElistS4![index].Title!,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        textAlign: TextAlign.left, style: TextStyle(
-                                                                            color: Color.fromRGBO(255, 255, 255, 1),
-                                                                            fontFamily: 'Red Hat Display',
-                                                                            fontSize: 13,
-                                                                            letterSpacing: 0,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            height: 1
-                                                                        ),),
+
+
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius : BorderRadius.only(
+                                                                          bottomRight: Radius.circular(6.569536209106445),
+                                                                          bottomLeft: Radius.circular(6.569536209106445),
+                                                                        ),
+                                                                        color: Color(0xff606060),
+                                                                      ),
+                                                                      child:
+                                                                      Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            children: [
+                                                                              SvgPicture.asset(
+                                                                                "Assets/images/Exclude.svg",
+                                                                                color : Color(BackgroundColor),
+                                                                                width: w/12,
+                                                                              ),
+                                                                              Flexible(
+                                                                                child: Container(
+                                                                                  color: Colors.transparent,
+                                                                                  child: Text(state.BUBBLElistS4![index].Title.toString(),
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    textAlign: TextAlign.left, style: TextStyle(
+                                                                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                        fontFamily: 'Red Hat Display',
+                                                                                        fontSize: 13,
+                                                                                        letterSpacing: 0,
+                                                                                        fontWeight: FontWeight.w600,
+                                                                                        height: 1
+                                                                                    ),),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          // Container(
+                                                                          //   margin: EdgeInsets.only(right: h/10),
+                                                                          //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                                          //       color: Color.fromRGBO(255, 255, 255, 1),
+                                                                          //       fontFamily: 'Red Hat Text',
+                                                                          //       fontSize: 10,
+                                                                          //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                          //       fontWeight: FontWeight.w300,
+                                                                          //       height: 1
+                                                                          //   ),),
+                                                                          // ),
+
+                                                                        ],
+                                                                      ),
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
-                                                              // Container(
-                                                              //   margin: EdgeInsets.only(right: h/10),
-                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
-                                                              //       fontFamily: 'Red Hat Text',
-                                                              //       fontSize: 10,
-                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                              //       fontWeight: FontWeight.w300,
-                                                              //       height: 1
-                                                              //   ),),
-                                                              // ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ]
+                                                                ]
 
 
 
 
 
-                                                ),
+                                                            ),
 
 
-                                                ),
+                                                            ),
 
 
 
@@ -1093,1034 +1091,167 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
 
-                                              ))
-                                              : InkWell(
-                                            onTap: () {
-                                              WidgetsBinding
-                                                  .instance!
-                                                  .addPostFrameCallback(
-                                                      (_) =>   Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (
-                                                          context) =>
-                                                          PrimePlan_page(Bubble:state.BUBBLElistS4![index] ,
-                                                            my_id: state.ProfileDate!.user!.id,         List_Type: "PRIME", ),
-                                                    ),
-                                                  ));
+                                                          ))
+                                                          : InkWell(
+                                                        onTap: () {
+                                                          WidgetsBinding
+                                                              .instance!
+                                                              .addPostFrameCallback(
+                                                                  (_) =>   Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (
+                                                                      context) =>
+                                                                      PrimePlan_page(Bubble:state.BUBBLElistS4![index] ,
+                                                                        my_id: state.ProfileDate!.user!.id,         List_Type: "PRIME", ),
+                                                                ),
+                                                              ));
 
 
 
-                                            },
-                                            child:
+                                                        },
+                                                        child:
 
 
 
-                                            Container(
-                                              width: w/2.5,
-                                              height: h / 5,
-                                              padding: EdgeInsets.only(top: h/300),
-                                              decoration: BoxDecoration(
-                                                borderRadius : BorderRadius.only(
-                                                  topLeft: Radius.circular(364.2384033203125),
-                                                  topRight: Radius.circular(364.2384033203125),
-                                                  bottomLeft: Radius.circular(14.569536209106445),
-                                                  bottomRight: Radius.circular(14.569536209106445),
-                                                ),
-                                                color: Colors.white,
-                                              ),child:
-
-                                            Column(
-                                                children: [
-                                                  Stack(
-                                                    children: [
-                                                      CachedNetworkImage(
-                                                        imageUrl:state.BUBBLElistS4![index].image.toString(),
-                                                        imageBuilder: (context, imageProvider) => Container(
+                                                        Container(
                                                           width: w/2.5,
-                                                          height: h/5.5,
-
+                                                          height: h / 5,
+                                                          padding: EdgeInsets.only(top: h/300),
                                                           decoration: BoxDecoration(
                                                             borderRadius : BorderRadius.only(
                                                               topLeft: Radius.circular(364.2384033203125),
                                                               topRight: Radius.circular(364.2384033203125),
-                                                              bottomLeft: Radius.circular(14.569536209106445),
-                                                              bottomRight: Radius.circular(14.569536209106445),
+                                                              bottomRight: Radius.circular(40.569536209106445),
+                                                              bottomLeft: Radius.circular(40.569536209106445),
+
                                                             ),
-                                                            image:DecorationImage(image: imageProvider
-                                                                ,fit: BoxFit.fill
-                                                            ),
+                                                            color: Colors.white,
+                                                          ),child:
 
-                                                          ),
-
-                                                        ),
-                                                        placeholder: (context, url) => Container(    width: w/2.5,
-                                                            height: h/6.5,child: Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                CircularProgressIndicator(),
-                                                              ],
-                                                            )),
-                                                        errorWidget: (context, url, error) => Container(    width: w/2.5,
-                                                            height: h/6.5,child: Icon(Icons.error)),
-                                                      ),
-                                                      Positioned(
-                                                        top: h/9,
-                                                        child: Container(
-                                                            width: w/2.5,
-                                                            height: h/8,
-                                                            padding: EdgeInsets.only(top: h/4),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius : BorderRadius.only(
-                                                                // topLeft: Radius.circular(30.2384033203125),
-                                                                // topRight: Radius.circular(30.2384033203125),
-                                                              ),
-                                                              gradient : LinearGradient(
-                                                                  begin: Alignment(7.730259880964636e-14,-0.5),
-                                                                  end: Alignment(-2,3.9593861611176705e-16),
-                                                                  colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
-                                                              ),
-                                                            )
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-
-                                                  Expanded(
-                                                    child: Container(
-
-                                                      decoration: BoxDecoration(
-
-                                                        color: Color(0xff606060),
-                                                      ),
-                                                      child:
-                                                      Column(
-                                                        children: [
-                                                          Row(
+                                                        Column(
                                                             children: [
-                                                              SvgPicture.asset(
-                                                                "Assets/images/Exclude.svg",
-                                                                color : Color(BackgroundColor),
-                                                                width: w/12,
-                                                              ),
-                                                              Flexible(
-                                                                child: Container(
-                                                                  color: Colors.transparent,
-                                                                  child: Text(state.BUBBLElistS4![index].Title.toString(),
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    textAlign: TextAlign.left, style: TextStyle(
-                                                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                                                        fontFamily: 'Red Hat Display',
-                                                                        fontSize: 13,
-                                                                        letterSpacing: 0,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        height: 1
-                                                                    ),),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                              // Container(
-                                                              //   margin: EdgeInsets.only(right: h/10),
-                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
-                                                              //       fontFamily: 'Red Hat Text',
-                                                              //       fontSize: 10,
-                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                              //       fontWeight: FontWeight.w300,
-                                                              //       height: 1
-                                                              //   ),),
-                                                              // ),
+                                                              Stack(
+                                                                children: [
+                                                                  CachedNetworkImage(
+                                                                    imageUrl:state.BUBBLElistS4![index].image.toString(),
+                                                                    imageBuilder: (context, imageProvider) => Container(
+                                                                      width: w/2.5,
+                                                                      height: h/5.5,
 
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ]
-
-
-
-
-
-                                            ),
-
-
-                                            ),
-
-
-
-
-
-
-
-                                          );
-                                        },
-                                        separatorBuilder:
-                                            (BuildContext context,
-                                            int index) {
-                                          return SizedBox(width: h / 100);
-                                        },
-                                      ),
-                                    )
-                                        : state.GetNewBubblesIsloading == true
-                                        ? Container(
-                                        padding:EdgeInsets.only(left: h/25),
-                                        width: w,
-                                        height: h /4,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Center(
-                                                child: listLoader(
-                                                    context: context)),
-                                          ],
-                                        ))
-                                        : Column(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            padding:EdgeInsets.only(left: h/25),
-                                            width: w,
-                                            height: h /4,
-                                            child:
-                                            Center(child: const Text("Waiting...")),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-
-
-                                  ],
-                                ):Container(),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Container(
-                                      width: w,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(left: w/15),
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft: Radius.circular(15),
-                                                  bottomRight: Radius.circular(15),
-                                                  topLeft: Radius.circular(15),
-                                                  topRight: Radius.circular(15),
-                                                ),
-                                              ),
-                                              width: w / 1.6,
-                                              height: h / 18,
-                                              child: Form(
-                                                key: _formkey1,
-                                                child: TextFormField(
-                                                  textInputAction:
-                                                      TextInputAction.search,
-                                                  controller: _SearchController,
-                                                  focusNode: FocuseNODE,
-                                                  cursorColor: Colors.grey,
-                                                  onChanged: (keyword){
-                                                    _HomeBloc.add(SearchBubblesList((b) => b
-                                                    ..Keyword = keyword
-                                                        ..Change_ViewStatus = keyword.isNotEmpty
-                                                    ));
-
-
-                                                  },
-                                                  style: const TextStyle(
-                                                      color: Colors.orange,
-                                                      fontSize: 16.5),
-                                                  decoration: InputDecoration(
-                                                    border: OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(30.0),
-                                                      borderSide: const BorderSide(
-                                                          color: Color(0xffC4C4C4),
-                                                          width: 10),
-                                                    ),
-                                                    focusedBorder:
-                                                        const OutlineInputBorder(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(30.0)),
-                                                      borderSide: BorderSide(
-                                                          color: Color(0xffC4C4C4),
-                                                          width: 2),
-                                                    ),
-                                                    enabledBorder:
-                                                        const OutlineInputBorder(
-                                                      borderRadius: BorderRadius.all(
-                                                          Radius.circular(30.0)),
-                                                      borderSide: BorderSide(
-                                                          color: Color(0xffC4C4C4),
-                                                          width: 2),
-                                                    ),
-                                                    prefixIcon: IconButton(
-                                                        icon: SvgPicture.asset(
-                                                          'Assets/images/Vector(1).svg',
-                                                        ),
-                                                        onPressed:
-                                                            null //do something,
-                                                        ),
-                                                    filled: true,
-                                                    fillColor: Colors.transparent,
-                                                    contentPadding:
-                                                        const EdgeInsets.symmetric(),
-                                                    hintText:
-                                                        "Search for locations or events",
-                                                    hintStyle: _TextTheme.headline6!
-                                                        .copyWith(
-                                                      fontSize: 2 *
-                                                          SizeConfig
-                                                              .blockSizeVertical!
-                                                              .toDouble(),
-                                                      fontWeight: FontWeight.w400,
-                                                    ),
-                                                  ),
-                                                  keyboardType: TextInputType.text,
-                                                ),
-                                              )),
-
-
-                                             IconButton(
-                                               onPressed: (){
-                                                 CommingSoonPopup(context,h,w);
-                                               },
-                                               icon: Row(
-                                                 children: [
-
-                                                   Expanded(
-                                                     child: Container(
-                                                       width: w/7.5,
-                                                       height: h / 14,
-                                                       child: SvgPicture.asset(
-                                                           "Assets/images/Calender.svg",
-                                                           fit: BoxFit.fill,
-                                                           color: ColorS.surface),
-                                                     ),
-                                                   ),
-
-                                                 ],
-                                               ),
-
-
-
-                                             ),
-                                             IconButton(
-                                               onPressed: (){
-                                                 CommingSoonPopup(context,h,w);
-                                               },
-                                               icon: Row(
-                                                 children: [
-
-                                                   Expanded(
-                                                     child: Container(
-                                                       width: w/7.5,
-                                                       height: h / 14,
-                                                       child: SvgPicture.asset(
-                                                           "Assets/images/Filter.svg",
-                                                           fit: BoxFit.fill,
-                                                           color: ColorS.surface),
-                                                     ),
-                                                   ),
-
-                                                 ],
-                                               ),
-
-
-                                             ),
-
-
-                                          SizedBox(width: 5,),
-
-                                        ],
-                                      ),
-                                    ),
-                                    !state.ChangeViewStatus!?
-                                    Expanded(
-                                      child: Container(
-                                        width: w,
-                                        height: h / 2,
-                                        margin: EdgeInsets.only(top: h/60),
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-
-                                      //         state.BUBBLElistS1!.length!= 0?
-                                      // Column(
-                                      //   children: [
-                                      //     Row(
-                                      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      //       children: [
-                                      //         Container(
-                                      //           width: w/3,
-                                      //           child: Text(
-                                      //             'Subscribed Feed',
-                                      //             textAlign: TextAlign.left,
-                                      //             style: _TextTheme
-                                      //                 .headlineLarge!
-                                      //                 .copyWith(
-                                      //               fontSize: 17,
-                                      //               letterSpacing: 0,
-                                      //               fontWeight:
-                                      //               FontWeight.w600,
-                                      //             ),
-                                      //           ),
-                                      //         ),
-                                      //         SizedBox(width: 5,),
-                                      //         SizedBox(width: 2,),
-                                      //         IconButton(
-                                      //             onPressed: (){
-                                      //               WidgetsBinding
-                                      //                   .instance!
-                                      //                   .addPostFrameCallback((_) =>
-                                      //                   Navigator
-                                      //                       .push(
-                                      //                     context,
-                                      //                     MaterialPageRoute(
-                                      //                       builder: (context) => Events_Screen(
-                                      //                           Bubble:  state.BUBBLElistS1!,
-                                      //                           Type:  'Subscribed Feed' ,
-                                      //                           my_id: state.ProfileDate!.user!.id!
-                                      //                       ),
-                                      //                     ),
-                                      //                   ));
-                                      //             },
-                                      //             icon: Text('See all',
-                                      //               textAlign: TextAlign.right,
-                                      //               style: TextStyle(
-                                      //                   color: Color.fromRGBO(207, 109, 56, 1),
-                                      //                   fontFamily: 'Red Hat Display',
-                                      //                   fontSize: 11,
-                                      //                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                      //                   fontWeight: FontWeight.w400,
-                                      //                   height: 1
-                                      //               ),)
-                                      //
-                                      //         )
-                                      //       ],
-                                      //     ),
-                                      //     SizedBox(
-                                      //       height: h/40,
-                                      //     ),
-                                      //
-                                      //     state.GetNewBubblesSuccess!
-                                      //         ? Container(
-                                      //         padding:EdgeInsets.only(left: h/40),
-                                      //         width: w,
-                                      //         height:  h / 3,
-                                      //         child: ScrollConfiguration(
-                                      //             behavior: MyBehavior(),
-                                      //             child: ListView.separated(
-                                      //
-                                      //               cacheExtent : 500,
-                                      //               physics: BouncingScrollPhysics(),
-                                      //               scrollDirection:
-                                      //               Axis.horizontal,
-                                      //               itemCount: state.BUBBLElistS1!.length,
-                                      //               itemBuilder:
-                                      //                   (BuildContext
-                                      //               context,
-                                      //                   int index) {
-                                      //
-                                      //
-                                      //                 return InkWell(
-                                      //                     onTap: () {
-                                      //                       WidgetsBinding
-                                      //                           .instance!
-                                      //                           .addPostFrameCallback((_) =>
-                                      //                           Navigator
-                                      //                               .push(
-                                      //                             context,
-                                      //                             MaterialPageRoute(
-                                      //                               builder: (context) =>
-                                      //                                   Plan_Screen(
-                                      //                                     Bubble:state.BUBBLElistS1![index],
-                                      //                                     my_id: state.ProfileDate!.user!.id ,     ),
-                                      //                             ),
-                                      //                           ));
-                                      //                     },
-                                      //                     child:
-                                      //                     Container(
-                                      //                       width: w / 1.6,
-                                      //                       height:  h / 3,
-                                      //                       decoration: BoxDecoration(
-                                      //                         borderRadius : BorderRadius.only(
-                                      //                           topLeft: Radius.circular(7),
-                                      //                           topRight: Radius.circular(7),
-                                      //                           bottomLeft: Radius.circular(7),
-                                      //                           bottomRight: Radius.circular(7),
-                                      //                         ),
-                                      //                         color : Color.fromRGBO(96, 96, 96, 1),
-                                      //                       ),
-                                      //                       child:
-                                      //                       Column(
-                                      //                         children: [
-                                      //                           Stack(
-                                      //                             children: [
-                                      //                               Container(
-                                      //                                 width: w / 1.6,
-                                      //                                 height: h/4.2,
-                                      //                                 child: ClipRRect(
-                                      //                                   borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                      //                                   child:CachedNetworkImage(
-                                      //                                     fit: BoxFit.fitWidth,
-                                      //                                     imageUrl:
-                                      //                                     //"",
-                                      //                                     state.BUBBLElistS1![index].image.toString(),
-                                      //                                     placeholder: (context, url) => Row(
-                                      //                                       mainAxisAlignment: MainAxisAlignment.center,
-                                      //                                       children: [
-                                      //                                         Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                      //                                       ],
-                                      //                                     ),
-                                      //                                     errorWidget: (context, url, error) => Icon(Icons.error),
-                                      //                                   ),
-                                      //                                 ),
-                                      //                               ),
-                                      //                               Transform.rotate(
-                                      //                                 angle: -179.99999499104388 * (math.pi / 180),
-                                      //                                 child: Container(
-                                      //                                     width: w / 1.6,
-                                      //                                     height: h/4.2,
-                                      //                                     decoration: BoxDecoration(
-                                      //                                       borderRadius : BorderRadius.only(
-                                      //                                         topLeft: Radius.circular(7),
-                                      //                                         //    topRight: Radius.circular(7),
-                                      //                                         bottomLeft: Radius.circular(7),
-                                      //                                         bottomRight: Radius.circular(7),
-                                      //                                       ),
-                                      //                                       gradient : LinearGradient(
-                                      //                                           begin: Alignment(5.730259880964636e-14,-2),
-                                      //                                           end: Alignment(2,3.9593861611176705e-16),
-                                      //                                           colors: [Colors.transparent,Color(state.BUBBLElistS1![index].Color!),]
-                                      //                                       ),
-                                      //                                     )
-                                      //                                 ),
-                                      //                               ),
-                                      //                               Container(
-                                      //                                   width: w / 1.6,
-                                      //                                   height: h/11.89,
-                                      //                                   child:Row(
-                                      //                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      //                                     children: [
-                                      //                                       state.BUBBLElistS1![index].type!="Prime"
-                                      //                                           ?  state.BUBBLElistS1![index].User_type!="admin"
-                                      //                                           ?  Row(
-                                      //                                         children: [
-                                      //                                           CircleAvatar(
-                                      //                                             radius: 17,
-                                      //                                             backgroundColor: Color(int.parse(state.BUBBLElistS1![index].Creator_Color!)),
-                                      //                                             backgroundImage: NetworkImage(state.BUBBLElistS1![index].Creator_Avatar!),
-                                      //                                           ),
-                                      //                                           SizedBox(width: 10,),
-                                      //                                           Text(state.BUBBLElistS1![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
-                                      //                                               color: Color.fromRGBO(255, 255, 255, 1),
-                                      //                                               fontFamily: 'Red Hat Display',
-                                      //                                               fontSize: 10.477987289428711,
-                                      //                                               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                      //                                               fontWeight: FontWeight.w600,
-                                      //                                               height: 1
-                                      //                                           ),),
-                                      //
-                                      //                                         ],
-                                      //                                       )
-                                      //                                           :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                      //                                           color: Color.fromRGBO(255, 255, 255, 1),
-                                      //                                           fontFamily: 'Red Hat Display',
-                                      //                                           fontSize: 10.477987289428711,
-                                      //                                           letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                      //                                           fontWeight: FontWeight.w600,
-                                      //                                           height: 1
-                                      //                                       ),)
-                                      //                                           :Text(""),
-                                      //
-                                      //                                       Text(""),
-                                      //                                       Text(""),
-                                      //
-                                      //                                     ],
-                                      //                                   )
-                                      //
-                                      //
-                                      //
-                                      //
-                                      //
-                                      //
-                                      //                               ),
-                                      //                               Positioned(
-                                      //                                 left: h/35,
-                                      //                                 bottom: h/8,
-                                      //                                 child: Container(
-                                      //                                   width:w,
-                                      //                                   height: h/6.89,
-                                      //                                   child:
-                                      //                                   IconButton(
-                                      //                                     icon:SvgPicture.asset(
-                                      //                                       !state.isLoading!?
-                                      //                                       state.BUBBLElistS1![index].is_Saved!
-                                      //                                           ?"Assets/images/BiggerSaved.svg"
-                                      //                                           :"Assets/images/SAVE.svg"
-                                      //                                           :""
-                                      //                                       ,width:  !state.BUBBLElistS1![index].is_Saved!? w/8: w/6,
-                                      //                                     ) ,
-                                      //                                     onPressed: (){
-                                      //                                       _HomeBloc.add(
-                                      //                                           ToggleSaveBubble((b) => b
-                                      //                                             ..Bubble_id = state.BUBBLElistS1![index].id
-                                      //                                             ..index = index
-                                      //                                             ..List_type = 'Subscribed Feed'
-                                      //                                             ..Saved_Status =   state.BUBBLElistS1![index].is_Saved!
-                                      //                                           )
-                                      //                                       );
-                                      //                                     },
-                                      //                                   ),
-                                      //                                 ),
-                                      //                               )
-                                      //                             ],
-                                      //                           ),
-                                      //
-                                      //
-                                      //                           Row(
-                                      //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      //                             children: [
-                                      //                               Flexible(
-                                      //                                 child:
-                                      //                                 Container(
-                                      //                                   margin: EdgeInsets.only(left: h/50),
-                                      //                                   child: Column(
-                                      //                                     children: [
-                                      //                                       const SizedBox(
-                                      //                                         height:
-                                      //                                         10,
-                                      //                                       ),
-                                      //                                       Container(
-                                      //                                         child:  Text(
-                                      //                                           state.BUBBLElistS2![index].Title.toString(),
-                                      //                                           overflow: TextOverflow.ellipsis,
-                                      //                                           textAlign: TextAlign.left,
-                                      //                                           style: _TextTheme.headlineLarge!.copyWith(
-                                      //                                             color: Color(state.BUBBLElistS2![index].Color!.toInt()),
-                                      //                                             fontSize: 19,
-                                      //                                             letterSpacing: 0,
-                                      //                                             fontWeight: FontWeight.w600,
-                                      //                                           ),
-                                      //                                         ),
-                                      //
-                                      //                                       ),
-                                      //                                       Container(
-                                      //                                         child:  Text(
-                                      //                                           'At ${state.BUBBLElistS2![index].location.toString()}',
-                                      //                                           textAlign: TextAlign.left,
-                                      //                                           overflow: TextOverflow.ellipsis,
-                                      //                                           style: _TextTheme.headlineLarge!.copyWith(
-                                      //                                             fontSize: 13,
-                                      //                                             letterSpacing: 0,
-                                      //                                             fontWeight: FontWeight.w600,
-                                      //                                           ),
-                                      //
-                                      //                                         ),
-                                      //                                       ),
-                                      //                                       Container(
-                                      //                                         child:  Text(
-                                      //                                           '${state.BUBBLElistS2![index].location.toString()}',
-                                      //                                           textAlign: TextAlign.left,
-                                      //                                           overflow: TextOverflow.ellipsis,
-                                      //                                           style: _TextTheme.headlineLarge!.copyWith(
-                                      //                                             fontSize: 13,
-                                      //                                             letterSpacing: 0,
-                                      //                                             fontWeight: FontWeight.w600,
-                                      //                                           ),
-                                      //
-                                      //                                         ),
-                                      //                                       ),
-                                      //                                     ],
-                                      //                                   ),
-                                      //                                 ),
-                                      //                               ),
-                                      //                               SvgPicture.asset(
-                                      //                                 "Assets/images/Exclude.svg",
-                                      //                                 color : Color(state.BUBBLElistS2![index].Color!),
-                                      //                               ),
-                                      //
-                                      //                             ],
-                                      //                           )
-                                      //
-                                      //
-                                      //                         ],
-                                      //                       ),
-                                      //
-                                      //
-                                      //                     )
-                                      //
-                                      //
-                                      //
-                                      //
-                                      //                 );
-                                      //               },
-                                      //               separatorBuilder:
-                                      //                   (BuildContext
-                                      //               context,
-                                      //                   int index) {
-                                      //                 return const Text(
-                                      //                     "      ");
-                                      //               },
-                                      //             )))
-                                      //         : state.GetNewBubblesIsloading ==true
-                                      //         ? Container(
-                                      //         padding:
-                                      //         const EdgeInsets
-                                      //             .only(
-                                      //             left: 10),
-                                      //         width: w,
-                                      //         height: h / 3.5,
-                                      //         child: Row(
-                                      //           mainAxisAlignment:
-                                      //           MainAxisAlignment
-                                      //               .center,
-                                      //           children: [
-                                      //             Center(
-                                      //                 child: listLoader(
-                                      //                     context:
-                                      //                     context)),
-                                      //           ],
-                                      //         ))
-                                      //         : Column(
-                                      //       mainAxisAlignment:
-                                      //       MainAxisAlignment
-                                      //           .center,
-                                      //       children: [
-                                      //         Center(
-                                      //           child: Container(
-                                      //             padding:EdgeInsets.only(left: h/40),
-                                      //             width: w,
-                                      //             height:  h / 3,
-                                      //             child:
-                                      //             Center(
-                                      //               child: const Text(
-                                      //                   "Waiting..."),
-                                      //             ),
-                                      //           ),
-                                      //         ),
-                                      //       ],
-                                      //     ),
-                                      //
-                                      //     SizedBox(
-                                      //       height: h/40,
-                                      //     ),
-                                      //
-                                      //
-                                      //   ],
-                                      // ):Container(),
-
-                                      state.BUBBLElistS3!.length!= 0
-                                              ?
-                                    Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Container(
-                                                width: w/3,
-                                                child: Text(
-                                                  'Popular Now',
-                                                  textAlign: TextAlign.left,
-                                                  style: _TextTheme
-                                                      .headlineLarge!
-                                                      .copyWith(
-                                                    fontSize: 17,
-                                                    letterSpacing: 0,
-                                                    fontWeight:
-                                                    FontWeight.w600,
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(width: 5,),
-                                              SizedBox(width: 2,),
-                                              IconButton(
-                                                  onPressed: (){
-                                                    WidgetsBinding
-                                                        .instance!
-                                                        .addPostFrameCallback((_) =>
-                                                        Navigator
-                                                            .push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                            builder: (context) => Events_Screen(
-                                                                Bubble:  state.BUBBLElistS3!,
-                                                                Type:'Popular Now' ,
-                                                                my_id: state.ProfileDate!.user!.id!
-                                                            ),
-                                                          ),
-                                                        ));
-                                                  },
-                                                  icon: Text('See all',
-                                                    textAlign: TextAlign.right,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(207, 109, 56, 1),
-                                                        fontFamily: 'Red Hat Display',
-                                                        fontSize: 11,
-                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                        fontWeight: FontWeight.w400,
-                                                        height: 1
-                                                    ),)
-
-                                              )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: h/40,
-                                          ),
-
-                                          state.GetNewBubblesSuccess!
-                                              ? Container(
-                                              padding:EdgeInsets.only(left: h/40),
-                                              width: w,
-                                              height:  h / 3,
-                                              child: ScrollConfiguration(
-                                                  behavior: MyBehavior(),
-                                                  child: ListView.separated(
-
-                                                    cacheExtent : 500,
-                                                    physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                                                    scrollDirection:
-                                                    Axis.horizontal,
-                                                    itemCount: state.BUBBLElistS3!.length,
-                                                    itemBuilder:
-                                                        (BuildContext
-                                                    context,
-                                                        int index) {
-
-
-                                                      return InkWell(
-                                                          onTap: () {
-                                                            WidgetsBinding
-                                                                .instance!
-                                                                .addPostFrameCallback((_) =>
-                                                                Navigator
-                                                                    .push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                    builder: (context) =>
-                                                                        Plan_Screen(
-                                                                          Bubble:state.BUBBLElistS3![index],
-                                                                          my_id: state.ProfileDate!.user!.id ,     ),
-                                                                  ),
-                                                                ));
-                                                          },
-                                                          child:
-                                                          Container(
-                                                            width: w / 1.6,
-                                                            height:  h / 3,
-                                                            decoration: BoxDecoration(
-                                                              borderRadius : BorderRadius.only(
-                                                                topLeft: Radius.circular(7),
-                                                                topRight: Radius.circular(7),
-                                                                bottomLeft: Radius.circular(7),
-                                                                bottomRight: Radius.circular(7),
-                                                              ),
-                                                              color : Color.fromRGBO(96, 96, 96, 1),
-                                                            ),
-                                                            child:
-                                                            Column(
-                                                              children: [
-                                                                Stack(
-                                                                  children: [
-                                                                    Container(
-                                                                      width: w / 1.6,
-                                                                      height: h/4.2,
-                                                                      child: ClipRRect(
-                                                                        borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                                        child:CachedNetworkImage(
-                                                                          fit: BoxFit.fitWidth,
-                                                                          imageUrl:
-                                                                          //"",
-                                                                          state.BUBBLElistS3![index].image.toString(),
-                                                                          placeholder: (context, url) => Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                                            children: [
-                                                                              Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                                                            ],
-                                                                          ),
-                                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                      decoration: BoxDecoration(
+                                                                        borderRadius : BorderRadius.only(
+                                                                          topLeft: Radius.circular(364.2384033203125),
+                                                                          topRight: Radius.circular(364.2384033203125),
+                                                                          bottomLeft: Radius.circular(14.569536209106445),
+                                                                          bottomRight: Radius.circular(14.569536209106445),
                                                                         ),
+                                                                        image:DecorationImage(image: imageProvider
+                                                                            ,fit: BoxFit.fill
+                                                                        ),
+
                                                                       ),
+
                                                                     ),
-                                                                    Transform.rotate(
-                                                                      angle: -179.99999499104388 * (math.pi / 180),
-                                                                      child: Container(
-                                                                          width: w / 1.6,
-                                                                          height: h/4.2,
-                                                                          decoration: BoxDecoration(
-                                                                            borderRadius : BorderRadius.only(
-                                                                              topLeft: Radius.circular(7),
-                                                                              //    topRight: Radius.circular(7),
-                                                                              bottomLeft: Radius.circular(7),
-                                                                              bottomRight: Radius.circular(7),
-                                                                            ),
-                                                                            gradient : LinearGradient(
-                                                                                begin: Alignment(5.730259880964636e-14,-2),
-                                                                                end: Alignment(2,3.9593861611176705e-16),
-                                                                                colors: [Colors.transparent,Color(state.BUBBLElistS3![index].Color!),]
-                                                                            ),
-                                                                          )
-                                                                      ),
-                                                                    ),
-                                                                    Container(
-                                                                        width: w / 1.6,
-                                                                        height: h/11.89,
-                                                                        child:Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                    placeholder: (context, url) => Container(    width: w/2.5,
+                                                                        height: h/6.5,child: Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.center,
                                                                           children: [
-                                                                            state.BUBBLElistS3![index].type!="Prime"
-                                                                                ?  state.BUBBLElistS3![index].User_type!="admin"
-                                                                                ?  Row(
-                                                                              children: [
-                                                                                CircleAvatar(
-                                                                                  radius: 17,
-                                                                                  backgroundColor: Color(int.parse(state.BUBBLElistS3![index].Creator_Color!)),
-                                                                                  backgroundImage: NetworkImage(state.BUBBLElistS3![index].Creator_Avatar!),
-                                                                                ),
-                                                                                SizedBox(width: 10,),
-                                                                                Text(state.BUBBLElistS3![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
+                                                                            CircularProgressIndicator(),
+                                                                          ],
+                                                                        )),
+                                                                    errorWidget: (context, url, error) => Container(    width: w/2.5,
+                                                                        height: h/6.5,child: Icon(Icons.error)),
+                                                                  ),
+                                                                  Positioned(
+                                                                    top: h/9,
+                                                                    child: Container(
+                                                                        width: w/2.5,
+                                                                        height: h/8,
+                                                                        padding: EdgeInsets.only(top: h/4),
+                                                                        decoration: BoxDecoration(
+                                                                          borderRadius : BorderRadius.only(
+                                                                            // topLeft: Radius.circular(30.2384033203125),
+                                                                            // topRight: Radius.circular(30.2384033203125),
+                                                                          ),
+                                                                          gradient : LinearGradient(
+                                                                              begin: Alignment(7.730259880964636e-14,-0.5),
+                                                                              end: Alignment(-2,3.9593861611176705e-16),
+                                                                              colors: [Colors.transparent,Color(BackgroundColor).withOpacity(.5)]
+                                                                          ),
+                                                                        )
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+
+                                                              Expanded(
+                                                                child: Container(
+
+
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius : BorderRadius.only(
+                                                                      bottomRight: Radius.circular(6.569536209106445),
+                                                                      bottomLeft: Radius.circular(6.569536209106445),
+                                                                    ),
+                                                                    color: Color(0xff606060),
+                                                                  ),
+                                                                  child:
+                                                                  Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          SvgPicture.asset(
+                                                                            "Assets/images/Exclude.svg",
+                                                                            color : Color(BackgroundColor),
+                                                                            width: w/12,
+                                                                          ),
+                                                                          Flexible(
+                                                                            child: Container(
+                                                                              color: Colors.transparent,
+                                                                              child: Text(state.BUBBLElistS4![index].Title.toString(),
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                textAlign: TextAlign.left, style: TextStyle(
                                                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                                                     fontFamily: 'Red Hat Display',
-                                                                                    fontSize: 10.477987289428711,
-                                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                    fontSize: 13,
+                                                                                    letterSpacing: 0,
                                                                                     fontWeight: FontWeight.w600,
                                                                                     height: 1
                                                                                 ),),
-
-                                                                              ],
-                                                                            )
-                                                                                :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                                                                color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                fontFamily: 'Red Hat Display',
-                                                                                fontSize: 10.477987289428711,
-                                                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                fontWeight: FontWeight.w600,
-                                                                                height: 1
-                                                                            ),)
-                                                                                :Text(""),
-
-                                                                            Text(""),
-                                                                            Text(""),
-
-                                                                          ],
-                                                                        )
-
-
-
-
-
-
-                                                                    ),
-                                                                    Positioned(
-                                                                      left: h/35,
-                                                                      bottom: h/8,
-                                                                      child: Container(
-                                                                        width:w,
-                                                                        height: h/6.89,
-                                                                        child:
-                                                                        IconButton(
-                                                                          icon:SvgPicture.asset(
-                                                                            !state.isLoading!?
-                                                                            state.BUBBLElistS3![index].is_Saved!
-                                                                                ?"Assets/images/BiggerSaved.svg"
-                                                                                :"Assets/images/SAVE.svg"
-                                                                                :""
-                                                                            ,width:  !state.BUBBLElistS3![index].is_Saved!? w/8: w/6,
-                                                                          ) ,
-                                                                          onPressed: (){
-                                                                            _HomeBloc.add(
-                                                                                ToggleSaveBubble((b) => b
-                                                                                  ..Bubble_id = state.BUBBLElistS3![index].id
-                                                                                  ..index = index
-                                                                                  ..List_type = 'Popular Now'
-                                                                                  ..Saved_Status =   state.BUBBLElistS3![index].is_Saved!
-                                                                                )
-                                                                            );
-                                                                          },
-                                                                        ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
                                                                       ),
-                                                                    )
-                                                                  ],
+                                                                      // Container(
+                                                                      //   margin: EdgeInsets.only(right: h/10),
+                                                                      //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
+                                                                      //       color: Color.fromRGBO(255, 255, 255, 1),
+                                                                      //       fontFamily: 'Red Hat Text',
+                                                                      //       fontSize: 10,
+                                                                      //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                      //       fontWeight: FontWeight.w300,
+                                                                      //       height: 1
+                                                                      //   ),),
+                                                                      // ),
+
+                                                                    ],
+                                                                  ),
                                                                 ),
+                                                              ),
+                                                            ]
 
 
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                  children: [
-                                                                    Flexible(
-                                                                      child:
-                                                                      Container(
-                                                                        margin: EdgeInsets.only(left: h/50),
-                                                                        child: Column(
-                                                                          children: [
-                                                                            const SizedBox(
-                                                                              height:
-                                                                              10,
-                                                                            ),
-                                                                            Container(
-                                                                              child:  Text(
-                                                                                state.BUBBLElistS3![index].Title.toString(),
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                textAlign: TextAlign.left,
-                                                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                                                  color: Color(state.BUBBLElistS3![index].Color!.toInt()),
-                                                                                  fontSize: 19,
-                                                                                  letterSpacing: 0,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                ),
-                                                                              ),
-
-                                                                            ),
-                                                                            Container(
-                                                                              child:  Text(
-                                                                                'At ${state.BUBBLElistS3![index].location.toString()}',
-                                                                                textAlign: TextAlign.left,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: _TextTheme.headlineLarge!.copyWith(
-                                                                                  fontSize: 13,
-                                                                                  letterSpacing: 0,
-                                                                                  fontWeight: FontWeight.w600,
-                                                                                ),
-
-                                                                              ),
-                                                                            ),
-                                                                            // Container(
-                                                                            //   child:  Text(
-                                                                            //     '${state.BUBBLElistS3![index].location.toString()}',
-                                                                            //     textAlign: TextAlign.left,
-                                                                            //     overflow: TextOverflow.ellipsis,
-                                                                            //     style: _TextTheme.headlineLarge!.copyWith(
-                                                                            //       fontSize: 13,
-                                                                            //       letterSpacing: 0,
-                                                                            //       fontWeight: FontWeight.w600,
-                                                                            //     ),
-                                                                            //
-                                                                            //   ),
-                                                                            // ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SvgPicture.asset(
-                                                                      "Assets/images/Exclude.svg",
-                                                                      color : Color(state.BUBBLElistS3![index].Color!),
-                                                                    ),
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
 
 
-                                                          )
+
+                                                        ),
+
+
+                                                        ),
+
+
+
 
 
 
@@ -2128,1063 +1259,1581 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       );
                                                     },
                                                     separatorBuilder:
-                                                        (BuildContext
-                                                    context,
+                                                        (BuildContext context,
                                                         int index) {
-                                                      return const Text(
-                                                          "      ");
+                                                      return SizedBox(width: h / 100);
                                                     },
-                                                  )))
-                                              : state.GetNewBubblesIsloading ==true
-                                              ? Container(
-                                              padding:
-                                              const EdgeInsets
-                                                  .only(
-                                                  left: 10),
-                                              width: w,
-                                              height: h / 3.5,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .center,
-                                                children: [
-                                                  Center(
-                                                      child: listLoader(
-                                                          context:
-                                                          context)),
-                                                ],
-                                              ))
-                                              : Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .center,
-                                            children: [
-                                              Center(
-                                                child: Container(
-                                                  padding:EdgeInsets.only(left: h/40),
-                                                  width: w,
-                                                  height:  h / 3,
-                                                  child:
-                                                  Center(
-                                                    child: const Text(
-                                                        "Waiting..."),
                                                   ),
+                                                )
+                                                    : state.GetNewBubblesIsloading == true
+                                                    ? Container(
+                                                    padding:EdgeInsets.only(left: h/25),
+                                                    width: w,
+                                                    height: h /4,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                        Center(
+                                                            child: listLoader(
+                                                                context: context)),
+                                                      ],
+                                                    ))
+                                                    : Column(
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                                  children: [
+                                                    Center(
+                                                      child: Container(
+                                                        padding:EdgeInsets.only(left: h/25),
+                                                        width: w,
+                                                        height: h /4,
+                                                        child:
+                                                        Center(child: const Text("Waiting...")),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: h/40,
-                                          ),
-
-
-
-                                        ],
-                                    ):Container(),
-
-                                      state.BUBBLElistS2!.length != 0?
-                                     Column(
-                                         children: [
-                                           Row(
-                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                             children: [
-                                               Container(
-                                                 width: w/5,
-                                                 child: Text(
-                                                   'Nearby',
-                                                   textAlign: TextAlign.left,
-                                                   style: _TextTheme
-                                                       .headlineLarge!
-                                                       .copyWith(
-                                                     fontSize: 17,
-                                                     letterSpacing: 0,
-                                                     fontWeight:
-                                                     FontWeight.w600,
-                                                   ),
-                                                 ),
-                                               ),
-                                               SizedBox(width: 5,),
-                                               SizedBox(width: 2,),
-                                               IconButton(
-                                                   onPressed: (){
-                                                     WidgetsBinding
-                                                         .instance!
-                                                         .addPostFrameCallback((_) =>
-                                                         Navigator
-                                                             .push(
-                                                           context,
-                                                           MaterialPageRoute(
-                                                             builder: (context) => Events_Screen(
-                                                                 Bubble: state.BUBBLElistS2!,
-                                                                 Type:'Nearby',
-                                                                 my_id: state.ProfileDate!.user!.id!
-                                                             ),
-                                                           ),
-                                                         ));
-                                                   },
-                                                   icon: Text('See all',
-                                                     textAlign: TextAlign.right,
-                                                     style: TextStyle(
-                                                         color: Color.fromRGBO(207, 109, 56, 1),
-                                                         fontFamily: 'Red Hat Display',
-                                                         fontSize: 11,
-                                                         letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                         fontWeight: FontWeight.w400,
-                                                         height: 1
-                                                     ),)
-
-                                               )
-                                             ],
-                                           ),
-                                           SizedBox(
-                                             height: h/40,
-                                           ),
-
-                                           state.NearbySuccess!
-                                               ? Container(
-                                               padding:EdgeInsets.only(left: h/40),
-                                               width: w,
-                                               height:  h / 3,
-                                               child: ScrollConfiguration(
-                                                   behavior: MyBehavior(),
-                                                   child: ListView.separated(
-
-                                                     cacheExtent : 500,
-                                                     physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                                                     scrollDirection:
-                                                     Axis.horizontal,
-                                                     itemCount: state.BUBBLElistS2!.length,
-                                                     itemBuilder:
-                                                         (BuildContext
-                                                     context,
-                                                         int index) {
-
-
-                                                       return
-
-                                                         InkWell(
-                                                             onTap: () {
-                                                               WidgetsBinding
-                                                                   .instance!
-                                                                   .addPostFrameCallback((_) =>
-                                                                   Navigator
-                                                                       .push(
-                                                                     context,
-                                                                     MaterialPageRoute(
-                                                                       builder: (context) =>
-                                                                           Plan_Screen(
-                                                                             Bubble:state.BUBBLElistS2![index],
-                                                                             my_id: state.ProfileDate!.user!.id ,     ),
-                                                                     ),
-                                                                   ));
-                                                             },
-                                                             child:
-                                                             Container(
-                                                               width: w / 1.6,
-                                                               height:  h / 3,
-                                                               decoration: BoxDecoration(
-                                                                 borderRadius : BorderRadius.only(
-                                                                   topLeft: Radius.circular(7),
-                                                                   topRight: Radius.circular(7),
-                                                                   bottomLeft: Radius.circular(7),
-                                                                   bottomRight: Radius.circular(7),
-                                                                 ),
-                                                                 color : Color.fromRGBO(96, 96, 96, 1),
-                                                               ),
-                                                               child:
-                                                               Column(
-                                                                 children: [
-                                                                   Stack(
-                                                                     children: [
-                                                                       Container(
-                                                                         width: w / 1.6,
-                                                                         height: h/4.2,
-                                                                         child: ClipRRect(
-                                                                           borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                                           child:CachedNetworkImage(
-                                                                             fit: BoxFit.fitWidth,
-                                                                             imageUrl:
-                                                                             //"",
-                                                                             state.BUBBLElistS2![index].image.toString(),
-                                                                             placeholder: (context, url) => Row(
-                                                                               mainAxisAlignment: MainAxisAlignment.center,
-                                                                               children: [
-                                                                                 Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                                                               ],
-                                                                             ),
-                                                                             errorWidget: (context, url, error) => Icon(Icons.error),
-                                                                           ),
-                                                                         ),
-                                                                       ),
-                                                                       Transform.rotate(
-                                                                         angle: -179.99999499104388 * (math.pi / 180),
-                                                                         child: Container(
-                                                                             width: w / 1.6,
-                                                                             height: h/4.2,
-                                                                             decoration: BoxDecoration(
-                                                                               borderRadius : BorderRadius.only(
-                                                                                 topLeft: Radius.circular(7),
-                                                                                 //    topRight: Radius.circular(7),
-                                                                                 bottomLeft: Radius.circular(7),
-                                                                                 bottomRight: Radius.circular(7),
-                                                                               ),
-                                                                               gradient : LinearGradient(
-                                                                                   begin: Alignment(5.730259880964636e-14,-2),
-                                                                                   end: Alignment(2,3.9593861611176705e-16),
-                                                                                   colors: [Colors.transparent,Color(state.BUBBLElistS2![index].Color!),]
-                                                                               ),
-                                                                             )
-                                                                         ),
-                                                                       ),
-                                                                       Container(
-                                                                           width: w / 1.6,
-                                                                           height: h/11.89,
-                                                                           child:Row(
-                                                                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                             children: [
-                                                                               state.BUBBLElistS2![index].type!="Prime"
-                                                                                   ?  state.BUBBLElistS2![index].User_type!="admin"
-                                                                                   ?  Row(
-                                                                                 children: [
-                                                                                   CircleAvatar(
-                                                                                     radius: 17,
-                                                                                     backgroundColor: Color(int.parse(state.BUBBLElistS2![index].Creator_Color!)),
-                                                                                     backgroundImage: NetworkImage(state.BUBBLElistS2![index].Creator_Avatar!),
-                                                                                   ),
-                                                                                   SizedBox(width: 10,),
-                                                                                   Text(state.BUBBLElistS2![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
-                                                                                       color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                       fontFamily: 'Red Hat Display',
-                                                                                       fontSize: 10.477987289428711,
-                                                                                       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                       fontWeight: FontWeight.w600,
-                                                                                       height: 1
-                                                                                   ),),
-
-                                                                                 ],
-                                                                               )
-                                                                                   :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                                                                   color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                   fontFamily: 'Red Hat Display',
-                                                                                   fontSize: 10.477987289428711,
-                                                                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                   fontWeight: FontWeight.w600,
-                                                                                   height: 1
-                                                                               ),)
-                                                                                   :Text(""),
-
-                                                                               Text(""),
-                                                                               Text(""),
-
-                                                                             ],
-                                                                           )
-
-
-
-
-
-
-                                                                       ),
-                                                                       Positioned(
-                                                                         left: h/35,
-                                                                         bottom: h/8,
-                                                                         child: Container(
-                                                                           width:w,
-                                                                           height: h/6.89,
-                                                                           child:
-                                                                           IconButton(
-                                                                             icon:SvgPicture.asset(
-                                                                               state.BUBBLElistS2![index].is_Saved!
-                                                                                   ?"Assets/images/BiggerSaved.svg"
-                                                                                   :"Assets/images/SAVE.svg"
-                                                                               ,width:  !state.BUBBLElistS2![index].is_Saved!? w/8: w/6,
-                                                                             ) ,
-                                                                             onPressed: (){
-                                                                               _HomeBloc.add(
-                                                                                   ToggleSaveBubble((b) => b
-                                                                                     ..Bubble_id = state.BUBBLElistS2![index].id
-                                                                                     ..index = index
-                                                                                     ..List_type = 'Nearby'
-                                                                                     ..Saved_Status =   state.BUBBLElistS2![index].is_Saved!
-                                                                                   )
-                                                                               );
-                                                                             },
-                                                                           ),
-                                                                         ),
-                                                                       )
-                                                                     ],
-                                                                   ),
-
-
-                                                                   Row(
-                                                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                     children: [
-                                                                       Flexible(
-                                                                         child:
-                                                                         Container(
-                                                                           margin: EdgeInsets.only(left: h/50),
-                                                                           child: Column(
-                                                                             children: [
-                                                                               const SizedBox(
-                                                                                 height:
-                                                                                 10,
-                                                                               ),
-
-                                                                                   Row(
-                                                                                     children: [
-                                                                                       Container(
-                                                                                         width: w /3,
-                                                                                         child:  Text(
-                                                                                           state.BUBBLElistS2![index].Title.toString(),
-                                                                                           overflow: TextOverflow.ellipsis,
-                                                                                           textAlign: TextAlign.left,
-                                                                                           style: _TextTheme.headlineLarge!.copyWith(
-                                                                                             color: Color(state.BUBBLElistS2![index].Color!.toInt()),
-                                                                                             fontSize: 19,
-                                                                                             letterSpacing: 0,
-                                                                                             fontWeight: FontWeight.w600,
-                                                                                           ),
-                                                                                         ),
-
-                                                                                       ),
-                                                                                     ],
-                                                                                   ),
-
-                                                                               SizedBox(height: 6,),
-
-                                                                                   Container(
-                                                                                     child:  Text(
-                                                                                       'At ${state.BUBBLElistS2![index].location.toString()}',
-                                                                                       textAlign: TextAlign.left,
-                                                                                       overflow: TextOverflow.ellipsis,
-                                                                                       style: _TextTheme.headlineLarge!.copyWith(
-                                                                                         fontSize: 13,
-                                                                                         letterSpacing: 0,
-                                                                                         fontWeight: FontWeight.w600,
-                                                                                       ),
-
-                                                                                     ),
-
-                                                                               ),
-                                                                               // Container(
-                                                                               //   child:  Text(
-                                                                               //     '${state.BUBBLElistS1![index].location.toString()}',
-                                                                               //     textAlign: TextAlign.left,
-                                                                               //     overflow: TextOverflow.ellipsis,
-                                                                               //     style: _TextTheme.headlineLarge!.copyWith(
-                                                                               //       fontSize: 13,
-                                                                               //       letterSpacing: 0,
-                                                                               //       fontWeight: FontWeight.w600,
-                                                                               //     ),
-                                                                               //
-                                                                               //   ),
-                                                                               // ),
-                                                                             ],
-                                                                           ),
-                                                                         ),
-                                                                       ),
-                                                                       SvgPicture.asset(
-                                                                         "Assets/images/Exclude.svg",
-                                                                         color : Color(state.BUBBLElistS2![index].Color!),
-                                                                       ),
-
-                                                                     ],
-                                                                   )
-
-
-                                                                 ],
-                                                               ),
-
-
-                                                             )
-
-
-
-
-                                                         );
-                                                     },
-                                                     separatorBuilder:
-                                                         (BuildContext
-                                                     context,
-                                                         int index) {
-                                                       return const Text(
-                                                           "      ");
-                                                     },
-                                                   )))
-                                               : state.NearbyIsloading ==true
-                                               ? Container(
-                                               padding:
-                                               const EdgeInsets
-                                                   .only(
-                                                   left: 10),
-                                               width: w,
-                                               height: h / 3.5,
-                                               child: Row(
-                                                 mainAxisAlignment:
-                                                 MainAxisAlignment
-                                                     .center,
-                                                 children: [
-                                                   Center(
-                                                       child: listLoader(
-                                                           context:
-                                                           context)),
-                                                 ],
-                                               ))
-                                               : Column(
-                                             mainAxisAlignment:
-                                             MainAxisAlignment
-                                                 .center,
-                                             children: [
-                                               Center(
-                                                 child: Container(
-                                                   padding:EdgeInsets.only(left: h/40),
-                                                   width: w,
-                                                   height:  h / 3,
-                                                   child:
-                                                   Center(
-                                                     child: const Text(
-                                                         "Waiting..."),
-                                                   ),
-                                                 ),
-                                               ),
-                                             ],
-                                           ),
-                                           SizedBox(
-                                             height: h/40,
-                                           ),
-                                         ],
-                                     ):Container(),
-
-                                              state.BUBBLElistS1!.length!= 0?
-                                         Column(
-                                             children: [
-
-                                               Row(
-                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                 children: [
-                                                   Container(
-                                                     width: w/3,
-                                                     child: Text(
-                                                       'New Bubbles',
-                                                       textAlign: TextAlign.left,
-                                                       style: _TextTheme
-                                                           .headlineLarge!
-                                                           .copyWith(
-                                                         fontSize: 17,
-                                                         letterSpacing: 0,
-                                                         fontWeight:
-                                                         FontWeight.w600,
-                                                       ),
-                                                     ),
-                                                   ),
-                                                   SizedBox(width: 5,),
-                                                   SizedBox(width: 2,),
-                                                   IconButton(
-                                                       onPressed: (){
-                                                         WidgetsBinding
-                                                             .instance!
-                                                             .addPostFrameCallback((_) =>
-                                                             Navigator
-                                                                 .push(
-                                                               context,
-                                                               MaterialPageRoute(
-                                                                 builder: (context) => Events_Screen(
-                                                                     Bubble:state.BUBBLElistS1! ,
-                                                                     Type:'New Bubbles',
-                                                                     my_id: state.ProfileDate!.user!.id!
-                                                                 ),
-                                                               ),
-                                                             ));
-                                                       },
-                                                       icon: Text('See all',
-                                                         textAlign: TextAlign.right,
-                                                         style: TextStyle(
-                                                             color: Color.fromRGBO(207, 109, 56, 1),
-                                                             fontFamily: 'Red Hat Display',
-                                                             fontSize: 11,
-                                                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                             fontWeight: FontWeight.w400,
-                                                             height: 1
-                                                         ),)
-
-                                                   )
-                                                 ],
-                                               ),
-                                               SizedBox(
-                                                 height: h/40,
-                                               ),
-
-
-                                               state.GetNewBubblesSuccess!
-                                                   ? Container(
-                                                   padding:EdgeInsets.only(left: h/40),
-                                                   width: w,
-                                                   height:  h / 3,
-                                                   child: ScrollConfiguration(
-                                                       behavior: MyBehavior(),
-                                                       child: ListView.separated(
-                                                         cacheExtent : 500,
-                                                         physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                                                         scrollDirection:
-                                                         Axis.horizontal,
-                                                         itemCount: state.BUBBLElistS1!.length,
-                                                         itemBuilder:
-                                                             (BuildContext
-                                                         context,
-                                                             int index) {
-
-
-
-                                                           return InkWell(
-                                                               onTap: () {
-                                                                 WidgetsBinding
-                                                                     .instance!
-                                                                     .addPostFrameCallback((_) =>
-                                                                     Navigator
-                                                                         .push(
-                                                                       context,
-                                                                       MaterialPageRoute(
-                                                                         builder: (context) =>
-                                                                             Plan_Screen(
-                                                                               Bubble:state.BUBBLElistS1![index],
-                                                                               my_id: state.ProfileDate!.user!.id ,     ),
-                                                                       ),
-                                                                     ));
-                                                               },
-                                                               child:
-                                                               Container(
-                                                                 width: w / 1.6,
-                                                                 height:  h / 3,
-                                                                 decoration: BoxDecoration(
-                                                                   borderRadius : BorderRadius.only(
-                                                                     topLeft: Radius.circular(7),
-                                                                     topRight: Radius.circular(7),
-                                                                     bottomLeft: Radius.circular(7),
-                                                                     bottomRight: Radius.circular(7),
-                                                                   ),
-                                                                   color : Color.fromRGBO(96, 96, 96, 1),
-                                                                 ),
-                                                                 child:
-                                                                 Column(
-                                                                   children: [
-                                                                     Stack(
-                                                                       children: [
-                                                                         Container(
-                                                                           width: w / 1.6,
-                                                                           height: h/4.2,
-                                                                           child: ClipRRect(
-                                                                             borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                                             child:CachedNetworkImage(
-                                                                               fit: BoxFit.fitWidth,
-                                                                               imageUrl:
-                                                                               //"",
-                                                                               state.BUBBLElistS1![index].image.toString(),
-                                                                               placeholder: (context, url) => Row(
-                                                                                 mainAxisAlignment: MainAxisAlignment.center,
-                                                                                 children: [
-                                                                                   Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                                                                 ],
-                                                                               ),
-                                                                               errorWidget: (context, url, error) => Icon(Icons.error),
-                                                                             ),
-                                                                           ),
-                                                                         ),
-                                                                         Transform.rotate(
-                                                                           angle: -179.99999499104388 * (math.pi / 180),
-                                                                           child: Container(
-                                                                               width: w / 1.6,
-                                                                               height: h/4.2,
-                                                                               decoration: BoxDecoration(
-                                                                                 borderRadius : BorderRadius.only(
-                                                                                   topLeft: Radius.circular(7),
-                                                                                   //    topRight: Radius.circular(7),
-                                                                                   bottomLeft: Radius.circular(7),
-                                                                                   bottomRight: Radius.circular(7),
-                                                                                 ),
-                                                                                 gradient : LinearGradient(
-                                                                                     begin: Alignment(5.730259880964636e-14,-2),
-                                                                                     end: Alignment(2,3.9593861611176705e-16),
-                                                                                     colors: [Colors.transparent,Color(state.BUBBLElistS1![index].Color!),]
-                                                                                 ),
-                                                                               )
-                                                                           ),
-                                                                         ),
-                                                                         Container(
-                                                                             width: w / 1.6,
-                                                                             height: h/11.89,
-                                                                             child:Row(
-                                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                                               children: [
-                                                                                 state.BUBBLElistS1![index].type!="Prime"
-                                                                                     ?  state.BUBBLElistS1![index].User_type!="admin"
-                                                                                     ?  Row(
-                                                                                   children: [
-                                                                                     CircleAvatar(
-                                                                                       radius: 17,
-                                                                                       backgroundColor: Color(int.parse(state.BUBBLElistS1![index].Creator_Color!)),
-                                                                                       backgroundImage: NetworkImage(state.BUBBLElistS1![index].Creator_Avatar!),
-                                                                                     ),
-                                                                                     SizedBox(width: 10,),
-                                                                                     Text(state.BUBBLElistS1![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
-                                                                                         color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                         fontFamily: 'Red Hat Display',
-                                                                                         fontSize: 10.477987289428711,
-                                                                                         letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                         fontWeight: FontWeight.w600,
-                                                                                         height: 1
-                                                                                     ),),
-
-                                                                                   ],
-                                                                                 )
-                                                                                     :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                                                                     color: Color.fromRGBO(255, 255, 255, 1),
-                                                                                     fontFamily: 'Red Hat Display',
-                                                                                     fontSize: 10.477987289428711,
-                                                                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                                     fontWeight: FontWeight.w600,
-                                                                                     height: 1
-                                                                                 ),)
-                                                                                     :Text(""),
-
-                                                                                 Text(""),
-                                                                                 Text(""),
-                                                                               ],
-                                                                             )
-                                                                         ),
-                                                                         Positioned(
-                                                                           left: h/35,
-                                                                           bottom: h/8,
-                                                                           child: Container(
-                                                                             width:w,
-                                                                             height: h/6.89,
-                                                                             child:
-                                                                             IconButton(
-                                                                               icon:SvgPicture.asset(
-                                                                                 state.BUBBLElistS1![index].is_Saved!
-                                                                                     ?"Assets/images/BiggerSaved.svg"
-                                                                                     :"Assets/images/SAVE.svg"
-                                                                                 ,width:  !state.BUBBLElistS1![index].is_Saved!? w/8: w/6,
-                                                                               ) ,
-                                                                               onPressed: (){
-                                                                                 _HomeBloc.add(
-                                                                                     ToggleSaveBubble((b) => b
-                                                                                       ..Bubble_id = state.BUBBLElistS1![index].id
-                                                                                       ..index = index
-                                                                                       ..List_type = 'New Bubbles'
-                                                                                       ..Saved_Status =   state.BUBBLElistS1![index].is_Saved!
-                                                                                     )
-                                                                                 );
-                                                                               },
-                                                                             ),
-                                                                           ),
-                                                                         )
-                                                                       ],
-                                                                     ),
-
-
-                                                                     Row(
-                                                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                       children: [
-                                                                         Flexible(
-                                                                           child:
-                                                                           Container(
-                                                                             margin: EdgeInsets.only(left: h/50),
-                                                                             child: Column(
-                                                                               children: [
-                                                                                 const SizedBox(
-                                                                                   height:
-                                                                                   10,
-                                                                                 ),
-                                                                                 Row(
-                                                                                   children: [
-                                                                                     Container(
-                                                                                       width: w /3,
-                                                                                       child:  Text(
-                                                                                         state.BUBBLElistS1![index].Title.toString(),
-                                                                                         overflow: TextOverflow.ellipsis,
-                                                                                         textAlign: TextAlign.left,
-                                                                                         style: _TextTheme.headlineLarge!.copyWith(
-                                                                                           color: Color(state.BUBBLElistS1![index].Color!.toInt()),
-                                                                                           fontSize: 19,
-                                                                                           letterSpacing: 0,
-                                                                                           fontWeight: FontWeight.w600,
-                                                                                         ),
-                                                                                       ),
-
-                                                                                     ),
-                                                                                   ],
-                                                                                 ),
-                                                                                 SizedBox(height: 6,),
-                                                                                 Container(
-                                                                                   child:  Text(
-                                                                                     'At ${state.BUBBLElistS1![index].location.toString()}',
-                                                                                     textAlign: TextAlign.left,
-                                                                                     overflow: TextOverflow.ellipsis,
-                                                                                     style: _TextTheme.headlineLarge!.copyWith(
-                                                                                       fontSize: 13,
-                                                                                       letterSpacing: 0,
-                                                                                       fontWeight: FontWeight.w600,
-                                                                                     ),
-
-                                                                                   ),
-
-                                                                                 ),
-                                                                                 // Container(
-                                                                                 //   child:  Text(
-                                                                                 //     '${state.BUBBLElistS1![index].location.toString()}',
-                                                                                 //     textAlign: TextAlign.left,
-                                                                                 //     overflow: TextOverflow.ellipsis,
-                                                                                 //     style: _TextTheme.headlineLarge!.copyWith(
-                                                                                 //       fontSize: 13,
-                                                                                 //       letterSpacing: 0,
-                                                                                 //       fontWeight: FontWeight.w600,
-                                                                                 //     ),
-                                                                                 //
-                                                                                 //   ),
-                                                                                 // ),
-                                                                               ],
-                                                                             ),
-                                                                           ),
-                                                                         ),
-                                                                         SvgPicture.asset(
-                                                                           "Assets/images/Exclude.svg",
-                                                                           color : Color(state.BUBBLElistS1![index].Color!),
-                                                                         ),
-
-                                                                       ],
-                                                                     )
-
-
-                                                                   ],
-                                                                 ),
-
-
-                                                               )
-
-
-
-
-                                                           );
-                                                         },
-                                                         separatorBuilder:
-                                                             (BuildContext
-                                                         context,
-                                                             int index) {
-                                                           return const Text(
-                                                               "      ");
-                                                         },
-                                                       )))
-                                                   : state.GetNewBubblesIsloading ==true
-                                                   ? Container(
-                                                   padding:
-                                                   const EdgeInsets
-                                                       .only(
-                                                       left: 10),
-                                                   width: w,
-                                                   height: h / 3.5,
-                                                   child: Row(
-                                                     mainAxisAlignment:
-                                                     MainAxisAlignment
-                                                         .center,
-                                                     children: [
-                                                       Center(
-                                                           child: listLoader(
-                                                               context:
-                                                               context)),
-                                                     ],
-                                                   ))
-                                                   : Column(
-                                                 mainAxisAlignment:
-                                                 MainAxisAlignment
-                                                     .center,
-                                                 children: [
-                                                   Center(
-                                                     child: Container(
-                                                       padding:EdgeInsets.only(left: h/40),
-                                                       width: w,
-                                                       height:  h / 3,
-                                                       child:
-                                                       Center(
-                                                         child: const Text(
-                                                             "Waiting..."),
-                                                       ),
-                                                     ),
-                                                   ),
-                                                 ],
-                                               ),
-
-                                               SizedBox(
-                                                 height: h/40,
-                                               ),
-                                             ],
-                                         ):Container(),
-
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                        :state.Searchsuccess!?
-                                    Container(
-          width: w/1.1,
-          height: h/1.25,
-          child :
-          ScrollConfiguration(
-          behavior: MyBehavior(),
-          child:
-          GridView.builder(
-          itemCount: state.FilteredBubbleList!.length,
-          scrollDirection: Axis.vertical,
-          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,
-
-          childAspectRatio: (5 / 5),),
-          itemBuilder: (BuildContext context, int index) {
-
-          return   InkWell(
-              onTap: (){
-                WidgetsBinding
-                    .instance!
-                    .addPostFrameCallback(
-                        (_) =>   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (
-                            context) =>
-                            Plan_Screen(
-                              Bubble:state.FilteredBubbleList![index],my_id: state.ProfileDate!.user!.id,  ),
-                      ),
-                    ));
-
-              },
-              child:Center(
-                child: Container(
-                    width:w/1.15,
-                    height: h/2.1,
-                    margin: const EdgeInsets.all(10),
-                    decoration: const BoxDecoration(
-                      borderRadius : BorderRadius.only(
-                        topLeft: Radius.circular(7.777777194976807),
-                        topRight: Radius.circular(7.777777194976807),
-                        bottomLeft: Radius.circular(7.777777194976807),
-                        bottomRight: Radius.circular(7.777777194976807),
-                      ),
-                      color : Color.fromRGBO(96, 96, 96, 1),
-                    ),
-                    child :Column(
-                      children: [
-                        Stack(
-                            children: [
-                              Container(
-                                width:w/1.15,
-                                height: h/2.89,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                  child:CachedNetworkImage(
-                                    fit: BoxFit.fill,
-                                    imageUrl:  state.FilteredBubbleList![index].image.toString(),
-                                    placeholder: (context, url) => Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: [
-                                        Container(width:w/8,height:h/20,child: const Center(child: CircularProgressIndicator())),
-                                      ],
-                                    ),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  ),
-                                ),
-                              ),
-                              Transform.rotate(
-                                angle: -179.99999499423683 * (math.pi / 180),
-                                child: Container(
-                                    width:w/1.15,
-                                    height: h/2.89,
-                                    decoration: BoxDecoration(
-                                      borderRadius : const BorderRadius.only(
-                                        topLeft: Radius.circular(7.777777194976807),
-                                        //  topRight: Radius.circular(7.777777194976807),
-                                        bottomRight: Radius.circular(7.777777194976807),
-                                        bottomLeft: Radius.circular(7.777777194976807),
-                                      ),
-                                      gradient : LinearGradient(
-                                          begin: const Alignment(5.730259880964636e-14,-2),
-                                          end: const Alignment(2,3.9593861611176705e-16),
-                                          colors: [
-                                            Colors.transparent,
-                                            Color(state.FilteredBubbleList![index].Color!),
-                                          ]
-                                      ),
-                                    )
-                                ),
-                              ),
-
-
-                              Container(
-                                  width:w/1.15,
-                                  height: h/6.89,
-                                  child:Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: [
-                                      state.FilteredBubbleList![index].User_type=="user"
-                                          ?Row(
-                                        children: [
-                                          CircleAvatar(
-                                            radius: 17,
-                                            backgroundColor: Color(int.parse(state.FilteredBubbleList![index].Creator_Color!)),
-                                            backgroundImage: NetworkImage(state.FilteredBubbleList![index].Creator_Avatar!),
-                                          ),
-                                          const SizedBox(width: 10,),
-                                          Text(state.FilteredBubbleList![index].Creator_Alias!, textAlign: TextAlign.left, style: const TextStyle(
-                                              color: Color.fromRGBO(255, 255, 255, 1),
-                                              fontFamily: 'Red Hat Display',
-                                              fontSize: 10.477987289428711,
-                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1
-                                          ),),
-
-                                        ],
-                                      )
-                                          : const Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                          color: Color.fromRGBO(255, 255, 255, 1),
-                                          fontFamily: 'Red Hat Display',
-                                          fontSize: 10.477987289428711,
-                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.w600,
-                                          height: 1
-                                      ),),
-
-                                      const Text(""),
-                                      const Text(""),
-
-                                    ],
-                                  )
-
-
-
-
-
-
-                              ),
-                              Positioned(
-                                left: h/9,
-                                child: Container(
-                                  width:w,
-                                  height: h/6.89,
-                                  child:
-
-                                  IconButton(
-                                    icon:SvgPicture.asset(
-                                        !state.isLoading!?
-                                        state.success!?
-                                        state.Saved_Status![index]
-                                            ?"Assets/images/BiggerSaved.svg"
-                                            :"Assets/images/SAVE.svg"
-                                            :""
-                                            :""
-                                    ) ,
-                                    onPressed: (){
-                                      // _HomeBloc.add(
-                                      //     ToggleSaveBubbleEventScreen((b) => b
-                                      //       ..Bubble_id = state.FilteredBubbleList![index].id
-                                      //       ..index = index
-                                      //       ..List_type = widget.Type
-                                      //       ..Saved_Status =state.Saved_Status![index]
-                                      //     )
-                                      // );
-                                    },
-                                  ),
-                                ),
-                              )
-                            ]
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Flexible(
-                              child:
-                              Container(
-                                margin: EdgeInsets.only(left: h/50),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(
-                                      height:
-                                      10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            state.FilteredBubbleList![index].Title.toString(),
-                                            textAlign: TextAlign.left,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: _TextTheme.headlineLarge!.copyWith(
-                                              color: Color(state.FilteredBubbleList![index].Color!),
-                                              fontSize: 25,
-                                              letterSpacing: 0,
-                                              fontWeight: FontWeight.w600,
+
+
+
+                                              ],
+                                            )
+                                                :Container(),
+
+                                            state.BUBBLElistS3!.length!= 0|| state.BUBBLElistS2!.length != 0 || state.BUBBLElistS1!.length!= 0
+                                                ?   Container(
+                                              width: w,
+                                                  height: h/1.7,
+
+                                                  child: Column(
+                                              children: [
+
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Container(
+                                                    width: w,
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                            margin: EdgeInsets.only(left: w/25),
+                                                            decoration: const BoxDecoration(
+                                                              borderRadius: BorderRadius.only(
+                                                                bottomLeft: Radius.circular(15),
+                                                                bottomRight: Radius.circular(15),
+                                                                topLeft: Radius.circular(15),
+                                                                topRight: Radius.circular(15),
+                                                              ),
+                                                            ),
+                                                            width: w / 1.4,
+                                                            height: h / 18,
+                                                            child: Form(
+                                                              key: _formkey1,
+                                                              child: TextFormField(
+                                                                textInputAction:
+                                                                TextInputAction.search,
+                                                                controller: _SearchController,
+                                                                focusNode: FocuseNODE,
+                                                                cursorColor: Colors.grey,
+                                                                onChanged: (keyword){
+                                                                  _HomeBloc.add(SearchBubblesList((b) => b
+                                                                    ..Keyword = keyword
+                                                                    ..Change_ViewStatus = keyword.isNotEmpty
+                                                                  ));
+
+
+                                                                },
+                                                                style: const TextStyle(
+                                                                    color: Colors.orange,
+                                                                    fontSize: 16.5),
+                                                                decoration: InputDecoration(
+                                                                  border: OutlineInputBorder(
+                                                                    borderRadius:
+                                                                    BorderRadius.circular(30.0),
+                                                                    borderSide: const BorderSide(
+                                                                        color: Color(0xffC4C4C4),
+                                                                        width: 10),
+                                                                  ),
+                                                                  focusedBorder:
+                                                                  const OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(30.0)),
+                                                                    borderSide: BorderSide(
+                                                                        color: Color(0xffC4C4C4),
+                                                                        width: 2),
+                                                                  ),
+                                                                  enabledBorder:
+                                                                  const OutlineInputBorder(
+                                                                    borderRadius: BorderRadius.all(
+                                                                        Radius.circular(30.0)),
+                                                                    borderSide: BorderSide(
+                                                                        color: Color(0xffC4C4C4),
+                                                                        width: 2),
+                                                                  ),
+                                                                  prefixIcon: IconButton(
+                                                                      icon: SvgPicture.asset(
+                                                                        'Assets/images/Vector(1).svg',
+                                                                      ),
+                                                                      onPressed:
+                                                                      null //do something,
+                                                                  ),
+                                                                  contentPadding: EdgeInsets.symmetric(),
+                                                                  prefixIconColor: Color(0xff939393),
+                                                                  filled: true,
+                                                                  fillColor: Colors.transparent,
+                                                                  hintText:
+                                                                  "Search for locations or events",
+                                                                  hintStyle: _TextTheme.headline6!
+                                                                      .copyWith(
+                                                                    fontSize: 2 *
+                                                                        SizeConfig
+                                                                            .blockSizeVertical!
+                                                                            .toDouble(),
+                                                                    fontWeight: FontWeight.w400,
+                                                                  ),
+                                                                ),
+                                                                keyboardType: TextInputType.text,
+                                                              ),
+                                                            )),
+
+                                                        InkWell(
+                                                          onTap: (){
+                                                            CommingSoonPopup(Context, h, w);
+                                                          },
+                                                          child: Container(
+                                                            width: w/9.1,
+                                                            height: h / 14,
+                                                            child: Row(
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                  "Assets/images/Calender.svg",
+                                                                  color: ColorS.surface,    width: w/12
+                                                                  ,
+                                                                  height: h / 20,),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: (){
+                                                            CommingSoonPopup(Context, h, w);
+                                                          },
+                                                          child: Container(
+                                                            width: w/8.5,
+                                                            height: h / 14,
+                                                            child: Row(
+                                                              children: [
+                                                                SvgPicture.asset(
+                                                                  "Assets/images/Filter.svg",
+                                                                  color: ColorS.surface,        width: w/12
+                                                                  ,
+                                                                  height: h / 20,),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+
+
+                                                        SizedBox(width: 5,),
+
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  !state.ChangeViewStatus!?
+                                                  Expanded(
+                                                    child: Container(
+                                                      width: w,
+                                                      height: h / 1.9,
+                                                      child: SingleChildScrollView(
+                                                        physics: BouncingScrollPhysics(),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                          MainAxisAlignment.start,
+                                                          children: [
+
+                                                            state.BUBBLElistS3!.length!= 0
+                                                                ?
+                                                            Column(
+                                                              children: [
+                                                                Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                  children: [
+                                                                    Container(
+                                                                      width: w/3,
+                                                                      child: Text(
+                                                                        '  Popular Now',
+                                                                        textAlign: TextAlign.left,
+                                                                        style: _TextTheme
+                                                                            .headlineLarge!
+                                                                            .copyWith(
+                                                                          fontSize: 17,
+                                                                          letterSpacing: 0,
+                                                                          fontWeight:
+                                                                          FontWeight.w600,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    SizedBox(width: 5,),
+                                                                    SizedBox(width: 2,),
+                                                                    IconButton(
+                                                                        onPressed: (){
+                                                                          WidgetsBinding
+                                                                              .instance!
+                                                                              .addPostFrameCallback((_) =>
+                                                                              Navigator
+                                                                                  .push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                  builder: (context) => Events_Screen(
+                                                                                      Bubble:  state.BUBBLElistS3!,
+                                                                                      Type:'Popular Now' ,
+                                                                                      my_id: state.ProfileDate!.user!.id!
+                                                                                  ),
+                                                                                ),
+                                                                              ));
+                                                                        },
+                                                                        icon: Text('See all',
+                                                                          textAlign: TextAlign.right,
+                                                                          style: TextStyle(
+                                                                              color: Color.fromRGBO(207, 109, 56, 1),
+                                                                              fontFamily: 'Red Hat Display',
+                                                                              fontSize: 13,
+                                                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              height: 1
+                                                                          ),)
+
+                                                                    )
+                                                                  ],
+                                                                ),
+
+                                                                state.GetNewBubblesSuccess!
+                                                                    ? Container(
+                                                                    padding:EdgeInsets.only(left: h/40),
+                                                                    width: w,
+                                                                    height:  h / 3,
+                                                                    child: ScrollConfiguration(
+                                                                        behavior: MyBehavior(),
+                                                                        child: ListView.separated(
+
+                                                                          cacheExtent : 500,
+                                                                          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                                          scrollDirection:
+                                                                          Axis.horizontal,
+                                                                          itemCount: state.BUBBLElistS3!.length,
+                                                                          itemBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+
+
+                                                                            return InkWell(
+                                                                                onTap: () {
+                                                                                  WidgetsBinding
+                                                                                      .instance!
+                                                                                      .addPostFrameCallback((_) =>
+                                                                                      Navigator
+                                                                                          .push(
+                                                                                        context,
+                                                                                        MaterialPageRoute(
+                                                                                          builder: (context) =>
+                                                                                              Plan_Screen(
+                                                                                                Bubble:state.BUBBLElistS3![index],
+                                                                                                my_id: state.ProfileDate!.user!.id ,     ),
+                                                                                        ),
+                                                                                      ));
+                                                                                },
+                                                                                child:
+                                                                                Container(
+                                                                                  width: w / 1.6,
+                                                                                  height:  h / 3,
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius : BorderRadius.only(
+                                                                                      topLeft: Radius.circular(7),
+                                                                                      topRight: Radius.circular(7),
+                                                                                      bottomLeft: Radius.circular(7),
+                                                                                      bottomRight: Radius.circular(7),
+                                                                                    ),
+                                                                                    color : Color.fromRGBO(96, 96, 96, 1),
+                                                                                  ),
+                                                                                  child:
+                                                                                  Column(
+                                                                                    children: [
+                                                                                      Stack(
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            width: w / 1.6,
+                                                                                            height: h/4.2,
+                                                                                            child: ClipRRect(
+                                                                                              borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                                              child:CachedNetworkImage(
+                                                                                                fit: BoxFit.fitWidth,
+                                                                                                imageUrl:
+                                                                                                //"",
+                                                                                                state.BUBBLElistS3![index].image.toString(),
+                                                                                                placeholder: (context, url) => Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                  children: [
+                                                                                                    Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                                                  ],
+                                                                                                ),
+                                                                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Transform.rotate(
+                                                                                            angle: -179.99999499104388 * (math.pi / 180),
+                                                                                            child: Container(
+                                                                                                width: w / 1.6,
+                                                                                                height: h/4.2,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  borderRadius : BorderRadius.only(
+                                                                                                    topLeft: Radius.circular(7),
+                                                                                                    //    topRight: Radius.circular(7),
+                                                                                                    bottomLeft: Radius.circular(7),
+                                                                                                    bottomRight: Radius.circular(7),
+                                                                                                  ),
+                                                                                                  gradient : LinearGradient(
+                                                                                                      begin: Alignment(5.730259880964636e-14,-2),
+                                                                                                      end: Alignment(2,3.9593861611176705e-16),
+                                                                                                      colors: [Colors.transparent,Color(state.BUBBLElistS3![index].Color!),]
+                                                                                                  ),
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                              width: w / 1.6,
+                                                                                              height: h/11.89,
+                                                                                              child:Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                children: [
+                                                                                                  state.BUBBLElistS3![index].type!="Prime"
+                                                                                                      ?  state.BUBBLElistS3![index].User_type!="admin"
+                                                                                                      ?  Row(
+                                                                                                    children: [
+                                                                                                      CircleAvatar(
+                                                                                                        radius: 17,
+                                                                                                        backgroundColor: Color(int.parse(state.BUBBLElistS3![index].Creator_Color!)),
+                                                                                                        backgroundImage: NetworkImage(state.BUBBLElistS3![index].Creator_Avatar!),
+                                                                                                      ),
+                                                                                                      SizedBox(width: 10,),
+                                                                                                      Text(state.BUBBLElistS3![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
+                                                                                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                          fontFamily: 'Red Hat Display',
+                                                                                                          fontSize: 10.477987289428711,
+                                                                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                          height: 1
+                                                                                                      ),),
+
+                                                                                                    ],
+                                                                                                  )
+                                                                                                      :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                      fontFamily: 'Red Hat Display',
+                                                                                                      fontSize: 10.477987289428711,
+                                                                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      height: 1
+                                                                                                  ),)
+                                                                                                      :Text(""),
+
+                                                                                                  Text(""),
+                                                                                                  Text(""),
+
+                                                                                                ],
+                                                                                              )
+
+
+
+
+
+
+                                                                                          ),
+                                                                                          Positioned(
+                                                                                            left: h/35,
+                                                                                            bottom: h/8,
+                                                                                            child: Container(
+                                                                                              width:w,
+                                                                                              height: h/6.89,
+                                                                                              child:
+                                                                                              IconButton(
+                                                                                                icon:SvgPicture.asset(
+                                                                                                  !state.isLoading!?
+                                                                                                  state.BUBBLElistS3![index].is_Saved!
+                                                                                                      ?"Assets/images/BiggerSaved.svg"
+                                                                                                      :"Assets/images/SAVE.svg"
+                                                                                                      :""
+                                                                                                  ,width:  !state.BUBBLElistS3![index].is_Saved!? w/8: w/6,
+                                                                                                ) ,
+                                                                                                onPressed: (){
+                                                                                                  _HomeBloc.add(
+                                                                                                      ToggleSaveBubble((b) => b
+                                                                                                        ..Bubble_id = state.BUBBLElistS3![index].id
+                                                                                                        ..index = index
+                                                                                                        ..List_type = 'Popular Now'
+                                                                                                        ..Saved_Status =   state.BUBBLElistS3![index].is_Saved!
+                                                                                                      )
+                                                                                                  );
+                                                                                                },
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+
+
+                                                                                      Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: [
+                                                                                          Flexible(
+                                                                                            child:
+                                                                                            Container(
+                                                                                              margin: EdgeInsets.only(left: h/50),
+                                                                                              child: Column(
+                                                                                                children: [
+                                                                                                  const SizedBox(
+                                                                                                    height:
+                                                                                                    10,
+                                                                                                  ),
+                                                                                                  Container(
+                                                                                                    child:  Text(
+                                                                                                      state.BUBBLElistS3![index].Title.toString(),
+                                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                                      textAlign: TextAlign.left,
+                                                                                                      style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                        color: Color(state.BUBBLElistS3![index].Color!.toInt()),
+                                                                                                        fontSize: 19,
+                                                                                                        letterSpacing: 0,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                      ),
+                                                                                                    ),
+
+                                                                                                  ),
+                                                                                                  Container(
+                                                                                                    child:  Text(
+                                                                                                      'At ${state.BUBBLElistS3![index].location.toString()}',
+                                                                                                      textAlign: TextAlign.left,
+                                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                                      style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                        fontSize: 13,
+                                                                                                        letterSpacing: 0,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                      ),
+
+                                                                                                    ),
+                                                                                                  ),
+                                                                                                  // Container(
+                                                                                                  //   child:  Text(
+                                                                                                  //     '${state.BUBBLElistS3![index].location.toString()}',
+                                                                                                  //     textAlign: TextAlign.left,
+                                                                                                  //     overflow: TextOverflow.ellipsis,
+                                                                                                  //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                  //       fontSize: 13,
+                                                                                                  //       letterSpacing: 0,
+                                                                                                  //       fontWeight: FontWeight.w600,
+                                                                                                  //     ),
+                                                                                                  //
+                                                                                                  //   ),
+                                                                                                  // ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset(
+                                                                                            "Assets/images/Exclude.svg",
+                                                                                            color : Color(state.BUBBLElistS3![index].Color!),
+                                                                                          ),
+                                                                                        ],
+                                                                                      )
+                                                                                    ],
+                                                                                  ),
+
+
+                                                                                )
+
+
+
+
+                                                                            );
+                                                                          },
+                                                                          separatorBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+                                                                            return const Text(
+                                                                                "      ");
+                                                                          },
+                                                                        )))
+                                                                    : state.GetNewBubblesIsloading ==true
+                                                                    ? Container(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 10),
+                                                                    width: w,
+                                                                    height: h / 3.5,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                      children: [
+                                                                        Center(
+                                                                            child: listLoader(
+                                                                                context:
+                                                                                context)),
+                                                                      ],
+                                                                    ))
+                                                                    : Column(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                                  children: [
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding:EdgeInsets.only(left: h/40),
+                                                                        width: w,
+                                                                        height:  h / 3,
+                                                                        child:
+                                                                        Center(
+                                                                          child: const Text(
+                                                                              "Waiting..."),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: h/40,
+                                                                ),
+
+
+
+                                                              ],
+                                                            ):Container(),
+
+                                                            state.BUBBLElistS2!.length != 0?
+                                                            Column(
+                                                              children: [
+                                                                SizedBox(height: h/65,),
+                                                                Container(
+
+                                                                  width: w,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: w/5,
+                                                                        child: Text(
+                                                                          '   Nearby',
+                                                                          textAlign: TextAlign.left,
+                                                                          style: _TextTheme
+                                                                              .headlineLarge!
+                                                                              .copyWith(
+                                                                            fontSize: 17,
+                                                                            letterSpacing: 0,
+                                                                            fontWeight:
+                                                                            FontWeight.w600,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 10,),
+                                                                      InkWell(
+                                                                        onTap: (){
+                                                                          WidgetsBinding
+                                                                              .instance!
+                                                                              .addPostFrameCallback((_) =>
+                                                                              Navigator
+                                                                                  .push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                  builder: (context) => Events_Screen(
+                                                                                      Bubble: state.BUBBLElistS2!,
+                                                                                      Type:'Nearby',
+                                                                                      my_id: state.ProfileDate!.user!.id!
+                                                                                  ),
+                                                                                ),
+                                                                              ));
+                                                                        },
+
+                                                                        child: Text('See all',
+                                                                          textAlign: TextAlign.right,
+                                                                          style: TextStyle(
+                                                                              color: Color.fromRGBO(207, 109, 56, 1),
+                                                                              fontFamily: 'Red Hat Display',
+                                                                              fontSize: 13,
+                                                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              height: 1
+                                                                          ),),
+                                                                      )
+
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: h/45,),
+
+                                                                state.NearbySuccess!
+                                                                    ? Container(
+                                                                    width: w,
+                                                                    height:  h / 3,
+                                                                    child: ScrollConfiguration(
+                                                                        behavior: MyBehavior(),
+                                                                        child: ListView.separated(
+
+                                                                          cacheExtent : 500,
+                                                                          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                                          scrollDirection:
+                                                                          Axis.horizontal,
+                                                                          itemCount: state.BUBBLElistS2!.length,
+                                                                          itemBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+
+
+                                                                            return
+
+                                                                              InkWell(
+                                                                                  onTap: () {
+                                                                                    WidgetsBinding
+                                                                                        .instance!
+                                                                                        .addPostFrameCallback((_) =>
+                                                                                        Navigator
+                                                                                            .push(
+                                                                                          context,
+                                                                                          MaterialPageRoute(
+                                                                                            builder: (context) =>
+                                                                                                Plan_Screen(
+                                                                                                  Bubble:state.BUBBLElistS2![index],
+                                                                                                  my_id: state.ProfileDate!.user!.id ,     ),
+                                                                                          ),
+                                                                                        ));
+                                                                                  },
+                                                                                  child:
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(left:index==0? h/35:0),
+                                                                                    width: w / 1.6,
+                                                                                    height:  h / 3,
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius : BorderRadius.only(
+                                                                                        topLeft: Radius.circular(7),
+                                                                                        topRight: Radius.circular(7),
+                                                                                        bottomLeft: Radius.circular(7),
+                                                                                        bottomRight: Radius.circular(7),
+                                                                                      ),
+                                                                                      color : Color.fromRGBO(96, 96, 96, 1),
+                                                                                    ),
+                                                                                    child:
+                                                                                    Column(
+                                                                                      children: [
+                                                                                        Stack(
+                                                                                          children: [
+                                                                                            Container(
+                                                                                              width: w / 1.6,
+                                                                                              height: h/4.2,
+                                                                                              child: ClipRRect(
+                                                                                                borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                                                child:CachedNetworkImage(
+                                                                                                  fit: BoxFit.fitWidth,
+                                                                                                  imageUrl:
+                                                                                                  //"",
+                                                                                                  state.BUBBLElistS2![index].image.toString(),
+                                                                                                  placeholder: (context, url) => Row(
+                                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                    children: [
+                                                                                                      Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                  errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            Transform.rotate(
+                                                                                              angle: -179.99999499104388 * (math.pi / 180),
+                                                                                              child: Container(
+                                                                                                  width: w / 1.6,
+                                                                                                  height: h/4.2,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    borderRadius : BorderRadius.only(
+                                                                                                      topLeft: Radius.circular(7),
+                                                                                                      //    topRight: Radius.circular(7),
+                                                                                                      bottomLeft: Radius.circular(7),
+                                                                                                      bottomRight: Radius.circular(7),
+                                                                                                    ),
+                                                                                                    gradient : LinearGradient(
+                                                                                                        begin: Alignment(5.730259880964636e-14,-2),
+                                                                                                        end: Alignment(2,3.9593861611176705e-16),
+                                                                                                        colors: [Colors.transparent,Color(state.BUBBLElistS2![index].Color!),]
+                                                                                                    ),
+                                                                                                  )
+                                                                                              ),
+                                                                                            ),
+                                                                                            Container(
+                                                                                                width: w / 1.6,
+                                                                                                height: h/11.89,
+                                                                                                child:Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                  children: [
+                                                                                                    state.BUBBLElistS2![index].type!="Prime"
+                                                                                                        ?  state.BUBBLElistS2![index].User_type!="admin"
+                                                                                                        ?  Row(
+                                                                                                      children: [
+                                                                                                        CircleAvatar(
+                                                                                                          radius: 17,
+                                                                                                          backgroundColor: Color(int.parse(state.BUBBLElistS2![index].Creator_Color!)),
+                                                                                                          backgroundImage: NetworkImage(state.BUBBLElistS2![index].Creator_Avatar!),
+                                                                                                        ),
+                                                                                                        SizedBox(width: 10,),
+                                                                                                        Text(state.BUBBLElistS2![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
+                                                                                                            color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                            fontFamily: 'Red Hat Display',
+                                                                                                            fontSize: 10.477987289428711,
+                                                                                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                            fontWeight: FontWeight.w600,
+                                                                                                            height: 1
+                                                                                                        ),),
+
+                                                                                                      ],
+                                                                                                    )
+                                                                                                        :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                        fontFamily: 'Red Hat Display',
+                                                                                                        fontSize: 10.477987289428711,
+                                                                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                        height: 1
+                                                                                                    ),)
+                                                                                                        :Text(""),
+
+                                                                                                    Text(""),
+                                                                                                    Text(""),
+
+                                                                                                  ],
+                                                                                                )
+
+
+
+
+
+
+                                                                                            ),
+                                                                                            Positioned(
+                                                                                              left: h/35,
+                                                                                              bottom: h/8,
+                                                                                              child: Container(
+                                                                                                width:w,
+                                                                                                height: h/6.89,
+                                                                                                child:
+                                                                                                IconButton(
+                                                                                                  icon:SvgPicture.asset(
+                                                                                                    state.BUBBLElistS2![index].is_Saved!
+                                                                                                        ?"Assets/images/BiggerSaved.svg"
+                                                                                                        :"Assets/images/SAVE.svg"
+                                                                                                    ,width:  !state.BUBBLElistS2![index].is_Saved!? w/8: w/6,
+                                                                                                  ) ,
+                                                                                                  onPressed: (){
+                                                                                                    _HomeBloc.add(
+                                                                                                        ToggleSaveBubble((b) => b
+                                                                                                          ..Bubble_id = state.BUBBLElistS2![index].id
+                                                                                                          ..index = index
+                                                                                                          ..List_type = 'Nearby'
+                                                                                                          ..Saved_Status =   state.BUBBLElistS2![index].is_Saved!
+                                                                                                        )
+                                                                                                    );
+                                                                                                  },
+                                                                                                ),
+                                                                                              ),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+
+
+                                                                                        Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                          children: [
+                                                                                            Flexible(
+                                                                                              child:
+                                                                                              Container(
+                                                                                                margin: EdgeInsets.only(left: h/50),
+                                                                                                child: Column(
+                                                                                                  children: [
+                                                                                                    const SizedBox(
+                                                                                                      height:
+                                                                                                      10,
+                                                                                                    ),
+
+                                                                                                    Row(
+                                                                                                      children: [
+                                                                                                        Container(
+                                                                                                          width: w /3,
+                                                                                                          child:  Text(
+                                                                                                            state.BUBBLElistS2![index].Title.toString(),
+                                                                                                            overflow: TextOverflow.ellipsis,
+                                                                                                            textAlign: TextAlign.left,
+                                                                                                            style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                              color: Color(state.BUBBLElistS2![index].Color!.toInt()),
+                                                                                                              fontSize: 19,
+                                                                                                              letterSpacing: 0,
+                                                                                                              fontWeight: FontWeight.w600,
+                                                                                                            ),
+                                                                                                          ),
+
+                                                                                                        ),
+                                                                                                      ],
+                                                                                                    ),
+
+                                                                                                    SizedBox(height: 6,),
+
+                                                                                                    Container(
+                                                                                                      width: w / 2,
+                                                                                                      child:  Text(
+                                                                                                        'At ${state.BUBBLElistS2![index].location.toString()}',
+                                                                                                        textAlign: TextAlign.left,
+                                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                                        style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                          fontSize: 13,
+                                                                                                          letterSpacing: 0,
+                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                        ),
+
+                                                                                                      ),
+
+                                                                                                    ),
+                                                                                                    // Container(
+                                                                                                    //   child:  Text(
+                                                                                                    //     '${state.BUBBLElistS1![index].location.toString()}',
+                                                                                                    //     textAlign: TextAlign.left,
+                                                                                                    //     overflow: TextOverflow.ellipsis,
+                                                                                                    //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                    //       fontSize: 13,
+                                                                                                    //       letterSpacing: 0,
+                                                                                                    //       fontWeight: FontWeight.w600,
+                                                                                                    //     ),
+                                                                                                    //
+                                                                                                    //   ),
+                                                                                                    // ),
+                                                                                                  ],
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            SvgPicture.asset(
+                                                                                              "Assets/images/Exclude.svg",
+                                                                                              color : Color(state.BUBBLElistS2![index].Color!),
+                                                                                            ),
+
+                                                                                          ],
+                                                                                        )
+
+
+                                                                                      ],
+                                                                                    ),
+
+
+                                                                                  )
+
+
+
+
+                                                                              );
+                                                                          },
+                                                                          separatorBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+                                                                            return const Text(
+                                                                                "      ");
+                                                                          },
+                                                                        )))
+                                                                    : state.NearbyIsloading ==true
+                                                                    ? Container(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 10),
+                                                                    width: w,
+                                                                    height: h / 3.5,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                      children: [
+                                                                        Center(
+                                                                            child: listLoader(
+                                                                                context:
+                                                                                context)),
+                                                                      ],
+                                                                    ))
+                                                                    : Column(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                                  children: [
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding:EdgeInsets.only(left: h/40),
+                                                                        width: w,
+                                                                        height:  h / 3,
+                                                                        child:
+                                                                        Center(
+                                                                          child: const Text(
+                                                                              "Waiting..."),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                                SizedBox(
+                                                                  height: h/40,
+                                                                ),
+                                                              ],
+                                                            ):Container(),
+
+                                                            state.BUBBLElistS1!.length!= 0?
+                                                            Column(
+                                                              children: [
+                                                                SizedBox(height: h/65,),
+                                                                Container(
+
+                                                                  width: w,
+                                                                  child: Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: w/3,
+                                                                        child: Text(
+                                                                          'New Bubbles',
+                                                                          textAlign: TextAlign.left,
+                                                                          style: _TextTheme
+                                                                              .headlineLarge!
+                                                                              .copyWith(
+                                                                            fontSize: 17,
+                                                                            letterSpacing: 0,
+                                                                            fontWeight:
+                                                                            FontWeight.w600,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(width: 10,),
+                                                                      InkWell(
+                                                                        onTap: (){
+                                                                          WidgetsBinding
+                                                                              .instance!
+                                                                              .addPostFrameCallback((_) =>
+                                                                              Navigator
+                                                                                  .push(
+                                                                                context,
+                                                                                MaterialPageRoute(
+                                                                                  builder: (context) => Events_Screen(
+                                                                                      Bubble:state.BUBBLElistS1! ,
+                                                                                      Type:'New Bubbles',
+                                                                                      my_id: state.ProfileDate!.user!.id!
+                                                                                  ),
+                                                                                ),
+                                                                              ));
+                                                                        },
+
+                                                                        child: Text('See all',
+                                                                          textAlign: TextAlign.right,
+                                                                          style: TextStyle(
+                                                                              color: Color.fromRGBO(207, 109, 56, 1),
+                                                                              fontFamily: 'Red Hat Display',
+                                                                              fontSize: 13,
+                                                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                              fontWeight: FontWeight.w400,
+                                                                              height: 1
+                                                                          ),),
+                                                                      )
+
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                SizedBox(height: h/45,),
+
+
+
+                                                                state.GetNewBubblesSuccess!
+                                                                    ? Container(
+                                                                    width: w,
+                                                                    height:  h / 3,
+                                                                    child: ScrollConfiguration(
+                                                                        behavior: MyBehavior(),
+                                                                        child: ListView.separated(
+                                                                          cacheExtent : 500,
+                                                                          physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                                          scrollDirection:
+                                                                          Axis.horizontal,
+                                                                          itemCount: state.BUBBLElistS1!.length,
+                                                                          itemBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+
+
+
+                                                                            return InkWell(
+                                                                                onTap: () {
+                                                                                  WidgetsBinding
+                                                                                      .instance!
+                                                                                      .addPostFrameCallback((_) =>
+                                                                                      Navigator
+                                                                                          .push(
+                                                                                        context,
+                                                                                        MaterialPageRoute(
+                                                                                          builder: (context) =>
+                                                                                              Plan_Screen(
+                                                                                                Bubble:state.BUBBLElistS1![index],
+                                                                                                my_id: state.ProfileDate!.user!.id ,     ),
+                                                                                        ),
+                                                                                      ));
+                                                                                },
+                                                                                child:
+                                                                                Container(
+                                                                                  width: w / 1.6,
+                                                                                  height:  h / 3,
+                                                                                  margin: EdgeInsets.only(left:index==0? h/35:0),
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius : BorderRadius.only(
+                                                                                      topLeft: Radius.circular(7),
+                                                                                      topRight: Radius.circular(7),
+                                                                                      bottomLeft: Radius.circular(7),
+                                                                                      bottomRight: Radius.circular(7),
+                                                                                    ),
+                                                                                    color : Color.fromRGBO(96, 96, 96, 1),
+                                                                                  ),
+                                                                                  child:
+                                                                                  Column(
+                                                                                    children: [
+                                                                                      Stack(
+                                                                                        children: [
+                                                                                          Container(
+                                                                                            width: w / 1.6,
+                                                                                            height: h/4.2,
+                                                                                            child: ClipRRect(
+                                                                                              borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                                              child:CachedNetworkImage(
+                                                                                                fit: BoxFit.fitWidth,
+                                                                                                imageUrl:
+                                                                                                //"",
+                                                                                                state.BUBBLElistS1![index].image.toString(),
+                                                                                                placeholder: (context, url) => Row(
+                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                                  children: [
+                                                                                                    Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                                                                                  ],
+                                                                                                ),
+                                                                                                errorWidget: (context, url, error) => Icon(Icons.error),
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          Transform.rotate(
+                                                                                            angle: -179.99999499104388 * (math.pi / 180),
+                                                                                            child: Container(
+                                                                                                width: w / 1.6,
+                                                                                                height: h/4.2,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  borderRadius : BorderRadius.only(
+                                                                                                    topLeft: Radius.circular(7),
+                                                                                                    //    topRight: Radius.circular(7),
+                                                                                                    bottomLeft: Radius.circular(7),
+                                                                                                    bottomRight: Radius.circular(7),
+                                                                                                  ),
+                                                                                                  gradient : LinearGradient(
+                                                                                                      begin: Alignment(5.730259880964636e-14,-2),
+                                                                                                      end: Alignment(2,3.9593861611176705e-16),
+                                                                                                      colors: [Colors.transparent,Color(state.BUBBLElistS1![index].Color!),]
+                                                                                                  ),
+                                                                                                )
+                                                                                            ),
+                                                                                          ),
+                                                                                          Container(
+                                                                                              width: w / 1.6,
+                                                                                              height: h/11.89,
+                                                                                              child:Row(
+                                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                children: [
+                                                                                                  state.BUBBLElistS1![index].type!="Prime"
+                                                                                                      ?  state.BUBBLElistS1![index].User_type!="admin"
+                                                                                                      ?  Row(
+                                                                                                    children: [
+                                                                                                      CircleAvatar(
+                                                                                                        radius: 17,
+                                                                                                        backgroundColor: Color(int.parse(state.BUBBLElistS1![index].Creator_Color!)),
+                                                                                                        backgroundImage: NetworkImage(state.BUBBLElistS1![index].Creator_Avatar!),
+                                                                                                      ),
+                                                                                                      SizedBox(width: 10,),
+                                                                                                      Text(state.BUBBLElistS1![index].Creator_Alias!, textAlign: TextAlign.left, style: TextStyle(
+                                                                                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                          fontFamily: 'Red Hat Display',
+                                                                                                          fontSize: 10.477987289428711,
+                                                                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                          fontWeight: FontWeight.w600,
+                                                                                                          height: 1
+                                                                                                      ),),
+
+                                                                                                    ],
+                                                                                                  )
+                                                                                                      :     Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                      fontFamily: 'Red Hat Display',
+                                                                                                      fontSize: 10.477987289428711,
+                                                                                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                      fontWeight: FontWeight.w600,
+                                                                                                      height: 1
+                                                                                                  ),)
+                                                                                                      :Text(""),
+
+                                                                                                  Text(""),
+                                                                                                  Text(""),
+                                                                                                ],
+                                                                                              )
+                                                                                          ),
+                                                                                          Positioned(
+                                                                                            left: h/35,
+                                                                                            bottom: h/8,
+                                                                                            child: Container(
+                                                                                              width:w,
+                                                                                              height: h/6.89,
+                                                                                              child:
+                                                                                              IconButton(
+                                                                                                icon:SvgPicture.asset(
+                                                                                                  state.BUBBLElistS1![index].is_Saved!
+                                                                                                      ?"Assets/images/BiggerSaved.svg"
+                                                                                                      :"Assets/images/SAVE.svg"
+                                                                                                  ,width:  !state.BUBBLElistS1![index].is_Saved!? w/8: w/6,
+                                                                                                ) ,
+                                                                                                onPressed: (){
+                                                                                                  _HomeBloc.add(
+                                                                                                      ToggleSaveBubble((b) => b
+                                                                                                        ..Bubble_id = state.BUBBLElistS1![index].id
+                                                                                                        ..index = index
+                                                                                                        ..List_type = 'New Bubbles'
+                                                                                                        ..Saved_Status =   state.BUBBLElistS1![index].is_Saved!
+                                                                                                      )
+                                                                                                  );
+                                                                                                },
+                                                                                              ),
+                                                                                            ),
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+
+
+                                                                                      Row(
+                                                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: [
+                                                                                          Flexible(
+                                                                                            child:
+                                                                                            Container(
+                                                                                              margin: EdgeInsets.only(left: h/50),
+                                                                                              child: Column(
+                                                                                                children: [
+                                                                                                  const SizedBox(
+                                                                                                    height:
+                                                                                                    10,
+                                                                                                  ),
+                                                                                                  Row(
+                                                                                                    children: [
+                                                                                                      Container(
+                                                                                                        width: w /3,
+                                                                                                        child:  Text(
+                                                                                                          state.BUBBLElistS1![index].Title.toString(),
+                                                                                                          overflow: TextOverflow.ellipsis,
+                                                                                                          textAlign: TextAlign.left,
+                                                                                                          style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                            color: Color(state.BUBBLElistS1![index].Color!.toInt()),
+                                                                                                            fontSize: 19,
+                                                                                                            letterSpacing: 0,
+                                                                                                            fontWeight: FontWeight.w600,
+                                                                                                          ),
+                                                                                                        ),
+
+                                                                                                      ),
+                                                                                                    ],
+                                                                                                  ),
+                                                                                                  SizedBox(height: 6,),
+                                                                                                  Container(
+                                                                                                    width: w / 2,
+                                                                                                    child:  Text(
+                                                                                                      'At ${state.BUBBLElistS1![index].location.toString()}',
+                                                                                                      textAlign: TextAlign.left,
+                                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                                      style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                        fontSize: 13,
+                                                                                                        letterSpacing: 0,
+                                                                                                        fontWeight: FontWeight.w600,
+                                                                                                      ),
+
+                                                                                                    ),
+
+                                                                                                  ),
+                                                                                                  // Container(
+                                                                                                  //   child:  Text(
+                                                                                                  //     '${state.BUBBLElistS1![index].location.toString()}',
+                                                                                                  //     textAlign: TextAlign.left,
+                                                                                                  //     overflow: TextOverflow.ellipsis,
+                                                                                                  //     style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                  //       fontSize: 13,
+                                                                                                  //       letterSpacing: 0,
+                                                                                                  //       fontWeight: FontWeight.w600,
+                                                                                                  //     ),
+                                                                                                  //
+                                                                                                  //   ),
+                                                                                                  // ),
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset(
+                                                                                            "Assets/images/Exclude.svg",
+                                                                                            color : Color(state.BUBBLElistS1![index].Color!),
+                                                                                          ),
+
+                                                                                        ],
+                                                                                      )
+
+
+                                                                                    ],
+                                                                                  ),
+
+
+                                                                                )
+
+
+
+
+                                                                            );
+                                                                          },
+                                                                          separatorBuilder:
+                                                                              (BuildContext
+                                                                          context,
+                                                                              int index) {
+                                                                            return const Text(
+                                                                                "      ");
+                                                                          },
+                                                                        )))
+                                                                    : state.GetNewBubblesIsloading ==true
+                                                                    ? Container(
+                                                                    padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left: 10),
+                                                                    width: w,
+                                                                    height: h / 3.5,
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                      children: [
+                                                                        Center(
+                                                                            child: listLoader(
+                                                                                context:
+                                                                                context)),
+                                                                      ],
+                                                                    ))
+                                                                    : Column(
+                                                                  mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                                  children: [
+                                                                    Center(
+                                                                      child: Container(
+                                                                        padding:EdgeInsets.only(left: h/40),
+                                                                        width: w,
+                                                                        height:  h / 3,
+                                                                        child:
+                                                                        Center(
+                                                                          child: const Text(
+                                                                              "Waiting..."),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+
+                                                                SizedBox(
+                                                                  height: h/40,
+                                                                ),
+                                                              ],
+                                                            ):Container(),
+
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  )
+
+                                                      :state.Searchsuccess!?
+                                                  Container(
+                                                      width: w/1.1,
+                                                      height: h/1.25,
+                                                      child :
+                                                      ScrollConfiguration(
+                                                          behavior: MyBehavior(),
+                                                          child:
+                                                          GridView.builder(
+                                                              itemCount: state.FilteredBubbleList!.length,
+                                                              scrollDirection: Axis.vertical,
+                                                              physics: BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1,
+
+                                                                childAspectRatio: (5 / 5),),
+                                                              itemBuilder: (BuildContext context, int index) {
+
+                                                                return   InkWell(
+                                                                    onTap: (){
+                                                                      WidgetsBinding
+                                                                          .instance!
+                                                                          .addPostFrameCallback(
+                                                                              (_) =>   Navigator.push(
+                                                                            context,
+                                                                            MaterialPageRoute(
+                                                                              builder: (
+                                                                                  context) =>
+                                                                                  Plan_Screen(
+                                                                                    Bubble:state.FilteredBubbleList![index],my_id: state.ProfileDate!.user!.id,  ),
+                                                                            ),
+                                                                          ));
+
+                                                                    },
+                                                                    child:Center(
+                                                                      child: Container(
+                                                                          width:w/1.15,
+                                                                          height: h/2.1,
+                                                                          margin: const EdgeInsets.all(10),
+                                                                          decoration: const BoxDecoration(
+                                                                            borderRadius : BorderRadius.only(
+                                                                              topLeft: Radius.circular(7.777777194976807),
+                                                                              topRight: Radius.circular(7.777777194976807),
+                                                                              bottomLeft: Radius.circular(7.777777194976807),
+                                                                              bottomRight: Radius.circular(7.777777194976807),
+                                                                            ),
+                                                                            color : Color.fromRGBO(96, 96, 96, 1),
+                                                                          ),
+                                                                          child :Column(
+                                                                            children: [
+                                                                              Stack(
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      width:w/1.15,
+                                                                                      height: h/2.89,
+                                                                                      child: ClipRRect(
+                                                                                        borderRadius: const BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                                                        child:CachedNetworkImage(
+                                                                                          fit: BoxFit.fill,
+                                                                                          imageUrl:  state.FilteredBubbleList![index].image.toString(),
+                                                                                          placeholder: (context, url) => Row(
+                                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Container(width:w/8,height:h/20,child: const Center(child: CircularProgressIndicator())),
+                                                                                            ],
+                                                                                          ),
+                                                                                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Transform.rotate(
+                                                                                      angle: -179.99999499423683 * (math.pi / 180),
+                                                                                      child: Container(
+                                                                                          width:w/1.15,
+                                                                                          height: h/2.89,
+                                                                                          decoration: BoxDecoration(
+                                                                                            borderRadius : const BorderRadius.only(
+                                                                                              topLeft: Radius.circular(7.777777194976807),
+                                                                                              //  topRight: Radius.circular(7.777777194976807),
+                                                                                              bottomRight: Radius.circular(7.777777194976807),
+                                                                                              bottomLeft: Radius.circular(7.777777194976807),
+                                                                                            ),
+                                                                                            gradient : LinearGradient(
+                                                                                                begin: const Alignment(5.730259880964636e-14,-2),
+                                                                                                end: const Alignment(2,3.9593861611176705e-16),
+                                                                                                colors: [
+                                                                                                  Colors.transparent,
+                                                                                                  Color(state.FilteredBubbleList![index].Color!),
+                                                                                                ]
+                                                                                            ),
+                                                                                          )
+                                                                                      ),
+                                                                                    ),
+
+
+                                                                                    Container(
+                                                                                        width:w/1.15,
+                                                                                        height: h/6.89,
+                                                                                        child:Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                          children: [
+                                                                                            state.FilteredBubbleList![index].User_type=="user"
+                                                                                                ?Row(
+                                                                                              children: [
+                                                                                                CircleAvatar(
+                                                                                                  radius: 17,
+                                                                                                  backgroundColor: Color(int.parse(state.FilteredBubbleList![index].Creator_Color!)),
+                                                                                                  backgroundImage: NetworkImage(state.FilteredBubbleList![index].Creator_Avatar!),
+                                                                                                ),
+                                                                                                const SizedBox(width: 10,),
+                                                                                                Text(state.FilteredBubbleList![index].Creator_Alias!, textAlign: TextAlign.left, style: const TextStyle(
+                                                                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                    fontFamily: 'Red Hat Display',
+                                                                                                    fontSize: 10.477987289428711,
+                                                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                    height: 1
+                                                                                                ),),
+
+                                                                                              ],
+                                                                                            )
+                                                                                                : const Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                                                color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                                fontFamily: 'Red Hat Display',
+                                                                                                fontSize: 10.477987289428711,
+                                                                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                                height: 1
+                                                                                            ),),
+
+                                                                                            const Text(""),
+                                                                                            const Text(""),
+
+                                                                                          ],
+                                                                                        )
+
+
+
+
+
+
+                                                                                    ),
+                                                                                    Positioned(
+                                                                                      left: h/9,
+                                                                                      child: Container(
+                                                                                        width:w,
+                                                                                        height: h/6.89,
+                                                                                        child:
+
+                                                                                        IconButton(
+                                                                                          icon:SvgPicture.asset(
+                                                                                              !state.isLoading!?
+                                                                                              state.success!?
+                                                                                              state.Saved_Status![index]
+                                                                                                  ?"Assets/images/BiggerSaved.svg"
+                                                                                                  :"Assets/images/SAVE.svg"
+                                                                                                  :""
+                                                                                                  :""
+                                                                                          ) ,
+                                                                                          onPressed: (){
+                                                                                            // _HomeBloc.add(
+                                                                                            //     ToggleSaveBubbleEventScreen((b) => b
+                                                                                            //       ..Bubble_id = state.FilteredBubbleList![index].id
+                                                                                            //       ..index = index
+                                                                                            //       ..List_type = widget.Type
+                                                                                            //       ..Saved_Status =state.Saved_Status![index]
+                                                                                            //     )
+                                                                                            // );
+                                                                                          },
+                                                                                        ),
+                                                                                      ),
+                                                                                    )
+                                                                                  ]
+                                                                              ),
+                                                                              Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                children: [
+                                                                                  Flexible(
+                                                                                    child:
+                                                                                    Container(
+                                                                                      margin: EdgeInsets.only(left: h/50),
+                                                                                      child: Column(
+                                                                                        children: [
+                                                                                          const SizedBox(
+                                                                                            height:
+                                                                                            10,
+                                                                                          ),
+                                                                                          Row(
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                child: Text(
+                                                                                                  state.FilteredBubbleList![index].Title.toString(),
+                                                                                                  textAlign: TextAlign.left,
+                                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                                  style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                    color: Color(state.FilteredBubbleList![index].Color!),
+                                                                                                    fontSize: 25,
+                                                                                                    letterSpacing: 0,
+                                                                                                    fontWeight: FontWeight.w600,
+                                                                                                  ),
+                                                                                                ),
+
+                                                                                              ),
+                                                                                            ],
+                                                                                          ),
+                                                                                          const SizedBox(height: 5,),
+                                                                                          Container(
+                                                                                            width: w / 2,
+                                                                                            child:  Text(
+                                                                                              "At ${ state.FilteredBubbleList![index].location.toString()}",
+                                                                                              textAlign: TextAlign.left,
+                                                                                              overflow: TextOverflow.ellipsis,
+                                                                                              style: _TextTheme.headlineLarge!.copyWith(
+                                                                                                fontSize: 17,
+                                                                                                letterSpacing: 0,
+                                                                                                fontWeight: FontWeight.w600,
+                                                                                              ),
+
+                                                                                            ),
+                                                                                          ),
+                                                                                          const SizedBox(height: 5,),
+                                                                                          // const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
+                                                                                          //     color: Color.fromRGBO(255, 255, 255, 1),
+                                                                                          //     fontFamily: 'Red Hat Text',
+                                                                                          //     fontSize: 12.222221851348877,
+                                                                                          //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                          //     fontWeight: FontWeight.normal,
+                                                                                          //     height: 1
+                                                                                          // ),)
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                  const SizedBox(width: 5,),
+                                                                                  SvgPicture.asset(
+                                                                                    "Assets/images/Exclude.svg",
+                                                                                    width: w/8,
+                                                                                    color : Color(state.FilteredBubbleList![index].Color!),
+                                                                                  ),
+
+                                                                                ],
+                                                                              )
+                                                                            ],
+                                                                          )
+
+                                                                      ),
+                                                                    ));
+
+
+
+
+                                                              }
+                                                          )
+                                                      )
+                                                  ):Container(),
+
+
+
+                                              ],
                                             ),
-                                          ),
+                                                )
+                                                :Text("")
 
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 5,),
-                                    Container(
-                                      child:  Text(
-                                        "At ${ state.FilteredBubbleList![index].location.toString()}",
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: _TextTheme.headlineLarge!.copyWith(
-                                          fontSize: 17,
-                                          letterSpacing: 0,
-                                          fontWeight: FontWeight.w600,
-                                        ),
 
-                                      ),
-                                    ),
-                                    const SizedBox(height: 5,),
-                                    // const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
-                                    //     color: Color.fromRGBO(255, 255, 255, 1),
-                                    //     fontFamily: 'Red Hat Text',
-                                    //     fontSize: 12.222221851348877,
-                                    //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                    //     fontWeight: FontWeight.normal,
-                                    //     height: 1
-                                    // ),)
-                                  ],
+
+
+                                          ],
+                                        ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 5,),
-                            SvgPicture.asset(
-                              "Assets/images/Exclude.svg",
-                              width: w/8,
-                              color : Color(state.FilteredBubbleList![index].Color!),
-                            ),
-
-                          ],
-                        )
-                      ],
-                    )
-
-                ),
-              ));
-
-
-
-
-          }
-          )
-          )
-                                    ):Container(),
-
-
-
-
-
-                                  ],
-                                ),
-                              )),
                         )),
 
                         state.showDialogg!
@@ -3441,9 +3090,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.all(h/50),
+              insetPadding: EdgeInsets.all(h/100),
               content:Container(
-                width: w/1,
+                width: w/1.4,
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
@@ -3462,7 +3111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     Positioned(
                       top: h/12.5,
                       child: Container(
-                        width: w/1.0,
+                        width: w/1.4,
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
@@ -3492,47 +3141,47 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         height: 1
                                     ),),
                                 ),
-                                SizedBox(width: w/4.2,)
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                InkWell(
-                                  onTap: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child: Container(
-                                    height: h/15.5,
-                                    width: w/1.4,
-                                    decoration: BoxDecoration(
-                                      borderRadius : BorderRadius.only(
-                                        topLeft: Radius.circular(4.142857074737549),
-                                        topRight: Radius.circular(4.142857074737549),
-                                        bottomLeft: Radius.circular(4.142857074737549),
-                                        bottomRight: Radius.circular(4.142857074737549),
+                                Center(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: h/15.5,
+                                      width: w/2,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(4.142857074737549),
+                                          topRight: Radius.circular(4.142857074737549),
+                                          bottomLeft: Radius.circular(4.142857074737549),
+                                          bottomRight: Radius.circular(4.142857074737549),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0,0),
+                                            blurRadius: 6.628571510314941
+                                        )],
+                                        color : Color.fromRGBO(168, 48, 99, 1),
                                       ),
-                                      boxShadow : [BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                                          offset: Offset(0,0),
-                                          blurRadius: 6.628571510314941
-                                      )],
-                                      color : Color.fromRGBO(168, 48, 99, 1),
-                                    ),
-                                    child: Center(
-                                      child:
-                                      Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
-                                          color: Color.fromRGBO(234, 234, 234, 1),
-                                          fontFamily: 'Red Hat Text',
-                                          fontSize: 14,
-                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.w400,
-                                          height: 1
-                                      ),),
+                                      child: Center(
+                                        child:
+                                        Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontFamily: 'Red Hat Text',
+                                            fontSize: 14,
+                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1
+                                        ),),
+                                      ),
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: h/10,)
                               ],
                             )
                           ],
@@ -3540,7 +3189,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       ),
                     ),
                     Positioned(
-                      left: h/7,
+                      left: h/8,
                       bottom: h/5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",

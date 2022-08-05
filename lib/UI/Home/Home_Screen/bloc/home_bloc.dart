@@ -140,7 +140,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
 
     if (event is UserMoved){
-    //  final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
+   // final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
 
 
 
@@ -165,15 +165,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= false
       );
-      // state.marker2!.add(
-      //     Marker(
-      //   markerId:  const MarkerId("UserLocationPin"),
-      //   position:  LatLng(event.lat! ,event.lng!),
-      //     icon:BitmapDescriptor.fromBytes(markerIcon1),
-      //     onTap: (){ },
-      // )
-      // );
-
 
      state.marker2!.add(Marker(
        draggable: false,
@@ -220,7 +211,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         );
 
       } catch (e) {
-        print('get Error $e');
+        print('get Error $e OpenDoorTObeAbleTOsetBubble');
         yield state.rebuild((b) => b
           ..GetprofileISloading = false
           ..GetprofileSuccess= false
@@ -446,11 +437,12 @@ yield state.rebuild((b) => b
         for(int i=0;i<state.GetNearbyBubbles!.data!.length;i++){
 
 
+
           BubbleData Bubbledata = BubbleData();
-          if (      state.GetSavedBubbles!.data![i].type.toString()!="Prime"){
-            Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
-            Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
-            Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
+          if (      state.GetNearbyBubbles!.data![i].type.toString()!="Prime"){
+            Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
+            Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
+            Bubbledata.dates = state.GetNearbyBubbles!.data![i].dates!;
           }
           Bubbledata.Title = state.GetNearbyBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNearbyBubbles!.data![i].location.toString();
@@ -486,7 +478,7 @@ yield state.rebuild((b) => b
         );
 
       } catch (e) {
-        print('get Error $e');
+        print('get Error $e GetNearbyBubbles');
 
       }
     }
@@ -727,7 +719,7 @@ yield state.rebuild((b) => b
 
 
           BubbleData Bubbledata = BubbleData();
-if (      state.GetSavedBubbles!.data![i].type.toString()!="Prime"){
+if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
   Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
   Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
   Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;

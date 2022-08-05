@@ -254,6 +254,12 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
         // );
       //}
     }
+    if (event is ShowFloatingActionButton) {
+
+      yield state.rebuild((b) => b
+        ..ShowFloatingActionButtonn = event.status!
+      );
+    }
 
     if (event is Get_MYAlias) {
       try {

@@ -36,6 +36,7 @@ class GroupChatFlowsMessage {
   String? VoicePath;
 
   bool? ISMediaDump;
+  bool? MessageSettledWIthID;
 
   GroupChatFlowsMessage({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
 }

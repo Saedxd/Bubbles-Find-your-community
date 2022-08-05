@@ -56,11 +56,8 @@ try {
 //todo : import socket for ios and same for all packages
 
 //Priority
-//todo: fix stretched images
-//todo: make the Ui on home page
-//todo: the ui of the avatars when image sent on event/Direct Chat
 //todo: upload to googleplay (fix the bug on image shown on the image andreas sent)
-//todo: user custom marker location
+
 
 // CD6356
 // EB9B5D

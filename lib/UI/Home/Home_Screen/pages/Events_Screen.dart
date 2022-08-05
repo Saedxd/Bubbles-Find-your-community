@@ -313,10 +313,9 @@ List<bool>? Saved_Status=[];
                                                                       10,
                                                                     ),
 
-                                                                    Row(
-                                                                      children: [
-                                                                        Container(
 
+                                                                        Container(
+                                                                          width: w/2.2,
                                                                           child:      Text(
                                                                             widget.Bubble[index].Title.toString(),
                                                                             textAlign: TextAlign.left,
@@ -329,10 +328,10 @@ List<bool>? Saved_Status=[];
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                      ],
-                                                                    ),
+
                                                                     SizedBox(height: 5,),
                                                                     Container(
+                                                                      width: w/2.2,
                                                                       child:  Text(
                                                                         "At ${ widget.Bubble[index].location.toString()}",
                                                                         textAlign: TextAlign.left,
@@ -604,8 +603,9 @@ List<bool>? Saved_Status=[];
                                                           width:w/1.15,
                                                           height: h/6.89,
                                                           child:Row(
-                                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                            mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
+                                                              SizedBox(width: w/20,),
                                                               widget.Bubble[index].User_type=="user"
                                                                   ?Row(
                                                                 children: [
@@ -692,9 +692,9 @@ List<bool>? Saved_Status=[];
                                                               height:
                                                               10,
                                                             ),
-                                                            Row(
-                                                              children: [
+
                                                                 Container(
+                                                                  width:w/1.15,
                                                                   child: Text(
                                                                     widget.Bubble[index].Title.toString(),
                                                                     textAlign: TextAlign.left,
@@ -708,10 +708,10 @@ List<bool>? Saved_Status=[];
                                                                   ),
 
                                                                 ),
-                                                              ],
-                                                            ),
+
                                                             const SizedBox(height: 7,),
                                                             Container(
+                                                              width:w/1.5,
                                                               child:  Text(
                                                                 "At ${ widget.Bubble[index].location.toString()}",
                                                                 textAlign: TextAlign.left,
@@ -742,7 +742,7 @@ List<bool>? Saved_Status=[];
                                                       "Assets/images/Exclude.svg",
                                                       width: w/8,
                                                       color : Color(widget.Bubble[index].Color!),
-                                                    ),
+                                                    ),         const SizedBox(width: 5,),         const SizedBox(width: 5,),
 
                                                   ],
                                                 )

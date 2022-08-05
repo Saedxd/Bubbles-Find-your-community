@@ -56,12 +56,10 @@ class _SettingsState extends State<Settings> {
     {
       if (state.success! && state.LOgedOUT!) {
         WidgetsBinding.instance!
-            .addPostFrameCallback((_) => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login(),
-          ),
-        ));
+            .addPostFrameCallback((_) =>
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                Login()), (Route<dynamic> route) => false));
+
       }
 
 
@@ -214,6 +212,7 @@ class _SettingsState extends State<Settings> {
                             socket!.clearListeners();
                             socket!.disconnect();
                             _SettingsBloc.add(Logout());
+
                           },
                           child: Container(
                             width: w / 1.2,

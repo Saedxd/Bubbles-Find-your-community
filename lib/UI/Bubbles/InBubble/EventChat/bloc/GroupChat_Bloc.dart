@@ -402,7 +402,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.TopicFlowDescription = state.EventOldMessages!.messages![i].message!.content.toString();
               InstanceMessages.TopicFlowTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
               FlowData data = FlowData();
               data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
@@ -438,7 +438,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.MediaDumpTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.Image_type = "backend";
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
 
 
@@ -469,7 +469,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
               InstanceMessages.ModelType ="PollFlow";
               InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].id!.toInt();
+              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
               InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());

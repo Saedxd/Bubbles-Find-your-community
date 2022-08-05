@@ -226,6 +226,12 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
 
       }
     }
+    if (event is ShowFloatingActionButton) {
+
+      yield state.rebuild((b) => b
+        ..ShowFloatingActionButtonn = event.status!
+      );
+    }
 
     if (event is MakeTextFieldSumToNormal) {
       try {
@@ -260,6 +266,7 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
         for (int i = 0;i<state.FlowOldMessages!.messages!.length;i++){
           GroupChatFlowsMessage InstanceMessages =GroupChatFlowsMessage();
           InstanceMessages.ISNOdeJS = false;
+          InstanceMessages.MessageSettledWIthID =true;
           InstanceMessages.IsBackEnd = true;
           InstanceMessages.is_base64 = false;
           InstanceMessages.ID = state.FlowOldMessages!.messages![i].id!.toInt();

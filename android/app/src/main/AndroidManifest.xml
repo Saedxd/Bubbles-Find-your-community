@@ -87,6 +87,7 @@
 
 
         <activity
+            android:largeHeap="true"
             android:exported="true"
             android:name=".MainActivity"
             android:launchMode="singleTop"

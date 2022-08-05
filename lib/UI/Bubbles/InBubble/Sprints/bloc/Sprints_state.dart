@@ -38,6 +38,7 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
   bool? get RefreshLoading;
   bool? get RefreshSuccess;
 
+  bool? get ShowFloatingActionButtonn;
 
   bool? get GetInsideUsersISloading;
   bool? get GetInsideUsersSuccess;
@@ -92,6 +93,7 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
       ..Turnss = true
       ..AliasISLoading = false
       ..typingStatusISloading = false
+      ..ShowFloatingActionButtonn = false
       ..GetInsideUsersSuccess = false
       ..GetInsideUsersISloading = false
       ..TypingStatusSuccess = false

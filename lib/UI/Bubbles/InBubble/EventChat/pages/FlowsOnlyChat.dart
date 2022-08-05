@@ -39,6 +39,28 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final _GroupChatBloc = sl<GroupChatBloc>();
   File? Fileee;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+
+    _controller.addListener(() {
+      if (_controller.position.atEdge) {
+        _GroupChatBloc.add(ShowFloatingActionButton((b) =>
+        b..status = false
+        ));
+      } else {
+        _GroupChatBloc.add(ShowFloatingActionButton((b) =>
+        b..status = true
+        ));
+      }
+    });
+
+
+
+        }
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -465,7 +487,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                           (BuildContext context,
                                           int index) {
                                         return SizedBox(
-                                          height: h / 20,
+                                          height: h / 50,
                                         );
                                       },
                                     ),
@@ -568,6 +590,23 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                       ],
                     ),
                   ),
+              floatingActionButton: state.ShowFloatingActionButtonn!?Container(
+
+                  margin: EdgeInsets.only(bottom: h/50),
+                  child: FloatingActionButton(onPressed: () {
+                    _controller.animateTo(
+                      _controller.position
+                          .minScrollExtent,
+                      duration: Duration(
+                          milliseconds: 200),
+                      curve: Curves.easeIn,
+                    );
+                  },
+                    backgroundColor:Color(widget.Bubble_Color),
+                    child: Icon(Icons.keyboard_arrow_down,color: Colors.black,size: h/20,),
+                  )
+
+              ):Text("")
               );
         });
   }

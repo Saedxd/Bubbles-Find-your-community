@@ -57,7 +57,7 @@ final RegExp regExpEmail = RegExp(
 
 // final RegExp regExpPhone = RegExp(
 //     r'(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)');
-class _LoginState extends State<Login> with TickerProviderStateMixin {
+class _LoginState extends State<Login> with TickerProviderStateMixin{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final pref = sl<IPrefsHelper>();
@@ -102,6 +102,26 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   //   }
   //
   // }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        //BackGroundCounter = 0;
+        break;
+      case AppLifecycleState.inactive:
+
+        break;
+      case AppLifecycleState.paused:
+
+        break;
+      case AppLifecycleState.detached:
+
+        break;
+    }
+
+  }
   void SignOutGOogle() {
     googleSignIn!.signOut();
   }
@@ -436,7 +456,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
 
               return
                 WillPopScope(
-                    onWillPop: () async => false,
+                    onWillPop: () async => true,
                     child: GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());

@@ -14,7 +14,7 @@ import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
 import 'package:move_to_background/move_to_background.dart';
 
-int BackGroundCounter = 0;
+
 class NavigatorTopBar extends StatefulWidget {
    NavigatorTopBar({Key? key, this.GOtoDirect}) : super(key: key);
 int? GOtoDirect = 0;
@@ -32,6 +32,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   Profile Profil =Profile();
   final _TopBarBloc = sl<TopBarBloc>();
   int dot = 0;
+  int BackGroundCounter = 0;
   bool DiditONCE = false;
   String Alias = "";
   String Avatar = "";

@@ -137,75 +137,75 @@ class _DirectMessagesState extends State<DirectMessages> {
                         SizedBox(
                           height: h / 11,
                         ),
-                        Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(15),
-                                bottomRight: Radius.circular(15),
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(15),
-                              ),
-                            ),
-                            width: w / 1.2,
-                            height: h / 15,
-                            child: Form(
-                              key: _formkey1,
-                              child: TextFormField(
-                                textInputAction: TextInputAction.search,
-                                controller: _SearchController,
-                                focusNode: FocuseNODE,
-                                onFieldSubmitted: (value) {},
-                                onChanged: (value){
-                                  _DirectMessages_Bloc.add(SearchDMlist((b) => b
-                                  ..Keyword = value
-                                  ));
-                                },
-                                cursorColor: Colors.grey,
-                                style: const TextStyle(
-                                    color: Colors.orange, fontSize: 16.5),
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: const BorderSide(
-                                        color: Color(0xff939393), width: 10),
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30.0)),
-                                    borderSide: BorderSide(
-                                        color: Color(0xff939393), width: 2),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30.0)),
-                                    borderSide: BorderSide(
-                                        color: Color(0xff939393), width: 2),
-                                  ),
-                                  prefixIcon: IconButton(
-                                      icon: SvgPicture.asset(
-                                        'Assets/images/Vector(1).svg',
-                                      ),
-                                      onPressed: null //do something,
-                                      ),
-                                  filled: true,
-                                  fillColor: Colors.transparent,
-
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 20),
-                                  hintText: "Search",
-                                  hintStyle:  TextStyle(
-                                      color: Color.fromRGBO(147, 147, 147, 1),
-                                      fontFamily: 'Red Hat Text',
-                                      fontSize: 15,
-                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.w500,
-                                      height: 1
-                                  )
-                                ),
-                                keyboardType: TextInputType.text,
-                              ),
-                            )),
-                        const Text(""),
+                        // Container(
+                        //     decoration: const BoxDecoration(
+                        //       borderRadius: BorderRadius.only(
+                        //         bottomLeft: Radius.circular(15),
+                        //         bottomRight: Radius.circular(15),
+                        //         topLeft: Radius.circular(15),
+                        //         topRight: Radius.circular(15),
+                        //       ),
+                        //     ),
+                        //     width: w / 1.2,
+                        //     height: h / 15,
+                        //     child: Form(
+                        //       key: _formkey1,
+                        //       child: TextFormField(
+                        //         textInputAction: TextInputAction.search,
+                        //         controller: _SearchController,
+                        //         focusNode: FocuseNODE,
+                        //         onFieldSubmitted: (value) {},
+                        //         onChanged: (value){
+                        //           _DirectMessages_Bloc.add(SearchDMlist((b) => b
+                        //           ..Keyword = value
+                        //           ));
+                        //         },
+                        //         cursorColor: Colors.grey,
+                        //         style: const TextStyle(
+                        //             color: Colors.orange, fontSize: 16.5),
+                        //         decoration: InputDecoration(
+                        //           border: OutlineInputBorder(
+                        //             borderRadius: BorderRadius.circular(30.0),
+                        //             borderSide: const BorderSide(
+                        //                 color: Color(0xff939393), width: 10),
+                        //           ),
+                        //           focusedBorder: const OutlineInputBorder(
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(30.0)),
+                        //             borderSide: BorderSide(
+                        //                 color: Color(0xff939393), width: 2),
+                        //           ),
+                        //           enabledBorder: const OutlineInputBorder(
+                        //             borderRadius:
+                        //                 BorderRadius.all(Radius.circular(30.0)),
+                        //             borderSide: BorderSide(
+                        //                 color: Color(0xff939393), width: 2),
+                        //           ),
+                        //           prefixIcon: IconButton(
+                        //               icon: SvgPicture.asset(
+                        //                 'Assets/images/Vector(1).svg',
+                        //               ),
+                        //               onPressed: null //do something,
+                        //               ),
+                        //           filled: true,
+                        //           fillColor: Colors.transparent,
+                        //
+                        //           contentPadding: const EdgeInsets.symmetric(
+                        //               horizontal: 12, vertical: 20),
+                        //           hintText: "Search",
+                        //           hintStyle:  TextStyle(
+                        //               color: Color.fromRGBO(147, 147, 147, 1),
+                        //               fontFamily: 'Red Hat Text',
+                        //               fontSize: 15,
+                        //               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                        //               fontWeight: FontWeight.w500,
+                        //               height: 1
+                        //           )
+                        //         ),
+                        //         keyboardType: TextInputType.text,
+                        //       ),
+                        //     )),
+                        // const Text(""),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -229,7 +229,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                               flex: 2,
                               child: Row(
                                 children: [
-                                  const Text(""),
+                                  const Text("        "),
                                   Container(
                                       width: w / 14,
                                       height: h / 20,
@@ -374,9 +374,6 @@ class _DirectMessagesState extends State<DirectMessages> {
 
                         Expanded(
                                 child: Container(
-                                    margin: EdgeInsets.only(
-                                      right: h / 20,
-                                    ),
                                     width: w,
                                     height: h / 1.4,
                                     child: ScrollConfiguration(
@@ -478,10 +475,10 @@ class _DirectMessagesState extends State<DirectMessages> {
                                             child: Column(children: [
                                               Container(
                                                   margin: EdgeInsets.only(
-                                                      left: h / 30,
+                                                      left: h / 50,
                                                       bottom: h / 750,
                                                       top: h / 120),
-                                                  width: w / 1.2,
+                                                  width: w / 1.1,
                                                   height: h / 9,
                                                   decoration: BoxDecoration(
                                                     color: COLOR.background,
@@ -507,7 +504,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                     ],
                                                   ),
                                                   child: Row(children: [
-                                                    SizedBox(width: h/75,),
+                                                    SizedBox(width: w/50,),
                                                     
                                                 Stack(
                                                           children: [
@@ -527,7 +524,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         child:
                                                             Container(
                                                               margin: EdgeInsets.only(
-                                                                  left: h / 60),
+                                                                  left: h / 109),
                                                               child: CircleAvatar(
                                                                 backgroundColor: Color(
                                                                     state.FilteredDmlist![index].backgroundColor!),
@@ -566,28 +563,28 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         children: [
 
                                                               Container(
-                                                                width: w/1.82,
-                                                                child: Text(
-                                                                    state.FilteredDmlist![index].alias.toString(),
-                                                                    textAlign:
-                                                                    TextAlign
-                                                                        .left,
-                                                                    style: _textthem
-                                                                        .headline3!
-                                                                        .copyWith(
-                                                                      color: Colors.white,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
-                                                                      fontSize: 3.4 *
-                                                                          SizeConfig
-                                                                              .blockSizeVertical!
-                                                                              .toDouble(),
-                                                                    )),
-                                                              ),
+                                                                width: w / 1.6,
+                                                                    child: Text(
+                                                                        state.FilteredDmlist![index].alias.toString(),
+                                                                        textAlign:
+                                                                        TextAlign
+                                                                            .left,
+                                                                        style: _textthem
+                                                                            .headline3!
+                                                                            .copyWith(
+                                                                          color: Colors.white,
+                                                                          fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                          fontSize: 3.4 *
+                                                                              SizeConfig
+                                                                                  .blockSizeVertical!
+                                                                                  .toDouble(),
+                                                                        )),
+                                                                  ),
 
-                                                          const SizedBox(
-                                                            height: 10,
+                                                           SizedBox(
+                                                            height: 5,
                                                           ),
                                                           Row(
                                                             mainAxisAlignment:
@@ -623,12 +620,12 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                           const Color(0xffC4C4C4))),
                                                                 ),
                                                               ),
-                                                              Expanded(
-                                                                child:
+
                                                                 Container(
                                                                   width: w / 6,
-                                                                  height:
-                                                                  h / 30,
+                                                                  height:h / 25,
+
+                                                                  margin: EdgeInsets.only(right: w/50),
                                                                   child: Center(
                                                                     child: Text(
                                                                         state.FilteredDmlist![index].time.toString(),
@@ -650,7 +647,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                         )),
                                                                   ),
                                                                 ),
-                                                              )
+
                                                             ],
                                                           ),
                                                         ],
@@ -692,9 +689,6 @@ class _DirectMessagesState extends State<DirectMessages> {
                                     ))
                                 : Expanded(
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                        right: h / 20,
-                                      ),
                                       width: w,
                                       height: h / 1.4,
                                       child: Column(
@@ -705,7 +699,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                             child: Container(
                                               width: w,
                                               height: h / 10,
-                                              child: const Text("Error"),
+                                              child: Center(child: const Text("Waiting..")),
                                             ),
                                           ),
                                         ],
