@@ -14,6 +14,8 @@ class _$SignUpState extends SignUpState {
   @override
   final bool? success;
   @override
+  final bool? UpdateSocialProfileSuccess;
+  @override
   final bool? ChangeSelectedd;
   @override
   final int? UserDataINDEX;
@@ -41,6 +43,7 @@ class _$SignUpState extends SignUpState {
       {this.error,
       this.isLoading,
       this.success,
+      this.UpdateSocialProfileSuccess,
       this.ChangeSelectedd,
       this.UserDataINDEX,
       this.UpdateProfileINDEX,
@@ -67,6 +70,7 @@ class _$SignUpState extends SignUpState {
         error == other.error &&
         isLoading == other.isLoading &&
         success == other.success &&
+        UpdateSocialProfileSuccess == other.UpdateSocialProfileSuccess &&
         ChangeSelectedd == other.ChangeSelectedd &&
         UserDataINDEX == other.UserDataINDEX &&
         UpdateProfileINDEX == other.UpdateProfileINDEX &&
@@ -92,9 +96,12 @@ class _$SignUpState extends SignUpState {
                                     $jc(
                                         $jc(
                                             $jc(
-                                                $jc($jc(0, error.hashCode),
-                                                    isLoading.hashCode),
-                                                success.hashCode),
+                                                $jc(
+                                                    $jc($jc(0, error.hashCode),
+                                                        isLoading.hashCode),
+                                                    success.hashCode),
+                                                UpdateSocialProfileSuccess
+                                                    .hashCode),
                                             ChangeSelectedd.hashCode),
                                         UserDataINDEX.hashCode),
                                     UpdateProfileINDEX.hashCode),
@@ -113,6 +120,7 @@ class _$SignUpState extends SignUpState {
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
+          ..add('UpdateSocialProfileSuccess', UpdateSocialProfileSuccess)
           ..add('ChangeSelectedd', ChangeSelectedd)
           ..add('UserDataINDEX', UserDataINDEX)
           ..add('UpdateProfileINDEX', UpdateProfileINDEX)
@@ -141,6 +149,11 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
   bool? _success;
   bool? get success => _$this._success;
   set success(bool? success) => _$this._success = success;
+
+  bool? _UpdateSocialProfileSuccess;
+  bool? get UpdateSocialProfileSuccess => _$this._UpdateSocialProfileSuccess;
+  set UpdateSocialProfileSuccess(bool? UpdateSocialProfileSuccess) =>
+      _$this._UpdateSocialProfileSuccess = UpdateSocialProfileSuccess;
 
   bool? _ChangeSelectedd;
   bool? get ChangeSelectedd => _$this._ChangeSelectedd;
@@ -205,6 +218,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
       _error = $v.error;
       _isLoading = $v.isLoading;
       _success = $v.success;
+      _UpdateSocialProfileSuccess = $v.UpdateSocialProfileSuccess;
       _ChangeSelectedd = $v.ChangeSelectedd;
       _UserDataINDEX = $v.UserDataINDEX;
       _UpdateProfileINDEX = $v.UpdateProfileINDEX;
@@ -242,6 +256,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
               error: error,
               isLoading: isLoading,
               success: success,
+              UpdateSocialProfileSuccess: UpdateSocialProfileSuccess,
               ChangeSelectedd: ChangeSelectedd,
               UserDataINDEX: UserDataINDEX,
               UpdateProfileINDEX: UpdateProfileINDEX,

@@ -120,8 +120,9 @@ class _InformationState extends State<Information> {
       BuildContext Context,
       double h,
       double w,
-      String value,
-      String BUttonValue
+      String Value,
+      String buttonValue,
+      int FontSize
       ) async {
     return showDialog(
         context: Context,
@@ -166,29 +167,26 @@ class _InformationState extends State<Information> {
                           children: [
                             Text(""),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: Text(value,
-                                    textAlign: TextAlign.center, style: TextStyle(
-                                        color: Color.fromRGBO(234, 234, 234, 1),
-                                        fontFamily: 'Red Hat Display',
-                                        fontSize: 17,
-                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1
-                                    ),),
-                                ),
-                              ],
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: FontSize.toDouble(),
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
                             ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Center(
                                   child: InkWell(
                                     onTap: (){
-                                      Navigator.pop(Context);
+                                      Navigator.pop(context);
                                     },
                                     child: Container(
                                       height: h/15.5,
@@ -209,7 +207,7 @@ class _InformationState extends State<Information> {
                                       ),
                                       child: Center(
                                         child:
-                                        Text(BUttonValue, textAlign: TextAlign.center, style: TextStyle(
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
                                             fontSize: 14,
@@ -259,7 +257,7 @@ bool Diditonce = false;
             .addPostFrameCallback((_) {
               Navigator.pop(context);
               Navigator.pop(context);
-          CommingSoonPopup(Context, h, w, "Bubble was made Successfully","Sounds good!");
+          CommingSoonPopup(Context, h, w, "Bubble was made Successfully","Sounds good!",24);
         }
         );
         Diditonce = true;
@@ -683,12 +681,8 @@ bool Diditonce = false;
 
                               ));
                             } else {
-                              Page2().method(
-                                  _scaffoldKey
-                                      .currentContext!,
-                                  "Bubble Message",
-                                  """You should provide an image of that place""",
-                                  "Back");
+                              CommingSoonPopup(context, h, w,  "You should provide an image of that place!", "Can't wait!", 18);
+
                             }
                           }
                         },

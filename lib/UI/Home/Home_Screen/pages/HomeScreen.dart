@@ -657,19 +657,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ],
                                         ),
                                       ),
-                                      Container(
-                                          height: h/8.6,
-                                          width: w/5,
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                "Assets/images/Exclude.svg",
-                                                color : Color(state.DetailBubbledata!.Color!),
-                                                width: w/7,
-                                              ),
-                                            ]
-                                          )
+                                      Expanded(
+                                        child: Container(
+                                            height: h/8.6,
+                                            width: w/5,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset(
+                                                  "Assets/images/Exclude.svg",
+                                                  color : Color(state.DetailBubbledata!.Color!),
+                                                  width: w/7,
+                                                ),
+                                              ]
+                                            )
+                                        ),
                                       )
                                     ],
                                   )
@@ -1399,7 +1401,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                                         InkWell(
                                                           onTap: (){
-                                                            CommingSoonPopup(Context, h, w);
+                                                            CommingSoonPopup(context, h, w,  "Coming Soon!", "Can't wait!", 18);
                                                           },
                                                           child: Container(
                                                             width: w/9.1,
@@ -1417,7 +1419,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         ),
                                                         InkWell(
                                                           onTap: (){
-                                                            CommingSoonPopup(Context, h, w);
+                                                            CommingSoonPopup(context, h, w,  "Coming Soon!", "Can't wait!", 18);
                                                           },
                                                           child: Container(
                                                             width: w/8.5,
@@ -2889,8 +2891,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         ..lng = state.Bubble_lng));
 
                                                             }else{
-                                                              Page2().method(_scaffoldKey.currentContext!, "Bubbles Help",
-                                                                  "Choose bubble location By clicking on any spot on map", "Back");
+                                                            CommingSoonPopup(context, h, w,  "Choose bubble location by clicking on any spot on map", "OK!", 18);
+
                                                             }
 
                                                           },
@@ -3079,10 +3081,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
+
   CommingSoonPopup(
       BuildContext Context,
       double h,
       double w,
+      String Value,
+      String buttonValue,
+      int FontSize
       ) async {
     return showDialog(
         context: Context,
@@ -3127,22 +3133,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           children: [
                             Text(""),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: Text('Coming Soon!',
-                                    textAlign: TextAlign.center, style: TextStyle(
-                                        color: Color.fromRGBO(234, 234, 234, 1),
-                                        fontFamily: 'Red Hat Display',
-                                        fontSize: 24,
-                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.w600,
-                                        height: 1
-                                    ),),
-                                ),
-                              ],
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: FontSize.toDouble(),
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
                             ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -3170,7 +3173,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                       child: Center(
                                         child:
-                                        Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
                                             fontSize: 14,

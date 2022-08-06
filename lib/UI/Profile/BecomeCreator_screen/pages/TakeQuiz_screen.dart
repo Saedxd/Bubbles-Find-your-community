@@ -20,6 +20,149 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
   final _CreatorBloc = sl<CreatorBloc>();
   List<Question> questions=[
   ];
+
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      String Value,
+      String buttonValue,
+      int FontSize,
+      bool WantButton
+      ) async {
+    return showDialog(
+        context: Context,
+        barrierDismissible: false,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/100),
+              content:Container(
+                width: w/1.4,
+                height: h/3,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098),
+                    topRight: Radius.circular(8.285714149475098),
+                    bottomLeft: Radius.circular(8.285714149475098),
+                    bottomRight: Radius.circular(8.285714149475098),
+                  ),
+                  color: Colors.transparent,
+                ),
+
+
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.4,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(""),
+
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: FontSize.toDouble(),
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                      if(WantButton){
+                                        _CreatorBloc.add(SubmitAnswers((b) =>
+                                        b
+                                          ..AnswerID = AnswerID
+                                          ..QuestionId = QuestionID
+                                        ));
+
+                                        Navigator.pop(context);
+                                        WidgetsBinding.instance!
+                                            .addPostFrameCallback((_) =>
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (
+                                                      context) => const CreatorScreenEnd()),
+                                            ));
+                                      }
+                                    },
+                                    child: Container(
+                                      height: h/15.5,
+                                      width: w/2,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(4.142857074737549),
+                                          topRight: Radius.circular(4.142857074737549),
+                                          bottomLeft: Radius.circular(4.142857074737549),
+                                          bottomRight: Radius.circular(4.142857074737549),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0,0),
+                                            blurRadius: 6.628571510314941
+                                        )],
+                                        color : Color.fromRGBO(168, 48, 99, 1),
+                                      ),
+                                      child: Center(
+                                        child:
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontFamily: 'Red Hat Text',
+                                            fontSize: 14,
+                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1
+                                        ),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/8,
+                      bottom: h/5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
+  }
   @override
   void initState() {
     super.initState();
@@ -112,7 +255,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                     state.success!
                   ? Container(
                       width: w,
-                      height: h/1.1,
+                      height: h/1.2,
                       child:  ConditionalQuestions(
                           key: _key,
                           children: questions,
@@ -149,28 +292,12 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                 }
                                 print(AnswerID);
                                 print(QuestionID);
-                        if (state.Questions!.questions!.length==AnswerID.length)
-                          _CreatorBloc.add(SubmitAnswers((b) => b
-                            ..AnswerID=AnswerID
-                            ..QuestionId=QuestionID
-                          ));
-                                Navigator.pop(context);
-                                WidgetsBinding.instance!
-                                    .addPostFrameCallback((_) => Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const CreatorScreenEnd()),
-                                ));
-                                // alreatDialogBuilder2(
-                                //     context,
-                                //     "Quiz Message",
-                                //     "Are you sure you want to"
-                                //         " continue with these answers becuase you won't be able"
-                                //         " to come back to this page",
-                                //     "Continue",
-                                //     "Back",
-                                //     h,
-                                //     w, () {});
+                        if (state.Questions!.questions!.length==AnswerID.length) {
+                          CommingSoonPopup(context, h, w, "Creator request is submitted", "Patience is key!", 18,true);
+
+                        }else{
+                          CommingSoonPopup(context, h, w, "Please answer all given questions!", "Ok!", 18,false);
+                        }
                               },
                               child: Text("Submit"),
                             )

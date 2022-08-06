@@ -571,6 +571,7 @@ Sprints.MsgSentSuccessfuly = false;
     Sprints.ID = 0;
     Sprints.MsgSentSuccessfuly = false;
     _Sprints_Bloc.add(AddModel((b) => b..message = Sprints));
+    print("Settled");
     _Sprints_Bloc.add(SendMessage(
             (b) => b
           ..receiver_id =  widget.receiver_id
@@ -936,6 +937,7 @@ Sprints.MsgSentSuccessfuly = false;
                             child: Container(
                               //   color: Colors.red,
                               child: ListView.separated(
+                                physics: AlwaysScrollableScrollPhysics(),
                                 controller: _controller,
                                 shrinkWrap: true,
                                 reverse: true,
@@ -991,9 +993,9 @@ Sprints.MsgSentSuccessfuly = false;
 
                                       },
                                       child: Container(
-
+                                        margin: EdgeInsets.only(top:index==state.messages!.length-1? h/20:0),
                                         padding: EdgeInsets.only(
-                                            left: h / 50,bottom:index==0? h/50:0),
+                                            left: h / 50,bottom:index==0? h/100:0),
                                         child:  state.success!
                                             ? state.messages![index].ModelType == "Message"
                                             ? Container(
@@ -1088,7 +1090,7 @@ Sprints.MsgSentSuccessfuly = false;
                                                 Container(
                                                   width: w /  1.4,
                                                   color: Colors.transparent,
-                                                  margin: EdgeInsets.only(left: h/80),
+                                                  margin: EdgeInsets.only(left: w/100),
                                                   child: Text(
                                                       state.messages![index].message
                                                           .toString(),

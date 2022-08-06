@@ -57,7 +57,7 @@ bloc2.add(GetInterests());
            return Scaffold(
              resizeToAvoidBottomInset: false,
 
-        backgroundColor: AppColor,
+        backgroundColor: Color(0xff303030),
         body: SafeArea(
           child: Column(
               children: [
@@ -108,101 +108,99 @@ bloc2.add(GetInterests());
                             bottomLeft: Radius.circular(5),
                             bottomRight: Radius.circular(5),
                           ),
-                          color : AppColor
+                          color : Color(0xff606060)
                         ),
                         width: w/1.1,
                         height: h/1.6,
-                        child:  ScrollConfiguration(
-                            behavior: MyBehavior(),
-                            child: Center(
-                              child: Container(
-                                  child:  GridView.builder(
-                                      cacheExtent : 500,
-                                      shrinkWrap: true,
-                                      itemCount: state.GetInterests!.interests!.length,
-                                      gridDelegate:
+                        child:  Center(
+                          child: Container(
+                              child:  GridView.builder(
+                                  cacheExtent : 500,
+                                  shrinkWrap: true,
+                                  itemCount: state.GetInterests!.interests!.length,
+                                  gridDelegate:
 
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        childAspectRatio: (5 / 5.5),
-                                      ),
-                                      itemBuilder: (context, index) {
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    childAspectRatio: (5 / 5.5),
+                                  ),
+                                  itemBuilder: (context, index) {
 
-                                        return
-                                          InkWell(
-                                            onTap: (){
-                                              sum = array2!.sum;
-                                              if (array2![index]==1){
-                                                array2![index]=0;
-                                                IntersetID.remove(state.GetInterests!.interests![index].id!);
-                                              }else{
-                                                if (sum<5) {
-                                                  array2![index] = 1;
-                                                  IntersetID.add(state.GetInterests!.interests![index].id!);
-                                                }
-                                              }
-                                              sum = array2!.sum;
-                                              print(IntersetID);
-                                              setState(() { });
-                                              bloc2.add(ChangeSelected());
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.all(7),
-                                              width: 74.9187240600586,
-                                              height: 80.73765563964844,
-                                              decoration: BoxDecoration(
-                                                borderRadius : BorderRadius.only(
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                  bottomLeft: Radius.circular(5),
-                                                  bottomRight: Radius.circular(5),
-                                                ),
-                                                color : Color.fromRGBO(255, 255, 255, 1),
-                                              ),
-                                              child:
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    return
+                                      InkWell(
+                                        onTap: (){
+                                          sum = array2!.sum;
+                                          if (array2![index]==1){
+                                            array2![index]=0;
+                                            IntersetID.remove(state.GetInterests!.interests![index].id!);
+                                          }else{
+                                            if (sum<5) {
+                                              array2![index] = 1;
+                                              IntersetID.add(state.GetInterests!.interests![index].id!);
+                                            }
+                                          }
+                                          sum = array2!.sum;
+                                          print(IntersetID);
+                                          setState(() { });
+                                          bloc2.add(ChangeSelected());
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.all(7),
+                                          width: 74.9187240600586,
+                                          height: 80.73765563964844,
+                                          decoration: BoxDecoration(
+                                            borderRadius : BorderRadius.only(
+                                              topLeft: Radius.circular(5),
+                                              topRight: Radius.circular(5),
+                                              bottomLeft: Radius.circular(5),
+                                              bottomRight: Radius.circular(5),
+                                            ),
+                                            color : Color.fromRGBO(255, 255, 255, 1),
+                                          ),
+                                          child:
+                                          Column(
+                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            children: [
+                                              Text(""),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: [
-                                                  Text(""),
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                        width: w/8,
-                                                        height: h/14.8,
-                                                        child: CachedNetworkImage(
-                                                          imageUrl:  state.GetInterests!.interests![index].image!,
-                                                          color: array2![index]==1? Color(0xffBA474D): null,
-                                                          fit: BoxFit.fill,
-                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                              CircularProgressIndicator(value: downloadProgress.progress),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                                        ),
+                                                  Container(
+                                                    width: w/8,
+                                                    height: h/14.8,
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:  state.GetInterests!.interests![index].image!,
+                                                      color: array2![index]==1? Color(0xffBA474D): null,
+                                                      fit: BoxFit.fill,
+                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                          CircularProgressIndicator(value: downloadProgress.progress),
+                                                      errorWidget: (context, url, error) => Icon(Icons.error),
+                                                    ),
 
 
 
-                                                      ),
-                                                    ],
                                                   ),
-                                                  Text(state.GetInterests!.interests![index].title.toString(),
-                                                    textAlign: TextAlign.center,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                                        fontFamily: 'Sofia Pro',
-                                                        fontSize: 20,
-                                                        letterSpacing: 0.3 ,
-                                                        fontWeight: FontWeight.w500,
-                                                        height: 1
-                                                    ),)
                                                 ],
                                               ),
-                                            ),
-                                          );
-                                      }
-                                  )
-                              ),
-                            )),
+                                              Text(state.GetInterests!.interests![index].title.toString(),
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                                    fontFamily: 'Sofia Pro',
+                                                    fontSize: 20,
+                                                    letterSpacing: 0.3 ,
+                                                    fontWeight: FontWeight.w500,
+                                                    height: 1
+                                                ),)
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                  }
+                              )
+                          ),
+                        )
                     )
                             : state.isLoading == true
                             ? Container(

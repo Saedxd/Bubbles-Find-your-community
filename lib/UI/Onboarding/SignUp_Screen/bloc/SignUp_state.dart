@@ -20,6 +20,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
   String? get error;
   bool? get isLoading;
   bool? get success;
+  bool? get UpdateSocialProfileSuccess;
   bool? get ChangeSelectedd;
 
   int? get UserDataINDEX;
@@ -55,6 +56,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
       ..isLoading = false
       ..success = false
       ..ChangeSelectedd = false
+      ..UpdateSocialProfileSuccess = false
       ..GetAvatar= null
       ..GetGender= null
       ..GetInterests= null

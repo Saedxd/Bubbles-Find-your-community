@@ -744,17 +744,19 @@ class _FriendlistState extends State<Friendlist> {
                                ],
                              ),
                            ),
-                           Container(
-                               margin: EdgeInsets.only(right: h/35),
-                               child:
-                               Text(state.FrinedRequestsList!.length.toString(), textAlign: TextAlign.right, style: TextStyle(
-                                   color: Color.fromRGBO(234, 234, 234, 1),
-                                   fontFamily: 'Red Hat Display',
-                                   fontSize: 20,
-                                   letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                   fontWeight: FontWeight.normal,
-                                   height: 1
-                               ),)
+                           Expanded(
+                             child: Container(
+                                 margin: EdgeInsets.only(right: h/35),
+                                 child:
+                                 Text(state.FrinedRequestsList!.length.toString(), textAlign: TextAlign.right, style: TextStyle(
+                                     color: Color.fromRGBO(234, 234, 234, 1),
+                                     fontFamily: 'Red Hat Display',
+                                     fontSize: 20,
+                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                     fontWeight: FontWeight.normal,
+                                     height: 1
+                                 ),)
+                             ),
                            )
                          ],
                        ),

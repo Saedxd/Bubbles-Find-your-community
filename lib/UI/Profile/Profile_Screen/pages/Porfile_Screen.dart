@@ -201,7 +201,7 @@ class _ProfileState extends State<Profile> {
                       child: Container(
                         child: Stack(
                           children: [
-                            !state.isLoadingProfileUpdate!?
+                            // !state.isLoadingProfileUpdate!?
                           Column(children: [
                                     SizedBox(
                                       height: h / 17,
@@ -705,8 +705,16 @@ class _ProfileState extends State<Profile> {
                                                 const SizedBox(
                                                   height: 5,
                                                 ),
+                                                !state.isLoading!?
+                                                state
+                                                    .ProfileDate!
+                                                    .user!
+                                                    .is_creator !=
+                                                    1?
                                                 InkWell(
                                                   onTap: () {
+                                                    // CommingSoonPopup(context,h,w,"We have gotten your Request to beCreator its under view.. thanks for your patients!"
+                                                    //     ,"Sounds good!",15);
                                                     if (state.ProfileDate!.user!
                                                                 .is_creator ==
                                                             2 ||
@@ -729,23 +737,26 @@ class _ProfileState extends State<Profile> {
                                                             .user!
                                                             .is_creator ==
                                                         1) {
-                                                      Page2().method(
-                                                          _scaffoldKey
-                                                              .currentContext!,
-                                                          "Creator Message",
-                                                          """Your Already Creator!""",
-                                                          "back");
+                                                      CommingSoonPopup(context,h,w,"Your Already Creator!","Yep",24);
+                                                      // Page2().method(
+                                                      //     _scaffoldKey
+                                                      //         .currentContext!,
+                                                      //     "Creator Message",
+                                                      //     """""",
+                                                      //     "back");
                                                     } else if (state
                                                             .ProfileDate!
                                                             .user!
                                                             .is_creator ==
                                                         0) {
-                                                      Page2().method(
-                                                          _scaffoldKey
-                                                              .currentContext!,
-                                                          "Creator Service Message",
-                                                          """We have gotten your Request to beCreator its under view.. thanks for your patients!""",
-                                                          "back");
+                                                      CommingSoonPopup(context,h,w,"We have got your request to be creator its under review, Thanks for your patients!"
+                                                          ,"Sounds good!",15);
+                                                      // Page2().method(
+                                                      //     _scaffoldKey
+                                                      //         .currentContext!,
+                                                      //     "Creator Service Message",
+                                                      //     """We have gotten your Request to beCreator its under view.. thanks for your patients!""",
+                                                      //     "back");
                                                     }
                                                   },
                                                   child: Container(
@@ -807,11 +818,11 @@ class _ProfileState extends State<Profile> {
                                                       ],
                                                     ),
                                                   ),
-                                                ),
+                                                ):Container():Container(),
                                                 SizedBox(height: h/20,),
                                                 InkWell(
                                                   onTap: () {
-                                                    CommingSoonPopup(context,h,w);
+                                                    CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
                                             },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -951,7 +962,7 @@ class _ProfileState extends State<Profile> {
                                                                       false,
                                                                   onToggle:
                                                                       (val) async {
-                                                                        CommingSoonPopup(context,h,w);
+                                                                        CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
                                                                     // if (done) {
                                                                     //   theme2 =!theme2!;
                                                                     //
@@ -1284,7 +1295,7 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    CommingSoonPopup(context,h,w);
+                                                    CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1353,14 +1364,14 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     )
                                   ])
-                                :Text("")
+                                // :Text("")
                           ],
                         ),
                       ),
                     ),
-                    state.isLoadingProfileUpdate == true
-                        ? Center(child: listLoader(context: context))
-                        : SizedBox(),
+                    // state.isLoadingProfileUpdate == true
+                    //     ? Center(child: listLoader(context: context))
+                    //     : SizedBox(),
 
                   ],
                 ));
@@ -1372,6 +1383,9 @@ class _ProfileState extends State<Profile> {
       BuildContext Context,
       double h,
       double w,
+      String Value,
+      String buttonValue,
+      int FontSize
       ) async {
     return showDialog(
         context: Context,
@@ -1416,22 +1430,19 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Text(""),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+
                                 Center(
-                                  child: Text('Coming Soon!',
+                                  child: Text(Value,
                                     textAlign: TextAlign.center, style: TextStyle(
                                         color: Color.fromRGBO(234, 234, 234, 1),
                                         fontFamily: 'Red Hat Display',
-                                        fontSize: 24,
+                                        fontSize: FontSize.toDouble(),
                                         letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                         fontWeight: FontWeight.w600,
                                         height: 1
                                     ),),
                                 ),
-                              ],
-                            ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -1459,7 +1470,7 @@ class _ProfileState extends State<Profile> {
                                       ),
                                       child: Center(
                                         child:
-                                        Text("Can't wait!", textAlign: TextAlign.center, style: TextStyle(
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
                                             fontSize: 14,
@@ -1736,6 +1747,9 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 7,
                       ),
                     ],
                   ),

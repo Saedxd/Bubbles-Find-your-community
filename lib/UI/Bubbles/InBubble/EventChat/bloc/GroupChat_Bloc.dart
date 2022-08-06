@@ -21,9 +21,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
   @override
   GroupChatState get initialState => GroupChatState.initail();
-//emit => send_topic_to_bubble
-// listen => receive_topic_message_send
-// دي رسائل من النوع  New Topic
+
 
   void SendTopicFloww(String Title,String content,int BUbble_id,int message_id,String type) {
     socket!.emit("send_topic_to_bubble",

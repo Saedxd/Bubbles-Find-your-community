@@ -98,10 +98,9 @@ class ProfileBloc extends Bloc<profileEvent, profileState> {
     if (event is UpdateProfile) {
       try {
         yield state.rebuild((b) => b
-          ..isLoadingProfileUpdate = true
+          ..isLoading = true
           ..error = ""
-          ..ProfileUpdated = false
-          ..UpdateBoiUSERNAME =null
+            ..success = false
         );
 
         final date = await _repository.updateProfile(event.Username!,event.Boi!);
@@ -109,21 +108,20 @@ class ProfileBloc extends Bloc<profileEvent, profileState> {
         print('get Success data ${date}');
         yield state.rebuild((b) =>
         b
-          ..isLoadingProfileUpdate = false
+          ..isLoading = false
           ..error = ""
-          ..ProfileUpdated = true
+          ..success = true
           ..UpdateBoiUSERNAME.replace(date)
-
         );
       } catch (e) {
         print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoadingProfileUpdate = false
-          ..error = "Something went wrong"
-          ..ProfileUpdated = false
-          ..UpdateBoiUSERNAME =null
-        );
+        // yield state.rebuild((b) =>
+        // b
+        //   ..isLoadingProfileUpdate = false
+        //   ..error = "Something went wrong"
+        //   ..ProfileUpdated = false
+        //   ..UpdateBoiUSERNAME =null
+        // );
       }
     }
 

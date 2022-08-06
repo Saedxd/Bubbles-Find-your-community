@@ -77,7 +77,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         yield state.rebuild((b) =>b
           ..isLoading = true
           ..error = ""
-          ..success = false
           ..UpdateSocialProfile = null
           ..UpdateProfileINDEX = 6
         );
@@ -98,7 +97,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         b
           ..isLoading = false
           ..error = ""
-          ..success = true
+          ..UpdateSocialProfileSuccess = true
           ..UpdateSocialProfile.replace(date)
 
         );

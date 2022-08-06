@@ -622,7 +622,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                               ),
 
                                                                 Container(
-                                                                  width: w / 6,
+                                                                  width: w / 4,
                                                                   height:h / 25,
 
                                                                   margin: EdgeInsets.only(right: w/50),

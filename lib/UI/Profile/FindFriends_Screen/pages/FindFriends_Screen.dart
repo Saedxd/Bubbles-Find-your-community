@@ -40,7 +40,6 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _SearchController = TextEditingController();
   final _formkey1 = GlobalKey<FormState>();
-
   late FocusNode FocuseNODE;
   List<Contact> contacts = [];
   int contactsLength = 0;
@@ -86,6 +85,130 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   bool diditonce = false;
   bool diditonce2 = false;
 
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      String Value,
+      String buttonValue,
+      int FontSize
+      ) async {
+    return showDialog(
+        context: Context,
+        barrierDismissible: false,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/100),
+              content:Container(
+                width: w/1.4,
+                height: h/3,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098),
+                    topRight: Radius.circular(8.285714149475098),
+                    bottomLeft: Radius.circular(8.285714149475098),
+                    bottomRight: Radius.circular(8.285714149475098),
+                  ),
+                  color: Colors.transparent,
+                ),
+
+
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.4,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(""),
+
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: FontSize.toDouble(),
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: h/15.5,
+                                      width: w/2,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(4.142857074737549),
+                                          topRight: Radius.circular(4.142857074737549),
+                                          bottomLeft: Radius.circular(4.142857074737549),
+                                          bottomRight: Radius.circular(4.142857074737549),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0,0),
+                                            blurRadius: 6.628571510314941
+                                        )],
+                                        color : Color.fromRGBO(168, 48, 99, 1),
+                                      ),
+                                      child: Center(
+                                        child:
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontFamily: 'Red Hat Text',
+                                            fontSize: 14,
+                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1
+                                        ),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/8,
+                      bottom: h/5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
+  }
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
@@ -139,19 +262,53 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
             } else {
               FindBLOC.add(CloseContactMessage());
               Future.delayed(Duration.zero, () {
-                Page2().method(_scaffoldKey.currentContext!, "Error",
-                    state.error!, "Back");
+                CommingSoonPopup(context, h, w, state.error!.toString(),"Okay!", 18);
+                // Page2().method(_scaffoldKey.currentContext!, "Error",
+                //    state.error! , "Back");
               });
             }
             diditonce = false;
           }
 
-          if (state.success! && state.AddFreindSuccess! && diditonce2) {
+
+          if (state.AddFreindSuccess! && diditonce2) {
+            print("im in one");
             if (state.AddNewFriend!.statuscode == 200) {
-              Future.delayed(Duration.zero, () {
-                Page2().method(_scaffoldKey.currentContext!, "Friend Request is successfully Sent",
-                    state.AddNewFriend!.msg!, "Back");
+              print("im in two");
+              if (state.AddNewFriend!.msg=="You can't add your self as a friend") {
+                Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "You cannot add yourself as a friend",
+                      "whaaaaaat?", 18);
+                //   // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
+                //   //     state.AddNewFriend!.msg!, "Back");
               });
+              }
+              else if (state.AddNewFriend!.msg=="success") {
+               Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "Friend request is successfully sent",
+                      "Good!", 18);
+                });
+              }
+              else if (state.AddNewFriend!.msg=="Wrong Serial name please try again"){
+                Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "Serial is not found please try again with correct info",
+                      "Good!", 18);
+                  // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
+                  //     state.AddNewFriend!.msg!, "Back");
+                });
+              }
+              else if (state.AddNewFriend!.msg==" Friend Code Cant be Empty"){
+             print("im in three");
+             Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "Serial code can't be empty",
+                      "ok!", 18);
+             });
+
+              }
             }
             diditonce2 = false;
           }
@@ -680,7 +837,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                             _controller.position
                                                                 .minScrollExtent,
                                                             duration: Duration(
-                                                                milliseconds: 2000),
+                                                                milliseconds: 2),
                                                             curve: Curves.easeIn,
                                                           );
                                                           WidgetsBinding.instance!
@@ -1214,13 +1371,20 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                 _sendSMS(message, recipents);
                                               } else {
                                                 Future.delayed(Duration.zero, () {
-                                                  Page2().method(
-                                                      _scaffoldKey
-                                                          .currentContext!,
-                                                      "Error",
-                                                      "Sync Contacts First so you could send them sms",
-                                                      "Back");
+                                                  CommingSoonPopup(
+                                                      context, h, w, "Sync Contacts First so you could send them sms",
+                                                      "Sounds good!", 18);
+                                                  //   // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
+                                                  //   //     state.AddNewFriend!.msg!, "Back");
                                                 });
+                                                // Future.delayed(Duration.zero, () {
+                                                //   Page2().method(
+                                                //       _scaffoldKey
+                                                //           .currentContext!,
+                                                //       "Error",
+                                                //       "Sync Contacts First so you could send them sms",
+                                                //       "Back");
+                                                // });
                                               }
                                             },
                                             child: Container(

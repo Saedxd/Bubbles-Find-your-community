@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -63,7 +64,130 @@ int? AvatarID;
 String? FirstName;
 String? Email;
 String? Pass;
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      String Value,
+      String buttonValue,
+      int FontSize
+      ) async {
+    return showDialog(
+        context: Context,
+        barrierDismissible: false,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/100),
+              content:Container(
+                width: w/1.4,
+                height: h/3,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098),
+                    topRight: Radius.circular(8.285714149475098),
+                    bottomLeft: Radius.circular(8.285714149475098),
+                    bottomRight: Radius.circular(8.285714149475098),
+                  ),
+                  color: Colors.transparent,
+                ),
 
+
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.4,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(""),
+
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: FontSize.toDouble(),
+                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: h/15.5,
+                                      width: w/2,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(4.142857074737549),
+                                          topRight: Radius.circular(4.142857074737549),
+                                          bottomLeft: Radius.circular(4.142857074737549),
+                                          bottomRight: Radius.circular(4.142857074737549),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0,0),
+                                            blurRadius: 6.628571510314941
+                                        )],
+                                        color : Color.fromRGBO(168, 48, 99, 1),
+                                      ),
+                                      child: Center(
+                                        child:
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontFamily: 'Red Hat Text',
+                                            fontSize: 14,
+                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1
+                                        ),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/8,
+                      bottom: h/5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
+  }
   @override
   void initState() {
     FoucesNodeUserName = FocusNode();
@@ -169,20 +293,30 @@ print("---------------------------");
             diditonece = false;
           }
 
-          if (state.success == true &&
-              diditonece == true &&
-              state.UpdateProfileINDEX == 6) {
-            if (state.data!.msg=="success") {
+          // if (state.success == true &&
+          //     diditonece == true &&
+          //     state.UpdateProfileINDEX == 6) {
+          //   if (state.data!.msg=="success") {
+          //   WidgetsBinding.instance!
+          //       .addPostFrameCallback((_) => Navigator.pushReplacement(
+          //             context,
+          //             MaterialPageRoute(
+          //                 builder: (context) => Permission1_Screen()),
+          //           ));
+          //
+          //
+          //   diditonece = false;
+          //   }
+          // }
+
+          if (state.UpdateSocialProfileSuccess! && diditonece &&  state.UpdateProfileINDEX == 6){
+            if (state.UpdateSocialProfile!.msg=="updated success")
             WidgetsBinding.instance!
                 .addPostFrameCallback((_) => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Permission1_Screen()),
-                    ));
-
-
-            diditonece = false;
-            }
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Permission1_Screen()),
+            ));
           }
 
           return  GestureDetector(
@@ -456,12 +590,7 @@ print("---------------------------");
                                         }
                                       }else {
                                         print('No internet :( Reason:');
-                                        Page2().method(
-                                            _scaffoldKey.currentContext!,
-                                            "Connection Failed",
-                                            """Something went Wrong 
-                                                            Check your internet Connection""",
-                                            "back");
+                                        CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
                                       }
 
 
