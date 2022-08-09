@@ -1513,6 +1513,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "lat": lat,
         "radius": radius,
         "status": 1,
+        "category": 7,//todo: category fix
       };
       print(formData);
       final response = await _dio!

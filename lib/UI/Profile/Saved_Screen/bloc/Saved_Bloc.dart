@@ -49,7 +49,8 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
 
 
           BubbleData Bubbledata = BubbleData();
-
+          Bubbledata.users_in_bubble = state.GetSavedBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetSavedBubbles!.data![i].saved_users!;
           Bubbledata.Title = state.GetSavedBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetSavedBubbles!.data![i].location.toString();
           Bubbledata.StartDate = state.GetSavedBubbles!.data![i].start_event_date.toString();

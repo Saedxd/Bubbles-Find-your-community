@@ -42,14 +42,13 @@ try {
 
 //// flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
 //// flutter pub get && flutter pub run build_runner watch
-//flutter logs
-//flutter build apk --split-per-abi
-//flutter build appbundle
+//// flutter logs
+//// flutter build apk --split-per-abi
+//// flutter build appbundle
 
 //todo : fix all font sizes with the new standerd
 //todo : night mode button fix
-
-// todo : add the lines for socket for ios go to there package page
+//todo : add the lines for socket for ios go to there package page
 //todo : handdle the screen of camera when access denyied
 //todo : check why the verify request takes time to proceed
 //todo : Display a message when verify profile when its done done

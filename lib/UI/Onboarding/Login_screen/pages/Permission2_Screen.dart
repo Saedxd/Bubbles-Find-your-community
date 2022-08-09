@@ -112,7 +112,7 @@ at your location!""",
                                 context,
                                 MaterialPageRoute(
                                   fullscreenDialog: true,
-                                  builder: (context) =>NavigatorTopBar(),
+                                  builder: (context) =>NavigatorTopBar(GotToHomeAndOpenPanel: false,),
                                 ),
                               )
                           );
@@ -155,7 +155,7 @@ at your location!""",
                                   MaterialPageRoute(
                                     fullscreenDialog: true,
                                     builder: (context) =>
-                                        NavigatorTopBar( ),
+                                        NavigatorTopBar( GotToHomeAndOpenPanel: false,),
 
 
                                   ),

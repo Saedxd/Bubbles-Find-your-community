@@ -55,7 +55,7 @@ abstract class OrganizersListModel
   int? get added_user_status;
   int? get invitation_status;
   int? get visit_bubble_status;
-  int? get gender;
+  String? get gender;
 
 
 

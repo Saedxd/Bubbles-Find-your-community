@@ -1,8 +1,40 @@
-//
-//{
-//     "msg": "success",
-//     "statuscode": 200
-// }
+//         "saved_users": [
+//                 {
+//                     "me_id": 536,
+//                     "id": 539,
+//                     "serial": "testt#7338",
+//                     "serialnumber": "#7338",
+//                     "alias": "testt",
+//                     "background_color": "0xffffc107",
+//                     "bio": "ggg",
+//                     "avatar": "https://admin.bubbles.app/public/storage/avatar/zGOH4cxoy2eoguIR9VBEVXseRO9472RSGa2EZket.png",
+//                     "is_friend": false
+//                 },
+//                 {
+//                     "me_id": 536,
+//                     "id": 494,
+//                     "serial": "brokkolos#6562",
+//                     "serialnumber": "#6562",
+//                     "alias": "brokkolos",
+//                     "background_color": "0xffe91e63",
+//                     "bio": "Yoo! Finally an app where I can write a bio 😂                                                                       If we become friends we can:",
+//                     "avatar": "https://admin.bubbles.app/public/storage/avatar/zGOH4cxoy2eoguIR9VBEVXseRO9472RSGa2EZket.png",
+//                     "is_friend": false
+//                 }
+//             ],
+//             "users_in_bubble": [
+//                 {
+//                     "me_id": 536,
+//                     "id": 539,
+//                     "serial": "testt#7338",
+//                     "serialnumber": "#7338",
+//                     "alias": "testt",
+//                     "background_color": "0xffffc107",
+//                     "bio": "ggg",
+//                     "avatar": "https://admin.bubbles.app/public/storage/avatar/zGOH4cxoy2eoguIR9VBEVXseRO9472RSGa2EZket.png",
+//                     "is_friend": false
+//                 }
+//             ],
 
 library DataPrimeBubbles;
 
@@ -14,6 +46,7 @@ import 'package:bubbles/models/GetBubblesModel/CreatedByModel.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/ImagesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -36,9 +69,13 @@ abstract class DataPrimeBubbles
   String? get is_available;
   String? get start_event_date;
   String? get end_event_date;
+  String? get category;
   BuiltList<OrganizersListModel>? get organizers;
   BuiltList<ImagesEventListModel>? get images;
   BuiltList<DatesEventListModel>? get dates;
+  BuiltList<UsersInsideBubbleListModel>? get users_in_bubble;
+  BuiltList<UsersInsideBubbleListModel>? get saved_users;
+
   int? get id;
   double? get radius;
   CreatedByModel? get created_by;

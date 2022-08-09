@@ -205,7 +205,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-
     initMessaging();
     WidgetsFlutterBinding.ensureInitialized();
   }

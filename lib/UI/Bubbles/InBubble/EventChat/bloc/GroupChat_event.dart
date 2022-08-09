@@ -23,7 +23,6 @@ abstract class ClearError extends GroupChatevent
   factory ClearError([updates(ClearErrorBuilder b)]) = _$ClearError;
 }
 
-
 abstract class KetbaordStatus extends GroupChatevent
     implements Built<KetbaordStatus,KetbaordStatusBuilder> {
 
@@ -31,7 +30,6 @@ abstract class KetbaordStatus extends GroupChatevent
   KetbaordStatus._();
   factory KetbaordStatus([updates(KetbaordStatusBuilder b)]) = _$KetbaordStatus;
 }
-
 
 abstract class GetAlias extends GroupChatevent
     implements Built<GetAlias,GetAliasBuilder> {

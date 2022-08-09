@@ -278,3 +278,8 @@ abstract class AddMarker extends HomeEvent
   AddMarker._();
   factory AddMarker([Function(AddMarkerBuilder b) updates]) = _$AddMarker;
 }
+abstract class ClearMarkers extends HomeEvent
+    implements Built<ClearMarkers,ClearMarkersBuilder> {
+  ClearMarkers._();
+  factory ClearMarkers([updates(ClearMarkersBuilder b)]) = _$ClearMarkers;
+}

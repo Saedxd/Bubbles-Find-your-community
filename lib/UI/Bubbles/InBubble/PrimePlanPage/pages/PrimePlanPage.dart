@@ -35,10 +35,10 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
 @override
   void initState() {
     super.initState();
-    _PlanPage_Bloc.add(GetWhoSavedBubble((b) =>
-    b..Bubble_id = widget.Bubble!.id
-      ..is_saved = widget.Bubble!.is_Saved
-    ));
+    // _PlanPage_Bloc.add(GetWhoSavedBubble((b) =>
+    // b..Bubble_id = widget.Bubble!.id
+    //   ..is_saved = widget.Bubble!.is_Saved
+    // ));
     socket!.io..disconnect()..connect();
 }
 

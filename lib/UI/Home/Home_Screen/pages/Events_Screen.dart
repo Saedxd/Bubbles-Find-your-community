@@ -136,7 +136,7 @@ List<bool>? Saved_Status=[];
                                   physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
                                   state.ShapStatus!? 2:1,
-                                    childAspectRatio: (5 / (widget.Type!="Nearby Primes"?5: 5.7)),),
+                                    childAspectRatio: (5 / (widget.Type!="Nearby Primes"?5.3: 5.7)),),
                                   itemBuilder: (BuildContext context, int index) {
                                     return
                                       state.ShapStatus!
@@ -198,32 +198,51 @@ List<bool>? Saved_Status=[];
                                                               ),
                                                             ),
                                                           ),
-                                                          Transform.rotate(
-                                                            angle: -179.99999499104388 * (math.pi / 180),
-                                                            child: Container(
-                                                                width: w/2.2,
-                                                                height: h/6.2,
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius : const BorderRadius.only(
-                                                                    topLeft: Radius.circular(7),
-                                                                    //    topRight: Radius.circular(7),
-                                                                    bottomLeft: Radius.circular(7),
-                                                                    bottomRight: Radius.circular(7),
-                                                                  ),
-                                                                  gradient : LinearGradient(
-                                                                      begin: const Alignment(5.730259880964636e-14,-2),
-                                                                      end: const Alignment(2,3.9593861611176705e-16),
-                                                                      colors: [Colors.transparent,Color(widget.Bubble[index].Color!),]
-                                                                  ),
-                                                                )
-                                                            ),
+                                                          Container(
+                                                              width: w/2.2,
+                                                              height: h/12.2,
+
+                                                              decoration: BoxDecoration(
+                                                                borderRadius : const BorderRadius.only(
+                                                                  topLeft: Radius.circular(10),
+                                                                  topRight:  Radius.circular(10),
+
+                                                                ),
+                                                                color: Colors.transparent,
+                                                                boxShadow : [BoxShadow(
+                                                                    color: Color(widget.Bubble[index].Color!).withOpacity(.5),
+                                                                    offset: Offset(0,0),
+                                                                    blurRadius: 8.628571510314941
+                                                                )],
+
+                                                              )
                                                           ),
+                                                          // Transform.rotate(
+                                                          //   angle: -179.99999499104388 * (math.pi / 180),
+                                                          //   child: Container(
+                                                          //       width: w/2.2,
+                                                          //       height: h/6.2,
+                                                          //       decoration: BoxDecoration(
+                                                          //         borderRadius : const BorderRadius.only(
+                                                          //           topLeft: Radius.circular(7),
+                                                          //           //    topRight: Radius.circular(7),
+                                                          //           bottomLeft: Radius.circular(7),
+                                                          //           bottomRight: Radius.circular(7),
+                                                          //         ),
+                                                          //         gradient : LinearGradient(
+                                                          //             begin: const Alignment(5.730259880964636e-14,-2),
+                                                          //             end: const Alignment(2,3.9593861611176705e-16),
+                                                          //             colors: [Colors.transparent,Color(widget.Bubble[index].Color!),]
+                                                          //         ),
+                                                          //       )
+                                                          //   ),
+                                                          // ),
 
 
 
                                                           Container(
-                                                            width: w/2.2,
-                                                            height: h/12,
+                                                            width: w/2.8,
+                                                            height: h/22,
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                               children: [
@@ -231,7 +250,7 @@ List<bool>? Saved_Status=[];
                                                                     ? Row(
                                                                   children: [
                                                                     CircleAvatar(
-                                                                      radius: 14,
+                                                                      radius: 8,
                                                                       backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
                                                                       backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
                                                                     ),
@@ -262,7 +281,7 @@ List<bool>? Saved_Status=[];
                                                           ),
                                                           Positioned(
                                                             left: h/12,
-                                                            bottom: h/13.5,
+                                                            bottom: h/10.7,
                                                             child: Container(
                                                               width:w/2.5,
                                                               height: h/10.99,
@@ -329,7 +348,7 @@ List<bool>? Saved_Status=[];
                                                                           ),
                                                                         ),
 
-                                                                    SizedBox(height: 5,),
+                                                                    SizedBox(height: 3,),
                                                                     Container(
                                                                       width: w/2.2,
                                                                       child:  Text(
@@ -344,11 +363,11 @@ List<bool>? Saved_Status=[];
 
                                                                       ),
                                                                     ),
+                                                                    SizedBox(height: 5,),
                                                                     Container(
+                                                                      width: w/2.2,
                                                                       child:Text(
-
-                                                                        "",
-        //todo : event interest
+                                                                        widget.Bubble[index].Category!,
                                                                         textAlign: TextAlign.left,
                                                                         overflow: TextOverflow.ellipsis,
                                                                         style: _TextTheme.headlineLarge!.copyWith(
@@ -363,10 +382,17 @@ List<bool>? Saved_Status=[];
                                                                 ),
                                                               ),
                                                             ),
-                                                            SvgPicture.asset(
-                                                              "Assets/images/Exclude.svg",
-                                                              width: w/13,
-                                                              color : Color(widget.Bubble[index].Color!),
+                                                            Column(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                Text(""),
+                                                                SvgPicture.asset(
+                                                                  "Assets/images/Exclude.svg",
+                                                                  width: w/13,
+                                                                  color : Color(widget.Bubble[index].Color!),
+                                                                ),
+
+                                                              ],
                                                             ),
 
                                                           ],
@@ -378,149 +404,286 @@ List<bool>? Saved_Status=[];
                                                   ),
                                                 ),
                                               )
-                                                  :InkWell(
-                                                onTap: (){
-                                                  WidgetsBinding
-                                                      .instance!
-                                                      .addPostFrameCallback(
-                                                          (_) =>   Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (
-                                                              context) =>
-                                                              PrimePlan_page(
-                                                                  Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
+                                                  :   InkWell(
+                                        onTap: () {
+                                          WidgetsBinding
+                                              .instance!
+                                              .addPostFrameCallback(
+                                                  (_) =>   Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (
+                                                      context) =>
+                                                      PrimePlan_page(
+                                                        Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",  ),
+                                                ),
+                                              ));
+
+                                        },
+                                        child:
+
+
+
+                                        Container(
+                                          width: w/2.5,
+                                          margin: EdgeInsets.all(5),
+                                          decoration: BoxDecoration(
+                                            borderRadius : BorderRadius.only(
+                                              topLeft: Radius.circular(364.2384033203125),
+                                              topRight: Radius.circular(364.2384033203125),
+                                              bottomRight: Radius.circular(40.569536209106445),
+                                              bottomLeft: Radius.circular(40.569536209106445),
+
+                                            ),
+                                            color: Colors.white,
+                                          ),child:
+
+                                        Column(
+                                            children: [
+                                              Stack(
+                                                children: [
+                                                  CachedNetworkImage(
+                                                    imageUrl:widget.Bubble[index].image!,
+                                                    imageBuilder: (context, imageProvider) => Container(
+                                                      width: w/2.2,
+                                                      height: h / 6,
+                                                      margin: EdgeInsets.only(left: w/200,right: w/200,top: h/400),
+                                                      decoration: BoxDecoration(
+                                                        borderRadius : BorderRadius.only(
+                                                          topLeft: Radius.circular(364.2384033203125),
+                                                          topRight: Radius.circular(364.2384033203125),
                                                         ),
-                                                      ));
-                                                },
+                                                        image:DecorationImage(image: imageProvider
+                                                            ,fit: BoxFit.fill
+                                                        ),
+
+                                                      ),
+
+                                                    ),
+                                                    placeholder: (context, url) => Container(    width: w/2.5,
+                                                        height: h/6.5,child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            CircularProgressIndicator(),
+                                                          ],
+                                                        )),
+                                                    errorWidget: (context, url, error) => Container(    width: w/2.5,
+                                                        height: h/6.5,child: Icon(Icons.error)),
+                                                  ),
+
+                                                  Positioned(
+                                                    top: h/7,
+                                                    child: Container(
+                                                        width: w/2.5,
+                                                        height: h/12,
+                                                        padding: EdgeInsets.only(top: h/2),
+                                                        decoration: BoxDecoration(
+                                                          color: Colors.transparent,
+                                                          boxShadow : [BoxShadow(
+                                                              color: Colors.black54,
+                                                              offset: Offset(0,0),
+                                                              blurRadius: 15.628571510314941
+                                                          )],
+
+                                                        )
+                                                    ),
+                                                  ),
+
+                                                  // Positioned(
+                                                  //   top: h/7,
+                                                  //   child: Container(
+                                                  //       width: w/2.5,
+                                                  //       height: h/8,
+                                                  //       padding: EdgeInsets.only(top: h/2),
+                                                  //       decoration: BoxDecoration(
+                                                  //         borderRadius : BorderRadius.only(
+                                                  //           // topLeft: Radius.circular(30.2384033203125),
+                                                  //           // topRight: Radius.circular(30.2384033203125),
+                                                  //         ),
+                                                  //         gradient : LinearGradient(
+                                                  //             begin: Alignment(5.730259880964636e-14,-1),
+                                                  //             end: Alignment(1,3.9593861611176705e-16),
+                                                  //             colors: [Color(0xff000000).withOpacity(.02),Color(0xff000000).withOpacity(.02)]
+                                                  //         ),
+                                                  //       )
+                                                  //   ),
+                                                  // ),
+                                                  Positioned(
+                                                      left: h/40,
+                                                      top: h/30,
+                                                      child: Image.asset("Assets/images/icon.png")
+                                                  ),
+                                                  Positioned(
+                                                    left: w/3.9,
+                                                    top: h/7.1,
+                                                    child:
+                                                    Container(
+                                                      width: w/3.7,height: h/15,
+                                                      margin: EdgeInsets.only(left:widget.Bubble[index].users_in_bubble!.length==1
+                                                          ?  w/20
+                                                          :widget.Bubble[index].users_in_bubble!.length==2
+                                                          ?w/50
+                                                          :    w/130
+                                                          ,bottom: h/10),   child: ListView.builder(
+                                                        itemCount: widget.Bubble[index].users_in_bubble!.length<3?  widget.Bubble[index].users_in_bubble!.length:3,
+                                                        scrollDirection: Axis.horizontal,
+                                                        itemBuilder: (BuildContext context, int index2) {
+                                                          String Value =   widget.Bubble[index].users_in_bubble![index2].background_color.toString();
+                                                          if (Value.contains("#",0)){
+                                                            Value = Value.substring(1);
+                                                            Value = "0xff$Value";
+                                                          }
+                                                          var myInt = int.parse(Value);
+                                                          var BackgroundColor= myInt;
+                                                          return    Row(
+                                                            children: [
+                                                              index2==0
+                                                                  ? SizedBox(width: 5,)
+                                                                  : Container(),
+                                                              Align(
+                                                                  widthFactor: 0.75,
+                                                                  alignment: Alignment.topCenter,
+                                                                  child:
+                                                                  Container(
+                                                                    child: Column(
+                                                                      children: [
+                                                                        Wrap(
+                                                                          children: [
+                                                                            CircleAvatar(
+                                                                              radius: 6,
+                                                                              backgroundColor: Color(BackgroundColor),
+                                                                              backgroundImage: NetworkImage( widget.Bubble[index].users_in_bubble![index2].avatar.toString()),
+                                                                            )
+                                                                          ],
+
+                                                                        ),
+                                                                      ],
+
+                                                                    ),
+                                                                  )
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),),
+                                                  Positioned(
+                                                    left: w/2.8,
+                                                    top: h/6.8,
+                                                    child: Text("+${ widget.Bubble[index].users_in_bubble!.length.toString()}", textAlign: TextAlign.left, style: TextStyle(
+                                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                                        fontFamily: 'Red Hat Text',
+                                                        fontSize: 8.309549331665039,
+                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                        fontWeight: FontWeight.w700,
+                                                        height: 1
+                                                    ),),
+                                                  )
+                                                ],
+                                              ),
+
+                                              Expanded(
                                                 child: Container(
-                                                  width: w/2.5,
-                                                  height: h / 4,
-                                                margin: EdgeInsets.all(5),
+
+
                                                   decoration: BoxDecoration(
                                                     borderRadius : BorderRadius.only(
-                                                      topLeft: Radius.circular(364.2384033203125),
-                                                      topRight: Radius.circular(364.2384033203125),
-                                                      bottomLeft: Radius.circular(14.569536209106445),
-                                                      bottomRight: Radius.circular(14.569536209106445),
+                                                      bottomRight: Radius.circular(6.569536209106445),
+                                                      bottomLeft: Radius.circular(6.569536209106445),
                                                     ),
                                                     color: Color(0xff606060),
-                                                  ),child:
-
-                                                Column(
+                                                  ),
+                                                  child:
+                                                  Row(
                                                     children: [
-                                                      Stack(
+                                                      SizedBox(height: 2,),
+                                                      Column(
                                                         children: [
-                                                          CachedNetworkImage(
-                                                            imageUrl: widget.Bubble[index].image.toString(),
-                                                            imageBuilder: (context, imageProvider) => Container(
-                                                              width: w/2.2,
-                                                              height: h/5.5,
-                                                              decoration: BoxDecoration(
-                                                                borderRadius : BorderRadius.only(
-                                                                  topLeft: Radius.circular(364.2384033203125),
-                                                                  topRight: Radius.circular(364.2384033203125),
-                                                                  bottomLeft: Radius.circular(14.569536209106445),
-                                                                  bottomRight: Radius.circular(14.569536209106445),
-                                                                ),
-                                                                image:DecorationImage(image: imageProvider
-                                                                    ,fit: BoxFit.fill
-                                                                ),
-
-                                                              ),
-
-                                                            ),
-                                                            placeholder: (context, url) => Container(    width: w/2.5,
-                                                                height: h/6.5,child: CircularProgressIndicator()),
-                                                            errorWidget: (context, url, error) => Container(    width: w/2.5,
-                                                                height: h/6.5,child: Icon(Icons.error)),
-                                                          ),
-                                                          Positioned(
-                                                            top: h/9,
-                                                            child: Container(
-                                                                width: w/2.5,
-                                                                height: h/8,
-                                                                padding: EdgeInsets.only(top: h/4),
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius : BorderRadius.only(
-                                                                    // topLeft: Radius.circular(30.2384033203125),
-                                                                    // topRight: Radius.circular(30.2384033203125),
-                                                                  ),
-                                                                  gradient : LinearGradient(
-                                                                      begin: Alignment(7.730259880964636e-14,-0.5),
-                                                                      end: Alignment(-2,3.9593861611176705e-16),
-                                                                      colors: [Colors.transparent,Color(widget.Bubble[index].Color!).withOpacity(.5)]
-                                                                  ),
-                                                                )
-                                                            ),
-                                                          ),
-
-                                                        ],
-                                                      ),
-
-                                                      Expanded(
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                            borderRadius : BorderRadius.only(
-                                                              bottomLeft: Radius.circular(14.569536209106445),
-                                                              bottomRight: Radius.circular(14.569536209106445),
-                                                            ),
-                                                            color: Color(0xff606060),
-                                                          ),
-                                                          child:
-                                                          Column(
+                                                          Stack(
                                                             children: [
-                                                              Row(
-                                                                children: [
-                                                                  SvgPicture.asset(
-                                                                    "Assets/images/Exclude.svg",
-                                                                    color : Color(widget.Bubble[index].Color!),
-                                                                    width: w/12,
-                                                                  ),
-                                                                  Flexible(
-                                                                    child: Container(
-                                                                      color: Colors.transparent,
-                                                                      child: Text(widget.Bubble[index].Title!,
-                                                                        overflow: TextOverflow.ellipsis,
-                                                                        textAlign: TextAlign.left, style: TextStyle(
-                                                                            color: Color.fromRGBO(255, 255, 255, 1),
-                                                                            fontFamily: 'Red Hat Display',
-                                                                            fontSize: 13,
-                                                                            letterSpacing: 0,
-                                                                            fontWeight: FontWeight.w600,
-                                                                            height: 1
-                                                                        ),),
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                              SvgPicture.asset(
+                                                                "Assets/images/Exclude.svg",
+                                                                color : Color(widget.Bubble[index].Color!),
+                                                                width: w/7.9,
                                                               ),
-                                                              // Container(
-                                                              //   width: w/2.3,
-                                                              //   margin: EdgeInsets.only(left: w/10),
-                                                              //   child: Text('Park', textAlign: TextAlign.left, style: TextStyle(
-                                                              //       color: Color.fromRGBO(255, 255, 255, 1),
-                                                              //       fontFamily: 'Red Hat Text',
-                                                              //       fontSize: 10,
-                                                              //       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                              //       fontWeight: FontWeight.w300,
-                                                              //       height: 1
-                                                              //   ),),
-                                                              // ),
+                                                              Positioned(
+                                                                  left: 0,
+                                                                  right: 0,
+                                                                  top: 0,
+                                                                  bottom: 0,
+                                                                  child:  Row(
+                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: w/26,
+                                                                        child:
+                                                                        Image.asset("Assets/images/icons.png",  fit: BoxFit.fill,),
+                                                                      )      ],
+                                                                  ))
+
                                                             ],
                                                           ),
-                                                        ),
+                                                        ],
                                                       ),
-                                                    ]
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Flexible(
+                                                            child: Container(
+                                                              width: w/4.2,
+                                                              color: Colors.transparent,
+                                                              child: Text( widget.Bubble[index].Title.toString(),
+                                                                overflow: TextOverflow.ellipsis,
+                                                                textAlign: TextAlign.left, style: TextStyle(
+                                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                                    fontFamily: 'Red Hat Display',
+                                                                    fontSize: 13,
+                                                                    letterSpacing: 0,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    height: 1
+                                                                ),),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 5,),
+                                                          Container(
+                                                            width: w/4.2,
+                                                            child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
+                                                                color: Color.fromRGBO(255, 255, 255, 1),
+                                                                fontFamily: 'Red Hat Text',
+                                                                fontSize: 11,
+                                                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                fontWeight: FontWeight.w300,
+                                                                height: 1
+                                                            ),),
+                                                          ),
+                                                        ],
+                                                      )
 
 
-
-
-
+                                                    ],
+                                                  ),
                                                 ),
+                                              ),
+                                            ]
 
 
-                                                ),
-                                              )
+
+
+
+                                        ),
+
+
+
+                                        ),
+
+
+
+
+
+
+
+                                      )
+
                                           :widget.Type!="Primes"
                                           ?InkWell(
                                         onTap: (){
@@ -541,7 +704,7 @@ List<bool>? Saved_Status=[];
                                     child:Center(
                                         child: Container(
                                             width:w/1.15,
-                                            height: h/2.1,
+                                            height: h/2.2,
                                             margin: const EdgeInsets.all(10),
                                             decoration: const BoxDecoration(
                                               borderRadius : BorderRadius.only(
@@ -574,34 +737,30 @@ List<bool>? Saved_Status=[];
                                                           ),
                                                         ),
                                                       ),
-                                                      Transform.rotate(
-                                                        angle: -179.99999499423683 * (math.pi / 180),
-                                                        child: Container(
-                                                            width:w/1.15,
-                                                            height: h/2.89,
-                                                            decoration: BoxDecoration(
-                                                              borderRadius : const BorderRadius.only(
-                                                                topLeft: Radius.circular(7.777777194976807),
-                                                                //  topRight: Radius.circular(7.777777194976807),
-                                                                bottomRight: Radius.circular(7.777777194976807),
-                                                                bottomLeft: Radius.circular(7.777777194976807),
-                                                              ),
-                                                              gradient : LinearGradient(
-                                                                  begin: const Alignment(5.730259880964636e-14,-2),
-                                                                  end: const Alignment(2,3.9593861611176705e-16),
-                                                                  colors: [
-                                                                    Colors.transparent,
-                                                                    Color(widget.Bubble[index].Color!),
-                                                                  ]
-                                                              ),
-                                                            )
-                                                        ),
+                                                      Container(
+                                                          width:w/1.15,
+                                                          height: h/8.2,
+
+                                                          decoration: BoxDecoration(
+                                                            borderRadius : const BorderRadius.only(
+                                                              topLeft: Radius.circular(10),
+                                                              topRight:  Radius.circular(10),
+
+                                                            ),
+                                                            color: Colors.transparent,
+                                                            boxShadow : [BoxShadow(
+                                                                color: Color(widget.Bubble[index].Color!).withOpacity(.5),
+                                                                offset: Offset(0,0),
+                                                                blurRadius: 8.628571510314941
+                                                            )],
+
+                                                          )
                                                       ),
 
 
                                                       Container(
                                                           width:w/1.15,
-                                                          height: h/6.89,
+                                                          height: h/13.89,
                                                           child:Row(
                                                             mainAxisAlignment: MainAxisAlignment.start,
                                                             children: [
@@ -610,7 +769,7 @@ List<bool>? Saved_Status=[];
                                                                   ?Row(
                                                                 children: [
                                                                   CircleAvatar(
-                                                                    radius: 17,
+                                                                    radius: 13.5,
                                                                     backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
                                                                     backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
                                                                   ),
@@ -649,11 +808,11 @@ List<bool>? Saved_Status=[];
                                                       ),
                                                       Positioned(
                                                         left: h/9,
+                                                        bottom: h/3.95,
                                                         child: Container(
                                                           width:w,
-                                                          height: h/6.89,
+                                                          height: h/8.89,
                                                           child:
-
                                                           IconButton(
                                                             icon:SvgPicture.asset(
                                                               !state.isLoading!?
@@ -701,7 +860,7 @@ List<bool>? Saved_Status=[];
                                                                     overflow: TextOverflow.ellipsis,
                                                                     style: _TextTheme.headlineLarge!.copyWith(
                                                                       color: Color(widget.Bubble[index].Color!),
-                                                                      fontSize: 25,
+                                                                      fontSize: 19,
                                                                       letterSpacing: 0,
                                                                       fontWeight: FontWeight.w600,
                                                                     ),
@@ -709,7 +868,7 @@ List<bool>? Saved_Status=[];
 
                                                                 ),
 
-                                                            const SizedBox(height: 7,),
+                                                            const SizedBox(height: 3,),
                                                             Container(
                                                               width:w/1.5,
                                                               child:  Text(
@@ -717,31 +876,40 @@ List<bool>? Saved_Status=[];
                                                                 textAlign: TextAlign.left,
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style: _TextTheme.headlineLarge!.copyWith(
-                                                                  fontSize: 17,
+                                                                  fontSize: 15,
                                                                   letterSpacing: 0,
                                                                   fontWeight: FontWeight.w600,
                                                                 ),
 
                                                               ),
                                                             ),
-                                                            const SizedBox(height: 5,),
-                                                            // const Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
-                                                            //     color: Color.fromRGBO(255, 255, 255, 1),
-                                                            //     fontFamily: 'Red Hat Text',
-                                                            //     fontSize: 12.222221851348877,
-                                                            //     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                            //     fontWeight: FontWeight.normal,
-                                                            //     height: 1
-                                                            // ),)
+                                                            const SizedBox(height: 7,),
+                                                             Container(
+                                                               width:w/1.5,
+                                                               child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
+                                                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                                                  fontFamily: 'Red Hat Text',
+                                                                  fontSize: 12.222221851348877,
+                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                  fontWeight: FontWeight.normal,
+                                                                  height: 1
+                                                            ),),
+                                                             )
                                                           ],
                                                         ),
                                                       ),
                                                     ),
                                                     const SizedBox(width: 5,),
-                                                    SvgPicture.asset(
-                                                      "Assets/images/Exclude.svg",
-                                                      width: w/8,
-                                                      color : Color(widget.Bubble[index].Color!),
+                                                    Column(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Text(""),
+                                                        SvgPicture.asset(
+                                                          "Assets/images/Exclude.svg",
+                                                          width: w/8,
+                                                          color : Color(widget.Bubble[index].Color!),
+                                                        ),
+                                                      ],
                                                     ),         const SizedBox(width: 5,),         const SizedBox(width: 5,),
 
                                                   ],

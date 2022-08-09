@@ -85,7 +85,6 @@ print(date);
       }
     }
 
-
     if (event is LoginSocial) {
       try {
 
@@ -117,7 +116,6 @@ print(date);
       }
     }
 
-
     if (event is LoginGoogle) {
       try {
 
@@ -147,6 +145,7 @@ print(date);
         );
       }
     }
+
 
   }
 }

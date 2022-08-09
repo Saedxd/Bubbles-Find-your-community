@@ -30,7 +30,6 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
 
 
   bool? get MediaImageTaken;
-
   bool? get Message_Uploading;
 
 
@@ -39,25 +38,19 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   bool? get FlowOptionsOpened;
 
   bool? get Done;
-
   bool? get AliasISLoading;
   bool? get AliasISsuccess;
-
   GetAliasModel? get GetAlias;
 
 
   bool? get RefreshLoading;
   bool? get RefreshSuccess;
-
   bool? get Turnss;
-
   bool? get UserINbubbleAliasISLoading;
   bool? get  UserINbubbleAliasISsuccess;
-
   bool? get typingStatusISloading;
   bool? get TypingStatusSuccess;
   bool? get TypingStatus;
-
   bool? get SendMessageISloading;
   bool? get SendMessageSuccess;
 
@@ -76,22 +69,17 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   List<UserDATA>? get User;
   List<UserDATA>? get InsideBubbleUsers;
   List<UserDATA>? get FilteredInsideBubbleUsers;
-
   List<FlowData>? get FlowList;
+  AddNewFriendModel? get AddNewFriend;
 
   bool? get GetInsideUsersISloading;
   bool? get GetInsideUsersSuccess;
-
   bool? get ShowFloatingActionButtonn;
-
   bool? get AddFreindSuccess;
   bool? get FreindAddlOADING;
-  AddNewFriendModel? get AddNewFriend;
-
-  int? get index_For_Message_List;
-
   bool? get AddModelISloading;
   bool? get AddModelSUccess;
+  int? get index_For_Message_List;
 
   String? get AvatarPathForRepliedTo;
   String? get ColorForRepliedTo;

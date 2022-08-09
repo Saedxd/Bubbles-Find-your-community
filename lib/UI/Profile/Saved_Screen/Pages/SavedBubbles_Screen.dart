@@ -2,6 +2,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_Bloc.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_State.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_event.dart';
@@ -987,6 +988,10 @@ class _SavedBubblesState extends State<SavedBubbles> {
                             InkWell(
                               onTap: (){
 
+                                WidgetsBinding.instance!
+                                    .addPostFrameCallback((_) =>
+                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                        NavigatorTopBar(GotToHomeAndOpenPanel: true,)), (Route<dynamic> route) => false));
                               },
                               child: Container(
                                   width: w/1.2,

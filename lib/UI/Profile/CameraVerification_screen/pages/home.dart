@@ -75,7 +75,7 @@ class _CameraScreen extends State<CameraScreen> {
           .addPostFrameCallback((_) => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) =>  NavigatorTopBar()),
+            builder: (context) =>  NavigatorTopBar(GotToHomeAndOpenPanel: false,)),
       ));
       FirstTime
     ?   imagePath = File(image!.path)
@@ -147,7 +147,7 @@ bool DidITonce = false;
                       .addPostFrameCallback((_) => Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>  NavigatorTopBar()),
+                        builder: (context) =>  NavigatorTopBar(GotToHomeAndOpenPanel: false,)),
                   ));
                 },
               ),

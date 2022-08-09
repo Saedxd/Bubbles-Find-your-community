@@ -372,7 +372,9 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
 
             InstanceMessages.ISreply = false;
+            if (state.EventOldMessages!.messages![i].message!.sender_name.toString().isNotEmpty)
             InstanceMessages.Alias = state.EventOldMessages!.messages![i].message!.sender_name.toString();
+            if (state.EventOldMessages!.messages![i].message!.sender_image.toString().isNotEmpty)
             InstanceMessages.Avatar =  state.EventOldMessages!.messages![i].message!.sender_image.toString();
             if (Value.isNotEmpty)
             InstanceMessages.background_Color = int.parse(Value);
@@ -664,7 +666,6 @@ print("Emitteddd");
         print("Emitteddd");
     }
 
-
     if (event is GetUsersInsideBubble) {
 
       try {
@@ -817,7 +818,6 @@ print("Emitteddd");
       }
     }
 
-
     if (event is SendTopicFlow) {
      // try {
 
@@ -940,7 +940,6 @@ print("Emitteddd");
         ..ShowFloatingActionButtonn = event.status!
       );
     }
-
 
     if (event is AddFlowModel) {
       try {

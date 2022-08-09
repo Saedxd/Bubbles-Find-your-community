@@ -16,7 +16,9 @@ import 'package:move_to_background/move_to_background.dart';
 
 
 class NavigatorTopBar extends StatefulWidget {
-   NavigatorTopBar({Key? key, this.GOtoDirect}) : super(key: key);
+   NavigatorTopBar({Key? key, this.GOtoDirect,required this.GotToHomeAndOpenPanel}) : super(key: key);
+   bool GotToHomeAndOpenPanel = false;
+
 int? GOtoDirect = 0;
   @override
   State<NavigatorTopBar> createState() => _NavigatorTopBarState();
@@ -130,7 +132,8 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     super.initState();
     BackGroundCounter = 0;
     AllBubblesStatus = List.filled(100000,0);
-    AllBubblesStatusTry = List.filled(10000,true);
+    AllBubblesJoinStatusTry = List.filled(10000,false);
+    AllBubblesLeftStatusTry = List.filled(10000,true);
     AllNearBubblesStatusTry = List.filled(10000,true);
     AllBubblesIDS = List.filled(10000,0);
     _TopBarBloc.add(GetProfile());
@@ -213,7 +216,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                   children: [
                   //  _buildScreens[state.INDEX!],
                     state.INDEX==0?
-                    HomeScreen():
+                    HomeScreen(OpenPanel: widget.GotToHomeAndOpenPanel?true:false,):
 
                     Container(
                       width: w,

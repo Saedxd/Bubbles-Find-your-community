@@ -139,12 +139,14 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
   // }
   //
 
-  Future<void> setlogout() async {
-    await pref.logout();
-  }
+
 
   Future<void> SetToken(String Token) async {
     await pref.SetToken(Token);
+  }
+
+  Future<void> SetNotFirstTime() async {
+    await pref.SetisFirstTimeLogin();
   }
 
   Future<void> getFcmToken() async {
@@ -152,6 +154,31 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
       print(FcmTOken);
       return Fcmtoken = FcmTOken;
     });
+  }
+  bool islogedin = false;
+  bool First_Time_Login = true;
+  Future<void> GetISloggedIN() async {
+    islogedin = await pref.getIsLogin();
+    First_Time_Login = await pref.GetisFirstTimeLogin();
+    print("islogedin1 : ${islogedin}");
+    print("islogedin2 : ${islogedin}");
+    if (!First_Time_Login) {
+      if (islogedin) {
+        SetNotFirstTime();
+        print("islogedin3 : ${islogedin}");
+        WidgetsBinding.instance!
+            .addPostFrameCallback((_) =>
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NavigatorTopBar(GotToHomeAndOpenPanel: false,),
+              ),
+            ));
+      }
+      print("islogedin4 : ${islogedin}");
+    }else{
+      print("Yep first time");
+    }
   }
 
   Future<void> signInWithFacebook() async {
@@ -404,6 +431,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
+    GetISloggedIN();
     _EmailFocusNode = FocusNode();
     getFcmToken();
     _controller = AnimationController(
@@ -536,11 +564,13 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
             bloc: _Loginbloc,
             builder: (BuildContext context, loginState state) {
               if (state.success == true && DiDitOnce == true) {
+                SetNotFirstTime();
                 pref.saveUser(
                   state.data as UserData,
                   state.data!.user!.token!,
                   true,
                 );
+
                 if (state.data!.user!.data!.gender == null) {
                   UsersData Users = UsersData();
 
@@ -561,7 +591,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => NavigatorTopBar(),
+                          builder: (context) => NavigatorTopBar(GotToHomeAndOpenPanel: false,),
                         ),
                       ));
                 }

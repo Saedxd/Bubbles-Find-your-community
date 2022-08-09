@@ -2470,6 +2470,7 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                                       },
 
                                                       onFieldSubmitted: (value)async {
+
                                                         String Comment =
                                                             _SendMessageController
                                                                 .text;
@@ -2615,12 +2616,12 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                                       }
                                                     }
                                                   }
-                                                          _SendMessageController.clear();
+
                                                         }else{
                                                           OutsideBubbleAlreat();
                                                         }
 
-
+                                                        _SendMessageController.clear();
 
 
                                                       },
@@ -2823,7 +2824,7 @@ _GroupChatBloc.add(AddFlowModel((b) => b..Flow = data));
                                                                 OutsideBubbleAlreat();
                                                               }
 
-
+                                                              _SendMessageController.clear();
 
 
                                                             },

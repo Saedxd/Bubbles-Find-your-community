@@ -67,6 +67,16 @@ class _Options_screenState extends State<Options_screen> {
     FocuseNODE = FocusNode();
     Array2 = List.filled(5000, 0);
   }
+  List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+    'Item5',
+    'Item6',
+    'Item7',
+    'Item8',
+  ];
 
 
   @override

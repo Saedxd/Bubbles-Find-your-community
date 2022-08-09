@@ -239,6 +239,9 @@ class _Login2State extends State<Login2> {
     _PasswordFocusNode.dispose();
     _PassController.dispose();
   }
+  Future<void> SetNotFirstTime() async {
+    await pref.SetisFirstTimeLogin();
+  }
 
   @override
   Widget build(BuildContext Context) {
@@ -261,6 +264,7 @@ class _Login2State extends State<Login2> {
                     _formkey1.currentState!.validate() &&
                     DiDitOnce == true) {
                   if (state.data!.msg == "success") {
+                    SetNotFirstTime();
                     pref.saveUser(
                       state.data as UserData,
                       state.data!.user!.token!,
@@ -270,7 +274,7 @@ class _Login2State extends State<Login2> {
                       Navigator.of(context).push(
                         CupertinoPageRoute(
                           builder: (BuildContext context) {
-                            return  NavigatorTopBar();
+                            return  NavigatorTopBar(GotToHomeAndOpenPanel: false,);
                           },
                         ),
                       );

@@ -1,4 +1,5 @@
 
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
@@ -30,7 +31,7 @@ class _SettingsState extends State<Settings> {
   final _formkey1 = GlobalKey<FormState>();
   late FocusNode FocuseNODE;
   final _SettingsBloc = sl<SettingsBloc>();
-
+  final pref = sl<IPrefsHelper>();
   @override
   void initState() {
     super.initState();
@@ -41,6 +42,10 @@ class _SettingsState extends State<Settings> {
   void dispose() {
     super.dispose();
     _SearchController.dispose();
+  }
+
+  Future<void> setlogout() async {
+    await pref.logout();
   }
 
   @override
@@ -55,6 +60,7 @@ class _SettingsState extends State<Settings> {
         builder: (BuildContext Context, SettingsState state)
     {
       if (state.success! && state.LOgedOUT!) {
+        setlogout();
         WidgetsBinding.instance!
             .addPostFrameCallback((_) =>
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>

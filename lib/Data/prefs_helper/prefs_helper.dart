@@ -16,7 +16,9 @@ const  last_name = "last_name";
 const  EMAIL = "EMAIL";
  const  IMAGE = "IMAGE";
 var  TOKEN = "TOKEN";
+
  const  IS_LOGIN = "IS_LOGIN";
+
 const  APP_LANGUAGE = "APP_LANGUAGE";
 const  lng = "lng";
 const  lat = "lat";
@@ -27,6 +29,7 @@ const  Pass = "Pass";
 const  SetThemeON1 = "SetThemeON";
 const  NOTIFI = "NOTIFI";
 const  IS_soical = "IS_soical";
+const  isFirstTimeLogin = "isFirstTimeLogin";
 
 
 class PrefsHelper implements IPrefsHelper {
@@ -83,7 +86,10 @@ class PrefsHelper implements IPrefsHelper {
 // }
   @override
   Future<bool> getIsLogin() async {
-    return (await getPrefs()).getBool(IS_LOGIN) ?? false;
+    print("IN Getislogin Fucntion :");
+print((await getPrefs()).getBool(IS_LOGIN));
+    print("Dot");
+    return (((await getPrefs()).getBool(IS_LOGIN)) ?? false);
   }
 
   @override
@@ -130,10 +136,6 @@ class PrefsHelper implements IPrefsHelper {
   }
 
 
-  @override
-  Future<void> logout() async{
-    (await getPrefs()).setBool(IS_LOGIN, false);
-  }
 
   @override
   Future<void> SETISsoical() async{
@@ -144,11 +146,27 @@ class PrefsHelper implements IPrefsHelper {
     return ((await getPrefs()).getBool(IS_soical)??false);
   }
 //IS_soical
+
+
+
   @override
   Future<void> setIsLogin() async{
     (await getPrefs()).setBool(IS_LOGIN, true);
   }//
+  @override
+  Future<void> logout() async{
+    (await getPrefs()).setBool(IS_LOGIN, false);
+  }
 
+  @override
+  Future<void> SetisFirstTimeLogin() async{
+    (await getPrefs()).setBool(isFirstTimeLogin, false);
+  }
+
+  @override
+  Future<bool> GetisFirstTimeLogin() async{
+    return ((await getPrefs()).getBool(isFirstTimeLogin)??true);
+  }
 
 
 

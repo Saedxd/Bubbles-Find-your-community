@@ -14,6 +14,7 @@ abstract class LOginEvent {}
 
 abstract class PostLOgin extends LOginEvent
     implements Built<PostLOgin,PostLOginBuilder> {
+
  String?  get Email;
  String?  get password;
  String?  get fcmToken;

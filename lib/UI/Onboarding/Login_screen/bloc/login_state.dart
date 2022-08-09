@@ -18,6 +18,7 @@ abstract class loginState implements Built<loginState, loginStateBuilder> {
   bool? get success;
   UserData? get data;
   PermissionsModel? get Permissions;
+
   loginState._();
 
   factory loginState([updates(loginStateBuilder b)]) = _$loginState;

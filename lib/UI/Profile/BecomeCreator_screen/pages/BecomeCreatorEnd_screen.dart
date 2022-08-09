@@ -220,7 +220,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                         WidgetsBinding.instance!
                             .addPostFrameCallback((_) =>
                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                NavigatorTopBar()), (Route<dynamic> route) => false));
+                                NavigatorTopBar(GotToHomeAndOpenPanel: false,)), (Route<dynamic> route) => false));
 
                       },
                       child: Container(

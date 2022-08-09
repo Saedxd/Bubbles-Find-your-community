@@ -25,12 +25,16 @@ abstract class IPrefsHelper {
   Future<void> SetThemeON() ;
   Future<bool> GetThemeON() ;
 
+  Future<void> SetisFirstTimeLogin();
+  Future<bool> GetisFirstTimeLogin();
 
   Future<double> Getlat() ;
   Future<double> GetLng() ;
 
   Future<void> setIsLogin();
   Future<void> logout();
+
+
   Future<bool> getIsLogin();
 
   Future<String> getimage();

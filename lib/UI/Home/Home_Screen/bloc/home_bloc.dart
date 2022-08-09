@@ -316,6 +316,16 @@ yield state.rebuild((b) => b
         );
       }
     }
+    if (event is ClearMarkers) {
+      try {
+state.circle!.clear();
+state.marker2!.clear();
+
+      } catch (e) {
+        print(e);
+
+      }
+    }
     if (event is ChangeSliderValue) {
       try {
       //  final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
@@ -418,6 +428,7 @@ yield state.rebuild((b) => b
     }
 
 
+
     if (event is GetNearbyBubbles) {
       try {
         yield state.rebuild((b) => b
@@ -443,7 +454,7 @@ yield state.rebuild((b) => b
             Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
             Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
             Bubbledata.dates = state.GetNearbyBubbles!.data![i].dates!;
-          }
+
           Bubbledata.Title = state.GetNearbyBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNearbyBubbles!.data![i].location.toString();
 
@@ -457,7 +468,10 @@ yield state.rebuild((b) => b
           Bubbledata.Description = state.GetNearbyBubbles!.data![i].description.toString();
           String Value = state.GetNearbyBubbles!.data![i].color.toString();
           Bubbledata.Organizers = state.GetNearbyBubbles!.data![i].organizers!;
+          Bubbledata.Category = state.GetNearbyBubbles!.data![i].category!;
           Bubbledata.is_Saved = state.GetNearbyBubbles!.data![i].is_save;
+          Bubbledata.users_in_bubble = state.GetNearbyBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetNearbyBubbles!.data![i].saved_users!;
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
             Value = "0xff$Value";
@@ -470,6 +484,7 @@ yield state.rebuild((b) => b
           state.BUBBLElistS2!.add(Bubbledata);
           state.Used_From_All_Lists!.add(Bubbledata);
           state.FilteredBubbleList!.add(Bubbledata);
+          }
         }
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = false
@@ -505,37 +520,60 @@ yield state.rebuild((b) => b
 
 
           BubbleData Bubbledata = BubbleData();
+          if (      state.GetPopularNowBubbles!.data![i].type.toString()!="Prime") {
+            Bubbledata.Title =
+                state.GetPopularNowBubbles!.data![i].title.toString();
+            Bubbledata.location =
+                state.GetPopularNowBubbles!.data![i].location.toString();
+            Bubbledata.StartDate =
+                state.GetPopularNowBubbles!.data![i].start_event_date
+                    .toString();
+            Bubbledata.endDate =
+                state.GetPopularNowBubbles!.data![i].end_event_date.toString();
+            Bubbledata.image =
+                state.GetPopularNowBubbles!.data![i].images![0].image
+                    .toString();
+            Bubbledata.id = state.GetPopularNowBubbles!.data![i].id!.toInt();
+            Bubbledata.TYPE =
+                state.GetPopularNowBubbles!.data![i].type.toString();
+            Bubbledata.Creator_Alias =
+                state.GetPopularNowBubbles!.data![i].created_by!.user!.alias ??
+                    "";
+            Bubbledata.Creator_Avatar =
+                state.GetPopularNowBubbles!.data![i].created_by!.user!.avatar;
+            Bubbledata.Creator_Color =
+                state.GetPopularNowBubbles!.data![i].created_by!.user!
+                    .background_color;
+            Bubbledata.User_type =
+                state.GetPopularNowBubbles!.data![i].created_by!.type;
+            Bubbledata.Description =
+                state.GetPopularNowBubbles!.data![i].description.toString();
+            String Value = state.GetPopularNowBubbles!.data![i].color
+                .toString();
+            Bubbledata.Organizers =
+            state.GetPopularNowBubbles!.data![i].organizers!;
+            Bubbledata.dates = state.GetPopularNowBubbles!.data![i].dates!;
+            Bubbledata.is_Saved = state.GetPopularNowBubbles!.data![i].is_save;
+            Bubbledata.Category =
+            state.GetPopularNowBubbles!.data![i].category!;
+            Bubbledata.users_in_bubble =
+            state.GetPopularNowBubbles!.data![i].users_in_bubble!;
+            Bubbledata.saved_users =
+            state.GetPopularNowBubbles!.data![i].saved_users!;
+            if (Value.contains("#", 0)) {
+              Value = Value.substring(1);
+              Value = "0xff$Value";
+            }
+            var myInt = int.parse(Value);
+            var BackgroundColor = myInt;
 
-          Bubbledata.Title = state.GetPopularNowBubbles!.data![i].title.toString();
-          Bubbledata.location = state.GetPopularNowBubbles!.data![i].location.toString();
-          Bubbledata.StartDate = state.GetPopularNowBubbles!.data![i].start_event_date.toString();
-          Bubbledata.endDate =state.GetPopularNowBubbles!.data![i].end_event_date.toString();
-          Bubbledata.image = state.GetPopularNowBubbles!.data![i].images![0].image.toString();
-          Bubbledata.id = state.GetPopularNowBubbles!.data![i].id!.toInt();
-          Bubbledata.TYPE = state.GetPopularNowBubbles!.data![i].type.toString();
-          Bubbledata.Creator_Alias = state.GetPopularNowBubbles!.data![i].created_by!.user!.alias??"";
-          Bubbledata.Creator_Avatar = state.GetPopularNowBubbles!.data![i].created_by!.user!.avatar;
-          Bubbledata.Creator_Color = state.GetPopularNowBubbles!.data![i].created_by!.user!.background_color;
-          Bubbledata.User_type = state.GetPopularNowBubbles!.data![i].created_by!.type;
-          Bubbledata.Description = state.GetPopularNowBubbles!.data![i].description.toString();
-          String Value = state.GetPopularNowBubbles!.data![i].color.toString();
-          Bubbledata.Organizers = state.GetPopularNowBubbles!.data![i].organizers!;
-          Bubbledata.dates = state.GetPopularNowBubbles!.data![i].dates!;
-          Bubbledata.is_Saved = state.GetPopularNowBubbles!.data![i].is_save;
+            Bubbledata.Color = BackgroundColor;
 
-          if (Value.contains("#", 0)) {
-            Value = Value.substring(1);
-            Value = "0xff$Value";
+
+            state.BUBBLElistS3!.add(Bubbledata);
+            state.Used_From_All_Lists!.add(Bubbledata);
+            state.FilteredBubbleList!.add(Bubbledata);
           }
-          var myInt = int.parse(Value);
-          var BackgroundColor = myInt;
-
-          Bubbledata.Color = BackgroundColor;
-
-
-          state.BUBBLElistS3!.add(Bubbledata);
-          state.Used_From_All_Lists!.add(Bubbledata);
-          state.FilteredBubbleList!.add(Bubbledata);
         }
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = false
@@ -674,7 +712,9 @@ yield state.rebuild((b) => b
           Bubbledata.Description = state.GetPrimeBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetPrimeBubbles!.data![i].organizers!;
           Bubbledata.is_Saved = state.GetPrimeBubbles!.data![i].is_save!;
-         // Bubbledata.dates = state.GetPrimeBubbles!.data![i].dates!;
+          Bubbledata.Category = state.GetPrimeBubbles!.data![i].category!;
+          Bubbledata.users_in_bubble = state.GetPrimeBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetPrimeBubbles!.data![i].saved_users!;
           String Value = state.GetPrimeBubbles!.data![i].color.toString();
 
           if (Value.contains("#", 0)) {
@@ -723,7 +763,8 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
   Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
   Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
   Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
-}
+
+          Bubbledata.Category = state.GetNewBubbles!.data![i].category!;
           Bubbledata.Title = state.GetNewBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNewBubbles!.data![i].location.toString();
 
@@ -736,7 +777,8 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           Bubbledata.User_type = state.GetNewBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetNewBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetNewBubbles!.data![i].organizers!;
-
+          Bubbledata.users_in_bubble = state.GetNewBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetNewBubbles!.data![i].saved_users!;
           String Value = state.GetNewBubbles!.data![i].color.toString();
           Bubbledata.is_Saved = state.GetNewBubbles!.data![i].is_save;
 
@@ -752,6 +794,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           state.BUBBLElistS1!.add(Bubbledata);
           state.Used_From_All_Lists!.add(Bubbledata);
           state.FilteredBubbleList!.add(Bubbledata);
+}
         }
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = false
@@ -790,7 +833,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
 
 
           BubbleData Bubbledata = BubbleData();
-
+          Bubbledata.Category = state.GetSavedBubbles!.data![i].category!;
           Bubbledata.Title = state.GetSavedBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetSavedBubbles!.data![i].location.toString();
           Bubbledata.StartDate = state.GetSavedBubbles!.data![i].start_event_date.toString();
@@ -802,6 +845,8 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           Bubbledata.Creator_Avatar = state.GetSavedBubbles!.data![i].created_by!.user!.avatar;
           Bubbledata.Creator_Color = state.GetSavedBubbles!.data![i].created_by!.user!.background_color;
           Bubbledata.User_type = state.GetSavedBubbles!.data![i].created_by!.type;
+          Bubbledata.users_in_bubble = state.GetSavedBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetSavedBubbles!.data![i].saved_users!;
           String Value = state.GetSavedBubbles!.data![i].color.toString();
 
           if (Value.contains("#", 0)) {

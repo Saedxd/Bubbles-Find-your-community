@@ -257,7 +257,8 @@ class _$OrganizersListModelSerializer
     if (value != null) {
       result
         ..add('gender')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -416,7 +417,7 @@ class _$OrganizersListModelSerializer
           break;
         case 'gender':
           result.gender = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -497,7 +498,7 @@ class _$OrganizersListModel extends OrganizersListModel {
   @override
   final int? visit_bubble_status;
   @override
-  final int? gender;
+  final String? gender;
 
   factory _$OrganizersListModel(
           [void Function(OrganizersListModelBuilder)? updates]) =>
@@ -829,9 +830,9 @@ class OrganizersListModelBuilder
   set visit_bubble_status(int? visit_bubble_status) =>
       _$this._visit_bubble_status = visit_bubble_status;
 
-  int? _gender;
-  int? get gender => _$this._gender;
-  set gender(int? gender) => _$this._gender = gender;
+  String? _gender;
+  String? get gender => _$this._gender;
+  set gender(String? gender) => _$this._gender = gender;
 
   OrganizersListModelBuilder();
 
