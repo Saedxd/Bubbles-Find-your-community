@@ -7,7 +7,7 @@ import 'dart:convert';
 
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
@@ -30,6 +30,7 @@ abstract class SavedBubblesState implements Built<SavedBubblesState, SavedBubble
   bool? get success;
   bool? get ShapStatus;
 
+  bool? get ShowHomePage;
 
   bool? get UnSaveIsloading;
 
@@ -46,6 +47,7 @@ abstract class SavedBubblesState implements Built<SavedBubblesState, SavedBubble
       ..error = ""
       ..isLoading = false
       ..success = false
+      ..ShowHomePage = false
       ..ShapStatus = false
       ..UnSaveIsloading = false
       ..GetSavedBubbles = null

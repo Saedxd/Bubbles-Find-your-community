@@ -25,6 +25,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
   bool? get Index2;
   bool? get Index3;
   bool? get Index4;
+  bool? get GetbadgeSucess;
   int? get INDEX;
 
 
@@ -34,6 +35,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
   GetFriendsModel? get GetFriends;
   ProfileDateModel? get ProfileDate;
   GetbadgeModel? get Getbadge;
+  ClearBadgeModel? get ClearBadge;
 
   TopBarState._();
 
@@ -48,6 +50,7 @@ abstract class TopBarState implements Built<TopBarState, TopBarStateBuilder> {
       ..INDEX = 0
       ..Index1 = true
       ..Index2 = false
+      ..GetbadgeSucess = false
       ..Index3 = false
       ..Index4 = false
       ..ProfileDate =null

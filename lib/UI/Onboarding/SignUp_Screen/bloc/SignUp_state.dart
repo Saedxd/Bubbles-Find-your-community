@@ -22,7 +22,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
   bool? get success;
   bool? get UpdateSocialProfileSuccess;
   bool? get ChangeSelectedd;
-
+  String? get PickedColor;
   int? get UserDataINDEX;
   int? get UpdateProfileINDEX;
   // String? get Username;
@@ -61,6 +61,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
       ..GetGender= null
       ..GetInterests= null
       ..GetSubGenders= null
+      ..PickedColor= "0xff8D4624"
       ..data =null
         ..UpdateSocialProfile =null
         ..UserDataINDEX = 1000

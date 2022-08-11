@@ -9,6 +9,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -586,5 +587,9 @@ class Repository implements IRepository {
     return Data;
   }
 
-
+  Future<EventCateogoryModel> GetEventCateogories()async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetEventCateogories(auth,);
+    return Data;
+  }
 }

@@ -185,15 +185,7 @@ bool DiditOnce = false;
                     onTap: (){
                       if (SelectedGenderId!=1000) {
                         widget.Users!.SetGender(SelectedGenderId);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                Intersets_screen(
-                                  Users: widget.Users,
-                                ),
-                          ),
-                        );
+                     Navigator.pop(context);
                       }
                     },
                     child: Container(

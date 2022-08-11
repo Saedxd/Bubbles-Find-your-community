@@ -167,6 +167,15 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
         );
       }
     }
+    if (event is ClearBadge) {
+      try {
+
+        final date = await _repository.ClearBadge();
+
+      } catch (e) {
+        print('get Error $e');
+      }
+    }
     if (event is GetBadge) {
       try {
         yield state.rebuild((b) =>
@@ -174,6 +183,7 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
           ..isLoading = true
           ..error = ""
           ..success = false
+          ..GetbadgeSucess = false
           ..Getbadge = null
         );
 
@@ -187,6 +197,7 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
           ..isLoading = false
           ..error = ""
           ..success = true
+          ..GetbadgeSucess = true
           ..Getbadge.replace(date)
 
        );

@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 
 import '../Pages/SavedBubbles_Screen.dart';
 import 'Saved_event.dart';
@@ -64,6 +64,7 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
           Bubbledata.User_type = state.GetSavedBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetSavedBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetSavedBubbles!.data![i].organizers!;
+          Bubbledata.Category = state.GetSavedBubbles!.data![i].category!;
           state.GetSavedBubbles!.data![i].type.toString()!="Prime"?
           Bubbledata.dates = state.GetSavedBubbles!.data![i].dates!:print("prime");
           String Value = state.GetSavedBubbles!.data![i].color.toString();
@@ -117,6 +118,19 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
       try {
         yield state.rebuild((b) => b
           ..ShapStatus = !b.ShapStatus!
+        );
+
+
+
+      } catch (e) {
+        print('get Error $e');
+
+      }
+    }
+    if (event is ShowHomePage) {
+      try {
+        yield state.rebuild((b) => b
+          ..ShowHomePage = event.HomePageStatus!
         );
 
 

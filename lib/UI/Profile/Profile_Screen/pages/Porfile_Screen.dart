@@ -6,7 +6,7 @@ import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 

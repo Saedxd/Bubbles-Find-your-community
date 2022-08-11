@@ -3,7 +3,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dar
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_questions/conditional_questions.dart';

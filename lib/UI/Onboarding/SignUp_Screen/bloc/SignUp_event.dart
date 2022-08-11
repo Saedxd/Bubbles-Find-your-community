@@ -70,6 +70,13 @@ abstract class GetGender extends SignUpEvent
   factory GetGender([updates(GetGenderBuilder b)]) = _$GetGender;
 }
 
+abstract class ChangePickedColor extends SignUpEvent
+    implements Built<ChangePickedColor, ChangePickedColorBuilder> {
+  ChangePickedColor._();
+String? get PickedColor;
+  factory ChangePickedColor([updates(ChangePickedColorBuilder b)]) = _$ChangePickedColor;
+}
+
 abstract class GetInterests extends SignUpEvent
     implements Built<GetInterests, GetInterestsBuilder> {
 

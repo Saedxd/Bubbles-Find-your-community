@@ -81,107 +81,113 @@ bool selected = false;
                               )),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: h / 30, top: h / 26),
-                        child: Text(
-                            'When is your Birthday?', textAlign: TextAlign.left,
-                            style: _TextTheme.headlineLarge!.copyWith(
-                                fontSize: 3.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            )),
-                      ),
-                      Container(
-                        width: w / 1.2,
-                        height: h / 2,
-                        margin: EdgeInsets.only(bottom: h / 50, top: h / 26),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
+                      Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: h / 30, top: h / 26),
+                            child: Text(
+                                'When is your Birthday?', textAlign: TextAlign.left,
+                                style: _TextTheme.headlineLarge!.copyWith(
+                                    letterSpacing: 1,
+                                    fontSize: 3.5 *
+                                        SizeConfig
+                                            .blockSizeVertical!
+                                            .toDouble(),
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white
+                                )),
                           ),
-                        ),
-
-                        child: SfDateRangePicker(
-                          todayHighlightColor: Colors.white,
-                          minDate: DateTime(1940),
-                          maxDate: DateTime.now().subtract(
-                              Duration(days: 6570)),
-
-                          monthCellStyle: DateRangePickerMonthCellStyle(
-                            textStyle: TextStyle(
-                                color: Color.fromRGBO(255, 255, 255, 1),
-                                fontFamily: 'IBM Plex Sans',
-                                fontSize: 2.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                letterSpacing: 0.1899598389863968,
-                                fontWeight: FontWeight.w400,
-                                height: 1.5714285376177157
+                          Container(
+                            width: w / 1.32,
+                            height: h / 2.3,
+                            margin: EdgeInsets.only(bottom: h / 50),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(5),
+                                topRight: Radius.circular(5),
+                                bottomLeft: Radius.circular(5),
+                                bottomRight: Radius.circular(5),
+                              ),
                             ),
-                            disabledDatesTextStyle: TextStyle(
 
-                                color: Color.fromRGBO(120, 120, 133, 1),
-                                fontFamily: 'IBM Plex Sans',
-                                fontSize: 2.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                letterSpacing: 0.1899598389863968,
-                                fontWeight: FontWeight.normal,
-                                height: 1.5714285376177157
-                            ),
-                            // leadingDatesTextStyle: TextStyle(
-                            //     color: Colors.red,
-                            //     fontFamily: 'IBM Plex Sans',
-                            //     fontSize: 14.088353157043457,
-                            //     letterSpacing: 0.1899598389863968,
-                            //     fontWeight: FontWeight.normal,
-                            //     height: 1.5714285376177157
-                            // ),
-                            rangeTextStyle: TextStyle(
-                                color: Colors.red,
-                                fontFamily: 'IBM Plex Sans',
-                                fontSize: 2.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                letterSpacing: 0.1899598389863968,
-                                fontWeight: FontWeight.normal,
-                                height: 1.5714285376177157
-                            ),
-                            trailingDatesTextStyle:
-                            TextStyle(
-                                color: Colors.red,
-                                fontFamily: 'IBM Plex Sans',
-                                fontSize: 2.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                letterSpacing: 0.1899598389863968,
-                                fontWeight: FontWeight.normal,
-                                height: 1.5714285376177157
+                            child: SfDateRangePicker(
+                              todayHighlightColor: Colors.white,
+                              minDate: DateTime(1940),
+                              maxDate: DateTime.now().subtract(
+                                  Duration(days: 6570)),
+
+                              monthCellStyle: DateRangePickerMonthCellStyle(
+                                textStyle: TextStyle(
+                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                    fontFamily: 'IBM Plex Sans',
+                                    fontSize: 2.5 *
+                                        SizeConfig
+                                            .blockSizeVertical!
+                                            .toDouble(),
+                                    letterSpacing: 0.1899598389863968,
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.5714285376177157
+                                ),
+                                disabledDatesTextStyle: TextStyle(
+
+                                    color: Color.fromRGBO(120, 120, 133, 1),
+                                    fontFamily: 'IBM Plex Sans',
+                                    fontSize: 2.5 *
+                                        SizeConfig
+                                            .blockSizeVertical!
+                                            .toDouble(),
+                                    letterSpacing: 0.1899598389863968,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.5714285376177157
+                                ),
+                                // leadingDatesTextStyle: TextStyle(
+                                //     color: Colors.red,
+                                //     fontFamily: 'IBM Plex Sans',
+                                //     fontSize: 14.088353157043457,
+                                //     letterSpacing: 0.1899598389863968,
+                                //     fontWeight: FontWeight.normal,
+                                //     height: 1.5714285376177157
+                                // ),
+                                rangeTextStyle: TextStyle(
+                                    color: Colors.red,
+                                    fontFamily: 'IBM Plex Sans',
+                                    fontSize: 2.5 *
+                                        SizeConfig
+                                            .blockSizeVertical!
+                                            .toDouble(),
+                                    letterSpacing: 0.1899598389863968,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.5714285376177157
+                                ),
+                                trailingDatesTextStyle:
+                                TextStyle(
+                                    color: Colors.red,
+                                    fontFamily: 'IBM Plex Sans',
+                                    fontSize: 2.5 *
+                                        SizeConfig
+                                            .blockSizeVertical!
+                                            .toDouble(),
+                                    letterSpacing: 0.1899598389863968,
+                                    fontWeight: FontWeight.normal,
+                                    height: 1.5714285376177157
+                                ),
+                              ),
+                              backgroundColor: Color(0xff303030),
+                              controller: _pickerController,
+                              showNavigationArrow: true,
+                              toggleDaySelection: false,
+                              selectionColor: Color(0xffCF6D38),
+                              selectionRadius: 25,
+                              onSelectionChanged: _onSelectionChanged2,
+                              view: DateRangePickerView.month,
+                              selectionMode: DateRangePickerSelectionMode.single,
                             ),
                           ),
-                          backgroundColor: Color(0xff303030),
-                          controller: _pickerController,
-                          showNavigationArrow: true,
-                          toggleDaySelection: false,
-                          selectionColor: Color(0xffCF6D38),
-                          selectionRadius: 25,
-                          onSelectionChanged: _onSelectionChanged2,
-                          view: DateRangePickerView.month,
-                          selectionMode: DateRangePickerSelectionMode.single,
-                        ),
+                        ],
                       ),
+
                       Container(
-                        width: w / 1.2,
+                        width: w / 1.32,
                         height: h / 13.9,
                         margin: EdgeInsets.only(top: h / 100, bottom: h / 8),
 

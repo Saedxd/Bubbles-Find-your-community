@@ -1,4 +1,5 @@
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/ChooseAvatar_screen.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Interset_screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:flutter/material.dart';
@@ -230,7 +231,7 @@ class _sliderState extends State<slider> {
                                                    (_) => Navigator.pushReplacement(
                                                  context,
                                                  MaterialPageRoute(
-                                                     builder: (context) => ChooseAvatar(
+                                                     builder: (context) => Intersets_screen(
                                                        Users: widget.Users,
                                                      )),
                                                ));

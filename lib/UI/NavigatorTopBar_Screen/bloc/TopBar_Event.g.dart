@@ -477,6 +477,62 @@ class GetFreindsBuilder implements Builder<GetFreinds, GetFreindsBuilder> {
   }
 }
 
+class _$ClearBadge extends ClearBadge {
+  factory _$ClearBadge([void Function(ClearBadgeBuilder)? updates]) =>
+      (new ClearBadgeBuilder()..update(updates))._build();
+
+  _$ClearBadge._() : super._();
+
+  @override
+  ClearBadge rebuild(void Function(ClearBadgeBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ClearBadgeBuilder toBuilder() => new ClearBadgeBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ClearBadge;
+  }
+
+  @override
+  int get hashCode {
+    return 949917038;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper('ClearBadge').toString();
+  }
+}
+
+class ClearBadgeBuilder implements Builder<ClearBadge, ClearBadgeBuilder> {
+  _$ClearBadge? _$v;
+
+  ClearBadgeBuilder();
+
+  @override
+  void replace(ClearBadge other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ClearBadge;
+  }
+
+  @override
+  void update(void Function(ClearBadgeBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ClearBadge build() => _build();
+
+  _$ClearBadge _build() {
+    final _$result = _$v ?? new _$ClearBadge._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$GetBadge extends GetBadge {
   factory _$GetBadge([void Function(GetBadgeBuilder)? updates]) =>
       (new GetBadgeBuilder()..update(updates))._build();

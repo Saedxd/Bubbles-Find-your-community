@@ -12,7 +12,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.da
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/bloc/Sprints_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/bloc/Sprints_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/bloc/Sprints_state.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/core/widgets/RecordView.dart';

@@ -23,7 +23,17 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       SettingsEvent event,
       ) async* {
 
+    if (event is UserLeftBubble) {
 
+      try {
+
+        final date = await _repository.ChangeUserStatusToOut(event.Bubble_id!);
+
+      } catch (e) {
+        print('get Error $e');
+
+      }
+    }
     if (event is Logout) {
       try {
         yield state.rebuild((b) => b

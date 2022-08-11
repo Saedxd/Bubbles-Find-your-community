@@ -7,8 +7,9 @@ import 'package:bubbles/UI/Bubbles/InBubble/EventChat/bloc/GroupChat_event.dart'
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/bloc/GroupChat_state.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/pages/FlowsChat_Screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:bubbles/main.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';

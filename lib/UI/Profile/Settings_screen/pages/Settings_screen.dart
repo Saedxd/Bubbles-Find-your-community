@@ -2,7 +2,7 @@
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
@@ -11,6 +11,7 @@ import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_bloc.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_event.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_state.dart';
 import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/pages/SuggestedFrineds_screen.dart';
+import 'package:bubbles/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -47,6 +48,7 @@ class _SettingsState extends State<Settings> {
   Future<void> setlogout() async {
     await pref.logout();
   }
+  bool diditonce = false;
 
   @override
   Widget build(BuildContext context){
@@ -59,7 +61,8 @@ class _SettingsState extends State<Settings> {
         bloc:   _SettingsBloc,
         builder: (BuildContext Context, SettingsState state)
     {
-      if (state.success! && state.LOgedOUT!) {
+
+      if (state.LOgedOUT! && diditonce) {
         setlogout();
         WidgetsBinding.instance!
             .addPostFrameCallback((_) =>
@@ -204,7 +207,14 @@ class _SettingsState extends State<Settings> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         InkWell(
-                          onTap: () {
+                          onTap: ()async {
+                            diditonce = true;
+                            for(int i =0;i<AllBubblesStatus!.length;i++){
+                              if (AllBubblesStatus![i]==1){
+                                int Bubble_ID = AllBubblesIDS![i];
+                                _SettingsBloc.add(UserLeftBubble((b) => b..Bubble_id =Bubble_ID));
+                              }
+                            }
                             if (timer != null)
                               timer!.cancel();
                             if (timer2 != null)
@@ -217,8 +227,12 @@ class _SettingsState extends State<Settings> {
                               timer1212!.cancel();
                             socket!.clearListeners();
                             socket!.disconnect();
+                            AllBubblesStatus = List.filled(100000,0);
+                            AllBubblesJoinStatusTry = List.filled(10000,false);
+                            AllBubblesLeftStatusTry = List.filled(10000,true);
+                            AllNearBubblesStatusTry = List.filled(10000,true);
+                            AllBubblesIDS = List.filled(10000,0);
                             _SettingsBloc.add(Logout());
-
                           },
                           child: Container(
                             width: w / 1.2,

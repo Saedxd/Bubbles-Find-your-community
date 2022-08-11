@@ -25,6 +25,12 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         ..error = ""
       );
     }
+    if (event is ChangePickedColor) {
+      yield state.rebuild((b) =>
+      b
+        ..PickedColor = event.PickedColor
+      );
+    }
 
     if (event is PostSignUp) {
       try {

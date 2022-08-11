@@ -540,6 +540,83 @@ class GetGenderBuilder implements Builder<GetGender, GetGenderBuilder> {
   }
 }
 
+class _$ChangePickedColor extends ChangePickedColor {
+  @override
+  final String? PickedColor;
+
+  factory _$ChangePickedColor(
+          [void Function(ChangePickedColorBuilder)? updates]) =>
+      (new ChangePickedColorBuilder()..update(updates))._build();
+
+  _$ChangePickedColor._({this.PickedColor}) : super._();
+
+  @override
+  ChangePickedColor rebuild(void Function(ChangePickedColorBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangePickedColorBuilder toBuilder() =>
+      new ChangePickedColorBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangePickedColor && PickedColor == other.PickedColor;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, PickedColor.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper('ChangePickedColor')
+          ..add('PickedColor', PickedColor))
+        .toString();
+  }
+}
+
+class ChangePickedColorBuilder
+    implements Builder<ChangePickedColor, ChangePickedColorBuilder> {
+  _$ChangePickedColor? _$v;
+
+  String? _PickedColor;
+  String? get PickedColor => _$this._PickedColor;
+  set PickedColor(String? PickedColor) => _$this._PickedColor = PickedColor;
+
+  ChangePickedColorBuilder();
+
+  ChangePickedColorBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _PickedColor = $v.PickedColor;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChangePickedColor other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangePickedColor;
+  }
+
+  @override
+  void update(void Function(ChangePickedColorBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangePickedColor build() => _build();
+
+  _$ChangePickedColor _build() {
+    final _$result = _$v ?? new _$ChangePickedColor._(PickedColor: PickedColor);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 class _$GetInterests extends GetInterests {
   factory _$GetInterests([void Function(GetInterestsBuilder)? updates]) =>
       (new GetInterestsBuilder()..update(updates))._build();

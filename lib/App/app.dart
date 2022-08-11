@@ -6,6 +6,7 @@ import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/UI/Spash_Screen/pages/Splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:flutter/scheduler.dart';
@@ -259,7 +260,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   debugShowCheckedModeBanner: false,
                   home:
                  // DirectChat(),
-                  Login(),
+                  SecondClass(),
                   navigatorKey: navigatorKey,
                   title: 'Bubbles',
                   theme: theme,

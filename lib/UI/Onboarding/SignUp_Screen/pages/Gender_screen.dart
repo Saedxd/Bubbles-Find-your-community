@@ -4,6 +4,7 @@ import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_bloc.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Interset_screen.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Sliderr.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
@@ -121,11 +122,12 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(bottom: h/30),
+                      margin: EdgeInsets.only(top: h/30),
                       child: Text(
                         'How do you identify?',
                         textAlign: TextAlign.left,
                           style:_TextTheme.headlineLarge!.copyWith(
+                              letterSpacing: 1,
                               fontSize: 3.5 *
                                   SizeConfig
                                       .blockSizeVertical!
@@ -141,7 +143,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                         children: [
                           (state.success == true)
                           ? Container(
-                          width: w / 1.1,
+                          width: w / 1.32,
                           height: h/2.23,
                             margin: EdgeInsets.only(),
                           child:  ScrollConfiguration(
@@ -150,11 +152,11 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                   child: GridView.builder(
                                       cacheExtent : 500,
                                       shrinkWrap: true,
-                                      //  physics: NeverScrollableScrollPhysics(),
+                                       physics: NeverScrollableScrollPhysics(),
                                       gridDelegate:
                                       const SliverGridDelegateWithFixedCrossAxisCount(
                                         crossAxisCount: 2,
-                                        childAspectRatio: (6 / 5.5),
+                                        childAspectRatio: (6 / 6.1),
                                       ),
                                       itemCount:
                                       state.GetGender!.genders!.length,
@@ -241,7 +243,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                               )),)
                           : state.isLoading == true
                           ? Container(
-                          width: w / 1.1,
+                              width: w / 1.32,
                           height: h/2.01,
                           child: Center(child: listLoader(context: context)))
                           : Column(
@@ -249,7 +251,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                         children: [
                           Center(
                             child: Container(
-                              width: w / 1.1,
+                              width: w / 1.32,
                               height: h/2.01,
                               child: const Text("Error Was Found"),
                             ),
@@ -263,7 +265,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                              width: w / 1.2,
+                          width: w / 1.36,
                               height: h / 13.9,
                               margin: EdgeInsets.only(bottom: h/7,top: 0),
                               decoration: BoxDecoration(
@@ -289,22 +291,24 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                   onTap: () {
                                     print(SelectedGenderId);
                                     if (StringSelected=="Others"){
-                                      WidgetsBinding.instance!.addPostFrameCallback(
-                                              (_) => Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => WhichGender(
-                                                    Users : widget.Users
-                                                ), )));
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => slider(
+                                              Users : widget.Users
+                                          ),
+                                        ),
+                                      );
 
-                                    }else if (SelectedGenderId!=1000
+                                    }else
+                                      if (SelectedGenderId!=1000
                                     ){
                                       print(SelectedGenderId);
                                       widget.Users!.SetGender(SelectedGenderId!);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => Intersets_screen(
+                                          builder: (context) => slider(
                                               Users : widget.Users
                                           ),
                                         ),

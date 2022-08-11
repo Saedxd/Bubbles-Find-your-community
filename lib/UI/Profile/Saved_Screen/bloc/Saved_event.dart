@@ -36,3 +36,10 @@ abstract class UnSaveBubble extends SavedEvent
   UnSaveBubble._();
   factory UnSaveBubble([updates(UnSaveBubbleBuilder b)]) = _$UnSaveBubble;
 }
+abstract class ShowHomePage extends SavedEvent
+    implements Built<ShowHomePage,ShowHomePageBuilder> {
+  bool? get HomePageStatus;
+  ShowHomePage._();
+  factory ShowHomePage([updates(ShowHomePageBuilder b)]) = _$ShowHomePage;
+}
+

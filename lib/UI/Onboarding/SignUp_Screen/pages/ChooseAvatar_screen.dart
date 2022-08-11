@@ -89,12 +89,13 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                       Container(
-                        margin: EdgeInsets.only(right: h/20,top: h/30,bottom: h/40),
+                        margin: EdgeInsets.only(top: h/30,bottom: h/40),
                         child: Center(
                           child: Text(
                             'Choose your avatar',
                             textAlign: TextAlign.left,
                             style:_TextTheme.headlineLarge!.copyWith(
+                              letterSpacing: 1,
                                 fontSize: 3.5 *
                                     SizeConfig
                                         .blockSizeVertical!
@@ -112,7 +113,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                     children: [
                       (state.success == true)
                           ? Container(
-                              width: w / 1.1,
+                              width: w / 1.32,
                               height: h / 1.319,
                               child:  ScrollConfiguration(
                                   behavior: MyBehavior(),
@@ -178,7 +179,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                   ))
                           : state.isLoading == true
                               ? Container(
-                          width: w / 1.1,
+                          width: w / 1.32,
                           height: h / 1.319,
                                   child: Center(
                                       child: listLoader(context: context)))
@@ -187,7 +188,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                   children: [
                                     Center(
                                       child: Container(
-                                        width: w / 1.1,
+                                        width: w / 1.32,
                                         height: h / 1.319,
                                         child: const Text("Error Was Found"),
                                       ),
@@ -223,7 +224,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
 
                           },
                           child: Container(
-                            width: w / 1.3,
+                            width: w / 1.45,
                             height: h / 15,
                             decoration: const BoxDecoration(
                               borderRadius: BorderRadius.only(

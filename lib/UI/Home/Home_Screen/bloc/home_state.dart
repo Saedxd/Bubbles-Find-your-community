@@ -1,13 +1,16 @@
 library home_state;
 
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
+import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
+import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:built_value/built_value.dart';
-import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 
 
 
@@ -88,6 +91,36 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
   ProfileDateModel? get ProfileDate;
 
 
+ String? get Start_Time;
+ String? get End_Time;
+
+  String? get PickedColor;
+
+  bool? get EventCateogorySuccess;
+  bool? get EventCateogoryIsLoading;
+
+  bool? get DoneChoose1;
+  bool? get DoneChoose2;
+  bool? get ChangeDone33;
+
+  String? get GetfrinedsError;
+  bool? get GetfriendsIsloading;
+  bool? get GetFriendsSuccess;
+
+  String? get CreateBubbleError;
+  bool? get CreateBubbleISloading;
+  bool? get CreateBUbbleSuccess;
+
+  GetFriendsModel? get GetFriends;
+  CreateBubbleModel? get CreateBubble;
+  FriendListSearchModel? get SearchFrinedsResult;
+  EventCateogoryModel? get EventCateogory;
+
+
+  List<FriendlistData>? get Friendlist;
+  List<FriendlistData>? get FilteredFriendlist;
+
+
   HomeState._();
 
   factory HomeState([updates(HomeStateBuilder b)]) = _$HomeState;
@@ -97,6 +130,9 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetAllBubblesError = ""
       ..GetNewBubblesError = ""
       ..GetAllPrimeError = ""
+      ..Start_Time = ""
+      ..PickedColor= "0xff8D4624"
+      ..End_Time = ""
       ..isLoading = false
       ..ShowBubbleDetailsUI = false
       ..Searchsuccess = false
@@ -108,6 +144,8 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
       ..GetNewBubblesIsloading = false
       ..GetAllPrimeIsloading = false
       ..GetAllBubblesIsloading = false
+      ..EventCateogorySuccess = false
+      ..EventCateogoryIsLoading = false
       ..success = false
       ..GetAllPrimeSuccess = false
       ..GetNewBubblesSuccess = false
@@ -146,6 +184,23 @@ abstract class HomeState implements Built<HomeState, HomeStateBuilder>   {
         ..marker2 ={}
         ..circle ={}
         ..locationn =[]
+      ..CreateBubbleError = ""
+      ..GetfrinedsError = ""
+      ..CreateBubbleISloading = false
+      ..GetfriendsIsloading = false
+      ..CreateBUbbleSuccess = false
+      ..GetFriendsSuccess = false
+      ..Friendlist = []
+      ..FilteredFriendlist = []
+      ..DoneChoose1 = false
+      ..DoneChoose2 = false
+      ..ChangeDone33 = true
+      ..GetFriends = null
+      ..CreateBubble = null
+      ..SearchFrinedsResult = null
+      ..EventCateogory = null
+
+
 
     );
   }

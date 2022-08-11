@@ -13,6 +13,7 @@ import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -2919,6 +2920,46 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
                 ),
               ],
             )) as GetWhoSavedBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<EventCateogoryModel> GetEventCateogories(
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('event_category', options: Options(headers: {
+        "Accept" :"application/json",
+     //   "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              EventCateogoryModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(EventCateogoryModel),
+                  ],
+                ),
+              ],
+            )) as EventCateogoryModel;
 
         return baseResponse;
       } else {

@@ -31,7 +31,7 @@ class _NotificationsState extends State<Notifications> {
 
 
      _NotificationBloc.add(ClearBadge());
-    _NotificationBloc.add(GetBadge());
+    // _NotificationBloc.add(GetBadge());
     ISNewNotifications = false;
 
 
@@ -621,7 +621,7 @@ bool diditonce = false;
                                                                 imageBuilder: (context, imageProvider) => CircleAvatar(
                                                                   radius: 30,
                                                                   backgroundImage: imageProvider,
-                                                                  backgroundColor:   Color(BackgroundColor),
+                                                                  backgroundColor:   Color(BackgroundColor??0),
                                                                 ),
                                                               ),
                                                             ),

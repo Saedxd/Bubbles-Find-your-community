@@ -7,6 +7,7 @@ import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
@@ -294,5 +295,6 @@ abstract class IRepository {
   Future<GetWhoSavedBubblesModel> GetWhoSavedBubble(
       int Bubble_id,
       );
+  Future<EventCateogoryModel> GetEventCateogories();
 
 }

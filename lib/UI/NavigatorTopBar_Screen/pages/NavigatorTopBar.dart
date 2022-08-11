@@ -6,18 +6,19 @@ import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_State.dart';
 import 'package:bubbles/UI/Notifications/pages/Notifications_Screen.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
+import 'package:bubbles/main.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../Home/Home_Screen/pages/HomeScreen.dart';
+import '../../Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
 import 'package:move_to_background/move_to_background.dart';
 
 
 class NavigatorTopBar extends StatefulWidget {
    NavigatorTopBar({Key? key, this.GOtoDirect,required this.GotToHomeAndOpenPanel}) : super(key: key);
-   bool GotToHomeAndOpenPanel = false;
+   bool GotToHomeAndOpenPanel = true;
 
 int? GOtoDirect = 0;
   @override
@@ -131,28 +132,23 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
   void initState() {
     super.initState();
     BackGroundCounter = 0;
-    AllBubblesStatus = List.filled(100000,0);
-    AllBubblesJoinStatusTry = List.filled(10000,false);
-    AllBubblesLeftStatusTry = List.filled(10000,true);
-    AllNearBubblesStatusTry = List.filled(10000,true);
-    AllBubblesIDS = List.filled(10000,0);
     _TopBarBloc.add(GetProfile());
     DiditONCE =true;
     WidgetsBinding.instance?.addObserver(this);
     _TopBarBloc.add(GetFreinds());
-    _TopBarBloc.add(GetBadge());
+    // _TopBarBloc.add(GetBadge());
     if (widget.GOtoDirect==5){
       _TopBarBloc.add(
           ChangePAGEINDEX((b) =>  b
             ..num = 0
           ));
     }
-    // timer23 = Timer.periodic(const Duration(seconds: 10), (Timer t)async{
+    // timer23 = Timer.periodic(const Duration(seconds: 30), (Timer t)async{
     //   return _TopBarBloc.add(GetBadge());
     // });
   }
 
-
+int BadgeCounter = 0;
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -175,6 +171,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
+          if (state.GetbadgeSucess!){
+            BadgeCounter = state.Getbadge!.count!.toInt();
+          }
 
           if (state.GetprofileSuccess! && DiditONCE && state.success!){
             Alias = state.ProfileDate!.user!.alias.toString();
@@ -189,6 +188,9 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
             print("called function connect");
             DiditONCE = false;
+            widget.GotToHomeAndOpenPanel==true?
+            widget.GotToHomeAndOpenPanel = false
+                :print("NOPE");
           }
 
           // if (widget.GOtoDirect==5){
@@ -216,7 +218,7 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                   children: [
                   //  _buildScreens[state.INDEX!],
                     state.INDEX==0?
-                    HomeScreen(OpenPanel: widget.GotToHomeAndOpenPanel?true:false,):
+                    HomeScreen(OpenPanel:false):
 
                     Container(
                       width: w,
@@ -243,7 +245,8 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
 
                             }else if (index==1){
-
+                              _TopBarBloc.add(ClearBadge());
+                              BadgeCounter = 0;
                               state.Index2==true
                                   ? _TopBarBloc.add(ChangeIndex2())
                                   :null;
@@ -366,18 +369,133 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                   ))),
                           Container(
                             width: w / 3,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Expanded(
-                                  child: InkWell(
+                            child: Stack(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+
+                                          _TopBarBloc.add(
+                                              ChangePAGEINDEX((b) =>  b
+                                                ..num = 1
+                                              ));
+                                          state.Index2==false
+                                              ? _TopBarBloc.add(ChangeIndex2())
+                                              :null;
+
+                                          state.Index3==true
+                                              ? _TopBarBloc.add(ChangeIndex3())
+                                              :null;
+
+                                          state.Index4==true
+                                              ? _TopBarBloc.add(ChangeIndex4())
+                                              :null;
+
+                                          Selected = List.filled(
+                                              2,
+                                              0);
+                                          print(Selected);
+
+                                          Future.delayed(const Duration(milliseconds: 200), () {
+
+                                            controller.animateToPage(
+                                              0,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.easeInOut,
+                                            );
+
+
+                                          });
+                                        },
+                                        child: Container(
+                                            height: h / 13,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                              children: [
+                                                SvgPicture.asset(
+                                                    "Assets/images/Vector2.svg",
+                                                    width: h / 30,
+                                                    color: state.Index2!
+                                                        ? const Color(0xffCF6D38)
+                                                        :ColorS.tertiary
+                                                ),
+                                              ],
+                                            ))),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
+                                        onTap: () {
+
+                                          _TopBarBloc.add(ClearBadge());
+                                          _TopBarBloc.add(
+                                              ChangePAGEINDEX((b) =>  b
+                                                ..num = 2
+                                              ));
+                                          //  _TopBarBloc.add(ClearBadge());
+                                          state.Index2==true
+                                              ? _TopBarBloc.add(ChangeIndex2())
+                                              :null;
+
+                                          state.Index3==false
+                                              ? _TopBarBloc.add(ChangeIndex3())
+                                              :null;
+
+                                          state.Index4==true
+                                              ? _TopBarBloc.add(ChangeIndex4())
+                                              :null;
+                                          Future.delayed(const Duration(milliseconds: 200), () {
+
+                                            controller.animateToPage(
+                                              1,
+                                              duration: const Duration(milliseconds: 300),
+                                              curve: Curves.easeInOut,
+                                            );
+
+                                          });
+                                        },
+                                        child: Container(
+                                          height: h / 13,
+                                          //  color: Colors.black,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Stack(
+                                                children: [
+
+                                                  SvgPicture.asset(
+                                                      "Assets/images/Vector.svg",
+                                                      width: h / 30,
+                                                      color: state.Index3!
+                                                          ? const Color(0xffCF6D38)
+                                                          :ColorS.tertiary
+                                                  ),
+
+
+
+
+                                                ],
+
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                  ),
+                                  Expanded(
+                                    child: InkWell(
                                       onTap: () {
+                                        //Profil.ChangeFromFrinedScreen(false);
+                                        //  Profile().ChangeProfileStatus( false);
 
                                         _TopBarBloc.add(
                                             ChangePAGEINDEX((b) =>  b
-                                              ..num = 1
-                                            ));
-                                        state.Index2==false
+                                              ..num = 3
+                                            )
+                                        );
+                                        state.Index2==true
                                             ? _TopBarBloc.add(ChangeIndex2())
                                             :null;
 
@@ -385,163 +503,59 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
                                             ? _TopBarBloc.add(ChangeIndex3())
                                             :null;
 
-                                        state.Index4==true
+                                        state.Index4==false
                                             ? _TopBarBloc.add(ChangeIndex4())
                                             :null;
+                                        Future.delayed(const Duration(milliseconds: 200), () {
 
-                                        Selected = List.filled(
+
+                                          controller.animateToPage(
                                             2,
-                                            0);
-                                        print(Selected);
-
-                                        Future.delayed(const Duration(milliseconds: 200), () {
-
-                                          controller.animateToPage(
-                                            0,
-                                            duration: const Duration(milliseconds: 300),
-                                            curve: Curves.easeInOut,
-                                          );
-
-
-                                        });
-                                      },
-                                      child: Container(
-                                          height: h / 13,
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              SvgPicture.asset(
-                                                  "Assets/images/Vector2.svg",
-                                                  width: h / 30,
-                                                  color: state.Index2!
-                                                      ? const Color(0xffCF6D38)
-                                                      :ColorS.tertiary
-                                              ),
-                                            ],
-                                          ))),
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                      onTap: () {
-                                        _TopBarBloc.add(
-                                            ChangePAGEINDEX((b) =>  b
-                                              ..num = 2
-                                            ));
-                                     //  _TopBarBloc.add(ClearBadge());
-                                        state.Index2==true
-                                            ? _TopBarBloc.add(ChangeIndex2())
-                                            :null;
-
-                                        state.Index3==false
-                                            ? _TopBarBloc.add(ChangeIndex3())
-                                            :null;
-
-                                        state.Index4==true
-                                            ? _TopBarBloc.add(ChangeIndex4())
-                                            :null;
-                                        Future.delayed(const Duration(milliseconds: 200), () {
-
-                                          controller.animateToPage(
-                                            1,
                                             duration: const Duration(milliseconds: 300),
                                             curve: Curves.easeInOut,
                                           );
 
                                         });
+
+
+
                                       },
                                       child: Container(
                                         height: h / 13,
-                                        //  color: Colors.black,
+                                        // color: Colors.black,
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                            Stack(
-                                              children: [
-
-                                                SvgPicture.asset(
-                                                    "Assets/images/Vector.svg",
-                                                    width: h / 30,
-                                                    color: state.Index3!
-                                                        ? const Color(0xffCF6D38)
-                                                        :ColorS.tertiary
-                                                ),
-                                                state.success!?
-                                                state.Getbadge!.count!=0?
-                                                CircleAvatar(
-                                                  radius: 7,
-                                                  backgroundColor: Colors.red,
-                                                  child: Center(
-                                                    child: Text(state.Getbadge!.count.toString(),style: TextStyle(
-                                                      fontSize: 10,
-                                                      color: Colors.white,
-                                                    ),),
-                                                  ),
-                                                )
-                                                        :Text("")
-                                                    :Text(""),
-                                              ],
-
+                                            SvgPicture.asset(
+                                                "Assets/images/Group 36.svg",
+                                                width: h / 30,
+                                                color:  state.Index4!
+                                                    ? const Color(0xffCF6D38)
+                                                    :ColorS.tertiary
                                             ),
                                           ],
                                         ),
-                                      )),
-                                ),
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: () {
-                                      //Profil.ChangeFromFrinedScreen(false);
-                                      //  Profile().ChangeProfileStatus( false);
-
-                                      _TopBarBloc.add(
-                                          ChangePAGEINDEX((b) =>  b
-                                            ..num = 3
-                                          )
-                                      );
-                                      state.Index2==true
-                                          ? _TopBarBloc.add(ChangeIndex2())
-                                          :null;
-
-                                      state.Index3==true
-                                          ? _TopBarBloc.add(ChangeIndex3())
-                                          :null;
-
-                                      state.Index4==false
-                                          ? _TopBarBloc.add(ChangeIndex4())
-                                          :null;
-                                      Future.delayed(const Duration(milliseconds: 200), () {
-
-
-                                        controller.animateToPage(
-                                          2,
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.easeInOut,
-                                        );
-
-                                      });
-
-
-
-                                    },
-                                    child: Container(
-                                      height: h / 13,
-                                      // color: Colors.black,
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          SvgPicture.asset(
-                                              "Assets/images/Group 36.svg",
-                                              width: h / 30,
-                                              color:  state.Index4!
-                                                  ? const Color(0xffCF6D38)
-                                                  :ColorS.tertiary
-                                          ),
-                                        ],
                                       ),
                                     ),
+                                  )
+                                ],
+                              ),
+                              BadgeCounter.toString()!="0"?
+                              Positioned(
+                                top: h/50,
+                                left: w/5.9,
+                                child: CircleAvatar(
+                                  radius: 7,
+                                  backgroundColor: Colors.red,
+                                  child: Center(
+                                    child: Text(BadgeCounter.toString(),style: TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.white,
+                                    ),),
                                   ),
-                                )
-                              ],
+                                ),
+                              ):Text("")
+                            ],
                             ),
                           )
                         ],

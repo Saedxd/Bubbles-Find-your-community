@@ -10,6 +10,8 @@ import 'package:bubbles/models/EventOldMessagesModel/EventMessagesListModel.dart
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventdetialMessageModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/NewPollAnswersModel.dart';
+import 'package:bubbles/models/Event_CateogoryModel/CateogoryList.dart';
+import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowMessagesModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FreindsFilteredListModel.dart';
@@ -89,6 +91,8 @@ part 'serializer.g.dart';
 
 @SerializersFor([
  //model class name
+  EventCateogoryModel,
+  CateogoryList,
   SaveBubbleModel,
   NotifyMeCloseToBubbleModel,
   GetUsersInsideBubbleModel,
@@ -177,6 +181,24 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(CateogoryList),
+        ],
+      )),
+          () => ListBuilder<CateogoryList>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(EventCateogoryModel),
+        ],
+      )),
+          () => ListBuilder<EventCateogoryModel>())
+  //  ,
+//   ,
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

@@ -89,6 +89,7 @@ bloc2.add(GetInterests());
                           SizeConfig
                               .blockSizeVertical!
                               .toDouble(),
+                      letterSpacing: 1,
                       fontWeight: FontWeight.w600,
                       color: Colors.white
                   )),
@@ -110,7 +111,7 @@ bloc2.add(GetInterests());
                           ),
                           color : Color(0xff606060)
                         ),
-                        width: w/1.1,
+                        width: w/1.32,
                         height: h/1.6,
                         child:  Center(
                           child: Container(
@@ -204,7 +205,7 @@ bloc2.add(GetInterests());
                     )
                             : state.isLoading == true
                             ? Container(
-                            width: w/1.1,
+                            width: w/1.32,
                             height: h/1.6,
                             child: Center(child: listLoader(context: context)))
                             : Column(
@@ -212,7 +213,7 @@ bloc2.add(GetInterests());
                           children: [
                             Center(
                               child: Container(
-                                width: w / 1.1,
+                                width: w/1.32,
                                 height: h/2.01,
                                 child: const Text("Error Was Found"),
                               ),
@@ -235,7 +236,7 @@ bloc2.add(GetInterests());
 
                 Container(
                     margin: EdgeInsets.only(top: h/30),
-                      width: w/1.2,
+                      width: w/1.32,
                       height: h/13.9,
                       decoration:  BoxDecoration(
                         borderRadius : BorderRadius.only(
@@ -271,13 +272,13 @@ bloc2.add(GetInterests());
                             //  );
                               //ChooseAvatar
 
+
                               WidgetsBinding.instance!.addPostFrameCallback((_) =>
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) =>
                                         ChooseAvatar(
                                           Users:widget.Users ,
-
                                         )),)
                                );
 

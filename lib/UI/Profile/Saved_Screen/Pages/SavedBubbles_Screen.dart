@@ -2,6 +2,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_Bloc.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/bloc/Saved_State.dart';
@@ -42,13 +43,21 @@ class _SavedBubblesState extends State<SavedBubbles> {
     super.dispose();
     _SearchController.dispose();
   }
+  //
   @override
   Widget build(BuildContext context) {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     TextTheme _TextTheme = Theme.of(context).textTheme;
     ColorScheme ColorS = Theme.of(context).colorScheme;
-    return BlocBuilder(
+    return  WillPopScope(
+        onWillPop: ()async{
+          _SavedBloc.add(ShowHomePage((b) => b..HomePageStatus = false));
+          return true;
+        },
+        child:
+
+      BlocBuilder(
         bloc:   _SavedBloc,
         builder: (BuildContext Context, SavedBubblesState state)
     {
@@ -437,6 +446,8 @@ class _SavedBubblesState extends State<SavedBubbles> {
         body: SafeArea(
             child: Stack(
           children: [
+            state.ShowHomePage!?
+            HomeScreen(OpenPanel:true):
             Container(
               width: w,
               height: h,
@@ -608,7 +619,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                                         children: [
                                                           CircleAvatar(
                                                             radius: 14,
-                                                            backgroundColor: Color(state.SavedBubbleList![index].Color!),
+                                                            backgroundColor: Color(int.parse(state.SavedBubbleList![index].Creator_Color!)),
                                                             backgroundImage: NetworkImage(state.SavedBubbleList![index].Creator_Avatar!),
                                                           ),
                                                           SizedBox(width: 10,),
@@ -666,10 +677,10 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                                         children: [
                                                           const SizedBox(
                                                             height:
-                                                            10,
+                                                            5,
                                                           ),
                                                           Container(
-
+                                                            width: w/2.2,
                                                             child:      Text(
                                                               state.SavedBubbleList![index].Title.toString(),
                                                               textAlign: TextAlign.left,
@@ -682,7 +693,9 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                                               ),
                                                             ),
                                                           ),
+                                                          SizedBox(height: 3,),
                                                           Container(
+                                                            width: w/2.2,
                                                             child:  Text(
                                                               "At ${ state.SavedBubbleList![index].location.toString()}",
                                                               textAlign: TextAlign.left,
@@ -695,11 +708,11 @@ class _SavedBubblesState extends State<SavedBubbles> {
 
                                                             ),
                                                           ),
+                                                          SizedBox(height: 6,),
                                                           Container(
+                                                            width: w/2.2,
                                                             child:Text(
-
-                                                              "",
-//todo : event interest
+                                                              state.SavedBubbleList![index].Category!,
                                                               textAlign: TextAlign.left,
                                                               overflow: TextOverflow.ellipsis,
                                                               style: _TextTheme.headlineLarge!.copyWith(
@@ -729,236 +742,449 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                       ),
                                     ),
                                         )
-                                        :InkWell(
-                                      onTap: (){
-                                      if (state.SavedBubbleList![index].type=="Prime") {
-                                      WidgetsBinding
-                                          .instance!
-                                          .addPostFrameCallback((_) =>
-                                      Navigator
-                                          .push(
-                                      context,
-                                      MaterialPageRoute(
-                                      builder: (context) =>
-                                      PrimePlan_page(
-                                      Bubble: state.SavedBubbleList![index],
-                                      my_id: widget.User_id),
-                                      ),
-                                      ));
-                                      }else {
-                                        WidgetsBinding
-                                            .instance!
-                                            .addPostFrameCallback(
-                                                (_) =>
-                                                Navigator.push(
+                                        : InkWell(
+                                        onTap: (){
+                                          if (state.SavedBubbleList![index].type=="Prime") {
+                                            WidgetsBinding
+                                                .instance!
+                                                .addPostFrameCallback((_) =>
+                                                Navigator
+                                                    .push(
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        Plan_Screen(
+                                                        PrimePlan_page(
                                                             Bubble: state.SavedBubbleList![index],
                                                             my_id: widget.User_id),
                                                   ),
                                                 ));
-                                      }
-                                  },
-                                  child: Center(
-                                      child: Container(
-                                          width:w/1.15,
-                                          height: h/2.1,
-                                          margin: EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                            borderRadius : BorderRadius.only(
-                                              topLeft: Radius.circular(7.777777194976807),
-                                            //  topRight: Radius.circular(7.777777194976807),
-                                              bottomLeft: Radius.circular(7.777777194976807),
-                                              bottomRight: Radius.circular(7.777777194976807),
-                                            ),
-                                            color : Color.fromRGBO(96, 96, 96, 1),
-                                          ),
-                                          child : Column(
-                                            children: [
-                                              Stack(
-                                                  children: [
-                                                    Container(
-                                                      width:w/1.15,
-                                                      height: h/2.89,
-                                                      child: ClipRRect(
-                                                        borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
-                                                        child:CachedNetworkImage(
-                                                          fit: BoxFit.fill,
-                                                          imageUrl:  state.SavedBubbleList![index].image.toString(),
-                                                          placeholder: (context, url) => Row(
-                                                            mainAxisAlignment: MainAxisAlignment.center,
-                                                            children: [
-                                                              Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
-                                                            ],
-                                                          ),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
-                                                        ),
+                                          }else {
+                                            WidgetsBinding
+                                                .instance!
+                                                .addPostFrameCallback(
+                                                    (_) =>
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Plan_Screen(
+                                                                Bubble: state.SavedBubbleList![index],
+                                                                my_id: widget.User_id),
                                                       ),
-                                                    ),
-                                                    Transform.rotate(
-                                                      angle: -179.99999499423683 * (math.pi / 180),
-                                                      child: Container(
+                                                    ));
+                                          }
+
+                                        },
+                                        child:Center(
+                                          child: Container(
+
+                                              width:w/1.15,
+                                              height: h/2.1,
+                                              margin: const EdgeInsets.all(10),
+                                              decoration: const BoxDecoration(
+                                                borderRadius : BorderRadius.only(
+                                                  topLeft: Radius.circular(7.777777194976807),
+                                                  topRight: Radius.circular(7.777777194976807),
+                                                  bottomLeft: Radius.circular(7.777777194976807),
+                                                  bottomRight: Radius.circular(7.777777194976807),
+                                                ),
+                                                color : Color.fromRGBO(96, 96, 96, 1),
+                                              ),
+                                              child :Column(
+                                                children: [
+                                                  Stack(
+                                                      children: [
+                                                        Container(
                                                           width:w/1.15,
                                                           height: h/2.89,
-                                                          decoration: BoxDecoration(
-                                                            borderRadius : BorderRadius.only(
-                                                              topLeft: Radius.circular(7),
-                                                              //    topRight: Radius.circular(7),
-                                                              bottomLeft: Radius.circular(7),
-                                                              bottomRight: Radius.circular(7),
-                                                            ),
-                                                            gradient : LinearGradient(
-                                                                begin: Alignment(5.730259880964636e-14,-2),
-                                                                end: Alignment(2,3.9593861611176705e-16),
-                                                                colors: [
-                                                                  Colors.transparent,
-                                                                  Color(state.SavedBubbleList![index].Color!),
-                                                                ]
-                                                            ),
-                                                          )
-                                                      ),
-                                                    ),
-                                                    Container(
-                                                      width:w/1.15,
-                                                      height: h/6.89,
-                                                      child:Row(
-                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                        children: [
-                                                          state.SavedBubbleList![index].User_type=="user"
-                                                              ? Row(
-                                                            children: [
-                                                              CircleAvatar(
-                                                                radius: 17,
-                                                                backgroundColor: Color(state.SavedBubbleList![index].Color!),
-                                                                backgroundImage: NetworkImage(state.SavedBubbleList![index].Creator_Avatar!),
+                                                          child: ClipRRect(
+                                                            borderRadius: const BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                                            child:CachedNetworkImage(
+                                                              fit: BoxFit.fill,
+                                                              imageUrl:   state.SavedBubbleList![index].image.toString(),
+                                                              placeholder: (context, url) => Row(
+                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                children: [
+                                                                  Container(width:w/8,height:h/20,child: const Center(child: CircularProgressIndicator())),
+                                                                ],
                                                               ),
-                                                              SizedBox(width: 10,),
-                                                              Text(state.SavedBubbleList![index].Creator_Alias!,
-                                                                textAlign: TextAlign.left, style: TextStyle(
-                                                                  color: Color.fromRGBO(255, 255, 255, 1),
-                                                                  fontFamily: 'Red Hat Display',
-                                                                  fontSize: 14.477987289428711,
-                                                                  letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight.w600,
-                                                                  height: 1
-                                                              ),),
+                                                              errorWidget: (context, url, error) => const Icon(Icons.error),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                            width:w/1.15,
+                                                            height: h/12,
+                                                            decoration: BoxDecoration(
+                                                              color: Colors.transparent,
+                                                              boxShadow : [BoxShadow(
+                                                                  color: Color( state.SavedBubbleList![index].Color!).withOpacity(0.8),
+                                                                  offset: Offset(0,0),
+                                                                  blurRadius: 20.628571510314941
+                                                              )],
+
+                                                            )
+                                                        ),
+
+                                                        Container(
+                                                            width:w/1.8,
+                                                            height: h/10.89,
+                                                            child:Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                              children: [
+                                                                state.SavedBubbleList![index].User_type=="user"
+                                                                    ?Row(
+                                                                  children: [
+
+                                                                    CircleAvatar(
+                                                                      radius: 13.5,
+                                                                      backgroundColor: Color(int.parse(state.SavedBubbleList![index].Creator_Color!)),
+                                                                      backgroundImage: NetworkImage(state.SavedBubbleList![index].Creator_Avatar!),
+                                                                    ),
+                                                                    const SizedBox(width: 10,),
+                                                                    Text(state.SavedBubbleList![index].Creator_Alias!, textAlign: TextAlign.left, style: const TextStyle(
+                                                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                                                        fontFamily: 'Red Hat Display',
+                                                                        fontSize: 10.477987289428711,
+                                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        height: 1
+                                                                    ),),
+
+                                                                  ],
+                                                                )
+                                                                    : const Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                                    fontFamily: 'Red Hat Display',
+                                                                    fontSize: 10.477987289428711,
+                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                    fontWeight: FontWeight.w600,
+                                                                    height: 1
+                                                                ),),
+
+                                                                const Text(""),
+                                                                const Text(""),
+
+                                                              ],
+                                                            )
 
 
-                                                            ],
-                                                          )
-                                                              : Text("Admin", textAlign: TextAlign.left, style: TextStyle(
-                                                              color: Color.fromRGBO(255, 255, 255, 1),
-                                                              fontFamily: 'Red Hat Display',
-                                                              fontSize: 10.477987289428711,
-                                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                              fontWeight: FontWeight.w600,
-                                                              height: 1
-                                                          ),),
-
-                                                          Text(""),
-                                                          Text(""),
-
-                                                        ],
-                                                      )
 
 
 
 
+                                                        ),
 
+                                                        Positioned(
+                                                          left: w/1.7,
+                                                          child: Container(
+                                                            width:w/3,
+                                                            height: h/10.89,
+                                                            child:
+                                                            Center(
+                                                                child: InkWell(
+                                                                  onTap: (){
+                                                                    _SavedBloc.add(UnSaveBubble((b) =>
+                                                                    b..Bubble_id = state.SavedBubbleList![index].id
+                                                                      ..index = index
+                                                                    ));
+                                                                  },
+                                                                  child:
+                                                                  SvgPicture.asset(
+                                                                     "Assets/images/BiggerSaved.svg"
+                                                                  ) ,
+                                                                )
+                                                            ),
+                                                          ),
+                                                        ),
 
-                                                    ),
-                                                    Positioned(
-                                                      left: h/9,
-                                                      child: Container(
-                                                          width:w,
-                                                          height: h/6.89,
+                                                      ]
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                    children: [
+                                                      Flexible(
                                                         child:
-                                                        IconButton(
-                                                          icon: SvgPicture.asset("Assets/images/BiggerSaved.svg",width: w/5.6,),
-                                                          onPressed: (){
-                                                            _SavedBloc.add(UnSaveBubble((b) =>
-                                                            b..Bubble_id = state.SavedBubbleList![index].id
-                                                              ..index = index
-                                                            ));
-                                                          },
+                                                        Container(
+                                                          margin: EdgeInsets.only(left: h/50),
+                                                          child: Column(
+                                                            children: [
+                                                              const SizedBox(
+                                                                height:
+                                                                10,
+                                                              ),
+
+                                                              Container(
+                                                                width:w/1.5,
+                                                                child: Text(
+                                                                  state.SavedBubbleList![index].Title.toString(),
+                                                                  textAlign: TextAlign.left,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: _TextTheme.headlineLarge!.copyWith(
+                                                                    color: Color(state.SavedBubbleList![index].Color!),
+                                                                    fontSize: 19,
+                                                                    letterSpacing: 0,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
+                                                                ),
+
+                                                              ),
+
+                                                              const SizedBox(height: 4,),
+                                                              Container(
+                                                                width:w/1.15,
+                                                                child:  Text(
+                                                                  "At ${ state.SavedBubbleList![index].location.toString()}",
+                                                                  textAlign: TextAlign.left,
+                                                                  overflow: TextOverflow.ellipsis,
+                                                                  style: _TextTheme.headlineLarge!.copyWith(
+                                                                    fontSize: 15,
+                                                                    letterSpacing: 0,
+                                                                    fontWeight: FontWeight.w600,
+                                                                  ),
+
+                                                                ),
+                                                              ),
+                                                              const SizedBox(height: 8,),
+                                                              Container(
+                                                                width:w/1.5,
+                                                                child: Text(state.SavedBubbleList![index].Category.toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                                    fontFamily: 'Red Hat Text',
+                                                                    fontSize: 12.222221851348877,
+                                                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                    fontWeight: FontWeight.normal,
+                                                                    height: 1
+                                                                ),),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
-                                                    )
-
-                                                  ]
-                                              ),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: [
-
-                                                  Flexible(
-                                                    child:
-                                                    Container(
-                                                      margin: EdgeInsets.only(left: h/50),
-                                                      child: Column(
+                                                      const SizedBox(width: 5,),
+                                                      Column(
+                                                        mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
-                                                          const SizedBox(
-                                                            height:
-                                                            10,
+                                                          Text(""),
+                                                          SvgPicture.asset(
+                                                            "Assets/images/Exclude.svg",
+                                                            width: w/8,
+                                                            color : Color(state.SavedBubbleList![index].Color!),
                                                           ),
-                                                          Container(
-
-                                                            child: Text(
-                                                              state.SavedBubbleList![index].Title.toString(),
-                                                              textAlign: TextAlign.left,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: _TextTheme.headlineLarge!.copyWith(
-                                                                color: Color(state.SavedBubbleList![index].Color!),
-                                                                fontSize: 25,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-                                                            ),
-
-                                                          ),
-                                                          SizedBox(height: 5,),
-                                                          Container(
-                                                            child:  Text(
-                                                              "At ${ state.SavedBubbleList![index].location.toString()}",
-                                                              textAlign: TextAlign.left,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: _TextTheme.headlineLarge!.copyWith(
-                                                                fontSize: 17,
-                                                                letterSpacing: 0,
-                                                                fontWeight: FontWeight.w600,
-                                                              ),
-
-                                                            ),
-                                                          ),
-                                                          SizedBox(height: 5,),
-                                                          Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
-                                                              color: Color.fromRGBO(255, 255, 255, 1),
-                                                              fontFamily: 'Red Hat Text',
-                                                              fontSize: 12.222221851348877,
-                                                              letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                                              fontWeight: FontWeight.normal,
-                                                              height: 1
-                                                          ),)
                                                         ],
                                                       ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(width: 5,),
-                                                  SvgPicture.asset(
-                                                    "Assets/images/Exclude.svg",
-                                                    width: w/8,
-                                                    color : Color(state.SavedBubbleList![index].Color!),
-                                                  ),
+                                                      const SizedBox(width: 10,),
 
+                                                    ],
+                                                  )
                                                 ],
                                               )
-                                            ],
-                                          )
 
-                                      ),
-                                    ));
+                                          ),
+                                        ));
+
+                                  //   InkWell(
+                                  //     onTap: (){
+                                  //
+                                  // },
+                                  // child: Center(
+                                  //     child: Container(
+                                  //         width:w/1.15,
+                                  //         height: h/2.1,
+                                  //         margin: EdgeInsets.all(10),
+                                  //         decoration: BoxDecoration(
+                                  //           borderRadius : BorderRadius.only(
+                                  //             topLeft: Radius.circular(7.777777194976807),
+                                  //           //  topRight: Radius.circular(7.777777194976807),
+                                  //             bottomLeft: Radius.circular(7.777777194976807),
+                                  //             bottomRight: Radius.circular(7.777777194976807),
+                                  //           ),
+                                  //           color : Color.fromRGBO(96, 96, 96, 1),
+                                  //         ),
+                                  //         child : Column(
+                                  //           children: [
+                                  //             Stack(
+                                  //                 children: [
+                                  //                   Container(
+                                  //                     width:w/1.15,
+                                  //                     height: h/2.89,
+                                  //                     child: ClipRRect(
+                                  //                       borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)  ),
+                                  //                       child:CachedNetworkImage(
+                                  //                         fit: BoxFit.fill,
+                                  //                         imageUrl:  state.SavedBubbleList![index].image.toString(),
+                                  //                         placeholder: (context, url) => Row(
+                                  //                           mainAxisAlignment: MainAxisAlignment.center,
+                                  //                           children: [
+                                  //                             Container(width:w/8,height:h/20,child: Center(child: CircularProgressIndicator())),
+                                  //                           ],
+                                  //                         ),
+                                  //                         errorWidget: (context, url, error) => Icon(Icons.error),
+                                  //                       ),
+                                  //                     ),
+                                  //                   ),
+                                  //                   Transform.rotate(
+                                  //                     angle: -179.99999499423683 * (math.pi / 180),
+                                  //                     child: Container(
+                                  //                         width:w/1.15,
+                                  //                         height: h/2.89,
+                                  //                         decoration: BoxDecoration(
+                                  //                           borderRadius : BorderRadius.only(
+                                  //                             topLeft: Radius.circular(7),
+                                  //                             //    topRight: Radius.circular(7),
+                                  //                             bottomLeft: Radius.circular(7),
+                                  //                             bottomRight: Radius.circular(7),
+                                  //                           ),
+                                  //                           gradient : LinearGradient(
+                                  //                               begin: Alignment(5.730259880964636e-14,-2),
+                                  //                               end: Alignment(2,3.9593861611176705e-16),
+                                  //                               colors: [
+                                  //                                 Colors.transparent,
+                                  //                                 Color(state.SavedBubbleList![index].Color!),
+                                  //                               ]
+                                  //                           ),
+                                  //                         )
+                                  //                     ),
+                                  //                   ),
+                                  //                   Container(
+                                  //                     width:w/1.15,
+                                  //                     height: h/6.89,
+                                  //                     child:Row(
+                                  //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  //                       children: [
+                                  //                         state.SavedBubbleList![index].User_type=="user"
+                                  //                             ? Row(
+                                  //                           children: [
+                                  //                             CircleAvatar(
+                                  //                               radius: 17,
+                                  //                               backgroundColor: Color(state.SavedBubbleList![index].Color!),
+                                  //                               backgroundImage: NetworkImage(state.SavedBubbleList![index].Creator_Avatar!),
+                                  //                             ),
+                                  //                             SizedBox(width: 10,),
+                                  //                             Text(state.SavedBubbleList![index].Creator_Alias!,
+                                  //                               textAlign: TextAlign.left, style: TextStyle(
+                                  //                                 color: Color.fromRGBO(255, 255, 255, 1),
+                                  //                                 fontFamily: 'Red Hat Display',
+                                  //                                 fontSize: 14.477987289428711,
+                                  //                                 letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                  //                                 fontWeight: FontWeight.w600,
+                                  //                                 height: 1
+                                  //                             ),),
+                                  //
+                                  //
+                                  //                           ],
+                                  //                         )
+                                  //                             : Text("Admin", textAlign: TextAlign.left, style: TextStyle(
+                                  //                             color: Color.fromRGBO(255, 255, 255, 1),
+                                  //                             fontFamily: 'Red Hat Display',
+                                  //                             fontSize: 10.477987289428711,
+                                  //                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                  //                             fontWeight: FontWeight.w600,
+                                  //                             height: 1
+                                  //                         ),),
+                                  //
+                                  //                         Text(""),
+                                  //                         Text(""),
+                                  //
+                                  //                       ],
+                                  //                     )
+                                  //
+                                  //
+                                  //
+                                  //
+                                  //
+                                  //
+                                  //                   ),
+                                  //                   Positioned(
+                                  //                     left: h/9,
+                                  //                     child: Container(
+                                  //                         width:w,
+                                  //                         height: h/6.89,
+                                  //                       child:
+                                  //                       IconButton(
+                                  //                         icon: SvgPicture.asset("Assets/images/BiggerSaved.svg",width: w/5.6,),
+                                  //                         onPressed: (){
+                                  //                           _SavedBloc.add(UnSaveBubble((b) =>
+                                  //                           b..Bubble_id = state.SavedBubbleList![index].id
+                                  //                             ..index = index
+                                  //                           ));
+                                  //                         },
+                                  //                       ),
+                                  //                     ),
+                                  //                   )
+                                  //
+                                  //                 ]
+                                  //             ),
+                                  //             Row(
+                                  //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  //               children: [
+                                  //
+                                  //                 Flexible(
+                                  //                   child:
+                                  //                   Container(
+                                  //                     margin: EdgeInsets.only(left: h/50),
+                                  //                     child: Column(
+                                  //                       children: [
+                                  //                         const SizedBox(
+                                  //                           height:
+                                  //                           10,
+                                  //                         ),
+                                  //                         Container(
+                                  //
+                                  //                           child: Text(
+                                  //                             state.SavedBubbleList![index].Title.toString(),
+                                  //                             textAlign: TextAlign.left,
+                                  //                             overflow: TextOverflow.ellipsis,
+                                  //                             style: _TextTheme.headlineLarge!.copyWith(
+                                  //                               color: Color(state.SavedBubbleList![index].Color!),
+                                  //                               fontSize: 25,
+                                  //                               letterSpacing: 0,
+                                  //                               fontWeight: FontWeight.w600,
+                                  //                             ),
+                                  //                           ),
+                                  //
+                                  //                         ),
+                                  //                         SizedBox(height: 5,),
+                                  //                         Container(
+                                  //                           child:  Text(
+                                  //                             "At ${ state.SavedBubbleList![index].location.toString()}",
+                                  //                             textAlign: TextAlign.left,
+                                  //                             overflow: TextOverflow.ellipsis,
+                                  //                             style: _TextTheme.headlineLarge!.copyWith(
+                                  //                               fontSize: 17,
+                                  //                               letterSpacing: 0,
+                                  //                               fontWeight: FontWeight.w600,
+                                  //                             ),
+                                  //
+                                  //                           ),
+                                  //                         ),
+                                  //                         SizedBox(height: 5,),
+                                  //                         Text('Music Event', textAlign: TextAlign.left, style: TextStyle(
+                                  //                             color: Color.fromRGBO(255, 255, 255, 1),
+                                  //                             fontFamily: 'Red Hat Text',
+                                  //                             fontSize: 12.222221851348877,
+                                  //                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                  //                             fontWeight: FontWeight.normal,
+                                  //                             height: 1
+                                  //                         ),)
+                                  //                       ],
+                                  //                     ),
+                                  //                   ),
+                                  //                 ),
+                                  //                 SizedBox(width: 5,),
+                                  //                 SvgPicture.asset(
+                                  //                   "Assets/images/Exclude.svg",
+                                  //                   width: w/8,
+                                  //                   color : Color(state.SavedBubbleList![index].Color!),
+                                  //                 ),
+                                  //
+                                  //               ],
+                                  //             )
+                                  //           ],
+                                  //         )
+                                  //
+                                  //     ),
+                                  //   ));
                                 }
                             )
                         ),
@@ -987,11 +1213,12 @@ class _SavedBubblesState extends State<SavedBubbles> {
                             ),),
                             InkWell(
                               onTap: (){
+                                _SavedBloc.add(ShowHomePage((b) => b..HomePageStatus = true));
 
-                                WidgetsBinding.instance!
-                                    .addPostFrameCallback((_) =>
-                                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                                        NavigatorTopBar(GotToHomeAndOpenPanel: true,)), (Route<dynamic> route) => false));
+                                // WidgetsBinding.instance!
+                                //     .addPostFrameCallback((_) =>
+                                //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                                //         NavigatorTopBar(GotToHomeAndOpenPanel: true,))));
                               },
                               child: Container(
                                   width: w/1.2,
@@ -1085,7 +1312,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
         ),
       );
     }
-    );
+    ));
 
   }
   Widget listLoader({context}) {

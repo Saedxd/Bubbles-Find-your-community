@@ -33,6 +33,8 @@ MERGED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\interm
 MERGED from [:google_sign_in_android] G:\Bubbles\build\google_sign_in_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:flutter_fgbg] G:\Bubbles\build\flutter_fgbg\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:device_info_plus] G:\Bubbles\build\device_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:audio_session] G:\Bubbles\build\audio_session\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-18:12
 MERGED from [:flutter_sms] G:\Bubbles\build\flutter_sms\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -601,6 +603,10 @@ MERGED from [:flutter_fgbg] G:\Bubbles\build\flutter_fgbg\intermediates\library_
 MERGED from [:flutter_fgbg] G:\Bubbles\build\flutter_fgbg\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] G:\Bubbles\build\device_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:device_info_plus] G:\Bubbles\build\device_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:audio_session] G:\Bubbles\build\audio_session\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:audio_session] G:\Bubbles\build\audio_session\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44

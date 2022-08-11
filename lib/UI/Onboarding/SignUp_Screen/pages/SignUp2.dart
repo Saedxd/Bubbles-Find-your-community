@@ -279,6 +279,7 @@ bool Selected = false;
                                               textAlign: TextAlign.left,
                                               style: _TextTheme.headlineLarge!
                                                   .copyWith(
+                                                letterSpacing: 0.6,
                                                   fontSize: 3.5 *
                                                       SizeConfig
                                                           .blockSizeVertical!
@@ -289,7 +290,7 @@ bool Selected = false;
                                           Column(
                                             children: [
                                               Container(
-                                                  width: w / 1.2,
+                                                  width: w / 1.32,
                                                   height: h / 10,
                                                   child: Form(
                                                     autovalidateMode:
@@ -395,7 +396,7 @@ bool Selected = false;
                                                     ),
                                                   )),
                                               Container(
-                                                  width: w / 1.2,
+                                                  width: w / 1.32,
                                                   height: h / 10,
                                                   child: Form(
                                                     autovalidateMode:
@@ -535,7 +536,7 @@ bool Selected = false;
                                               }
                                             },
                                             child: Container(
-                                                width: w / 1.2,
+                                                width: w / 1.32,
                                                 height: h / 13.9,
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius

@@ -65,7 +65,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => CreatorBloc(sl()));
   sl.registerFactory(() => SuggestedFrinedsBloc(sl()));
   sl.registerFactory(() => VerifyProfileBloc(sl()));
-  sl.registerFactory(() => OptionsBloc(sl()));
+  // sl.registerFactory(() => OptionsBloc(sl()));
   sl.registerFactory(() => FindFriends(sl()));
   sl.registerFactory(() => ChallengesBloc(sl()));
   sl.registerFactory(() => GroupChatBloc(sl()));

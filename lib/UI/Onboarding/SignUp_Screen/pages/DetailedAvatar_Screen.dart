@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_bloc.dart';
+import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_event.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/bloc/SignUp_state.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/NameAndBoi_Screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
@@ -33,11 +34,14 @@ class DetailAvatar extends StatefulWidget {
 
 class _DetailAvatarState extends State<DetailAvatar> {
   final bloc2 = sl<SignUpBloc>();
-  Color pickerColor = Color(0xff443a49);
-  Color currentColor = Color(0xff443a49);
   Uint8List? _imageFile;
   String? base64Image;
   String? ColorS="";
+//// EAEAEA
+// // 606060
+  List<String> BubbleColors = ["0xff8D4624","0xff31576D","0xffE0A41E","0xff4ECEB6","0xffDEDDBF",
+    "0xff578274","0xff77C08A","0xffD588B1","0xff7B78F5","0xffBA477A","0xff80BFC5","0xffEB9B5D","0xffCD6356","0xff606060","0xffEAEAEA"];
+  List<String> Avatar_Colors =[];
   ScreenshotController screenshotController = ScreenshotController();
 
   Future<void> TakeScreenshot() async {
@@ -59,43 +63,43 @@ class _DetailAvatarState extends State<DetailAvatar> {
     print("imgbytes : $base64Image");
   }
 
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
-  }
+  // void changeColor(Color color) {
+  //   setState(() => pickerColor = color);
+  // }
 
-  alreatDialogBuilder() async {
-    return showDialog(
-      builder: (BuildContext context) {
-        var h = MediaQuery.of(context).size.height;
-        var w = MediaQuery.of(context).size.width;
-
-        return Container(
-          child: AlertDialog(
-            backgroundColor: ChooseAvatarBack,
-            title: const Text('Pick a color!'),
-            content: SingleChildScrollView(
-              child: ColorPicker(
-
-         colorHistory: [],
-                pickerColor: pickerColor,
-                onColorChanged: changeColor,
-              ),
-            ),
-            actions: <Widget>[
-              ElevatedButton(
-                child: const Text('Got it'),
-                onPressed: () {
-                  setState(() => currentColor = pickerColor);
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
-      context: context,
-    );
-  }
+  // alreatDialogBuilder() async {
+  //   return showDialog(
+  //     builder: (BuildContext context) {
+  //       var h = MediaQuery.of(context).size.height;
+  //       var w = MediaQuery.of(context).size.width;
+  //
+  //       return Container(
+  //         child: AlertDialog(
+  //           backgroundColor: ChooseAvatarBack,
+  //           title: const Text('Pick a color!'),
+  //           content: SingleChildScrollView(
+  //             child: ColorPicker(
+  //
+  //        colorHistory: [],
+  //               pickerColor: pickerColor,
+  //               onColorChanged: changeColor,
+  //             ),
+  //           ),
+  //           actions: <Widget>[
+  //             ElevatedButton(
+  //               child: const Text('Got it'),
+  //               onPressed: () {
+  //                 setState(() => currentColor = pickerColor);
+  //                 Navigator.of(context).pop();
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //     context: context,
+  //   );
+  // }
 
   @override
   void initState() {
@@ -113,12 +117,6 @@ class _DetailAvatarState extends State<DetailAvatar> {
           return Scaffold(
             backgroundColor: ChooseAvatarBack,
             body: SafeArea(
-              child: ScrollConfiguration(
-              behavior: MyBehavior(),
-          child:
-
-          SingleChildScrollView(
-                physics: ScrollPhysics(),
                 child: Container(
                   width: w,
                   child: Column(
@@ -126,41 +124,73 @@ class _DetailAvatarState extends State<DetailAvatar> {
                     children: [
                       SizedBox(height: h/20,),
                    Container(
-                       width: w/1.3,
-                       child: Text(
-                       'Choose colour scheme',
-                       textAlign: TextAlign.left,
-                       style:_TextTheme.headlineLarge!.copyWith(
-                           fontSize: 3.5 *
-                               SizeConfig
-                                   .blockSizeVertical!
-                                   .toDouble(),
-                           fontWeight: FontWeight.w600,
-                           color: Colors.white
-                       )
-                   ),),
+                       width: w,
+                       child: Center(
+                         child: Text(
+                         'Choose colour scheme',
+                         textAlign: TextAlign.left,
+                         style:_TextTheme.headlineLarge!.copyWith(
+                             letterSpacing: 1,
+                             fontSize: 3.5 *
+                                 SizeConfig
+                                     .blockSizeVertical!
+                                     .toDouble(),
+                             fontWeight: FontWeight.w600,
+                             color: Colors.white
+                         )
+                   ),
+                       ),),
                       SizedBox(height: h/30,),
                       Container(
                         child: Screenshot(
                           controller: screenshotController,
                           child: CircleAvatar(
                             radius: h / 7,
-                            backgroundColor: pickerColor,
+                            backgroundColor: Color(int.parse(state.PickedColor!)),
                             backgroundImage:
                                 NetworkImage(widget.SelectedAvatar.toString()),
                           ),
                         ),
                       ),
+
                       Container(
-                        height: h / 2.3,
-                        child: BlockPicker(
-                          pickerColor: currentColor,
-                          onColorChanged: changeColor,
-                        ),
+                        width: w/1.32,
+                        height: h/2.5,
+                        child: GridView.builder(
+                            cacheExtent : 500,
+                            shrinkWrap: true,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 4,
+                              childAspectRatio: (6 / 6.1),
+                            ),
+                            itemCount: BubbleColors.length,
+                            itemBuilder: (BuildContext ctx, index) {
+                              //print(state.GetGender!.genders![index].image!.image.toString());
+                              return InkWell(
+                                onTap: (){
+                                  bloc2.add(ChangePickedColor((b) => b..PickedColor=BubbleColors[index]));
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.all(10),
+                                    child: CircleAvatar(
+                                      radius: 13,
+                                      backgroundColor: Color(int.parse(BubbleColors[index])),
+                                    )),
+                              );
+                            }),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
+                      // Container(
+                      //   height: h / 2.3,
+                      //   child: BlockPicker(
+                      //     pickerColor: currentColor,
+                      //     onColorChanged: changeColor,
+                      //   ),
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
                       // Container(
                       //   width: w / 1.3,
                       //   height: h / 15,
@@ -213,28 +243,7 @@ class _DetailAvatarState extends State<DetailAvatar> {
                         height: h / 15,
                         child: InkWell(
                           onTap: () async {
-                       int a =   widget.Users!.GetAvatar();
-                       print(a);
-                       String lengthss = "ColorSwatch(primary value: Color(";
-                       print("this it is");
-                       print(lengthss.length);
-                            print(pickerColor);
-                            print(pickerColor.toString().length);
-                            //length of color that caused the problem is  33
-                            //
-                           //MaterialColor(primary value: Color(0xff9e9e9e))
-                            //MaterialColor(primary value: Color(0xffff9800))
-
-                             //watch(prim
-                               //All colors does this except the black color
-
-                           pickerColor.toString().length==47
-                                ?  ColorS = pickerColor.toString().substring(35,45)
-                                :pickerColor.toString().length==17
-                                    ?   ColorS = pickerColor.toString().substring(6,16)
-                                    :   ColorS = pickerColor.toString().substring(33,43);
-
-                           widget.Users!.SetBackGroundColor(ColorS.toString()==""?pickerColor.toString():ColorS.toString());
+                           widget.Users!.SetBackGroundColor(state.PickedColor!);
                            WidgetsBinding.instance!
                                .addPostFrameCallback((_) =>
                                Navigator.push(
@@ -245,7 +254,6 @@ class _DetailAvatarState extends State<DetailAvatar> {
                                           Users:  widget.Users,
                                          )),
                                ));
-
                           },
                           child: Container(
                             width: w / 1.3,
@@ -377,9 +385,9 @@ class _DetailAvatarState extends State<DetailAvatar> {
                     ],
                   ),
                 ),
-              ),),
-            ),
-          );
+             ),
+            );
+
         });
   }
 

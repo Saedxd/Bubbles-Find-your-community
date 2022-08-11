@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,12 +33,25 @@ try {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
+  AllBubblesStatus = List.filled(100000,0);
+  AllBubblesJoinStatusTry = List.filled(10000,false);
+  AllBubblesLeftStatusTry = List.filled(10000,true);
+  AllNearBubblesStatusTry = List.filled(10000,true);
+  AllBubblesIDS = List.filled(10000,0);
 }catch(e){
   print(e);
 }
     runApp(ProviderScope(child:MyApp()));
 }
+
+List<int>? AllBubblesIDS=[];
+List<int>? AllBubblesStatus=[];
+List<bool>? AllBubblesJoinStatusTry=[];
+List<bool>? AllBubblesLeftStatusTry=[];
+List<bool>? AllNearBubblesStatusTry=[];
+Timer? timer;
+bool CalledLoopingfucntion = false;
+
 
 
 //// flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
@@ -57,7 +71,7 @@ try {
 //Priority
 //todo: upload to googleplay (fix the bug on image shown on the image andreas sent)
 
-
+//Avatar Colors
 // CD6356
 // EB9B5D
 // 80BFC5
@@ -71,6 +85,22 @@ try {
 // E0A41E
 // 31576D
 // 8D4624
+// EAEAEA
+// 606060
+//Bubble Colors
+// 1. D1B964
+// 2. E0A41E
+// 3. EB9B5D
+// 4. CF6D38
+// 5. E06859
+// 6. D96799
+// 7. 7B78F5
+// 8. 80BFC5
+// 9. 4ECEB6
+// 10. 6FA191
+// 11. 77C08A
+// 12. 34A853
+
 
 
 

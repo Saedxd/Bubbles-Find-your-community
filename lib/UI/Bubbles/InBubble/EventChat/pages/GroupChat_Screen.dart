@@ -9,6 +9,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/EventChat/bloc/GroupChat_event.dart'
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/bloc/GroupChat_state.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/FlowsOnlyChat.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/pages/FlowsChat_Screen.dart';
+import 'package:bubbles/main.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
@@ -16,7 +17,7 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';

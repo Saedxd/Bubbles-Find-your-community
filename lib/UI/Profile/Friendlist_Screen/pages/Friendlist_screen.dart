@@ -781,8 +781,11 @@ class _FriendlistState extends State<Friendlist> {
                              itemBuilder: (BuildContext context, int index) {
 
                                String Value = state.FrinedRequestsList![index].Color.toString();
-                               var myInt = int.parse(Value);
-                               var BackgroundColor= myInt;
+                               if (Value.contains("#",0)) {
+                                   Value = "0";
+                               }else{
+                                 Value = "$Value";
+                               }
 
 
                                return
@@ -886,7 +889,7 @@ class _FriendlistState extends State<Friendlist> {
                                                        left: h / 60),
                                                    child: CircleAvatar(
                                                      backgroundColor: Color(
-                                                         int.parse( state.FrinedRequestsList![index].Color!)),
+                                                         int.parse( Value)),
                                                      backgroundImage:
                                                      NetworkImage(   state.FrinedRequestsList![index].Avatar.toString()),
                                                      radius: h / 35.5,
@@ -1237,7 +1240,7 @@ class _FriendlistState extends State<Friendlist> {
                                                                 Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                                    builder: (context) => HeroImage(path: state.FrinedList![index].Avatar,color:   int.parse(state.FrinedList![index].Color!),id:state.FrinedList![index].ID ,),),
+                                                                    builder: (context) => HeroImage(path: state.FrinedList![index].Avatar,color:   int.parse(state.FrinedList![index].Color??"0"),id:state.FrinedList![index].ID ,),),
                                                                 );
                                                               },
                                                               child:
@@ -1246,7 +1249,7 @@ class _FriendlistState extends State<Friendlist> {
                                                                     left: h / 60),
                                                                 child: CircleAvatar(
                                                                   backgroundColor: Color(
-                                                                     int.parse( state.FrinedList![index].Color!)),
+                                                                     int.parse( state.FrinedList![index].Color??"0")),
                                                                   backgroundImage:
                                                                   NetworkImage(   state.FrinedList![index].Avatar.toString()),
                                                                   radius: h / 35.5,

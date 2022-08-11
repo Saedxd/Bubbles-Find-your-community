@@ -18,6 +18,8 @@ class _$SignUpState extends SignUpState {
   @override
   final bool? ChangeSelectedd;
   @override
+  final String? PickedColor;
+  @override
   final int? UserDataINDEX;
   @override
   final int? UpdateProfileINDEX;
@@ -45,6 +47,7 @@ class _$SignUpState extends SignUpState {
       this.success,
       this.UpdateSocialProfileSuccess,
       this.ChangeSelectedd,
+      this.PickedColor,
       this.UserDataINDEX,
       this.UpdateProfileINDEX,
       this.data,
@@ -72,6 +75,7 @@ class _$SignUpState extends SignUpState {
         success == other.success &&
         UpdateSocialProfileSuccess == other.UpdateSocialProfileSuccess &&
         ChangeSelectedd == other.ChangeSelectedd &&
+        PickedColor == other.PickedColor &&
         UserDataINDEX == other.UserDataINDEX &&
         UpdateProfileINDEX == other.UpdateProfileINDEX &&
         data == other.data &&
@@ -97,12 +101,16 @@ class _$SignUpState extends SignUpState {
                                         $jc(
                                             $jc(
                                                 $jc(
-                                                    $jc($jc(0, error.hashCode),
-                                                        isLoading.hashCode),
-                                                    success.hashCode),
-                                                UpdateSocialProfileSuccess
-                                                    .hashCode),
-                                            ChangeSelectedd.hashCode),
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(0,
+                                                                error.hashCode),
+                                                            isLoading.hashCode),
+                                                        success.hashCode),
+                                                    UpdateSocialProfileSuccess
+                                                        .hashCode),
+                                                ChangeSelectedd.hashCode),
+                                            PickedColor.hashCode),
                                         UserDataINDEX.hashCode),
                                     UpdateProfileINDEX.hashCode),
                                 data.hashCode),
@@ -122,6 +130,7 @@ class _$SignUpState extends SignUpState {
           ..add('success', success)
           ..add('UpdateSocialProfileSuccess', UpdateSocialProfileSuccess)
           ..add('ChangeSelectedd', ChangeSelectedd)
+          ..add('PickedColor', PickedColor)
           ..add('UserDataINDEX', UserDataINDEX)
           ..add('UpdateProfileINDEX', UpdateProfileINDEX)
           ..add('data', data)
@@ -159,6 +168,10 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
   bool? get ChangeSelectedd => _$this._ChangeSelectedd;
   set ChangeSelectedd(bool? ChangeSelectedd) =>
       _$this._ChangeSelectedd = ChangeSelectedd;
+
+  String? _PickedColor;
+  String? get PickedColor => _$this._PickedColor;
+  set PickedColor(String? PickedColor) => _$this._PickedColor = PickedColor;
 
   int? _UserDataINDEX;
   int? get UserDataINDEX => _$this._UserDataINDEX;
@@ -220,6 +233,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
       _success = $v.success;
       _UpdateSocialProfileSuccess = $v.UpdateSocialProfileSuccess;
       _ChangeSelectedd = $v.ChangeSelectedd;
+      _PickedColor = $v.PickedColor;
       _UserDataINDEX = $v.UserDataINDEX;
       _UpdateProfileINDEX = $v.UpdateProfileINDEX;
       _data = $v.data?.toBuilder();
@@ -258,6 +272,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
               success: success,
               UpdateSocialProfileSuccess: UpdateSocialProfileSuccess,
               ChangeSelectedd: ChangeSelectedd,
+              PickedColor: PickedColor,
               UserDataINDEX: UserDataINDEX,
               UpdateProfileINDEX: UpdateProfileINDEX,
               data: _data?.build(),

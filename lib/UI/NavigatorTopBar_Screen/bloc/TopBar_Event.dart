@@ -70,6 +70,13 @@ abstract class GetFreinds extends TopBarEvent
   GetFreinds._();
   factory GetFreinds([updates(GetFreindsBuilder b)]) = _$GetFreinds;
 }
+
+abstract class ClearBadge extends TopBarEvent
+    implements Built<ClearBadge,ClearBadgeBuilder> {
+
+  ClearBadge._();
+  factory ClearBadge([updates(ClearBadgeBuilder b)]) = _$ClearBadge;
+}
 abstract class GetBadge extends TopBarEvent
     implements Built<GetBadge,GetBadgeBuilder> {
 

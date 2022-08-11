@@ -21,3 +21,10 @@ abstract class Logout extends SettingsEvent
   factory Logout([updates(LogoutBuilder b)]) = _$Logout;
 }
 
+abstract class UserLeftBubble extends SettingsEvent
+    implements Built<UserLeftBubble, UserLeftBubbleBuilder> {
+
+  int? get Bubble_id;
+  UserLeftBubble._();
+  factory UserLeftBubble([Function(UserLeftBubbleBuilder b) updates]) = _$UserLeftBubble;
+}
