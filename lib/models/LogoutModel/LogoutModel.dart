@@ -14,7 +14,7 @@ abstract class LogoutModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
   LogoutModel._();
 
   factory LogoutModel([void Function(LogoutModelBuilder b)? updates]) =  _$LogoutModel;

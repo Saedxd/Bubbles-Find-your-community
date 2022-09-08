@@ -7,8 +7,10 @@ import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_state.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 class ChangeAvatarScreen extends StatefulWidget {
   const ChangeAvatarScreen({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
         bloc: _ProfileBloc,
         builder: (BuildContext context, profileState state) {
           if ( state.successAvatar==true &&diditonce==true){
-            WidgetsBinding.instance!.addPostFrameCallback((_){
+            WidgetsBinding.instance.addPostFrameCallback((_){
               Navigator.pop(context);
             });
             diditonce = false;
@@ -67,7 +69,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   "Assets/images/Frame 11.svg",
-                                  width: 30,
+                                  width: 30.w,
                                   color: ColorS.surface),
                               onPressed:(){
                                 Navigator.pop(context);
@@ -78,8 +80,7 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                               top: h / 100),
                           child: Text('Change Avatar', textAlign: TextAlign.left, style: _TextTheme.headlineLarge!.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: 23
-
+                            fontSize:  0.286.sp,
                           ),),
                         ),
                       ],
@@ -124,8 +125,8 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                                             imageUrl: state.GetAvatar!
                                                 .avatars![index].image!,
                                             fit: BoxFit.cover,
-                                            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                CircularProgressIndicator(value: downloadProgress.progress),
+                                            progressIndicatorBuilder: (context, url, downloasprogress) =>
+                                                CircularProgressIndicator(value: downloasprogress.progress),
                                             errorWidget: (context, url, error) => Icon(Icons.error),
                                           ),
                                         ))
@@ -135,8 +136,8 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
                                     //   imageUrl:  state.GetAvatar!
                                     //       .avatars![index].image!,
                                     //   fit: BoxFit.fill,
-                                    //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                    //       CircularProgressIndicator(value: downloadProgress.progress),
+                                    //   progressIndicatorBuilder: (context, url, downloasprogress) =>
+                                    //       CircularProgressIndicator(value: downloasprogress.progress),
                                     //   errorWidget: (context, url, error) => Icon(Icons.error),
                                     // ),
                                   )
@@ -183,9 +184,9 @@ class _ChangeAvatarScreenState extends State<ChangeAvatarScreen> {
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 

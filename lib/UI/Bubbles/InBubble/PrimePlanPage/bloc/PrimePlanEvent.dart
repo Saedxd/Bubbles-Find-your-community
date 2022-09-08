@@ -5,7 +5,7 @@ library PrimePlanEvent;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -23,6 +23,13 @@ abstract class PrimePlan_Event {}
 //   factory GetDetailedPlan([updates(GetDetailedPlanBuilder b)]) = _$GetDetailedPlan;
 // }
 //
+abstract class GiveMeifItsSaved extends PrimePlan_Event
+    implements Built<GiveMeifItsSaved,GiveMeifItsSavedBuilder> {
+  bool? get is_saved;
+  GiveMeifItsSaved._();
+  factory GiveMeifItsSaved([updates(GiveMeifItsSavedBuilder b)]) = _$GiveMeifItsSaved;
+}
+
 
 abstract class GetProfile extends PrimePlan_Event
     implements Built<GetProfile,GetProfileBuilder> {

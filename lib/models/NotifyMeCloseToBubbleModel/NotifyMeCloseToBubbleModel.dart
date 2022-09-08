@@ -18,7 +18,7 @@ abstract class NotifyMeCloseToBubbleModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   NotifyMeCloseToBubbleModel._();

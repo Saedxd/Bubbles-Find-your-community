@@ -10,6 +10,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -49,10 +50,10 @@ class _ChallengesState extends State<Challenges> {
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -106,10 +107,10 @@ class _ChallengesState extends State<Challenges> {
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -375,7 +376,7 @@ class _ChallengesState extends State<Challenges> {
                         child: IconButton(
                           icon: SvgPicture.asset(
                               "Assets/images/Frame 11.svg",
-                              width: 30,
+                              width: 30.w,
                               color: COLOR.surface),
                           onPressed: () {
                             Navigator.pop(context);
@@ -627,7 +628,7 @@ class _ChallengesState extends State<Challenges> {
   Widget listLoader({context}) {
     return SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

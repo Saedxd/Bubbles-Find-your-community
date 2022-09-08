@@ -17,7 +17,7 @@ abstract class AddNewFriendModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   AddNewFriendModel._();

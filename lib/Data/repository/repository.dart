@@ -6,8 +6,10 @@ import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ChoosePollAnswerModel/ChoosePollAnswerModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
@@ -15,7 +17,7 @@ import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart'
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
@@ -36,6 +38,8 @@ import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
+import 'package:bubbles/models/SprintsJoinLeaveModel/SprintsJoinLeaveModel.dart';
+import 'package:bubbles/models/SprintsLobbyUsersModel/SprintsLobbyUsersModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -295,7 +299,7 @@ class Repository implements IRepository {
     return Data;
   }
 
-  Future<GetPrimeBubblesModel> GetPrimeBubblees()async{
+  Future<GetBubblesModel> GetPrimeBubblees()async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetPrimeBubblees(auth);
     return Data;
@@ -314,19 +318,21 @@ class Repository implements IRepository {
       double lng,
       double lat,
       int radius,
+      int Cateogory_id,
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.CreateBubble(auth, title, location, images, color, description, organizers, start_event_date, end_event_date, dates, lng, lat, radius);
+   // String TimeZone = await _iprefHelper.GetTimeZone();
+    final Data = await _ihttpHelper.CreateBubble(auth, title, location, images, color, description, organizers, start_event_date, end_event_date, dates, lng, lat, radius,Cateogory_id);
     return Data;
   }
 
-  Future<GetPrimeBubblesModel> GetAllBubbles( )async{
+  Future<GetBubblesModel> GetAllBubbles( )async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetAllBubbles(auth);
     return Data;
   }
 
-  Future<GetPrimeBubblesModel> GetNewBubbles(
+  Future<GetBubblesModel> GetNewBubbles(
       )async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetNewBubbles(auth);
@@ -334,6 +340,7 @@ class Repository implements IRepository {
   }
   Future<OldMessagesModel> GetLastMessageBetweenMeAndAllUsers(
       )async{
+   // String Time_zonE = await _iprefHelper.GetTimeZone();
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetLastMessageBetweenMeAndAllUsers(auth);
     return Data;
@@ -342,6 +349,7 @@ class Repository implements IRepository {
       String send_by,
       int Reciver_ID,
       )async{
+   // String Time_zonE = await _iprefHelper.GetTimeZone();
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetOldMessages(auth, send_by,Reciver_ID);
     return Data;
@@ -399,7 +407,7 @@ class Repository implements IRepository {
     final Data = await _ihttpHelper.SearchFriendList(Keyword, auth);
     return Data;
   }
-  Future<GetPrimeBubblesModel> NearByEventList(
+  Future<GetBubblesModel> NearByEventList(
       double lat,
       double lng,
       )async{
@@ -461,8 +469,9 @@ class Repository implements IRepository {
     return Data;
   }
   Future<EventOldMessagesModel> GetEventMessages(
-      int bubble_id
+      int bubble_id,
       )async{
+  // String Time_zonE = await _iprefHelper.GetTimeZone();
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetEventMessages(auth, bubble_id);
     return Data;
@@ -479,7 +488,7 @@ class Repository implements IRepository {
     final Data = await _ihttpHelper.Getbadge(auth);
     return Data;
   }
-  Future<GetPrimeBubblesModel> PopularNowBubbles(
+  Future<GetBubblesModel> PopularNowBubbles(
       )async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.PopularNowBubbles(auth);
@@ -506,6 +515,7 @@ class Repository implements IRepository {
   Future<FlowChatModel> GetFlowOldMessages(
       int message_id,
       )async{
+   // String Time_zonE = await _iprefHelper.GetTimeZone();
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetFlowOldMessages(auth, message_id);
     return Data;
@@ -528,12 +538,14 @@ class Repository implements IRepository {
     return Data;
   }
   Future<SendBubbleMessageModel> SendPollFlow(
-      String title,
+      String Question,
       int bubble_id,
-      List<String> answers
+      List<String> answers,
+      bool multi_choice,
+      bool show_participants,
       )async{
     String auth = await _iprefHelper.getToken();
-    final Data = await _ihttpHelper.SendPollFlow(auth, title, bubble_id, answers);
+    final Data = await _ihttpHelper.SendPollFlow(auth, Question, bubble_id, answers,multi_choice,show_participants);
     return Data;
   }
 
@@ -571,7 +583,7 @@ class Repository implements IRepository {
     return Data;
   }
 
-  Future<GetPrimeBubblesModel> GetSavedBubbles(
+  Future<GetBubblesModel> GetSavedBubbles(
       int User_id,
       )async{
     String auth = await _iprefHelper.getToken();
@@ -590,6 +602,71 @@ class Repository implements IRepository {
   Future<EventCateogoryModel> GetEventCateogories()async{
     String auth = await _iprefHelper.getToken();
     final Data = await _ihttpHelper.GetEventCateogories(auth,);
+    return Data;
+  }
+  Future<GetBubblesModel> GetActiveBubbles(
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetActiveBubbles(auth,);
+    return Data;
+  }
+  Future<GetBubblesModel> GetUpcomingBubbles(
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetUpcomingBubbles(auth,);
+    return Data;
+  }
+  Future<GetBubblesModel> NearByPrimes(
+      double lat,
+      double lng,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.NearByPrimes(lat, lng, auth);
+    return Data;
+  }
+
+  Future<ChoosePollAnswerModel> ChoosePollFlowAnswer(
+      int answer_poll_id,
+      ) async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.ChoosePollFlowAnswer(answer_poll_id, auth);
+    return Data;
+  }
+
+
+  Future<SprintsJoinLeaveModel> LeaveSprintsLobby(
+      int event_id,
+      ) async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.LeaveSprintsLobby(event_id, auth);
+    return Data;
+  }
+
+
+  Future<SprintsJoinLeaveModel> JoinSprintsLobby(
+      int event_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.JoinSprintsLobby(event_id, auth);
+    return Data;
+  }
+
+
+  Future<SprintsLobbyUsersModel> GetAllUsersInLobby(
+      int event_id,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.GetAllUsersInLobby(event_id, auth);
+    return Data;
+  }
+
+
+  Future<DeleteOldmessagesModel> DeleteOldMessages(
+      int receiver_id,
+      String send_by,
+      )async{
+    String auth = await _iprefHelper.getToken();
+    final Data = await _ihttpHelper.DeleteOldMessages(receiver_id, send_by, auth);
     return Data;
   }
 }

@@ -1,23 +1,3 @@
-//
-//{
-//     "msg": "success",
-//     "statuscode": 200,
-//     "users": [
-//         {
-//             "id": 130,
-//             "serial": "bubblee#1374",
-//             "alias": "bubblee",
-//             "avatar": "https://admin.bubbles.app/public/storage/avatar/11nZcKkOl5U61sc2I3GLgkYoZh2W9oWj7VUKiU6N.png"
-//         },
-//         {
-//             "id": 132,
-//             "serial": "test#3305",
-//             "alias": "test",
-//             "avatar": "-"
-//         }
-//     ]
-// }
-
 
 library UsersRequestsModel;
 

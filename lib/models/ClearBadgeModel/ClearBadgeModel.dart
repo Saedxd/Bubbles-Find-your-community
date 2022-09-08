@@ -18,7 +18,7 @@ abstract class ClearBadgeModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   ClearBadgeModel._();

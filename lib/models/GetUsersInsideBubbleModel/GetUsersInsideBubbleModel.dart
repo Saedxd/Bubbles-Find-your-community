@@ -24,7 +24,7 @@ abstract class GetUsersInsideBubbleModel
   String? get msg;
   int? get statuscode;
 BuiltList<UsersInsideBubbleListModel>? get users;
-
+  String? get error;
   GetUsersInsideBubbleModel._();
   factory GetUsersInsideBubbleModel([void Function(GetUsersInsideBubbleModelBuilder b)? updates]) =  _$GetUsersInsideBubbleModel;
   String toJson() {

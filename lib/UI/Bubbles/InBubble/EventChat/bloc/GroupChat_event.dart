@@ -6,8 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:bubbles/UI/Bubbles/InBubble/EventChat/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 
 import 'package:built_value/built_value.dart';
 
@@ -39,6 +39,7 @@ abstract class GetAlias extends GroupChatevent
   GetAlias._();
   factory GetAlias([updates(GetAliasBuilder b)]) = _$GetAlias;
 }
+
 abstract class SendMessage extends GroupChatevent
     implements Built<SendMessage,SendMessageBuilder> {
 
@@ -51,6 +52,7 @@ abstract class SendMessage extends GroupChatevent
   SendMessage._();
   factory SendMessage([updates(SendMessageBuilder b)]) = _$SendMessage;
 }
+
 abstract class addReply extends GroupChatevent
     implements Built<addReply,addReplyBuilder> {
 
@@ -80,8 +82,6 @@ abstract class AddModel extends GroupChatevent
   factory AddModel([updates(AddModelBuilder b)]) = _$AddModel;
 }
 
-
-
 abstract class ChangeTypingStatus extends GroupChatevent
     implements Built<ChangeTypingStatus,ChangeTypingStatusBuilder> {
   bool? get ChangeStatus;
@@ -109,6 +109,7 @@ abstract class ShowReplyWidget extends GroupChatevent
   ShowReplyWidget._();
   factory ShowReplyWidget([updates(ShowReplyWidgetBuilder b)]) = _$ShowReplyWidget;
 }
+
 abstract class SendStatus extends GroupChatevent
     implements Built<SendStatus,SendStatusBuilder> {
 
@@ -159,6 +160,7 @@ abstract class MakeTextFieldSumToNormal extends GroupChatevent
 abstract class GetOldMessages extends GroupChatevent
     implements Built<GetOldMessages,GetOldMessagesBuilder> {
 int? get bubble_id;
+String? get Time_Zone;
   GetOldMessages._();
   factory GetOldMessages([updates(GetOldMessagesBuilder b)]) = _$GetOldMessages;
 }
@@ -172,7 +174,7 @@ abstract class GetAliasForInsideUser extends GroupChatevent
 
 abstract class AddUserDataToList extends GroupChatevent
     implements Built<AddUserDataToList,AddUserDataToListBuilder> {
-  UserDATA? get  user;
+  FrinedsData? get  user;
   AddUserDataToList._();
   factory AddUserDataToList([updates(AddUserDataToListBuilder b)]) = _$AddUserDataToList;
 }
@@ -196,6 +198,7 @@ abstract class SearchInsideBubbleUser extends GroupChatevent
 abstract class AddFrined extends GroupChatevent
     implements Built<AddFrined,AddFrinedBuilder> {
   String? get serial;
+  int? get index;
 
   AddFrined._();
   factory AddFrined([updates(AddFrinedBuilder b)]) = _$AddFrined;
@@ -204,6 +207,7 @@ abstract class AddFrined extends GroupChatevent
 abstract class RemoveFriend extends GroupChatevent
     implements Built<RemoveFriend,RemoveFriendBuilder> {
   int? get friend_id;
+  int? get index;
   RemoveFriend._();
   factory RemoveFriend([updates(RemoveFriendBuilder b)]) = _$RemoveFriend;
 }

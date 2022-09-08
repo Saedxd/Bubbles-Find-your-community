@@ -1,17 +1,22 @@
 import 'dart:async';
 import 'package:bubbles/App/app.dart';
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/CreatorPage/MyCreatorPage/CreatorMain/pages/MainCreatorPage.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_State.dart';
 import 'package:bubbles/UI/Notifications/pages/Notifications_Screen.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
 import 'package:bubbles/main.dart';
+import 'package:bubbles/models/UserDataModel/User.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import '../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../bloc/TopBar_bloc.dart';
 import 'package:move_to_background/move_to_background.dart';
 
@@ -19,41 +24,37 @@ import 'package:move_to_background/move_to_background.dart';
 class NavigatorTopBar extends StatefulWidget {
    NavigatorTopBar({Key? key, this.GOtoDirect,required this.GotToHomeAndOpenPanel}) : super(key: key);
    bool GotToHomeAndOpenPanel = true;
-
-int? GOtoDirect = 0;
+  int? GOtoDirect = 0;
   @override
   State<NavigatorTopBar> createState() => _NavigatorTopBarState();
 }
+
 Timer? timer2;
 Timer? timer23 ;
-
-
 Socket? socket;
-class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver  {
+
+class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PageController controller = PageController();
   Profile Profil =Profile();
+  final pref = sl<IPrefsHelper>();
   final _TopBarBloc = sl<TopBarBloc>();
   int dot = 0;
   int BackGroundCounter = 0;
   bool DiditONCE = false;
-  String Alias = "";
-  String Avatar = "";
   String ColoRR = "";
   int USER_ID = 0;
   int selected = 0;
   int PageIndex = 0;
   List<int>? FrinedsID=[];
-
-
+  double User_lat = 0;
+  double User_long = 0;
   final List<Widget> buildScreens = [
     const DirectMessages(),
     const Notifications(),
     Profile(),
   ];
-
-
-
+bool DidItOnce = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -75,80 +76,46 @@ class _NavigatorTopBarState extends State<NavigatorTopBar>  with WidgetsBindingO
 
   }
 
-  //https://chat.bubbles.app/
-  //http://50.60.40.108:3000'
-  //'https://50.60.40.102:3000',
-  //'https://tranquil-castle-10002.herokuapp.com',
-  //'https://chatapp.salnoyapp.store/',
-  //'http://10.0.2.2:3000',
-  //'http://50.60.40.102:3000',
-  //'https://chat.bubbles.app',
+  Future<void> GetUserData() async {
 
-  void connect()async{
-        socket =io(
-        "http://134.122.50.245:3000/",
-          OptionBuilder()
-              .setTransports(['websocket'])
-              .disableAutoConnect()
-               .setQuery({
-               "user_id": USER_ID,
-               "username": Alias,
-               "friendsList": FrinedsID,
-               "color": ColoRR,
-               "avatar": Avatar,
-             }) .build(),
+    User_lat = await pref.Getlat();
+    User_long = await pref.GetLng();
+    UserModel user = await pref.getUser();
+    // print(user.user!.data!.id);
+    // print("Gotten");
 
-        );
+    id = user.data!.id!;
+    Avatar = user.data!.avatar!;
+    Alias = user.data!.alias!;
+    Background_Color = user.data!.background_color!;
+    IS_Creator = user.data!.is_creator!;
+    // if (IS_Creator==1 && !DidItOnce){
+    //   buildScreens.insert(2,   MyCreatorPage(),);
+    //   DidItOnce = true;
+    // }
 
-        socket!.connect();
-        socket!.io..disconnect()..connect();
-
-        socket!.onConnect((data) {
-          print(data);
-          print("Connected");
-        } );
-
-        socket!.onConnectError((data) {
-          print("onConnectError");
-          print(data);
-        });
-
+    _TopBarBloc.add(Change_Is_Creator((b) => b..ChangeISCreator = IS_Creator==1));
   }
-
-
-  void Disconnect(){
-   socket!.disconnect();
-  }
-
 
   @override
   void dispose() {
   super.dispose();
-  WidgetsBinding.instance?.removeObserver(this);
+  WidgetsBinding.instance.removeObserver(this);
   controller.dispose();
   }
 
   @override
   void initState() {
     super.initState();
+
     BackGroundCounter = 0;
-    _TopBarBloc.add(GetProfile());
+    //_TopBarBloc.add(GetProfile());
     DiditONCE =true;
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     _TopBarBloc.add(GetFreinds());
-    // _TopBarBloc.add(GetBadge());
-    if (widget.GOtoDirect==5){
-      _TopBarBloc.add(
-          ChangePAGEINDEX((b) =>  b
-            ..num = 0
-          ));
-    }
-    // timer23 = Timer.periodic(const Duration(seconds: 30), (Timer t)async{
-    //   return _TopBarBloc.add(GetBadge());
-    // });
+
   }
 
-int BadgeCounter = 0;
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -171,45 +138,41 @@ int BadgeCounter = 0;
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
-          if (state.GetbadgeSucess!){
-            BadgeCounter = state.Getbadge!.count!.toInt();
-          }
+          print("state is updated");
 
-          if (state.GetprofileSuccess! && DiditONCE && state.success!){
-            Alias = state.ProfileDate!.user!.alias.toString();
-            USER_ID = state.ProfileDate!.user!.id!;
-            Avatar = state.ProfileDate!.user!.avatar!;
-            ColoRR = state.ProfileDate!.user!.background_color!;
+
+
+          if (DiditONCE && state.success!){
+
             for(int i=0;i<state.GetFriends!.friends!.length;i++){
               FrinedsID!.add(state.GetFriends!.friends![i].id!);
             }
             connect();
 
 
+
             print("called function connect");
             DiditONCE = false;
-            widget.GotToHomeAndOpenPanel==true?
-            widget.GotToHomeAndOpenPanel = false
-                :print("NOPE");
+            // widget.GotToHomeAndOpenPanel==true?
+            // widget.GotToHomeAndOpenPanel = false
+            //     :print("NOPE");
+          }
+          else if (state.error=="Something went wrong") {
+            if (state.GetFriends == null) {
+              AllBubblesStatus = List.filled(100000, 0);
+              AllBubblesJoinStatusTry = List.filled(10000, false);
+              AllBubblesLeftStatusTry = List.filled(10000, true);
+              AllNearBubblesStatusTry = List.filled(10000, true);
+              AllBubblesIDS = List.filled(10000, 0);
+              setlogout();
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) =>
+                          Login()), (Route<dynamic> route) => false));
+            }
           }
 
-          // if (widget.GOtoDirect==5){
-          //   state.Index1==true
-          //       ? _TopBarBloc.add(ChangeIndex1())
-          //       :null;
-          //
-          //   state.Index2==false
-          //       ? _TopBarBloc.add(ChangeIndex2())
-          //       :null;
-          //
-          //   state.Index3==true
-          //       ? _TopBarBloc.add(ChangeIndex3())
-          //       :null;
-          //
-          //   state.Index4==true
-          //       ? _TopBarBloc.add(ChangeIndex4())
-          //       :null;
-          // }
 
           return  Scaffold(
               key: _scaffoldKey,
@@ -241,12 +204,15 @@ int BadgeCounter = 0;
                               state.Index4==true
                                   ? _TopBarBloc.add(ChangeIndex4())
                                   :null;
+                              state.Index5==true
+                                  ? _TopBarBloc.add(ChangeIndex5())
+                                  :null;
+
 
 
 
                             }else if (index==1){
-                              _TopBarBloc.add(ClearBadge());
-                              BadgeCounter = 0;
+
                               state.Index2==true
                                   ? _TopBarBloc.add(ChangeIndex2())
                                   :null;
@@ -258,7 +224,45 @@ int BadgeCounter = 0;
                               state.Index4==true
                                   ? _TopBarBloc.add(ChangeIndex4())
                                   :null;
-                            }else if (index==2){
+                              state.Index5==true
+                                  ? _TopBarBloc.add(ChangeIndex5())
+                                  :null;
+
+
+                            }
+
+                            else if (index==2){
+                              state.Index2==true
+                                  ? _TopBarBloc.add(ChangeIndex2())
+                                  :null;
+
+                              state.Index3==true
+                                  ? _TopBarBloc.add(ChangeIndex3())
+                                  :null;
+
+                              state.Index4==true
+                                  ? _TopBarBloc.add(ChangeIndex4())
+                                  :null;
+                              state.Index5==false
+                                  ? _TopBarBloc.add(ChangeIndex5())
+                                  :null;
+
+                            //  todo : under is wanted for Creator
+                            //   state.Index2==true
+                            //       ? _TopBarBloc.add(ChangeIndex2())
+                            //       :null;
+                            //
+                            //   state.Index3==true
+                            //       ? _TopBarBloc.add(ChangeIndex3())
+                            //       :null;
+                            //
+                            //   state.Index4==false
+                            //       ? _TopBarBloc.add(ChangeIndex4())
+                            //       :null;
+                            //   state.Index5==true
+                            //       ? _TopBarBloc.add(ChangeIndex5())
+                            //       :null;
+                            }else if (index==3){
 
 
 
@@ -270,8 +274,11 @@ int BadgeCounter = 0;
                                   ? _TopBarBloc.add(ChangeIndex3())
                                   :null;
 
-                              state.Index4==false
+                              state.Index4==true
                                   ? _TopBarBloc.add(ChangeIndex4())
+                                  :null;
+                              state.Index5==false
+                                  ? _TopBarBloc.add(ChangeIndex5())
                                   :null;
 
                             }
@@ -301,12 +308,13 @@ int BadgeCounter = 0;
                     Container(
                       width: w,
                       height: h / 13,
+
                       decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: const Radius.circular(0),
-                          topRight: const Radius.circular(0),
-                          bottomLeft: const Radius.circular(20),
-                          bottomRight: const Radius.circular(20),
+                        borderRadius:  BorderRadius.only(
+                          // topLeft:  Radius.circular(0),
+                          // topRight:  Radius.circular(0),
+                          bottomLeft:   Radius.circular(h/30),
+                          bottomRight:   Radius.circular(h/30),
                         ),
                         boxShadow: const [
                           BoxShadow(
@@ -322,6 +330,8 @@ int BadgeCounter = 0;
                         children: [
                           InkWell(
                               onTap:(){
+                                print(h);
+                                print(w);
                                 print(socket!.connected);
                                 _TopBarBloc.add(
                                     ChangePAGEINDEX((b) =>  b
@@ -346,11 +356,9 @@ int BadgeCounter = 0;
                                     ? _TopBarBloc.add(ChangeIndex4())
                                     :null;
 
-                                // _pageController.animateToPage(
-                                //   0,
-                                //   duration: const Duration(milliseconds: 200),
-                                //   curve: Curves.easeInOut,
-                                // );
+                                state.Index5==true
+                                    ? _TopBarBloc.add(ChangeIndex5())
+                                    :null;
 
                               },
                               child: Container(
@@ -368,7 +376,9 @@ int BadgeCounter = 0;
                                     ],
                                   ))),
                           Container(
-                            width: w / 3,
+                          width:
+                              w/3,
+                          // state.is_Creator!? w / 2.5:w/3,
                             child: Stack(
                             children: [
                               Row(
@@ -393,7 +403,9 @@ int BadgeCounter = 0;
                                           state.Index4==true
                                               ? _TopBarBloc.add(ChangeIndex4())
                                               :null;
-
+                                          state.Index5==true
+                                              ? _TopBarBloc.add(ChangeIndex5())
+                                              :null;
                                           Selected = List.filled(
                                               2,
                                               0);
@@ -430,10 +442,10 @@ int BadgeCounter = 0;
                                     child: InkWell(
                                         onTap: () {
 
-                                          _TopBarBloc.add(ClearBadge());
+
                                           _TopBarBloc.add(
                                               ChangePAGEINDEX((b) =>  b
-                                                ..num = 2
+                                                ..num = 1
                                               ));
                                           //  _TopBarBloc.add(ClearBadge());
                                           state.Index2==true
@@ -446,6 +458,10 @@ int BadgeCounter = 0;
 
                                           state.Index4==true
                                               ? _TopBarBloc.add(ChangeIndex4())
+                                              :null;
+
+                                          state.Index5==true
+                                              ? _TopBarBloc.add(ChangeIndex5())
                                               :null;
                                           Future.delayed(const Duration(milliseconds: 200), () {
 
@@ -484,6 +500,62 @@ int BadgeCounter = 0;
                                           ),
                                         )),
                                   ),
+                                  // state.is_Creator!?
+                                  // Expanded(
+                                  //   child: InkWell(
+                                  //       onTap: () {
+                                  //
+                                  //         _TopBarBloc.add(
+                                  //             ChangePAGEINDEX((b) =>  b
+                                  //               ..num = 3
+                                  //             ));
+                                  //         state.Index2==true
+                                  //             ? _TopBarBloc.add(ChangeIndex2())
+                                  //             :null;
+                                  //
+                                  //         state.Index3==true
+                                  //             ? _TopBarBloc.add(ChangeIndex3())
+                                  //             :null;
+                                  //
+                                  //         state.Index4==false
+                                  //             ? _TopBarBloc.add(ChangeIndex4())
+                                  //             :null;
+                                  //         state.Index5==true
+                                  //             ? _TopBarBloc.add(ChangeIndex5())
+                                  //             :null;
+                                  //
+                                  //         // Selected = List.filled(
+                                  //         //     2,
+                                  //         //     0);
+                                  //         // print(Selected);
+                                  //         //
+                                  //         Future.delayed(const Duration(milliseconds: 200), () {
+                                  //
+                                  //           controller.animateToPage(
+                                  //             2,
+                                  //             duration: const Duration(milliseconds: 300),
+                                  //             curve: Curves.easeInOut,
+                                  //           );
+                                  //
+                                  //
+                                  //          });
+                                  //       },
+                                  //       child: Container(
+                                  //           height: h / 13,
+                                  //           child: Row(
+                                  //             mainAxisAlignment:
+                                  //             MainAxisAlignment.center,
+                                  //             children: [
+                                  //               SvgPicture.asset(
+                                  //                   "Assets/images/CreatorPage.svg",
+                                  //                   width: h / 30,
+                                  //                   color: state.Index4!
+                                  //                       ? const Color(0xffCF6D38)
+                                  //                       :ColorS.tertiary
+                                  //               ),
+                                  //             ],
+                                  //           ))),
+                                  // ):Container(),
                                   Expanded(
                                     child: InkWell(
                                       onTap: () {
@@ -492,7 +564,7 @@ int BadgeCounter = 0;
 
                                         _TopBarBloc.add(
                                             ChangePAGEINDEX((b) =>  b
-                                              ..num = 3
+                                              ..num = 4
                                             )
                                         );
                                         state.Index2==true
@@ -503,14 +575,18 @@ int BadgeCounter = 0;
                                             ? _TopBarBloc.add(ChangeIndex3())
                                             :null;
 
-                                        state.Index4==false
+                                        state.Index4==true
                                             ? _TopBarBloc.add(ChangeIndex4())
+                                            :null;
+                                        state.Index5==false
+                                            ? _TopBarBloc.add(ChangeIndex5())
                                             :null;
                                         Future.delayed(const Duration(milliseconds: 200), () {
 
 
                                           controller.animateToPage(
-                                            2,
+                                           2,
+                                          //  3,
                                             duration: const Duration(milliseconds: 300),
                                             curve: Curves.easeInOut,
                                           );
@@ -529,7 +605,7 @@ int BadgeCounter = 0;
                                             SvgPicture.asset(
                                                 "Assets/images/Group 36.svg",
                                                 width: h / 30,
-                                                color:  state.Index4!
+                                                color:  state.Index5!
                                                     ? const Color(0xffCF6D38)
                                                     :ColorS.tertiary
                                             ),
@@ -540,7 +616,8 @@ int BadgeCounter = 0;
                                   )
                                 ],
                               ),
-                              BadgeCounter.toString()!="0"?
+                              !state.isLoading!
+                                  ?state.BadgeCounter!.toString()!="0"?
                               Positioned(
                                 top: h/50,
                                 left: w/5.9,
@@ -548,13 +625,14 @@ int BadgeCounter = 0;
                                   radius: 7,
                                   backgroundColor: Colors.red,
                                   child: Center(
-                                    child: Text(BadgeCounter.toString(),style: TextStyle(
-                                      fontSize: 10,
+                                    child: Text(state.BadgeCounter.toString(),style: TextStyle(
+                                      fontSize: 0.18.sp,
                                       color: Colors.white,
                                     ),),
                                   ),
                                 ),
                               ):Text("")
+                                  :Text("")
                             ],
                             ),
                           )
@@ -567,5 +645,68 @@ int BadgeCounter = 0;
           );
         })
     );
+  }
+  //
+  // Future<void> GetUserData() async {
+  //   User_lat = await pref.Getlat();
+  //   User_long = await pref.GetLng();
+  //   UserModel user = await pref.getUser();
+  //   id = user.data!.id!;
+  //   Avatar = user.data!.avatar!;
+  //   Alias = user.data!.alias!;
+  //   Background_Color = user.data!.background_color!;
+  //   IS_Creator = user.data!.is_creator!;
+  //   print(id);
+  //   print(Avatar);
+  //   print(Alias);
+  //   print(Background_Color);
+  //   print(IS_Creator);
+  // }
+  void connect()async{
+    //https://chat.bubbles.app/
+    //http://50.60.40.108:3000'
+    //'https://50.60.40.102:3000',
+    //'https://tranquil-castle-10002.herokuapp.com',
+    //'https://chatapp.salnoyapp.store/',
+    //'http://10.0.2.2:3000',
+    //'http://50.60.40.102:3000',
+    //'https://chat.bubbles.app',
+    await GetUserData();
+    socket =io(
+      "http://134.122.50.245:3000/",
+      //  "http://0.0.0.0:3000",
+      // "http://192.168.1.10:3000",
+      OptionBuilder()
+          .setTransports(['websocket'])
+          .disableAutoConnect()
+          .setQuery({
+        "user_id": id,
+        "username": Alias,
+        "friendsList": FrinedsID,
+        "color": Background_Color,
+        "avatar": Avatar,
+      }) .build(),
+
+    );
+
+    socket!.connect();
+    socket!.io..disconnect()..connect();
+
+    socket!.onConnect((data) {
+      print(data);
+      print("Connected");
+    } );
+
+    socket!.onConnectError((data) {
+      print("onConnectError");
+      print(data);
+    });
+
+  }
+  void Disconnect(){
+    socket!.disconnect();
+  }
+  Future<void> setlogout() async {
+    await pref.logout();
   }
 }

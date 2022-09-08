@@ -69,6 +69,8 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>
+	<key>com.apple.security.network.client</key>
+    <true/>
 
 	<key>NSContactsUsageDescription</key>
 	  <key>NSCameraUsageDescription</key>

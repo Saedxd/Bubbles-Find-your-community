@@ -9,6 +9,7 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -64,17 +65,14 @@ bool selected = false;
                         margin: EdgeInsets.only(top: h / 40),
                         child: InkWell(
                           onTap: () {
-                            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                            WidgetsBinding.instance.addPostFrameCallback((_) =>
                                 Navigator.of(context).pop()
                             );
                           },
                           child: Text('< Back',
                               textAlign: TextAlign.left,
                               style: _TextTheme.headline1!.copyWith(
-                                  fontSize: 3.5 *
-                                      SizeConfig
-                                          .blockSizeVertical!
-                                          .toDouble(),
+                                  fontSize: 20.sp,
                                   letterSpacing: 0.3,
                                   fontWeight: FontWeight.w300,
                                   height: 1
@@ -89,24 +87,22 @@ bool selected = false;
                                 'When is your Birthday?', textAlign: TextAlign.left,
                                 style: _TextTheme.headlineLarge!.copyWith(
                                     letterSpacing: 1,
-                                    fontSize: 3.5 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white
                                 )),
                           ),
+
                           Container(
                             width: w / 1.32,
-                            height: h / 2.3,
+                            height: h / 2.4,
                             margin: EdgeInsets.only(bottom: h / 50),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                                bottomLeft: Radius.circular(5),
-                                bottomRight: Radius.circular(5),
+                                topLeft: Radius.circular( 5.r),
+                                topRight:Radius.circular( 5.r),
+                                bottomLeft: Radius.circular( 5.r),
+                                bottomRight:Radius.circular( 5.r),
                               ),
                             ),
 
@@ -120,10 +116,7 @@ bool selected = false;
                                 textStyle: TextStyle(
                                     color: Color.fromRGBO(255, 255, 255, 1),
                                     fontFamily: 'IBM Plex Sans',
-                                    fontSize: 2.5 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 15.sp,
                                     letterSpacing: 0.1899598389863968,
                                     fontWeight: FontWeight.w400,
                                     height: 1.5714285376177157
@@ -132,10 +125,7 @@ bool selected = false;
 
                                     color: Color.fromRGBO(120, 120, 133, 1),
                                     fontFamily: 'IBM Plex Sans',
-                                    fontSize: 2.5 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 15.sp,
                                     letterSpacing: 0.1899598389863968,
                                     fontWeight: FontWeight.normal,
                                     height: 1.5714285376177157
@@ -151,10 +141,7 @@ bool selected = false;
                                 rangeTextStyle: TextStyle(
                                     color: Colors.red,
                                     fontFamily: 'IBM Plex Sans',
-                                    fontSize: 2.5 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 15.sp,
                                     letterSpacing: 0.1899598389863968,
                                     fontWeight: FontWeight.normal,
                                     height: 1.5714285376177157
@@ -163,10 +150,7 @@ bool selected = false;
                                 TextStyle(
                                     color: Colors.red,
                                     fontFamily: 'IBM Plex Sans',
-                                    fontSize: 2.5 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 15.sp,
                                     letterSpacing: 0.1899598389863968,
                                     fontWeight: FontWeight.normal,
                                     height: 1.5714285376177157
@@ -193,10 +177,10 @@ bool selected = false;
 
                         child: InkWell(
                           onTap: () {
-                            print(BirthDay);
+
                             if (BirthDay != "") {
                               widget.Users!.SetBirthDate(BirthDay.toString());
-                              WidgetsBinding.instance!.addPostFrameCallback((
+                              WidgetsBinding.instance.addPostFrameCallback((
                                   _) =>
                                   Navigator.push(
                                     context,
@@ -211,10 +195,10 @@ bool selected = false;
                           child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(5),
-                                  topRight: Radius.circular(5),
-                                  bottomLeft: Radius.circular(5),
-                                  bottomRight: Radius.circular(5),
+                                  topLeft: Radius.circular(5.r),
+                                  topRight:  Radius.circular(5.r),
+                                  bottomLeft:  Radius.circular(5.r),
+                                  bottomRight: Radius.circular(5.r),
                                 ),
                                 boxShadow: [BoxShadow(
                                     color: Color.fromRGBO(
@@ -224,8 +208,6 @@ bool selected = false;
                                 )
                                 ],
                                 color: state.ChangeSelectedd! ?
-
-
                                 Color.fromRGBO(207, 109, 56, 1)
                                     : Color(0xff939393),
                               ),
@@ -235,10 +217,7 @@ bool selected = false;
                                   'Next', textAlign: TextAlign.center, style:
                                 _TextTheme.headline1!.copyWith(
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 3 *
-                                      SizeConfig
-                                          .blockSizeVertical!
-                                          .toDouble(),
+                                  fontSize: 18.sp,
                                 ),),
                               )
 
@@ -261,7 +240,7 @@ bool selected = false;
       String TimeSelected = DateFormat.yMMMMd('en_US').format(args.value);
       BirthDay = TimeSelected.toString();
       print(BirthDay);
-      _SignUpBloc.add(ChangeSelected());
+      _SignUpBloc.add(ChangeSelected((b) =>b..status = true ));
   }catch(e){
       print(e);
     }

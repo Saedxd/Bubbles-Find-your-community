@@ -9,6 +9,7 @@ library UpdateProfile;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/UserDataModel/User.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -21,8 +22,8 @@ abstract class UpdateProfile
 
   String? get msg;
   int? get statuscode;
-
-
+  UserModel? get user;
+  String? get error;
 
   UpdateProfile._();
   factory UpdateProfile([void Function(UpdateProfileBuilder b)? updates]) =  _$UpdateProfile;

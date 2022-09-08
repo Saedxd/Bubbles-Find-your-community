@@ -41,6 +41,13 @@ class _$ProfileDateModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(UserProfileData)));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -69,6 +76,10 @@ class _$ProfileDateModelSerializer
                   specifiedType: const FullType(UserProfileData))!
               as UserProfileData);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -83,12 +94,15 @@ class _$ProfileDateModel extends ProfileDateModel {
   final int? statuscode;
   @override
   final UserProfileData? user;
+  @override
+  final String? error;
 
   factory _$ProfileDateModel(
           [void Function(ProfileDateModelBuilder)? updates]) =>
       (new ProfileDateModelBuilder()..update(updates))._build();
 
-  _$ProfileDateModel._({this.msg, this.statuscode, this.user}) : super._();
+  _$ProfileDateModel._({this.msg, this.statuscode, this.user, this.error})
+      : super._();
 
   @override
   ProfileDateModel rebuild(void Function(ProfileDateModelBuilder) updates) =>
@@ -104,21 +118,24 @@ class _$ProfileDateModel extends ProfileDateModel {
     return other is ProfileDateModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        user == other.user;
+        user == other.user &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), user.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), user.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ProfileDateModel')
+    return (newBuiltValueToStringHelper(r'ProfileDateModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('user', user))
+          ..add('user', user)
+          ..add('error', error))
         .toString();
   }
 }
@@ -140,6 +157,10 @@ class ProfileDateModelBuilder
       _$this._user ??= new UserProfileDataBuilder();
   set user(UserProfileDataBuilder? user) => _$this._user = user;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   ProfileDateModelBuilder();
 
   ProfileDateModelBuilder get _$this {
@@ -148,6 +169,7 @@ class ProfileDateModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _user = $v.user?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -172,7 +194,10 @@ class ProfileDateModelBuilder
     try {
       _$result = _$v ??
           new _$ProfileDateModel._(
-              msg: msg, statuscode: statuscode, user: _user?.build());
+              msg: msg,
+              statuscode: statuscode,
+              user: _user?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -180,7 +205,7 @@ class ProfileDateModelBuilder
         _user?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'ProfileDateModel', _$failedField, e.toString());
+            r'ProfileDateModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -189,4 +214,4 @@ class ProfileDateModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

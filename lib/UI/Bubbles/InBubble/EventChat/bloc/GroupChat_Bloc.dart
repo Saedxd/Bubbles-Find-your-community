@@ -2,14 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:bubbles/UI/Bubbles/InBubble/EventChat/Data/Data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:intl/intl.dart';
 import 'GroupChat_event.dart';
 import 'GroupChat_state.dart';
+
 
 
 class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
@@ -82,7 +83,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
       ,String type
       ){
 
-
     socket!.emit("send_reply_dm_bubble", {
       "message": message.toString(),
       "comment": Comment,
@@ -92,29 +92,19 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
       "Hisavatar": RepliedToAvatar,
       "Hiscolor": "${RepliedtoColor}${type}",
     });
-
-
   }
-
-
-
-
-
   @override
   Stream<GroupChatState> mapEventToState(
       GroupChatevent event,
       ) async* {
-
     if (event is ClearError) {
       yield state.rebuild((b) => b..error = "");
     }
-
     if (event is KetbaordStatus) {
       yield state.rebuild((b) => b
         ..KetbaordStatuss = event.status
       );
     }
-
     if (event is AddModel) {
       try {
         yield state.rebuild((b) => b
@@ -139,7 +129,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is SendStatus) {
       try {
         yield state.rebuild((b) => b
@@ -152,7 +141,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeFlowOptionsStatus) {
       try {
         yield state.rebuild((b) => b
@@ -165,7 +153,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ShowReplyWidget) {
       try {
 
@@ -190,7 +177,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is GetAlias) {
       try {
         yield state.rebuild((b) => b
@@ -222,7 +208,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
       }
     }
-
     if (event is GetAliasForInsideUser) {
       try {
         yield state.rebuild((b) => b
@@ -243,8 +228,8 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..GetAliasForInsideBubbleUser.replace(date2)
         );
 
-        UserDATA User =UserDATA();
-        User.id = state.GetAliasForInsideBubbleUser!.friend!.id;
+        FrinedsData User =FrinedsData();
+        User.ID = state.GetAliasForInsideBubbleUser!.friend!.id;
         User.Avatar = state.GetAliasForInsideBubbleUser!.friend!.avatar.toString();
         User.Background_Color = state.GetAliasForInsideBubbleUser!.friend!.background_color.toString();
         User.Alias = state.GetAliasForInsideBubbleUser!.friend!.alias.toString();
@@ -266,18 +251,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
       }
     }
-
-    // if (event is AddUserDataToList) {
-    //   try {
-    //
-    //
-    //
-    //   } catch (e) {
-    //     print('get Error $e');
-    //   }
-    // }
-
-
     if (event is DescriptionLength) {
       try {
         yield state.rebuild((b) => b
@@ -289,7 +262,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeCheckboxStatus1) {
       try {
         yield state.rebuild((b) => b
@@ -301,7 +273,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeCheckboxStatus2) {
       try {
         yield state.rebuild((b) => b
@@ -313,7 +284,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeTextfieldSum) {
       try {
         yield state.rebuild((b) => b
@@ -324,7 +294,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is MakeTextFieldSumToNormal) {
       try {
         yield state.rebuild((b) => b
@@ -335,7 +304,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is GetOldMessages) {
     //  try {
         yield state.rebuild((b) => b
@@ -345,7 +313,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
 
 
-        final date2 = await _repository.GetEventMessages(event.bubble_id!);
+        final date2 = await _repository.GetEventMessages(event.bubble_id!,);
 
         yield state.rebuild((b) => b
           ..isLoading = false
@@ -357,7 +325,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
         for (int i = 0;i<state.EventOldMessages!.messages!.length;i++){
           GroupChatMessage InstanceMessages = GroupChatMessage();
-
+          DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
           InstanceMessages.ISNOdeJS = false;
           InstanceMessages.IsBackEnd = true;
           InstanceMessages.is_base64 = false;
@@ -365,11 +333,11 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           InstanceMessages.ID = state.EventOldMessages!.messages![i].id!.toInt();
           InstanceMessages.Type = state.EventOldMessages!.messages![i].type.toString();
           InstanceMessages.FlowSettledWithID =true;
+          InstanceMessages.time = DateFormat.jm().format(datee.toLocal());
 
           if (state.EventOldMessages!.messages![i].replies!.isEmpty) {
-            DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-            String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
 
+            String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
 
             InstanceMessages.ISreply = false;
             if (state.EventOldMessages!.messages![i].message!.sender_name.toString().isNotEmpty)
@@ -379,7 +347,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             if (Value.isNotEmpty)
             InstanceMessages.background_Color = int.parse(Value);
             InstanceMessages.message = state.EventOldMessages!.messages![i].message!.message.toString();
-            InstanceMessages.time = DateFormat.jm().format(datee);
+
 
 
 
@@ -409,8 +377,8 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+
+              data.time =  DateFormat.jm().format(datee.toLocal());
               data.Flow_type ="TopicFlow";
               data.ISMediaDump = false;
               data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
@@ -456,8 +424,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
               data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
               data.Flow_type ="MediaDump";
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+              data.time =  DateFormat.jm().format(datee.toLocal());
               String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
               data.Who_Made_it_Color = int.parse(Value);
 
@@ -487,8 +454,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
                 data.Answers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+              data.time =  DateFormat.jm().format(datee.toLocal());
               data.Flow_type ="PollFlow";
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
@@ -503,7 +469,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             }
 
 
-
           }else{
             InstanceMessages.CanReply = false;
             InstanceMessages.ISreply = true;
@@ -516,9 +481,9 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             InstanceMessages.ReplierAlias = state.EventOldMessages!.messages![i].replies![0].alias.toString();
             InstanceMessages.ReplierMessage = state.EventOldMessages!.messages![i].replies![0].comment.toString();
             InstanceMessages.ReplierAvatar =  state.EventOldMessages!.messages![i].replies![0].avatar.toString();
+            DateTime datee = DateTime.parse(state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
             InstanceMessages.Replierbackground_Color =int.parse(Value2);
-            DateTime datee2 = DateTime.parse( state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
-            InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
+            InstanceMessages.Repliertime = DateFormat.jm().format(datee.toLocal());
 
 
               if (state.EventOldMessages!.messages![i].message!.type.toString()=="text") {
@@ -543,7 +508,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..success= true
         );
     }
-
     if (event is SendMessage) {
      try {
         yield state.rebuild((b) => b
@@ -595,7 +559,6 @@ print("Emitteddd");
 
       }
     }
-
     if (event is addReply) {
         String base64String;
         String BACKEND_PATH="";
@@ -665,7 +628,6 @@ print("Emitteddd");
 
         print("Emitteddd");
     }
-
     if (event is GetUsersInsideBubble) {
 
       try {
@@ -688,14 +650,14 @@ print("Emitteddd");
         for(int i=0;i<state.GetUsersInsideBubble!.users!.length;i++){
 
 
-          UserDATA User =UserDATA();
-          User.id = state.GetUsersInsideBubble!.users![i].id!;
+          FrinedsData User =FrinedsData();
+          User.ID = state.GetUsersInsideBubble!.users![i].id!;
           User.Avatar = state.GetUsersInsideBubble!.users![i].avatar.toString();
           User.Background_Color = state.GetUsersInsideBubble!.users![i].background_color.toString();
           User.Alias = state.GetUsersInsideBubble!.users![i].alias.toString();
-          User.Serial_number = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
+          User.Serial = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
           User.boi = state.GetUsersInsideBubble!.users![i].bio.toString();
-          User.is_frined = state.GetUsersInsideBubble!.users![i].is_friend;
+          User.is_Frined = state.GetUsersInsideBubble!.users![i].is_friend;
           User.Serial = state.GetUsersInsideBubble!.users![i].serial.toString();
 
 
@@ -734,7 +696,6 @@ print("Emitteddd");
 
 
     }
-
     if (event is SearchInsideBubbleUser) {
 
       try {
@@ -773,15 +734,16 @@ print("Emitteddd");
 
 
     }
-
     if (event is AddFrined) {
       try {
+        state.FilteredInsideBubbleUsers![event.index!].is_Frined = true;
         yield state.rebuild((b) => b
           ..FreindAddlOADING = true
           ..error = ""
           ..AddFreindSuccess = false
           ..AddNewFriend = null
         );
+
 
         final date = await _repository.AddFriend(event.serial!);
 
@@ -804,20 +766,34 @@ print("Emitteddd");
         );
       }
     }
-
     if (event is RemoveFriend) {
       try {
+
+        state.FilteredInsideBubbleUsers![event.index!].is_Frined = false;
+        yield state.rebuild((b) => b
+          ..FreindAddlOADING = true
+          ..error = ""
+          ..AddFreindSuccess = false
+          ..AddNewFriend = null
+        );
+
 
         final date = await _repository.RemoveFriend(event.friend_id!);
 
 
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..FreindAddlOADING = false
+          ..error = ""
+          ..AddFreindSuccess = true
+        );
 
 
       } catch (e) {
         print('get Error $e');
       }
     }
-
     if (event is SendTopicFlow) {
      // try {
 
@@ -860,7 +836,6 @@ print("Emitteddd");
       //
       // }
     }
-
     if (event is SendMediaDumpFlow) {
      // try {
 
@@ -885,17 +860,16 @@ print("Emitteddd");
 
         SendMediadump(event.image!,event.title!,state.messages![0].ID! ,"Base64",event.Bubble_id!);
     }
-
     if (event is SendPollFloww) {
      // try {
 
 
 
-        final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!);
+      //  final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!);
 
-        yield state.rebuild((b) => b
-          ..SendBubblePollFow.replace(date2)
-        );
+        // yield state.rebuild((b) => b
+        //   ..SendBubblePollFow.replace(date2)
+        // );
         yield state.rebuild((b) => b
           ..SendMessageISloading= true
           ..SendMessageSuccess = false
@@ -926,21 +900,18 @@ print("Emitteddd");
       //
       // }
     }
-
     if (event is ChangeMediaImageTaken) {
 
       yield state.rebuild((b) => b
         ..MediaImageTaken = event.status!
       );
     }
-
     if (event is ShowFloatingActionButton) {
 
       yield state.rebuild((b) => b
         ..ShowFloatingActionButtonn = event.status!
       );
     }
-
     if (event is AddFlowModel) {
       try {
 
@@ -954,6 +925,5 @@ print("Emitteddd");
       }
     }
   }
-
 }
 

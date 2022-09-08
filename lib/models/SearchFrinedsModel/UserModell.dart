@@ -1,10 +1,3 @@
-//
-//
-//{
-//     "user": [
-
-//     ]
-// }
 
 library UserModell;
 

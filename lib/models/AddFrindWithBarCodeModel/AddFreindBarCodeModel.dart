@@ -21,7 +21,7 @@ abstract class AddFreindBarCodeModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
   AddFreindBarCodeModel._();
   factory AddFreindBarCodeModel([void Function(AddFreindBarCodeModelBuilder b)? updates]) =  _$AddFreindBarCodeModel;

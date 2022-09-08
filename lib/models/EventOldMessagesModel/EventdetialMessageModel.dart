@@ -17,6 +17,8 @@ abstract class EventdetialMessageModel
 
   bool? get is_sender;
   int? get id;
+  int? get multi_choice;
+  int? get show_participants;
   String? get message;
   String? get type;
   String? get sender_name;
@@ -27,23 +29,6 @@ abstract class EventdetialMessageModel
   String? get content;
   String? get image;
   BuiltList<NewPollAnswersModel>? get answers;
-//  "answers": [
-//                     {
-//                         "id": 1,
-//                         "answer": 1,
-//                         "rate": 0
-//                     },
-//                     {
-//                         "id": 2,
-//                         "answer": 2,
-//                         "rate": 0
-//                     },
-//                     {
-//                         "id": 3,
-//                         "answer": 3,
-//                         "rate": 0
-//                     }
-//                 ],
 
 
 

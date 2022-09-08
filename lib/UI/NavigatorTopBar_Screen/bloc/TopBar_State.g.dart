@@ -22,17 +22,21 @@ class _$TopBarState extends TopBarState {
   @override
   final bool? Index4;
   @override
+  final bool? Index5;
+  @override
   final bool? GetbadgeSucess;
   @override
   final int? INDEX;
+  @override
+  final int? BadgeCounter;
+  @override
+  final bool? is_Creator;
   @override
   final bool? GetprofileLoading;
   @override
   final bool? GetprofileSuccess;
   @override
   final GetFriendsModel? GetFriends;
-  @override
-  final ProfileDateModel? ProfileDate;
   @override
   final GetbadgeModel? Getbadge;
   @override
@@ -49,12 +53,14 @@ class _$TopBarState extends TopBarState {
       this.Index2,
       this.Index3,
       this.Index4,
+      this.Index5,
       this.GetbadgeSucess,
       this.INDEX,
+      this.BadgeCounter,
+      this.is_Creator,
       this.GetprofileLoading,
       this.GetprofileSuccess,
       this.GetFriends,
-      this.ProfileDate,
       this.Getbadge,
       this.ClearBadge})
       : super._();
@@ -77,12 +83,14 @@ class _$TopBarState extends TopBarState {
         Index2 == other.Index2 &&
         Index3 == other.Index3 &&
         Index4 == other.Index4 &&
+        Index5 == other.Index5 &&
         GetbadgeSucess == other.GetbadgeSucess &&
         INDEX == other.INDEX &&
+        BadgeCounter == other.BadgeCounter &&
+        is_Creator == other.is_Creator &&
         GetprofileLoading == other.GetprofileLoading &&
         GetprofileSuccess == other.GetprofileSuccess &&
         GetFriends == other.GetFriends &&
-        ProfileDate == other.ProfileDate &&
         Getbadge == other.Getbadge &&
         ClearBadge == other.ClearBadge;
   }
@@ -103,27 +111,35 @@ class _$TopBarState extends TopBarState {
                                                 $jc(
                                                     $jc(
                                                         $jc(
-                                                            $jc(0,
-                                                                error.hashCode),
-                                                            isLoading.hashCode),
-                                                        success.hashCode),
-                                                    Index1.hashCode),
-                                                Index2.hashCode),
-                                            Index3.hashCode),
-                                        Index4.hashCode),
-                                    GetbadgeSucess.hashCode),
-                                INDEX.hashCode),
-                            GetprofileLoading.hashCode),
-                        GetprofileSuccess.hashCode),
-                    GetFriends.hashCode),
-                ProfileDate.hashCode),
+                                                            $jc(
+                                                                $jc(
+                                                                    $jc(
+                                                                        0,
+                                                                        error
+                                                                            .hashCode),
+                                                                    isLoading
+                                                                        .hashCode),
+                                                                success
+                                                                    .hashCode),
+                                                            Index1.hashCode),
+                                                        Index2.hashCode),
+                                                    Index3.hashCode),
+                                                Index4.hashCode),
+                                            Index5.hashCode),
+                                        GetbadgeSucess.hashCode),
+                                    INDEX.hashCode),
+                                BadgeCounter.hashCode),
+                            is_Creator.hashCode),
+                        GetprofileLoading.hashCode),
+                    GetprofileSuccess.hashCode),
+                GetFriends.hashCode),
             Getbadge.hashCode),
         ClearBadge.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('TopBarState')
+    return (newBuiltValueToStringHelper(r'TopBarState')
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
@@ -131,12 +147,14 @@ class _$TopBarState extends TopBarState {
           ..add('Index2', Index2)
           ..add('Index3', Index3)
           ..add('Index4', Index4)
+          ..add('Index5', Index5)
           ..add('GetbadgeSucess', GetbadgeSucess)
           ..add('INDEX', INDEX)
+          ..add('BadgeCounter', BadgeCounter)
+          ..add('is_Creator', is_Creator)
           ..add('GetprofileLoading', GetprofileLoading)
           ..add('GetprofileSuccess', GetprofileSuccess)
           ..add('GetFriends', GetFriends)
-          ..add('ProfileDate', ProfileDate)
           ..add('Getbadge', Getbadge)
           ..add('ClearBadge', ClearBadge))
         .toString();
@@ -174,6 +192,10 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   bool? get Index4 => _$this._Index4;
   set Index4(bool? Index4) => _$this._Index4 = Index4;
 
+  bool? _Index5;
+  bool? get Index5 => _$this._Index5;
+  set Index5(bool? Index5) => _$this._Index5 = Index5;
+
   bool? _GetbadgeSucess;
   bool? get GetbadgeSucess => _$this._GetbadgeSucess;
   set GetbadgeSucess(bool? GetbadgeSucess) =>
@@ -182,6 +204,14 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   int? _INDEX;
   int? get INDEX => _$this._INDEX;
   set INDEX(int? INDEX) => _$this._INDEX = INDEX;
+
+  int? _BadgeCounter;
+  int? get BadgeCounter => _$this._BadgeCounter;
+  set BadgeCounter(int? BadgeCounter) => _$this._BadgeCounter = BadgeCounter;
+
+  bool? _is_Creator;
+  bool? get is_Creator => _$this._is_Creator;
+  set is_Creator(bool? is_Creator) => _$this._is_Creator = is_Creator;
 
   bool? _GetprofileLoading;
   bool? get GetprofileLoading => _$this._GetprofileLoading;
@@ -198,12 +228,6 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       _$this._GetFriends ??= new GetFriendsModelBuilder();
   set GetFriends(GetFriendsModelBuilder? GetFriends) =>
       _$this._GetFriends = GetFriends;
-
-  ProfileDateModelBuilder? _ProfileDate;
-  ProfileDateModelBuilder get ProfileDate =>
-      _$this._ProfileDate ??= new ProfileDateModelBuilder();
-  set ProfileDate(ProfileDateModelBuilder? ProfileDate) =>
-      _$this._ProfileDate = ProfileDate;
 
   GetbadgeModelBuilder? _Getbadge;
   GetbadgeModelBuilder get Getbadge =>
@@ -228,12 +252,14 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       _Index2 = $v.Index2;
       _Index3 = $v.Index3;
       _Index4 = $v.Index4;
+      _Index5 = $v.Index5;
       _GetbadgeSucess = $v.GetbadgeSucess;
       _INDEX = $v.INDEX;
+      _BadgeCounter = $v.BadgeCounter;
+      _is_Creator = $v.is_Creator;
       _GetprofileLoading = $v.GetprofileLoading;
       _GetprofileSuccess = $v.GetprofileSuccess;
       _GetFriends = $v.GetFriends?.toBuilder();
-      _ProfileDate = $v.ProfileDate?.toBuilder();
       _Getbadge = $v.Getbadge?.toBuilder();
       _ClearBadge = $v.ClearBadge?.toBuilder();
       _$v = null;
@@ -267,12 +293,14 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
               Index2: Index2,
               Index3: Index3,
               Index4: Index4,
+              Index5: Index5,
               GetbadgeSucess: GetbadgeSucess,
               INDEX: INDEX,
+              BadgeCounter: BadgeCounter,
+              is_Creator: is_Creator,
               GetprofileLoading: GetprofileLoading,
               GetprofileSuccess: GetprofileSuccess,
               GetFriends: _GetFriends?.build(),
-              ProfileDate: _ProfileDate?.build(),
               Getbadge: _Getbadge?.build(),
               ClearBadge: _ClearBadge?.build());
     } catch (_) {
@@ -280,15 +308,13 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
       try {
         _$failedField = 'GetFriends';
         _GetFriends?.build();
-        _$failedField = 'ProfileDate';
-        _ProfileDate?.build();
         _$failedField = 'Getbadge';
         _Getbadge?.build();
         _$failedField = 'ClearBadge';
         _ClearBadge?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'TopBarState', _$failedField, e.toString());
+            r'TopBarState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -297,4 +323,4 @@ class TopBarStateBuilder implements Builder<TopBarState, TopBarStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

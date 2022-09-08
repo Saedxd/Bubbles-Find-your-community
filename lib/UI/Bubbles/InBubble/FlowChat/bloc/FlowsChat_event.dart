@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/Data/Data.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 
 import 'package:built_value/built_value.dart';
 

@@ -32,7 +32,7 @@ class _$Toggle extends Toggle {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('Toggle').toString();
+    return newBuiltValueToStringHelper(r'Toggle').toString();
   }
 }
 
@@ -88,7 +88,7 @@ class _$GetFreinds extends GetFreinds {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetFreinds').toString();
+    return newBuiltValueToStringHelper(r'GetFreinds').toString();
   }
 }
 
@@ -151,7 +151,7 @@ class _$RemoveFriend extends RemoveFriend {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('RemoveFriend')
+    return (newBuiltValueToStringHelper(r'RemoveFriend')
           ..add('friend_id', friend_id)
           ..add('index', index))
         .toString();
@@ -230,7 +230,7 @@ class _$IsRefresh extends IsRefresh {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('IsRefresh').toString();
+    return newBuiltValueToStringHelper(r'IsRefresh').toString();
   }
 }
 
@@ -286,7 +286,7 @@ class _$RefreshState extends RefreshState {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('RefreshState').toString();
+    return newBuiltValueToStringHelper(r'RefreshState').toString();
   }
 }
 
@@ -344,7 +344,7 @@ class _$FreindsRequests extends FreindsRequests {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('FreindsRequests').toString();
+    return newBuiltValueToStringHelper(r'FreindsRequests').toString();
   }
 }
 
@@ -412,7 +412,7 @@ class _$AceeptRequest extends AceeptRequest {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AceeptRequest')
+    return (newBuiltValueToStringHelper(r'AceeptRequest')
           ..add('friend_id', friend_id)
           ..add('index', index)
           ..add('daata', daata))
@@ -504,7 +504,7 @@ class _$DenyRequest extends DenyRequest {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DenyRequest')
+    return (newBuiltValueToStringHelper(r'DenyRequest')
           ..add('friend_id', friend_id)
           ..add('index', index))
         .toString();
@@ -556,4 +556,4 @@ class DenyRequestBuilder implements Builder<DenyRequest, DenyRequestBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

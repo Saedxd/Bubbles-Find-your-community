@@ -52,14 +52,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
           ..Logout.replace(date)
         );
       } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) => b
-          ..error = "Something went wrong"
-          ..LOgedOUT = false
-          ..ISloadingLogout = false
-          ..Logout =null
-
-        );
+        print(e);
       }
     }
 

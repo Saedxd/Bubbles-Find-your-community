@@ -32,7 +32,7 @@ class _$ClearError extends ClearError {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ClearError').toString();
+    return newBuiltValueToStringHelper(r'ClearError').toString();
   }
 }
 
@@ -91,7 +91,8 @@ class _$GetLastMessageWithAllUsers extends GetLastMessageWithAllUsers {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetLastMessageWithAllUsers').toString();
+    return newBuiltValueToStringHelper(r'GetLastMessageWithAllUsers')
+        .toString();
   }
 }
 
@@ -149,7 +150,7 @@ class _$RefreshPage extends RefreshPage {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('RefreshPage').toString();
+    return newBuiltValueToStringHelper(r'RefreshPage').toString();
   }
 }
 
@@ -205,7 +206,7 @@ class _$RefreshState extends RefreshState {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('RefreshState').toString();
+    return newBuiltValueToStringHelper(r'RefreshState').toString();
   }
 }
 
@@ -265,7 +266,7 @@ class _$SearchDMlist extends SearchDMlist {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SearchDMlist')
+    return (newBuiltValueToStringHelper(r'SearchDMlist')
           ..add('Keyword', Keyword))
         .toString();
   }
@@ -345,7 +346,7 @@ class _$DeleteFromList extends DeleteFromList {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DeleteFromList')
+    return (newBuiltValueToStringHelper(r'DeleteFromList')
           ..add('index', index)
           ..add('receiver_id', receiver_id))
         .toString();
@@ -398,4 +399,4 @@ class DeleteFromListBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

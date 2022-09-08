@@ -1,12 +1,17 @@
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_Bloc.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_State.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_event.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bubbles/App/app.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/Colors/constants.dart';
@@ -22,25 +27,28 @@ class _NotificationsState extends State<Notifications> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late FocusNode FocuseNODE;
   final _NotificationBloc = sl<NotificationsBloc>();
-
+  final pref = sl<IPrefsHelper>();
+  Future<void> setlogout() async {
+    await pref.logout();
+  }
   @override
   void initState() {
     super.initState();
     FocuseNODE = FocusNode();
     _NotificationBloc.add(GetNotifications());
-
-
-     _NotificationBloc.add(ClearBadge());
-    // _NotificationBloc.add(GetBadge());
-    ISNewNotifications = false;
-
-
+    Diditonce2 = true;
+    _removeBadge();
   }
 
+  void _removeBadge() {
+    FlutterAppBadger.removeBadge();
+  }
   Future<void> OnRefresh() async {
     return Future.delayed(const Duration(milliseconds: 2000), () {});
   }
 bool diditonce = false;
+bool Diditonce2 = true;
+
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
@@ -50,6 +58,24 @@ bool diditonce = false;
     return BlocBuilder(
         bloc: _NotificationBloc,
         builder: (BuildContext Context, NotificationsState state) {
+          if (state.success! && Diditonce2){
+
+            _NotificationBloc.add(ClearBadge());
+            Diditonce2 = false;
+          }else if (state.error=="Something went wrong" ) {
+            if (state.Getbadge == null) {
+              AllBubblesStatus = List.filled(100000,0);
+              AllBubblesJoinStatusTry = List.filled(10000,false);
+              AllBubblesLeftStatusTry = List.filled(10000,true);
+              AllNearBubblesStatusTry = List.filled(10000,true);
+              AllBubblesIDS = List.filled(10000,0);
+              setlogout();
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      Login()), (Route<dynamic> route) => false));
+            }
+          }
 
 
           // alreatDialogBuilder2(
@@ -449,8 +475,8 @@ bool diditonce = false;
 
               Column(
                     children: [
-                      const SizedBox(
-                        height: 70,
+                       SizedBox(
+                        height: h/9.7,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -459,7 +485,9 @@ bool diditonce = false;
                             'Notifications',
                             textAlign: TextAlign.left,
                             style: _textthem.headlineLarge!.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 23),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.sp
+                            ),
                           ),
                           const Text(""),
                           const Text(""),
@@ -481,7 +509,7 @@ bool diditonce = false;
                             Text('I’m so sorry..you don’t have any notifications yet', textAlign: TextAlign.center, style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Red Hat Display',
-                                fontSize: 17,
+                                fontSize:  16.sp,
                                 letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                 fontWeight: FontWeight.w600,
                                 height: 1
@@ -528,14 +556,14 @@ bool diditonce = false;
                                     onTap: () {
 
                                       if(state.Getnotifcations!.notifications![index].title=="Friend Request")
-                                        WidgetsBinding.instance!
+                                        WidgetsBinding.instance
                                             .addPostFrameCallback((_) =>     Navigator.push(
                                           context,
                                           MaterialPageRoute(//receiver_id: ,my_ID: ,
                                             builder: (context) => Friendlist(is_WithoutTopBar: true,),),
                                         ));
                                       else if (state .Getnotifcations!.notifications![index] .title=="Accepted Friend")
-                                        WidgetsBinding.instance!
+                                        WidgetsBinding.instance
                                             .addPostFrameCallback((_) =>     Navigator.push(
                                           context,
                                           MaterialPageRoute(//receiver_id: ,my_ID: ,
@@ -595,7 +623,8 @@ bool diditonce = false;
                                                                   .copyWith(
                                                                       fontWeight:
                                                                           FontWeight.w600,
-                                                                      fontSize: 20),
+                                                                      fontSize: 20.sp
+                                                              ),
                                                             ),
                                                           ),
                                                           Hero(
@@ -606,7 +635,7 @@ bool diditonce = false;
                                                         child :
                                                           InkWell(
                                                             onTap: (){
-                                                              WidgetsBinding.instance!
+                                                              WidgetsBinding.instance
                                                                   .addPostFrameCallback((_) =>     Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(//receiver_id: ,my_ID: ,
@@ -619,7 +648,7 @@ bool diditonce = false;
                                                               state.Getnotifcations!.notifications![index].avatar.toString(),
                                                                 errorWidget: (context, url, error) => Center(child: Text("Error")),
                                                                 imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                  radius: 30,
+                                                                  radius: 30.w,
                                                                   backgroundImage: imageProvider,
                                                                   backgroundColor:   Color(BackgroundColor??0),
                                                                 ),
@@ -658,7 +687,8 @@ bool diditonce = false;
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w300,
-                                                                        fontSize: 20),
+                                                                    fontSize: 15.sp
+                                                                ),
                                                                 maxLines: 10,
                                                               ),
                                                             ),
@@ -670,11 +700,9 @@ bool diditonce = false;
                                                               style: _textthem
                                                                   .headlineLarge!
                                                                   .copyWith(
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-
-                                                                  fontSize: 13),
+                                                                  fontWeight:FontWeight .normal,
+                                                                    fontSize: 12.sp
+                                                              ),
                                                             ),
                                                           ),
                                                         ],
@@ -733,9 +761,9 @@ bool diditonce = false;
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

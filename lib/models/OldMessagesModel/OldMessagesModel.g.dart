@@ -42,6 +42,13 @@ class _$OldMessagesModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(MessagesListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -71,6 +78,10 @@ class _$OldMessagesModelSerializer
                       BuiltList, const [const FullType(MessagesListModel)]))!
               as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -85,12 +96,15 @@ class _$OldMessagesModel extends OldMessagesModel {
   final int? statuscode;
   @override
   final BuiltList<MessagesListModel>? messages;
+  @override
+  final String? error;
 
   factory _$OldMessagesModel(
           [void Function(OldMessagesModelBuilder)? updates]) =>
       (new OldMessagesModelBuilder()..update(updates))._build();
 
-  _$OldMessagesModel._({this.msg, this.statuscode, this.messages}) : super._();
+  _$OldMessagesModel._({this.msg, this.statuscode, this.messages, this.error})
+      : super._();
 
   @override
   OldMessagesModel rebuild(void Function(OldMessagesModelBuilder) updates) =>
@@ -106,21 +120,24 @@ class _$OldMessagesModel extends OldMessagesModel {
     return other is OldMessagesModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        messages == other.messages;
+        messages == other.messages &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), messages.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), messages.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('OldMessagesModel')
+    return (newBuiltValueToStringHelper(r'OldMessagesModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('messages', messages))
+          ..add('messages', messages)
+          ..add('error', error))
         .toString();
   }
 }
@@ -143,6 +160,10 @@ class OldMessagesModelBuilder
   set messages(ListBuilder<MessagesListModel>? messages) =>
       _$this._messages = messages;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   OldMessagesModelBuilder();
 
   OldMessagesModelBuilder get _$this {
@@ -151,6 +172,7 @@ class OldMessagesModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _messages = $v.messages?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -175,7 +197,10 @@ class OldMessagesModelBuilder
     try {
       _$result = _$v ??
           new _$OldMessagesModel._(
-              msg: msg, statuscode: statuscode, messages: _messages?.build());
+              msg: msg,
+              statuscode: statuscode,
+              messages: _messages?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -183,7 +208,7 @@ class OldMessagesModelBuilder
         _messages?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'OldMessagesModel', _$failedField, e.toString());
+            r'OldMessagesModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -192,4 +217,4 @@ class OldMessagesModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

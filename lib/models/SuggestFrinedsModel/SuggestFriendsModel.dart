@@ -20,7 +20,7 @@ abstract class SuggestFriendsModel
   String? get msg;
   int? get statuscode;
   BuiltList<SuggestedListModel>? get users;
-
+  String? get error;
 
 
 

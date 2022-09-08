@@ -1,7 +1,8 @@
-
 import 'package:bubbles/UI/Profile/BecomeCreator_screen/pages/TakeQuiz_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 
 class CreatorScreen extends StatefulWidget {
   const CreatorScreen({Key? key}) : super(key: key);
@@ -22,33 +23,47 @@ class _CreatorScreenState extends State<CreatorScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: EdgeInsets.only(top: h/100),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                      margin: EdgeInsets.only(
-                          right: h / 20),
-                      child: IconButton(
-                        icon: SvgPicture.asset(
-                            "Assets/images/Frame 11.svg",
-                            width: 30,
-                            color: COLOR.surface),
-                        onPressed:(){
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: h/100),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(
+                              right: h / 20),
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                                "Assets/images/Frame 11.svg",
+                                width: 30.w,
+                                color: COLOR.surface),
+                            onPressed:(){
 
-                          Navigator.pop(context);
-                        },
-                      )),
-                  Text('Become a Creator', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 23
-                  ),),
-                  Text(""),
-                  Text(""),
+                              Navigator.pop(context);
+                            },
+                          )),
+                      Text('Become a Creator', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.sp
+                      ),),
+                      Text(""),
+                      Text(""),
 
-                ],
-              ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: h/20,),
+                Container(
+                  width: w/1.4,
+                  child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
+                    textAlign: TextAlign.left,
+                    style: _textthem.headlineLarge!.copyWith(
+                        fontWeight: FontWeight.w300,
+                      fontSize: 18.sp,
+                    ),),
+                ),
+              ],
             ),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,23 +97,11 @@ class _CreatorScreenState extends State<CreatorScreen> {
             //     Text(""),
             //   ],
             // ),
-            Container(
-              width: w/1.4,
-              child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
-                textAlign: TextAlign.left,
-                style: _textthem.headlineLarge!.copyWith(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 26
-                ),),
-            ),
-            Text(""),
-            Text(""),
-            Text(""),
-            Text(""),
-            Text(""),
+
+
             InkWell(
               onTap: (){
-                WidgetsBinding.instance!
+                WidgetsBinding.instance
                     .addPostFrameCallback((_) => Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -110,10 +113,10 @@ class _CreatorScreenState extends State<CreatorScreen> {
                 height: h/17,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(5),
-                    bottomRight: Radius.circular(5),
+                    topLeft: Radius.circular(5.r),
+                    topRight: Radius.circular(5.r),
+                    bottomLeft: Radius.circular(5.r),
+                    bottomRight:Radius.circular(5.r),
                   ),
                   boxShadow : [BoxShadow(
                       color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
@@ -124,12 +127,14 @@ class _CreatorScreenState extends State<CreatorScreen> {
                 ),
                 child:  Center(
                   child: Text('Take Quiz', textAlign: TextAlign.center, style:
-                  _textthem.headline1,),
+                  _textthem.headline1!.copyWith(
+                      fontSize: 19.sp
+                  ),),
                 ),
 
               ),
             ),
-            Text(""),
+
           ],
         ),
       ),

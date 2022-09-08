@@ -4,10 +4,12 @@ library CreateBubbleModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/GetBubblesModel/DataPrimeBubbles.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+
 
 
 part 'CreateBubbleModel.g.dart';
@@ -17,8 +19,8 @@ abstract class CreateBubbleModel
 
   String? get message;
   int? get status;
-
-
+  DataPrimeBubbles? get data;
+  String? get error;
 
   CreateBubbleModel._();
   factory CreateBubbleModel([void Function(CreateBubbleModelBuilder b)? updates]) =  _$CreateBubbleModel;

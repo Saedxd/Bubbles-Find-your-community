@@ -3,7 +3,7 @@ library GetDetailedEvent;
 import 'dart:convert';
 
 
-import 'package:bubbles/models/GetDetailedEvent/DataEventDetailModel.dart';
+import 'package:bubbles/models/GetBubblesModel/DataPrimeBubbles.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -15,8 +15,8 @@ part 'GetDetailedEvent.g.dart';
 abstract class GetDetailedEvent
     implements Built<GetDetailedEvent,GetDetailedEventBuilder> {
   int? get status;
-DataEventDetailModel? get data;
-
+  DataPrimeBubbles? get data;
+  String? get error;
 
   GetDetailedEvent._();
   factory GetDetailedEvent([void Function(GetDetailedEventBuilder b)? updates]) =  _$GetDetailedEvent;

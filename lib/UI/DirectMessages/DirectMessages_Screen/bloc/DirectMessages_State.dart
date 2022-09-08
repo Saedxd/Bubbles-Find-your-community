@@ -3,6 +3,7 @@
 library DirectMessages_State;
 
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:built_value/built_value.dart';
 

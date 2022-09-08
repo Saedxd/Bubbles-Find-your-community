@@ -32,7 +32,7 @@ class _$ClearError extends ClearError {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ClearError').toString();
+    return newBuiltValueToStringHelper(r'ClearError').toString();
   }
 }
 
@@ -88,7 +88,7 @@ class _$ChangeIndex1 extends ChangeIndex1 {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ChangeIndex1').toString();
+    return newBuiltValueToStringHelper(r'ChangeIndex1').toString();
   }
 }
 
@@ -145,7 +145,7 @@ class _$ChangeIndex2 extends ChangeIndex2 {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ChangeIndex2').toString();
+    return newBuiltValueToStringHelper(r'ChangeIndex2').toString();
   }
 }
 
@@ -202,7 +202,7 @@ class _$ChangeIndex3 extends ChangeIndex3 {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ChangeIndex3').toString();
+    return newBuiltValueToStringHelper(r'ChangeIndex3').toString();
   }
 }
 
@@ -259,7 +259,7 @@ class _$ChangeIndex4 extends ChangeIndex4 {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ChangeIndex4').toString();
+    return newBuiltValueToStringHelper(r'ChangeIndex4').toString();
   }
 }
 
@@ -285,6 +285,63 @@ class ChangeIndex4Builder
 
   _$ChangeIndex4 _build() {
     final _$result = _$v ?? new _$ChangeIndex4._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChangeIndex5 extends ChangeIndex5 {
+  factory _$ChangeIndex5([void Function(ChangeIndex5Builder)? updates]) =>
+      (new ChangeIndex5Builder()..update(updates))._build();
+
+  _$ChangeIndex5._() : super._();
+
+  @override
+  ChangeIndex5 rebuild(void Function(ChangeIndex5Builder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChangeIndex5Builder toBuilder() => new ChangeIndex5Builder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChangeIndex5;
+  }
+
+  @override
+  int get hashCode {
+    return 266924650;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper(r'ChangeIndex5').toString();
+  }
+}
+
+class ChangeIndex5Builder
+    implements Builder<ChangeIndex5, ChangeIndex5Builder> {
+  _$ChangeIndex5? _$v;
+
+  ChangeIndex5Builder();
+
+  @override
+  void replace(ChangeIndex5 other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChangeIndex5;
+  }
+
+  @override
+  void update(void Function(ChangeIndex5Builder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChangeIndex5 build() => _build();
+
+  _$ChangeIndex5 _build() {
+    final _$result = _$v ?? new _$ChangeIndex5._();
     replace(_$result);
     return _$result;
   }
@@ -320,7 +377,7 @@ class _$ChangePAGEINDEX extends ChangePAGEINDEX {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangePAGEINDEX')..add('num', num))
+    return (newBuiltValueToStringHelper(r'ChangePAGEINDEX')..add('num', num))
         .toString();
   }
 }
@@ -391,7 +448,7 @@ class _$GetProfile extends GetProfile {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetProfile').toString();
+    return newBuiltValueToStringHelper(r'GetProfile').toString();
   }
 }
 
@@ -447,7 +504,7 @@ class _$GetFreinds extends GetFreinds {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetFreinds').toString();
+    return newBuiltValueToStringHelper(r'GetFreinds').toString();
   }
 }
 
@@ -503,7 +560,7 @@ class _$ClearBadge extends ClearBadge {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ClearBadge').toString();
+    return newBuiltValueToStringHelper(r'ClearBadge').toString();
   }
 }
 
@@ -559,7 +616,7 @@ class _$GetBadge extends GetBadge {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetBadge').toString();
+    return newBuiltValueToStringHelper(r'GetBadge').toString();
   }
 }
 
@@ -589,4 +646,84 @@ class GetBadgeBuilder implements Builder<GetBadge, GetBadgeBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+class _$Change_Is_Creator extends Change_Is_Creator {
+  @override
+  final bool? ChangeISCreator;
+
+  factory _$Change_Is_Creator(
+          [void Function(Change_Is_CreatorBuilder)? updates]) =>
+      (new Change_Is_CreatorBuilder()..update(updates))._build();
+
+  _$Change_Is_Creator._({this.ChangeISCreator}) : super._();
+
+  @override
+  Change_Is_Creator rebuild(void Function(Change_Is_CreatorBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  Change_Is_CreatorBuilder toBuilder() =>
+      new Change_Is_CreatorBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is Change_Is_Creator &&
+        ChangeISCreator == other.ChangeISCreator;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(0, ChangeISCreator.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'Change_Is_Creator')
+          ..add('ChangeISCreator', ChangeISCreator))
+        .toString();
+  }
+}
+
+class Change_Is_CreatorBuilder
+    implements Builder<Change_Is_Creator, Change_Is_CreatorBuilder> {
+  _$Change_Is_Creator? _$v;
+
+  bool? _ChangeISCreator;
+  bool? get ChangeISCreator => _$this._ChangeISCreator;
+  set ChangeISCreator(bool? ChangeISCreator) =>
+      _$this._ChangeISCreator = ChangeISCreator;
+
+  Change_Is_CreatorBuilder();
+
+  Change_Is_CreatorBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _ChangeISCreator = $v.ChangeISCreator;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(Change_Is_Creator other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$Change_Is_Creator;
+  }
+
+  @override
+  void update(void Function(Change_Is_CreatorBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  Change_Is_Creator build() => _build();
+
+  _$Change_Is_Creator _build() {
+    final _$result =
+        _$v ?? new _$Change_Is_Creator._(ChangeISCreator: ChangeISCreator);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Profile/Challenges_Screen/bloc/Challenges_Event.dart';
-import 'package:bubbles/UI/Profile/Profile_Screen/pages/VerifyProfile.dart';
 import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/AddFrindWithBarCodeModel/AddFreindBarCodeModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ChoosePollAnswerModel/ChoosePollAnswerModel.dart';
 import 'package:bubbles/models/ClearBadgeModel/ClearBadgeModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
@@ -19,7 +20,7 @@ import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart'
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
 import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
@@ -42,6 +43,8 @@ import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
+import 'package:bubbles/models/SprintsJoinLeaveModel/SprintsJoinLeaveModel.dart';
+import 'package:bubbles/models/SprintsLobbyUsersModel/SprintsLobbyUsersModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -106,7 +109,7 @@ class HttpHelper implements IHttpHelper {
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -131,7 +134,11 @@ class HttpHelper implements IHttpHelper {
       throw NetworkException();
     }
   }
+
+
+
 ///event/12
+  ///
   @override
   Future<UserData> login(
     String Email,
@@ -150,7 +157,7 @@ class HttpHelper implements IHttpHelper {
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -193,7 +200,7 @@ class HttpHelper implements IHttpHelper {
           .post('login/social', data: formData, options: Options(headers: {}));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               UserData,
@@ -238,7 +245,7 @@ class HttpHelper implements IHttpHelper {
       }));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               PermissionsModel,
@@ -252,11 +259,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as PermissionsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
 
       } else {
         throw NetworkException();
@@ -307,7 +312,7 @@ class HttpHelper implements IHttpHelper {
       }));
       log(response.data);
       print("done1");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               UserData,
@@ -370,7 +375,7 @@ class HttpHelper implements IHttpHelper {
       }));
       log(response.data);
       print("done1");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               UpdateProfile,
@@ -404,7 +409,7 @@ class HttpHelper implements IHttpHelper {
             "Accept" :"application/json"
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetGenderModel,
@@ -418,11 +423,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetGenderModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -434,12 +437,12 @@ class HttpHelper implements IHttpHelper {
   @override
   Future<GetInterestsModel> GetInterests() async {
     try {
-      final response =
-          await _dio!.get('interests', options: Options(headers: {
-            "Accept" :"application/json"
-          }));
+      final response = await _dio!.get('interests', options:
+      Options(
+          headers: { "Accept" :"application/json"}
+          ));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetInterestsModel,
@@ -453,11 +456,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetInterestsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -474,7 +475,7 @@ class HttpHelper implements IHttpHelper {
             "Accept" :"application/json"
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetSubGender,
@@ -488,11 +489,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetSubGender;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -509,7 +508,7 @@ class HttpHelper implements IHttpHelper {
             "Accept" :"application/json"
           }));
       print("here 1");
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetAvatarsModel,
@@ -523,11 +522,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetAvatarsModel;
         print("here 2");
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -537,8 +534,7 @@ class HttpHelper implements IHttpHelper {
   }
 
   @override
-  Future<UpdateBoiModel> updateProfile(
-      String alias, String bio, String auth) async {
+  Future<UpdateBoiModel> updateProfile(    String alias, String bio, String auth) async {
     try {
       final formData = {
         "alias": alias,
@@ -552,7 +548,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               UpdateBoiModel,
@@ -566,11 +562,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as UpdateBoiModel;
 
-        if (baseResponse.msg == 'success') {
-          return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
+        return baseResponse;
+
       } else {
         throw NetworkException();
       }
@@ -578,6 +572,7 @@ class HttpHelper implements IHttpHelper {
       throw NetworkException();
     }
   }
+
 
   @override
   Future<ChangeAvatarModel> ChangeAvatar(int AvatarID, String auth) async {
@@ -593,7 +588,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               ChangeAvatarModel,
@@ -607,11 +602,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as ChangeAvatarModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -634,7 +627,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               AddNewFriendModel,
@@ -667,7 +660,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetFriendsModel,
@@ -681,11 +674,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetFriendsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -708,7 +699,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               RemoveFriendModel,
@@ -722,11 +713,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as RemoveFriendModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -749,7 +738,7 @@ class HttpHelper implements IHttpHelper {
           }));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               CheckMailModel,
@@ -773,7 +762,6 @@ class HttpHelper implements IHttpHelper {
     }
   }
 
-
   @override
   Future<GetQuestionsModel> QuestionCreator() async
       {
@@ -784,7 +772,7 @@ class HttpHelper implements IHttpHelper {
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -799,11 +787,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetQuestionsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -813,7 +799,6 @@ class HttpHelper implements IHttpHelper {
       throw NetworkException();
     }
   }
-
 
   @override
   Future<SubmitCreatorAnwersModel> CreatorSubmit(
@@ -837,7 +822,7 @@ class HttpHelper implements IHttpHelper {
             // "Accept-Encoding": "gzip, deflate, br",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               SubmitCreatorAnwersModel,
@@ -851,11 +836,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as SubmitCreatorAnwersModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -868,7 +851,7 @@ class HttpHelper implements IHttpHelper {
 
   @override
   Future<DenyFriendRequestModel> DenyRequest(
-      int  friend_id,
+      int friend_id,
       String Auth,
       ) async{
     try {
@@ -884,7 +867,7 @@ class HttpHelper implements IHttpHelper {
 
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -899,11 +882,8 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as DenyFriendRequestModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
       } else {
         throw NetworkException();
       }
@@ -932,7 +912,7 @@ class HttpHelper implements IHttpHelper {
 
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -947,11 +927,8 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as AceeptRequestModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
       } else {
         throw NetworkException();
       }
@@ -971,7 +948,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               FreindRequestsModel,
@@ -986,12 +963,8 @@ class HttpHelper implements IHttpHelper {
             )) as FreindRequestsModel;
         print("done");
 
-        if (baseResponse.msg == 'success') {
-          return baseResponse;
 
-        } else {
-          throw NetworkException();
-        }
+          return baseResponse;
       } else {
         throw NetworkException();
       }
@@ -1010,7 +983,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               ProfileDateModel,
@@ -1024,12 +997,8 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as ProfileDateModel;
 
-        if (baseResponse.msg == 'success') {
-          return baseResponse;
 
-        } else {
-          throw NetworkException();
-        }
+          return baseResponse;
       } else {
         throw NetworkException();
       }
@@ -1054,8 +1023,7 @@ class HttpHelper implements IHttpHelper {
 
 
 
-      if (response.statusCode == 200) {
-
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               LogoutModel,
@@ -1069,11 +1037,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as LogoutModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -1100,7 +1066,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1127,7 +1093,7 @@ class HttpHelper implements IHttpHelper {
     }
   }
 
-  //
+
   @override
   Future<SuggestFriendsModel> SuggestFreinds(
       String Auth,
@@ -1140,7 +1106,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               SuggestFriendsModel,
@@ -1154,11 +1120,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as SuggestFriendsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -1182,7 +1146,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetnotifcationsModel,
@@ -1196,11 +1160,9 @@ class HttpHelper implements IHttpHelper {
               ],
             )) as GetnotifcationsModel;
 
-        if (baseResponse.msg == 'success') {
+
           return baseResponse;
-        } else {
-          throw NetworkException();
-        }
+
       } else {
         throw NetworkException();
       }
@@ -1246,7 +1208,7 @@ class HttpHelper implements IHttpHelper {
       // });
       // print(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               VerifyProfileModel,
@@ -1291,7 +1253,7 @@ class HttpHelper implements IHttpHelper {
         "Authorization" :"Bearer  $Auth"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1330,7 +1292,7 @@ class HttpHelper implements IHttpHelper {
             "Authorization": "Bearer $Auth",
           }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               GetChallengesModel,
@@ -1357,10 +1319,11 @@ class HttpHelper implements IHttpHelper {
   }
 //
 @override
-Future<GetPrimeBubblesModel> GetPrimeBubblees(
+Future<GetBubblesModel> GetPrimeBubblees(
     String Auth,
     ) async{
   try {
+
     final response = await _dio!
         .get('prime/event',
         options: Options(headers:{
@@ -1369,19 +1332,19 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         }
         ));
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
       final baseResponse = serializers.deserialize(json.decode(response.data),
           specifiedType: const FullType(
-            GetPrimeBubblesModel,
+            GetBubblesModel,
             [
               FullType(
                 BuiltList,
                 [
-                  FullType(GetPrimeBubblesModel),
+                  FullType(GetBubblesModel),
                 ],
               ),
             ],
-          )) as GetPrimeBubblesModel;
+          )) as GetBubblesModel;
 
 
         return baseResponse;
@@ -1398,7 +1361,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
 
 
   @override
-  Future<GetPrimeBubblesModel> GetAllBubbles(
+  Future<GetBubblesModel> GetAllBubbles(
       String Auth,
       ) async{
     try {
@@ -1410,24 +1373,28 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
           }
           ));
 
-      if (response.statusCode == 200) {
+     if (response.statusCode == 200 ) {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
-              GetPrimeBubblesModel,
+              GetBubblesModel,
               [
                 FullType(
                   BuiltList,
                   [
-                    FullType(GetPrimeBubblesModel),
+                    FullType(GetBubblesModel),
                   ],
                 ),
               ],
-            )) as GetPrimeBubblesModel;
+            )) as GetBubblesModel;
 
 
           return baseResponse;
 
-      } else {
+      // }else if (){
+      //
+     }
+     else {
+       // return baseResponse;
         throw NetworkException();
       }
     } on SocketException catch (e) {
@@ -1439,7 +1406,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
   @override
-  Future<GetPrimeBubblesModel> GetNewBubbles(
+  Future<GetBubblesModel> GetNewBubbles(
       String Auth,
       ) async{
     try {
@@ -1451,19 +1418,20 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
           }
           ));
 
-      if (response.statusCode == 200) {
+
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
-              GetPrimeBubblesModel,
+              GetBubblesModel,
               [
                 FullType(
                   BuiltList,
                   [
-                    FullType(GetPrimeBubblesModel),
+                    FullType(GetBubblesModel),
                   ],
                 ),
               ],
-            )) as GetPrimeBubblesModel;
+            )) as GetBubblesModel;
 
 
         return baseResponse;
@@ -1496,6 +1464,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       double lng,
       double lat,
       int radius,
+      int Cateogory_id,
       ) async {
     try {
       print(images.length);
@@ -1514,16 +1483,16 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "lat": lat,
         "radius": radius,
         "status": 1,
-        "category": 7,//todo: category fix
+        "category": Cateogory_id,
+        "eventNames": ["Empty FOr now","Empty for Now"],
       };
-      print(formData);
       final response = await _dio!
           .post('event/store', data: formData, options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
               CreateBubbleModel,
@@ -1571,7 +1540,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1617,7 +1586,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200){
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1660,7 +1629,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1703,7 +1672,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1748,7 +1717,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1788,7 +1757,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1831,7 +1800,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept" :"application/json"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1873,7 +1842,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1915,7 +1884,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -1942,7 +1911,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
   @override
-  Future<GetPrimeBubblesModel> NearByEventList(
+  Future<GetBubblesModel> NearByEventList(
       double lat,
       double lng,
       String Auth,
@@ -1955,20 +1924,20 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
-              GetPrimeBubblesModel,
+              GetBubblesModel,
               [
                 FullType(
                   BuiltList,
                   [
-                    FullType(GetPrimeBubblesModel),
+                    FullType(GetBubblesModel),
                   ],
                 ),
               ],
-            )) as GetPrimeBubblesModel;
+            )) as GetBubblesModel;
 
         return baseResponse;
       } else {
@@ -1995,7 +1964,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2034,7 +2003,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2084,7 +2053,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2129,7 +2098,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2173,7 +2142,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2219,7 +2188,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Accept-Encoding" :"gzip, deflate, br"
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2258,12 +2227,12 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
 
 
       final response = await _dio!
-          .get('bubble/users?buuble_id=$bubble_id', options: Options(headers: {
+          .get('bubble/users?bubble_id=$bubble_id', options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2294,17 +2263,20 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   @override
   Future<EventOldMessagesModel> GetEventMessages(
       String Auth,
-      int bubble_id
+      int bubble_id,
+
       )async {
     try {
-
+//Asia/Gaza
+//America/Toronto
+//&timezone=$timezone
       final response = await _dio!
           .get('get/bubble/message?bubble_id=$bubble_id', options: Options(headers: {
         "Accept" :"application/json",
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2344,7 +2316,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2373,7 +2345,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
   @override
-  Future<GetPrimeBubblesModel> PopularNowBubbles(
+  Future<GetBubblesModel> PopularNowBubbles(
       String Auth,
       )async {
     try {
@@ -2384,20 +2356,20 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
-              GetPrimeBubblesModel,
+              GetBubblesModel,
               [
                 FullType(
                   BuiltList,
                   [
-                    FullType(GetPrimeBubblesModel),
+                    FullType(GetBubblesModel),
                   ],
                 ),
               ],
-            )) as GetPrimeBubblesModel;
+            )) as GetBubblesModel;
 
         return baseResponse;
       } else {
@@ -2431,7 +2403,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       //  "Accept-Encoding" :"gzip, deflate, br",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2488,7 +2460,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       }));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2521,6 +2493,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   Future<FlowChatModel> GetFlowOldMessages(
       String Auth,
       int message_id,
+
       ) async {
     try {
 
@@ -2531,7 +2504,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       }));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2580,7 +2553,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       }));
 
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2627,7 +2600,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2660,7 +2633,10 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       String Auth,
       String Question,
       int bubble_id,
-      List<String> answers
+      List<String> answers,
+      bool multi_choice,
+      bool show_participants,
+
       ) async {
     try {
       var formData={
@@ -2668,7 +2644,9 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "type":"new_poll",
         "bubble_id":bubble_id,
         "title":Question,
-        "answers":answers
+        "answers":answers,
+        "multi_choice":multi_choice,
+        "show_participants":show_participants,
       };
 
       final response = await _dio!
@@ -2677,7 +2655,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2728,7 +2706,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2779,7 +2757,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2824,7 +2802,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2853,7 +2831,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
   }
 
   @override
-  Future<GetPrimeBubblesModel> GetSavedBubbles(
+  Future<GetBubblesModel> GetSavedBubbles(
       String Auth,
       int User_id,
       ) async {
@@ -2865,20 +2843,21 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
-              GetPrimeBubblesModel,
+              GetBubblesModel,
               [
                 FullType(
                   BuiltList,
                   [
-                    FullType(GetPrimeBubblesModel),
+                    FullType(GetBubblesModel),
                   ],
                 ),
               ],
-            )) as GetPrimeBubblesModel;
+            )) as GetBubblesModel;
 
         return baseResponse;
       } else {
@@ -2906,7 +2885,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2946,7 +2925,7 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
      //   "Authorization" :"Bearer $Auth",
       }));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
             specifiedType: const FullType(
@@ -2973,7 +2952,356 @@ Future<GetPrimeBubblesModel> GetPrimeBubblees(
       throw NetworkException();
     }
   }
+////
+// //
 
+  @override
+  Future<GetBubblesModel> GetUpcomingBubbles(
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('events/upcoming_event', options: Options(headers: {
+        "Accept" :"application/json",
+       "Authorization" :"Bearer $Auth",
+      }));
+
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetBubblesModel> GetActiveBubbles(
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('events/active_events', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer $Auth",
+      }));
+
+
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      print(e);
+      throw NetworkException();
+    } catch (e) {
+      print(e);
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<GetBubblesModel> NearByPrimes(
+      double lat,
+      double lng,
+      String Auth,
+      ) async {
+    try {
+
+      final response = await _dio!
+          .get('events/prime?user_latitude=$lat&user_longitude=$lng', options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              GetBubblesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(GetBubblesModel),
+                  ],
+                ),
+              ],
+            )) as GetBubblesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<ChoosePollAnswerModel> ChoosePollFlowAnswer(
+      int answer_poll_id,
+      String Auth,
+      ) async {
+    try {
+
+      var formData={
+        "answer_poll_id":answer_poll_id,
+      };
+
+      final response = await _dio!
+          .post('save/poll/answer/answer',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              ChoosePollAnswerModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(ChoosePollAnswerModel),
+                  ],
+                ),
+              ],
+            )) as ChoosePollAnswerModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SprintsJoinLeaveModel> LeaveSprintsLobby(
+      int event_id,
+      String Auth,
+      ) async {
+    try {
+
+      var formData={
+        "event_id":event_id,
+      };
+
+      final response = await _dio!
+          .post('sprint/leave',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SprintsJoinLeaveModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SprintsJoinLeaveModel),
+                  ],
+                ),
+              ],
+            )) as SprintsJoinLeaveModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SprintsJoinLeaveModel> JoinSprintsLobby(
+      int event_id,
+      String Auth,
+      ) async {
+    try {
+
+      var formData={
+        "event_id":event_id,
+      };
+
+      final response = await _dio!
+          .post('sprint/join',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SprintsJoinLeaveModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SprintsJoinLeaveModel),
+                  ],
+                ),
+              ],
+            )) as SprintsJoinLeaveModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<SprintsLobbyUsersModel> GetAllUsersInLobby(
+      int event_id,
+      String Auth,
+      ) async {
+    try {
+
+      var formData={
+        "event_id":event_id,
+      };
+
+      final response = await _dio!
+          .post('sprint/users',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              SprintsLobbyUsersModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(SprintsLobbyUsersModel),
+                  ],
+                ),
+              ],
+            )) as SprintsLobbyUsersModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+
+  @override
+  Future<DeleteOldmessagesModel> DeleteOldMessages(
+      int receiver_id,
+      String send_by,
+      String Auth,
+      ) async {
+    try {
+
+      var formData={
+        "receiver_id":receiver_id,
+        "send_by":send_by,
+      };
+
+      final response = await _dio!
+          .post('messages/user/delete',data: formData, options: Options(headers: {
+        "Accept" :"application/json",
+        "Authorization" :"Bearer  $Auth",
+      }));
+
+
+      if (response.statusCode == 200) {
+
+        final baseResponse = serializers.deserialize(json.decode(response.data),
+            specifiedType: const FullType(
+              DeleteOldmessagesModel,
+              [
+                FullType(
+                  BuiltList,
+                  [
+                    FullType(DeleteOldmessagesModel),
+                  ],
+                ),
+              ],
+            )) as DeleteOldmessagesModel;
+
+        return baseResponse;
+      } else {
+        throw NetworkException();
+      }
+    } on SocketException catch (e) {
+      throw NetworkException();
+    } catch (e) {
+      throw NetworkException();
+    }
+  }
+//
+//
+//
+//
 }
 
 class NetworkException implements Exception {}

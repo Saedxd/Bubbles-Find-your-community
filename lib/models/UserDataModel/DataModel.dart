@@ -20,7 +20,7 @@ abstract class DateModel
   int? get id;//.
   int? get is_verify;
   int? get is_creator;//.
-  int? get gender;
+  String? get gender;
   String? get email;//.
   String? get last_name;/////.
   String? get first_name;/////.
@@ -37,6 +37,7 @@ abstract class DateModel
   String? get avatar;/////
   int? get is_notify;
   int? get points;
+
 
 
   DateModel._();

@@ -11,6 +11,7 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:conditional_questions/conditional_questions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:collection/collection.dart';
@@ -66,16 +67,13 @@ bloc2.add(GetInterests());
                   margin: EdgeInsets.only(top: h/40),
                   child: InkWell(
                     onTap: (){
-                      WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                      WidgetsBinding.instance.addPostFrameCallback((_) =>
                           Navigator.of(context).pop()
                       );
                     },
                     child: Text('< Back',
                         textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
-                            fontSize: 3.5 *
-                                SizeConfig
-                                    .blockSizeVertical!
-                                    .toDouble(),
+                            fontSize: 20.sp,
                             letterSpacing: 0.3,
                             fontWeight: FontWeight.w300,
                             height: 1
@@ -84,12 +82,10 @@ bloc2.add(GetInterests());
                 ),
                 Container(
                   margin: EdgeInsets.only(top: h/17,bottom: h/35),
-                  child: Text('What are your interests?', textAlign: TextAlign.left,    style:_TextTheme.headlineLarge!.copyWith(
-                      fontSize: 3.5 *
-                          SizeConfig
-                              .blockSizeVertical!
-                              .toDouble(),
-                      letterSpacing: 1,
+                  child: Text('What are your interests?', textAlign: TextAlign.left,
+                    style:_TextTheme.headlineLarge!.copyWith(
+                      letterSpacing: 0.5,
+                        fontSize: 20.sp,
                       fontWeight: FontWeight.w600,
                       color: Colors.white
                   )),
@@ -104,15 +100,15 @@ bloc2.add(GetInterests());
                             ? Container(
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
+                            topLeft: Radius.circular( 5.r),
+                            topRight:Radius.circular( 5.r),
+                            bottomLeft: Radius.circular( 5.r),
+                            bottomRight:Radius.circular( 5.r),
                           ),
                           color : Color(0xff606060)
                         ),
                         width: w/1.32,
-                        height: h/1.6,
+                        height: h/2,
                         child:  Center(
                           child: Container(
                               child:  GridView.builder(
@@ -143,57 +139,71 @@ bloc2.add(GetInterests());
                                           sum = array2!.sum;
                                           print(IntersetID);
                                           setState(() { });
-                                          bloc2.add(ChangeSelected());
+                                          bloc2.add(ChangeSelected((b) => b..status=  true));
                                         },
                                         child: Container(
                                           margin: EdgeInsets.all(7),
-                                          width: 74.9187240600586,
-                                          height: 80.73765563964844,
+                                          width: w/8,
+                                          height: h/15,
                                           decoration: BoxDecoration(
                                             borderRadius : BorderRadius.only(
-                                              topLeft: Radius.circular(5),
-                                              topRight: Radius.circular(5),
-                                              bottomLeft: Radius.circular(5),
-                                              bottomRight: Radius.circular(5),
+                                              topLeft: Radius.circular( 5.r),
+                                              topRight:Radius.circular( 5.r),
+                                              bottomLeft: Radius.circular( 5.r),
+                                              bottomRight:Radius.circular( 5.r),
                                             ),
-                                            color : Color.fromRGBO(255, 255, 255, 1),
+                                            color : Colors.white
                                           ),
                                           child:
+
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Text(""),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
+                                             Column(
                                                 children: [
-                                                  Container(
-                                                    width: w/8,
-                                                    height: h/14.8,
-                                                    child: CachedNetworkImage(
-                                                      imageUrl:  state.GetInterests!.interests![index].image!,
-                                                      color: array2![index]==1? Color(0xffBA474D): null,
-                                                      fit: BoxFit.fill,
-                                                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                          CircularProgressIndicator(value: downloadProgress.progress),
-                                                      errorWidget: (context, url, error) => Icon(Icons.error),
-                                                    ),
+                                                  1 < (state.GetInterests!.interests![index].title!.split(" ").length - 1)
+                                                      ?  SizedBox(height: h/60,)
+                                                  :SizedBox(height: h/150,),
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+
+                                                      Container(
+                                                        width: w/8,
+                                                        height: h/16.8,
+                                                        child: CachedNetworkImage(
+                                                          imageUrl:  state.GetInterests!.interests![index].image!,
+                                                          color: array2![index]==1? Color(0xffBA474D): null,
+                                                          fit: BoxFit.fill,
+                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
+                                                              CircularProgressIndicator(value: downloadProgress.progress),
+                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                        ),
 
 
 
+                                                      ),
+                                                    ],
                                                   ),
+                                                  SizedBox(height: 10,),
                                                 ],
                                               ),
-                                              Text(state.GetInterests!.interests![index].title.toString(),
-                                                textAlign: TextAlign.center,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: Color.fromRGBO(0, 0, 0, 1),
-                                                    fontFamily: 'Sofia Pro',
-                                                    fontSize: 20,
-                                                    letterSpacing: 0.3 ,
-                                                    fontWeight: FontWeight.w500,
-                                                    height: 1
-                                                ),)
+
+                                              Container(
+                                                width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length - 1)? w/8:w/5,
+                                                child: Text(state.GetInterests!.interests![index].title.toString(),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                                        fontFamily: 'Sofia Pro',
+                                                        fontSize: 15.sp,
+                                                        letterSpacing: 0.3 ,
+                                                        fontWeight: FontWeight.w500,
+                                                        height: 1
+                                                    ),),
+                                              ) ,
+
+
                                             ],
                                           ),
                                         ),
@@ -228,7 +238,7 @@ bloc2.add(GetInterests());
                 Text('Select Up to 5', textAlign: TextAlign.center, style: TextStyle(
                     color: Color.fromRGBO(234, 234, 234, 1),
                     fontFamily: 'Sofia Pro',
-                    fontSize: 11,
+                    fontSize: 10.sp,
                     letterSpacing: 0 ,
                     fontWeight: FontWeight.normal,
                     height: 1.3636363636363635
@@ -240,10 +250,10 @@ bloc2.add(GetInterests());
                       height: h/13.9,
                       decoration:  BoxDecoration(
                         borderRadius : BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                          bottomLeft: Radius.circular(5),
-                          bottomRight: Radius.circular(5),
+                          topLeft: Radius.circular( 5.r),
+                          topRight:Radius.circular( 5.r),
+                          bottomLeft: Radius.circular( 5.r),
+                          bottomRight:Radius.circular( 5.r),
                         ),
                         boxShadow : [BoxShadow(
                             color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
@@ -273,7 +283,7 @@ bloc2.add(GetInterests());
                               //ChooseAvatar
 
 
-                              WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                              WidgetsBinding.instance.addPostFrameCallback((_) =>
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) =>
@@ -289,10 +299,7 @@ bloc2.add(GetInterests());
                         child: Text('Next', textAlign: TextAlign.center,        style:
                         _TextTheme.headline1!.copyWith(
                             fontWeight: FontWeight.w600,
-                          fontSize: 3 *
-                              SizeConfig
-                                  .blockSizeVertical!
-                                  .toDouble(),
+                          fontSize: 18.sp,
                         ),),
                       ))
 
@@ -307,9 +314,9 @@ bloc2.add(GetInterests());
 
   }
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

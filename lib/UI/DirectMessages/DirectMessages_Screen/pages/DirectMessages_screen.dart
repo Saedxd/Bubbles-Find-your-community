@@ -1,19 +1,23 @@
 import 'dart:async';
 
 import 'package:bubbles/App/app.dart';
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
+import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/pages/SprintChat.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_State.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:bubbles/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
@@ -71,7 +75,7 @@ class _DirectMessagesState extends State<DirectMessages> {
       }
     }
   }
-
+  final pref = sl<IPrefsHelper>();
   @override
   void initState() {
     super.initState();
@@ -93,7 +97,9 @@ class _DirectMessagesState extends State<DirectMessages> {
     super.dispose();
     _SearchController.dispose();
   }
-
+  Future<void> setlogout() async {
+    await pref.logout();
+  }
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
@@ -124,6 +130,20 @@ class _DirectMessagesState extends State<DirectMessages> {
 
             Diditonce = false;
 
+          }else if (state.error=="Something Went Wrong"){
+            if (state.OldMessages==null){
+              AllBubblesStatus = List.filled(100000,0);
+              AllBubblesJoinStatusTry = List.filled(10000,false);
+              AllBubblesLeftStatusTry = List.filled(10000,true);
+              AllNearBubblesStatusTry = List.filled(10000,true);
+              AllBubblesIDS = List.filled(10000,0);
+              setlogout();
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                      Login()), (Route<dynamic> route) => false));
+
+            }
           }
 
 
@@ -135,7 +155,7 @@ class _DirectMessagesState extends State<DirectMessages> {
              Column(
                       children: [
                         SizedBox(
-                          height: h / 11,
+                          height: h / 9.7,
                         ),
                         // Container(
                         //     decoration: const BoxDecoration(
@@ -215,7 +235,8 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 '       Direct Messages',
                                 textAlign: TextAlign.left,
                                 style: _textthem.headlineLarge!.copyWith(
-                                    fontWeight: FontWeight.w600, fontSize: 23),
+                                    fontWeight: FontWeight.w600,   fontSize: 20.sp
+                                ),
                               ),
                             ),
                             Row(
@@ -245,7 +266,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               ),
                                               onPressed: () {
 
-                                                WidgetsBinding.instance!
+                                                WidgetsBinding.instance
                                                     .addPostFrameCallback((_) => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -277,7 +298,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               Selected = List.filled(3, 0);
                                               Selected[1] = 1;
                                               setState(() {});
-                                              WidgetsBinding.instance!
+                                              WidgetsBinding.instance
                                                   .addPostFrameCallback(
                                                       (_) => Navigator.push(
                                                             context,
@@ -315,7 +336,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                               SizedBox(height: h/40,),
                               InkWell(
                                 onTap: (){
-                                  WidgetsBinding.instance!
+                                  WidgetsBinding.instance
                                       .addPostFrameCallback((_) => Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -328,10 +349,10 @@ class _DirectMessagesState extends State<DirectMessages> {
                                     height: h/13,
                                     decoration: BoxDecoration(
                                       borderRadius : BorderRadius.only(
-                                        topLeft: Radius.circular(20.5),
-                                        topRight: Radius.circular(20.5),
-                                        bottomLeft: Radius.circular(20.5),
-                                        bottomRight: Radius.circular(20.5),
+                                        topLeft: Radius.circular( h/20.5),
+                                        topRight:Radius.circular( h/20.5),
+                                        bottomLeft: Radius.circular( h/20.5),
+                                        bottomRight:Radius.circular( h/20.5),
                                       ),
                                       boxShadow : [BoxShadow(
                                           color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
@@ -345,7 +366,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                     Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
                                         color: Color.fromRGBO(255, 255, 255, 1),
                                         fontFamily: 'Red Hat Text',
-                                        fontSize: 21.5,
+                                        fontSize: 20.sp,
                                         letterSpacing: 0,
                                         fontWeight: FontWeight.w400,
                                         height: 1
@@ -359,7 +380,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 child: Text('There are no messages. Find friends and start a chat with them!', textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(96, 96, 96, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: 20.105409622192383,
+                                    fontSize: 18.11.sp,
                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                     fontWeight: FontWeight.w400,
                                     height: 1
@@ -370,7 +391,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                             ],
                           ),
                         )
-                            :
+                            :!state.isLoading!?
 
                         Expanded(
                                 child: Container(
@@ -427,18 +448,16 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         bottom: h / 750,
                                                         top: h / 120),
                                                     decoration:
-                                                    const BoxDecoration(
-                                                      color: const Color(
+                                                     BoxDecoration(
+                                                      color:  Color(
                                                           0xff942657),
                                                       borderRadius:
                                                       BorderRadius
                                                           .only(
-                                                        bottomRight:
-                                                        const Radius
-                                                            .circular(5),
-                                                        topRight: Radius
-                                                            .circular(
-                                                            5),
+                                                     //   topLeft: Radius.circular( h/20.5),
+                                                        topRight:Radius.circular( h/162.5),
+                                                      //  bottomLeft: Radius.circular( h/20.5),
+                                                        bottomRight:Radius.circular( h/162.5),
                                                       ),
                                                     ),
                                                     child: Row(
@@ -462,7 +481,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                           child:
                                           InkWell(
                                             onTap: () {
-                                              WidgetsBinding.instance!
+                                              WidgetsBinding.instance
                                                   .addPostFrameCallback(
                                                       (_) => Navigator.push(
                                                     context,
@@ -483,16 +502,11 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                   decoration: BoxDecoration(
                                                     color: COLOR.background,
                                                     borderRadius:
-                                                    const BorderRadius.only(
-                                                      bottomLeft:
-                                                      Radius.circular(40),
-                                                      bottomRight:
-                                                      const Radius.circular(5),
-                                                      topLeft:
-                                                      Radius.circular(
-                                                          40),
-                                                      topRight:
-                                                      Radius.circular(5),
+                                                     BorderRadius.only(
+                                                      bottomLeft:  Radius.circular( h/8),
+                                                      topLeft: Radius.circular(h/8),
+                                                      topRight:Radius.circular( h/70.5),
+                                                      bottomRight:Radius.circular( h/70.5),
                                                     ),
                                                     boxShadow: const [
                                                       BoxShadow(
@@ -576,10 +590,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                           fontWeight:
                                                                           FontWeight
                                                                               .w400,
-                                                                          fontSize: 3.4 *
-                                                                              SizeConfig
-                                                                                  .blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                          fontSize: 16.sp,
                                                                         )),
                                                                   ),
 
@@ -613,9 +624,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                       style: _textthem.headline5!.copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize: 2.6 *
-                                                                              SizeConfig.blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                          fontSize: 11.sp,
                                                                           color:
                                                                           const Color(0xffC4C4C4))),
                                                                 ),
@@ -637,9 +646,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                             .copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize: 2.6 *
-                                                                              SizeConfig.blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                            fontSize: 14.sp,
                                                                             color:
                                                                             const Color(0xffC4C4C4)
 
@@ -674,6 +681,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                       ),
                                     )),
                               )
+                        :Container()
                             : state.isLoading == true
                                 ? Container(
                                     width: w,
@@ -708,31 +716,20 @@ class _DirectMessagesState extends State<DirectMessages> {
                                   )
                       ],
                     ),
-
           );
         });
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }
 
 
-class DmlistData{
-  String? alias;
-  String? time;
-  String? lastMessage;
-  String? Avatar;
-  int? backgroundColor;
-  int? id;
-  int? MY_id;
-  String? Replies;
-  String? Msg_Type;
-}
+
 class HeroImage extends StatefulWidget {
   HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
   int? color;

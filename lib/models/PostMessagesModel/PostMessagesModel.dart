@@ -17,7 +17,7 @@ abstract class PostMessagesModel
   String? get msg;
   int? get message_id;
   int? get statuscode;
-
+  String? get error;
 
 
   PostMessagesModel._();

@@ -22,7 +22,7 @@ abstract class VerifyProfileModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   VerifyProfileModel._();

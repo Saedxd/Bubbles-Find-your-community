@@ -46,6 +46,13 @@ class _$GetnotifcationsModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(NotificationsListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -75,6 +82,10 @@ class _$GetnotifcationsModelSerializer
                 const FullType(NotificationsListModel)
               ]))! as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -89,12 +100,15 @@ class _$GetnotifcationsModel extends GetnotifcationsModel {
   final int? statuscode;
   @override
   final BuiltList<NotificationsListModel>? notifications;
+  @override
+  final String? error;
 
   factory _$GetnotifcationsModel(
           [void Function(GetnotifcationsModelBuilder)? updates]) =>
       (new GetnotifcationsModelBuilder()..update(updates))._build();
 
-  _$GetnotifcationsModel._({this.msg, this.statuscode, this.notifications})
+  _$GetnotifcationsModel._(
+      {this.msg, this.statuscode, this.notifications, this.error})
       : super._();
 
   @override
@@ -112,21 +126,25 @@ class _$GetnotifcationsModel extends GetnotifcationsModel {
     return other is GetnotifcationsModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        notifications == other.notifications;
+        notifications == other.notifications &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc($jc(0, msg.hashCode), statuscode.hashCode),
-        notifications.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode),
+            notifications.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetnotifcationsModel')
+    return (newBuiltValueToStringHelper(r'GetnotifcationsModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('notifications', notifications))
+          ..add('notifications', notifications)
+          ..add('error', error))
         .toString();
   }
 }
@@ -149,6 +167,10 @@ class GetnotifcationsModelBuilder
   set notifications(ListBuilder<NotificationsListModel>? notifications) =>
       _$this._notifications = notifications;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   GetnotifcationsModelBuilder();
 
   GetnotifcationsModelBuilder get _$this {
@@ -157,6 +179,7 @@ class GetnotifcationsModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _notifications = $v.notifications?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -183,7 +206,8 @@ class GetnotifcationsModelBuilder
           new _$GetnotifcationsModel._(
               msg: msg,
               statuscode: statuscode,
-              notifications: _notifications?.build());
+              notifications: _notifications?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -191,7 +215,7 @@ class GetnotifcationsModelBuilder
         _notifications?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetnotifcationsModel', _$failedField, e.toString());
+            r'GetnotifcationsModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -200,4 +224,4 @@ class GetnotifcationsModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

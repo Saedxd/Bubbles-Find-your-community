@@ -1,5 +1,5 @@
 
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/main.dart';
 import 'package:dio/dio.dart';
 import 'dart:io';

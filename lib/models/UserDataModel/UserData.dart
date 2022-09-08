@@ -20,6 +20,7 @@ abstract class UserData
   int? get statuscode;
   UserModel? get user;
 
+  String? get error;
 
   UserData._();
   factory UserData([void Function(UserDataBuilder b)? updates]) =  _$UserData;

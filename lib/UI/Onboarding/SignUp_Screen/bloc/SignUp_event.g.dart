@@ -32,7 +32,7 @@ class _$ClearError extends ClearError {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ClearError').toString();
+    return newBuiltValueToStringHelper(r'ClearError').toString();
   }
 }
 
@@ -159,7 +159,7 @@ class _$PostSignUp extends PostSignUp {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('PostSignUp')
+    return (newBuiltValueToStringHelper(r'PostSignUp')
           ..add('Email', Email)
           ..add('password', password)
           ..add('fcmToken', fcmToken)
@@ -372,7 +372,7 @@ class _$SocialUpdateProfile extends SocialUpdateProfile {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SocialUpdateProfile')
+    return (newBuiltValueToStringHelper(r'SocialUpdateProfile')
           ..add('fcmToken', fcmToken)
           ..add('first_name', first_name)
           ..add('last_name', last_name)
@@ -510,7 +510,7 @@ class _$GetGender extends GetGender {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetGender').toString();
+    return newBuiltValueToStringHelper(r'GetGender').toString();
   }
 }
 
@@ -571,7 +571,7 @@ class _$ChangePickedColor extends ChangePickedColor {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangePickedColor')
+    return (newBuiltValueToStringHelper(r'ChangePickedColor')
           ..add('PickedColor', PickedColor))
         .toString();
   }
@@ -643,7 +643,7 @@ class _$GetInterests extends GetInterests {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetInterests').toString();
+    return newBuiltValueToStringHelper(r'GetInterests').toString();
   }
 }
 
@@ -700,7 +700,7 @@ class _$GetSubGenders extends GetSubGenders {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetSubGenders').toString();
+    return newBuiltValueToStringHelper(r'GetSubGenders').toString();
   }
 }
 
@@ -757,7 +757,7 @@ class _$GetAvatars extends GetAvatars {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('GetAvatars').toString();
+    return newBuiltValueToStringHelper(r'GetAvatars').toString();
   }
 }
 
@@ -816,7 +816,7 @@ class _$CheckEmails extends CheckEmails {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CheckEmails')..add('Email', Email))
+    return (newBuiltValueToStringHelper(r'CheckEmails')..add('Email', Email))
         .toString();
   }
 }
@@ -861,10 +861,13 @@ class CheckEmailsBuilder implements Builder<CheckEmails, CheckEmailsBuilder> {
 }
 
 class _$ChangeSelected extends ChangeSelected {
+  @override
+  final bool? status;
+
   factory _$ChangeSelected([void Function(ChangeSelectedBuilder)? updates]) =>
       (new ChangeSelectedBuilder()..update(updates))._build();
 
-  _$ChangeSelected._() : super._();
+  _$ChangeSelected._({this.status}) : super._();
 
   @override
   ChangeSelected rebuild(void Function(ChangeSelectedBuilder) updates) =>
@@ -877,17 +880,19 @@ class _$ChangeSelected extends ChangeSelected {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ChangeSelected;
+    return other is ChangeSelected && status == other.status;
   }
 
   @override
   int get hashCode {
-    return 573215349;
+    return $jf($jc(0, status.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ChangeSelected').toString();
+    return (newBuiltValueToStringHelper(r'ChangeSelected')
+          ..add('status', status))
+        .toString();
   }
 }
 
@@ -895,7 +900,20 @@ class ChangeSelectedBuilder
     implements Builder<ChangeSelected, ChangeSelectedBuilder> {
   _$ChangeSelected? _$v;
 
+  bool? _status;
+  bool? get status => _$this._status;
+  set status(bool? status) => _$this._status = status;
+
   ChangeSelectedBuilder();
+
+  ChangeSelectedBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _status = $v.status;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(ChangeSelected other) {
@@ -912,10 +930,69 @@ class ChangeSelectedBuilder
   ChangeSelected build() => _build();
 
   _$ChangeSelected _build() {
-    final _$result = _$v ?? new _$ChangeSelected._();
+    final _$result = _$v ?? new _$ChangeSelected._(status: status);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+class _$HideSpaceOnSignUP extends HideSpaceOnSignUP {
+  factory _$HideSpaceOnSignUP(
+          [void Function(HideSpaceOnSignUPBuilder)? updates]) =>
+      (new HideSpaceOnSignUPBuilder()..update(updates))._build();
+
+  _$HideSpaceOnSignUP._() : super._();
+
+  @override
+  HideSpaceOnSignUP rebuild(void Function(HideSpaceOnSignUPBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  HideSpaceOnSignUPBuilder toBuilder() =>
+      new HideSpaceOnSignUPBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is HideSpaceOnSignUP;
+  }
+
+  @override
+  int get hashCode {
+    return 561682167;
+  }
+
+  @override
+  String toString() {
+    return newBuiltValueToStringHelper(r'HideSpaceOnSignUP').toString();
+  }
+}
+
+class HideSpaceOnSignUPBuilder
+    implements Builder<HideSpaceOnSignUP, HideSpaceOnSignUPBuilder> {
+  _$HideSpaceOnSignUP? _$v;
+
+  HideSpaceOnSignUPBuilder();
+
+  @override
+  void replace(HideSpaceOnSignUP other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$HideSpaceOnSignUP;
+  }
+
+  @override
+  void update(void Function(HideSpaceOnSignUPBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  HideSpaceOnSignUP build() => _build();
+
+  _$HideSpaceOnSignUP _build() {
+    final _$result = _$v ?? new _$HideSpaceOnSignUP._();
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

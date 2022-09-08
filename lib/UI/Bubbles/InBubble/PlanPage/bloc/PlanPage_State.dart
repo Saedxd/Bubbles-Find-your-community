@@ -1,7 +1,7 @@
 library PlanPage_State;
 
 
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';

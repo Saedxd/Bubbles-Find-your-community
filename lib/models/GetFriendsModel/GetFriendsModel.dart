@@ -1,39 +1,4 @@
-//{
-//     "msg": "success",
-//     "statuscode": 200,
-//     "friends": [
-//         {
-//             "id": 15,
-//             "first_name": "ali",
-//             "last_name": "Mohammed",
-//             "avatar": "D1Urp6eZ5ONas4UkLiTIYbinJTHv90HCLDOEPyF7.png",
-//             "pivot": {
-//                 "user_id": 13,
-//                 "friend_id": 15
-//             }
-//         },
-//         {
-//             "id": 15,
-//             "first_name": "ali",
-//             "last_name": "Mohammed",
-//             "avatar": "D1Urp6eZ5ONas4UkLiTIYbinJTHv90HCLDOEPyF7.png",
-//             "pivot": {
-//                 "user_id": 13,
-//                 "friend_id": 15
-//             }
-//         },
-//         {
-//             "id": 15,
-//             "first_name": "ali",
-//             "last_name": "Mohammed",
-//             "avatar": "D1Urp6eZ5ONas4UkLiTIYbinJTHv90HCLDOEPyF7.png",
-//             "pivot": {
-//                 "user_id": 13,
-//                 "friend_id": 15
-//             }
-//         }
-//     ]
-// }
+
 
 
 library GetFriendsModel;
@@ -57,7 +22,7 @@ abstract class GetFriendsModel
   String? get msg;
   int? get StatusCode;
   BuiltList<FriendsListModel>? get friends;
-
+  String? get error;
 
 
   GetFriendsModel._();

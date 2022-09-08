@@ -5,6 +5,7 @@ import 'package:bubbles/UI/Profile/BecomeCreator_screen/bloc/Creator_Bloc.dart';
 import 'package:bubbles/UI/Profile/BecomeCreator_screen/pages/BecomeCreatorEnd_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:conditional_questions/conditional_questions.dart';
@@ -42,10 +43,10 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft:Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -61,10 +62,10 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft:Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -79,8 +80,8 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontSize: 19.sp,
+                                    letterSpacing: 0,
                                     fontWeight: FontWeight.w600,
                                     height: 1
                                 ),),
@@ -101,7 +102,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                         ));
 
                                         Navigator.pop(context);
-                                        WidgetsBinding.instance!
+                                        WidgetsBinding.instance
                                             .addPostFrameCallback((_) =>
                                             Navigator.push(
                                               context,
@@ -116,10 +117,10 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight:Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -133,8 +134,8 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontSize: 15.sp,
+                                            letterSpacing: 0,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -153,7 +154,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                       bottom: h/5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
-                        width: 90,
+                        width: 90.w,
                       ),
                     ),
                   ],
@@ -235,7 +236,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                               child: IconButton(
                                 icon: SvgPicture.asset(
                                     "Assets/images/Frame 11.svg",
-                                    width: 30,
+                                    width: 30.w,
                                     color: COLOR.surface),
                                 onPressed:(){
 
@@ -244,7 +245,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                               )),
                           Text('Become a Creator', textAlign: TextAlign.left, style: _textthem.headlineLarge!.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: 23
+                              fontSize: 20.sp
                           ),),
                           Text(""),
                           Text(""),
@@ -267,6 +268,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                                 AnswerString.clear();
                                 AnswerID.clear();
                                 QuestionID.clear();
+
 
                                 var questionAndAnswers = _key.currentState!.toMap();
 
@@ -378,7 +380,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                     //               color: Color.fromRGBO(234, 234, 234, 1),
                     //               fontFamily: 'Sofia Pro',
                     //               fontSize: 20,
-                    //               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                    //               letterSpacing: 0,
                     //               fontWeight: FontWeight.normal,
                     //               height: 1
                     //           ),),
@@ -414,10 +416,10 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
               height: height / 6.5,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8.285714149475098),
-                  topRight: Radius.circular(8.285714149475098),
-                  bottomLeft: Radius.circular(8.285714149475098),
-                  bottomRight: Radius.circular(8.285714149475098),
+                  topLeft: Radius.circular(8.285714149475098.r),
+                  topRight: Radius.circular(8.285714149475098.r),
+                  bottomLeft: Radius.circular(8.285714149475098.r),
+                  bottomRight: Radius.circular(8.285714149475098.r),
                 ),
                 color: Color.fromRGBO(47, 47, 47, 1),
               ),
@@ -432,8 +434,8 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                       child: Text(body,
                         maxLines: 10,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.white,
-                            fontSize: 19,
+                        style:  TextStyle(color: Colors.white,
+                            fontSize: 0.27.sp,
                             fontWeight: FontWeight.w400),),
                     ),
                   ),
@@ -450,12 +452,12 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                     width: Width / 3,
                     height: height / 20,
                     margin: EdgeInsets.only(right: height / 40),
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(4.142857074737549),
-                        topRight: Radius.circular(4.142857074737549),
-                        bottomLeft: Radius.circular(4.142857074737549),
-                        bottomRight: Radius.circular(4.142857074737549),
+                        topLeft: Radius.circular(4.142857074737549.r),
+                        topRight:  Radius.circular(4.142857074737549.r),
+                        bottomLeft:  Radius.circular(4.142857074737549.r),
+                        bottomRight:  Radius.circular(4.142857074737549.r),
                       ),
                       boxShadow: [BoxShadow(
                           color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -468,11 +470,11 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                     child: Center(
                         child:
                         Text(BottonTxt, textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style:  TextStyle(
                               color: Color.fromRGBO(234, 234, 234, 1),
                               fontFamily: 'Sofia Pro',
-                              fontSize: 16.571428298950195,
-                              letterSpacing: 0.4 /*percentages not used in flutter. defaulting to zero*/,
+                              fontSize: 0.25.sp,
+                              letterSpacing: 0.4,
                               fontWeight: FontWeight.normal,
                               height: 1
                           ),)
@@ -508,11 +510,11 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                     child: Center(
                         child:
                         Text(BottonTxt2, textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style:  TextStyle(
                               color: Color.fromRGBO(234, 234, 234, 1),
                               fontFamily: 'Sofia Pro',
-                              fontSize: 16.571428298950195,
-                              letterSpacing: 0.4 /*percentages not used in flutter. defaulting to zero*/,
+                              fontSize: 0.25.sp,
+                              letterSpacing: 0.4,
                               fontWeight: FontWeight.normal,
                               height: 1
                           ),)
@@ -526,9 +528,9 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
         });
   }
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

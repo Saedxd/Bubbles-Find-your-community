@@ -7,7 +7,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_State.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Event.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_state.dart';
-import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
+
 
 
 
@@ -40,6 +40,30 @@ class PrimePlanBloc extends Bloc<PlanPageEvent, PlanPageState> {
       PlanPageEvent event,
       ) async* {
 
+    if (event is GiveMeifItsSaved){
+      //try {
+
+      yield state.rebuild((b) => b
+        ..is_Saved = event.is_saved
+      );
+      //   final date = await _repository.GetProfile();
+      //   print('get Success data $date');
+      //   yield state.rebuild((b) => b
+      //     ..isLoading = false
+      //     ..error = ""
+      //     ..success = true
+      //     ..ProfileDate.replace(date)
+      //   );
+      // // } catch (e) {
+      // //   print('get Error $e');
+      // //   yield state.rebuild((b) => b
+      // //     ..isLoading = false
+      // //     ..error = "Something went wrong"
+      // //     ..success = false
+      // //     ..ProfileDate = null
+      // //   );
+      // // }
+    }
 
 
 
