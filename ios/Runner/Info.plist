@@ -7,9 +7,7 @@
     <key>NSAllowsLocalNetworking</key>
     <true/>
 </dict>
-  <array>
-      <string>UIInterfaceOrientationPortrait</string>
-  </array>
+
 <key>NSPhotoLibraryAddUsageDescription</key>
 <string>Take pretty screenshots and save it to the PhotoLibrary.</string>
 <key>io.flutter.embedded_views_preview</key>
@@ -18,15 +16,10 @@
 <string>This app needs camera access to scan QR codes</string>
 <key>FacebookAppID</key>
 <string>fb2590262397784969</string>
-<array>
-    <string>twitter</string>
 
-</array>
 <key>NSMicrophoneUsageDescription</key>
 <string>Record audio for playback</string>
-<array>
-    <string>whatsapp</string>
-</array>
+
 <key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -36,8 +29,8 @@
 			</array>
 		</dict>
 	</array>
-
 <key>com.apple.security.network.client</key>
+<true/>
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>This app needs access to location when open.</string>
 <key>NSLocationAlwaysUsageDescription</key>
@@ -68,19 +61,23 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
-	<key>UISupportedInterfaceOrientations</key>
+	<key>UIInterfaceOrientation</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+    </array>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
 	<key>com.apple.security.network.client</key>
     <true/>
 
 	<key>NSContactsUsageDescription</key>
+    <string>This app requires contacts access to function properly.</string>
+
 	  <key>NSCameraUsageDescription</key>
     	<string>Explain to the user here why you need the permission</string>
-    <string>This app requires contacts access to function properly.</string>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -90,10 +87,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
 	<key>NSCameraUsageDescription</key>
     <string>$(PRODUCT_NAME) Camera Usage!</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>$(PRODUCT_NAME) Microphone Usage!</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

@@ -117,7 +117,7 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.2.44
   theme_manager: ^1.1.0
   bottom_sheet: ^3.0.0
-  qr_code_scanner: 1.0.0
+  qr_code_scanner: ^1.0.1
   sliding_up_panel: ^2.0.0+1
   form_field_validator: ^1.1.0
   persistent_bottom_nav_bar: ^4.0.2
@@ -137,7 +137,6 @@ dependencies:
 
   ## notifications:
   flutter_local_notifications: ^9.4.0
-  firebase_messaging: ^12.0.3
   flutter_app_badger: ^1.4.0
   badges: ^2.0.3
 
@@ -145,16 +144,18 @@ dependencies:
   flutter_screenutil: ^5.5.3+2
 
   # firebase
-  firebase_core: ^1.12.0
-  firebase_auth: ^3.3.6
+  firebase_core: ^1.22.0
+  firebase_auth: ^3.8.0
+  firebase_messaging: ^13.0.1
+
 
   #Sync Contacts
   contacts_service: ^0.6.3
   #  flutter_contacts: ^1.1.4
   share_plus: ^4.0.4
-  flutter_sms: ^2.3.2
-  flutter_email_sender: ^5.1.0
-  flutter_share_me: ^1.3.0
+#  flutter_sms: ^2.3.3
+#  flutter_email_sender: ^5.1.0
+#  flutter_share_me: ^1.3.0
 
   #Camera
   #  camera: ^0.9.4+4
@@ -372,7 +373,6 @@ flutter:
 
   assets:
     - Assets/images/
-    - Assets/icons/
     - Assets/dark_map_style.json
     - Assets/light_map_style.json
     - lib/core/Language/lang/

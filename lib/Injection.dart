@@ -6,12 +6,8 @@ import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/bloc/PlanPage_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/bloc/PrimePlan_bloc.dart';
 import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/bloc/Sprints_Bloc.dart';
 import 'package:bubbles/UI/CreatorPage/HisCreatorPage/CreatorMain/bloc/CreatorMain_Bloc.dart';
-import 'package:bubbles/UI/CreatorPage/MyCreatorPage/CreatorMain/bloc/CreatorMain_Bloc.dart' as Mine;
 import 'package:bubbles/UI/CreatorPage/MyCreatorPage/EditBubble_Screen/bloc/EditBubble_Bloc.dart';
-import 'package:bubbles/UI/CreatorPage/MyCreatorPage/EditPage_Screen/bloc/EditPage_Bloc.dart';
-import 'package:bubbles/UI/CreatorPage/MyCreatorPage/ManageBubbles_Screen/bloc/ManageBubble_Bloc.dart';
-import 'package:bubbles/UI/CreatorPage/MyCreatorPage/PageAdmins_Screen/bloc/PageAdmins_Bloc.dart';
-import 'package:bubbles/UI/CreatorPage/MyCreatorPage/Subscribers_Screen/bloc/Subscribers_Bloc.dart';
+
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/bloc/Chat_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Bloc.dart';
@@ -86,13 +82,7 @@ Future iniGetIt() async {
   sl.registerFactory(() => SavedBubblesBloc(sl()));
   sl.registerFactory(() => SettingsBloc(sl()));
   sl.registerFactory(() => PrimePlanBloc(sl()));
-  sl.registerFactory(() => CreatorMain_Bloc(sl()));
-  sl.registerFactory(() => EditBubbleBloc(sl()));
-  sl.registerFactory(() => EditPageBloc(sl()));
-  sl.registerFactory(() => ManageBubble_Bloc(sl()));
-  sl.registerFactory(() => PageAdminsBloc(sl()));
-  sl.registerFactory(() => SubscribersBloc(sl()));
-  sl.registerFactory(() => Mine.CreatorMain_Bloc(sl()));
+
   sl.registerFactory(() => SubscribedBloc(sl()));
 
 }

@@ -1226,7 +1226,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                       ShowCaseWidget
                                                                           .of(
                                                                           context)
-                                                                          .startShowCase(
+                                                                          !.startShowCase(
                                                                         [
                                                                           _key,
                                                                         ],

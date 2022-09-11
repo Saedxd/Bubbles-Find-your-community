@@ -8,7 +8,7 @@ import 'package:bubbles/UI/Profile/FindFriends_Screen/bloc/FindFriends_state.dar
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_state.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_sms/flutter_sms.dart';
+//import 'package:flutter_sms/flutter_sms.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bubbles/core/Colors/constants.dart';
@@ -16,14 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:showcaseview/showcaseview.dart';
 import '../../QrScanner_Screen/pages/QrScanner_screen.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+//import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class FindFriends_screen extends StatefulWidget {
   const FindFriends_screen({Key? key}) : super(key: key);
@@ -50,7 +48,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   String subject = ' Bubbles is a socialMedia Application';
   List<String> recipents = [];
   ScrollController _controller = ScrollController();
-  late final Email? email;
+  //late final Email? email;
   bool diditOnce22 = false;
 
   @override
@@ -68,11 +66,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    String _result = await sendSMS(message: message, recipients: recipents)
-        .catchError((onError) {
-      print(onError);
-    });
-    print(_result);
+    // String _result = await sendSMS(message: message, recipients: recipents)
+    //     .catchError((onError) {
+    //   print(onError);
+    // });
+    // print(_result);
   }
 
   void _onShareWithResult(BuildContext context, String UserHashID) async {
@@ -315,12 +313,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
           }
 
           if (state.success! && diditOnce22) {
-            email = Email(
-              body:
-                  "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username ${state.ProfileDate!.user!.serial.toString()} Spread the news! Early sign up rewards available now.",
-              subject: 'Bubbles',
-              recipients: [''],
-            );
+            // email = Email(
+            //   body:
+            //       "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username ${state.ProfileDate!.user!.serial.toString()} Spread the news! Early sign up rewards available now.",
+            //   subject: 'Bubbles',
+            //   recipients: [''],
+            // );
             diditOnce22 = false;
           }
 
@@ -441,8 +439,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                     ),
                                   ),
                                 ),
-                             Container(
-                                      child:  IconButton(
+                             Container(child:  IconButton(
                                         icon: SvgPicture.asset(
                                             "Assets/images/Frame(22).svg",
                                             color: ColorS.surface),
@@ -453,8 +450,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                             context,
                                             MaterialPageRoute(
                                               builder:
-                                                  (context) =>
-                                                      QR_Scanner( ),
+                                                  (context) => QR_Scanner( ),
                                             ),
                                           ).then((value)async {
                                             if (value == "Yep!") {
@@ -465,8 +461,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                           }
                                             );
                                         },
-                                      )
-                                ),
+                                      )),
                               ],
                             ),
                           ),
@@ -706,10 +701,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                           ),
                                           InkWell(
                                             onTap: () async {
-                                              state.success!
-                                                  ? await FlutterEmailSender.send(
-                                                      email!)
-                                                  : print("Success");
+                                              // state.success!
+                                              //     ? await FlutterEmailSender.send(
+                                              //         email!)
+                                              //     : print("Success");
                                             },
                                             child: Container(
                                               width: w / 1.3,
@@ -865,7 +860,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                               .addPostFrameCallback(
                                                             (_) => ShowCaseWidget
                                                                     .of(context)
-                                                                .startShowCase(
+                                                                !.startShowCase(
                                                               [
                                                                 _key1,
                                                               ],
@@ -1257,7 +1252,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                         .addPostFrameCallback(
                                                                       (_) => ShowCaseWidget.of(
                                                                               context)
-                                                                          .startShowCase(
+                                                                          !.startShowCase(
                                                                         [
                                                                           _key2,
                                                                         ],

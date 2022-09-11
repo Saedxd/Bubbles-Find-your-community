@@ -954,12 +954,15 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
               child: Text(body),
             ),
             actions: [
-              RaisedButton(
-                child: Text(BottonTxt),
-                onPressed: () {
-                  Navigator.pop(Context);
-                },
-              ),
+              OutlinedButton(onPressed: (){
+                Navigator.pop(Context);
+              }, child: Text(BottonTxt))
+              // RaisedButton(//
+              //   child: Text(BottonTxt),
+              //   onPressed: () {
+              //     Navigator.pop(Context);
+              //   },
+              // ),
             ],
           );
         });

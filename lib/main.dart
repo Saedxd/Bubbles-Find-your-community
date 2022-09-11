@@ -26,7 +26,11 @@ try {
 //     statusBarColor: Colors.transparent,
 //  ));
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().then((value){
+    print("success");
+  }).catchError((e){
+    print("e");
+  });
   await iniGetIt();
   await Gleap.initialize(
     token: '93AmJho7YPNoLs3F5Oe3jPZHlxF7wjZ5',
