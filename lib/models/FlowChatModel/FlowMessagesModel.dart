@@ -6,6 +6,7 @@ library FlowMessagesModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
 import 'package:bubbles/models/OldMessagesModel/ReplieslISTModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
@@ -27,6 +28,10 @@ abstract class FlowMessagesModel
   int? get id;
   bool? get is_sender;
   BuiltList<ReplieslISTModel>? get replies;
+  int? get sender_id;
+  bool? get is_friend;
+  BuiltList<InterestsListModel>? get sender_interests;
+  String? get sender_bio;
 
   FlowMessagesModel._();
   factory FlowMessagesModel([void Function(FlowMessagesModelBuilder b)? updates]) =  _$FlowMessagesModel;

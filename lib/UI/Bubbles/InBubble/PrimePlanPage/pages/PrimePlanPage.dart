@@ -158,13 +158,12 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               ),
 
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-
 
                                       Container(
                                         width: w/7,
-                                        margin: EdgeInsets.only(top: h/300),
+                                        margin: EdgeInsets.only(top: h/300,left: 3.w),
                                         child: IconButton(
                                           icon: SvgPicture.asset(
                                               "Assets/images/Frame 11.svg",
@@ -254,7 +253,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                   return    Row(
                                     children: [
                                       index==0
-                                          ? SizedBox(width: 5,)
+                                          ? SizedBox(width: 5.w,)
                                           : Container(),
                                       Align(
                                           widthFactor: 0.6,
@@ -303,7 +302,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                   Container(
                                     width: w/20,
                                       child: Image.network(widget.Bubble!.Cateogory_Icon!,fit: BoxFit.fill,)),
-                                  SizedBox(width: 5,),
+                                  SizedBox(width: 5.w,),
                                   Text(widget.Bubble!.Category!, textAlign: TextAlign.left, style: TextStyle(
                                       color: Color.fromRGBO(255, 255, 255, 1),
                                       fontFamily: 'Red Hat Display',

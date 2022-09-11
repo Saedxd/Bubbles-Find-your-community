@@ -9,7 +9,7 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Bloc.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Event.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_State.dart';
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +61,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
     final  imagePath = File(image.path);
     this.image = imagePath;
     Convert(imagePath);
+    print("Picked");
     print(imagePath);
   }
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
@@ -440,7 +441,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                               scrollDirection: Axis.horizontal,
                               itemCount: BubbleColors.length,
                               separatorBuilder:(BuildContext context, int index) {
-                                return const SizedBox( width: 5, );
+                                return  SizedBox( width: 5.w, );
                               },
                               itemBuilder: (BuildContext context,
                               int index) {
@@ -619,7 +620,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                                    style: _TextTheme.headline3!.copyWith(
                                                      fontSize: 14.sp,
                                                    )),
-                                               const SizedBox(height: 8,),
+                                                SizedBox(height: 8.h,),
                                                InkWell(
                                                  onTap: () {
                                                    PhotoBottomSheet();
@@ -650,26 +651,27 @@ class _Customize_ScreenState extends State<Customize_Screen> {
 
                                Container(
                                  height: h/2,
-                                 margin: EdgeInsets.only(bottom: h/30),
+                                 margin: EdgeInsets.only(bottom: h/28,right: 20.w),
                                  child: Column(
                                    mainAxisAlignment: MainAxisAlignment.start,
                                    children: [
-
+                                     Center(
+                                       child: Text('Event Dates:',
+                                         textAlign: TextAlign.left,
+                                         style: TextStyle(
+                                             color: Color.fromRGBO(237, 236, 241, 1),
+                                             fontFamily: 'Red Hat Text',
+                                             fontSize: 14.sp,
+                                             letterSpacing: 0.11999999731779099,
+                                             fontWeight: FontWeight.w400,
+                                             height: 1.7142857142857142
+                                         ),),
+                                     ),
+                                     SizedBox(height: 10.h,),
                                      state.DoneChoose2!
                                          ?  Column(
                                        children: [
-                                         Center(
-                                           child: Text('Event Dates:',
-                                             textAlign: TextAlign.left,
-                                             style: TextStyle(
-                                                 color: Color.fromRGBO(237, 236, 241, 1),
-                                                 fontFamily: 'Red Hat Text',
-                                                 fontSize: 14.sp,
-                                                 letterSpacing: 0.11999999731779099,
-                                                 fontWeight: FontWeight.w400,
-                                                 height: 1.7142857142857142
-                                             ),),
-                                         ),
+
                                          SizedBox(height: h/75,),
                                          Container(
                                            width: w/3,
@@ -690,8 +692,8 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                                  children: [
                                                    Image.asset(
                                                        "Assets/images/Group 229.png"),
-                                                   const SizedBox(
-                                                     width: 5,
+                                                    SizedBox(
+                                                     width: 5.w,
                                                    ),
                                                    Flexible(
                                                      child: Text(
@@ -711,8 +713,8 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                              separatorBuilder:
                                                  (BuildContext context,
                                                  int index) {
-                                               return const SizedBox(
-                                                 height: 3,
+                                               return  SizedBox(
+                                                 height: 3.h,
                                                );
                                              },
                                            ),
@@ -721,7 +723,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                      )
                                          :  Container(
                                        width: w/4,
-                                       height: h/15,
+                                       height:  h/16,
                                        decoration: BoxDecoration(
                                          borderRadius:
                                           BorderRadius
@@ -771,7 +773,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                      ),
                                    ],
                                  ),
-                               )
+                               ),
                              ],
                            ),
                          ),
@@ -790,14 +792,16 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                         widget.Dataa!.Base64Image = base64Image;
                                         widget.Dataa!.Category_id =  Wanted_Category_ID;
                                         widget.Dataa!.Picked_Color =  state.PickedColor;
+                                print( widget.Start.toString());
+                                print( widget.End.toString());
+                                print(dates);
 
                                         Diditonce = true;
                                         _CreateBubbleBloc.add(CreateBubble((b) =>
-                                        b
-                                          ..Title = widget.Dataa!.Title
+                                        b ..Title = widget.Dataa!.Title
                                           ..Description = widget.Dataa! .Description
-                                          ..End_Date = widget.Dataa!.End_Date
-                                          ..Start_Date = widget.Dataa!.Start_Date
+                                          ..End_Date = widget.End.toString()
+                                          ..Start_Date = widget.Start.toString()
                                           ..ColorS = state.PickedColor
                                           ..lng = widget.Dataa!.lng
                                           ..lat = widget.Dataa!.lat
@@ -806,7 +810,8 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                           ..raduis = widget.Dataa!.raduis
                                           ..OrganizersId = []
                                           ..Cateogory_id = widget.Dataa!.Category_id
-                                          ..Dates = ListOfSingleDatesString
+                                          ..Dates = dates
+
                                         ));
                                       }
                                     }
@@ -875,6 +880,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
     print(base64Image);
     Base64Images!.add(base64Image);
     print(Base64Images);
+    print("Converted");
   }
 
   Widget listLoader({context}) {
@@ -883,6 +889,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
       size: 30.0.w,
     );
   }
+  List<String>? dates = [];
   Future<void> dIALOG1() {
     TextTheme _textthem = Theme
         .of(context)
@@ -1023,7 +1030,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 10.h,
                           ),
                         ],
                       ),
@@ -1049,8 +1056,10 @@ class _Customize_ScreenState extends State<Customize_Screen> {
 
 
       ListOfSingleDates.add(SingleDate!);
+      dates!.add(SingleDate!.toString());
       print(ListOfSingleDates);
     }
+
   }
 
   void _onSelectionChanged1(DateRangePickerSelectionChangedArgs args) {
@@ -1086,7 +1095,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
 // import 'package:bubbles/core/Colors/constants.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+//
 // import 'package:flutter_spinkit/flutter_spinkit.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 // import 'package:form_field_validator/form_field_validator.dart';

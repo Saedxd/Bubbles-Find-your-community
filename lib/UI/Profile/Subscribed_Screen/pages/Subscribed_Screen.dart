@@ -109,7 +109,7 @@ class _SubscribedState extends State<Subscribed>{
                     scrollDirection: Axis.horizontal,
                     itemCount: 10,
                     separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(width: 5 );
+                      return SizedBox(width: 5.w );
                       },
                        itemBuilder: (BuildContext context, int index) {
 
@@ -243,7 +243,8 @@ class _SubscribedState extends State<Subscribed>{
                         physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                         scrollDirection: Axis.vertical,
                         itemCount: 10,
-                        separatorBuilder: (BuildContext context, int index) {return SizedBox(height: 7,);  },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 7.h,);  },
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap:(){},

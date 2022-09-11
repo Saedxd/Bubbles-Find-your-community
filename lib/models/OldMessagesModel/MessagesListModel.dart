@@ -4,6 +4,7 @@ library MessagesListModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
 import 'package:bubbles/models/OldMessagesModel/ReplieslISTModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
@@ -15,7 +16,8 @@ part 'MessagesListModel.g.dart';
 
 abstract class MessagesListModel
     implements Built<MessagesListModel,MessagesListModelBuilder> {
-  int? get me;//stands for myid
+
+  int? get me;
   String? get message;
   String? get sms_type;
   int? get id;
@@ -24,12 +26,16 @@ abstract class MessagesListModel
   String? get sender_image;
   String? get sender_name;
   String? get type;
+  String? get send_by;
   String? get CreatAt;
   String? get receiver_background_color;
   String? get sender_background_color;
   int? get receiver_id;
   BuiltList<ReplieslISTModel>? get replies;
-
+  int? get sender_id;
+  bool? get is_friend;
+  BuiltList<InterestsListModel>? get sender_interests;
+  String? get sender_bio;
 
 
 

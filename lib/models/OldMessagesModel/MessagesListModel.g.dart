@@ -82,6 +82,13 @@ class _$MessagesListModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.send_by;
+    if (value != null) {
+      result
+        ..add('send_by')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.CreatAt;
     if (value != null) {
       result
@@ -116,6 +123,34 @@ class _$MessagesListModelSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
                 BuiltList, const [const FullType(ReplieslISTModel)])));
+    }
+    value = object.sender_id;
+    if (value != null) {
+      result
+        ..add('sender_id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
+    value = object.is_friend;
+    if (value != null) {
+      result
+        ..add('is_friend')
+        ..add(
+            serializers.serialize(value, specifiedType: const FullType(bool)));
+    }
+    value = object.sender_interests;
+    if (value != null) {
+      result
+        ..add('sender_interests')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(InterestsListModel)])));
+    }
+    value = object.sender_bio;
+    if (value != null) {
+      result
+        ..add('sender_bio')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     return result;
   }
@@ -168,6 +203,10 @@ class _$MessagesListModelSerializer
           result.type = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'send_by':
+          result.send_by = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'CreatAt':
           result.CreatAt = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -189,6 +228,24 @@ class _$MessagesListModelSerializer
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(ReplieslISTModel)]))!
               as BuiltList<Object?>);
+          break;
+        case 'sender_id':
+          result.sender_id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
+        case 'is_friend':
+          result.is_friend = serializers.deserialize(value,
+              specifiedType: const FullType(bool)) as bool?;
+          break;
+        case 'sender_interests':
+          result.sender_interests.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(InterestsListModel)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'sender_bio':
+          result.sender_bio = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
           break;
       }
     }
@@ -217,6 +274,8 @@ class _$MessagesListModel extends MessagesListModel {
   @override
   final String? type;
   @override
+  final String? send_by;
+  @override
   final String? CreatAt;
   @override
   final String? receiver_background_color;
@@ -226,6 +285,14 @@ class _$MessagesListModel extends MessagesListModel {
   final int? receiver_id;
   @override
   final BuiltList<ReplieslISTModel>? replies;
+  @override
+  final int? sender_id;
+  @override
+  final bool? is_friend;
+  @override
+  final BuiltList<InterestsListModel>? sender_interests;
+  @override
+  final String? sender_bio;
 
   factory _$MessagesListModel(
           [void Function(MessagesListModelBuilder)? updates]) =>
@@ -241,11 +308,16 @@ class _$MessagesListModel extends MessagesListModel {
       this.sender_image,
       this.sender_name,
       this.type,
+      this.send_by,
       this.CreatAt,
       this.receiver_background_color,
       this.sender_background_color,
       this.receiver_id,
-      this.replies})
+      this.replies,
+      this.sender_id,
+      this.is_friend,
+      this.sender_interests,
+      this.sender_bio})
       : super._();
 
   @override
@@ -269,11 +341,16 @@ class _$MessagesListModel extends MessagesListModel {
         sender_image == other.sender_image &&
         sender_name == other.sender_name &&
         type == other.type &&
+        send_by == other.send_by &&
         CreatAt == other.CreatAt &&
         receiver_background_color == other.receiver_background_color &&
         sender_background_color == other.sender_background_color &&
         receiver_id == other.receiver_id &&
-        replies == other.replies;
+        replies == other.replies &&
+        sender_id == other.sender_id &&
+        is_friend == other.is_friend &&
+        sender_interests == other.sender_interests &&
+        sender_bio == other.sender_bio;
   }
 
   @override
@@ -290,20 +367,39 @@ class _$MessagesListModel extends MessagesListModel {
                                         $jc(
                                             $jc(
                                                 $jc(
-                                                    $jc($jc(0, me.hashCode),
-                                                        message.hashCode),
-                                                    sms_type.hashCode),
-                                                id.hashCode),
-                                            receiver_image.hashCode),
-                                        receiver_name.hashCode),
-                                    sender_image.hashCode),
-                                sender_name.hashCode),
-                            type.hashCode),
-                        CreatAt.hashCode),
-                    receiver_background_color.hashCode),
-                sender_background_color.hashCode),
-            receiver_id.hashCode),
-        replies.hashCode));
+                                                    $jc(
+                                                        $jc(
+                                                            $jc(
+                                                                $jc(
+                                                                    $jc(
+                                                                        $jc(
+                                                                            $jc(
+                                                                                0,
+                                                                                me
+                                                                                    .hashCode),
+                                                                            message
+                                                                                .hashCode),
+                                                                        sms_type
+                                                                            .hashCode),
+                                                                    id
+                                                                        .hashCode),
+                                                                receiver_image
+                                                                    .hashCode),
+                                                            receiver_name
+                                                                .hashCode),
+                                                        sender_image.hashCode),
+                                                    sender_name.hashCode),
+                                                type.hashCode),
+                                            send_by.hashCode),
+                                        CreatAt.hashCode),
+                                    receiver_background_color.hashCode),
+                                sender_background_color.hashCode),
+                            receiver_id.hashCode),
+                        replies.hashCode),
+                    sender_id.hashCode),
+                is_friend.hashCode),
+            sender_interests.hashCode),
+        sender_bio.hashCode));
   }
 
   @override
@@ -318,11 +414,16 @@ class _$MessagesListModel extends MessagesListModel {
           ..add('sender_image', sender_image)
           ..add('sender_name', sender_name)
           ..add('type', type)
+          ..add('send_by', send_by)
           ..add('CreatAt', CreatAt)
           ..add('receiver_background_color', receiver_background_color)
           ..add('sender_background_color', sender_background_color)
           ..add('receiver_id', receiver_id)
-          ..add('replies', replies))
+          ..add('replies', replies)
+          ..add('sender_id', sender_id)
+          ..add('is_friend', is_friend)
+          ..add('sender_interests', sender_interests)
+          ..add('sender_bio', sender_bio))
         .toString();
   }
 }
@@ -369,6 +470,10 @@ class MessagesListModelBuilder
   String? get type => _$this._type;
   set type(String? type) => _$this._type = type;
 
+  String? _send_by;
+  String? get send_by => _$this._send_by;
+  set send_by(String? send_by) => _$this._send_by = send_by;
+
   String? _CreatAt;
   String? get CreatAt => _$this._CreatAt;
   set CreatAt(String? CreatAt) => _$this._CreatAt = CreatAt;
@@ -393,6 +498,24 @@ class MessagesListModelBuilder
   set replies(ListBuilder<ReplieslISTModel>? replies) =>
       _$this._replies = replies;
 
+  int? _sender_id;
+  int? get sender_id => _$this._sender_id;
+  set sender_id(int? sender_id) => _$this._sender_id = sender_id;
+
+  bool? _is_friend;
+  bool? get is_friend => _$this._is_friend;
+  set is_friend(bool? is_friend) => _$this._is_friend = is_friend;
+
+  ListBuilder<InterestsListModel>? _sender_interests;
+  ListBuilder<InterestsListModel> get sender_interests =>
+      _$this._sender_interests ??= new ListBuilder<InterestsListModel>();
+  set sender_interests(ListBuilder<InterestsListModel>? sender_interests) =>
+      _$this._sender_interests = sender_interests;
+
+  String? _sender_bio;
+  String? get sender_bio => _$this._sender_bio;
+  set sender_bio(String? sender_bio) => _$this._sender_bio = sender_bio;
+
   MessagesListModelBuilder();
 
   MessagesListModelBuilder get _$this {
@@ -407,11 +530,16 @@ class MessagesListModelBuilder
       _sender_image = $v.sender_image;
       _sender_name = $v.sender_name;
       _type = $v.type;
+      _send_by = $v.send_by;
       _CreatAt = $v.CreatAt;
       _receiver_background_color = $v.receiver_background_color;
       _sender_background_color = $v.sender_background_color;
       _receiver_id = $v.receiver_id;
       _replies = $v.replies?.toBuilder();
+      _sender_id = $v.sender_id;
+      _is_friend = $v.is_friend;
+      _sender_interests = $v.sender_interests?.toBuilder();
+      _sender_bio = $v.sender_bio;
       _$v = null;
     }
     return this;
@@ -445,16 +573,24 @@ class MessagesListModelBuilder
               sender_image: sender_image,
               sender_name: sender_name,
               type: type,
+              send_by: send_by,
               CreatAt: CreatAt,
               receiver_background_color: receiver_background_color,
               sender_background_color: sender_background_color,
               receiver_id: receiver_id,
-              replies: _replies?.build());
+              replies: _replies?.build(),
+              sender_id: sender_id,
+              is_friend: is_friend,
+              sender_interests: _sender_interests?.build(),
+              sender_bio: sender_bio);
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'replies';
         _replies?.build();
+
+        _$failedField = 'sender_interests';
+        _sender_interests?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'MessagesListModel', _$failedField, e.toString());

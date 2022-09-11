@@ -35,6 +35,7 @@ MERGED from [:flutter_fgbg] G:\Bubbles\build\flutter_fgbg\intermediates\library_
 MERGED from [:gleap_sdk] G:\Bubbles\build\gleap_sdk\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:address_search_field] G:\Bubbles\build\address_search_field\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-17:12
 MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:device_info_plus] G:\Bubbles\build\device_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:audio_session] G:\Bubbles\build\audio_session\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
@@ -284,6 +285,8 @@ MERGED from [:flutter_share_me] G:\Bubbles\build\flutter_share_me\intermediates\
 MERGED from [:flutter_share_me] G:\Bubbles\build\flutter_share_me\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-12:15
 MERGED from [:contacts_service] G:\Bubbles\build\contacts_service\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-24:15
 MERGED from [:contacts_service] G:\Bubbles\build\contacts_service\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-24:15
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-11:15
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-11:15
 MERGED from [com.facebook.android:facebook-common:14.1.1] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\39f88918b96cab966a557de151bd14c5\jetified-facebook-common-14.1.1\AndroidManifest.xml:29:5-31:15
 MERGED from [com.facebook.android:facebook-common:14.1.1] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\39f88918b96cab966a557de151bd14c5\jetified-facebook-common-14.1.1\AndroidManifest.xml:29:5-31:15
 MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\6bd919c89e93cf3f71bfff6214c01642\jetified-play-services-maps-18.0.2\AndroidManifest.xml:30:5-34:15
@@ -324,6 +327,8 @@ MERGED from [:flutter_email_sender] G:\Bubbles\build\flutter_email_sender\interm
 MERGED from [:flutter_email_sender] G:\Bubbles\build\flutter_email_sender\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-17:19
 MERGED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
 MERGED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-12:19
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-15:19
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-15:19
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-16:19
 MERGED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:10:5-16:19
 MERGED from [com.facebook.android:facebook-login:14.1.1] C:\Users\Admin\.gradle\caches\transforms-2\files-2.1\607d715c1f619747edf80a4a6c49142f\jetified-facebook-login-14.1.1\AndroidManifest.xml:28:5-29:19
@@ -618,6 +623,8 @@ MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_an
 MERGED from [:permission_handler_android] G:\Bubbles\build\permission_handler_android\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:address_search_field] G:\Bubbles\build\address_search_field\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:address_search_field] G:\Bubbles\build\address_search_field\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:package_info_plus] G:\Bubbles\build\package_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:device_info_plus] G:\Bubbles\build\device_info_plus\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
@@ -1050,6 +1057,16 @@ ADDED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\interme
 		ADDED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:11:13-71
 	android:name
 		ADDED from [:url_launcher_android] G:\Bubbles\build\url_launcher_android\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-74
+intent#action:name:android.support.customtabs.action.CustomTabsService
+ADDED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-10:18
+action#android.support.customtabs.action.CustomTabsService
+ADDED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-90
+	android:name
+		ADDED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:9:21-87
+activity#com.maru.twitter_login.chrome_custom_tabs.ChromeCustomTabsActivity
+ADDED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:14:9-103
+	android:name
+		ADDED from [:twitter_login] G:\Bubbles\build\twitter_login\intermediates\library_manifest\debug\AndroidManifest.xml:14:19-100
 service#com.lyokone.location.FlutterLocationService
 ADDED from [:location] G:\Bubbles\build\location\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-15:56
 	android:enabled

@@ -1,7 +1,8 @@
 library CreateBubble_State;
 
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
 import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart';
@@ -53,8 +54,8 @@ abstract class CreateBubbleState implements Built<CreateBubbleState, CreateBubbl
   CreateBubbleModel? get CreateBubble;
   FriendListSearchModel? get SearchFrinedsResult;
   EventCateogoryModel? get EventCateogory;
-  List<FriendlistData>? get Friendlist;
-  List<FriendlistData>? get FilteredFriendlist;
+  List<FrinedsData>? get Friendlist;
+  List<FrinedsData>? get FilteredFriendlist;
   List<bool>? get IsChosen_Colors;
   bool? get ChooseColorIsLoading;
 

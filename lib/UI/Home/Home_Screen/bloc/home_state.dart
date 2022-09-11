@@ -1,6 +1,6 @@
 library home_state;
 
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';

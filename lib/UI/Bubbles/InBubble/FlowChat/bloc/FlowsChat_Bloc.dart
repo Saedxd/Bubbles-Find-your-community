@@ -310,7 +310,7 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
             InstanceMessages.ReplierAlias = state.FlowOldMessages!.messages![i].replies![0].alias.toString();
             InstanceMessages.ReplierMessage = state.FlowOldMessages!.messages![i].replies![0].comment.toString();
             InstanceMessages.ReplierAvatar =  state.FlowOldMessages!.messages![i].replies![0].avatar.toString();
-            InstanceMessages.Replierbackground_Color =int.parse(Value2);
+            InstanceMessages.Replier_background_Color =int.parse(Value2);
             DateTime datee2 = DateTime.parse( state.FlowOldMessages!.messages![i].replies![0].CreatAt.toString());
             InstanceMessages.time =  DateFormat.jm().format(datee2.toLocal());
 

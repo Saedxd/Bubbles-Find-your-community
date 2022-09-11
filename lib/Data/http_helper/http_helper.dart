@@ -62,6 +62,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart'as http;
+import 'package:intl/intl.dart';
 import 'Ihttp_helper.dart';
 import 'dart:io';
 import 'dart:core';
@@ -1469,10 +1470,18 @@ Future<GetBubblesModel> GetPrimeBubblees(
     try {
       print(images.length);
       print("Length :");
+
+        // String STartTimeString = DateFormat.yMd('en_US').format(
+        //     DateTime.parse(start_event_date));
+        // String EndTimeString = DateFormat.yMd('en_US').format(
+        //     DateTime.parse(end_event_date));
+
       final formData = {
         "title": title,
         "location": location,
-        "images": images,//LIST
+        "images":
+        //[""],
+     images,//LIST,
         "color": color,
         "description": description,
         "organizers": organizers,
@@ -1486,6 +1495,8 @@ Future<GetBubblesModel> GetPrimeBubblees(
         "category": Cateogory_id,
         "eventNames": ["Empty FOr now","Empty for Now"],
       };
+
+
       final response = await _dio!
           .post('event/store', data: formData, options: Options(headers: {
         "Accept" :"application/json",
@@ -1513,6 +1524,7 @@ Future<GetBubblesModel> GetPrimeBubblees(
     } on SocketException catch (e) {
       throw NetworkException();
     } catch (e) {
+      print(e);
       throw NetworkException();
     }
   }
@@ -1615,6 +1627,7 @@ Future<GetBubblesModel> GetPrimeBubblees(
 
   @override
   Future<OldMessagesModel> GetLastMessageBetweenMeAndAllUsers(
+
       String Auth,
       ) async {
     try {

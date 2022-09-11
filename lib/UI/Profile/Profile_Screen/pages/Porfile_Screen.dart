@@ -227,7 +227,7 @@ class _ProfileState extends State<Profile> {
                                                         .spaceAround,
                                                 children: [
                                                   SizedBox(
-                                                    width: 10,
+                                                    width: 10.w,
                                                   ),
                                                   Expanded(
                                                     flex: 2,
@@ -241,12 +241,17 @@ class _ProfileState extends State<Profile> {
                                                             width: w / 1.2,
                                                             height: h / 2.22,
                                                             margin: EdgeInsets.only(left: h/60),
-                                                            child: CircleAvatar(
-                                                              backgroundColor: Color(BackgroundColor),
-                                                              backgroundImage: NetworkImage(state
-                                                                  .ProfileDate!.user!.avatar
-                                                                  .toString()
-                                                              ),
+                                                            child: Row(
+                                                              children: [
+                                                                CircleAvatar(
+                                                                  backgroundColor: Color(BackgroundColor),
+                                                                  backgroundImage: NetworkImage(state
+                                                                      .ProfileDate!.user!.avatar
+                                                                      .toString()
+                                                                  ),
+                                                                  radius: 50.r,
+                                                                ),
+                                                              ],
                                                             )
                                                         ),
                                                       ),

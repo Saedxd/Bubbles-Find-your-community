@@ -1459,6 +1459,7 @@ layout abc_tooltip
 layout activity_gleap_main
 layout browser_actions_context_menu_page
 layout browser_actions_context_menu_row
+layout chrome_custom_tab
 layout com_facebook_activity_layout
 layout com_facebook_device_auth_dialog_fragment
 layout com_facebook_login_fragment

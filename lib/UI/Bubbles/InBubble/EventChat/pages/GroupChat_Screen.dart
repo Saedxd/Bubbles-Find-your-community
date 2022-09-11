@@ -486,10 +486,11 @@ class _GroupChatState extends State<GroupChat>{
               BuildContext Context,
               double h,
               double w,
-              int myINdex,
               bool is_frined,
               bool is_me,
               int frined_id,
+              int myINdex,
+              FrinedsData UserData
               ) async {
             return showDialog(
                 context: Context,
@@ -498,7 +499,7 @@ class _GroupChatState extends State<GroupChat>{
 
 
 
-                  var myInt = int.parse(state.FilteredInsideBubbleUsers![myINdex].Background_Color.toString());
+                  var myInt = int.parse(UserData.Background_Color.toString());
                   var BackgroundColor= myInt;
 
 
@@ -544,12 +545,17 @@ class _GroupChatState extends State<GroupChat>{
 
                                               Container(
                                                 margin: EdgeInsets.only(left: h/60),
-                                                child: CircleAvatar(
-                                                  backgroundImage: NetworkImage(state.FilteredInsideBubbleUsers![myINdex].Avatar.toString()),
+                                                child:    InkWell(
+                                                  onTap: (){
+                                                    //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                  },
+                                                  child:CircleAvatar(
+                                                  backgroundImage: NetworkImage(UserData.Avatar.toString()),
                                                   radius:35.w,
 
                                                   backgroundColor:Color(BackgroundColor),
                                                 ),
+                                                )
                                               ),
                                               Container(
                                                 margin: EdgeInsets.only(left: h/60),
@@ -557,7 +563,7 @@ class _GroupChatState extends State<GroupChat>{
                                                   children: [
                                                     Container(
                                                       child: Text(
-                                                          state.FilteredInsideBubbleUsers![myINdex].Alias
+                                                          UserData.Alias
                                                               .toString(),
                                                           overflow: TextOverflow.ellipsis,
                                                           style: _TextTheme.headline6!.copyWith(
@@ -573,7 +579,7 @@ class _GroupChatState extends State<GroupChat>{
                                                       children: [
 
                                                         Text(
-                                                    state.FilteredInsideBubbleUsers![myINdex].Serial!,
+                                                            "UserData.Serial!",
                                                             textAlign: TextAlign.left,
                                                             style: _TextTheme
                                                                 .headline6!
@@ -614,7 +620,7 @@ class _GroupChatState extends State<GroupChat>{
                                             Container(
                                               margin: EdgeInsets.only(left: 20.w),
                                                 child:
-                                                Text( state.FilteredInsideBubbleUsers![myINdex].boi.toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                Text(UserData.boi.toString(), textAlign: TextAlign.left, style: TextStyle(
                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                     fontFamily: 'Red Hat Text',
                                                     fontSize: 12.sp,
@@ -640,7 +646,7 @@ class _GroupChatState extends State<GroupChat>{
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![myINdex].ID!,His_Alias: state.FilteredInsideBubbleUsers![myINdex].Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: UserData.His_id!,His_Alias:UserData.Alias!,),),   ));
                                               },
 
                                               child: Container(
@@ -674,15 +680,13 @@ class _GroupChatState extends State<GroupChat>{
                                                 :
                                             InkWell(
                                               onTap: (){
-                                                if (widget.MY_ID!= state.FilteredInsideBubbleUsers![myINdex].ID!) {
+                                                if (widget.MY_ID!= UserData.His_id!) {
                                                   if (!is_frined) {
                                                     Navigator.pop(context);
                                                     _GroupChatBloc.add(
                                                         AddFrined((b) =>
                                                         b
-                                                          ..serial = state
-                                                              .FilteredInsideBubbleUsers![myINdex]
-                                                              .Serial.toString()
+                                                          ..serial =UserData.Serial.toString()
                                                           ..index = myINdex
                                                         ));
                                                   } else {
@@ -733,7 +737,7 @@ class _GroupChatState extends State<GroupChat>{
                                             )
                                           ],
                                         ),
-                                        SizedBox(height: 7,),
+                                        SizedBox(height: 7.h,),
                                       ],
                                     ),
                                   ),
@@ -748,6 +752,8 @@ class _GroupChatState extends State<GroupChat>{
                   );
                 });
           }
+
+
 
 //Count/total*100 you get percent width size
           if (state.AliasISsuccess! && !DIditonce2) {
@@ -926,7 +932,7 @@ class _GroupChatState extends State<GroupChat>{
                                                                     children: [
                                                                       InkWell(
                                                                         onTap: (){
-                                                                          //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                          alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
                                                                         },
                                                                         child: CircleAvatar(
                                                                           backgroundColor: Color(state
@@ -1350,7 +1356,7 @@ class _GroupChatState extends State<GroupChat>{
                                                                                     backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                                   ),
                                                                                    SizedBox(
-                                                                                    width: 3,
+                                                                                    width: 3.w,
                                                                                   ),
                                                                                   Text(
                                                                                     state.messages![index].RepliedTOAlias.toString()
@@ -2514,11 +2520,16 @@ class _GroupChatState extends State<GroupChat>{
                                                   Positioned(
                                                     top: h/11,
                                                     left: h/12,
-                                                    child: CircleAvatar(
+                                                    child:    InkWell(
+                                                      onTap: (){
+                                                        //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                      },
+                                                      child:CircleAvatar(
                                                       backgroundImage: NetworkImage(state.FlowList![index].Who_Made_it_Avatar!),
                                                       backgroundColor: Color(state.FlowList![index].Who_Made_it_Color!),
                                                       radius: 13,
                                                     ),
+                                                    )
                                                   ),
                                                 ],
                                         ),
@@ -2614,8 +2625,8 @@ class _GroupChatState extends State<GroupChat>{
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(0),
                               topRight: Radius.circular(0),
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20.r),
+                              bottomRight: Radius.circular(20.r),
                             ),
                             // boxShadow: [
                             //   BoxShadow(
@@ -2635,9 +2646,9 @@ class _GroupChatState extends State<GroupChat>{
                               child: Container(
                                   width: w / 7,
                                   height: h / 30,
+                                  margin: EdgeInsets.only(left: 15.w),
                                   child: Row(
                                     children: [
-                                       Text("       "),
                                       SvgPicture.asset(
                                           "Assets/images/Frame 11.svg",
                                           width: 30.w,
@@ -2667,7 +2678,7 @@ class _GroupChatState extends State<GroupChat>{
                                 IconButton(
                                   icon: SvgPicture.asset(
                                       "Assets/images/MORE.svg",
-                                      width: 23,
+                                      width: 23.w,
                                       color: ColorS.surface),
                                   onPressed: () {
                                     // _scaffoldKey.currentState!
@@ -2680,15 +2691,15 @@ class _GroupChatState extends State<GroupChat>{
                                       }
                                     }
 
-                                    if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                    // if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
                                       _scaffoldKey.currentState!
                                           .openEndDrawer();
                                       _GroupChatBloc.add(GetUsersInsideBubble((b) => b
                                         ..Bubble_id = widget.bubble_id
                                       ));
-                                    }else{
-                                      OutsideBubbleAlreat();
-                                    }
+                                    // }else{
+                                    //   OutsideBubbleAlreat();
+                                    // }
                                   },
                                 )
                               ],
@@ -2726,7 +2737,15 @@ class _GroupChatState extends State<GroupChat>{
         });
   }
 
-  Widget Drawerr(double w, double h, BuildContext context, GroupChatState state, Future<dynamic> alreatDialogBuilder(BuildContext Context, double h, double w, int myINdex, bool is_frined, bool is_me, int frined_id), ColorScheme ColorS, TextTheme _TextTheme) {
+  Widget Drawerr(double w, double h, BuildContext context, GroupChatState state,
+      Future<dynamic> alreatDialogBuilder(   BuildContext Context,
+          double h,
+          double w,
+          bool is_frined,
+          bool is_me,
+          int frined_id,
+          int myINdex,
+          FrinedsData UserData), ColorScheme ColorS, TextTheme _TextTheme) {
     return Container(
       width: w/1.14,
       child:
@@ -2738,51 +2757,43 @@ class _GroupChatState extends State<GroupChat>{
                         SingleChildScrollView(
                           child: Column(
                             children: [
+
                              Container(
                                   width: w,
                              color: Color(widget.Bubble_Color),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
+
                                          Row(
                                   children: [
                                   IconButton(
                                       onPressed: (){
                           Navigator.pop(context);
                           }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
-                          Text(widget.plan_Title.toString(),
-                            textAlign: TextAlign.left,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.roboto().copyWith(
-                                color: Color.fromRGBO(47, 47, 47, 1),
-                                fontSize: 18.sp,
-                                letterSpacing: 0 ,
-                                fontWeight: FontWeight.w800,
-                                height: 1
+                          Container(
+                            child:
+                            Flexible(
+                              child: Text(widget.plan_Title.toString(),
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.roboto().copyWith(
+                                    color: Color.fromRGBO(47, 47, 47, 1),
+                                    fontSize: 18.sp,
+                                    letterSpacing: 0 ,
+                                    fontWeight: FontWeight.w800,
+                                    height: 1
+                                ),
+                              ),
                             ),
                           ),
 
                           ],
                       ),
 
-                                          // Container(
-                                          //   margin: EdgeInsets.only(right: h/100),
-                                          //   child: IconButton(
-                                          //       onPressed: (){
-                                          //         Navigator.pop(context);
-                                          //       }, icon:
-                                          //   SvgPicture.asset(
-                                          //     "Assets/images/Gallary.svg",
-                                          //     width: w / 16,
-                                          //   )
-                                          //   ),
-                                          // ),
 
-                                        ],
-                                      ),
+
+
                                       Container(
                                         width: w/1.2,
                                         margin: EdgeInsets.all(5.w),
@@ -2803,11 +2814,9 @@ class _GroupChatState extends State<GroupChat>{
                                     ],
                                   ),
                                 ),
-
-                              SingleChildScrollView(
-                                  child:  Container(
+                            Container(
                                       width: w,
-                                    height: h/1.3,
+                                    height: h/1.17,
                                       child:
                                       Column(
                                         children: [
@@ -2862,11 +2871,18 @@ class _GroupChatState extends State<GroupChat>{
                                                         width: w/5,
                                                       ),
                                                       Positioned(
-                                                        top: h/26,
-                                                        left: h/25,
-                                                        child: SvgPicture.asset(
-                                                          "Assets/images/S3EQA.svg",
-                                                          width: w/24,
+                                                        top: 0,
+                                                        bottom: 0,
+                                                        right: 0,
+                                                        left: 0,
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            SvgPicture.asset(
+                                                              "Assets/images/S3EQA.svg",
+                                                              width: w/24,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
                                                     ],
@@ -2934,7 +2950,7 @@ class _GroupChatState extends State<GroupChat>{
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (context) =>
-                                                            
+
                                                                 SprintLobby(plan_title: widget.plan_Title!,Bubble_id: widget.bubble_id,my_id: widget.MY_ID!, Color: widget.Bubble_Color,)),
                                                       ));
                                                     else{
@@ -3002,7 +3018,10 @@ class _GroupChatState extends State<GroupChat>{
                                                   },
                                                   cursorColor: Colors.grey,
                                                   style:  TextStyle(
-                                                      color: Colors.orange, fontSize: 16.5.sp),
+                                                      color: Colors.orange,
+                                                      fontSize: 16.5.sp,
+                                                    height: 1.2.h
+                                                  ),
                                                   decoration: InputDecoration(
                                                     border: OutlineInputBorder(
                                                       borderRadius: BorderRadius.circular(30.0.r),
@@ -3048,18 +3067,17 @@ class _GroupChatState extends State<GroupChat>{
 
 
                                           state.GetInsideUsersSuccess!
-                                              ?  Expanded(
-                                              child:Container(
+                                              ?  Container(
                                                 width: w,
-                                                height: h/1.42,
-                                                margin: EdgeInsets.only(right: h/40),
+                                                height: h/1.8,
+                                               margin: EdgeInsets.only(right: w/14),
                                                 child: ScrollConfiguration(
                                                   behavior: MyBehavior(),
                                                   child: ListView.separated(
                                                     shrinkWrap: true,
                                                     padding: EdgeInsets.zero,
-                                                    physics: NeverScrollableScrollPhysics(
-                                                    ),
+                                                    physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+
                                                     scrollDirection: Axis.vertical,
                                                     itemCount: state.FilteredInsideBubbleUsers!.length,
                                                     separatorBuilder: (BuildContext context, int index) {
@@ -3072,13 +3090,12 @@ class _GroupChatState extends State<GroupChat>{
                                                       var myInt = int.parse(state.FilteredInsideBubbleUsers![index].Background_Color.toString());
                                                       var BackgroundColor= myInt;
 
-
                                                       return
                                                       state.FilteredInsideBubbleUsers![index].ID==id?
                                                       Column(
                                                         children: [
                                                           Container(
-                                                            margin: EdgeInsets.only(left: h/40),
+                                                            margin: EdgeInsets.only(left: w/14),
                                                             width: w / 1.2,
                                                             height: h / 13,
                                                             decoration: BoxDecoration(
@@ -3115,7 +3132,7 @@ class _GroupChatState extends State<GroupChat>{
                                                                                 height: h / 15,
                                                                                 child:InkWell(
                                                                                   onTap: (){
-                                                                                    alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!);
+                                                                                    alreatDialogBuilder(context,h,w,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]);
                                                                                   },
                                                                                   child: CachedNetworkImage(
                                                                                     imageUrl:state.FilteredInsideBubbleUsers![index].Avatar!,
@@ -3159,6 +3176,7 @@ class _GroupChatState extends State<GroupChat>{
                                                                     state.FilteredInsideBubbleUsers![index].Alias!,
                                                                     textAlign: TextAlign.left,
                                                                     style: _TextTheme.headline3!.copyWith(
+                                                                      color: Color(0xffCF6D38),
                                                                         fontFamily: 'Red Hat Display',
                                                                         fontWeight: FontWeight.w400
                                                                         ,fontSize: 15.35.sp
@@ -3212,10 +3230,10 @@ class _GroupChatState extends State<GroupChat>{
                                                             Expanded(
                                                               child: InkWell(
                                                                 onTap: () {
-                                                                  alreatDialogBuilder(context,h,w,index
+                                                                  alreatDialogBuilder(context,h,w
                                                                       ,state.FilteredInsideBubbleUsers![index].is_Frined!
                                                                       ,false
-                                                                      ,state.FilteredInsideBubbleUsers![index].ID!
+                                                                      ,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]
                                                                   );
                                                                 },
                                                                 child: Container(
@@ -3268,7 +3286,7 @@ class _GroupChatState extends State<GroupChat>{
                                                         child: Column(
                                                           children: [
                                                             Container(
-                                                              margin: EdgeInsets.only(left: h/40),
+                                                              margin: EdgeInsets.only(left: w/14),
                                                               width: w / 1.2,
                                                               height: h / 13,
                                                               decoration: BoxDecoration(
@@ -3305,7 +3323,7 @@ class _GroupChatState extends State<GroupChat>{
                                                                                   height: h / 15,
                                                                                   child:InkWell(
                                                                                     onTap: (){
-                                                                                      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!);
+                                                                                      alreatDialogBuilder(context,h,w,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]);
                                                                                     },
                                                                                     child: CachedNetworkImage(
                                                                                       imageUrl:state.FilteredInsideBubbleUsers![index].Avatar!,
@@ -3372,12 +3390,10 @@ class _GroupChatState extends State<GroupChat>{
                                                   ),
                                                 ),
                                               )
-                                          )
                                               :   state.GetInsideUsersISloading!
-                                              ?    Expanded(
-                                              child:    Container(
-                                                  width: w,
-                                                  height: h/1.266,
+                                              ?      Container(
+                                              width: w,
+                                              height: h/1.8,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -3386,20 +3402,17 @@ class _GroupChatState extends State<GroupChat>{
                                                           child: listLoader(
                                                               context: context)),
                                                     ],
-                                                  )))
-                                              :    Expanded(
-                                            child:    Container(
-                                              width: w,
-                                              height: h/1.266,
-                                              child: Text("Error"),
-                                            ),)
+                                                  ))
+                                              :   Container(
+                                            width: w,
+                                            height: h/1.8,
+                                              child: Center(child: Text("Loading")),
+                                            ),
 
 
                                         ],
                                       ),
                                     ),
-                                  )
-
                             ],
                           ),
                         ),
@@ -3758,7 +3771,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                 color: Color.fromRGBO(
                                                     47, 47, 47, 1),
                                                 fontFamily: 'Red Hat Display',
-                                                fontSize: 13.5.sp,
+                                                fontSize: 11.sp,
                                                 letterSpacing: 0,
                                                 fontWeight: FontWeight.w600,
                                                 height: 1),
@@ -3829,7 +3842,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                 color: Color.fromRGBO(
                                                     47, 47, 47, 1),
                                                 fontFamily: 'Red Hat Display',
-                                                fontSize: 13.5.sp,
+                                                fontSize: 11.sp,
                                                 letterSpacing: 0,
                                                 fontWeight: FontWeight.w600,
                                                 height: 1),
@@ -3892,6 +3905,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                         children: [
+                                          Text(""),
                                            Text(
                                             'Footprint',
                                             textAlign: TextAlign.center,
@@ -3899,7 +3913,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                 color: Color.fromRGBO(
                                                     47, 47, 47, 1),
                                                 fontFamily: 'Red Hat Display',
-                                                fontSize: 13.5.sp,
+                                                fontSize: 11.sp,
                                                 letterSpacing: 0,
                                                 fontWeight: FontWeight.w600,
                                                 height: 1),
@@ -3937,6 +3951,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                         child: InkWell(
                             onTap: () {
                              MediaDumpBottomSheet();
+
                             },
                             child: Stack(children: [
                               Positioned(
@@ -3958,7 +3973,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                       children: [
-                                         Text(""),
+                                        Text(""),
                                          Text(
                                           'Media dump',
                                           textAlign: TextAlign.center,
@@ -3966,7 +3981,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                               color:
                                               Color.fromRGBO(47, 47, 47, 1),
                                               fontFamily: 'Red Hat Display',
-                                              fontSize: 13.5.sp,
+                                              fontSize: 11.sp,
                                               letterSpacing: 0,
                                               fontWeight: FontWeight.w600,
                                               height: 1),
@@ -5502,6 +5517,11 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              InkWell(
+              onTap: (){
+      //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+    },
+      child:
               CircleAvatar(
                 backgroundColor:
                 Color(state.messages![index].background_Color!),
@@ -5509,6 +5529,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                 NetworkImage(state.messages![index].Avatar.toString()),
                 radius: 20.w,
               ),
+              )
             ],
           ),
         ),
@@ -6223,12 +6244,18 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                     SizedBox(width: w/30,),
                 Row(
                   children: [
+                    InkWell(
+                      onTap: (){
+                        //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                      },
+                      child:
                     CircleAvatar(
                       backgroundColor:
                       Color(data.Who_Made_it_Color!),
                       backgroundImage:
                       NetworkImage(data.Who_Made_it_Avatar!),
                       radius: 20.w,
+                    ),
                     ),
                     SizedBox(width: 10,),
                     Text(
@@ -6448,12 +6475,18 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           SizedBox(width: w/30,),
                           Row(
                             children: [
+                              InkWell(
+                                onTap: (){
+                                  //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                },
+                                child:
                               CircleAvatar(
                                 backgroundColor:
                                 Color(data.Who_Made_it_Color!),
                                 backgroundImage:
                                 NetworkImage(data.Who_Made_it_Avatar!),
                                 radius: 20.w,
+                              ),
                               ),
                               SizedBox(width: 10,),
                               Text(
@@ -6673,12 +6706,18 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                       SizedBox(width: w/30,),
                                       Row(
                                         children: [
+                                          InkWell(
+                                            onTap: (){
+                                              //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                            },
+                                            child:
                                           CircleAvatar(
                                             backgroundColor:
                                             Color(data.Who_Made_it_Color!),
                                             backgroundImage:
                                             NetworkImage(data.Who_Made_it_Avatar!),
                                             radius: 20.w,
+                                          ),
                                           ),
                                           SizedBox(width: 10,),
                                           Text(
@@ -7954,15 +7993,21 @@ class _HeroImageState extends State<HeroImage> {
                 Row(
 
                       children: [
-                        SizedBox(width: 5,),
+                        SizedBox(width: 5.w,),
+                        InkWell(
+                          onTap: (){
+                            //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                          },
+                          child:
                         CircleAvatar(
                           backgroundColor:
                           Color(widget.Sender_Color!),
                           backgroundImage:
                           NetworkImage(widget.Sender_Avatar!),
-                          radius: 17,
+                          radius: 17.r,
                         ),
-                        SizedBox(width: 5,),
+                        ),
+                        SizedBox(width: 5.w,),
                         Text(
                          widget.Sender_Alias!,
                           textAlign: TextAlign.left,

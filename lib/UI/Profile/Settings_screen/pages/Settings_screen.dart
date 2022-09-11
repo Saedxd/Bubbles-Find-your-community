@@ -5,7 +5,6 @@ import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMess
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
-import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_bloc.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_event.dart';
@@ -149,7 +148,7 @@ class _SettingsState extends State<Settings> {
                   //     ],
                   //   ),
                   // ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10.h,),
                   // Container(
                   //     width: w / 1.4,
                   //     child: Row(

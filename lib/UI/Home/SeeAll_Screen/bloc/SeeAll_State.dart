@@ -1,6 +1,6 @@
 library SeeAll_State;
 
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
@@ -115,8 +115,8 @@ abstract class SeeAllState implements Built<SeeAllState, SeeAllStateBuilder>   {
   CreateBubbleModel? get CreateBubble;
   FriendListSearchModel? get SearchFrinedsResult;
   EventCateogoryModel? get EventCateogory;
-  List<FriendlistData>? get Friendlist;
-  List<FriendlistData>? get FilteredFriendlist;
+  List<FrinedsData>? get Friendlist;
+  List<FrinedsData>? get FilteredFriendlist;
   List<bool>? get IsChosen_Colors;
   bool? get ChooseColorIsLoading;
 

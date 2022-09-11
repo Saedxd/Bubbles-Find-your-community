@@ -603,17 +603,17 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                               AlwaysScrollableScrollPhysics()),
                                       child: Column(
                                         children: [
-                                          const SizedBox(
-                                            height: 10,
+                                           SizedBox(
+                                            height: 10.h,
                                           ),
-                                          const Text(""),
+
                                           Showcase(
                                             key: _key1,
                                             description:
                                                 'Ask a friend for their unique code, or type in their username',
                                             showArrow: true,
                                             overlayPadding:
-                                                const EdgeInsets.only(bottom: 4),
+                                                 EdgeInsets.only(bottom: 4.h),
                                             showcaseBackgroundColor:
                                                 Colors.transparent,
                                             textColor: Colors.white,
@@ -645,8 +645,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                     ],
                                                   ),
                                                 ),
-                                                const SizedBox(
-                                                  height: 5,
+                                                 SizedBox(
+                                                  height: 5.h,
                                                 ),
                                                 InkWell(
                                                   onTap: () async {
@@ -701,8 +701,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                               ],
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 10,
+                                           SizedBox(
+                                            height: 10.h,
                                           ),
                                           InkWell(
                                             onTap: () async {
@@ -763,8 +763,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 10,
+                                           SizedBox(
+                                            height: 10.h,
                                           ),
                                           InkWell(
                                             onTap: () {
@@ -828,10 +828,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                               ),
                                             ),
                                           ),
-                                          const SizedBox(
-                                            height: 10,
+                                           SizedBox(
+                                            height: 17.h,
                                           ),
-                                          Text(""),
+
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceAround,
@@ -877,7 +877,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                           height: h / 50,
                                                           child: SvgPicture.asset(
                                                               "Assets/images/Vector22.svg",
-                                                              width: 10,
+                                                              width: 10.w,
                                                               color: ColorS
                                                                   .onTertiary),
                                                         ),
@@ -891,7 +891,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                             ],
                                           ),
                                           SizedBox(
-                                            height: 5,
+                                            height: 5.h,
                                           ),
                                           Container(
                                               width: w / 1.3,
@@ -971,12 +971,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   // obscureText: SecureInput_pass,
                                                 ),
                                               )),
-                                          Column(
-                                            children: const [
-                                              Text(""),
-                                              Text(""),
-                                            ],
+                                          SizedBox(
+                                            height: 18.h,
                                           ),
+
                                           contactsLoaded
                                               ? Column(children: [
                                                   ListView.separated(
@@ -1352,6 +1350,9 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                     ),
                                                   ),
                                                 ),
+                                          SizedBox(
+                                            height: 6.h,
+                                          ),
 
                                           // Row(
                                           //   mainAxisAlignment:
@@ -1481,7 +1482,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                       height: 1),
                                 ),
                                 SizedBox(
-                                  height: 1,
+                                  height: 1.h,
                                 )
                               ],
                             ),

@@ -42,13 +42,6 @@ class _$OldMessagesModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(MessagesListModel)])));
     }
-    value = object.error;
-    if (value != null) {
-      result
-        ..add('error')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     return result;
   }
 
@@ -78,10 +71,6 @@ class _$OldMessagesModelSerializer
                       BuiltList, const [const FullType(MessagesListModel)]))!
               as BuiltList<Object?>);
           break;
-        case 'error':
-          result.error = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
       }
     }
 
@@ -96,15 +85,12 @@ class _$OldMessagesModel extends OldMessagesModel {
   final int? statuscode;
   @override
   final BuiltList<MessagesListModel>? messages;
-  @override
-  final String? error;
 
   factory _$OldMessagesModel(
           [void Function(OldMessagesModelBuilder)? updates]) =>
       (new OldMessagesModelBuilder()..update(updates))._build();
 
-  _$OldMessagesModel._({this.msg, this.statuscode, this.messages, this.error})
-      : super._();
+  _$OldMessagesModel._({this.msg, this.statuscode, this.messages}) : super._();
 
   @override
   OldMessagesModel rebuild(void Function(OldMessagesModelBuilder) updates) =>
@@ -120,15 +106,13 @@ class _$OldMessagesModel extends OldMessagesModel {
     return other is OldMessagesModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        messages == other.messages &&
-        error == other.error;
+        messages == other.messages;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), messages.hashCode),
-        error.hashCode));
+    return $jf(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), messages.hashCode));
   }
 
   @override
@@ -136,8 +120,7 @@ class _$OldMessagesModel extends OldMessagesModel {
     return (newBuiltValueToStringHelper(r'OldMessagesModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('messages', messages)
-          ..add('error', error))
+          ..add('messages', messages))
         .toString();
   }
 }
@@ -160,10 +143,6 @@ class OldMessagesModelBuilder
   set messages(ListBuilder<MessagesListModel>? messages) =>
       _$this._messages = messages;
 
-  String? _error;
-  String? get error => _$this._error;
-  set error(String? error) => _$this._error = error;
-
   OldMessagesModelBuilder();
 
   OldMessagesModelBuilder get _$this {
@@ -172,7 +151,6 @@ class OldMessagesModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _messages = $v.messages?.toBuilder();
-      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -197,10 +175,7 @@ class OldMessagesModelBuilder
     try {
       _$result = _$v ??
           new _$OldMessagesModel._(
-              msg: msg,
-              statuscode: statuscode,
-              messages: _messages?.build(),
-              error: error);
+              msg: msg, statuscode: statuscode, messages: _messages?.build());
     } catch (_) {
       late String _$failedField;
       try {

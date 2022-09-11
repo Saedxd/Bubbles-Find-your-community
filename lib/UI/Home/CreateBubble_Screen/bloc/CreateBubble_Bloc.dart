@@ -7,7 +7,8 @@ import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Event.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_State.dart';
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
+import 'package:bubbles/core/Classes/Classes.dart';
 
 
 
@@ -67,17 +68,17 @@ class CreateBubbleBloc extends Bloc<CreateBubbleEvent, CreateBubbleState> {
         state.Friendlist!.clear();
 
         for(int i=0;i<state.GetFriends!.friends!.length;i++){
-          FriendlistData FreindData = FriendlistData();
+          FrinedsData FreindData = FrinedsData();
 
           FreindData.Avatar = state.GetFriends!.friends![i].avatar.toString();
-          FreindData.alias = state.GetFriends!.friends![i].alias.toString();
+          FreindData.Alias = state.GetFriends!.friends![i].alias.toString();
           String value =  state.GetFriends!.friends![i].background_color.toString();
           var myInt = int.parse(value);
           var BackgroundColor = myInt;
-          FreindData.backgroundColor =BackgroundColor;
+          FreindData.Background_Color =BackgroundColor.toString();
 
-          FreindData.id = state.GetFriends!.friends![i].id!.toInt();
-          FreindData.MY_id = state.GetFriends!.friends![i].me_id!.toInt();
+          FreindData.ID = state.GetFriends!.friends![i].id!.toInt();
+          FreindData.my_id = state.GetFriends!.friends![i].me_id!.toInt();
 
           state.FilteredFriendlist!.add(FreindData);
           state.Friendlist!.add(FreindData);
@@ -188,7 +189,7 @@ class CreateBubbleBloc extends Bloc<CreateBubbleEvent, CreateBubbleState> {
         print("Cleared");
 
         state.Friendlist!.forEach((FriendObject) {
-          if (FriendObject.alias!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
+          if (FriendObject.Alias!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
             state.FilteredFriendlist!.add(FriendObject);
           }
         });

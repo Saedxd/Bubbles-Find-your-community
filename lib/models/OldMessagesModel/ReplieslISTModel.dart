@@ -23,7 +23,10 @@ abstract class ReplieslISTModel
   String? get avatar;
   String? get CreatAt;
   String? get background;
-
+//  int? get sender_id;
+//   bool? get is_friend;
+//   BuiltList<InterestsListModel>? get sender_interests;
+//   String? get sender_bio;
 
 
   ReplieslISTModel._();

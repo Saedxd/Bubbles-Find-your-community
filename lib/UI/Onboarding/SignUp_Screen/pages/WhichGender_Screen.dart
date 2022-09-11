@@ -152,7 +152,8 @@ bool DiditOnce = false;
                               ),
                               ),
                             );
-                        }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 10,); },
+                        }, separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 10.h,); },
                       ),
                     )
                             : state.isLoading == true

@@ -185,7 +185,7 @@ bloc2.add(GetInterests());
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 10,),
+                                                  SizedBox(height: 10.h,),
                                                 ],
                                               ),
 
@@ -199,7 +199,7 @@ bloc2.add(GetInterests());
                                                         fontSize: 15.sp,
                                                         letterSpacing: 0.3 ,
                                                         fontWeight: FontWeight.w500,
-                                                        height: 1
+                                                        height: 1.h
                                                     ),),
                                               ) ,
 
@@ -234,14 +234,14 @@ bloc2.add(GetInterests());
                     ),
                   ),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(height: 10.h,),
                 Text('Select Up to 5', textAlign: TextAlign.center, style: TextStyle(
                     color: Color.fromRGBO(234, 234, 234, 1),
                     fontFamily: 'Sofia Pro',
                     fontSize: 10.sp,
                     letterSpacing: 0 ,
-                    fontWeight: FontWeight.normal,
-                    height: 1.3636363636363635
+                    fontWeight: FontWeight.w300,
+                    height: 1.3636363636363635.h
                 ),),
 
                 Container(
@@ -258,7 +258,7 @@ bloc2.add(GetInterests());
                         boxShadow : [BoxShadow(
                             color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
                             offset: Offset(0,0),
-                            blurRadius: 6
+                            blurRadius: 6.r
                         )],
                         color :state.ChangeSelectedd! && (sum!=0)  ?
 

@@ -6,10 +6,11 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Bloc.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_Event.dart';
 import 'package:bubbles/UI/Home/CreateBubble_Screen/bloc/CreateBubble_State.dart';
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_bloc.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -153,7 +154,7 @@ class _Options_screenState extends State<Options_screen> {
                                           fontSize: 18.sp,
                                           letterSpacing: 1,
                                           fontWeight: FontWeight.w600,
-                                          height: 1,
+                                          height: 1.h
                                       ),),
                                     ),
                                   ),
@@ -168,7 +169,7 @@ class _Options_screenState extends State<Options_screen> {
                       Row(
                               children: [
                                 Container(
-                                  width: w/2.8,
+                                  width: w/2.9,
                                   height: h/13,
                                   margin: EdgeInsets.only(left: w/14.5),
                                   child: Center(
@@ -178,11 +179,10 @@ class _Options_screenState extends State<Options_screen> {
                                         fontSize: 14.sp,
                                         letterSpacing: 0.3,
                                         fontWeight: FontWeight.w400,
-                                        height: 1
+                                        height: 1.h
                                     ),),
                                   ),
                                 ),
-                                SizedBox(width: w/100,),
 
                                 !state.DoneChoose1!?
                                 InkWell(
@@ -190,7 +190,7 @@ class _Options_screenState extends State<Options_screen> {
                                   child: Container(
                                       width: w/2.4,
                                       height: h/22,
-                                      margin: EdgeInsets.only(left: w/20),
+                                      margin: EdgeInsets.only(left: w/40),
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
                                           topLeft: Radius.circular(5.r),
@@ -214,25 +214,27 @@ class _Options_screenState extends State<Options_screen> {
                                     ),
                                   ),
                                 ):
-                                    Row(
-                                      children: [
-                                        Text('${state.Start_Time} - ${state.End_Time}', textAlign: TextAlign.center, style: TextStyle(
-                                            color: Color.fromRGBO(207, 109, 56, 1),
-                                            fontFamily: 'Red Hat Text',
-                                            fontSize: 14.sp,
-                                            letterSpacing: 0.4,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1
-                                        ),),
-                                        IconButton(
-                                            icon: Icon(
-                                              Icons.edit_outlined,
-                                              size: h / 34,
-                                            ),
-                                            onPressed: ()=>showBottom()
-                                        ),
+                                    Expanded(
+                                      child: Row(
+                                        children: [
+                                          Text('${state.Start_Time!.substring(2)} - ${state.End_Time!.substring(2)}', textAlign: TextAlign.left, style: TextStyle(
+                                              color: Color.fromRGBO(207, 109, 56, 1),
+                                              fontFamily: 'Red Hat Text',
+                                              fontSize: 14.sp,
+                                              letterSpacing: 0.2,
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.h
+                                          ),),
+                                          IconButton(
+                                              icon: Icon(
+                                                Icons.edit_outlined,
+                                                size: w / 20,
+                                              ),
+                                              onPressed: ()=>showBottom()
+                                          ),
 
-                                      ],
+                                        ],
+                                      ),
                                     ),
 
 
@@ -252,7 +254,7 @@ class _Options_screenState extends State<Options_screen> {
                                     fontSize: 10.sp,
                                     letterSpacing: 0 ,
                                     fontWeight: FontWeight.w300,
-                                    height: 1.7
+                                    height: 1.7.h
                                 ),),
                               ),
                             ),
@@ -283,7 +285,7 @@ class _Options_screenState extends State<Options_screen> {
                                                 .black,
                                             style : GoogleFonts.roboto().copyWith(
                                                 fontSize: 14.sp,
-                                                height: 1.4,
+                                                height: 1.4.h,
                                                 fontWeight:
                                                 FontWeight.w300,
                                                 color: Color(0xffC4C4C4)),
@@ -449,7 +451,7 @@ class _Options_screenState extends State<Options_screen> {
                                                             color: Color(0xff942657),
                                                             backgroundColor: Color(
                                                                 0xff303030),
-                                                          useButtons: false
+                                                          useButtons: false,
                                                         ),
                                                         geoMethods: geoMethods,
                                                         controller: _LocationController,
@@ -522,7 +524,7 @@ class _Options_screenState extends State<Options_screen> {
                                                   fontSize: 10.sp,
                                                   letterSpacing: 0 ,
                                                   fontWeight: FontWeight.w300,
-                                                  height: 1.7
+                                                  height: 1.7.h
                                               ),)
                                           ),
                                         ),
@@ -588,7 +590,7 @@ class _Options_screenState extends State<Options_screen> {
                                           fontSize: 18.sp,
                                         letterSpacing: 0 ,
                                         fontWeight: FontWeight.w600,
-                                        height: 1
+                                          height: 1.h
                                     ),),
                                 ),
                               ),
@@ -650,7 +652,7 @@ class _Options_screenState extends State<Options_screen> {
                                           fontSize: 18.sp,
                                           letterSpacing: 0.4,
                                           fontWeight: FontWeight.w600,
-                                          height: 1)),
+                                          height: 1.h)),
                                 ),
                               ],
                             ),
@@ -707,14 +709,20 @@ class _Options_screenState extends State<Options_screen> {
                         DateTime Ends = _pickerController.selectedRange!.endDate!;
                         STartTime = Start;
                         EndTime = Ends;
-                        STartTimeString = DateFormat.yMd('en_US').format(Start);
-                        EndTimeString = DateFormat.yMd('en_US').format(Ends);
+                        final DateFormat formatter = DateFormat('yyyy-MM-dd');
+                         String STartTimeString = formatter.format(Start);
+                         String EndTimeString = formatter.format(Ends);
+                        STartTimeString = STartTimeString.replaceAll('-', '/');
+                        EndTimeString = EndTimeString.replaceAll('-', '/');
+                        // STartTimeString = DateFormat.yMd('en_US').format(Start);
+                        // EndTimeString = DateFormat.yMd('en_US').format(Ends);
                         _CreateBubbleBloc.add(AddStartandEndTime((b) =>
                         b   ..EndTime =EndTimeString
                             ..StartTime =STartTimeString
                         ));
                         print(STartTime);
                         print(EndTime);
+
 
                         ////I/flutter (29748): 2022-06-14 00:00:00.000
                         // // I/flutter (29748): 2022-06-30 00:00:00.000
@@ -755,7 +763,7 @@ class _Options_screenState extends State<Options_screen> {
                             fontSize: 18.sp,
                             letterSpacing: 0,
                             fontWeight: FontWeight.normal,
-                            height: 1
+                            height: 1.h
                         ),)
                       ),
                     ),
@@ -1051,8 +1059,8 @@ class _Options_screenState extends State<Options_screen> {
                                             separatorBuilder:
                                                 (BuildContext context,
                                                 int index) {
-                                              return const SizedBox(
-                                                height: 5,
+                                              return  SizedBox(
+                                                height: 5.h,
                                               );
                                             },
                                             itemBuilder: (BuildContext context,
@@ -1066,16 +1074,16 @@ class _Options_screenState extends State<Options_screen> {
                                                     SetState(() {
                                                       Array2[index] = 0;
                                                     });
-                                                    OrganizersId.remove(state.FilteredFriendlist![index].id);
+                                                    OrganizersId.remove(state.FilteredFriendlist![index].ID);
                                                     AvatarsSelected.remove(state.FilteredFriendlist![index].Avatar.toString());
-                                                    BackGroundColorTOAvatars.remove(state.FilteredFriendlist![index].backgroundColor.toString());
+                                                    BackGroundColorTOAvatars.remove(state.FilteredFriendlist![index].Background_Color.toString());
                                                   }else{
                                                     SetState(() {
                                                       Array2[index] = 1;
                                                     });
-                                                    OrganizersId.add(state.FilteredFriendlist![index].id!);
+                                                    OrganizersId.add(state.FilteredFriendlist![index].ID!);
                                                     AvatarsSelected.add(state.FilteredFriendlist![index].Avatar.toString());
-                                                    BackGroundColorTOAvatars.add(state.FilteredFriendlist![index].backgroundColor.toString());
+                                                    BackGroundColorTOAvatars.add(state.FilteredFriendlist![index].Background_Color.toString());
                                                   }
 
                                                   print(OrganizersId);
@@ -1133,9 +1141,9 @@ class _Options_screenState extends State<Options_screen> {
                                                                 children: [
                                                                   Text("  "),
                                                                   CircleAvatar(
-                                                                    backgroundColor: Color(state.FilteredFriendlist![index].backgroundColor!),
+                                                                    backgroundColor: Color(int.parse(state.FilteredFriendlist![index].Background_Color!)),
                                                                     radius:
-                                                                    28,
+                                                                    28.w,
                                                                     backgroundImage: NetworkImage(
                                                                         state
                                                                             .FilteredFriendlist!
@@ -1164,7 +1172,7 @@ class _Options_screenState extends State<Options_screen> {
                                                                   Text(
                                                                       state
                                                                           .FilteredFriendlist!
-                                                                      [index].alias
+                                                                      [index].Alias
                                                                           .toString(),
                                                                       textAlign: TextAlign.left,
                                                                       style: _textthem.headline3!.copyWith(
@@ -1292,7 +1300,10 @@ class _Options_screenState extends State<Options_screen> {
   //     print(e);
   //   }
   // }
-
+// void validateDate(testdate) {
+//   var date_regex = "/^\d{2}\/\d{2}\/\d{4}$/";
+//   return date_regex.test(testdate);
+// }
 
   Future<void> FormateDate() async {
     for (int i = 0; i < LISTdate!.length; i++) {

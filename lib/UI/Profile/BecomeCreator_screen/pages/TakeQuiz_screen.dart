@@ -482,7 +482,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 10.h,),
               GestureDetector(
                 onTap: () {
                   Navigator.pop(Context);

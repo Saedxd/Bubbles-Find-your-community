@@ -340,11 +340,21 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
 
             InstanceMessages.ISreply = false;
-            if (state.EventOldMessages!.messages![i].message!.sender_name.toString().isNotEmpty)
             InstanceMessages.Alias = state.EventOldMessages!.messages![i].message!.sender_name.toString();
-            if (state.EventOldMessages!.messages![i].message!.sender_image.toString().isNotEmpty)
             InstanceMessages.Avatar =  state.EventOldMessages!.messages![i].message!.sender_image.toString();
-            if (Value.isNotEmpty)
+
+            FrinedsData data = FrinedsData();
+            data.interests = state.EventOldMessages!.messages![i].message!.sender_interests;
+            data.is_Frined = state.EventOldMessages!.messages![i].message!.is_friend;
+            data.boi = state.EventOldMessages!.messages![i].message!.sender_bio.toString();
+            data.His_id = state.EventOldMessages!.messages![i].message!.sender_id;
+            data.Background_Color = Value;
+            data.Alias = state.EventOldMessages!.messages![i].message!.sender_name;
+            data.Avatar = state.EventOldMessages!.messages![i].message!.sender_image;
+            data.Serial = Value;
+            InstanceMessages.Sender_data = data;
+
+
             InstanceMessages.background_Color = int.parse(Value);
             InstanceMessages.message = state.EventOldMessages!.messages![i].message!.message.toString();
 
@@ -370,10 +380,10 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.TopicFlowDescription = state.EventOldMessages!.messages![i].message!.content.toString();
               InstanceMessages.TopicFlowTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+        //      InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
               FlowData data = FlowData();
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
@@ -386,7 +396,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               print(data.Content);
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
               data.Flow_Icon = "Assets/images/notifiy.svg";
 
 //      "Assets/images/12123123.svg", footprint Icon
@@ -406,12 +416,12 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.MediaDumpTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.Image_type = "backend";
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+             // InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
 
 
               FlowData data = FlowData();
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
@@ -422,7 +432,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Image_type =  "backend";
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
               data.Flow_type ="MediaDump";
               data.time =  DateFormat.jm().format(datee.toLocal());
               String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
@@ -436,7 +446,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
               InstanceMessages.ModelType ="PollFlow";
               InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+           //   InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
               InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
@@ -450,7 +460,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Color = int.parse(Colorr);
               data.Flow_Icon =  "Assets/images/123323232.svg";
               data.ISMediaDump = true;
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
               for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
                 data.Answers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
@@ -458,7 +468,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Flow_type ="PollFlow";
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
 
 
               String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
@@ -473,15 +483,20 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             InstanceMessages.CanReply = false;
             InstanceMessages.ISreply = true;
             String Value = state.EventOldMessages!.messages![i].message!.sender_background_color.toString();
+            DateTime datee = DateTime.parse(state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
+            String Value2 = state.EventOldMessages!.messages![i].replies![0].background.toString();
+
             InstanceMessages.RepliedTOAlias =      state.EventOldMessages!.messages![i].message!.sender_name.toString();
             InstanceMessages.RepliedTOMessage =  state.EventOldMessages!.messages![i].message!.message.toString();
             InstanceMessages.RepliedTOAvatar =    state.EventOldMessages!.messages![i].message!.sender_image.toString();
             InstanceMessages.ReplieDtobackground_Color =int.parse(Value);
-            String Value2 = state.EventOldMessages!.messages![i].replies![0].background.toString();
+
+
             InstanceMessages.ReplierAlias = state.EventOldMessages!.messages![i].replies![0].alias.toString();
             InstanceMessages.ReplierMessage = state.EventOldMessages!.messages![i].replies![0].comment.toString();
             InstanceMessages.ReplierAvatar =  state.EventOldMessages!.messages![i].replies![0].avatar.toString();
-            DateTime datee = DateTime.parse(state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
+
+
             InstanceMessages.Replierbackground_Color =int.parse(Value2);
             InstanceMessages.Repliertime = DateFormat.jm().format(datee.toLocal());
 

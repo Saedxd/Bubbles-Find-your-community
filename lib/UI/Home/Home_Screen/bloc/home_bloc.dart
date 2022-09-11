@@ -5,7 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/prefs_helper/prefs_helper.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Home/CreateBubble_Screen/data/data.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
@@ -89,7 +89,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       } catch (e) {
 
-        print('get Error $e');
+        print('get Error $e Change_Is_Creator');
         yield state.rebuild((b) => b
         );
 
@@ -105,7 +105,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       } catch (e) {
 
-        print('get Error $e');
+        print('get Error $e SaveStatusInDetailUi');
         yield state.rebuild((b) => b
         );
 
@@ -785,7 +785,7 @@ try{
 
 
       } catch (e) {
-        print('get Error $e');
+        print('get Error $e GetAllBubbles');
         yield state.rebuild((b) => b
           ..GetAllBubblesIsloading = false
           ..GetAllBubblesError = "Something went wrong"
@@ -854,7 +854,7 @@ try{
         );
 
     } catch (e) {
-    print('get Error $e');
+    print('get Error $e GetPrimeBubbles');
     yield state.rebuild((b) => b
     ..GetAllBubblesIsloading = false
 
@@ -935,7 +935,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
         );
 
     } catch (e) {
-    print('get Error $e');
+    print('get Error $e GetNewBubbles');
     yield state.rebuild((b) => b
     ..GetAllBubblesIsloading = false
 
@@ -1016,7 +1016,7 @@ try{
         );
 
     } catch (e) {
-    print('get Error $e');
+    print('get Error $e GetUpcomingBubbles');
     yield state.rebuild((b) => b
     ..GetAllBubblesIsloading = false
 
@@ -1097,7 +1097,7 @@ try{
         );
 
     } catch (e) {
-    print('get Error $e');
+    print('get Error $e GetActiveBubbles');
     yield state.rebuild((b) => b
     ..GetAllBubblesIsloading = false
 
@@ -1175,7 +1175,7 @@ try{
           ..success = true
         );
       } catch (e) {
-        print('get Error $e');
+        print('get Error $e GetSavedBubbles');
         yield state.rebuild((b) =>
         b
           ..isLoading = false
@@ -1227,7 +1227,7 @@ try{
         );
       }
     } catch (e) {
-    print('get Error $e');
+    print('get Error $e ToggleSaveBubble');
     // yield state.rebuild((b) => b
     // ..GetAllBubblesIsloading = false
     //

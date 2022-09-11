@@ -7,6 +7,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PlanPage/pages/Plan_Screen.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/PrimePlanPage/pages/PrimePlanPage.dart';
+import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/pages/SprintChat.dart';
 import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/Home/SeeAll_Screen/bloc/SeeAll_Bloc.dart';
 import 'package:bubbles/UI/Home/SeeAll_Screen/bloc/SeeAll_Event.dart';
@@ -54,6 +55,7 @@ class _Events_ScreenState extends State<Events_Screen> {
        Event_Statuses![i] = widget.Bubble[i].is_Saved!;
       }
 
+
       _SeeAllBloc.add(GiveHimListOfBoolean((b) =>b
       ..List_Saved_Status = Saved_Status
       ));
@@ -79,6 +81,404 @@ class _Events_ScreenState extends State<Events_Screen> {
         bloc: _SeeAllBloc,
         builder: (BuildContext Context, SeeAllState state)
     {
+      alreatDialogBuilder2(
+          BuildContext Context,
+          double h,
+          double w,
+          int Frined_id,
+          int index,
+          ) async {
+        return showDialog(
+            context: Context,
+            barrierDismissible: false,
+            builder: (Context) {
+              return AlertDialog(
+                backgroundColor: Colors.transparent,
+                insetPadding: EdgeInsets.all(h/50),
+                content:
+                Container(
+                  width: w/1.1,
+                  height: h/4.2,
+                  decoration: BoxDecoration(
+                    borderRadius : BorderRadius.only(
+                      topLeft: Radius.circular(8.285714149475098.r),
+                      topRight:  Radius.circular(8.285714149475098.r),
+                      bottomLeft:  Radius.circular(8.285714149475098.r),
+                      bottomRight:  Radius.circular(8.285714149475098.r),
+                    ),
+                    color : Color.fromRGBO(47, 47, 47, 1),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(left: h/50,top: h/50),
+                        child: Text('Are you sure you want to remove this user from your friendlist?',
+                          textAlign: TextAlign.left, style: TextStyle(
+                              color: Color.fromRGBO(234, 234, 234, 1),
+                              fontFamily: 'Sofia Pro',
+                              fontSize: 20.sp,
+                              letterSpacing: 0.5 ,
+                              fontWeight: FontWeight.normal,
+                              height: 1
+                          ),),
+                      ),
+                      Text(""),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+
+                          InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                                width: w/3,
+                                height: h/15,
+                                decoration: BoxDecoration(
+                                  borderRadius : BorderRadius.only(
+                                    topLeft: Radius.circular(4.142857074737549.r),
+                                    topRight:  Radius.circular(4.142857074737549.r),
+                                    bottomLeft:  Radius.circular(4.142857074737549.r),
+                                    bottomRight:  Radius.circular(4.142857074737549.r),
+                                  ),
+                                  boxShadow : [BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                                      offset: Offset(0,0),
+                                      blurRadius: 6.628571510314941
+                                  )],
+                                  color : Color.fromRGBO(207, 109, 56, 1),
+                                ),
+                                child: Center(
+                                  child:
+                                  Text('No', textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Sofia Pro',
+                                      fontSize: 19.571428298950195.sp,
+                                      letterSpacing: 0.5 ,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1
+                                  ),),
+                                )
+                            ),
+                          ),
+
+                          InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              // _GroupChatBloc.add(RemoveFriend((b) => b
+                              //   ..friend_id = Frined_id
+                              //   ..index = index
+                              // ));
+                            },
+                            child: Container(
+                              width: w/3,
+                              height: h/15,
+                              decoration: BoxDecoration(
+                                borderRadius : BorderRadius.only(
+                                  topLeft:  Radius.circular(4.142857074737549.r),
+                                  topRight:  Radius.circular(4.142857074737549.r),
+                                  bottomLeft:  Radius.circular(4.142857074737549.r),
+                                  bottomRight: Radius.circular(4.142857074737549.r),
+                                ),
+                                boxShadow : [BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.25),
+                                    offset: Offset(0,0),
+                                    blurRadius: 6.628571510314941
+                                )],
+                                color : Color.fromRGBO(168, 48, 99, 1),
+                              ),
+                              child: Center(
+                                child:
+                                Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Sofia Pro',
+                                    fontSize: 19.571428298950195.sp,
+                                    letterSpacing: 0.5 ,
+                                    fontWeight: FontWeight.w500,
+                                    height: 1
+                                ),),
+                              ),
+                            ),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              );
+            });
+      }
+
+
+      alreatDialogBuilder(
+          BuildContext Context,
+          double h,
+          double w,
+          bool is_frined,
+          bool is_me,
+          int frined_id,
+          int myINdex,
+          FrinedsData UserData
+          ) async {
+        return showDialog(
+            context: Context,
+            barrierDismissible: false,
+            builder: (Context) {
+
+
+
+              var myInt = int.parse(UserData.Background_Color.toString());
+              var BackgroundColor= myInt;
+
+
+              return AlertDialog(
+                  backgroundColor: Colors.transparent,
+                  insetPadding: EdgeInsets.all(h/50),
+                  content:GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context,true);
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      width: w,
+                      height: h,
+                      child :
+                      Stack(
+                          children:[
+
+                            Center(
+                              child: Container(
+                                width: w/1.1,
+                                decoration: BoxDecoration(
+                                  borderRadius : BorderRadius.only(
+                                    topLeft: Radius.circular(8.285714149475098.r),
+                                    topRight:Radius.circular(8.285714149475098.r),
+                                    bottomLeft: Radius.circular(8.285714149475098.r),
+                                    bottomRight: Radius.circular(8.285714149475098.r),
+                                  ),
+                                  color : Color.fromRGBO(47, 47, 47, 1),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 5.h),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                        children:  [
+
+
+                                          Container(
+                                            margin: EdgeInsets.only(left: h/60),
+                                            child: CircleAvatar(
+                                              backgroundImage: NetworkImage(UserData.Avatar.toString()),
+                                              radius:35.w,
+
+                                              backgroundColor:Color(BackgroundColor),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: h/60),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                      UserData.Alias
+                                                          .toString(),
+                                                      overflow: TextOverflow.ellipsis,
+                                                      style: _TextTheme.headline6!.copyWith(
+                                                          color: Color(
+                                                              0xffEAEAEA),
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w400,
+                                                          fontSize:
+                                                          20.sp)),
+                                                ),
+                                                Row(
+                                                  children: [
+
+                                                    Text(
+                                                        UserData.Serial!,
+                                                        textAlign: TextAlign.left,
+                                                        style: _TextTheme
+                                                            .headline6!
+                                                            .copyWith(
+                                                            color: Color(
+                                                                0xffEAEAEA),
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w300,
+                                                            fontSize:
+                                                            13.sp)),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            height: h/6,
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  //  color: Colors.pink,
+                                                  child: IconButton(
+                                                    onPressed: (){
+                                                      Navigator.pop(context,true);
+                                                    },
+                                                    icon: Icon(Icons.clear),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                            margin: EdgeInsets.only(left: 20.w),
+                                            child:
+                                            Text(UserData.boi.toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                color: Color.fromRGBO(255, 255, 255, 1),
+                                                fontFamily: 'Red Hat Text',
+                                                fontSize: 12.sp,
+                                                letterSpacing: 0 ,
+                                                fontWeight: FontWeight.w300,
+                                                height: 1.4166666666666667
+                                            ),)
+                                        ),
+                                      ],
+                                    ),
+                                    Text(""),
+                                    Row(
+                                      mainAxisAlignment:
+                                      is_me?    MainAxisAlignment.center:
+                                      MainAxisAlignment.spaceAround,
+                                      children: [
+                                        is_me
+                                            ?Text("")
+                                            :InkWell(
+                                          onTap: (){
+                                            //DirectChat
+                                            WidgetsBinding.instance
+                                                .addPostFrameCallback((_) =>     Navigator.push(
+                                              context,
+                                              MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                          },
+
+                                          child: Container(
+                                              width: w/3,
+                                              height: h/15,
+                                              decoration: BoxDecoration(
+                                                borderRadius : BorderRadius.only(
+                                                  topLeft: Radius.circular(4.142857074737549.r),
+                                                  topRight: Radius.circular(4.142857074737549.r),
+                                                  bottomLeft: Radius.circular(4.142857074737549.r),
+                                                  bottomRight: Radius.circular(4.142857074737549.r),
+                                                ),
+                                                boxShadow:[
+                                                  BoxShadow(
+                                                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                      offset: Offset(0,0),
+                                                      blurRadius: 6.628571510314941
+                                                  )
+                                                ],
+                                                color : Color.fromRGBO(207, 109, 56, 1),
+                                              ),
+                                              child: Center(
+                                                  child:
+                                                  SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+
+                                              )
+                                          ),
+                                        ),
+                                        is_me
+                                            ?Text("")
+                                            :
+                                        InkWell(
+                                          onTap: (){
+                                            if (id== UserData.ID!) {
+                                              if (!is_frined) {
+                                                Navigator.pop(context);
+                                                // _GroupChatBloc.add(
+                                                //     AddFrined((b) =>
+                                                //     b
+                                                //       ..serial =UserData
+                                                //           .Serial.toString()
+                                                //       ..index = myINdex
+                                                //     ));
+                                              } else {
+                                                alreatDialogBuilder2(
+                                                    context, h, w,
+                                                    frined_id, myINdex);
+                                              }
+                                            }
+
+                                          },
+                                          child: Container(
+                                            width: w/3,
+                                            height: h/15,
+                                            decoration: BoxDecoration(
+                                              borderRadius : BorderRadius.only(
+                                                topLeft: Radius.circular(4.142857074737549.r),
+                                                topRight: Radius.circular(4.142857074737549.r),
+                                                bottomLeft:Radius.circular(4.142857074737549.r),
+                                                bottomRight: Radius.circular(4.142857074737549.r),
+                                              ),
+                                              boxShadow : [BoxShadow(
+                                                  color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                  offset: Offset(0,0),
+                                                  blurRadius: 6.628571510314941
+                                              )],
+                                              color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                            ),
+                                            child: Center(
+                                                child:
+                                                //
+                                                //   SvgPicture.asset(
+                                                // "Assets/images/Add_friend.svg",
+                                                // color: Colors.white,
+                                                // width: h / 26,
+                                                // )
+
+                                                is_frined
+                                                    ? SvgPicture.asset(
+                                                  "Assets/images/True_Mark.svg",
+                                                  color: Colors.white,
+                                                  width: h / 26,
+                                                )
+                                                    :SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+
+
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    SizedBox(height: 7.h,),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ]
+                      ),
+
+                    ),
+                  )
+
+              );
+            });
+      }
       return
       SafeArea(
         child: Scaffold(
@@ -221,7 +621,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 boxShadow : [BoxShadow(
                                                                     color: Color(widget.Bubble[index].Color!).withOpacity(.5),
                                                                     offset: Offset(0,2),
-                                                                    blurRadius: 8.628571510314941
+                                                                    blurRadius: 8.628571510314941.r
                                                                 )],
 
                                                               )
@@ -238,29 +638,29 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                     ? Row(
                                                                   children: [
                                                                     CircleAvatar(
-                                                                      radius: 8,
+                                                                      radius: 8.r,
                                                                       backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
                                                                       backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
                                                                     ),
-                                                                    const SizedBox(width: 10,),
+                                                                     SizedBox(width: 10.w,),
                                                                     Text(widget.Bubble[index].Creator_Alias!, textAlign: TextAlign.left, style:  TextStyle(
                                                                         color: Color.fromRGBO(255, 255, 255, 1),
                                                                         fontFamily: 'Red Hat Display',
                                                                         fontSize: 5.48.sp,
                                                                         letterSpacing: 0 ,
                                                                         fontWeight: FontWeight.w600,
-                                                                        height: 1
+                                                                        height: 1.h
                                                                     ),),
 
                                                                   ],
                                                                 )
-                                                                    : const Text("Prime", textAlign: TextAlign.left, style: TextStyle(
+                                                                    :  Text("Prime", textAlign: TextAlign.left, style: TextStyle(
                                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                                     fontFamily: 'Red Hat Display',
                                                                     fontSize: 10.477987289428711,
                                                                     letterSpacing: 0 ,
                                                                     fontWeight: FontWeight.w600,
-                                                                    height: 1
+                                                                    height: 1.h
                                                                 ),),
                                                                 Text(""),
                                                                 IconButton(
@@ -310,9 +710,9 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 margin: EdgeInsets.only(left: h/50),
                                                                 child: Column(
                                                                   children: [
-                                                                    const SizedBox(
+                                                                     SizedBox(
                                                                       height:
-                                                                      4,
+                                                                      4.h,
                                                                     ),
 
 
@@ -331,7 +731,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                           ),
                                                                         ),
 
-                                                                    SizedBox(height: 3,),
+                                                                    SizedBox(height: 3.h,),
                                                                     Container(
                                                                       width: w/2.8,
                                                                       child:  Text(
@@ -346,7 +746,7 @@ class _Events_ScreenState extends State<Events_Screen> {
 
                                                                       ),
                                                                     ),
-                                                                    SizedBox(height: 3,),
+                                                                    SizedBox(height: 3.h,),
                                                                     Row(
                                                                       children:[
 
@@ -355,7 +755,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                           child:
                                                                           Image.network(widget.Bubble[index].Cateogory_Icon!),
                                                                         ),
-                                                                        SizedBox(width: 3,),
+                                                                        SizedBox(width: 3.w,),
                                                                 Container(
                                                                     width: w/4,
                                                                     child:Text(
@@ -365,7 +765,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                               fontSize: 5.5.sp,
                                                                                 letterSpacing: 0,
                                                                                 fontWeight: FontWeight.w600,
-                                                                              height: 1
+                                                                              height: 1.h
                                                                           ),),
                                                                         ),
                                                                       ],
@@ -473,7 +873,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           boxShadow : [BoxShadow(
                                                               color: Colors.black54,
                                                               offset: Offset(0,0),
-                                                              blurRadius: 15.628571510314941
+                                                              blurRadius: 15.628571510314941.r
                                                           )],
 
                                                         )
@@ -510,7 +910,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           return    Row(
                                                             children: [
                                                               index2==0
-                                                                  ? SizedBox(width: 5,)
+                                                                  ? SizedBox(width: 5.w,)
                                                                   : Container(),
                                                               Align(
                                                                   widthFactor: 0.75,
@@ -548,7 +948,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                         fontSize: 0.184.sp,
                                                         letterSpacing: 0 ,
                                                         fontWeight: FontWeight.w700,
-                                                        height: 1
+                                                        height: 1.h
                                                     ),),
                                                   )
                                                 ],
@@ -568,10 +968,10 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                   child:
                                                   Row(
                                                     children: [
-                                                      SizedBox(height: 2,),
+                                                      SizedBox(height: 2.h,),
                                                       Column(
                                                         children: [
-                                                          SizedBox(height: 3,),
+                                                          SizedBox(height: 3.h,),
                                                           Stack(
                                                             children:[
                                                               SvgPicture.asset(
@@ -582,7 +982,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                               Positioned(
                                                                   left: 0,
                                                                   right: 0,
-                                                                  top: 2,
+                                                                  top: 2.h,
                                                                   bottom: 0,
                                                                   child:  Row(
                                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -614,11 +1014,11 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                     fontSize: 11.sp,
                                                                     letterSpacing: 0,
                                                                     fontWeight: FontWeight.w600,
-                                                                    height: 1
+                                                                    height: 1.h
                                                                 ),),
                                                             ),
                                                           ),
-                                                          SizedBox(height: 2,),
+                                                          SizedBox(height: 2.h,),
                                                           Container(
                                                             width: w/4.2,
                                                             child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
@@ -627,7 +1027,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 fontSize: 6.5.sp,
                                                                 letterSpacing: 0 ,
                                                                 fontWeight: FontWeight.w300,
-                                                                height: 1
+                                                                height: 1.h
                                                             ),),
                                                           ),
                                                         ],
@@ -714,7 +1114,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                             boxShadow : [BoxShadow(
                                                                 color: Color(widget.Bubble[index].Color!).withOpacity(.5),
                                                                 offset: Offset(0,2),
-                                                                blurRadius: 8.628571510314941
+                                                                blurRadius: 8.628571510314941.r
                                                             )],
 
                                                           )
@@ -734,7 +1134,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                     backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
                                                                     backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
                                                                   ),
-                                                                  const SizedBox(width: 10,),
+                                                                   SizedBox(width: 10.w,),
                                                                   Text(widget.Bubble[index].Creator_Alias!, textAlign: TextAlign.left,
                                                                     style:  TextStyle(
                                                                       color: Color.fromRGBO(255, 255, 255, 1),
@@ -742,7 +1142,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                       fontSize: 7.22.sp,
                                                                       letterSpacing: 0 ,
                                                                       fontWeight: FontWeight.w600,
-                                                                      height: 1
+                                                                      height: 1.h
                                                                   ),),
 
                                                                 ],
@@ -753,7 +1153,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                   fontSize: 7.22.sp,
                                                                   letterSpacing: 0 ,
                                                                   fontWeight: FontWeight.w600,
-                                                                  height: 1
+                                                                  height: 1.h
                                                               ),),
                                                               Text(""),
 
@@ -799,9 +1199,9 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                         margin: EdgeInsets.only(left: h/50),
                                                         child: Column(
                                                           children: [
-                                                            const SizedBox(
+                                                             SizedBox(
                                                               height:
-                                                              5,
+                                                              5.h,
                                                             ),
                                                                 Container(
                                                                   width:w/1.15,
@@ -819,7 +1219,7 @@ class _Events_ScreenState extends State<Events_Screen> {
 
                                                                 ),
 
-                                                            const SizedBox(height: 3,),
+                                                             SizedBox(height: 3.h,),
                                                             Container(
                                                               width:w/1.5,
                                                               child:  Text(
@@ -834,7 +1234,7 @@ class _Events_ScreenState extends State<Events_Screen> {
 
                                                               ),
                                                             ),
-                                                            const SizedBox(height: 4,),
+                                                             SizedBox(height: 4.h,),
                                                             Row(
                                                               children:[
 
@@ -843,7 +1243,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                   child:
                                                                   Image.network(widget.Bubble[index].Cateogory_Icon!),
                                                                 ),
-                                                                SizedBox(width: 3,),
+                                                                SizedBox(width: 3.w,),
                                                                 Container(
                                                                   width:w/2,
                                                                   child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
@@ -851,8 +1251,8 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                       fontFamily: 'Red Hat Text',
                                                                       fontSize: 7.22.sp,
                                                                       letterSpacing: 0 ,
-                                                                      fontWeight: FontWeight.normal,
-                                                                      height: 1
+                                                                      fontWeight: FontWeight.w300,
+                                                                      height: 1.h
                                                                   ),),
                                                                 )
                                                               ],
@@ -862,7 +1262,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                         ),
                                                       ),
                                                     ),
-                                                    const SizedBox(width: 5,),
+                                                     SizedBox(width: 5.w,),
                                                     Column(
                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                       children: [
@@ -873,7 +1273,9 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           color : Color(widget.Bubble[index].Color!),
                                                         ),
                                                       ],
-                                                    ),         const SizedBox(width: 5,),         const SizedBox(width: 5,),
+                                                    ),
+                                                    SizedBox(width: 5.w,),
+                                                     SizedBox(width: 5.w,),
 
                                                   ],
                                                 )

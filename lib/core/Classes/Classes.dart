@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
 import 'package:built_value/built_value.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
@@ -11,12 +12,13 @@ class FrinedsData{
   String? Avatar;
   String? Alias;
   String? boi;
+  BuiltList<InterestsListModel>?  interests;
   int? ID;
   int? my_id;
   int? His_id;
   bool? is_Frined;
   String? Serial;
-  List<String>? interests;
+
 }
 
 
@@ -28,10 +30,15 @@ class FlowData{
   String? Image;
   bool? ISMediaDump;
   List<String> Answers=[];
+
+
+  FrinedsData?  Who_Made_it_data;
   String? Who_Made_it_Avatar;
   int? Who_Made_it_Color;
   String? Who_Made_it_Alias;
   int? Who_Made_it_ID;
+
+
   String? Flow_Icon;
   int? Color;
   File? File_Image;
@@ -77,36 +84,39 @@ class BubbleData{
   String? User_type;
   bool? is_Saved;
   String? Category;
-
+  FrinedsData? data;
 }
 
 class SprintsChat {
   int? ID;
-  int? User_ID;
   int? ReplyMessage_id;
   String? message="";
   String? time;
   String? Avatar="";
+
+  FrinedsData? Sender_data;
+  int? User_ID;
+
+  String? Alias="";
+  String? Type="";
+  int? background_Color;
+  String? Image_type;
+
   String? ReplierAvatar="";
   String? ReplierAlias="";
   String? Repliertime="";
   String? ReplierMessage="";
+  FrinedsData? Replier_data;
   int? Replierbackground_Color;
   String? RepliedTOAvatar="";
   String? RepliedTOAlias="";
   String? RepliedTOtime="";
   String? RepliedTOMessage="";
   int? ReplieDtobackground_Color;
-
   bool?  is_base64 = false;
   bool? IsBackEnd=false;
   bool? ISreply;
   bool? ISNOdeJS;
-  String? Alias="";
-  String? Type="";
-  int? background_Color;
-  String? Image_type;
-
   String? ModelType="";
   File? Image2;
   Uint8List? Image1;
@@ -120,14 +130,21 @@ class SprintsChat {
 class GroupChatMessage {
   int? ID;
   int? User_ID;
+
   int? ReplyMessage_id;
   String? message="";
   String? time;
   String? Avatar="";
+
+  FrinedsData? Sender_data;
+
   String? ReplierAvatar="";
   String? ReplierAlias="";
   String? Repliertime="";
   String? ReplierMessage="";
+  FrinedsData? Replier_data;
+
+
   int? Replierbackground_Color;
   String? RepliedTOAvatar="";
   String? RepliedTOAlias="";
@@ -177,11 +194,20 @@ class GroupChatFlowsMessage {
   String? message="";
   String? time;
   String? Avatar="";
+  FrinedsData? Replier_data;
+  FrinedsData? Sender_data;
+
+
   String? ReplierAvatar="";
   String? ReplierAlias="";
   String? Repliertime="";
   String? ReplierMessage="";
-  int? Replierbackground_Color;
+  BuiltList<InterestsListModel>?   Replier_interests;
+  int?  Replier_ID;
+  String?  Replier_boi;
+  int? Replier_background_Color;
+
+
   String? RepliedTOAvatar="";
   String? RepliedTOAlias="";
   String? RepliedTOtime="";
@@ -213,11 +239,21 @@ class MessageModel {
   String? message="";
   String? time;
   String? Avatar="";
+  FrinedsData? Replier_data;
+  FrinedsData? Sender_data;
+
+
   String? ReplierAvatar="";
   String? ReplierAlias="";
   String? Repliertime="";
   String? ReplierMessage="";
   int? Replierbackground_Color;
+  BuiltList<InterestsListModel>?  Replier_interests;
+  int?  Replier_ID;
+  String?  Replier_boi;
+
+
+
   String? RepliedTOAvatar="";
   String? RepliedTOAlias="";
   String? RepliedTOtime="";
@@ -242,4 +278,22 @@ class DmlistData{
   int? MY_id;
   String? Replies;
   String? Msg_Type;
+  FrinedsData? Sender_data;
 }
+
+class Data{
+  int? raduis;
+  double? lat;
+  double? lng;
+  List<String>? Dates;
+  String? Start_Date;
+  String? End_Date;
+  List<int>? OrganizersId;
+  String? Title;
+  String? Location;
+  String? Description;
+  String? Base64Image;
+  int? Category_id;
+  String? Picked_Color;
+}
+

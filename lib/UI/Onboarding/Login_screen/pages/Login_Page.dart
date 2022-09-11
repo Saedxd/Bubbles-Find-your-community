@@ -566,7 +566,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                             Container(
                                               width: w/1.3,
                                               margin: EdgeInsets.only(top: 45.h),
-                                              child: Text('Be around,  Find your bubble!'
+                                              child: Text('   Be around,            Find your bubble!'
                                                  ,textAlign: TextAlign.center, style: TextStyle(
                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                       fontFamily: 'Red Hat Display',
@@ -595,7 +595,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                                             .next,
                                                         controller:
                                                         _EmailController,
-                                                        cursorHeight: 20,
+                                                        cursorHeight: 20.h,
                                                         // inputFormatters: [
                                                         //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
                                                         // ],
