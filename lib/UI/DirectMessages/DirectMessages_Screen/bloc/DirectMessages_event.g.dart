@@ -399,4 +399,89 @@ class DeleteFromListBuilder
   }
 }
 
+class _$DeleteChat extends DeleteChat {
+  @override
+  final int? Reciver_id;
+  @override
+  final String? send_by;
+
+  factory _$DeleteChat([void Function(DeleteChatBuilder)? updates]) =>
+      (new DeleteChatBuilder()..update(updates))._build();
+
+  _$DeleteChat._({this.Reciver_id, this.send_by}) : super._();
+
+  @override
+  DeleteChat rebuild(void Function(DeleteChatBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  DeleteChatBuilder toBuilder() => new DeleteChatBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is DeleteChat &&
+        Reciver_id == other.Reciver_id &&
+        send_by == other.send_by;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, Reciver_id.hashCode), send_by.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'DeleteChat')
+          ..add('Reciver_id', Reciver_id)
+          ..add('send_by', send_by))
+        .toString();
+  }
+}
+
+class DeleteChatBuilder implements Builder<DeleteChat, DeleteChatBuilder> {
+  _$DeleteChat? _$v;
+
+  int? _Reciver_id;
+  int? get Reciver_id => _$this._Reciver_id;
+  set Reciver_id(int? Reciver_id) => _$this._Reciver_id = Reciver_id;
+
+  String? _send_by;
+  String? get send_by => _$this._send_by;
+  set send_by(String? send_by) => _$this._send_by = send_by;
+
+  DeleteChatBuilder();
+
+  DeleteChatBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _Reciver_id = $v.Reciver_id;
+      _send_by = $v.send_by;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(DeleteChat other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$DeleteChat;
+  }
+
+  @override
+  void update(void Function(DeleteChatBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  DeleteChat build() => _build();
+
+  _$DeleteChat _build() {
+    final _$result =
+        _$v ?? new _$DeleteChat._(Reciver_id: Reciver_id, send_by: send_by);
+    replace(_$result);
+    return _$result;
+  }
+}
+
 // ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

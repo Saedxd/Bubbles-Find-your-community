@@ -70,7 +70,7 @@
 //           //     ) async {
 //           //   return showDialog(
 //           //       context: Context,
-//           //       barrierDismissible: false,
+//           //          barrierDismissible: true,
 //           //       builder: (Context) {
 //           //         return AlertDialog(
 //           //           backgroundColor: Colors.transparent,
@@ -202,7 +202,7 @@
 //           //     ) async {
 //           //   return showDialog(
 //           //       context: Context,
-//           //       barrierDismissible: false,
+//           //          barrierDismissible: true,
 //           //       builder: (Context) {
 //           //
 //           //
@@ -446,7 +446,7 @@
 //               ) async {
 //             return showDialog(
 //                 context: Context,
-//                 barrierDismissible: false,
+//                    barrierDismissible: true,
 //                 builder: (Context) {
 //
 //

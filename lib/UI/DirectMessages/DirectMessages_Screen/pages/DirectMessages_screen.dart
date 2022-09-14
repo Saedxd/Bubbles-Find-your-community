@@ -89,7 +89,9 @@ class _DirectMessagesState extends State<DirectMessages> {
         0);
     ListenForONlineFriends();
     socket!.io..disconnect()..connect();
-    _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
+    _DirectMessages_Bloc.add(GetLastMessageWithAllUsers(
+
+    ));
     timer1212 = Timer.periodic(const Duration(seconds: 20), (Timer t)async{
     return LoopONfrinedsId();
     });
@@ -131,7 +133,7 @@ class _DirectMessagesState extends State<DirectMessages> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -266,7 +268,7 @@ class _DirectMessagesState extends State<DirectMessages> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
 
 
@@ -413,7 +415,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                               },
 
                                               child: Container(
@@ -558,7 +560,7 @@ class _DirectMessagesState extends State<DirectMessages> {
              Column(
                       children: [
                         SizedBox(
-                          height: h / 9.7,
+                          height: h / 10.99,
                         ),
                         // Container(
                         //     decoration: const BoxDecoration(
@@ -815,7 +817,7 @@ class _DirectMessagesState extends State<DirectMessages> {
 
                                       Slidable(
                                           closeOnScroll: true,
-                                          key:  ValueKey(state.FilteredDmlist![index].id!),
+                                          key:  ValueKey(state.FilteredDmlist![index].receiver_id!),
                                           endActionPane: ActionPane(
                                             motion:   const ScrollMotion(),
                                             dismissible:
@@ -827,7 +829,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                       0);
                                                   _DirectMessages_Bloc.add(DeleteFromList((b) =>
                                                   b..index = index
-                                                      ..receiver_id =state.FilteredDmlist![index].id
+                                                      ..receiver_id =state.FilteredDmlist![index].receiver_id
                                                   ));
                                                 }),
                                             children: [
@@ -840,7 +842,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         0);
                                                     _DirectMessages_Bloc.add(DeleteFromList((b) =>
                                                     b..index = index
-                                                      ..receiver_id =state.FilteredDmlist![index].id
+                                                      ..receiver_id =state.FilteredDmlist![index].receiver_id
                                                     ));
                                                   },
                                                   child: Container(
@@ -884,15 +886,39 @@ class _DirectMessagesState extends State<DirectMessages> {
                                           child:
                                           InkWell(
                                             onTap: () {
-                                              WidgetsBinding.instance
-                                                  .addPostFrameCallback(
-                                                      (_) => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder:(context) =>
-                                                          Sprints(my_ID: state.FilteredDmlist![index].MY_id!, receiver_id: state.FilteredDmlist![index].id!, IS_sprints: false,His_Alias: state.FilteredDmlist![index].alias.toString(),)
-                                                    ),
-                                                  ));
+          var test =Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder:(context) =>
+                    Sprints(
+                      my_ID: state.FilteredDmlist![index].MY_id!,
+                      receiver_id: state.FilteredDmlist![index].receiver_id!,
+                      IS_sprints: false,
+                      His_Alias: state.FilteredDmlist![index].alias.toString(),
+                      Send_by: state.FilteredDmlist![index].send_by.toString(),
+                    )
+            ),
+          ).then((value) {
+            if (value == "Yes") {
+              FrinedsID.removeAt(index);
+              FrinedsStatus = List.filled(
+                  1000,
+                  0);
+              _DirectMessages_Bloc.add(DeleteFromList((b) =>
+              b..index = index
+                ..receiver_id =state.FilteredDmlist![index].receiver_id
+              ));
+              _DirectMessages_Bloc.add(
+                  DeleteChat((b) => b
+                    ..send_by = "sprint"
+                    ..Reciver_id = state.FilteredDmlist![index].receiver_id
+                  )
+              );
+            }
+          }
+          );
+
+
                                             },
                                             child: Column(children: [
                                               Container(
@@ -923,7 +949,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                   child: Row(children: [
                                                     SizedBox(width: w/50,),
                                                     
-                                                Stack(
+                                                  Stack(
                                                           children: [
                                                   Hero(
                                                   tag:"Image${state.OldMessages!.messages![index].id}",
@@ -935,7 +961,11 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                              builder: (context) => HeroImage(path:  state.FilteredDmlist![index].Avatar.toString(),color:    state.FilteredDmlist![index].backgroundColor!,id:state.OldMessages!.messages![index].id ,),),
+                                                              builder: (context) => HeroImage(path:
+                                                              state.FilteredDmlist![index].Avatar.toString(),
+                                                                color:    state.FilteredDmlist![index].backgroundColor!,
+                                                                id:state.OldMessages!.messages![index].id
+                                                                ,),),
                                                           );
                                                         },
                                                         child:
@@ -943,12 +973,23 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                               margin: EdgeInsets.only(
                                                                   left: h / 109),
                                                               child: CircleAvatar(
-                                                                backgroundColor: Color(
-                                                                    state.FilteredDmlist![index].backgroundColor!),
-                                                                backgroundImage:
-                                                                NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
-                                                                radius: h / 25.5,
-                                                              ),
+                                                                backgroundColor: state.FilteredDmlist![index].send_by=="sprint"? Colors.green:Colors.transparent,
+                                                                radius: h / 20.5,
+                                                                child:CircleAvatar(
+                                                                  backgroundColor: Color(0xff606060),
+                                                                  radius: h / 22.5,
+                                                                  child:CircleAvatar(
+                                                                    backgroundColor: Color(
+                                                                        state.FilteredDmlist![index].backgroundColor!),
+                                                                    backgroundImage:
+                                                                    NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
+                                                                    radius: h / 25.5,
+                                                                  ),
+                                                                )
+
+                                                              )
+
+
                                                             ),
                                                       )
                                                       )

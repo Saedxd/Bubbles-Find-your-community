@@ -96,7 +96,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -332,7 +332,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
           ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return Builder(builder: (context) {
                     return AlertDialog(

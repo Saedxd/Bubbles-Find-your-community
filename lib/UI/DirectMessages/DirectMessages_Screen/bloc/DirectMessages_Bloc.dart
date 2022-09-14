@@ -41,6 +41,22 @@ class DirectMessagesBloc
         print('get Error $e');
       }
     }
+    if (event is DeleteChat) {
+
+      yield state.rebuild((b) => b
+        ..DeleteChatSuccess= false
+      );
+
+
+      final date2 = await _repository.DeleteOldMessages(event.Reciver_id!,event.send_by!);
+
+      yield state.rebuild((b) => b
+        ..DeleteChatSuccess= true
+        ..DeleteOldmessages.replace(date2)
+      );
+
+
+    }
 
     if (event is GetLastMessageWithAllUsers) {
       try {
@@ -77,8 +93,9 @@ class DirectMessagesBloc
           DmData.time = DateFormat.jm().format(datee);
           DmData.lastMessage =
               state.OldMessages!.messages![i].message.toString();
-          DmData.id = state.OldMessages!.messages![i].receiver_id;
+          DmData.receiver_id = state.OldMessages!.messages![i].receiver_id;
           DmData.MY_id = state.OldMessages!.messages![i].me;
+          DmData.send_by = state.OldMessages!.messages![i].send_by;
           // DmData.Msg_Type = state.OldMessages!.messages![i].sms_type;
           DmData.lastMessage.toString().length > 5
               ? DmData.lastMessage.toString().substring(0, 5) == "https"

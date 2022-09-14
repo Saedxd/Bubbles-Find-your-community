@@ -17,6 +17,9 @@ const  last_name = "last_name";
 const  EMAIL = "EMAIL";
  const  IMAGE = "IMAGE";
 var  TOKEN = "TOKEN";
+var  Boi = "Boi";
+var  Serial = "Serial";
+var  Serial_number = "Serial_number";
 var  Avatar = "Avatar";
 var  Alias = "Alias";
 var  Gender = "Gender";
@@ -129,12 +132,16 @@ print((await getPrefs()).getBool(IS_LOGIN));
   Future<void> saveUser(UserModel user, String token,bool active) async {
 
     (await getPrefs()).setInt(ID, user.data!.id??0);
+    (await getPrefs()).setString(Serial_number, user.data!.serialnumber??"");
+    (await getPrefs()).setString(Serial, user.data!.serial??"");
     (await getPrefs()).setString(Avatar, user.data!.avatar??"");
     (await getPrefs()).setString(Alias, user.data!.alias??"");
     (await getPrefs()).setString(BackGround_Color, user.data!.background_color??"");
     (await getPrefs()).setString(first_name, user.data!.first_name?? "");
     (await getPrefs()).setString(last_name,user.data!.last_name ?? "");
     (await getPrefs()).setString(EMAIL, user.data!.email?? "");
+    (await getPrefs()).setString(Boi, user.data!.bio?? "");
+    (await getPrefs()).setString(Boi, user.data!.bio?? "");
  //   (await getPrefs()).setString(Gender, user.data!.gender?? "");
  user.token!.isNotEmpty?
     (await getPrefs()).setString(access_token, user.token ?? "")
@@ -161,6 +168,7 @@ print((await getPrefs()).getBool(IS_LOGIN));
   }
 
 
+
   @override
   Future<UserModel> getUser() async{
   int id =  (await getPrefs()).getInt(ID)??0;
@@ -170,14 +178,17 @@ print((await getPrefs()).getBool(IS_LOGIN));
   String first_namee =  (await getPrefs()).getString(first_name)??"";
   String last_namee =  (await getPrefs()).getString(last_name)??"";
   String email = (await getPrefs()).getString(EMAIL)??"";
- // String gender =  (await getPrefs()).getString(Gender)??"";
+  String Serialnumber = (await getPrefs()).getString(Serial_number)??"";
+  String serial = (await getPrefs()).getString(Serial)??"";
   String token =  (await getPrefs()).getString(TOKEN)??"";
+  String boi =  (await getPrefs()).getString(Boi)??"";
   int is_Creatorr =  (await getPrefs()).getInt(is_Creator)??0;
   double latt =  (await getPrefs()).getDouble(lat)??0;
   double lngg =  (await getPrefs()).getDouble(lng)??0;
     // (await getPrefs()).setDouble(lat, user.user!.data!.langtitude ?? 0);
     // (await getPrefs()).setDouble(lng, user.user!.data!.lattitude ?? 0);
     //  (await getPrefs()).setString(refresh_token, user.data!.token!.refresh_token ?? "");
+  // String gender =  (await getPrefs()).getString(Gender)??"";
 
 
   UserModel user = UserModel((b) => b
@@ -191,6 +202,9 @@ print((await getPrefs()).getBool(IS_LOGIN));
       ..data.id = id
       ..token =token
       ..data.background_color = BackGround_color
+      ..data.bio = boi
+      ..data.serial = serial
+      ..data.serialnumber = Serialnumber
   );
   return user;
   }

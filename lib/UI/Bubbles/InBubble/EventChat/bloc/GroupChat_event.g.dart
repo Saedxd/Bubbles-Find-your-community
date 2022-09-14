@@ -2286,11 +2286,21 @@ class _$SendPollFloww extends SendPollFloww {
   final List<String>? answers;
   @override
   final FlowData? Flow;
+  @override
+  final bool? isShow_participants;
+  @override
+  final bool? isMultible_answers;
 
   factory _$SendPollFloww([void Function(SendPollFlowwBuilder)? updates]) =>
       (new SendPollFlowwBuilder()..update(updates))._build();
 
-  _$SendPollFloww._({this.Question, this.bubble_id, this.answers, this.Flow})
+  _$SendPollFloww._(
+      {this.Question,
+      this.bubble_id,
+      this.answers,
+      this.Flow,
+      this.isShow_participants,
+      this.isMultible_answers})
       : super._();
 
   @override
@@ -2307,15 +2317,21 @@ class _$SendPollFloww extends SendPollFloww {
         Question == other.Question &&
         bubble_id == other.bubble_id &&
         answers == other.answers &&
-        Flow == other.Flow;
+        Flow == other.Flow &&
+        isShow_participants == other.isShow_participants &&
+        isMultible_answers == other.isMultible_answers;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, Question.hashCode), bubble_id.hashCode),
-            answers.hashCode),
-        Flow.hashCode));
+        $jc(
+            $jc(
+                $jc($jc($jc(0, Question.hashCode), bubble_id.hashCode),
+                    answers.hashCode),
+                Flow.hashCode),
+            isShow_participants.hashCode),
+        isMultible_answers.hashCode));
   }
 
   @override
@@ -2324,7 +2340,9 @@ class _$SendPollFloww extends SendPollFloww {
           ..add('Question', Question)
           ..add('bubble_id', bubble_id)
           ..add('answers', answers)
-          ..add('Flow', Flow))
+          ..add('Flow', Flow)
+          ..add('isShow_participants', isShow_participants)
+          ..add('isMultible_answers', isMultible_answers))
         .toString();
   }
 }
@@ -2349,6 +2367,16 @@ class SendPollFlowwBuilder
   FlowData? get Flow => _$this._Flow;
   set Flow(FlowData? Flow) => _$this._Flow = Flow;
 
+  bool? _isShow_participants;
+  bool? get isShow_participants => _$this._isShow_participants;
+  set isShow_participants(bool? isShow_participants) =>
+      _$this._isShow_participants = isShow_participants;
+
+  bool? _isMultible_answers;
+  bool? get isMultible_answers => _$this._isMultible_answers;
+  set isMultible_answers(bool? isMultible_answers) =>
+      _$this._isMultible_answers = isMultible_answers;
+
   SendPollFlowwBuilder();
 
   SendPollFlowwBuilder get _$this {
@@ -2358,6 +2386,8 @@ class SendPollFlowwBuilder
       _bubble_id = $v.bubble_id;
       _answers = $v.answers;
       _Flow = $v.Flow;
+      _isShow_participants = $v.isShow_participants;
+      _isMultible_answers = $v.isMultible_answers;
       _$v = null;
     }
     return this;
@@ -2383,7 +2413,9 @@ class SendPollFlowwBuilder
             Question: Question,
             bubble_id: bubble_id,
             answers: answers,
-            Flow: Flow);
+            Flow: Flow,
+            isShow_participants: isShow_participants,
+            isMultible_answers: isMultible_answers);
     replace(_$result);
     return _$result;
   }
@@ -2694,6 +2726,95 @@ class AddFlowModelBuilder
 
   _$AddFlowModel _build() {
     final _$result = _$v ?? new _$AddFlowModel._(Flow: Flow);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+class _$ChoosePollFlowAnswer extends ChoosePollFlowAnswer {
+  @override
+  final int? index;
+  @override
+  final int? Answer_id;
+
+  factory _$ChoosePollFlowAnswer(
+          [void Function(ChoosePollFlowAnswerBuilder)? updates]) =>
+      (new ChoosePollFlowAnswerBuilder()..update(updates))._build();
+
+  _$ChoosePollFlowAnswer._({this.index, this.Answer_id}) : super._();
+
+  @override
+  ChoosePollFlowAnswer rebuild(
+          void Function(ChoosePollFlowAnswerBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChoosePollFlowAnswerBuilder toBuilder() =>
+      new ChoosePollFlowAnswerBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChoosePollFlowAnswer &&
+        index == other.index &&
+        Answer_id == other.Answer_id;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc($jc(0, index.hashCode), Answer_id.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ChoosePollFlowAnswer')
+          ..add('index', index)
+          ..add('Answer_id', Answer_id))
+        .toString();
+  }
+}
+
+class ChoosePollFlowAnswerBuilder
+    implements Builder<ChoosePollFlowAnswer, ChoosePollFlowAnswerBuilder> {
+  _$ChoosePollFlowAnswer? _$v;
+
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
+  int? _Answer_id;
+  int? get Answer_id => _$this._Answer_id;
+  set Answer_id(int? Answer_id) => _$this._Answer_id = Answer_id;
+
+  ChoosePollFlowAnswerBuilder();
+
+  ChoosePollFlowAnswerBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _index = $v.index;
+      _Answer_id = $v.Answer_id;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChoosePollFlowAnswer other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChoosePollFlowAnswer;
+  }
+
+  @override
+  void update(void Function(ChoosePollFlowAnswerBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChoosePollFlowAnswer build() => _build();
+
+  _$ChoosePollFlowAnswer _build() {
+    final _$result =
+        _$v ?? new _$ChoosePollFlowAnswer._(index: index, Answer_id: Answer_id);
     replace(_$result);
     return _$result;
   }

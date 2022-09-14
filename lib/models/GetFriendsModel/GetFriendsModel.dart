@@ -5,6 +5,8 @@ library GetFriendsModel;
 
 import 'dart:convert';
 
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/GetFriendsModel/FriendsListModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
@@ -21,7 +23,7 @@ abstract class GetFriendsModel
 
   String? get msg;
   int? get StatusCode;
-  BuiltList<FriendsListModel>? get friends;
+  BuiltList<FriendData>? get friends;
   String? get error;
 
 

@@ -249,6 +249,9 @@ abstract class SendPollFloww extends GroupChatevent
   int? get bubble_id;
   List<String>? get answers;
   FlowData? get Flow;
+  bool? get isShow_participants;
+  bool? get isMultible_answers;
+
   SendPollFloww._();
   factory SendPollFloww([updates(SendPollFlowwBuilder b)]) = _$SendPollFloww;
 }
@@ -280,4 +283,11 @@ abstract class AddFlowModel extends GroupChatevent
   FlowData? get Flow;
   AddFlowModel._();
   factory AddFlowModel([updates(AddFlowModelBuilder b)]) = _$AddFlowModel;
+}
+abstract class ChoosePollFlowAnswer extends GroupChatevent
+    implements Built<ChoosePollFlowAnswer, ChoosePollFlowAnswerBuilder> {
+int? get index;
+int? get Answer_id;
+  ChoosePollFlowAnswer._();
+  factory ChoosePollFlowAnswer([Function(ChoosePollFlowAnswerBuilder b) updates]) = _$ChoosePollFlowAnswer;
 }

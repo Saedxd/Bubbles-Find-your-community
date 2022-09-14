@@ -33,7 +33,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -407,7 +407,7 @@ class _TakeQuiz_ScreenState extends State<TakeQuiz_Screen> {
       Function onpressed) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
             backgroundColor: const Color(0xff303030),

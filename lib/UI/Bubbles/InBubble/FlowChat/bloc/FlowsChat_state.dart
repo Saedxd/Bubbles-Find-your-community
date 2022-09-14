@@ -9,8 +9,8 @@ import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:built_collection/built_collection.dart';
@@ -60,7 +60,7 @@ abstract class FlowsChatState implements Built<FlowsChatState,FlowsChatStateBuil
   SendBubbleMessageModel? get SendBubbleTopicFlow;
   SendBubbleMessageModel? get SendBubbleMessage;
   SendBubbleMessageModel? get SendBubbleReply;
-  GetUsersInsideBubbleModel? get GetUsersInsideBubble;
+  FriendData? get GetUsersInsideBubble;
   List<GroupChatFlowsMessage>? get messages;
 
   bool? get GetInsideUsersISloading;

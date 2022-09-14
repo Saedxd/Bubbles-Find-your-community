@@ -129,34 +129,34 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
       }
     }
 
-    // if (event is GetProfile){
-    //   try {
-    //
-    //     yield state.rebuild((b) => b
-    //       ..GetprofileLoading = true
-    //       ..error = ""
-    //       ..GetprofileSuccess = false
-    //       ..ProfileDate = null
-    //     );
-    //
-    //     final date = await _repository.GetProfile();
-    //     print('get Success data $date');
-    //     yield state.rebuild((b) => b
-    //       ..GetprofileLoading = false
-    //       ..error = ""
-    //       ..GetprofileSuccess = true
-    //       ..ProfileDate.replace(date)
-    //     );
-    //   } catch (e) {
-    //     print('get Error $e');
-    //     yield state.rebuild((b) => b
-    //       ..GetprofileLoading = false
-    //
-    //       ..GetprofileSuccess = false
-    //       ..ProfileDate = null
-    //     );
-    //   }
-    // }
+    if (event is GetProfile){
+      try {
+
+        yield state.rebuild((b) => b
+          ..GetprofileLoading = true
+          ..error = ""
+          ..GetprofileSuccess = false
+          ..ProfileDate = null
+        );
+
+        final date = await _repository.GetProfile();
+        print('get Success data $date');
+        yield state.rebuild((b) => b
+          ..GetprofileLoading = false
+          ..error = ""
+          ..GetprofileSuccess = true
+          ..ProfileDate.replace(date)
+        );
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
+          ..GetprofileLoading = false
+
+          ..GetprofileSuccess = false
+          ..ProfileDate = null
+        );
+      }
+    }
 
     if (event is GetFreinds) {
       try {

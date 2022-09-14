@@ -121,7 +121,7 @@ class _Login2State extends State<Login2> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,

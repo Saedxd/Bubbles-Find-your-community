@@ -183,6 +183,26 @@ class SprintsBloc extends Bloc<SprintsEvent, SprintsState> {
 
 
     }
+
+
+    if (event is DeleteChat) {
+
+        yield state.rebuild((b) => b
+          ..DeleteChatSuccess= false
+        );
+
+
+      final date2 = await _repository.DeleteOldMessages(event.Reciver_id!,event.send_by!);
+
+        yield state.rebuild((b) => b
+          ..DeleteChatSuccess= true
+        ..DeleteOldmessages.replace(date2)
+        );
+
+
+    }
+
+
     if (event is AddModel) {
       try {
           yield state.rebuild((b) => b

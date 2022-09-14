@@ -229,6 +229,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                               left: widget.Bubble!.users_in_bubble!.length>=3? w/1.45:w/1.4,
                               top: h/2.63,
                               child:
+
                               Container(
                                 width: w/4,height: h/15,
                                 margin: EdgeInsets.only(left:widget.Bubble!.users_in_bubble!.length==1
@@ -354,7 +355,14 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                     left: 0,
                     bottom: 10,
                     child: Center(
-                      child: InkWell(
+                      child:      Theme(
+          data: ThemeData(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          ),
+          child :
+
+                      InkWell(
                         onTap: () {
                           WidgetsBinding.instance.addPostFrameCallback(
                                   (_) =>
@@ -398,6 +406,7 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                           ),
                         ),
                       ),
+                      )
                     ),
                   ),
                 ],

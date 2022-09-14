@@ -5,6 +5,7 @@ library ReplieslISTModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -17,16 +18,16 @@ abstract class ReplieslISTModel
     implements Built<ReplieslISTModel,ReplieslISTModelBuilder> {
 
   int? get id;
-
-  String? get comment;
   String? get alias;
+  String? get serial;
+  String? get bio;
   String? get avatar;
-  String? get CreatAt;
   String? get background;
-//  int? get sender_id;
-//   bool? get is_friend;
-//   BuiltList<InterestsListModel>? get sender_interests;
-//   String? get sender_bio;
+  String? get comment;
+  String? get CreatAt;
+  bool? get is_friend;
+  BuiltList<InterestsListModel>? get interests;
+
 
 
   ReplieslISTModel._();

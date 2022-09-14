@@ -40,7 +40,7 @@ class _ChallengesState extends State<Challenges> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -181,7 +181,7 @@ class _ChallengesState extends State<Challenges> {
 
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor:  Color(0xffC4C4C4),

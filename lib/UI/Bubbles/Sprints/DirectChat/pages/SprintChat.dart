@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -41,6 +43,7 @@ class Sprints extends StatefulWidget {
     , required this.my_ID,
     required this.IS_sprints,
     required this.His_Alias,
+    required this.Send_by,
      this.Bubble_id,
      this.Plan_Title,
     this.Color
@@ -53,6 +56,7 @@ class Sprints extends StatefulWidget {
   String? His_Alias;
   String? Plan_Title;
   int? Bubble_id;
+  String? Send_by;
 int? Color;
   @override
   State<Sprints> createState() => _SprintsState();
@@ -100,7 +104,7 @@ class _SprintsState extends State<Sprints> {
     _Sprints_Bloc.add(
         GetOldMessages((b) => b
           ..receiver_id = widget.receiver_id
-          ..send_by = widget.IS_sprints?"sprint":"dm"
+          ..send_by =widget.Send_by
         ));
     socket!.io..disconnect()..connect();
 
@@ -158,27 +162,401 @@ class _SprintsState extends State<Sprints> {
     _SendMessageController.dispose();
     _focus.dispose();
   }
+  alreatDialogBuilder4(
+      BuildContext Context,
+      double h,
+      double w,
+      ) async {
+    return showDialog(
+        context: Context,
+           barrierDismissible: true,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/100),
+              content:Container(
+                width: w/1.4,
+                height: h/4.5,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight:  Radius.circular(8.285714149475098.r),
+                    bottomLeft:  Radius.circular(8.285714149475098.r),
+                    bottomRight:  Radius.circular(8.285714149475098.r),
+                  ),
+                  color: Colors.transparent,
+                ),
+
+
+                child: Container(
+                  width: w/1.4,
+                  height: h/8.2,
+                  decoration: BoxDecoration(
+                    borderRadius : BorderRadius.only(
+                      topLeft: Radius.circular(8.285714149475098.r),
+                      topRight:  Radius.circular(8.285714149475098.r),
+                      bottomLeft:  Radius.circular(8.285714149475098.r),
+                      bottomRight:  Radius.circular(8.285714149475098.r),
+                    ),
+                    color : Color.fromRGBO(47, 47, 47, 1),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(""),
+                      Center(
+                        child: Text('Are you sure you want to stop this match? Chat will be Deleted if you click Yes',
+                          textAlign: TextAlign.center, style: TextStyle(
+                              color: Color.fromRGBO(234, 234, 234, 1),
+                              fontFamily: 'Red Hat Display',
+                              fontSize: 17.sp,
+                              letterSpacing: 0 ,
+                              fontWeight: FontWeight.w300,
+                              height: 1.h
+                          ),),
+                      ),
+                      Text(""),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Center(
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.pop(context);
+                                ChatSavedPopup(context,h,w);
+                              },
+                              child: Container(
+                                height: h/15.5,
+                                width: w/3.7,
+                                decoration: BoxDecoration(
+                                  borderRadius : BorderRadius.only(
+                                    topLeft:Radius.circular(4.142857074737549.r),
+                                    topRight:Radius.circular(4.142857074737549.r),
+                                    bottomLeft: Radius.circular(4.142857074737549.r),
+                                    bottomRight: Radius.circular(4.142857074737549.r),
+                                  ),
+                                  boxShadow : [BoxShadow(
+                                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                                      offset: Offset(0,0),
+                                      blurRadius: 6.628571510314941.r
+                                  )],
+                                  color : Color(0xffCF6D38)
+                                ),
+                                child: Center(
+                                  child:
+                                  Text('No', textAlign: TextAlign.center, style: TextStyle(
+                                      color: const Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Sofia Pro',
+                                      fontSize: 16.sp,
+                                      letterSpacing: 0.5 ,
+                                      fontWeight: FontWeight.w500,
+                                      height: 1
+                                  ),),
+                                ),
+                              ),
+                            ),
+                          ),
+
+                                      InkWell(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                          Navigator.pop(context,"Yes");
+                                       //   Navigator.pop(context);
+                                          _Sprints_Bloc.add(
+                                              DeleteChat((b) => b
+                                                ..send_by = "sprint"
+                                                ..Reciver_id = widget.receiver_id
+                                              )
+                                          );
+                                        },
+                                        child: Container(
+                                          width: w/3.7,
+                                          height: h/15,
+                                          decoration: BoxDecoration(
+                                            borderRadius : BorderRadius.only(
+                                              topLeft:  Radius.circular(4.142857074737549.r),
+                                              topRight:  Radius.circular(4.142857074737549.r),
+                                              bottomLeft:  Radius.circular(4.142857074737549.r),
+                                              bottomRight: Radius.circular(4.142857074737549.r),
+                                            ),
+                                            boxShadow : [const BoxShadow(
+                                                color: const Color.fromRGBO(0, 0, 0, 0.25),
+                                                offset: const Offset(0,0),
+                                                blurRadius: 6.628571510314941
+                                            )],
+                                            color : const Color.fromRGBO(168, 48, 99, 1),
+                                          ),
+                                          child: Center(
+                                            child:
+                                            Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+                                                color: const Color.fromRGBO(234, 234, 234, 1),
+                                                fontFamily: 'Sofia Pro',
+                                                fontSize: 16.sp,
+                                                letterSpacing: 0.5 ,
+                                                fontWeight: FontWeight.w500,
+                                                height: 1
+                                            ),),
+                                          ),
+                                        ),
+                                      )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )
+
+          );
+
+          //   AlertDialog(
+          //   backgroundColor: Colors.transparent,
+          //   insetPadding: EdgeInsets.all(h/50),
+          //   content:
+          //   Container(
+          //     width: w/1.1,
+          //     height: h/4.2,
+          //     decoration: BoxDecoration(
+          //       borderRadius : BorderRadius.only(
+          //         topLeft: Radius.circular(8.285714149475098.r),
+          //         topRight:  Radius.circular(8.285714149475098.r),
+          //         bottomLeft:  Radius.circular(8.285714149475098.r),
+          //         bottomRight:  Radius.circular(8.285714149475098.r),
+          //       ),
+          //       color : const Color.fromRGBO(47, 47, 47, 1),
+          //     ),
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.center,
+          //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //       children: [
+          //         Container(
+          //           padding: EdgeInsets.only(left: h/50,top: h/50),
+          //           child: Text('Are you sure you want to stop this match?',
+          //             textAlign: TextAlign.left, style: TextStyle(
+          //                 color: const Color.fromRGBO(234, 234, 234, 1),
+          //                 fontFamily: 'Sofia Pro',
+          //                 fontSize: 16.sp,
+          //                 letterSpacing: 0.5 ,
+          //                 fontWeight: FontWeight.w300,
+          //                 height: 1.h
+          //             ),),
+          //         ),
+          //         const Text(""),
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          //           children: [
+          //
+          //             InkWell(
+          //               onTap: (){
+          //                 ChatSavedPopup(context,h,w);
+          //               },
+          //               child: Container(
+          //                   width: w/3,
+          //                   height: h/15,
+          //                   decoration: BoxDecoration(
+          //                     borderRadius : BorderRadius.only(
+          //                       topLeft: Radius.circular(4.142857074737549.r),
+          //                       topRight:  Radius.circular(4.142857074737549.r),
+          //                       bottomLeft:  Radius.circular(4.142857074737549.r),
+          //                       bottomRight:  Radius.circular(4.142857074737549.r),
+          //                     ),
+          //                     boxShadow : [const BoxShadow(
+          //                         color: const Color.fromRGBO(0, 0, 0, 0.25),
+          //                         offset: const Offset(0,0),
+          //                         blurRadius: 6.628571510314941
+          //                     )],
+          //                     color : const Color.fromRGBO(207, 109, 56, 1),
+          //                   ),
+          //                   child: Center(
+          //                     child:
+          //                     Text('No', textAlign: TextAlign.center, style: TextStyle(
+          //                         color: const Color.fromRGBO(234, 234, 234, 1),
+          //                         fontFamily: 'Sofia Pro',
+          //                         fontSize: 16.sp,
+          //                         letterSpacing: 0.5 ,
+          //                         fontWeight: FontWeight.w500,
+          //                         height: 1
+          //                     ),),
+          //                   )
+          //               ),
+          //             ),
+          //
+          //             InkWell(
+          //               onTap: (){
+          //                 Navigator.pop(context);
+          //              //   Navigator.pop(context);
+          //                 _Sprints_Bloc.add(
+          //                     DeleteChat((b) => b
+          //                       ..send_by = "sprint"
+          //                       ..Reciver_id = widget.receiver_id
+          //                     )
+          //                 );
+          //               },
+          //               child: Container(
+          //                 width: w/3,
+          //                 height: h/15,
+          //                 decoration: BoxDecoration(
+          //                   borderRadius : BorderRadius.only(
+          //                     topLeft:  Radius.circular(4.142857074737549.r),
+          //                     topRight:  Radius.circular(4.142857074737549.r),
+          //                     bottomLeft:  Radius.circular(4.142857074737549.r),
+          //                     bottomRight: Radius.circular(4.142857074737549.r),
+          //                   ),
+          //                   boxShadow : [const BoxShadow(
+          //                       color: const Color.fromRGBO(0, 0, 0, 0.25),
+          //                       offset: const Offset(0,0),
+          //                       blurRadius: 6.628571510314941
+          //                   )],
+          //                   color : const Color.fromRGBO(168, 48, 99, 1),
+          //                 ),
+          //                 child: Center(
+          //                   child:
+          //                   Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+          //                       color: const Color.fromRGBO(234, 234, 234, 1),
+          //                       fontFamily: 'Sofia Pro',
+          //                       fontSize: 16.sp,
+          //                       letterSpacing: 0.5 ,
+          //                       fontWeight: FontWeight.w500,
+          //                       height: 1
+          //                   ),),
+          //                 ),
+          //               ),
+          //             )
+          //           ],
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          // );
+        });
+  }
+
+  ChatSavedPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      ) async {
+    return showDialog(
+        context: Context,
+           barrierDismissible: true,
+        builder: (Context) {
+          return AlertDialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: EdgeInsets.all(h/50),
+            content:
+            Container(
+              width: w/1.1,
+              height: h/4.2,
+              decoration: BoxDecoration(
+                borderRadius : BorderRadius.only(
+                  topLeft: Radius.circular(8.285714149475098.r),
+                  topRight:  Radius.circular(8.285714149475098.r),
+                  bottomLeft:  Radius.circular(8.285714149475098.r),
+                  bottomRight:  Radius.circular(8.285714149475098.r),
+                ),
+                color : const Color.fromRGBO(47, 47, 47, 1),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(left: h/50,top: h/50),
+                    child: Text('Match chat is Saved ,Go to direct messages to continue chatting',
+                      textAlign: TextAlign.left, style: TextStyle(
+                          color: const Color.fromRGBO(234, 234, 234, 1),
+                          fontFamily: 'Sofia Pro',
+                          fontSize: 17.sp,
+                          letterSpacing: 0.5 ,
+                          fontWeight: FontWeight.w300,
+                          height: 1.h
+                      ),),
+                  ),
+                  const Text(""),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+
+                      InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: w/3,
+                            height: h/15,
+                            decoration: BoxDecoration(
+                              borderRadius : BorderRadius.only(
+                                topLeft: Radius.circular(4.142857074737549.r),
+                                topRight:  Radius.circular(4.142857074737549.r),
+                                bottomLeft:  Radius.circular(4.142857074737549.r),
+                                bottomRight:  Radius.circular(4.142857074737549.r),
+                              ),
+                              boxShadow : [const BoxShadow(
+                                  color: const Color.fromRGBO(0, 0, 0, 0.25),
+                                  offset: const Offset(0,0),
+                                  blurRadius: 6.628571510314941
+                              )],
+                              color : Color(0xffA83063)
+                            ),
+                            child: Center(
+                              child:
+                              Text('Sounds good', textAlign: TextAlign.center, style: TextStyle(
+                                  color: const Color.fromRGBO(234, 234, 234, 1),
+                                  fontFamily: 'Sofia Pro',
+                                  fontSize: 16.sp,
+                                  letterSpacing: 0.5 ,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1
+                              ),),
+                            )
+                        ),
+                      ),
+
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
-    TextTheme _TextTheme = Theme.of(context).textTheme;
+    TextTheme TextThemee = Theme.of(context).textTheme;
+
     ColorScheme COLOR = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return BlocBuilder(
+    //   alreatDialogBuilder4(
+    //                                             context,h,w);
+    //
+    //
+    return  WillPopScope(
+        onWillPop: ()async{
+          if (widget.Send_by=="sprint") {
+            alreatDialogBuilder4(context, h, w);
+            return false;
+          }else{
+            return true;
+          }
+    },
+    child :
+
+      BlocBuilder(
         bloc: _Sprints_Bloc,
         builder: (BuildContext Context, SprintsState state) {
           alreatDialogBuilder2(
               BuildContext Context,
               double h,
               double w,
-              int Frined_id,
+              int FrinedId,
               int index,
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -194,7 +572,7 @@ class _SprintsState extends State<Sprints> {
                           bottomLeft:  Radius.circular(8.285714149475098.r),
                           bottomRight:  Radius.circular(8.285714149475098.r),
                         ),
-                        color : Color.fromRGBO(47, 47, 47, 1),
+                        color : const Color.fromRGBO(47, 47, 47, 1),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -204,7 +582,7 @@ class _SprintsState extends State<Sprints> {
                             padding: EdgeInsets.only(left: h/50,top: h/50),
                             child: Text('Are you sure you want to remove this user from your friendlist?',
                               textAlign: TextAlign.left, style: TextStyle(
-                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                  color: const Color.fromRGBO(234, 234, 234, 1),
                                   fontFamily: 'Sofia Pro',
                                   fontSize: 20.sp,
                                   letterSpacing: 0.5 ,
@@ -212,7 +590,7 @@ class _SprintsState extends State<Sprints> {
                                   height: 1
                               ),),
                           ),
-                          Text(""),
+                          const Text(""),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -231,17 +609,17 @@ class _SprintsState extends State<Sprints> {
                                         bottomLeft:  Radius.circular(4.142857074737549.r),
                                         bottomRight:  Radius.circular(4.142857074737549.r),
                                       ),
-                                      boxShadow : [BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                                          offset: Offset(0,0),
+                                      boxShadow : [const BoxShadow(
+                                          color: const Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: const Offset(0,0),
                                           blurRadius: 6.628571510314941
                                       )],
-                                      color : Color.fromRGBO(207, 109, 56, 1),
+                                      color : const Color.fromRGBO(207, 109, 56, 1),
                                     ),
                                     child: Center(
                                       child:
                                       Text('No', textAlign: TextAlign.center, style: TextStyle(
-                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          color: const Color.fromRGBO(234, 234, 234, 1),
                                           fontFamily: 'Sofia Pro',
                                           fontSize: 19.571428298950195.sp,
                                           letterSpacing: 0.5 ,
@@ -271,17 +649,17 @@ class _SprintsState extends State<Sprints> {
                                       bottomLeft:  Radius.circular(4.142857074737549.r),
                                       bottomRight: Radius.circular(4.142857074737549.r),
                                     ),
-                                    boxShadow : [BoxShadow(
-                                        color: Color.fromRGBO(0, 0, 0, 0.25),
-                                        offset: Offset(0,0),
+                                    boxShadow : [const BoxShadow(
+                                        color: const Color.fromRGBO(0, 0, 0, 0.25),
+                                        offset: const Offset(0,0),
                                         blurRadius: 6.628571510314941
                                     )],
-                                    color : Color.fromRGBO(168, 48, 99, 1),
+                                    color : const Color.fromRGBO(168, 48, 99, 1),
                                   ),
                                   child: Center(
                                     child:
                                     Text('Yes', textAlign: TextAlign.center, style: TextStyle(
-                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        color: const Color.fromRGBO(234, 234, 234, 1),
                                         fontFamily: 'Sofia Pro',
                                         fontSize: 19.571428298950195.sp,
                                         letterSpacing: 0.5 ,
@@ -305,15 +683,15 @@ class _SprintsState extends State<Sprints> {
               BuildContext Context,
               double h,
               double w,
-              bool is_frined,
-              bool is_me,
-              int frined_id,
+              bool isFrined,
+              bool isMe,
+              int frinedId,
               int myINdex,
               FrinedsData UserData
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
 
 
@@ -347,7 +725,7 @@ class _SprintsState extends State<Sprints> {
                                         bottomLeft: Radius.circular(8.285714149475098.r),
                                         bottomRight: Radius.circular(8.285714149475098.r),
                                       ),
-                                      color : Color.fromRGBO(47, 47, 47, 1),
+                                      color : const Color.fromRGBO(47, 47, 47, 1),
                                     ),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -380,8 +758,8 @@ class _SprintsState extends State<Sprints> {
                                                           UserData.Alias
                                                               .toString(),
                                                           overflow: TextOverflow.ellipsis,
-                                                          style: _TextTheme.headline6!.copyWith(
-                                                              color: Color(
+                                                          style: TextThemee.headline6!.copyWith(
+                                                              color: const Color(
                                                                   0xffEAEAEA),
                                                               fontWeight:
                                                               FontWeight
@@ -395,10 +773,10 @@ class _SprintsState extends State<Sprints> {
                                                         Text(
                                                             UserData.Serial!,
                                                             textAlign: TextAlign.left,
-                                                            style: _TextTheme
+                                                            style: TextThemee
                                                                 .headline6!
                                                                 .copyWith(
-                                                                color: Color(
+                                                                color: const Color(
                                                                     0xffEAEAEA),
                                                                 fontWeight:
                                                                 FontWeight
@@ -420,7 +798,7 @@ class _SprintsState extends State<Sprints> {
                                                         onPressed: (){
                                                           Navigator.pop(context,true);
                                                         },
-                                                        icon: Icon(Icons.clear),
+                                                        icon: const Icon(Icons.clear),
                                                       ),
                                                     ),
                                                   ],
@@ -435,7 +813,7 @@ class _SprintsState extends State<Sprints> {
                                                 margin: EdgeInsets.only(left: 20.w),
                                                 child:
                                                 Text(UserData.boi.toString(), textAlign: TextAlign.left, style: TextStyle(
-                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                    color: const Color.fromRGBO(255, 255, 255, 1),
                                                     fontFamily: 'Red Hat Text',
                                                     fontSize: 12.sp,
                                                     letterSpacing: 0 ,
@@ -445,14 +823,14 @@ class _SprintsState extends State<Sprints> {
                                             ),
                                           ],
                                         ),
-                                        Text(""),
+                                        const Text(""),
                                         Row(
                                           mainAxisAlignment:
-                                          is_me?    MainAxisAlignment.center:
+                                          isMe?    MainAxisAlignment.center:
                                           MainAxisAlignment.spaceAround,
                                           children: [
-                                            is_me
-                                                ?Text("")
+                                            isMe
+                                                ?const Text("")
                                                 :InkWell(
                                               onTap: (){
                                                 //DirectChat
@@ -460,7 +838,7 @@ class _SprintsState extends State<Sprints> {
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                               },
 
                                               child: Container(
@@ -474,13 +852,13 @@ class _SprintsState extends State<Sprints> {
                                                       bottomRight: Radius.circular(4.142857074737549.r),
                                                     ),
                                                     boxShadow:[
-                                                      BoxShadow(
+                                                      const BoxShadow(
                                                           color: Color.fromRGBO(0, 0, 0, 0.25),
-                                                          offset: Offset(0,0),
+                                                          offset: const Offset(0,0),
                                                           blurRadius: 6.628571510314941
                                                       )
                                                     ],
-                                                    color : Color.fromRGBO(207, 109, 56, 1),
+                                                    color : const Color.fromRGBO(207, 109, 56, 1),
                                                   ),
                                                   child: Center(
                                                       child:
@@ -489,13 +867,13 @@ class _SprintsState extends State<Sprints> {
                                                   )
                                               ),
                                             ),
-                                            is_me
-                                                ?Text("")
+                                            isMe
+                                                ?const Text("")
                                                 :
                                             InkWell(
                                               onTap: (){
                                                 if (id== UserData.ID!) {
-                                                  if (!is_frined) {
+                                                  if (!isFrined) {
                                                     Navigator.pop(context);
                                                     // _GroupChatBloc.add(
                                                     //     AddFrined((b) =>
@@ -507,7 +885,7 @@ class _SprintsState extends State<Sprints> {
                                                   } else {
                                                     alreatDialogBuilder2(
                                                         context, h, w,
-                                                        frined_id, myINdex);
+                                                        frinedId, myINdex);
                                                   }
                                                 }
 
@@ -522,12 +900,12 @@ class _SprintsState extends State<Sprints> {
                                                     bottomLeft:Radius.circular(4.142857074737549.r),
                                                     bottomRight: Radius.circular(4.142857074737549.r),
                                                   ),
-                                                  boxShadow : [BoxShadow(
+                                                  boxShadow : [const BoxShadow(
                                                       color: Color.fromRGBO(0, 0, 0, 0.25),
-                                                      offset: Offset(0,0),
+                                                      offset: const Offset(0,0),
                                                       blurRadius: 6.628571510314941
                                                   )],
-                                                  color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                                  color : isFrined?const Color(0xff939393):const Color.fromRGBO(168, 48, 99, 1),
                                                 ),
                                                 child: Center(
                                                     child:
@@ -538,7 +916,7 @@ class _SprintsState extends State<Sprints> {
                                                     // width: h / 26,
                                                     // )
 
-                                                    is_frined
+                                                    isFrined
                                                         ? SvgPicture.asset(
                                                       "Assets/images/True_Mark.svg",
                                                       color: Colors.white,
@@ -604,7 +982,7 @@ class _SprintsState extends State<Sprints> {
                             child: Container(
                               //   color: Colors.red,
                               child: ListView.separated(
-                                physics: AlwaysScrollableScrollPhysics(),
+                                physics: const AlwaysScrollableScrollPhysics(),
                                 controller: _controller,
                                 shrinkWrap: true,
                                 reverse: true,
@@ -720,7 +1098,7 @@ class _SprintsState extends State<Sprints> {
                                                                       textAlign: TextAlign.right,
                                                                       style: _textthem.headline2!.copyWith(
                                                                           fontWeight: FontWeight.w300,
-                                                                          color:  Color(0xffEAEAEA),
+                                                                          color:  const Color(0xffEAEAEA),
                                                                           fontSize: 9.sp
                                                                       )),
                                                                   SizedBox(width: 10.w,),
@@ -766,7 +1144,7 @@ class _SprintsState extends State<Sprints> {
                                                       textAlign:
                                                       TextAlign.left,
                                                       style: GoogleFonts.roboto().copyWith(
-                                                          color:  Color(0xffEAEAEA),
+                                                          color:  const Color(0xffEAEAEA),
                                                           fontWeight: FontWeight.w300,
                                                           fontSize: 11.sp
                                                       )),
@@ -840,7 +1218,7 @@ class _SprintsState extends State<Sprints> {
                                                               textAlign: TextAlign.right,
                                                               style: _textthem.headline2!.copyWith(
                                                                   fontWeight: FontWeight.w300,
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   fontSize: 9.sp
                                                               )),
                                                           SizedBox(width: 10.w,),
@@ -858,7 +1236,7 @@ class _SprintsState extends State<Sprints> {
                                                   SpinKitDualRing(
                                                     color: Colors.white,
                                                     size: h/80.0,
-                                                  ):Text(""),
+                                                  ):const Text(""),
                                                   Container(
                                                     margin: EdgeInsets.only(left: h/14),
                                                     child: Row(
@@ -929,11 +1307,11 @@ class _SprintsState extends State<Sprints> {
                                                                         height: h / 4,child: Row(
                                                                       mainAxisAlignment: MainAxisAlignment.center,
                                                                       children: [
-                                                                        CircularProgressIndicator(),
+                                                                        const CircularProgressIndicator(),
                                                                       ],
                                                                     )),
                                                                     errorWidget: (context, url, error) => Container(
-                                                                        height: h / 4,child: Icon(Icons.error)),
+                                                                        height: h / 4,child: const Icon(Icons.error)),
                                                                   )),
 
                                                             )
@@ -1026,7 +1404,7 @@ class _SprintsState extends State<Sprints> {
                                                               textAlign: TextAlign.right,
                                                               style: _textthem.headline2!.copyWith(
                                                                   fontWeight: FontWeight.w300,
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   fontSize: 9.sp
                                                               )),
                                                           SizedBox(width: 10.w,),
@@ -1048,8 +1426,8 @@ class _SprintsState extends State<Sprints> {
                                                       played: false,
                                                       me: false,
                                                     ),
-                                                    Text(""),
-                                                    Text(""),
+                                                    const Text(""),
+                                                    const Text(""),
                                                   ],
                                                 ),
                                               )
@@ -1072,13 +1450,13 @@ class _SprintsState extends State<Sprints> {
                                                               width: h / 34,
                                                             ),
                                                             Container(
-                                                              color:  Color(0xffEAEAEA),
+                                                              color:  const Color(0xffEAEAEA),
                                                               width: w / 400,
                                                               height: h / 50,
                                                               margin: EdgeInsets.only(top: h/105,bottom: h/105),
                                                             ),
                                                             Container(
-                                                              color:  Color(0xffEAEAEA),
+                                                              color:  const Color(0xffEAEAEA),
                                                               height: w / 400,
                                                               width: h / 34,
                                                               margin: EdgeInsets.only(bottom: h/55),
@@ -1114,7 +1492,7 @@ class _SprintsState extends State<Sprints> {
                                                                                 ,
                                                                                 textAlign: TextAlign.left,
                                                                                 style: TextStyle(
-                                                                                    color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                    color:  const Color.fromRGBO(147, 147, 147, 1),
                                                                                     fontFamily: 'Red Hat Text',
                                                                                     fontSize: 9.sp,letterSpacing: 0
                                                                                     ,
@@ -1134,7 +1512,7 @@ class _SprintsState extends State<Sprints> {
                                                                                     textAlign: TextAlign.left,
                                                                                     overflow: TextOverflow.ellipsis,
                                                                                     style: GoogleFonts.roboto().copyWith(
-                                                                                        color:  Color(0xffEAEAEA),
+                                                                                        color:  const Color(0xffEAEAEA),
                                                                                         fontWeight: FontWeight.w300,
                                                                                         fontSize: 7.54.sp
                                                                                     )
@@ -1194,7 +1572,7 @@ class _SprintsState extends State<Sprints> {
                                                                   textAlign: TextAlign.right,
                                                                   style: _textthem.headline2!.copyWith(
                                                                       fontWeight: FontWeight.w300,
-                                                                      color:  Color(0xffEAEAEA),
+                                                                      color:  const Color(0xffEAEAEA),
                                                                       fontSize: 9.sp
                                                                   )),
                                                               SizedBox(width: 10.w,),
@@ -1227,7 +1605,7 @@ class _SprintsState extends State<Sprints> {
                                                         textAlign:
                                                         TextAlign.left,
                                                         style: GoogleFonts.roboto().copyWith(
-                                                            color:  Color(0xffEAEAEA),
+                                                            color:  const Color(0xffEAEAEA),
                                                             fontWeight: FontWeight.w300,
                                                             fontSize: 11.sp
                                                         )),
@@ -1255,12 +1633,12 @@ class _SprintsState extends State<Sprints> {
                                                                   width: h / 34,
                                                                 ),
                                                                 Container(
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   width: w / 400,
                                                                   height: h / 50,
                                                                 ),
                                                                 Container(
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   height: w / 400,
                                                                   width: h / 34,
                                                                   margin: EdgeInsets.only(bottom: h/55),
@@ -1298,7 +1676,7 @@ class _SprintsState extends State<Sprints> {
                                                                                     ,
                                                                                     textAlign: TextAlign.left,
                                                                                     style: TextStyle(
-                                                                                        color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                        color:  const Color.fromRGBO(147, 147, 147, 1),
                                                                                         fontFamily: 'Red Hat Text',  fontSize: 9.sp,
                                                                                         letterSpacing: 0 , fontWeight: FontWeight.w500, height: 1),
                                                                                   ),
@@ -1311,7 +1689,7 @@ class _SprintsState extends State<Sprints> {
                                                                                       margin: EdgeInsets.only(top: h/100),
                                                                                       child:
                                                                                       Text('Sticker...', textAlign: TextAlign.left, style: TextStyle(
-                                                                                          color: Color.fromRGBO(196, 196, 196, 1),
+                                                                                          color: const Color.fromRGBO(196, 196, 196, 1),
                                                                                           fontFamily: 'Sofia Pro',
                                                                                           fontSize: 7.539999961853027.sp,
                                                                                           letterSpacing: 0 ,
@@ -1371,7 +1749,7 @@ class _SprintsState extends State<Sprints> {
                                                                       textAlign: TextAlign.right,
                                                                       style: _textthem.headline2!.copyWith(
                                                                           fontWeight: FontWeight.w300,
-                                                                          color:  Color(0xffEAEAEA),
+                                                                          color:  const Color(0xffEAEAEA),
                                                                           fontSize: 9.sp
                                                                       )),
                                                                   SizedBox(width: 10.w,),
@@ -1408,7 +1786,7 @@ class _SprintsState extends State<Sprints> {
                                                       textAlign:
                                                       TextAlign.left,
                                                       style: GoogleFonts.roboto().copyWith(
-                                                          color:  Color(0xffEAEAEA),
+                                                          color:  const Color(0xffEAEAEA),
                                                           fontWeight: FontWeight.w300,
                                                           fontSize: 11.sp
                                                       )),
@@ -1435,12 +1813,12 @@ class _SprintsState extends State<Sprints> {
                                                                   width: h / 34,
                                                                 ),
                                                                 Container(
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   width: w / 400,
                                                                   height: h / 50,
                                                                 ),
                                                                 Container(
-                                                                  color:  Color(0xffEAEAEA),
+                                                                  color:  const Color(0xffEAEAEA),
                                                                   height: w / 400,
                                                                   width: h / 34,
                                                                   margin: EdgeInsets.only(bottom: h/55),
@@ -1478,7 +1856,7 @@ class _SprintsState extends State<Sprints> {
                                                                                     ,
                                                                                     textAlign: TextAlign.left,
                                                                                     style: TextStyle(
-                                                                                        color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                        color:  const Color.fromRGBO(147, 147, 147, 1),
                                                                                         fontFamily: 'Red Hat Text', fontSize: 9.sp,
                                                                                         letterSpacing: 0 , fontWeight: FontWeight.w500, height: 1),
                                                                                   ),
@@ -1563,7 +1941,7 @@ class _SprintsState extends State<Sprints> {
                                                                       radius: 20.w,
                                                                     ),
                                                                   ),
-                                                                  SizedBox(width: 5,),
+                                                                  const SizedBox(width: 5,),
                                                                   Container(
                                                                     margin: EdgeInsets.only(bottom: h/50),
                                                                     child: Text(
@@ -1587,10 +1965,10 @@ class _SprintsState extends State<Sprints> {
                                                                       textAlign: TextAlign.right,
                                                                       style: _textthem.headline2!.copyWith(
                                                                           fontWeight: FontWeight.w300,
-                                                                          color:  Color(0xffEAEAEA),
+                                                                          color:  const Color(0xffEAEAEA),
                                                                           fontSize: 9.sp
                                                                       )),
-                                                                  SizedBox(width: 10,),
+                                                                  const SizedBox(width: 10,),
                                                                 ],
                                                               )
                                                             ],
@@ -1623,7 +2001,7 @@ class _SprintsState extends State<Sprints> {
                                                       textAlign:
                                                       TextAlign.left,
                                                       style: GoogleFonts.roboto().copyWith(
-                                                          color:  Color(0xffEAEAEA),
+                                                          color:  const Color(0xffEAEAEA),
                                                           fontWeight: FontWeight.w300,
                                                           fontSize: 11.sp
                                                       )),
@@ -1867,8 +2245,8 @@ class _SprintsState extends State<Sprints> {
 
                                 Container(
                                   height:state.Isreply!?h/7: h / 10,
-                                  decoration: BoxDecoration(
-                                    boxShadow: const [
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [
                                       BoxShadow(
                                         color: Color.fromRGBO(
                                             0, 0, 0, 0.25),
@@ -1912,7 +2290,7 @@ class _SprintsState extends State<Sprints> {
                                               : const Text(""),
                                           Container(
                                               padding: EdgeInsets.only(
-                                                  left: h / 100,top: h/100,bottom: h/100),
+                                                  left: w / 50,top: h/100,bottom: h/100),
                                               width: state.KetbaordStatuss!
                                                   ? w / 1.25
                                                   : w / 1.8,
@@ -2069,14 +2447,15 @@ class _SprintsState extends State<Sprints> {
                                                           vertical: h / 100),
                                                       hintText: 'Sup?..',
                                                       hintStyle:  TextStyle(
-                                                          color: Color.fromRGBO(
+                                                          color: const Color.fromRGBO(
                                                               96, 96, 96, 1),
                                                           fontFamily: 'Red Hat Text',
                                                           fontSize: 13.sp,
                                                           letterSpacing:
                                                           0,
                                                           fontWeight: FontWeight.w300,
-                                                          height: 1),
+                                                          height: 1.h
+                                                      ),
                                                     ),
                                                     keyboardType: TextInputType.text,
                                                   ))),
@@ -2219,7 +2598,7 @@ class _SprintsState extends State<Sprints> {
                                                             _SendMessageController
                                                                 .clear();
                                                           },
-                                                          color: widget.IS_sprints? Color(  widget.Color!):Color(0xffCF6D38)
+                                                          color: widget.IS_sprints? Color(  widget.Color!):const Color(0xffCF6D38)
 
                                                         ),
                                                       ),
@@ -2245,16 +2624,16 @@ class _SprintsState extends State<Sprints> {
                         height: h / 15,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(0),
-                            topRight: Radius.circular(0),
+                            topLeft: const Radius.circular(0),
+                            topRight: const Radius.circular(0),
                             bottomLeft: Radius.circular(20.r),
                             bottomRight: Radius.circular(20.r),
                           ),
                           boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.25),
-                                offset: Offset(0, 4),
-                                blurRadius: 4)
+                             BoxShadow(
+                                color:  Color.fromRGBO(0, 0, 0, 0.25),
+                                offset:  Offset(0, 4),
+                                blurRadius: 4.r)
                           ],
                           color:widget.IS_sprints? Color(widget.Color!): COLOR.shadow,
                         ),
@@ -2267,14 +2646,14 @@ class _SprintsState extends State<Sprints> {
                                   icon: SvgPicture.asset(
                                       "Assets/images/Frame 11.svg",
                                       width: 30.w,
-                                      color:widget.IS_sprints? Color(0xff303030):Colors.white),
+                                      color:widget.IS_sprints? const Color(0xff303030):Colors.white),
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
                                 )),
                             Container(
                           margin:
-                          !widget.IS_sprints?  EdgeInsets.only(left: h/30):EdgeInsets.only(left: h/10000),
+                          !widget.IS_sprints?  EdgeInsets.only(left: w/15):EdgeInsets.only(left: w/5000),
                           child: Row(
                             children: [
                               widget.IS_sprints?Container():
@@ -2291,14 +2670,14 @@ class _SprintsState extends State<Sprints> {
                                 backgroundColor:
                                 Color(HisBackgroundColor),
                               ):Container(),
-                              !widget.IS_sprints?  SizedBox(width: 10,):Container(),
+                              !widget.IS_sprints?   SizedBox(width: 10.w,):Container(),
                               Text(
                                 widget.His_Alias!,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                    color:widget.IS_sprints? Color(0xff303030):Colors.white,
+                                    color:widget.IS_sprints? const Color(0xff303030):Colors.white,
                                     fontFamily: 'Futura',
-                                    fontSize: 24.sp,
+                                    fontSize: 16.sp,
                                     letterSpacing:
                                     0.5,
                                     fontWeight: FontWeight.w500,
@@ -2307,11 +2686,11 @@ class _SprintsState extends State<Sprints> {
                             ],
                           ),
                         ),
-                            SizedBox(width: 5,),
+                             SizedBox(width: 5.w,),
                             widget.IS_sprints?
                                 Container(
                                   width: w/3,
-                                  margin: EdgeInsets.only(left: w/3),
+                                  padding: EdgeInsets.only(left: w/20),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -2319,18 +2698,28 @@ class _SprintsState extends State<Sprints> {
                                         icon: SvgPicture.asset(
                                             "Assets/images/Frame.svg",
                                             width: w/18,
-                                            color:Color(0xff303030)),
+                                            color:const Color(0xff303030)),
                                         onPressed: () {
+                                          ChatSavedPopup(context,h,w);
 
                                         },
-                                      ),
 
+
+
+
+                                      ),
                                       IconButton(
                                         icon: SvgPicture.asset(
                                             "Assets/images/Group 252.svg",
                                             width: w/18,
-                                            color: Color(0xff303030)),
+                                            color: const Color(0xff303030)),
                                         onPressed: () {
+                                          _Sprints_Bloc.add(
+                                              DeleteChat((b) => b
+                                                ..send_by = "sprint"
+                                                ..Reciver_id = widget.receiver_id
+                                              )
+                                          );
                                           WidgetsBinding.instance
                                               .addPostFrameCallback((_) => Navigator.pushReplacement(
                                             context,
@@ -2347,10 +2736,9 @@ class _SprintsState extends State<Sprints> {
                                 :
                             state.TypingStatusSuccess!
                                 ? state.TypingStatus!
-                                ? Text("Typing...")
-                                : Text("")
-                                : Text(""),
-                            SizedBox(width: 5.w,),
+                                ? const Text("Typing...")
+                                : const Text("")
+                                : const Text(""),
                           ],
                         ),
                       ),
@@ -2364,7 +2752,7 @@ class _SprintsState extends State<Sprints> {
                         _controller.animateTo(
                           _controller.position
                               .minScrollExtent,
-                          duration: Duration(
+                          duration: const Duration(
                               milliseconds: 200),
                           curve: Curves.easeIn,
                         );
@@ -2373,9 +2761,9 @@ class _SprintsState extends State<Sprints> {
                         child: Icon(Icons.keyboard_arrow_down,color: Colors.black,size: h/20,),
                       )
 
-                  ):Text("")
+                  ):const Text("")
               ));
-        });
+        }));
   }
 
   Widget listLoader({context}) {
@@ -2497,7 +2885,7 @@ class _SprintsState extends State<Sprints> {
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
                                   style:  TextStyle(
-                                      color: Color.fromRGBO(196, 196, 196, 1),
+                                      color: const Color.fromRGBO(196, 196, 196, 1),
                                       fontFamily: 'Red Hat Text',
                                       fontSize: 10.539999961853027.sp,
                                       letterSpacing:
@@ -2550,7 +2938,7 @@ class _SprintsState extends State<Sprints> {
   Future<void> PhotoFlowDialog() {
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-    TextTheme _TextTheme = Theme.of(context).textTheme;
+    TextTheme TextThemee = Theme.of(context).textTheme;
     ColorScheme ColorS = Theme.of(context).colorScheme;
     return showModalBottomSheet<void>(
         isDismissible: true,
@@ -2568,10 +2956,10 @@ class _SprintsState extends State<Sprints> {
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10.r),
                 topRight: Radius.circular(10.r),
-                bottomLeft: Radius.circular(0),
-                bottomRight: Radius.circular(0),
+                bottomLeft: const Radius.circular(0),
+                bottomRight: const Radius.circular(0),
               ),
-              color: Color.fromRGBO(148, 38, 87, 1),
+              color: const Color.fromRGBO(148, 38, 87, 1),
             ),
             child: Column(
               children: [
@@ -2589,7 +2977,7 @@ class _SprintsState extends State<Sprints> {
                         child: Text(
                           'Open Camera',
                           textAlign: TextAlign.center,
-                          style: _TextTheme.headline2!.copyWith(
+                          style: TextThemee.headline2!.copyWith(
                               fontWeight: FontWeight.w600, fontSize: 30.sp),
                         ),
                       ),
@@ -2615,7 +3003,7 @@ class _SprintsState extends State<Sprints> {
                         child: Text(
                           'From Library',
                           textAlign: TextAlign.center,
-                          style: _TextTheme.headline2!.copyWith(
+                          style: TextThemee.headline2!.copyWith(
                               fontWeight: FontWeight.w600, fontSize: 30.sp),
                         ),
                       ),
@@ -2751,15 +3139,15 @@ class _SprintsState extends State<Sprints> {
     });
 
 
-    timer = Timer.periodic(Duration(seconds: 5), (Timer t){
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t){
       return
         _Sprints_Bloc.add(ChangeTypingStatus((b) => b..ChangeStatus = false));
     });
   }
 
-  void NotifyTyping(int UserDestination_ID) {
+  void NotifyTyping(int UserDestinationID) {
     socket!.emit("write_now", {
-      "to": UserDestination_ID.toString(),
+      "to": UserDestinationID.toString(),
     });
   }
 
@@ -2962,20 +3350,20 @@ class _SprintsState extends State<Sprints> {
   void SetHisReplyToImage(
       String message,
       String Comment,
-      String MessageDirection_type,
-      String ModelType_type
+      String MessageDirectionType,
+      String ModelTypeType
       ){
     SprintsChat InstanceMessages = SprintsChat();
 
     // String type =  (RepliedTo_BackGroundColor.substring(10));
 
-    if (ModelType_type=="Uint8List") {
-      Uint8List?  _bytesImage = Base64Decoder().convert(message);
+    if (ModelTypeType=="Uint8List") {
+      Uint8List?  _bytesImage = const Base64Decoder().convert(message);
       InstanceMessages.Image1 = _bytesImage;
-    }else if (ModelType_type=="File"){
-      Uint8List?  _bytesImage = Base64Decoder().convert(message);
+    }else if (ModelTypeType=="File"){
+      Uint8List?  _bytesImage = const Base64Decoder().convert(message);
       InstanceMessages.Image1 = _bytesImage;
-    }else if (ModelType_type=="Backend"){
+    }else if (ModelTypeType=="Backend"){
       InstanceMessages.RepliedTOMessage = message;
     }
 
@@ -2990,16 +3378,16 @@ class _SprintsState extends State<Sprints> {
     InstanceMessages.ISreply = true;
     InstanceMessages.ModelType = "ReplyImage";
     InstanceMessages.is_base64 = false;
-    InstanceMessages.Image_type =ModelType_type!="File"? ModelType_type:"Uint8List";
+    InstanceMessages.Image_type =ModelTypeType!="File"? ModelTypeType:"Uint8List";
     InstanceMessages.MsgSentSuccessfuly = true;
 
 
 
 
-    InstanceMessages.RepliedTOAlias =MessageDirection_type == "receiver" ? MyAlias : HisAlias;
+    InstanceMessages.RepliedTOAlias =MessageDirectionType == "receiver" ? MyAlias : HisAlias;
 
-    InstanceMessages.RepliedTOAvatar =MessageDirection_type == "receiver" ? MyAvatar : HisAvatar;
-    InstanceMessages.ReplieDtobackground_Color = MessageDirection_type == "receiver" ? MYbackGroundColor : HisBackgroundColor;
+    InstanceMessages.RepliedTOAvatar =MessageDirectionType == "receiver" ? MyAvatar : HisAvatar;
+    InstanceMessages.ReplieDtobackground_Color = MessageDirectionType == "receiver" ? MYbackGroundColor : HisBackgroundColor;
     InstanceMessages.ReplierMessage = Comment;
     InstanceMessages.ReplierAlias = HisAlias;
     InstanceMessages.ReplierAvatar =HisAvatar;
@@ -3042,8 +3430,8 @@ class _SprintsState extends State<Sprints> {
 
   }
 
-  void SetHisImage( String Path,int Message_id,){
-    Uint8List?  _bytesImage = Base64Decoder().convert(Path);
+  void SetHisImage( String Path,int MessageId,){
+    Uint8List?  _bytesImage = const Base64Decoder().convert(Path);
     SprintsChat Sprints = SprintsChat(
         time: DateFormat.jm().format(DateTime.now()),
         Avatar: HisAvatar,
@@ -3060,12 +3448,12 @@ class _SprintsState extends State<Sprints> {
     Sprints.Type = "receiver";
     Sprints.User_ID = widget.receiver_id;
     Sprints.MsgSentSuccessfuly = true;
-    Sprints.ID = Message_id;
+    Sprints.ID = MessageId;
 
     _Sprints_Bloc.add(AddModel((b) => b..message = Sprints));
   }
 
-  void SetmyReplyMessage(String message, String Comment, String type, int message_id) {
+  void SetmyReplyMessage(String message, String Comment, String type, int messageId) {
     print("Function called");
     SprintsChat InstanceMessages = SprintsChat();
     InstanceMessages.ISreply = true;
@@ -3084,14 +3472,14 @@ class _SprintsState extends State<Sprints> {
     InstanceMessages.ReplierMessage = Comment;
     InstanceMessages.ReplierAvatar = MyAvatar;
     InstanceMessages.Replierbackground_Color = MYbackGroundColor;
-    InstanceMessages.ID = message_id;
+    InstanceMessages.ID = messageId;
     InstanceMessages.Repliertime = DateFormat.jm().format(DateTime.now());
 
     _Sprints_Bloc.add(AddModel((b) => b..message = InstanceMessages));
     _Sprints_Bloc.add(
         addReply((b) => b
           ..comment = _SendMessageController.text
-          ..message_id =message_id
+          ..message_id =messageId
           ..Message = message
           ..MessageDirection_Type = type
           ..DestinationUser_id = widget.receiver_id
@@ -3122,7 +3510,7 @@ class _SprintsState extends State<Sprints> {
     _Sprints_Bloc.add(AddModel((b) => b..message = InstanceMessages));
   }
 
-  void setHisMessage(String message,int MESSAGE_ID) {
+  void setHisMessage(String message,int MESSAGEID) {
     SprintsChat Sprints = SprintsChat(
         message: message,
         time: DateFormat.jm().format(DateTime.now()),
@@ -3134,7 +3522,7 @@ class _SprintsState extends State<Sprints> {
     Sprints.Type = "receiver";
     Sprints.MsgSentSuccessfuly = true;
 
-    Sprints.ID = MESSAGE_ID;
+    Sprints.ID = MESSAGEID;
     _Sprints_Bloc.add(AddModel((b) => b..message = Sprints));
 
   }
@@ -3184,7 +3572,7 @@ class HeroImage extends StatefulWidget {
 class _HeroImageState extends State<HeroImage> {
   @override
   Widget build(BuildContext context) {
-    TextTheme _TextTheme = Theme.of(context).textTheme;
+    TextTheme TextThemee = Theme.of(context).textTheme;
     ColorScheme ColorS = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
@@ -3215,8 +3603,8 @@ class _HeroImageState extends State<HeroImage> {
                               Navigator.pop(context);
                             },
                           )),
-                      Text(""),
-                      Text(""),
+                      const Text(""),
+                      const Text(""),
                     ],
                   ),
 
@@ -3254,7 +3642,7 @@ class _HeroImageState extends State<HeroImage> {
                           Row(
 
                             children: [
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               CircleAvatar(
                                 backgroundColor:
                                 Color(widget.Sender_Color!),
@@ -3262,11 +3650,11 @@ class _HeroImageState extends State<HeroImage> {
                                 NetworkImage(widget.Sender_Avatar!),
                                 radius: 17,
                               ),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                               Text(
                                 widget.Sender_Alias!,
                                 textAlign: TextAlign.left,
-                                style: _TextTheme.headline3!.copyWith(
+                                style: TextThemee.headline3!.copyWith(
                                   color: ColorS.errorContainer,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
@@ -3280,18 +3668,18 @@ class _HeroImageState extends State<HeroImage> {
                               Text(
                                   widget.Message_Time,
                                   textAlign: TextAlign.right,
-                                  style: _TextTheme.headline2!.copyWith(
+                                  style: TextThemee.headline2!.copyWith(
                                     fontWeight: FontWeight.w300,
                                     color: const Color(0xffEAEAEA),
                                     fontSize:
                                     1.5 * SizeConfig.blockSizeVertical!.toDouble(),
                                   )),
-                              SizedBox(width: 5,),
+                              const SizedBox(width: 5,),
                             ],
                           )
                         ],
                       ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
                     ],
                   ),
 

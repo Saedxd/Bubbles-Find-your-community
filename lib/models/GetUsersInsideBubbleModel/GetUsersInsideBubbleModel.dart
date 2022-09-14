@@ -9,7 +9,8 @@ library GetUsersInsideBubbleModel;
 import 'dart:convert';
 
 
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -23,7 +24,7 @@ abstract class GetUsersInsideBubbleModel
 
   String? get msg;
   int? get statuscode;
-BuiltList<UsersInsideBubbleListModel>? get users;
+  BuiltList<FriendData>? get users;
   String? get error;
   GetUsersInsideBubbleModel._();
   factory GetUsersInsideBubbleModel([void Function(GetUsersInsideBubbleModelBuilder b)? updates]) =  _$GetUsersInsideBubbleModel;
@@ -38,3 +39,4 @@ BuiltList<UsersInsideBubbleListModel>? get users;
 
   static Serializer<GetUsersInsideBubbleModel> get serializer => _$getUsersInsideBubbleModelSerializer;
 }
+

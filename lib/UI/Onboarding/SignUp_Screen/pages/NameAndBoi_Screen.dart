@@ -80,7 +80,7 @@ String? Pass;
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -247,7 +247,7 @@ print("---------------------------");
   ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
             title: Text(Title),

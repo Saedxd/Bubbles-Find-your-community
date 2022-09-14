@@ -78,7 +78,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
           ) async {
         return showDialog(
             context: Context,
-            barrierDismissible: false,
+               barrierDismissible: true,
             builder: (Context) {
               return AlertDialog(
                 backgroundColor: Colors.transparent,
@@ -213,7 +213,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
           ) async {
         return showDialog(
             context: Context,
-            barrierDismissible: false,
+               barrierDismissible: true,
             builder: (Context) {
 
 
@@ -360,7 +360,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
                                                 .addPostFrameCallback((_) =>     Navigator.push(
                                               context,
                                               MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                           },
 
                                           child: Container(
@@ -476,7 +476,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
       //     ) async {
       //   return showDialog(
       //       context: Context,
-      //       barrierDismissible: false,
+      //          barrierDismissible: true,
       //       builder: (Context) {
       //         return AlertDialog(
       //           backgroundColor: Colors.transparent,
@@ -608,7 +608,7 @@ class _SavedBubblesState extends State<SavedBubbles> {
       //     ) async {
       //   return showDialog(
       //       context: Context,
-      //       barrierDismissible: false,
+      //          barrierDismissible: true,
       //       builder: (Context) {
       //
       //

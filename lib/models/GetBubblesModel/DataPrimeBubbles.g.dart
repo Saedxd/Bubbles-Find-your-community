@@ -103,16 +103,16 @@ class _$DataPrimeBubblesSerializer
       result
         ..add('organizers')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                BuiltList, const [const FullType(OrganizersListModel)])));
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(FriendData)])));
     }
     value = object.moderators;
     if (value != null) {
       result
         ..add('moderators')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(
-                BuiltList, const [const FullType(OrganizersListModel)])));
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(FriendData)])));
     }
     value = object.images;
     if (value != null) {
@@ -135,16 +135,16 @@ class _$DataPrimeBubblesSerializer
       result
         ..add('users_in_bubble')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList,
-                const [const FullType(UsersInsideBubbleListModel)])));
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(FriendData)])));
     }
     value = object.saved_users;
     if (value != null) {
       result
         ..add('saved_users')
         ..add(serializers.serialize(value,
-            specifiedType: const FullType(BuiltList,
-                const [const FullType(UsersInsideBubbleListModel)])));
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(FriendData)])));
     }
     value = object.category;
     if (value != null) {
@@ -242,13 +242,13 @@ class _$DataPrimeBubblesSerializer
         case 'organizers':
           result.organizers.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(OrganizersListModel)]))!
+                      BuiltList, const [const FullType(FriendData)]))!
               as BuiltList<Object?>);
           break;
         case 'moderators':
           result.moderators.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(OrganizersListModel)]))!
+                      BuiltList, const [const FullType(FriendData)]))!
               as BuiltList<Object?>);
           break;
         case 'images':
@@ -265,15 +265,15 @@ class _$DataPrimeBubblesSerializer
           break;
         case 'users_in_bubble':
           result.users_in_bubble.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType(UsersInsideBubbleListModel)
-              ]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(FriendData)]))!
+              as BuiltList<Object?>);
           break;
         case 'saved_users':
           result.saved_users.replace(serializers.deserialize(value,
-              specifiedType: const FullType(BuiltList, const [
-                const FullType(UsersInsideBubbleListModel)
-              ]))! as BuiltList<Object?>);
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(FriendData)]))!
+              as BuiltList<Object?>);
           break;
         case 'category':
           result.category.replace(serializers.deserialize(value,
@@ -328,17 +328,17 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
   @override
   final String? end_event_date;
   @override
-  final BuiltList<OrganizersListModel>? organizers;
+  final BuiltList<FriendData>? organizers;
   @override
-  final BuiltList<OrganizersListModel>? moderators;
+  final BuiltList<FriendData>? moderators;
   @override
   final BuiltList<ImagesEventListModel>? images;
   @override
   final BuiltList<DatesEventListModel>? dates;
   @override
-  final BuiltList<UsersInsideBubbleListModel>? users_in_bubble;
+  final BuiltList<FriendData>? users_in_bubble;
   @override
-  final BuiltList<UsersInsideBubbleListModel>? saved_users;
+  final BuiltList<FriendData>? saved_users;
   @override
   final EventCategoryModel? category;
   @override
@@ -536,16 +536,16 @@ class DataPrimeBubblesBuilder
   set end_event_date(String? end_event_date) =>
       _$this._end_event_date = end_event_date;
 
-  ListBuilder<OrganizersListModel>? _organizers;
-  ListBuilder<OrganizersListModel> get organizers =>
-      _$this._organizers ??= new ListBuilder<OrganizersListModel>();
-  set organizers(ListBuilder<OrganizersListModel>? organizers) =>
+  ListBuilder<FriendData>? _organizers;
+  ListBuilder<FriendData> get organizers =>
+      _$this._organizers ??= new ListBuilder<FriendData>();
+  set organizers(ListBuilder<FriendData>? organizers) =>
       _$this._organizers = organizers;
 
-  ListBuilder<OrganizersListModel>? _moderators;
-  ListBuilder<OrganizersListModel> get moderators =>
-      _$this._moderators ??= new ListBuilder<OrganizersListModel>();
-  set moderators(ListBuilder<OrganizersListModel>? moderators) =>
+  ListBuilder<FriendData>? _moderators;
+  ListBuilder<FriendData> get moderators =>
+      _$this._moderators ??= new ListBuilder<FriendData>();
+  set moderators(ListBuilder<FriendData>? moderators) =>
       _$this._moderators = moderators;
 
   ListBuilder<ImagesEventListModel>? _images;
@@ -559,17 +559,16 @@ class DataPrimeBubblesBuilder
       _$this._dates ??= new ListBuilder<DatesEventListModel>();
   set dates(ListBuilder<DatesEventListModel>? dates) => _$this._dates = dates;
 
-  ListBuilder<UsersInsideBubbleListModel>? _users_in_bubble;
-  ListBuilder<UsersInsideBubbleListModel> get users_in_bubble =>
-      _$this._users_in_bubble ??= new ListBuilder<UsersInsideBubbleListModel>();
-  set users_in_bubble(
-          ListBuilder<UsersInsideBubbleListModel>? users_in_bubble) =>
+  ListBuilder<FriendData>? _users_in_bubble;
+  ListBuilder<FriendData> get users_in_bubble =>
+      _$this._users_in_bubble ??= new ListBuilder<FriendData>();
+  set users_in_bubble(ListBuilder<FriendData>? users_in_bubble) =>
       _$this._users_in_bubble = users_in_bubble;
 
-  ListBuilder<UsersInsideBubbleListModel>? _saved_users;
-  ListBuilder<UsersInsideBubbleListModel> get saved_users =>
-      _$this._saved_users ??= new ListBuilder<UsersInsideBubbleListModel>();
-  set saved_users(ListBuilder<UsersInsideBubbleListModel>? saved_users) =>
+  ListBuilder<FriendData>? _saved_users;
+  ListBuilder<FriendData> get saved_users =>
+      _$this._saved_users ??= new ListBuilder<FriendData>();
+  set saved_users(ListBuilder<FriendData>? saved_users) =>
       _$this._saved_users = saved_users;
 
   EventCategoryModelBuilder? _category;

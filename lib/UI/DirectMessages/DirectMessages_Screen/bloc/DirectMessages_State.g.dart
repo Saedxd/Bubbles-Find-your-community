@@ -18,9 +18,13 @@ class _$DirectMessagesState extends DirectMessagesState {
   @override
   final bool? ChangeStateSuccess;
   @override
+  final bool? DeleteChatSuccess;
+  @override
   final OldMessagesModel? OldMessages;
   @override
   final OldMessagesModel? DMListSearchResult;
+  @override
+  final DeleteOldmessagesModel? DeleteOldmessages;
   @override
   final List<DmlistData>? Dmlist;
   @override
@@ -36,8 +40,10 @@ class _$DirectMessagesState extends DirectMessagesState {
       this.success,
       this.ChangeStateLoading,
       this.ChangeStateSuccess,
+      this.DeleteChatSuccess,
       this.OldMessages,
       this.DMListSearchResult,
+      this.DeleteOldmessages,
       this.Dmlist,
       this.FilteredDmlist})
       : super._();
@@ -60,8 +66,10 @@ class _$DirectMessagesState extends DirectMessagesState {
         success == other.success &&
         ChangeStateLoading == other.ChangeStateLoading &&
         ChangeStateSuccess == other.ChangeStateSuccess &&
+        DeleteChatSuccess == other.DeleteChatSuccess &&
         OldMessages == other.OldMessages &&
         DMListSearchResult == other.DMListSearchResult &&
+        DeleteOldmessages == other.DeleteOldmessages &&
         Dmlist == other.Dmlist &&
         FilteredDmlist == other.FilteredDmlist;
   }
@@ -74,12 +82,18 @@ class _$DirectMessagesState extends DirectMessagesState {
                 $jc(
                     $jc(
                         $jc(
-                            $jc($jc($jc(0, error.hashCode), isLoading.hashCode),
-                                success.hashCode),
-                            ChangeStateLoading.hashCode),
-                        ChangeStateSuccess.hashCode),
-                    OldMessages.hashCode),
-                DMListSearchResult.hashCode),
+                            $jc(
+                                $jc(
+                                    $jc(
+                                        $jc($jc(0, error.hashCode),
+                                            isLoading.hashCode),
+                                        success.hashCode),
+                                    ChangeStateLoading.hashCode),
+                                ChangeStateSuccess.hashCode),
+                            DeleteChatSuccess.hashCode),
+                        OldMessages.hashCode),
+                    DMListSearchResult.hashCode),
+                DeleteOldmessages.hashCode),
             Dmlist.hashCode),
         FilteredDmlist.hashCode));
   }
@@ -92,8 +106,10 @@ class _$DirectMessagesState extends DirectMessagesState {
           ..add('success', success)
           ..add('ChangeStateLoading', ChangeStateLoading)
           ..add('ChangeStateSuccess', ChangeStateSuccess)
+          ..add('DeleteChatSuccess', DeleteChatSuccess)
           ..add('OldMessages', OldMessages)
           ..add('DMListSearchResult', DMListSearchResult)
+          ..add('DeleteOldmessages', DeleteOldmessages)
           ..add('Dmlist', Dmlist)
           ..add('FilteredDmlist', FilteredDmlist))
         .toString();
@@ -126,6 +142,11 @@ class DirectMessagesStateBuilder
   set ChangeStateSuccess(bool? ChangeStateSuccess) =>
       _$this._ChangeStateSuccess = ChangeStateSuccess;
 
+  bool? _DeleteChatSuccess;
+  bool? get DeleteChatSuccess => _$this._DeleteChatSuccess;
+  set DeleteChatSuccess(bool? DeleteChatSuccess) =>
+      _$this._DeleteChatSuccess = DeleteChatSuccess;
+
   OldMessagesModelBuilder? _OldMessages;
   OldMessagesModelBuilder get OldMessages =>
       _$this._OldMessages ??= new OldMessagesModelBuilder();
@@ -137,6 +158,12 @@ class DirectMessagesStateBuilder
       _$this._DMListSearchResult ??= new OldMessagesModelBuilder();
   set DMListSearchResult(OldMessagesModelBuilder? DMListSearchResult) =>
       _$this._DMListSearchResult = DMListSearchResult;
+
+  DeleteOldmessagesModelBuilder? _DeleteOldmessages;
+  DeleteOldmessagesModelBuilder get DeleteOldmessages =>
+      _$this._DeleteOldmessages ??= new DeleteOldmessagesModelBuilder();
+  set DeleteOldmessages(DeleteOldmessagesModelBuilder? DeleteOldmessages) =>
+      _$this._DeleteOldmessages = DeleteOldmessages;
 
   List<DmlistData>? _Dmlist;
   List<DmlistData>? get Dmlist => _$this._Dmlist;
@@ -157,8 +184,10 @@ class DirectMessagesStateBuilder
       _success = $v.success;
       _ChangeStateLoading = $v.ChangeStateLoading;
       _ChangeStateSuccess = $v.ChangeStateSuccess;
+      _DeleteChatSuccess = $v.DeleteChatSuccess;
       _OldMessages = $v.OldMessages?.toBuilder();
       _DMListSearchResult = $v.DMListSearchResult?.toBuilder();
+      _DeleteOldmessages = $v.DeleteOldmessages?.toBuilder();
       _Dmlist = $v.Dmlist;
       _FilteredDmlist = $v.FilteredDmlist;
       _$v = null;
@@ -190,8 +219,10 @@ class DirectMessagesStateBuilder
               success: success,
               ChangeStateLoading: ChangeStateLoading,
               ChangeStateSuccess: ChangeStateSuccess,
+              DeleteChatSuccess: DeleteChatSuccess,
               OldMessages: _OldMessages?.build(),
               DMListSearchResult: _DMListSearchResult?.build(),
+              DeleteOldmessages: _DeleteOldmessages?.build(),
               Dmlist: Dmlist,
               FilteredDmlist: FilteredDmlist);
     } catch (_) {
@@ -201,6 +232,8 @@ class DirectMessagesStateBuilder
         _OldMessages?.build();
         _$failedField = 'DMListSearchResult';
         _DMListSearchResult?.build();
+        _$failedField = 'DeleteOldmessages';
+        _DeleteOldmessages?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'DirectMessagesState', _$failedField, e.toString());

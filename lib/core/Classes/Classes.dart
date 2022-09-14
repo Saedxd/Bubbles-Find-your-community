@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
 import 'package:built_value/built_value.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:built_collection/built_collection.dart';
 
 class FrinedsData{
@@ -74,10 +75,11 @@ class BubbleData{
   int? Color;
   int? id;
   int? index;
-  BuiltList<OrganizersListModel>? Organizers;
+  BuiltList<FriendData>? Organizers;
+  BuiltList<FriendData>? Moderators;
   BuiltList<DatesEventListModel>?  dates;
-  BuiltList<UsersInsideBubbleListModel>?  users_in_bubble;
-  BuiltList<UsersInsideBubbleListModel>?  saved_users;
+  BuiltList<FriendData>?  users_in_bubble;
+  BuiltList<FriendData>?  saved_users;
   String? Creator_Alias="";
   String? Creator_Color;
   String? Creator_Avatar;
@@ -138,8 +140,11 @@ class GroupChatMessage {
 
   FrinedsData? Sender_data;
 
+
+
   String? ReplierAvatar="";
   String? ReplierAlias="";
+
   String? Repliertime="";
   String? ReplierMessage="";
   FrinedsData? Replier_data;
@@ -151,6 +156,9 @@ class GroupChatMessage {
   String? RepliedTOtime="";
   String? RepliedTOMessage="";
   int? ReplieDtobackground_Color;
+
+
+
 
   bool?  is_base64 = false;
   bool? IsBackEnd=false;
@@ -167,13 +175,26 @@ class GroupChatMessage {
   Uint8List? Image1;
   String? VoicePath;
 
+
+
+
   String? TopicFlowTitle;
   String? TopicFlowDescription;
+
+
+
+
 
   String? PollQuestion;
   bool? Multible_Answers;
   bool? Show_participants;
-  List<String> PollAnswers=[];
+  List<PollFlowAnswers>? PollAnswers= [];
+
+
+
+
+
+
 
   File? MediaDumpImageFile;
   String? MediaDumpImagePath;
@@ -184,6 +205,14 @@ class GroupChatMessage {
   bool? MessageSettledWIthID;
 
   GroupChatMessage({ this.message,  this.time, this.Avatar, this.Alias,this.Type,this.background_Color,this.ISreply});
+}
+
+class PollFlowAnswers{
+  String? Answer;
+  int? id;
+  BuiltList<FriendData>? users_Choose_it;
+  int? rate;
+  bool? is_checked;
 }
 
 
@@ -274,11 +303,12 @@ class DmlistData{
   String? lastMessage;
   String? Avatar;
   int? backgroundColor;
-  int? id;
+  int? receiver_id;
   int? MY_id;
   String? Replies;
   String? Msg_Type;
   FrinedsData? Sender_data;
+  String? send_by;
 }
 
 class Data{

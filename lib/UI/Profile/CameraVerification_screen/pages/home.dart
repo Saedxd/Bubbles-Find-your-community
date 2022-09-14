@@ -128,7 +128,7 @@
 //
 //     return showDialog(
 //         context: Context,
-//         barrierDismissible: false,
+//            barrierDismissible: true,
 //         builder: (Context) {
 //           return AlertDialog(
 //             title: Text(Title),

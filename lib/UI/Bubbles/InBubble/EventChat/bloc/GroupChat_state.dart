@@ -9,6 +9,7 @@ import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dar
 import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';

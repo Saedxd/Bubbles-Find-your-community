@@ -98,6 +98,7 @@ bool selected = false;
                             height: h / 2.4,
                             margin: EdgeInsets.only(bottom: h / 50),
                             decoration: BoxDecoration(
+                              color: Color(0xff303030),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular( 5.r),
                                 topRight:Radius.circular( 5.r),
@@ -105,7 +106,6 @@ bool selected = false;
                                 bottomRight:Radius.circular( 5.r),
                               ),
                             ),
-
                             child: SfDateRangePicker(
                               todayHighlightColor: Colors.white,
                               minDate: DateTime(1940),
@@ -156,16 +156,16 @@ bool selected = false;
                                     height: 1.5714285376177157
                                 ),
                               ),
-                              backgroundColor: Color(0xff303030),
                               controller: _pickerController,
                               showNavigationArrow: true,
                               toggleDaySelection: false,
                               selectionColor: Color(0xffCF6D38),
-                              selectionRadius: 25,
+                              selectionRadius: 25.r,
                               onSelectionChanged: _onSelectionChanged2,
                               view: DateRangePickerView.month,
                               selectionMode: DateRangePickerSelectionMode.single,
                             ),
+
                           ),
                         ],
                       ),

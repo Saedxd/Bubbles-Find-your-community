@@ -185,6 +185,12 @@ class _Options_screenState extends State<Options_screen> {
                                 ),
 
                                 !state.DoneChoose1!?
+                                Theme(
+                                    data: ThemeData(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                    ),
+                                    child :
                                 InkWell(
                                   onTap:()=>showBottom(),
                                   child: Container(
@@ -213,7 +219,7 @@ class _Options_screenState extends State<Options_screen> {
                                       ,
                                     ),
                                   ),
-                                ):
+                                )):
                                     Expanded(
                                       child: Row(
                                         children: [
@@ -621,6 +627,7 @@ class _Options_screenState extends State<Options_screen> {
         .height;
     showMaterialModalBottomSheet(
         context: context,
+        barrierColor: Colors.white.withOpacity(0),
         shape:  RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(h/90.0),
@@ -936,6 +943,7 @@ class _Options_screenState extends State<Options_screen> {
         isScrollControlled: true,
         isDismissible: true,
         context: context,
+        barrierColor: Colors.white.withOpacity(0),
         shape: const RoundedRectangleBorder(
           // <-- SEE HERE
           borderRadius: BorderRadius.vertical(

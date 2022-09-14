@@ -59,7 +59,15 @@ class _SprintMatchState extends State<SprintMatch> {
     ColorScheme ColorS = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return BlocBuilder(
+    return  WillPopScope(
+        onWillPop: ()async{
+
+          return true;
+
+        },
+        child :
+
+      BlocBuilder(
         bloc: _SprintsChatBloc,
         builder: (BuildContext Context, SprintsState state) {
 
@@ -72,7 +80,7 @@ class _SprintMatchState extends State<SprintMatch> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -207,7 +215,7 @@ class _SprintMatchState extends State<SprintMatch> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
 
 
@@ -354,7 +362,7 @@ class _SprintMatchState extends State<SprintMatch> {
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "sprint",),),   ));
                                               },
 
                                               child: Container(
@@ -537,6 +545,7 @@ class _SprintMatchState extends State<SprintMatch> {
                                   IS_sprints: true,His_Alias: widget.His_Alias,
                                   Bubble_id: widget.Bubble_id,Plan_Title: widget.Plan_title,
                                   Color: widget.bubble_Color,
+                                  Send_by: "sprint",
                                 )),
 
                           ));
@@ -556,7 +565,8 @@ class _SprintMatchState extends State<SprintMatch> {
               ),
             );
         }
-    );
+    ));
+
   }
   Widget listLoader({context}) {
     return  SpinKitThreeBounce(

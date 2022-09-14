@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
@@ -36,14 +37,25 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
   }
 
 
-  void SendPollFlow(String Question, List<String> Answers,int bubble_id,int message_id) {
+  void SendPollFlow(String Question, List<PollFlowAnswers>? PollAnswers,int bubble_id,int message_id,bool isShow_participants ,bool  isMultible_answers) {
+
+   List<String> Answers =[];
+   List<int> Answers_id =[];
+   for(int i=0;i<PollAnswers!.length;i++){
+     Answers.add(PollAnswers[i].Answer.toString());
+     Answers_id.add(PollAnswers[i].id!);
+   }
+
     socket!.emit("send_poll_message_bubble",
         {
           "title": Question,
           "answers": Answers,
+          "Answers_id": Answers_id,
           "message_id": message_id,
           "room":"bubble_$bubble_id",
-          "type": "Newpoll"
+          "type": "Newpoll",
+          "isShow_participants": isShow_participants,
+          "isMultible_answers": isMultible_answers,
         });
   }
 
@@ -71,6 +83,14 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
   }
 
 
+  void ChoosePollFlowAnswerr(int Answer_id,int Index,int bubble_id) {
+    socket!.emit("choose_PollFlow_Answer",
+        {
+          "room":"bubble_$bubble_id",
+          "Answer_id":Answer_id,
+          "index":Index,
+        });
+  }
 
   void sendReply(
       String message,
@@ -121,6 +141,30 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..isLoading = false
         );
 
+
+
+
+      } catch (e) {
+        print('get Error $e');
+
+      }
+    }
+    if (event is ChoosePollFlowAnswer) {
+      try {
+        // yield state.rebuild((b) => b
+        //   ..isLoading = true
+        //   ..error = ""
+        //   ..success= false
+        // );
+
+      //  state.messages!.insert(0,event.message!);
+
+        //
+        // yield state.rebuild((b) => b
+        //   ..success= true
+        //   ..isLoading = false
+        // );
+        //
 
 
 
@@ -442,15 +486,24 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="poll") {
+              InstanceMessages.ModelType = "PollFlow";
+              InstanceMessages.PollQuestion =
+                  state.EventOldMessages!.messages![i].message!.title
+                      .toString();
 
+              //   InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+              List<PollFlowAnswers>? PollAnswers= [];
+              for (int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length; j++){
+                PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+                PollFlowAnswer.Answer = state.EventOldMessages!.messages![i].message!.answers![j].answer;
+                PollFlowAnswer.id = state.EventOldMessages!.messages![i].message!.answers![j].id;
+                PollFlowAnswer.is_checked = state.EventOldMessages!.messages![i].message!.answers![j].is_checked;
+                PollFlowAnswer.rate =state.EventOldMessages!.messages![i].message!.answers![j].rate;
+                PollFlowAnswer.users_Choose_it =state.EventOldMessages!.messages![i].message!.answers![j].participants;
+                PollAnswers.add(PollFlowAnswer);
+              }
+              InstanceMessages.PollAnswers = PollAnswers;
 
-              InstanceMessages.ModelType ="PollFlow";
-              InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-           //   InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
-
-              for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
-              InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
-              InstanceMessages.CanReply = false;
 
 
 
@@ -879,41 +932,38 @@ print("Emitteddd");
      // try {
 
 
+       final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!,event.isMultible_answers!,event.isShow_participants!);
 
-      //  final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!);
-
-        // yield state.rebuild((b) => b
-        //   ..SendBubblePollFow.replace(date2)
-        // );
+        yield state.rebuild((b) => b
+          ..SendBubblePollFow.replace(date2)
+        );
         yield state.rebuild((b) => b
           ..SendMessageISloading= true
           ..SendMessageSuccess = false
         );
+       List<PollFlowAnswers>? PollAnswers= [];
+       for (int j=0;j<state.SendBubblePollFow!.data!.message!.answers!.length; j++){
+         PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+         PollFlowAnswer.Answer = state.SendBubblePollFow!.data!.message!.answers![j].answer;
+         PollFlowAnswer.id = state.SendBubblePollFow!.data!.message!.answers![j].id;
+         PollFlowAnswer.is_checked =state.SendBubblePollFow!.data!.message!.answers![j].is_checked;
+         PollFlowAnswer.rate =state.SendBubblePollFow!.data!.message!.answers![j].rate;
+         PollFlowAnswer.users_Choose_it =state.SendBubblePollFow!.data!.message!.answers![j].participants;
+         PollAnswers.add(PollFlowAnswer);
+       }
+
+        state.messages![0].PollAnswers = PollAnswers;
         state.messages![0].ID = state.SendBubblePollFow!.message_id!.toInt();
         state.FlowList!.insert(0,event.Flow!);
         state.FlowList![0].FlowMessage_id = state.SendBubblePollFow!.message_id!.toInt();
         state.messages![0].FlowSettledWithID = true;
 
-        print( state.FlowList![0].Who_Made_it_ID);
-        print( state.FlowList![0].Who_Made_it_Alias);
-
-
-
-        SendPollFlow(event.Question!,event.answers!,event.bubble_id!,state.SendBubblePollFow!.message_id!.toInt());
+        SendPollFlow(event.Question!,PollAnswers,event.bubble_id!,state.SendBubblePollFow!.message_id!.toInt(),event.isShow_participants!,event.isMultible_answers!);
 
         print("Emitteddd");
 
 
 
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..SendMessageISloading= false
-      //     ..SendMessageSuccess = false
-      //     ..SendBubbleMessage = null
-      //   );
-      //
-      // }
     }
     if (event is ChangeMediaImageTaken) {
 

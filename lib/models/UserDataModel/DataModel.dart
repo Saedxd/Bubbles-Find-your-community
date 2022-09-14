@@ -21,6 +21,7 @@ abstract class DateModel
   int? get is_verify;
   int? get is_creator;//.
   String? get gender;
+  String? get serialnumber;
   String? get email;//.
   String? get last_name;/////.
   String? get first_name;/////.

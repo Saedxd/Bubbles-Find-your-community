@@ -6,7 +6,9 @@ library SprintsLobbyUsersModel;
 import 'dart:convert';
 
 
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -21,7 +23,7 @@ abstract class SprintsLobbyUsersModel
   String? get msg;
   int? get statuscode;
   String? get error;
-  BuiltList<UsersInsideBubbleListModel>? get users;
+  BuiltList<FriendData>? get users;
 
   SprintsLobbyUsersModel._();
   factory SprintsLobbyUsersModel([void Function(SprintsLobbyUsersModelBuilder b)? updates]) =  _$SprintsLobbyUsersModel;

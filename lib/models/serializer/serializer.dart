@@ -49,8 +49,9 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/QuestionsListModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
@@ -100,7 +101,7 @@ part 'serializer.g.dart';
   CateogoryList,
   SaveBubbleModel,
   NotifyMeCloseToBubbleModel,
-  GetUsersInsideBubbleModel,
+  FriendData,
   InOutUserStatusModel,
   SendBubbleMessageModel,
   FriendListSearchModel,
@@ -137,7 +138,6 @@ part 'serializer.g.dart';
   ChangeAvatarModel,
   AvatarListModel,
   GetAvatarsModel,
-  FriendsListModel,
   GetFriendsModel,
   GendersListModel,
   GetGenderModel,
@@ -178,7 +178,6 @@ part 'serializer.g.dart';
   FlowMessagesModel,
   GetWhoSavedBubblesModel,
   EventCategoryModel,
-  PollParticipantsModel,
   DeleteOldmessagesModel,
   SprintsLobbyUsersModel
 ])
@@ -192,6 +191,14 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FriendData),
+        ],
+      )),
+          () => ListBuilder<FriendData>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,
@@ -218,15 +225,7 @@ final Serializers serializers = (_$serializers.toBuilder()
       )),
           () => ListBuilder<SprintsJoinLeaveModel>())
 
-  //  ,
-  ..addBuilderFactory(
-      (const FullType(
-        BuiltList,
-        [
-          FullType(PollParticipantsModel),
-        ],
-      )),
-          () => ListBuilder<PollParticipantsModel>())
+
   ..addBuilderFactory(
       (const FullType(
         BuiltList,
@@ -898,14 +897,7 @@ final Serializers serializers = (_$serializers.toBuilder()
       )),
           () => ListBuilder<GetAvatarsModel>())
 
-  ..addBuilderFactory(
-      (const FullType(
-        BuiltList,
-        [
-          FullType(FriendsListModel),
-        ],
-      )),
-          () => ListBuilder<FriendsListModel>())
+
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

@@ -143,3 +143,12 @@ abstract class ShowFloatingActionButton extends SprintsEvent
   ShowFloatingActionButton._();
   factory ShowFloatingActionButton([updates(ShowFloatingActionButtonBuilder b)]) = _$ShowFloatingActionButton;
 }
+
+
+abstract class DeleteChat extends SprintsEvent
+    implements Built<DeleteChat,DeleteChatBuilder> {
+ int? get Reciver_id;
+ String? get send_by;
+  DeleteChat._();
+  factory DeleteChat([updates(DeleteChatBuilder b)]) = _$DeleteChat;
+}

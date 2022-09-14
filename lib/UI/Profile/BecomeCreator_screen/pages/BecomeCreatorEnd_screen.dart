@@ -31,7 +31,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,

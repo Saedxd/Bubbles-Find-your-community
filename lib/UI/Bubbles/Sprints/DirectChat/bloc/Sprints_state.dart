@@ -7,6 +7,7 @@ import 'package:bubbles/core/Classes/Classes.dart';
 
 
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
+import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
@@ -27,10 +28,13 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
   bool? get AliasISLoading;
   bool? get AliasISsuccess;
 
+  bool? get DeleteChatSuccess;
+
   GetAliasModel? get GetAlias;
   OldMessagesModel? get OldMessages;
   PostMessagesModel? get PostMessages;
   AddreplyModel? get Addreply;
+  DeleteOldmessagesModel? get DeleteOldmessages;
 
   GetUsersInsideBubbleModel? get GetUsersInsideBubble;
   List<FrinedsData>? get InsideBubbleUsers;
@@ -90,6 +94,7 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
       ..InsideBubbleUsers =[]
       ..AddModelSUccess = false
       ..Status = false
+      ..DeleteChatSuccess = false
       ..Turnss = true
       ..AliasISLoading = false
       ..typingStatusISloading = false
@@ -113,6 +118,7 @@ abstract class SprintsState implements Built<SprintsState, SprintsStateBuilder> 
         ..GetAliasMinee=null
         ..Addreply=null
         ..File_image=null
+        ..DeleteOldmessages=null
 
     );
   }

@@ -122,9 +122,30 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
   bool DiDitOnce = false;
   String? token;
   var Fcmtoken;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
+void Verify()async{
+  await FirebaseAuth.instance.verifyPhoneNumber(
+    phoneNumber: '+972568969945',
+    verificationCompleted: (PhoneAuthCredential credential) async {
+      await auth.signInWithCredential(credential);
+    },
+    verificationFailed: (FirebaseAuthException e) {
+      if (e.code == 'invalid-phone-number') {
+        print('The provided phone number is not valid.');
+      }
 
-
+      // Handle other errors
+    },
+    timeout: const Duration(seconds: 60),
+    codeSent: (String verificationId, int? resendToken) async {
+      String smsCode = 'xxxx';
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+      await auth.signInWithCredential(credential);
+    },
+    codeAutoRetrievalTimeout: (String verificationId) {},
+  );
+}
 
   void SignOutGOogle() {
     googleSignIn!.signOut();
@@ -391,6 +412,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
+    Verify();
     GetISloggedIN();
     _EmailFocusNode = FocusNode();
     getFcmToken();
@@ -570,7 +592,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                                  ,textAlign: TextAlign.center, style: TextStyle(
                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                       fontFamily: 'Red Hat Display',
-                                                      fontSize: 29.sp,
+                                                      fontSize: 30.sp,
                                                       letterSpacing: 0.2,
                                                       fontStyle: FontStyle.italic,
                                                       fontWeight: FontWeight.w800,
@@ -1784,7 +1806,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,

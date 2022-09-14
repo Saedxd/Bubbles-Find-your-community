@@ -132,7 +132,8 @@ class _ProfileState extends State<Profile> {
   ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
+        barrierColor: Colors.white.withOpacity(0),
         builder: (Context) {
           return AlertDialog(
             backgroundColor: Colors.transparent,
@@ -1405,8 +1406,8 @@ class _ProfileState extends State<Profile> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
-
+           barrierDismissible: true,
+        barrierColor: Colors.white.withOpacity(0),
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -1535,6 +1536,7 @@ class _ProfileState extends State<Profile> {
     return showModalBottomSheet<void>(
         isScrollControlled: true,
         context: context,
+        barrierColor: Colors.white.withOpacity(0),
         shape:  RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(h/90.0),
@@ -1822,6 +1824,7 @@ class _ProfileState extends State<Profile> {
     return showModalBottomSheet<void>(
         isDismissible: true,
         context: context,
+        barrierColor: Colors.white.withOpacity(0),
         shape:  RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(h/90.0),

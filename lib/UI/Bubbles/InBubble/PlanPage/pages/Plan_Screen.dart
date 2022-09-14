@@ -94,7 +94,7 @@ final PanelController PanelControllerr = PanelController();
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -229,7 +229,7 @@ final PanelController PanelControllerr = PanelController();
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
 
 
@@ -376,7 +376,7 @@ final PanelController PanelControllerr = PanelController();
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                               },
 
                                               child: Container(
@@ -505,6 +505,7 @@ final PanelController PanelControllerr = PanelController();
                   height: h/1.2,
                   child: Stack(
                     children: [
+
                       Container(
                               width: w,
                         height: h/1.2,
@@ -543,7 +544,98 @@ final PanelController PanelControllerr = PanelController();
 
 
                                   ),
+                                  Positioned(
+                                    top: 0,
+                                    child: Container(
+                                      width: w,
+                                      height: h/14,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(0),
+                                            topRight: Radius.circular(0),
+                                            bottomLeft: Radius.circular(h/40),
+                                            bottomRight:  Radius.circular(h/40),
+                                          ),
+                                          boxShadow: [BoxShadow(
+                                              color: Color.fromRGBO(0, 0, 0, 0.25),
+                                              offset: Offset(0, 4),
+                                              blurRadius: 4.r
+                                          )
+                                          ],
+                                          color:
+                                          Color(  BackgroundColor)
 
+
+
+                                      ),
+
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: w/7,
+                                            margin: EdgeInsets.only(top: h/500,left: 10.w),
+                                            child: IconButton(
+                                              icon: SvgPicture.asset(
+                                                  "Assets/images/Frame 11.svg",
+                                                  width: 30.w,
+                                                  color: Colors.white),
+                                              onPressed: () {
+                                                SystemChrome.setSystemUIOverlayStyle(
+                                                  const SystemUiOverlayStyle(
+                                                      statusBarColor: Color(0xff303030),
+                                                      systemNavigationBarColor: Color(0xff303030)
+                                                  ),
+                                                );
+                                                Navigator.pop(context,"${state.is_Saved!}");
+                                              },
+                                            ),
+                                          ),
+
+                                          Flexible(
+                                            child: Container(
+                                              child:
+                                              Text(
+                                                widget.Bubble!.Title!,
+                                                textAlign: TextAlign.left,
+                                                overflow: TextOverflow.ellipsis,
+                                                style : GoogleFonts.roboto().copyWith(
+                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                    fontSize: 18.sp,
+                                                    letterSpacing: 0.2,
+                                                    fontWeight: FontWeight.w600,
+                                                    height: 1.h
+                                                ),),
+
+                                            ),
+                                          ),
+
+                                          Container(
+                                            width: w/5,
+                                            child: InkWell(
+                                              onTap: (){
+                                                _PlanPage_Bloc.add(ToggleSaveBubble((b) =>
+                                                b..Bubble_id = widget.Bubble!.id
+                                                ));
+                                              },
+                                              child: SvgPicture.asset(
+                                                state.is_Saved!
+                                                    ?"Assets/images/Save_Marker(1).svg"
+                                                    :"Assets/images/Save_outline.svg",
+                                                color: Colors.white,
+                                                width: w/24,
+
+                                              ),
+                                            ),
+                                          ),
+
+
+
+                                        ],
+                                      ),
+
+                                    ),
+                                  ),
                                   SlidingUpPanel(
                                     controller: PanelControllerr,
                                     color: Colors.transparent,
@@ -588,10 +680,10 @@ final PanelController PanelControllerr = PanelController();
                                                               Text("${widget.Bubble!.Category!} Event", textAlign: TextAlign.left, style: TextStyle(
                                                                   color: Color.fromRGBO(255, 255, 255, 1),
                                                                   fontFamily: 'Red Hat Text',
-                                                                  fontSize: 14.sp,
+                                                                  fontSize: 13.sp,
                                                                   letterSpacing: 0.3,
                                                                   fontWeight: FontWeight.w300,
-                                                                  height: 1
+                                                                  height: 1.h
                                                               ),),
                                                             ],
                                                           ),
@@ -602,10 +694,10 @@ final PanelController PanelControllerr = PanelController();
                                                           child: Text("At ${widget.Bubble!.location.toString()}",
                                                             style : GoogleFonts.roboto().copyWith(
                                                                 color: Color(BackgroundColor),
-                                                                fontSize: 23.sp,
+                                                                fontSize: 18.sp,
                                                                 letterSpacing: 0.4,
                                                                 fontWeight: FontWeight.w600,
-                                                                height: 1
+                                                                height: 1.h
                                                             ),),
                                                         ),
                                                       Expanded(
@@ -627,10 +719,10 @@ final PanelController PanelControllerr = PanelController();
                                                             textAlign: TextAlign.left,
                                                             style : GoogleFonts.roboto().copyWith(
                                                                 color: Color.fromRGBO(255, 255, 255, 1),
-                                                                fontSize: 13.sp,
+                                                                fontSize: 11.sp,
                                                                 letterSpacing: 0.5,
                                                                 fontWeight: FontWeight.w300,
-                                                                height: 1.6363636363636365
+                                                                height: 1.6363636363636365.h
                                                             ),),
                                                         ),
                                                         SizedBox(height: h / 50,),
@@ -789,21 +881,21 @@ final PanelController PanelControllerr = PanelController();
                                                               Text('Organizers:', textAlign: TextAlign.left, style: TextStyle(
                                                                   color:     Color(BackgroundColor),
                                                                   fontFamily: 'Red Hat Text',
-                                                                  fontSize: 18.sp,
+                                                                  fontSize: 11.sp,
                                                                   fontStyle: FontStyle.italic,
                                                                   letterSpacing: 0,
                                                                   fontWeight: FontWeight.w600,
-                                                                  height: 1
+                                                                  height: 1.h
                                                               ),),
                                                               Text('   ${widget.Bubble!.saved_users!.length} people saved it:',
                                                                 textAlign: TextAlign.left, style: TextStyle(
                                                                     color:   Color(BackgroundColor),
                                                                     fontFamily: 'Red Hat Text',
-                                                                    fontSize: 18.sp,
+                                                                    fontSize: 11.sp,
                                                                     fontStyle: FontStyle.italic,
                                                                     letterSpacing: 0,
                                                                     fontWeight: FontWeight.w600,
-                                                                    height: 1
+                                                                    height: 1.h
                                                                 ),),
                                                               Text(""),
 
@@ -864,11 +956,11 @@ final PanelController PanelControllerr = PanelController();
                                                               , textAlign: TextAlign.left, style: TextStyle(
                                                                   color: Color.fromRGBO(255, 255, 255, 1),
                                                                   fontFamily: 'Red Hat Text',
-                                                                  fontSize: 19.sp,
+                                                                  fontSize: 11.sp,
                                                                   fontStyle: FontStyle.italic,
                                                                   letterSpacing: 0,
                                                                   fontWeight: FontWeight.w500,
-                                                                  height: 1
+                                                                  height: 1.h
                                                               ),),
                                                             SizedBox(width: h/30,),
                                                             Container(
@@ -924,11 +1016,11 @@ final PanelController PanelControllerr = PanelController();
                                                                 , textAlign: TextAlign.left, style: TextStyle(
                                                                     color: Color.fromRGBO(255, 255, 255, 1),
                                                                     fontFamily: 'Red Hat Text',
-                                                                    fontSize: 19.sp,
+                                                                    fontSize: 11.sp,
                                                                     fontStyle: FontStyle.italic,
                                                                     letterSpacing: 0,
                                                                     fontWeight: FontWeight.w500,
-                                                                    height: 1
+                                                                    height: 1.h
                                                                 ),),
                                                             )
 
@@ -973,98 +1065,7 @@ final PanelController PanelControllerr = PanelController();
 
 
 
-                      Positioned(
-                        top: 0,
-                        child: Container(
-                          width: w,
-                          height: h/14,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(0),
-                                topRight: Radius.circular(0),
-                                bottomLeft: Radius.circular(h/40),
-                                bottomRight:  Radius.circular(h/40),
-                              ),
-                              boxShadow: [BoxShadow(
-                                  color: Color.fromRGBO(0, 0, 0, 0.25),
-                                  offset: Offset(0, 4),
-                                  blurRadius: 4
-                              )
-                              ],
-                              color:
-                              Color(  BackgroundColor)
 
-
-
-                          ),
-
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: w/7,
-                                margin: EdgeInsets.only(top: h/500,left: 10.w),
-                                child: IconButton(
-                                  icon: SvgPicture.asset(
-                                      "Assets/images/Frame 11.svg",
-                                      width: 30.w,
-                                      color: Colors.white),
-                                  onPressed: () {
-                                    SystemChrome.setSystemUIOverlayStyle(
-                                      const SystemUiOverlayStyle(
-                                          statusBarColor: Color(0xff303030),
-                                          systemNavigationBarColor: Color(0xff303030)
-                                      ),
-                                    );
-                                    Navigator.pop(context,"${state.is_Saved!}");
-                                  },
-                                ),
-                              ),
-
-                              Flexible(
-                                child: Container(
-                                  child:
-                                      Text(
-                                        widget.Bubble!.Title!,
-                                        textAlign: TextAlign.left,
-                                        overflow: TextOverflow.ellipsis,
-                                        style : GoogleFonts.roboto().copyWith(
-                                            color: Color.fromRGBO(255, 255, 255, 1),
-                                            fontSize: 19.sp,
-                                            letterSpacing: 0.2,
-                                            fontWeight: FontWeight.w600,
-                                            height: 1
-                                        ),),
-
-                                ),
-                              ),
-
-                              Container(
-                                width: w/5,
-                                child: InkWell(
-                                  onTap: (){
-                                    _PlanPage_Bloc.add(ToggleSaveBubble((b) =>
-                                    b..Bubble_id = widget.Bubble!.id
-                                    ));
-                                  },
-                                  child: SvgPicture.asset(
-                                   state.is_Saved!
-                                        ?"Assets/images/Save_Marker(1).svg"
-                                        :"Assets/images/Save_outline.svg",
-                                    color: Colors.white,
-                                    width: w/24,
-
-                                  ),
-                                ),
-                              ),
-
-
-
-                            ],
-                          ),
-
-                        ),
-                      ),
                       // widget.Bubble!.User_type=="user"
                       //     ? Positioned(
                       //   left: w/1.4,
@@ -1099,7 +1100,7 @@ final PanelController PanelControllerr = PanelController();
                             fontSize: 20.sp,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w500,
-                            height: 1
+                            height: 1.h
                         ),),
                       SizedBox(height: 2.h,),
                       Text('Bubble will be activated in ${DateTime.parse(widget.Bubble!.StartDate!).difference(DateTime.now()).inDays} days - ${DateTime.parse(widget.Bubble!.StartDate!)}',
@@ -1109,7 +1110,7 @@ final PanelController PanelControllerr = PanelController();
                             fontSize: 15.sp,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w500,
-                            height: 1
+                            height: 1.h
                         ),),
                       SizedBox(height: 2.h,),
                       Text('Save the bubble to keep up with all bubble news',
@@ -1119,7 +1120,7 @@ final PanelController PanelControllerr = PanelController();
                             fontSize: 13.5.sp,
                             letterSpacing: 0,
                             fontWeight: FontWeight.w300,
-                            height: 1
+                            height: 1.h
                         ),),
                       SizedBox(height: 2.h,),
 
@@ -1149,10 +1150,10 @@ final PanelController PanelControllerr = PanelController();
                                 style:TextStyle(
                                     color:     Color(BackgroundColor),
                                     fontFamily: 'Red Hat Text',
-                                    fontSize: 15.sp,
+                                    fontSize: 11.sp,
                                     letterSpacing: 0,
                                     fontWeight: FontWeight.w600,
-                                    height: 1
+                                    height: 1.h
                                 ),
                                 children: [
                                   TextSpan(
@@ -1160,10 +1161,10 @@ final PanelController PanelControllerr = PanelController();
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Red Hat Text',
-                                        fontSize: 14.sp,
+                                        fontSize: 11.sp,
                                         letterSpacing: 0,
                                         fontWeight: FontWeight.w600,
-                                        height: 1
+                                        height: 1.h
                                     ),)
 
                                 ],
@@ -1175,7 +1176,15 @@ final PanelController PanelControllerr = PanelController();
                     ),
                     SizedBox(height: 7.h,),
                     Center(
-                      child: InkWell(
+
+                      child:
+                      Theme(
+                        data: ThemeData(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                        ),
+                        child :
+                      InkWell(
                         onTap: () {
                           WidgetsBinding.instance
                               .addPostFrameCallback(
@@ -1220,6 +1229,7 @@ final PanelController PanelControllerr = PanelController();
                           ),
                         ),
                       ),
+                      )
                     ),
                   ],
                 ),
@@ -1243,6 +1253,7 @@ Widget listLoader({context}) {
     size: 30.0.w,
   );
 }
+
 }
 
 

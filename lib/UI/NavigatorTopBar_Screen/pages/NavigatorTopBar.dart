@@ -88,6 +88,8 @@ bool DidItOnce = false;
     Alias = user.data!.alias!;
     Background_Color = user.data!.background_color!;
     IS_Creator = user.data!.is_creator!;
+    boi = user.data!.bio!;
+
     // if (IS_Creator==1 && !DidItOnce){
     //   buildScreens.insert(2,   MyCreatorPage(),);
     //   DidItOnce = true;
@@ -106,13 +108,11 @@ bool DidItOnce = false;
   @override
   void initState() {
     super.initState();
-
     BackGroundCounter = 0;
-    //_TopBarBloc.add(GetProfile());
+    _TopBarBloc.add(GetProfile());
     DiditONCE =true;
     WidgetsBinding.instance.addObserver(this);
     _TopBarBloc.add(GetFreinds());
-
   }
 
   @override
@@ -129,33 +129,30 @@ bool DidItOnce = false;
             return false;
           } else if  (BackGroundCounter==1) {
            await MoveToBackground.moveTaskToBack();
-           //  var _androidAppRetain = MethodChannel("android_app_retain");
-            //   _androidAppRetain.invokeMethod("sendToBackground");
           }
           return false;
         },
     child:BlocBuilder(
         bloc: _TopBarBloc,
         builder: (BuildContext Context, TopBarState state) {
-          print("state is updated");
 
+          if (state.GetprofileSuccess!){
+            print("Success1");
+            if (DiditONCE && state.success!) {
+              print("Success2");
+              for (int i = 0; i <   state.ProfileDate!.user!.interests!.length; i++) {
+                Interests!.add(state.ProfileDate!.user!.interests![i].image.toString());
 
+              }
+              for(int i=0;i<state.GetFriends!.friends!.length;i++){
+                FrinedsID!.add(state.GetFriends!.friends![i].id!);
+              }
+              connect();
 
-          if (DiditONCE && state.success!){
-
-            for(int i=0;i<state.GetFriends!.friends!.length;i++){
-              FrinedsID!.add(state.GetFriends!.friends![i].id!);
+              DiditONCE = false;
             }
-            connect();
-
-
-
-            print("called function connect");
-            DiditONCE = false;
-            // widget.GotToHomeAndOpenPanel==true?
-            // widget.GotToHomeAndOpenPanel = false
-            //     :print("NOPE");
           }
+
           else if (state.error=="Something went wrong") {
             if (state.GetFriends == null) {
               AllBubblesStatus = List.filled(100000, 0);
@@ -672,9 +669,10 @@ bool DidItOnce = false;
     //'https://chat.bubbles.app',
     await GetUserData();
     socket =io(
-      "http://134.122.50.245:3000/",
+    //  "http://134.122.50.245:3000/",
       //  "http://0.0.0.0:3000",
-      // "http://192.168.1.10:3000",
+     //  "http://192.168.1.10:3000",
+      "http://50.60.40.106:3000",
       OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
@@ -684,6 +682,10 @@ bool DidItOnce = false;
         "friendsList": FrinedsID,
         "color": Background_Color,
         "avatar": Avatar,
+        "boi": boi,
+        "interests": Interests,
+        "serial": "saed",
+        "serial_number": "saed123",
       }) .build(),
 
     );
@@ -702,9 +704,13 @@ bool DidItOnce = false;
     });
 
   }
+
+
   void Disconnect(){
     socket!.disconnect();
   }
+
+
   Future<void> setlogout() async {
     await pref.logout();
   }

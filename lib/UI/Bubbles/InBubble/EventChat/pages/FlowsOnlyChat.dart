@@ -83,7 +83,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -218,7 +218,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
               ) async {
             return showDialog(
                 context: Context,
-                barrierDismissible: false,
+                   barrierDismissible: true,
                 builder: (Context) {
 
 
@@ -365,7 +365,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                               },
 
                                               child: Container(
@@ -878,21 +878,21 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                       ],
                     ),
                      SizedBox(
-                      height: 7,
+                      height: 7.h,
                     ),
                     Container(
                       width: w/1.37,
                       decoration: BoxDecoration(
                         borderRadius : BorderRadius.only(
-                          topLeft: Radius.circular(6.147541046142578),
-                          topRight: Radius.circular(6.147541046142578),
-                          bottomLeft: Radius.circular(6.147541046142578),
-                          bottomRight: Radius.circular(6.147541046142578),
+                          topLeft: Radius.circular(6.147541046142578.r),
+                          topRight:Radius.circular(6.147541046142578.r),
+                          bottomLeft: Radius.circular(6.147541046142578.r),
+                          bottomRight: Radius.circular(6.147541046142578.r),
                         ),
                         boxShadow : [BoxShadow(
                             color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
                             offset: Offset(0,0),
-                            blurRadius: 13.088312149047852
+                            blurRadius: 13.088312149047852.r
                         )],
                         color : Color.fromRGBO(96, 96, 96, 1),
                       ),
@@ -905,7 +905,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                 style: GoogleFonts.roboto().copyWith(
                                     color: Color.fromRGBO(255, 255, 255, 1),
                                     fontSize: 15.159509658813477.sp,
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    letterSpacing: 0 ,
                                     fontWeight: FontWeight.w300,
                                     height: 1
                                 )),
@@ -937,16 +937,16 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                       width: w/2,
                                       child: Column(
                                         children: [
-                                          SizedBox(height: 5,),
+                                          SizedBox(height: 5.h,),
                                           Row(
                                             children: [
-                                              SizedBox(width: 5,),
+                                              SizedBox(width: 5.w,),
                                               CircleAvatar(
                                                 backgroundColor: Color(0xff837DE2),
-                                                radius: 10,
+                                                radius: 10.r,
                                               ),
 
-                                              SizedBox(width: 5,),
+                                              SizedBox(width: 5.w,),
                                               Container(
                                                 width: w/2.3,
                                                 child: Text(state.Answers[index2],
@@ -954,15 +954,15 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                                     style: GoogleFonts.roboto().copyWith(
                                                         color: Color.fromRGBO(255, 255, 255, 1),
                                                         fontSize: 14.282208442687988.sp,
-                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                        letterSpacing: 0 ,
                                                         fontWeight: FontWeight.w300,
-                                                        height: 1
+                                                        height: 1.h
                                                     )
                                                 ),
                                               )
                                             ],
                                           ),
-                                          SizedBox(height: 5,),
+                                          SizedBox(height: 5.h,),
                                         ],
                                       ),
                                     ),
@@ -1159,7 +1159,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                                   style: GoogleFonts.roboto().copyWith(
                                       color: Color.fromRGBO(234, 234, 234, 1),
                                       fontSize: 13.sp,
-                                      letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                      letterSpacing: 0 ,
                                       fontWeight: FontWeight.w300,
                                       height: 1
                                       )),
@@ -1309,7 +1309,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                           fontFamily: 'Red Hat Display',
                           fontStyle: FontStyle.italic,
                           fontSize: 22.sp,
-                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          letterSpacing: 0 ,
                           fontWeight: FontWeight.bold,
                           height: 1
                       ),),
@@ -1318,7 +1318,7 @@ class _FlowPostsChatState extends State<FlowPostsChat> {
                           color: Color.fromRGBO(47, 47, 47, 1),
                           fontFamily: 'Red Hat Text',
                           fontSize: 12.sp,
-                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                          letterSpacing: 0 ,
                           fontWeight: FontWeight.w600,
                           height: 1.25
                       ),)

@@ -25,7 +25,7 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/main.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -64,6 +64,8 @@ int id=0;
 String Background_Color = "";
 int IS_Creator = 0;
 int indexx =0;
+String boi ="";
+List<String>? Interests = [];
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final ScrollController _Primecontroller = ScrollController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -182,7 +184,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _SearchController.addListener(() {
       if (_SearchController.text.isEmpty){
         _HomeBloc.add(SearchBubblesList((b) =>
-        b..Keyword =""
+        b
+          ..Keyword =""
             ..Change_ViewStatus = false
         ));
       }
@@ -212,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ) async {
                   return showDialog(
                       context: Context,
-                      barrierDismissible: false,
+                         barrierDismissible: true,
                       builder: (Context) {
                         return AlertDialog(
                           backgroundColor: Colors.transparent,
@@ -347,7 +350,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ) async {
                   return showDialog(
                       context: Context,
-                      barrierDismissible: false,
+                         barrierDismissible: true,
                       builder: (Context) {
 
 
@@ -494,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                           .addPostFrameCallback((_) =>     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                          builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,),),   ));
+                                                          builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                                     },
 
                                                     child: Container(
@@ -7032,7 +7035,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -7172,7 +7175,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     UserModel user = await pref.getUser();
     // print(user.user!.data!.id);
     // print("Gotten");
-
+//todo : boi and interests
     id = user.data!.id!;
     Avatar = user.data!.avatar!;
     Alias = user.data!.alias!;

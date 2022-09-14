@@ -44,6 +44,13 @@ class _$DateModelSerializer implements StructuredSerializer<DateModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
+    value = object.serialnumber;
+    if (value != null) {
+      result
+        ..add('serialnumber')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.email;
     if (value != null) {
       result
@@ -184,6 +191,10 @@ class _$DateModelSerializer implements StructuredSerializer<DateModel> {
           result.gender = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
+        case 'serialnumber':
+          result.serialnumber = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'email':
           result.email = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -265,6 +276,8 @@ class _$DateModel extends DateModel {
   @override
   final String? gender;
   @override
+  final String? serialnumber;
+  @override
   final String? email;
   @override
   final String? last_name;
@@ -305,6 +318,7 @@ class _$DateModel extends DateModel {
       this.is_verify,
       this.is_creator,
       this.gender,
+      this.serialnumber,
       this.email,
       this.last_name,
       this.first_name,
@@ -338,6 +352,7 @@ class _$DateModel extends DateModel {
         is_verify == other.is_verify &&
         is_creator == other.is_creator &&
         gender == other.gender &&
+        serialnumber == other.serialnumber &&
         email == other.email &&
         last_name == other.last_name &&
         first_name == other.first_name &&
@@ -376,10 +391,10 @@ class _$DateModel extends DateModel {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc(0, id.hashCode),
-                                                                                is_verify.hashCode),
-                                                                            is_creator.hashCode),
-                                                                        gender.hashCode),
+                                                                            $jc($jc($jc(0, id.hashCode), is_verify.hashCode),
+                                                                                is_creator.hashCode),
+                                                                            gender.hashCode),
+                                                                        serialnumber.hashCode),
                                                                     email.hashCode),
                                                                 last_name.hashCode),
                                                             first_name.hashCode),
@@ -405,6 +420,7 @@ class _$DateModel extends DateModel {
           ..add('is_verify', is_verify)
           ..add('is_creator', is_creator)
           ..add('gender', gender)
+          ..add('serialnumber', serialnumber)
           ..add('email', email)
           ..add('last_name', last_name)
           ..add('first_name', first_name)
@@ -443,6 +459,10 @@ class DateModelBuilder implements Builder<DateModel, DateModelBuilder> {
   String? _gender;
   String? get gender => _$this._gender;
   set gender(String? gender) => _$this._gender = gender;
+
+  String? _serialnumber;
+  String? get serialnumber => _$this._serialnumber;
+  set serialnumber(String? serialnumber) => _$this._serialnumber = serialnumber;
 
   String? _email;
   String? get email => _$this._email;
@@ -518,6 +538,7 @@ class DateModelBuilder implements Builder<DateModel, DateModelBuilder> {
       _is_verify = $v.is_verify;
       _is_creator = $v.is_creator;
       _gender = $v.gender;
+      _serialnumber = $v.serialnumber;
       _email = $v.email;
       _last_name = $v.last_name;
       _first_name = $v.first_name;
@@ -560,6 +581,7 @@ class DateModelBuilder implements Builder<DateModel, DateModelBuilder> {
             is_verify: is_verify,
             is_creator: is_creator,
             gender: gender,
+            serialnumber: serialnumber,
             email: email,
             last_name: last_name,
             first_name: first_name,

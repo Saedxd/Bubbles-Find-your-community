@@ -61,7 +61,7 @@ class _QR_ScannerState extends State<QR_Scanner> {
   //     ) async {
   //   return showDialog(
   //       context: Context,
-  //       barrierDismissible: false,
+  //          barrierDismissible: true,
   //       builder: (Context) {
   //         return AlertDialog(
   //             backgroundColor: Colors.transparent,

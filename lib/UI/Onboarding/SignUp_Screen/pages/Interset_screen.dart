@@ -185,7 +185,7 @@ bloc2.add(GetInterests());
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 10.h,),
+                                                  SizedBox(height: 5.h,),
                                                 ],
                                               ),
 

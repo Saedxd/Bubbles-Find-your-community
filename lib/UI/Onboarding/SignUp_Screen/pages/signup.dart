@@ -131,7 +131,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -946,7 +946,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
   ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
             title: Text(Title),
