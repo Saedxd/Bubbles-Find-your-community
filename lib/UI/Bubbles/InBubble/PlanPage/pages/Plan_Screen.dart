@@ -219,7 +219,6 @@ final PanelController PanelControllerr = PanelController();
                                                                       MainAxisAlignment.start,
                                                                       children: [
                                                         SizedBox(height: h / 50,),
-
                                                         Container(
                                                           width: w/1.16,
                                                           child: Text("${widget.Bubble!.Description.toString()}",

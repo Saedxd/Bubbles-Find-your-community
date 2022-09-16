@@ -140,8 +140,6 @@ bool DidItOnce = false;
         builder: (BuildContext Context, TopBarState state) {
           print("state is updated");
 
-
-
           if (DiditONCE && state.success!){
 
             for(int i=0;i<state.GetFriends!.friends!.length;i++){
@@ -174,6 +172,7 @@ bool DidItOnce = false;
           }
 
 
+
           return  Scaffold(
               key: _scaffoldKey,
               body:  SafeArea(
@@ -181,7 +180,7 @@ bool DidItOnce = false;
                   children: [
                   //  _buildScreens[state.INDEX!],
                     state.INDEX==0?
-                    HomeScreen(OpenPanel:false):
+                    /*HomeScreen(OpenPanel:false)*/Container():
 
                     Container(
                       width: w,
@@ -207,10 +206,6 @@ bool DidItOnce = false;
                               state.Index5==true
                                   ? _TopBarBloc.add(ChangeIndex5())
                                   :null;
-
-
-
-
                             }else if (index==1){
 
                               state.Index2==true

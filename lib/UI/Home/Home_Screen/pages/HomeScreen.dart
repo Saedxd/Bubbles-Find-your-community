@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     GetUserData();
-      getCurrentLocation();
+     getCurrentLocation();
     SystemChrome.setSystemUIOverlayStyle(
        SystemUiOverlayStyle(
           statusBarColor: Color(0xff303030),
@@ -161,16 +161,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     print(AllBubblesJoinStatusTry);
     FocuseNODE = FocusNode();
     location = Location();
-    // GetTHEME();
     DiditOnces = true;
     _HomeBloc.add(GetAllBubbles());
     timer!=null
         ? timer!.cancel()
         : Text("NUll");
-    // AllBubblesStatus = List.filled(100000,0);
-    // AllBubblesStatusTry = List.filled(10000,true);
-    // AllNearBubblesStatusTry = List.filled(10000,true);
-    // AllBubblesIDS = List.filled(10000,0);
     diditonceee = true;
     _HomeBloc.add(GetNewBubbles());
     _HomeBloc.add(GetPopularNowBubbles());
