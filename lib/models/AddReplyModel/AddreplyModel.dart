@@ -18,7 +18,7 @@ abstract class AddreplyModel
   String? get msg;
   int? get statuscode;
   int? get message_id;
-
+  String? get error;
 
 
 

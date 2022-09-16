@@ -6,6 +6,7 @@ import 'package:bubbles/UI/Profile/BecomeCreator_screen/bloc/Creator_State.dart'
 import 'package:bubbles/UI/Profile/BecomeCreator_screen/pages/TakeQuiz_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:move_to_background/move_to_background.dart';
 
@@ -30,7 +31,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -40,10 +41,10 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -59,10 +60,10 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -78,7 +79,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
                                     fontSize: FontSize.toDouble(),
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    letterSpacing: 18,
                                     fontWeight: FontWeight.w600,
                                     height: 1
                                 ),),
@@ -97,10 +98,10 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft:Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -114,8 +115,8 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontSize: 14.sp,
+                                            letterSpacing: 0.3,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -131,10 +132,10 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
-                        width: 90,
+                        width: 90.w,
                       ),
                     ),
                   ],
@@ -178,46 +179,48 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      margin: EdgeInsets.only(top: h / 50,),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                    Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: h / 50,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
 
-                          Text('Become a Creator', textAlign: TextAlign.left,
-                            style: _textthem.headlineLarge!.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 23
+                              Text('Become a Creator', textAlign: TextAlign.left,
+                                style: _textthem.headlineLarge!.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.sp
+                                ),),
+
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: h/20,),
+                        Container(
+                          width: w / 1.4,
+                          child: Text(
+                            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit'
+                                ' ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: COLOR.inversePrimary,
+                                fontFamily: 'Sofia Pro',
+                                fontSize: 18.sp,
+                                wordSpacing: 2,
+                                letterSpacing: 2.3,
+                                fontWeight: FontWeight.w300,
+                                height: 1
                             ),),
+                        ),
+                      ],
+                    ),
 
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: w / 1.4,
-                      child: Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit'
-                            ' ut nulla mattis et sagittis, mi eu quam. Dolor sit.',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: COLOR.inversePrimary,
-                            fontFamily: 'Sofia Pro',
-                            fontSize: 27,
-                            wordSpacing: 2,
-                            letterSpacing: 2 /*percentages not used in flutter. defaulting to zero*/,
-                            fontWeight: FontWeight.normal,
-                            height: 1
-                        ),),
-                    ),
-                    Text(""),
-                    Text(""),
-                    Text(""),
-                    Text(""),
-                    Text(""),
+
                     InkWell(
                       onTap: () {
 
-                        WidgetsBinding.instance!
+                        WidgetsBinding.instance
                             .addPostFrameCallback((_) =>
                             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
                                 NavigatorTopBar(GotToHomeAndOpenPanel: false,)), (Route<dynamic> route) => false));
@@ -226,12 +229,13 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                       child: Container(
                         width: w / 1.6,
                         height: h / 17,
+                        margin: EdgeInsets.only(bottom: h/20),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
+                            topLeft: Radius.circular(5.r),
+                            topRight:  Radius.circular(5.r),
+                            bottomLeft:  Radius.circular(5.r),
+                            bottomRight: Radius.circular(5.r),
                           ),
                           boxShadow: [BoxShadow(
                               color: Color.fromRGBO(
@@ -247,8 +251,8 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                             style: TextStyle(
                                 color: Color.fromRGBO(234, 234, 234, 1),
                                 fontFamily: 'Sofia Pro',
-                                fontSize: 20,
-                                letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                fontSize: 20.sp,
+                                letterSpacing: 0.3,
                                 fontWeight: FontWeight.normal,
                                 height: 1
                             ),),
@@ -256,7 +260,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
 
                       ),
                     ),
-                    Text(""),
+
 
 
                   ],

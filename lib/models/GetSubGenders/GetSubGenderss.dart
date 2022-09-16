@@ -31,7 +31,7 @@ abstract class GetSubGender
   String? get msg;
   int? get statuscode;
   BuiltList<SubgendersListModel>? get genders;
-
+  String? get error;
 
   GetSubGender._();
   factory GetSubGender([void Function(GetSubGenderBuilder b)? updates]) =  _$GetSubGender;

@@ -3,6 +3,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 
 import 'FriendList_event.dart';
 import 'FriendList_state.dart';
@@ -58,7 +59,7 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
 
         for(int i=0;i<state.GetFriends!.friends!.length;i++) {
           FrinedsData data = FrinedsData();
-          data.Color = state.GetFriends!.friends![i].background_color!;
+          data.Background_Color = state.GetFriends!.friends![i].background_color!;
           data.ID = state.GetFriends!.friends![i].id;
           data.my_id = state.GetFriends!.friends![i].me_id;
           data.Alias = state.GetFriends!.friends![i].alias;
@@ -147,7 +148,7 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
         );
         for(int i=0;i<state.FreindRequests!.users!.length;i++) {
           FrinedsData data = FrinedsData();
-          data.Color = state.FreindRequests!.users![i].background_color!;
+          data.Background_Color = state.FreindRequests!.users![i].background_color!;
           data.ID = state.FreindRequests!.users![i].id;
           data.my_id = state.FreindRequests!.users![i].me_id;
           data.boi = state.FreindRequests!.users![i].bio;

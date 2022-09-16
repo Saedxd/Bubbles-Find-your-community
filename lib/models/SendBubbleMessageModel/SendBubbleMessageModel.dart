@@ -5,6 +5,7 @@ library SendBubbleMessageModel;
 import 'dart:convert';
 
 
+import 'package:bubbles/models/EventOldMessagesModel/EventMessagesListModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -20,7 +21,8 @@ abstract class SendBubbleMessageModel
   int? get statuscode;
   int? get message_id;
   int? get sub_message_id;
-
+  String? get error;
+  EventMessagesListModel? get data;
 
   SendBubbleMessageModel._();
   factory SendBubbleMessageModel([void Function(SendBubbleMessageModelBuilder b)? updates]) =  _$SendBubbleMessageModel;

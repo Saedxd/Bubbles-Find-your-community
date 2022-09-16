@@ -1,15 +1,17 @@
 import 'dart:convert';
+import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
-import 'package:bubbles/UI/Bubbles/InBubble/EventChat/Data/Data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:intl/intl.dart';
 import 'GroupChat_event.dart';
 import 'GroupChat_state.dart';
+
 
 
 class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
@@ -35,14 +37,25 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
   }
 
 
-  void SendPollFlow(String Question, List<String> Answers,int bubble_id,int message_id) {
+  void SendPollFlow(String Question, List<PollFlowAnswers>? PollAnswers,int bubble_id,int message_id,bool isShow_participants ,bool  isMultible_answers) {
+
+   List<String> Answers =[];
+   List<int> Answers_id =[];
+   for(int i=0;i<PollAnswers!.length;i++){
+     Answers.add(PollAnswers[i].Answer.toString());
+     Answers_id.add(PollAnswers[i].id!);
+   }
+
     socket!.emit("send_poll_message_bubble",
         {
           "title": Question,
           "answers": Answers,
+          "Answers_id": Answers_id,
           "message_id": message_id,
           "room":"bubble_$bubble_id",
-          "type": "Newpoll"
+          "type": "Newpoll",
+          "isShow_participants": isShow_participants,
+          "isMultible_answers": isMultible_answers,
         });
   }
 
@@ -70,6 +83,15 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
   }
 
 
+  void ChoosePollFlowAnswerr(int Answer_id,int Index,int bubble_id) {
+    print("Emitttttted");
+    socket!.emit("listen_chosen_answer",
+        {
+          "room":"bubble_$bubble_id",
+          "Answer_id":Answer_id,
+          "index":Index,
+        });
+  }
 
   void sendReply(
       String message,
@@ -82,7 +104,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
       ,String type
       ){
 
-
     socket!.emit("send_reply_dm_bubble", {
       "message": message.toString(),
       "comment": Comment,
@@ -92,29 +113,19 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
       "Hisavatar": RepliedToAvatar,
       "Hiscolor": "${RepliedtoColor}${type}",
     });
-
-
   }
-
-
-
-
-
   @override
   Stream<GroupChatState> mapEventToState(
       GroupChatevent event,
       ) async* {
-
     if (event is ClearError) {
       yield state.rebuild((b) => b..error = "");
     }
-
     if (event is KetbaordStatus) {
       yield state.rebuild((b) => b
         ..KetbaordStatuss = event.status
       );
     }
-
     if (event is AddModel) {
       try {
         yield state.rebuild((b) => b
@@ -139,7 +150,48 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
+    if (event is ChoosePollFlowAnswer) {
+   //   try {
 
+      print(" rate ${state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].rate}");
+      print("persentage ${state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].Presentage}" );
+      print("Chat index${event.Chat_index!}");
+      print("answer index${event.ANswers_index!}");
+      print("Flow index${event.Flow_Index!}");
+        yield state.rebuild((b) => b
+          ..PollFlow_AnsweredSuccess = false
+        );
+        state.FlowList![event.Flow_Index!].is_chosen = true;
+        state.FlowList![event.Flow_Index!].PollAnswers![event.ANswers_index!].rate =  state.FlowList![event.Flow_Index!].PollAnswers![event.ANswers_index!].rate !+ 1;
+        state.FlowList![event.Flow_Index!].Total_Rate =  state.FlowList![event.Flow_Index!].Total_Rate + 1;
+        state.FlowList![event.Flow_Index!].PollAnswers![event.ANswers_index!].Presentage =
+        ( state.FlowList![event.Flow_Index!].PollAnswers![event.ANswers_index!].rate! /
+            state.FlowList![event.Flow_Index!].Total_Rate).toInt() * 100;
+
+
+
+        state.messages![event.Chat_index!].is_Chosen = true;
+        state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].rate =   state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].rate !+ 1 ;
+        state.messages![event.Chat_index!].Total_Rate =  state.messages![event.Chat_index!].Total_Rate + 1;
+        state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].Presentage =
+            (   state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].rate! /
+                state.messages![event.Chat_index!].Total_Rate).toInt()* 100;
+      print(" rate ${state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].rate}");
+      print("persentage ${state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].Presentage}" );
+
+
+        yield state.rebuild((b) => b
+          ..PollFlow_AnsweredSuccess = true
+        );
+                if (event.Want_Request!) {
+                  ChoosePollFlowAnswerr( state.messages![event.Chat_index!].PollAnswers![event.ANswers_index!].id!,event.Chat_index!,event.bubble_id!);
+                  final date2 = await _repository.ChoosePollFlowAnswer(   event.Answer_id!);
+                }
+      // } catch (e) {
+      //   print('get Error $e ChoosePollFlowAnswer');
+      //
+      // }
+    }
     if (event is SendStatus) {
       try {
         yield state.rebuild((b) => b
@@ -152,7 +204,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeFlowOptionsStatus) {
       try {
         yield state.rebuild((b) => b
@@ -165,7 +216,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ShowReplyWidget) {
       try {
 
@@ -190,7 +240,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is GetAlias) {
       try {
         yield state.rebuild((b) => b
@@ -222,7 +271,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
       }
     }
-
     if (event is GetAliasForInsideUser) {
       try {
         yield state.rebuild((b) => b
@@ -243,8 +291,8 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..GetAliasForInsideBubbleUser.replace(date2)
         );
 
-        UserDATA User =UserDATA();
-        User.id = state.GetAliasForInsideBubbleUser!.friend!.id;
+        FrinedsData User =FrinedsData();
+        User.ID = state.GetAliasForInsideBubbleUser!.friend!.id;
         User.Avatar = state.GetAliasForInsideBubbleUser!.friend!.avatar.toString();
         User.Background_Color = state.GetAliasForInsideBubbleUser!.friend!.background_color.toString();
         User.Alias = state.GetAliasForInsideBubbleUser!.friend!.alias.toString();
@@ -266,18 +314,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
       }
     }
-
-    // if (event is AddUserDataToList) {
-    //   try {
-    //
-    //
-    //
-    //   } catch (e) {
-    //     print('get Error $e');
-    //   }
-    // }
-
-
     if (event is DescriptionLength) {
       try {
         yield state.rebuild((b) => b
@@ -289,7 +325,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeCheckboxStatus1) {
       try {
         yield state.rebuild((b) => b
@@ -301,7 +336,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeCheckboxStatus2) {
       try {
         yield state.rebuild((b) => b
@@ -313,7 +347,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is ChangeTextfieldSum) {
       try {
         yield state.rebuild((b) => b
@@ -324,7 +357,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is MakeTextFieldSumToNormal) {
       try {
         yield state.rebuild((b) => b
@@ -335,7 +367,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
       }
     }
-
     if (event is GetOldMessages) {
     //  try {
         yield state.rebuild((b) => b
@@ -345,7 +376,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
         );
 
 
-        final date2 = await _repository.GetEventMessages(event.bubble_id!);
+        final date2 = await _repository.GetEventMessages(event.bubble_id!,);
 
         yield state.rebuild((b) => b
           ..isLoading = false
@@ -357,7 +388,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
 
         for (int i = 0;i<state.EventOldMessages!.messages!.length;i++){
           GroupChatMessage InstanceMessages = GroupChatMessage();
-
+          DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
           InstanceMessages.ISNOdeJS = false;
           InstanceMessages.IsBackEnd = true;
           InstanceMessages.is_base64 = false;
@@ -365,21 +396,34 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           InstanceMessages.ID = state.EventOldMessages!.messages![i].id!.toInt();
           InstanceMessages.Type = state.EventOldMessages!.messages![i].type.toString();
           InstanceMessages.FlowSettledWithID =true;
+          InstanceMessages.time = DateFormat.jm().format(datee.toLocal());
+          String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+          FrinedsData data = FrinedsData();
+          data.interests = state.EventOldMessages!.messages![i].message!.sender_interests;
+          data.is_Frined = state.EventOldMessages!.messages![i].message!.is_friend;
+          data.boi = state.EventOldMessages!.messages![i].message!.sender_bio.toString();
+          data.His_id = state.EventOldMessages!.messages![i].message!.sender_id;
+          data.Background_Color = Value;
+          data.Alias = state.EventOldMessages!.messages![i].message!.sender_name;
+
+
+          data.Avatar = state.EventOldMessages!.messages![i].message!.sender_image;
+          data.Serial = state.EventOldMessages!.messages![i].message!.sender_serial;
+          InstanceMessages.Sender_data = data;
 
           if (state.EventOldMessages!.messages![i].replies!.isEmpty) {
-            DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-            String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
+
 
 
             InstanceMessages.ISreply = false;
-            if (state.EventOldMessages!.messages![i].message!.sender_name.toString().isNotEmpty)
             InstanceMessages.Alias = state.EventOldMessages!.messages![i].message!.sender_name.toString();
-            if (state.EventOldMessages!.messages![i].message!.sender_image.toString().isNotEmpty)
             InstanceMessages.Avatar =  state.EventOldMessages!.messages![i].message!.sender_image.toString();
-            if (Value.isNotEmpty)
+
+
+
             InstanceMessages.background_Color = int.parse(Value);
             InstanceMessages.message = state.EventOldMessages!.messages![i].message!.message.toString();
-            InstanceMessages.time = DateFormat.jm().format(datee);
+
 
 
 
@@ -402,15 +446,15 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.TopicFlowDescription = state.EventOldMessages!.messages![i].message!.content.toString();
               InstanceMessages.TopicFlowTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+        //      InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
               FlowData data = FlowData();
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+
+              data.time =  DateFormat.jm().format(datee.toLocal());
               data.Flow_type ="TopicFlow";
               data.ISMediaDump = false;
               data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
@@ -418,7 +462,7 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               print(data.Content);
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
               data.Flow_Icon = "Assets/images/notifiy.svg";
 
 //      "Assets/images/12123123.svg", footprint Icon
@@ -438,12 +482,12 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               InstanceMessages.MediaDumpTitle = state.EventOldMessages!.messages![i].message!.title.toString();
               InstanceMessages.Image_type = "backend";
               InstanceMessages.CanReply = false;
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+             // InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
 
 
 
               FlowData data = FlowData();
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
@@ -454,10 +498,9 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
               data.Image_type =  "backend";
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
               data.Flow_type ="MediaDump";
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+              data.time =  DateFormat.jm().format(datee.toLocal());
               String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
               data.Who_Made_it_Color = int.parse(Value);
 
@@ -465,36 +508,69 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             }
 
             if (state.EventOldMessages!.messages![i].message!.type.toString()=="poll") {
+              InstanceMessages.ModelType = "PollFlow";
+              InstanceMessages.PollQuestion =
+                  state.EventOldMessages!.messages![i].message!.title
+                      .toString();
+              bool is_chosen = false;
+              int Total_Rate = 0;
+              //   InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
+              List<PollFlowAnswers>? PollAnswers= [];
+              for (int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length; j++){
+                Total_Rate += state.EventOldMessages!.messages![i].message!.answers![j].rate!;
+              }
+              for (int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length; j++){
+                PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+                PollFlowAnswer.Answer = state.EventOldMessages!.messages![i].message!.answers![j].answer;
+                PollFlowAnswer.id = state.EventOldMessages!.messages![i].message!.answers![j].id;
+                PollFlowAnswer.is_checked = state.EventOldMessages!.messages![i].message!.answers![j].is_checked;
+                PollFlowAnswer.rate =state.EventOldMessages!.messages![i].message!.answers![j].rate;
+                PollFlowAnswer.users_Choose_it =state.EventOldMessages!.messages![i].message!.answers![j].participants;
+
+                if (Total_Rate!=0)
+              PollFlowAnswer.Presentage =  (PollFlowAnswer.rate !/ Total_Rate).toInt() * 100;
+                PollAnswers.add(PollFlowAnswer);
+
+                is_chosen =   PollFlowAnswer.is_checked!;
+                bool DidITonce = true;
+                if (is_chosen && DidITonce){
+                  InstanceMessages.is_Chosen = is_chosen;
+                  DidITonce = false;
+                }
+              }
+              InstanceMessages.PollAnswers = PollAnswers;
+              InstanceMessages.Total_Rate = Total_Rate;
 
 
-              InstanceMessages.ModelType ="PollFlow";
-              InstanceMessages.PollQuestion =  state.EventOldMessages!.messages![i].message!.title.toString();
-              InstanceMessages.ID =  state.EventOldMessages!.messages![i].message!.id!.toInt();
-
-              for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
-              InstanceMessages.PollAnswers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
-              InstanceMessages.CanReply = false;
 
 
 
               FlowData data = FlowData();
-              int x = Random().nextInt(Colorss.length);
+              for (int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length; j++) {
+                PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+                PollFlowAnswer.Answer = state.EventOldMessages!.messages![i].message!.answers![j] .answer;
+                PollFlowAnswer.id = state.EventOldMessages!.messages![i].message!.answers![j].id;
+                PollFlowAnswer.is_checked =   state.EventOldMessages!.messages![i].message!.answers![j]  .is_checked;
+                PollFlowAnswer.rate = state.EventOldMessages!.messages![i].message!.answers![j]  .rate;
+                PollFlowAnswer.users_Choose_it =   state.EventOldMessages!.messages![i].message!.answers![j] .participants;
+
+
+              }
+                int x = Random().nextInt(Colorss.length);
               String Colorr = Colorss[x];
               data.Color = int.parse(Colorr);
+              data.is_chosen = is_chosen;
               data.Flow_Icon =  "Assets/images/123323232.svg";
               data.ISMediaDump = true;
-              data.FlowMessage_id = state.EventOldMessages!.messages![i].message!.id!.toInt();
+              data.FlowMessage_id = state.EventOldMessages!.messages![i].id!.toInt();
               data.Title = state.EventOldMessages!.messages![i].message!.title.toString();
-              for(int j=0;j<state.EventOldMessages!.messages![i].message!.answers!.length;j++)
-                data.Answers.add(state.EventOldMessages!.messages![i].message!.answers![j].answer.toString());
-              DateTime datee = DateTime.parse( state.EventOldMessages!.messages![i].message!.CreatAt.toString());
-              data.time = DateFormat.jm().format(datee);
+                  data.time =  DateFormat.jm().format(datee.toLocal());
               data.Flow_type ="PollFlow";
               data.Who_Made_it_Alias =state.EventOldMessages!.messages![i].message!.sender_name.toString();
               data.Who_Made_it_Avatar = state.EventOldMessages!.messages![i].message!.sender_image.toString();
-              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].id!.toInt();
-
-
+              data.Who_Made_it_ID = state.EventOldMessages!.messages![i].message!.sender_id!.toInt();
+              data.PollAnswers = PollAnswers;
+              data.Total_Rate = Total_Rate;
               String Value = state.EventOldMessages!.messages![i].message!.sender_background_color!;
               data.Who_Made_it_Color = int.parse(Value);
 
@@ -503,22 +579,26 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
             }
 
 
-
           }else{
             InstanceMessages.CanReply = false;
             InstanceMessages.ISreply = true;
             String Value = state.EventOldMessages!.messages![i].message!.sender_background_color.toString();
+            DateTime datee = DateTime.parse(state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
+            String Value2 = state.EventOldMessages!.messages![i].replies![0].background.toString();
+
             InstanceMessages.RepliedTOAlias =      state.EventOldMessages!.messages![i].message!.sender_name.toString();
             InstanceMessages.RepliedTOMessage =  state.EventOldMessages!.messages![i].message!.message.toString();
             InstanceMessages.RepliedTOAvatar =    state.EventOldMessages!.messages![i].message!.sender_image.toString();
             InstanceMessages.ReplieDtobackground_Color =int.parse(Value);
-            String Value2 = state.EventOldMessages!.messages![i].replies![0].background.toString();
+
+
             InstanceMessages.ReplierAlias = state.EventOldMessages!.messages![i].replies![0].alias.toString();
             InstanceMessages.ReplierMessage = state.EventOldMessages!.messages![i].replies![0].comment.toString();
             InstanceMessages.ReplierAvatar =  state.EventOldMessages!.messages![i].replies![0].avatar.toString();
+
+
             InstanceMessages.Replierbackground_Color =int.parse(Value2);
-            DateTime datee2 = DateTime.parse( state.EventOldMessages!.messages![i].replies![0].CreatAt.toString());
-            InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
+            InstanceMessages.Repliertime = DateFormat.jm().format(datee.toLocal());
 
 
               if (state.EventOldMessages!.messages![i].message!.type.toString()=="text") {
@@ -543,7 +623,6 @@ class GroupChatBloc extends Bloc<GroupChatevent, GroupChatState> {
           ..success= true
         );
     }
-
     if (event is SendMessage) {
      try {
         yield state.rebuild((b) => b
@@ -595,7 +674,6 @@ print("Emitteddd");
 
       }
     }
-
     if (event is addReply) {
         String base64String;
         String BACKEND_PATH="";
@@ -665,7 +743,6 @@ print("Emitteddd");
 
         print("Emitteddd");
     }
-
     if (event is GetUsersInsideBubble) {
 
       try {
@@ -688,14 +765,14 @@ print("Emitteddd");
         for(int i=0;i<state.GetUsersInsideBubble!.users!.length;i++){
 
 
-          UserDATA User =UserDATA();
-          User.id = state.GetUsersInsideBubble!.users![i].id!;
+          FrinedsData User =FrinedsData();
+          User.ID = state.GetUsersInsideBubble!.users![i].id!;
           User.Avatar = state.GetUsersInsideBubble!.users![i].avatar.toString();
           User.Background_Color = state.GetUsersInsideBubble!.users![i].background_color.toString();
           User.Alias = state.GetUsersInsideBubble!.users![i].alias.toString();
-          User.Serial_number = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
+          User.Serial_Number = state.GetUsersInsideBubble!.users![i].serialnumber.toString();
           User.boi = state.GetUsersInsideBubble!.users![i].bio.toString();
-          User.is_frined = state.GetUsersInsideBubble!.users![i].is_friend;
+          User.is_Frined = state.GetUsersInsideBubble!.users![i].is_friend;
           User.Serial = state.GetUsersInsideBubble!.users![i].serial.toString();
 
 
@@ -734,7 +811,6 @@ print("Emitteddd");
 
 
     }
-
     if (event is SearchInsideBubbleUser) {
 
       try {
@@ -773,15 +849,16 @@ print("Emitteddd");
 
 
     }
-
     if (event is AddFrined) {
       try {
+        state.FilteredInsideBubbleUsers![event.index!].is_Frined = true;
         yield state.rebuild((b) => b
           ..FreindAddlOADING = true
           ..error = ""
           ..AddFreindSuccess = false
           ..AddNewFriend = null
         );
+
 
         final date = await _repository.AddFriend(event.serial!);
 
@@ -804,20 +881,34 @@ print("Emitteddd");
         );
       }
     }
-
     if (event is RemoveFriend) {
       try {
+
+        state.FilteredInsideBubbleUsers![event.index!].is_Frined = false;
+        yield state.rebuild((b) => b
+          ..FreindAddlOADING = true
+          ..error = ""
+          ..AddFreindSuccess = false
+          ..AddNewFriend = null
+        );
+
 
         final date = await _repository.RemoveFriend(event.friend_id!);
 
 
+        print('get Success data ${date}');
+        yield state.rebuild((b) =>
+        b
+          ..FreindAddlOADING = false
+          ..error = ""
+          ..AddFreindSuccess = true
+        );
 
 
       } catch (e) {
         print('get Error $e');
       }
     }
-
     if (event is SendTopicFlow) {
      // try {
 
@@ -860,7 +951,6 @@ print("Emitteddd");
       //
       // }
     }
-
     if (event is SendMediaDumpFlow) {
      // try {
 
@@ -885,13 +975,11 @@ print("Emitteddd");
 
         SendMediadump(event.image!,event.title!,state.messages![0].ID! ,"Base64",event.Bubble_id!);
     }
-
     if (event is SendPollFloww) {
      // try {
 
 
-
-        final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!);
+       final date2 = await _repository.SendPollFlow(event.Question!,event.bubble_id!,event.answers!,event.isMultible_answers!,event.isShow_participants!);
 
         yield state.rebuild((b) => b
           ..SendBubblePollFow.replace(date2)
@@ -900,47 +988,62 @@ print("Emitteddd");
           ..SendMessageISloading= true
           ..SendMessageSuccess = false
         );
+       List<PollFlowAnswers>? PollAnswers= [];
+       for (int j=0;j<state.SendBubblePollFow!.data!.message!.answers!.length; j++){
+         PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+         PollFlowAnswer.Answer = state.SendBubblePollFow!.data!.message!.answers![j].answer;
+         PollFlowAnswer.id = state.SendBubblePollFow!.data!.message!.answers![j].id;
+         PollFlowAnswer.is_checked =state.SendBubblePollFow!.data!.message!.answers![j].is_checked;
+         PollFlowAnswer.rate =state.SendBubblePollFow!.data!.message!.answers![j].rate;
+         PollFlowAnswer.users_Choose_it =state.SendBubblePollFow!.data!.message!.answers![j].participants;
+         PollAnswers.add(PollFlowAnswer);
+       }
+
+        state.messages![0].PollAnswers = PollAnswers;
         state.messages![0].ID = state.SendBubblePollFow!.message_id!.toInt();
-        state.FlowList!.insert(0,event.Flow!);
-        state.FlowList![0].FlowMessage_id = state.SendBubblePollFow!.message_id!.toInt();
         state.messages![0].FlowSettledWithID = true;
 
-        print( state.FlowList![0].Who_Made_it_ID);
-        print( state.FlowList![0].Who_Made_it_Alias);
+
+
+       List<PollFlowAnswers>? PollAnswers_FlowList= [];
+       for (int j=0;j<state.SendBubblePollFow!.data!.message!.answers!.length; j++){
+         PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+         PollFlowAnswer.Answer = state.SendBubblePollFow!.data!.message!.answers![j].answer;
+         PollFlowAnswer.id = state.SendBubblePollFow!.data!.message!.answers![j].id;
+         PollFlowAnswer.is_checked =state.SendBubblePollFow!.data!.message!.answers![j].is_checked;
+         PollFlowAnswer.rate =state.SendBubblePollFow!.data!.message!.answers![j].rate;
+         PollFlowAnswer.users_Choose_it =state.SendBubblePollFow!.data!.message!.answers![j].participants;
+         PollAnswers_FlowList.add(PollFlowAnswer);
+       }
+
+
+       state.FlowList!.insert(0,event.Flow!);
+        state.FlowList![0].FlowMessage_id = state.SendBubblePollFow!.message_id!.toInt();
+       state.FlowList![0].PollAnswers = PollAnswers_FlowList;
 
 
 
-        SendPollFlow(event.Question!,event.answers!,event.bubble_id!,state.SendBubblePollFow!.message_id!.toInt());
+
+
+        SendPollFlow(event.Question!,PollAnswers,event.bubble_id!,state.SendBubblePollFow!.message_id!.toInt(),event.isShow_participants!,event.isMultible_answers!);
 
         print("Emitteddd");
 
 
 
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..SendMessageISloading= false
-      //     ..SendMessageSuccess = false
-      //     ..SendBubbleMessage = null
-      //   );
-      //
-      // }
     }
-
     if (event is ChangeMediaImageTaken) {
 
       yield state.rebuild((b) => b
         ..MediaImageTaken = event.status!
       );
     }
-
     if (event is ShowFloatingActionButton) {
 
       yield state.rebuild((b) => b
         ..ShowFloatingActionButtonn = event.status!
       );
     }
-
     if (event is AddFlowModel) {
       try {
 
@@ -954,6 +1057,5 @@ print("Emitteddd");
       }
     }
   }
-
 }
 

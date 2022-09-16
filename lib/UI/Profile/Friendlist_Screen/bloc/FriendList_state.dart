@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';

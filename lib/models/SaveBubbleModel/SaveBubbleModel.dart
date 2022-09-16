@@ -18,7 +18,7 @@ abstract class SaveBubbleModel
 
   String? get message;
   int? get status;
-
+  String? get error;
 
 
   SaveBubbleModel._();

@@ -1,37 +1,4 @@
-//
-//{
-//     "notifications": [
-//         {
-//             "id": 26,
-//             "title": "Friend Request",
-//             "body": "saed requested to add you as friend",
-//             "type": "Request",
-//             "user_id": 213,
-//             "created_at": "2022-05-27T23:32:19.000000Z",
-//             "updated_at": "2022-05-27T23:32:19.000000Z"
-//         },
-//         {
-//             "id": 27,
-//             "title": "Friend Request",
-//             "body": "saed requested to add you as friend",
-//             "type": "Request",
-//             "user_id": 213,
-//             "created_at": "2022-05-27T23:32:55.000000Z",
-//             "updated_at": "2022-05-27T23:32:55.000000Z"
-//         },
-//         {
-//             "id": 29,
-//             "title": "Friend Request",
-//             "body": "saed requested to add you as friend",
-//             "type": "Request",
-//             "user_id": 213,
-//             "created_at": "2022-05-27T23:35:38.000000Z",
-//             "updated_at": "2022-05-27T23:35:38.000000Z"
-//         }
-//     ],
-//     "msg": "success",
-//     "statuscode": 200
-// }
+
 
 
 library GetnotifcationsModel;
@@ -55,7 +22,7 @@ abstract class GetnotifcationsModel
   String? get msg;
   int? get statuscode;
   BuiltList<NotificationsListModel>? get notifications;
-
+  String? get error;
 
 
   GetnotifcationsModel._();

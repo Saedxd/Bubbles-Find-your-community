@@ -32,7 +32,7 @@ class _$ClearError extends ClearError {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ClearError').toString();
+    return newBuiltValueToStringHelper(r'ClearError').toString();
   }
 }
 
@@ -92,7 +92,7 @@ class _$KetbaordStatus extends KetbaordStatus {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('KetbaordStatus')
+    return (newBuiltValueToStringHelper(r'KetbaordStatus')
           ..add('status', status))
         .toString();
   }
@@ -169,7 +169,7 @@ class _$GetAlias extends GetAlias {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetAlias')
+    return (newBuiltValueToStringHelper(r'GetAlias')
           ..add('HIS_ID', HIS_ID)
           ..add('My_ID', My_ID))
         .toString();
@@ -273,7 +273,7 @@ class _$SendMessage extends SendMessage {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendMessage')
+    return (newBuiltValueToStringHelper(r'SendMessage')
           ..add('main_type', main_type)
           ..add('message', message)
           ..add('type', type)
@@ -446,7 +446,7 @@ class _$addReply extends addReply {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('addReply')
+    return (newBuiltValueToStringHelper(r'addReply')
           ..add('comment', comment)
           ..add('Message', Message)
           ..add('RepliedToAlias', RepliedToAlias)
@@ -602,7 +602,7 @@ class _$AddModel extends AddModel {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AddModel')..add('message', message))
+    return (newBuiltValueToStringHelper(r'AddModel')..add('message', message))
         .toString();
   }
 }
@@ -678,7 +678,7 @@ class _$ChangeTypingStatus extends ChangeTypingStatus {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeTypingStatus')
+    return (newBuiltValueToStringHelper(r'ChangeTypingStatus')
           ..add('ChangeStatus', ChangeStatus))
         .toString();
   }
@@ -805,7 +805,7 @@ class _$ShowReplyWidget extends ShowReplyWidget {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ShowReplyWidget')
+    return (newBuiltValueToStringHelper(r'ShowReplyWidget')
           ..add('AvatarPathForRepliedTo', AvatarPathForRepliedTo)
           ..add('ColorForRepliedTo', ColorForRepliedTo)
           ..add('RepliedToMessage', RepliedToMessage)
@@ -942,7 +942,7 @@ class _$SendStatus extends SendStatus {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendStatus')..add('Status', Status))
+    return (newBuiltValueToStringHelper(r'SendStatus')..add('Status', Status))
         .toString();
   }
 }
@@ -1018,7 +1018,7 @@ class _$DescriptionLength extends DescriptionLength {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DescriptionLength')
+    return (newBuiltValueToStringHelper(r'DescriptionLength')
           ..add('DescriptionLengthh', DescriptionLengthh))
         .toString();
   }
@@ -1099,7 +1099,7 @@ class _$ChangeCheckboxStatus1 extends ChangeCheckboxStatus1 {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeCheckboxStatus1')
+    return (newBuiltValueToStringHelper(r'ChangeCheckboxStatus1')
           ..add('CheckboxStatus1', CheckboxStatus1))
         .toString();
   }
@@ -1180,7 +1180,7 @@ class _$ChangeCheckboxStatus2 extends ChangeCheckboxStatus2 {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeCheckboxStatus2')
+    return (newBuiltValueToStringHelper(r'ChangeCheckboxStatus2')
           ..add('CheckboxStatus2', CheckboxStatus2))
         .toString();
   }
@@ -1260,7 +1260,7 @@ class _$ChangeTextfieldSum extends ChangeTextfieldSum {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeTextfieldSum')..add('num', num))
+    return (newBuiltValueToStringHelper(r'ChangeTextfieldSum')..add('num', num))
         .toString();
   }
 }
@@ -1334,7 +1334,7 @@ class _$MakeTextFieldSumToNormal extends MakeTextFieldSumToNormal {
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('MakeTextFieldSumToNormal').toString();
+    return newBuiltValueToStringHelper(r'MakeTextFieldSumToNormal').toString();
   }
 }
 
@@ -1369,11 +1369,13 @@ class MakeTextFieldSumToNormalBuilder
 class _$GetOldMessages extends GetOldMessages {
   @override
   final int? bubble_id;
+  @override
+  final String? Time_Zone;
 
   factory _$GetOldMessages([void Function(GetOldMessagesBuilder)? updates]) =>
       (new GetOldMessagesBuilder()..update(updates))._build();
 
-  _$GetOldMessages._({this.bubble_id}) : super._();
+  _$GetOldMessages._({this.bubble_id, this.Time_Zone}) : super._();
 
   @override
   GetOldMessages rebuild(void Function(GetOldMessagesBuilder) updates) =>
@@ -1386,18 +1388,21 @@ class _$GetOldMessages extends GetOldMessages {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is GetOldMessages && bubble_id == other.bubble_id;
+    return other is GetOldMessages &&
+        bubble_id == other.bubble_id &&
+        Time_Zone == other.Time_Zone;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, bubble_id.hashCode));
+    return $jf($jc($jc(0, bubble_id.hashCode), Time_Zone.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetOldMessages')
-          ..add('bubble_id', bubble_id))
+    return (newBuiltValueToStringHelper(r'GetOldMessages')
+          ..add('bubble_id', bubble_id)
+          ..add('Time_Zone', Time_Zone))
         .toString();
   }
 }
@@ -1410,12 +1415,17 @@ class GetOldMessagesBuilder
   int? get bubble_id => _$this._bubble_id;
   set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
 
+  String? _Time_Zone;
+  String? get Time_Zone => _$this._Time_Zone;
+  set Time_Zone(String? Time_Zone) => _$this._Time_Zone = Time_Zone;
+
   GetOldMessagesBuilder();
 
   GetOldMessagesBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _bubble_id = $v.bubble_id;
+      _Time_Zone = $v.Time_Zone;
       _$v = null;
     }
     return this;
@@ -1436,7 +1446,8 @@ class GetOldMessagesBuilder
   GetOldMessages build() => _build();
 
   _$GetOldMessages _build() {
-    final _$result = _$v ?? new _$GetOldMessages._(bubble_id: bubble_id);
+    final _$result = _$v ??
+        new _$GetOldMessages._(bubble_id: bubble_id, Time_Zone: Time_Zone);
     replace(_$result);
     return _$result;
   }
@@ -1474,7 +1485,7 @@ class _$GetAliasForInsideUser extends GetAliasForInsideUser {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetAliasForInsideUser')
+    return (newBuiltValueToStringHelper(r'GetAliasForInsideUser')
           ..add('User_id', User_id))
         .toString();
   }
@@ -1522,7 +1533,7 @@ class GetAliasForInsideUserBuilder
 
 class _$AddUserDataToList extends AddUserDataToList {
   @override
-  final UserDATA? user;
+  final FrinedsData? user;
 
   factory _$AddUserDataToList(
           [void Function(AddUserDataToListBuilder)? updates]) =>
@@ -1551,7 +1562,8 @@ class _$AddUserDataToList extends AddUserDataToList {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AddUserDataToList')..add('user', user))
+    return (newBuiltValueToStringHelper(r'AddUserDataToList')
+          ..add('user', user))
         .toString();
   }
 }
@@ -1560,9 +1572,9 @@ class AddUserDataToListBuilder
     implements Builder<AddUserDataToList, AddUserDataToListBuilder> {
   _$AddUserDataToList? _$v;
 
-  UserDATA? _user;
-  UserDATA? get user => _$this._user;
-  set user(UserDATA? user) => _$this._user = user;
+  FrinedsData? _user;
+  FrinedsData? get user => _$this._user;
+  set user(FrinedsData? user) => _$this._user = user;
 
   AddUserDataToListBuilder();
 
@@ -1628,7 +1640,7 @@ class _$GetUsersInsideBubble extends GetUsersInsideBubble {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetUsersInsideBubble')
+    return (newBuiltValueToStringHelper(r'GetUsersInsideBubble')
           ..add('Bubble_id', Bubble_id))
         .toString();
   }
@@ -1706,7 +1718,7 @@ class _$SearchInsideBubbleUser extends SearchInsideBubbleUser {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SearchInsideBubbleUser')
+    return (newBuiltValueToStringHelper(r'SearchInsideBubbleUser')
           ..add('Keyword', Keyword))
         .toString();
   }
@@ -1755,11 +1767,13 @@ class SearchInsideBubbleUserBuilder
 class _$AddFrined extends AddFrined {
   @override
   final String? serial;
+  @override
+  final int? index;
 
   factory _$AddFrined([void Function(AddFrinedBuilder)? updates]) =>
       (new AddFrinedBuilder()..update(updates))._build();
 
-  _$AddFrined._({this.serial}) : super._();
+  _$AddFrined._({this.serial, this.index}) : super._();
 
   @override
   AddFrined rebuild(void Function(AddFrinedBuilder) updates) =>
@@ -1771,17 +1785,19 @@ class _$AddFrined extends AddFrined {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AddFrined && serial == other.serial;
+    return other is AddFrined && serial == other.serial && index == other.index;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, serial.hashCode));
+    return $jf($jc($jc(0, serial.hashCode), index.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AddFrined')..add('serial', serial))
+    return (newBuiltValueToStringHelper(r'AddFrined')
+          ..add('serial', serial)
+          ..add('index', index))
         .toString();
   }
 }
@@ -1793,12 +1809,17 @@ class AddFrinedBuilder implements Builder<AddFrined, AddFrinedBuilder> {
   String? get serial => _$this._serial;
   set serial(String? serial) => _$this._serial = serial;
 
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
   AddFrinedBuilder();
 
   AddFrinedBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _serial = $v.serial;
+      _index = $v.index;
       _$v = null;
     }
     return this;
@@ -1819,7 +1840,7 @@ class AddFrinedBuilder implements Builder<AddFrined, AddFrinedBuilder> {
   AddFrined build() => _build();
 
   _$AddFrined _build() {
-    final _$result = _$v ?? new _$AddFrined._(serial: serial);
+    final _$result = _$v ?? new _$AddFrined._(serial: serial, index: index);
     replace(_$result);
     return _$result;
   }
@@ -1828,11 +1849,13 @@ class AddFrinedBuilder implements Builder<AddFrined, AddFrinedBuilder> {
 class _$RemoveFriend extends RemoveFriend {
   @override
   final int? friend_id;
+  @override
+  final int? index;
 
   factory _$RemoveFriend([void Function(RemoveFriendBuilder)? updates]) =>
       (new RemoveFriendBuilder()..update(updates))._build();
 
-  _$RemoveFriend._({this.friend_id}) : super._();
+  _$RemoveFriend._({this.friend_id, this.index}) : super._();
 
   @override
   RemoveFriend rebuild(void Function(RemoveFriendBuilder) updates) =>
@@ -1844,18 +1867,21 @@ class _$RemoveFriend extends RemoveFriend {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is RemoveFriend && friend_id == other.friend_id;
+    return other is RemoveFriend &&
+        friend_id == other.friend_id &&
+        index == other.index;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, friend_id.hashCode));
+    return $jf($jc($jc(0, friend_id.hashCode), index.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('RemoveFriend')
-          ..add('friend_id', friend_id))
+    return (newBuiltValueToStringHelper(r'RemoveFriend')
+          ..add('friend_id', friend_id)
+          ..add('index', index))
         .toString();
   }
 }
@@ -1868,12 +1894,17 @@ class RemoveFriendBuilder
   int? get friend_id => _$this._friend_id;
   set friend_id(int? friend_id) => _$this._friend_id = friend_id;
 
+  int? _index;
+  int? get index => _$this._index;
+  set index(int? index) => _$this._index = index;
+
   RemoveFriendBuilder();
 
   RemoveFriendBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _friend_id = $v.friend_id;
+      _index = $v.index;
       _$v = null;
     }
     return this;
@@ -1894,7 +1925,8 @@ class RemoveFriendBuilder
   RemoveFriend build() => _build();
 
   _$RemoveFriend _build() {
-    final _$result = _$v ?? new _$RemoveFriend._(friend_id: friend_id);
+    final _$result =
+        _$v ?? new _$RemoveFriend._(friend_id: friend_id, index: index);
     replace(_$result);
     return _$result;
   }
@@ -1942,7 +1974,7 @@ class _$SendTopicFlow extends SendTopicFlow {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendTopicFlow')
+    return (newBuiltValueToStringHelper(r'SendTopicFlow')
           ..add('Title', Title)
           ..add('Content', Content)
           ..add('Bubble_id', Bubble_id)
@@ -2052,7 +2084,7 @@ class _$SendFootPrintFlow extends SendFootPrintFlow {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendFootPrintFlow')
+    return (newBuiltValueToStringHelper(r'SendFootPrintFlow')
           ..add('title', title)
           ..add('image', image)
           ..add('Flow', Flow)
@@ -2169,7 +2201,7 @@ class _$SendMediaDumpFlow extends SendMediaDumpFlow {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendMediaDumpFlow')
+    return (newBuiltValueToStringHelper(r'SendMediaDumpFlow')
           ..add('title', title)
           ..add('image', image)
           ..add('image_type', image_type)
@@ -2254,11 +2286,21 @@ class _$SendPollFloww extends SendPollFloww {
   final List<String>? answers;
   @override
   final FlowData? Flow;
+  @override
+  final bool? isShow_participants;
+  @override
+  final bool? isMultible_answers;
 
   factory _$SendPollFloww([void Function(SendPollFlowwBuilder)? updates]) =>
       (new SendPollFlowwBuilder()..update(updates))._build();
 
-  _$SendPollFloww._({this.Question, this.bubble_id, this.answers, this.Flow})
+  _$SendPollFloww._(
+      {this.Question,
+      this.bubble_id,
+      this.answers,
+      this.Flow,
+      this.isShow_participants,
+      this.isMultible_answers})
       : super._();
 
   @override
@@ -2275,24 +2317,32 @@ class _$SendPollFloww extends SendPollFloww {
         Question == other.Question &&
         bubble_id == other.bubble_id &&
         answers == other.answers &&
-        Flow == other.Flow;
+        Flow == other.Flow &&
+        isShow_participants == other.isShow_participants &&
+        isMultible_answers == other.isMultible_answers;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc(0, Question.hashCode), bubble_id.hashCode),
-            answers.hashCode),
-        Flow.hashCode));
+        $jc(
+            $jc(
+                $jc($jc($jc(0, Question.hashCode), bubble_id.hashCode),
+                    answers.hashCode),
+                Flow.hashCode),
+            isShow_participants.hashCode),
+        isMultible_answers.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SendPollFloww')
+    return (newBuiltValueToStringHelper(r'SendPollFloww')
           ..add('Question', Question)
           ..add('bubble_id', bubble_id)
           ..add('answers', answers)
-          ..add('Flow', Flow))
+          ..add('Flow', Flow)
+          ..add('isShow_participants', isShow_participants)
+          ..add('isMultible_answers', isMultible_answers))
         .toString();
   }
 }
@@ -2317,6 +2367,16 @@ class SendPollFlowwBuilder
   FlowData? get Flow => _$this._Flow;
   set Flow(FlowData? Flow) => _$this._Flow = Flow;
 
+  bool? _isShow_participants;
+  bool? get isShow_participants => _$this._isShow_participants;
+  set isShow_participants(bool? isShow_participants) =>
+      _$this._isShow_participants = isShow_participants;
+
+  bool? _isMultible_answers;
+  bool? get isMultible_answers => _$this._isMultible_answers;
+  set isMultible_answers(bool? isMultible_answers) =>
+      _$this._isMultible_answers = isMultible_answers;
+
   SendPollFlowwBuilder();
 
   SendPollFlowwBuilder get _$this {
@@ -2326,6 +2386,8 @@ class SendPollFlowwBuilder
       _bubble_id = $v.bubble_id;
       _answers = $v.answers;
       _Flow = $v.Flow;
+      _isShow_participants = $v.isShow_participants;
+      _isMultible_answers = $v.isMultible_answers;
       _$v = null;
     }
     return this;
@@ -2351,7 +2413,9 @@ class SendPollFlowwBuilder
             Question: Question,
             bubble_id: bubble_id,
             answers: answers,
-            Flow: Flow);
+            Flow: Flow,
+            isShow_participants: isShow_participants,
+            isMultible_answers: isMultible_answers);
     replace(_$result);
     return _$result;
   }
@@ -2389,7 +2453,7 @@ class _$ChangeFlowOptionsStatus extends ChangeFlowOptionsStatus {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeFlowOptionsStatus')
+    return (newBuiltValueToStringHelper(r'ChangeFlowOptionsStatus')
           ..add('status', status))
         .toString();
   }
@@ -2468,7 +2532,7 @@ class _$ChangeMediaImageTaken extends ChangeMediaImageTaken {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ChangeMediaImageTaken')
+    return (newBuiltValueToStringHelper(r'ChangeMediaImageTaken')
           ..add('status', status))
         .toString();
   }
@@ -2546,7 +2610,7 @@ class _$ShowFloatingActionButton extends ShowFloatingActionButton {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('ShowFloatingActionButton')
+    return (newBuiltValueToStringHelper(r'ShowFloatingActionButton')
           ..add('status', status))
         .toString();
   }
@@ -2622,7 +2686,7 @@ class _$AddFlowModel extends AddFlowModel {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AddFlowModel')..add('Flow', Flow))
+    return (newBuiltValueToStringHelper(r'AddFlowModel')..add('Flow', Flow))
         .toString();
   }
 }
@@ -2667,4 +2731,150 @@ class AddFlowModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+class _$ChoosePollFlowAnswer extends ChoosePollFlowAnswer {
+  @override
+  final int? ANswers_index;
+  @override
+  final int? Flow_Index;
+  @override
+  final int? Chat_index;
+  @override
+  final int? Answer_id;
+  @override
+  final int? bubble_id;
+  @override
+  final bool? Want_Request;
+
+  factory _$ChoosePollFlowAnswer(
+          [void Function(ChoosePollFlowAnswerBuilder)? updates]) =>
+      (new ChoosePollFlowAnswerBuilder()..update(updates))._build();
+
+  _$ChoosePollFlowAnswer._(
+      {this.ANswers_index,
+      this.Flow_Index,
+      this.Chat_index,
+      this.Answer_id,
+      this.bubble_id,
+      this.Want_Request})
+      : super._();
+
+  @override
+  ChoosePollFlowAnswer rebuild(
+          void Function(ChoosePollFlowAnswerBuilder) updates) =>
+      (toBuilder()..update(updates)).build();
+
+  @override
+  ChoosePollFlowAnswerBuilder toBuilder() =>
+      new ChoosePollFlowAnswerBuilder()..replace(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) return true;
+    return other is ChoosePollFlowAnswer &&
+        ANswers_index == other.ANswers_index &&
+        Flow_Index == other.Flow_Index &&
+        Chat_index == other.Chat_index &&
+        Answer_id == other.Answer_id &&
+        bubble_id == other.bubble_id &&
+        Want_Request == other.Want_Request;
+  }
+
+  @override
+  int get hashCode {
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc($jc($jc(0, ANswers_index.hashCode), Flow_Index.hashCode),
+                    Chat_index.hashCode),
+                Answer_id.hashCode),
+            bubble_id.hashCode),
+        Want_Request.hashCode));
+  }
+
+  @override
+  String toString() {
+    return (newBuiltValueToStringHelper(r'ChoosePollFlowAnswer')
+          ..add('ANswers_index', ANswers_index)
+          ..add('Flow_Index', Flow_Index)
+          ..add('Chat_index', Chat_index)
+          ..add('Answer_id', Answer_id)
+          ..add('bubble_id', bubble_id)
+          ..add('Want_Request', Want_Request))
+        .toString();
+  }
+}
+
+class ChoosePollFlowAnswerBuilder
+    implements Builder<ChoosePollFlowAnswer, ChoosePollFlowAnswerBuilder> {
+  _$ChoosePollFlowAnswer? _$v;
+
+  int? _ANswers_index;
+  int? get ANswers_index => _$this._ANswers_index;
+  set ANswers_index(int? ANswers_index) =>
+      _$this._ANswers_index = ANswers_index;
+
+  int? _Flow_Index;
+  int? get Flow_Index => _$this._Flow_Index;
+  set Flow_Index(int? Flow_Index) => _$this._Flow_Index = Flow_Index;
+
+  int? _Chat_index;
+  int? get Chat_index => _$this._Chat_index;
+  set Chat_index(int? Chat_index) => _$this._Chat_index = Chat_index;
+
+  int? _Answer_id;
+  int? get Answer_id => _$this._Answer_id;
+  set Answer_id(int? Answer_id) => _$this._Answer_id = Answer_id;
+
+  int? _bubble_id;
+  int? get bubble_id => _$this._bubble_id;
+  set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
+
+  bool? _Want_Request;
+  bool? get Want_Request => _$this._Want_Request;
+  set Want_Request(bool? Want_Request) => _$this._Want_Request = Want_Request;
+
+  ChoosePollFlowAnswerBuilder();
+
+  ChoosePollFlowAnswerBuilder get _$this {
+    final $v = _$v;
+    if ($v != null) {
+      _ANswers_index = $v.ANswers_index;
+      _Flow_Index = $v.Flow_Index;
+      _Chat_index = $v.Chat_index;
+      _Answer_id = $v.Answer_id;
+      _bubble_id = $v.bubble_id;
+      _Want_Request = $v.Want_Request;
+      _$v = null;
+    }
+    return this;
+  }
+
+  @override
+  void replace(ChoosePollFlowAnswer other) {
+    ArgumentError.checkNotNull(other, 'other');
+    _$v = other as _$ChoosePollFlowAnswer;
+  }
+
+  @override
+  void update(void Function(ChoosePollFlowAnswerBuilder)? updates) {
+    if (updates != null) updates(this);
+  }
+
+  @override
+  ChoosePollFlowAnswer build() => _build();
+
+  _$ChoosePollFlowAnswer _build() {
+    final _$result = _$v ??
+        new _$ChoosePollFlowAnswer._(
+            ANswers_index: ANswers_index,
+            Flow_Index: Flow_Index,
+            Chat_index: Chat_index,
+            Answer_id: Answer_id,
+            bubble_id: bubble_id,
+            Want_Request: Want_Request);
+    replace(_$result);
+    return _$result;
+  }
+}
+
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

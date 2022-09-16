@@ -17,7 +17,7 @@ abstract class AceeptRequestModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   AceeptRequestModel._();

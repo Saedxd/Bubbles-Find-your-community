@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:developer';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
@@ -13,6 +14,8 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,7 +121,7 @@ class _Login2State extends State<Login2> {
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -128,10 +131,10 @@ class _Login2State extends State<Login2> {
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -147,10 +150,10 @@ class _Login2State extends State<Login2> {
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -165,8 +168,8 @@ class _Login2State extends State<Login2> {
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontSize: 16.sp,
+                                    letterSpacing: 0,
                                     fontWeight: FontWeight.w600,
                                     height: 1
                                 ),),
@@ -185,10 +188,10 @@ class _Login2State extends State<Login2> {
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -202,8 +205,8 @@ class _Login2State extends State<Login2> {
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontSize: 20.sp,
+                                            letterSpacing: 0,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -219,7 +222,7 @@ class _Login2State extends State<Login2> {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -251,7 +254,7 @@ class _Login2State extends State<Login2> {
     ColorScheme ColorS = Theme.of(context).colorScheme;
 
     return WillPopScope(
-        onWillPop: () async => false,
+        onWillPop: () async => true,
         child: GestureDetector(
           onTap: () {
             Changed3 = false;
@@ -266,11 +269,11 @@ class _Login2State extends State<Login2> {
                   if (state.data!.msg == "success") {
                     SetNotFirstTime();
                     pref.saveUser(
-                      state.data as UserData,
+                      state.data!.user!,
                       state.data!.user!.token!,
                       true,
                     );
-                    WidgetsBinding.instance!.addPostFrameCallback((_){
+                    WidgetsBinding.instance.addPostFrameCallback((_){
                       Navigator.of(context).push(
                         CupertinoPageRoute(
                           builder: (BuildContext context) {
@@ -283,7 +286,7 @@ class _Login2State extends State<Login2> {
                     DiDitOnce = false;
                   } else if (state.data!.msg == "Email or password incorrect") {
                     Future.delayed(Duration.zero, () {
-                      CommingSoonPopup(Context, h, w, "Your password or email is Incorrect","Ok!",24);
+                      CommingSoonPopup(Context, h, w, "Your password or email is Incorrect","Ok",24);
                     });
                     DiDitOnce = false;
                   }
@@ -303,110 +306,117 @@ class _Login2State extends State<Login2> {
                           child: Container(
                               width: w,
                               height: h,
+                              margin: EdgeInsets.only(top: 58.h),
                               child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   Container(
-                                    width: w / 1.39,
-                                    height: h / 13,
-                                    child: SvgPicture.asset(
-                                        "Assets/images/Logo.svg",
-                                        fit: BoxFit.fill),
+                                    width: w/1.32,
+                                    child :
+                                    AspectRatio(
+                                      aspectRatio: 50/10, //aspect ratio for Image
+                                      child: SvgPicture.asset(
+                                          "Assets/images/Logo.svg",
+                                          fit: BoxFit.fill),
+                                    ),
                                   ),
-                                  Column(
-                                    children: [
-                                      const Text(""),
-                                      Column(
-                                        children: [
+
+
                                           Container(
-                                              width: w / 1.30,
+                                              width: w / 1.32,
                                               height: h/10,
+                                              margin: EdgeInsets.only(top: 165.h),
                                               child: Form(
                                                 autovalidateMode:
                                                     AutovalidateMode
                                                         .onUserInteraction,
                                                 key: _formkey1,
                                                 child: TextFormField(
-                                                  keyboardAppearance:
-                                                      Brightness.dark,
-                                                  textInputAction:
-                                                      TextInputAction.next,
-
+                                                  keyboardAppearance:  Brightness.dark,
+                                                  textInputAction: TextInputAction.next,
                                                   controller: _PassController,
-                                                  onChanged: (value) {
-                                                  },
-                                                  onFieldSubmitted: (value) {
-                                                  },
+                                                  onChanged: (value) { },
+                                                  onFieldSubmitted: (value) {},
                                                   validator: MultiValidator([
                                                     RequiredValidator(
                                                         errorText: "Required"),
                                                   ]),
-                                                  // cursorColor: Colors.black,
-                                                  cursorHeight: 21,
-                                                  // cursorRadius:const Radius.circular(2),
-                                                //  textAlignVertical: TextAlignVertical.top,
-                                              //    textAlignVertical: TextAlignVertical.center,
-                                                  style: const TextStyle(
-                                                      fontSize: 19,
+                                                  cursorHeight: 15.h,
+                                                  style:  TextStyle(
+                                                      fontSize: 15.sp,
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      height: 1.3 //Add this
+                                                      height: 1.h //Add this
                                                       ,
                                                       color: Colors.brown),
                                                   decoration: InputDecoration(
 
                                                       errorStyle: TextStyle(
+
                                                         color: Colors.red,
                                                       ),
                                                       errorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Colors.white,
-                                                            width: 0.0),
+                                                      OutlineInputBorder(
+
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.r),
+                                                          borderSide:
+                                                          BorderSide(
+                                                              color: Colors
+                                                                  .white,
+                                                              width: 0.0),
+
                                                       ),
                                                       focusedErrorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Colors.white,
-                                                            width: 0.0),
+                                                      OutlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(
+                                                              color: Colors
+                                                                  .white,
+                                                              width: 0.0),
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.r)
                                                       ),
                                                       border:
-                                                          OutlineInputBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          5)),
-                                                      enabledBorder:
-                                                          UnderlineInputBorder(
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: Colors
-                                                                    .white),
+                                                      OutlineInputBorder(
                                                         borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
+                                                        BorderRadius
+                                                            .circular(
+                                                            5.r),
+
+                                                      ),
+                                                      counterText: ' ',
+                                                      enabledBorder:
+                                                      UnderlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(
+                                                              color: Colors
+                                                                  .white),
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.r)
                                                       ),
                                                       focusedBorder:
-                                                          UnderlineInputBorder(
-                                                        borderSide:
-                                                            const BorderSide(
-                                                                color: Colors
-                                                                    .white),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(5),
+                                                      UnderlineInputBorder(
+                                                          borderSide:
+                                                          BorderSide(
+                                                              color: Colors
+                                                                  .white),
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              5.r)
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors.white,
-
-                                                      contentPadding: EdgeInsets.only(left: h/100),
+                                                      contentPadding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 7.h),
                                                       hintText: "Password",
                                                       hintStyle: _TextTheme.headline6!.copyWith(
-                                                        fontSize: 3.6 *
-                                                            SizeConfig
-                                                                .blockSizeVertical!
-                                                                .toDouble(),
+                                                        fontSize: 22.sp,
                                                       )),
                                                   keyboardType:
                                                       TextInputType.text,
@@ -431,26 +441,29 @@ class _Login2State extends State<Login2> {
                                                         ..fcmToken = Fcmtoken));
                                                   DiDitOnce = true;
                                                 } else {
-                                                  print(
-                                                      'No internet :( Reason:');
-                                                  CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
+                                                  AnimatedSnackBar.material(
+                                                  'Check your internet connection',
+                                                  duration: Duration(seconds: 2),
+                                                  type: AnimatedSnackBarType.error,
+                                                ).show(
+                                                  context,
+                                                );
                                                 }
                                               }
                                             },
                                             child: Container(
-                                                width: w / 1.30,
+                                                width: w / 1.32,
                                                 height: h / 13.9,
-                                                decoration: const BoxDecoration(
+                                                // margin: EdgeInsets.only(top: 10.h),
+                                                decoration:  BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.only(
-                                                    topLeft: Radius.circular(5),
-                                                    topRight:
-                                                        Radius.circular(5),
-                                                    bottomLeft:
-                                                        Radius.circular(5),
-                                                    bottomRight:
-                                                        Radius.circular(5),
+                                                        topLeft: Radius.circular( 7.r),
+                                                        topRight:Radius.circular( 7.r),
+                                                        bottomLeft: Radius.circular( 7.r),
+                                                        bottomRight:Radius.circular( 7.r),
                                                   ),
+
                                                   boxShadow: [
                                                     BoxShadow(
                                                         color: Color.fromRGBO(
@@ -472,55 +485,47 @@ class _Login2State extends State<Login2> {
                                                     style:
                                                     _TextTheme.headline1!.copyWith(
                                                         fontWeight: FontWeight.w600,
-                                                      fontSize: 3 *
-                                                          SizeConfig
-                                                              .blockSizeVertical!
-                                                              .toDouble(),
+                                                      fontSize: 18.sp,
                                                     ),),
                                                 )),
                                           ),
-                                          const Text(""),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
+
+
+
                                           InkWell(
                                             onTap: () {
-                                              WidgetsBinding.instance!
+                                              WidgetsBinding.instance
                                                   .addPostFrameCallback((_) {
                                                 Navigator.pop(context);
                                               });
                                             },
-                                            child: const Text(
-                                              '< Back',
-                                              textAlign: TextAlign.left,
-                                              style: const TextStyle(
-                                                  color: const Color.fromRGBO(
-                                                      255, 255, 255, 1),
-                                                  fontFamily: 'Red Hat Text',
-                                                  fontSize: 20,
-                                                  letterSpacing:
-                                                      0,
-                                                  fontWeight: FontWeight.w300,
-                                                  height: 1),
+                                            child:  Row(
+                                              children: [
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 12.h,left: 51.w),
+                                                  child: Text(
+                                                    '< Back',
+                                                    textAlign: TextAlign.left,
+                                                    style:  TextStyle(
+                                                        color:  Color.fromRGBO(
+                                                            255, 255, 255, 1),
+                                                        fontFamily: 'Red Hat Text',
+                                                        fontSize: 20.sp,
+                                                        letterSpacing:
+                                                            0,
+                                                        fontWeight: FontWeight.w300,
+                                                        height: 1),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
+                            ]
 
-                                          const Text(""),
-                                          const Text(""),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                  const Text(""),
-                                ],
-                              )),
+
+                              ),
                         ),
+                ),
                         state.isLoading == true
                             ? Center(child: listLoader(context: context))
                             : Container(),
@@ -533,9 +538,9 @@ class _Login2State extends State<Login2> {
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 //           Container(

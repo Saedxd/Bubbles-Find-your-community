@@ -16,7 +16,7 @@ abstract class ChangeAvatarModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   ChangeAvatarModel._();

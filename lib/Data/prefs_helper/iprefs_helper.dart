@@ -1,5 +1,6 @@
 
 
+import 'package:bubbles/models/UserDataModel/User.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,9 +20,12 @@ abstract class IPrefsHelper {
   Future<void> SetToken(String token);
   Future<int> getUserId();
   Future<void> SetLatLng(double Lat,double Lng);
-  Future<void> saveUser(UserData user, String token,bool active);
+  Future<void> saveUser(UserModel user, String token,bool active);
+
   Future<void> SETISsoical();
   Future<bool> GETISsoical();
+
+
   Future<void> SetThemeON() ;
   Future<bool> GetThemeON() ;
 
@@ -35,16 +39,23 @@ abstract class IPrefsHelper {
   Future<void> logout();
 
 
+
+  Future<void> SetIsCreator(int Creatorr);
+  Future<int> GetIsCreator();
   Future<bool> getIsLogin();
 
-  Future<String> getimage();
-  // Future<String> getMobileNumber();
-  Future<void> setIMage(String Image);
+  Future<String> GetTimeZone();
+  Future<void> SetTimeZone(String TimeZone);
 
 
-// Future<UserData> getUser();
- Future<bool> getNotification();
- Future<void> setNotification(bool value);
+ // Future<String> getimage();
+
+ // Future<void> setIMage(String Image);
+
+
+ Future<UserModel> getUser();
+//  Future<bool> getNotification();
+//  Future<void> setNotification(bool value);
 // Future<void> SetEmail(String Email);
 // Future<void> Setpass(String pass);
 // Future<String> Getpass();

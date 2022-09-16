@@ -21,6 +21,13 @@ class _$GetQuestionsModelSerializer
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     value = object.msg;
     if (value != null) {
       result
@@ -57,6 +64,10 @@ class _$GetQuestionsModelSerializer
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
         case 'msg':
           result.msg = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
@@ -80,6 +91,8 @@ class _$GetQuestionsModelSerializer
 
 class _$GetQuestionsModel extends GetQuestionsModel {
   @override
+  final String? error;
+  @override
   final String? msg;
   @override
   final int? statuscode;
@@ -90,7 +103,7 @@ class _$GetQuestionsModel extends GetQuestionsModel {
           [void Function(GetQuestionsModelBuilder)? updates]) =>
       (new GetQuestionsModelBuilder()..update(updates))._build();
 
-  _$GetQuestionsModel._({this.msg, this.statuscode, this.questions})
+  _$GetQuestionsModel._({this.error, this.msg, this.statuscode, this.questions})
       : super._();
 
   @override
@@ -105,6 +118,7 @@ class _$GetQuestionsModel extends GetQuestionsModel {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is GetQuestionsModel &&
+        error == other.error &&
         msg == other.msg &&
         statuscode == other.statuscode &&
         questions == other.questions;
@@ -113,12 +127,14 @@ class _$GetQuestionsModel extends GetQuestionsModel {
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, msg.hashCode), statuscode.hashCode), questions.hashCode));
+        $jc($jc($jc(0, error.hashCode), msg.hashCode), statuscode.hashCode),
+        questions.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetQuestionsModel')
+    return (newBuiltValueToStringHelper(r'GetQuestionsModel')
+          ..add('error', error)
           ..add('msg', msg)
           ..add('statuscode', statuscode)
           ..add('questions', questions))
@@ -129,6 +145,10 @@ class _$GetQuestionsModel extends GetQuestionsModel {
 class GetQuestionsModelBuilder
     implements Builder<GetQuestionsModel, GetQuestionsModelBuilder> {
   _$GetQuestionsModel? _$v;
+
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
 
   String? _msg;
   String? get msg => _$this._msg;
@@ -149,6 +169,7 @@ class GetQuestionsModelBuilder
   GetQuestionsModelBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
+      _error = $v.error;
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _questions = $v.questions?.toBuilder();
@@ -176,7 +197,10 @@ class GetQuestionsModelBuilder
     try {
       _$result = _$v ??
           new _$GetQuestionsModel._(
-              msg: msg, statuscode: statuscode, questions: _questions?.build());
+              error: error,
+              msg: msg,
+              statuscode: statuscode,
+              questions: _questions?.build());
     } catch (_) {
       late String _$failedField;
       try {
@@ -184,7 +208,7 @@ class GetQuestionsModelBuilder
         _questions?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetQuestionsModel', _$failedField, e.toString());
+            r'GetQuestionsModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -193,4 +217,4 @@ class GetQuestionsModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

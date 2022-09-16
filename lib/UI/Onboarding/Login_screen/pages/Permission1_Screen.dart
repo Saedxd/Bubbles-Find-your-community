@@ -3,8 +3,10 @@ import 'package:bubbles/Injection.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
+
 
 
 import 'Permission2_Screen.dart';
@@ -100,16 +102,16 @@ Column(
           children: [
 
             SvgPicture.asset("Assets/images/Frame100.svg",width: w/5.5,),
-            SizedBox(width: 13,),
+            SizedBox(width: 13.w,),
             SvgPicture.asset("Assets/images/Enable Location Services.svg",width: w/2.4),
-            SizedBox(width: h/25,),
+            SizedBox(width: w/25,),
           ],),
       ),
     ),
     Center(
       child: Container(
         width: w/1.4,
-        height: h/6,
+        height: h/3,
         margin: EdgeInsets.only(bottom: h/50,top: h/40),
         child:   Text("""We use your location
 to show you nearby
@@ -120,10 +122,7 @@ access them""",
             letterSpacing: .9,
             wordSpacing: 2,
             fontWeight: FontWeight.w300,
-            fontSize: 3.4 *
-                SizeConfig
-                    .blockSizeVertical!
-                    .toDouble(),
+            fontSize: 20.sp,
           ),),
       ),
     ),
@@ -137,7 +136,7 @@ access them""",
                     InkWell(
                       onTap: (){
                         _determinePosition();
-                        WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                        WidgetsBinding.instance.addPostFrameCallback((_) =>
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -150,14 +149,14 @@ access them""",
                         );
                       },
                       child: Container(
-                        width: w/1.2,
+                        width: w/1.32,
                         height: h/15,
-                        decoration: const BoxDecoration(
+                        decoration:  BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            topRight: Radius.circular(5),
-                            bottomLeft: Radius.circular(5),
-                            bottomRight: Radius.circular(5),
+                            topLeft: Radius.circular(5.r),
+                            topRight:Radius.circular(5.r),
+                            bottomLeft: Radius.circular(5.r),
+                            bottomRight:Radius.circular(5.r),
                           ),
                           boxShadow : [BoxShadow(
                               color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
@@ -168,14 +167,16 @@ access them""",
                         ),
                         child: Center(
                           child: Text('Enable', textAlign: TextAlign.center,       style:
-                          _TextTheme.headline1,),
+                          _TextTheme.headline1!.copyWith(
+                             fontSize:  20.sp
+                          ),),
                         ),
                       ),
                     ),
                 Text(""),
                 InkWell(
                   onTap: (){
-                    WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                    WidgetsBinding.instance.addPostFrameCallback((_) =>
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
@@ -194,8 +195,8 @@ access them""",
                     child: Text('Not Now', textAlign: TextAlign.center, style: TextStyle(
                         color: Color.fromRGBO(47, 47, 47, 1),
                         fontFamily: 'Red Hat Text',
-                        fontSize: 18,
-                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                        fontSize: 18.sp,
+                        letterSpacing: 0.1,
                         fontWeight: FontWeight.w300,
                         height: 1
                     ),),

@@ -18,7 +18,7 @@ abstract class DenyFriendRequestModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   DenyFriendRequestModel._();

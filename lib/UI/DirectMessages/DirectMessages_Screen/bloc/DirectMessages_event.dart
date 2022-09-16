@@ -54,3 +54,12 @@ abstract class DeleteFromList extends DirectMessagesEvent
   DeleteFromList._();
   factory DeleteFromList([updates(DeleteFromListBuilder b)]) = _$DeleteFromList;
 }
+
+
+abstract class DeleteChat extends DirectMessagesEvent
+    implements Built<DeleteChat,DeleteChatBuilder> {
+  int? get Reciver_id;
+  String? get send_by;
+  DeleteChat._();
+  factory DeleteChat([updates(DeleteChatBuilder b)]) = _$DeleteChat;
+}

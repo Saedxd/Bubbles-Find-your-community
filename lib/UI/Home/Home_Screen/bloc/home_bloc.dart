@@ -5,11 +5,11 @@ import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/prefs_helper/prefs_helper.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
 import 'package:bubbles/Injection.dart';
+
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_event.dart';
 import 'package:bubbles/UI/Home/Home_Screen/bloc/home_state.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
-import 'package:bubbles/UI/Home/Options_screen/data/data.dart';
-
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'dart:ui' as ui;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -80,12 +80,69 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(
       HomeEvent event,
       ) async* {
+    if (event is Change_Is_Creator) {
+      try {
 
+        yield state.rebuild((b) => b
+          ..is_Creator = event.ChangeISCreator
+        );
+
+      } catch (e) {
+
+        print('get Error $e Change_Is_Creator');
+        yield state.rebuild((b) => b
+        );
+
+      }
+    }
+    if (event is SaveStatusInDetailUi) {
+      try {
+
+        yield state.rebuild((b) => b
+          ..DetailUiSaveStatus = event.status
+            ..DetailUiSaveID = event.Bubble_IDS
+        );
+
+      } catch (e) {
+
+        print('get Error $e SaveStatusInDetailUi');
+        yield state.rebuild((b) => b
+        );
+
+      }
+    }
+    if (event is ChangeSaveStatusInDetailUi) {
+      try {
+        print(event.status!);
+
+
+        yield state.rebuild((b) => b
+          ..DetailUiSaveISloading = true
+        );
+        yield state.rebuild((b) => b
+          ..DetailUiSaveStatus![event.index!] = event.status!
+        );
+
+        yield state.rebuild((b) => b
+          ..DetailUiSaveISloading = false
+        );
+        if(event.Want_Request!) {
+          final date = await _repository.SaveBubble(event.bubble_id!);
+        }
+
+      } catch (e) {
+
+        print('get Error $e');
+        yield state.rebuild((b) => b
+        );
+
+      }
+    }
     if (event is ClearError) {
       yield state.rebuild((b) => b..error = "");
     }
-    if (event is ChangeValue) {
 
+    if (event is ChangeValue) {
       try {
         yield state.rebuild((b) => b
            ..Value = event.Value!
@@ -144,29 +201,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
 
     if (event is UserMoved){
-   // final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
-
-
-
-
-
-      // await BitmapDescriptor.(ImageConfiguration(size: Size(12, 12)),
-      //     'Assets/images/Map-Marker-Free-Download-PNG.png').then((d) {
-      //   customIcon =BitmapDescriptor.fromBytes(d);
-      //
-      // });
-     // await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(2, 2)),
-     //      'Assets/images/DefaultAvatar.png').then((d) {
-     //   customIMAGE = d;
-     // });
-
-
-
-
-
+    final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
+//
+//
+//
+//
+//
+//       // await BitmapDescriptor.(ImageConfiguration(size: Size(12, 12)),
+//       //     'Assets/images/Map-Marker-Free-Download-PNG.png').then((d) {
+//       //   customIcon =BitmapDescriptor.fromBytes(d);
+//       //
+//       // });
+//      // await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(2, 2)),
+//      //      'Assets/images/DefaultAvatar.png').then((d) {
+//      //   customIMAGE = d;
+//      // });
+//
+//
+//
+//
+// print("usermoved");
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = true
-        ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= false
       );
 
@@ -174,14 +230,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
        draggable: false,
          markerId:  const MarkerId("UserLocationImage"),
          position:  LatLng(event.lat!,event.lng!),
-         icon: BitmapDescriptor.fromBytes(event.Uint8!.buffer.asUint8List()),
+         icon: BitmapDescriptor.fromBytes(markerIcon1),
          onTap: (){}
      ));
 
 
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = false
-        ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= true
           ..Userlng= event.lng
           ..Userlat = event.lat
@@ -196,34 +251,34 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ..MakeHimBEableTOSEtBubble = event.MakeHimBEableTOSEtBubbles!
       );
     }
-    if (event is Getprofile) {
-      try {
-        yield state.rebuild((b) => b
-          ..GetprofileISloading = true
-          ..GetprofileSuccess= false
-          ..ProfileDate=null
-        );
+    // if (event is Getprofile) {
+    //   try {
+    //     yield state.rebuild((b) => b
+    //       ..GetprofileISloading = true
+    //       ..GetprofileSuccess= false
+    //       ..ProfileDate=null
+    //     );
+    //
+    //     final date = await _repository.GetProfile();
+    //     print(date);
+    //
+    //     yield state.rebuild((b) => b
+    //
+    //       ..ProfileDate.replace(date)
+    //       ..GetprofileISloading = false
+    //       ..GetprofileSuccess= true
+    //     );
+    //
+    //   } catch (e) {
+    //     print('get Error $e OpenDoorTObeAbleTOsetBubble');
+    //     yield state.rebuild((b) => b
+    //       ..GetprofileISloading = false
+    //       ..GetprofileSuccess= false
+    //     );
+    //   }
+    // }
 
-        final date = await _repository.GetProfile();
-        print(date);
-
-        yield state.rebuild((b) => b
-
-          ..ProfileDate.replace(date)
-          ..GetprofileISloading = false
-          ..GetprofileSuccess= true
-        );
-
-      } catch (e) {
-        print('get Error $e OpenDoorTObeAbleTOsetBubble');
-        yield state.rebuild((b) => b
-          ..GetprofileISloading = false
-          ..GetprofileSuccess= false
-        );
-      }
-    }
-
-    if (event is CreateBubbless) {
+    if (event is SetNewBubble) {
       // try {
       //  final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
 Circle Circle22 = Circle(
@@ -243,22 +298,27 @@ Marker Marker22 = Marker(
 
 yield state.rebuild((b) => b
   ..GetAllBubblesIsloading = true
-  ..GetAllBubblesError = ""
   ..GetAllBubblesSuccess= false
     ..Bubble_lat = event.lat
     ..Bubble_lng = event.lng
 );
 
-        yield state.rebuild((b) => b
-            ..circle!.add(Circle22)
-             ..marker2!.add(Marker22)
-        );
+state.NewBubble_circle!.clear();
+state.NewBubble_circle!.clear();
+
+yield state.rebuild((b) => b
+  ..NewBubble_circle!.add(Circle22)
+ ..NewBubble_marker2!.add(Marker22)
+);
+
+      print("BUBBLE length :${state.circle!.length} ");
+
+
 
 
 
 yield state.rebuild((b) => b
   ..GetAllBubblesIsloading = false
-  ..GetAllBubblesError = ""
   ..GetAllBubblesSuccess= true
 );
 
@@ -274,51 +334,100 @@ yield state.rebuild((b) => b
       // );
       // }
     }
+//     if (event is RaduisUpdated) {
+// //       // try {
+// //       //  final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
+// // Circle Circle22 = Circle(
+// //     circleId: const CircleId("New bubble"),
+// //     radius: event.Radius!,
+// //     zIndex: 2,
+// //     strokeColor: Colors.transparent,
+// //     center: LatLng(event.lat! ,event.lng!),
+// //     fillColor: Colors.red.withAlpha(100));
+// //
+// // Marker Marker22 = Marker(
+// //   draggable: false,
+// //   markerId:  const MarkerId("New Marker"),
+// //   position: LatLng(event.lat! ,event.lng!),
+// //   //  icon: BitmapDescriptor.fromBytes(markerIcon),
+// // );
+// //
+// yield state.rebuild((b) => b
+//   ..GetAllBubblesIsloading = true
+//
+//   ..GetAllBubblesSuccess= false
+// );
+//       print(state.circle!.elementAt(0).radius);
+//      //  state.circle!.elementAt(0).radius = event.Radius;
+//
+//        print(state.circle!.elementAt(0).radius);
+//
+//         print("BUBBLE length :${state.circle!.length} ");
+//
+//
+//
+// yield state.rebuild((b) => b
+//   ..GetAllBubblesIsloading = false
+//
+//   ..GetAllBubblesSuccess= true
+// );
+//
+//         print("BUBBLE CREATED");
+//       // } catch (e) {
+//       // print(e);
+//       // print('CreateBubbless');
+//       //
+//       // yield state.rebuild((b) => b
+//       //   ..GetAllBubblesIsloading = false
+//       //   ..GetAllBubblesError = "Error"
+//       //   ..GetAllBubblesSuccess= false
+//       // );
+//       // }
+//     }
 
     if (event is DeleteBubble) {
       try {
-        //  final   Uint8List   markerIcon = await getBytesFromAsset('Assets/images/Simple Pin(1).png', 50);
 
-        Circle Circle22 =  Circle(
-            circleId: CircleId("New bubble"),
-          radius: 0,
-          visible: false
-     );
-        Marker Marker22 =  Marker(
-            draggable: false,
-            markerId:   MarkerId("New Marker"),
-          //  icon: BitmapDescriptor.fromBytes(markerIcon),
-            visible: false,
-          onDrag: (LatLng){
-              print("SAEDDD");
-          }
-        );
 
         yield state.rebuild((b) => b
           ..GetAllBubblesIsloading = true
-          ..GetAllBubblesError = ""
           ..GetAllBubblesSuccess= false
         );
 
-        yield state.rebuild((b) => b
-          ..circle!.add(Circle22)
-          ..marker2!.add(Marker22)
-        );
+     //    Circle Circle22 =  Circle(
+     //        circleId: const CircleId("New bubble"),
+     //      radius: 0,
+     //        center: LatLng(0,0),
+     //        strokeColor: Colors.transparent,
+     //      fillColor: Colors.transparent,
+     //      visible: false
+     // );
+     //    Marker Marker22 =  Marker(
+     //        draggable: false,
+     //        markerId:  const MarkerId("New Marker"),
+     //      //  icon: BitmapDescriptor.fromBytes(markerIcon),
+     //        visible: false,
+     //      position:  LatLng(0,0),
+     //      onDrag: (LatLng){
+     //          print("SAEDDD");
+     //      }
+     //    );
+
+
+     //
+     //    yield state.rebuild((b) => b
+     //      ..circle!.add()
+     //      ..marker2!.add(Marker22)
+     //    );
 
         yield state.rebuild((b) => b
           ..GetAllBubblesIsloading = false
-          ..GetAllBubblesError = ""
           ..GetAllBubblesSuccess= false
         );
-
 
 
       } catch (e) {
         print(e);
-
-        yield state.rebuild((b) => b
-          ..ValueLOading = false
-        );
       }
     }
     if (event is ClearMarkers) {
@@ -376,6 +485,7 @@ state.marker2!.clear();
           ||  BubbbleOBject.Title!.toLowerCase().contains(event.Keyword!.toLowerCase())
           ||   BubbbleOBject.Creator_Alias!.toLowerCase().contains(event.Keyword!.toLowerCase())
           ) {
+            //todo : remove one of the objects of one of them contains Same id
             state.FilteredBubbleList!.add(BubbbleOBject);
           }
 
@@ -456,13 +566,16 @@ state.marker2!.clear();
 
           BubbleData Bubbledata = BubbleData();
           if (      state.GetNearbyBubbles!.data![i].type.toString()!="Prime"){
-            Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
-            Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
-            Bubbledata.dates = state.GetNearbyBubbles!.data![i].dates!;
 
+          Bubbledata.StartDate = state.GetNearbyBubbles!.data![i].start_event_date.toString();
+          Bubbledata.isAvailable =
+              state.GetNearbyBubbles!.data![i].is_available.toString()=="available"
+                  ? true
+                  :false;
+          Bubbledata.endDate =state.GetNearbyBubbles!.data![i].end_event_date.toString();
+          Bubbledata.dates = state.GetNearbyBubbles!.data![i].dates!;
           Bubbledata.Title = state.GetNearbyBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNearbyBubbles!.data![i].location.toString();
-
           Bubbledata.image = state.GetNearbyBubbles!.data![i].images![0].image.toString();
           Bubbledata.id = state.GetNearbyBubbles!.data![i].id!.toInt();
           Bubbledata.TYPE = state.GetNearbyBubbles!.data![i].type.toString();
@@ -473,10 +586,11 @@ state.marker2!.clear();
           Bubbledata.Description = state.GetNearbyBubbles!.data![i].description.toString();
           String Value = state.GetNearbyBubbles!.data![i].color.toString();
           Bubbledata.Organizers = state.GetNearbyBubbles!.data![i].organizers!;
-          Bubbledata.Category = state.GetNearbyBubbles!.data![i].category!;
+          Bubbledata.Category =  state.GetNearbyBubbles!.data![i].category!.name!;
           Bubbledata.is_Saved = state.GetNearbyBubbles!.data![i].is_save;
           Bubbledata.users_in_bubble = state.GetNearbyBubbles!.data![i].users_in_bubble!;
           Bubbledata.saved_users = state.GetNearbyBubbles!.data![i].saved_users!;
+            Bubbledata.Cateogory_Icon =  state.GetNearbyBubbles!.data![i].category!.image!;
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
             Value = "0xff$Value";
@@ -493,7 +607,6 @@ state.marker2!.clear();
         }
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = false
-          ..GetNewBubblesError = ""
           ..GetNewBubblesSuccess= true
         );
 
@@ -526,6 +639,11 @@ state.marker2!.clear();
 
           BubbleData Bubbledata = BubbleData();
           if (      state.GetPopularNowBubbles!.data![i].type.toString()!="Prime") {
+            Bubbledata.isAvailable =
+            state.GetPopularNowBubbles!.data![i].is_available.toString()=="available"
+                ? true
+                :false;
+            Bubbledata.Cateogory_Icon =  state.GetPopularNowBubbles!.data![i].category!.image!;
             Bubbledata.Title =
                 state.GetPopularNowBubbles!.data![i].title.toString();
             Bubbledata.location =
@@ -560,7 +678,7 @@ state.marker2!.clear();
             Bubbledata.dates = state.GetPopularNowBubbles!.data![i].dates!;
             Bubbledata.is_Saved = state.GetPopularNowBubbles!.data![i].is_save;
             Bubbledata.Category =
-            state.GetPopularNowBubbles!.data![i].category!;
+            state.GetPopularNowBubbles!.data![i].category!.name!;
             Bubbledata.users_in_bubble =
             state.GetPopularNowBubbles!.data![i].users_in_bubble!;
             Bubbledata.saved_users =
@@ -592,10 +710,9 @@ state.marker2!.clear();
       }
     }
     if (event is GetAllBubbles) {
-
+try{
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = true
-        ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= false
         ..GetBubbles=null
       );
@@ -605,7 +722,6 @@ state.marker2!.clear();
 
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = true
-        ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= false
         ..GetBubbles.replace(date)
       );
@@ -664,30 +780,28 @@ state.marker2!.clear();
 
       yield state.rebuild((b) => b
         ..GetAllBubblesIsloading = false
-        ..GetAllBubblesError = ""
         ..GetAllBubblesSuccess= true
       );
-      //
-      //
-      // } catch (e) {
-      //   print('get Error $e');
-      //   yield state.rebuild((b) => b
-      //     ..GetAllBubblesIsloading = false
-      //     ..GetAllBubblesError = "Something went wrong"
-      //     ..GetAllBubblesSuccess = false
-      //     ..GetBubbles = null
-      //   );
-      // }
+
+
+      } catch (e) {
+        print('get Error $e GetAllBubbles');
+        yield state.rebuild((b) => b
+          ..GetAllBubblesIsloading = false
+          ..GetAllBubblesError = "Something went wrong"
+          ..GetAllBubblesSuccess = false
+        );
+      }
     }
     if (event is GetPrimeBubbles) {
-
+try{
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = true
           ..GetNewBubblesSuccess= false
           ..GetPrimeBubbles=null
         );
 
-        final date = await _repository.GetPrimeBubblees();
+        final date = await _repository.NearByPrimes(event.lat!, event.lng!);
         print(date);
 
         yield state.rebuild((b) => b
@@ -704,9 +818,9 @@ state.marker2!.clear();
 
           Bubbledata.Title = state.GetPrimeBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetPrimeBubbles!.data![i].location.toString();
-
-          Bubbledata.StartDate = state.GetPrimeBubbles!.data![i].start_event_date.toString();
-          Bubbledata.endDate =state.GetPrimeBubbles!.data![i].end_event_date.toString();
+          //
+          // Bubbledata.StartDate = state.GetPrimeBubbles!.data![i].start_event_date.toString();
+          // Bubbledata.endDate =state.GetPrimeBubbles!.data![i].end_event_date.toString();
           Bubbledata.image = state.GetPrimeBubbles!.data![i].images![0].image.toString();
           Bubbledata.id = state.GetPrimeBubbles!.data![i].id!.toInt();
           Bubbledata.type = state.GetPrimeBubbles!.data![i].type.toString();
@@ -717,11 +831,11 @@ state.marker2!.clear();
           Bubbledata.Description = state.GetPrimeBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetPrimeBubbles!.data![i].organizers!;
           Bubbledata.is_Saved = state.GetPrimeBubbles!.data![i].is_save!;
-          Bubbledata.Category = state.GetPrimeBubbles!.data![i].category!;
+          Bubbledata.Category = state.GetPrimeBubbles!.data![i].category!.name!;
           Bubbledata.users_in_bubble = state.GetPrimeBubbles!.data![i].users_in_bubble!;
           Bubbledata.saved_users = state.GetPrimeBubbles!.data![i].saved_users!;
           String Value = state.GetPrimeBubbles!.data![i].color.toString();
-
+          Bubbledata.Cateogory_Icon =  state.GetPrimeBubbles!.data![i].category!.image!;
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
             Value = "0xff$Value";
@@ -739,10 +853,19 @@ state.marker2!.clear();
           ..GetNewBubblesSuccess= true
         );
 
+    } catch (e) {
+    print('get Error $e GetPrimeBubbles');
+    yield state.rebuild((b) => b
+    ..GetAllBubblesIsloading = false
 
+    ..GetAllBubblesSuccess = false
+
+
+    );
+    }
     }
     if (event is GetNewBubbles) {
-
+try {
         yield state.rebuild((b) => b
           ..GetNewBubblesIsloading = true
           ..GetNewBubblesError = ""
@@ -765,11 +888,15 @@ state.marker2!.clear();
 
           BubbleData Bubbledata = BubbleData();
 if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
+  Bubbledata.isAvailable =
+  state.GetNewBubbles!.data![i].is_available.toString()=="available"
+      ? true
+      :false;
   Bubbledata.StartDate = state.GetNewBubbles!.data![i].start_event_date.toString();
   Bubbledata.endDate =state.GetNewBubbles!.data![i].end_event_date.toString();
   Bubbledata.dates = state.GetNewBubbles!.data![i].dates!;
 
-          Bubbledata.Category = state.GetNewBubbles!.data![i].category!;
+          Bubbledata.Category = state.GetNewBubbles!.data![i].category!.name!;
           Bubbledata.Title = state.GetNewBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetNewBubbles!.data![i].location.toString();
 
@@ -786,7 +913,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           Bubbledata.saved_users = state.GetNewBubbles!.data![i].saved_users!;
           String Value = state.GetNewBubbles!.data![i].color.toString();
           Bubbledata.is_Saved = state.GetNewBubbles!.data![i].is_save;
-
+  Bubbledata.Cateogory_Icon =  state.GetNewBubbles!.data![i].category!.image!;
           if (Value.contains("#", 0)) {
             Value = Value.substring(1);
             Value = "0xff$Value";
@@ -807,7 +934,178 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           ..GetNewBubblesSuccess= true
         );
 
+    } catch (e) {
+    print('get Error $e GetNewBubbles');
+    yield state.rebuild((b) => b
+    ..GetAllBubblesIsloading = false
 
+    ..GetAllBubblesSuccess = false
+
+
+    );
+    }
+
+
+    }
+    if (event is GetUpcomingBubbles) {
+try{
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= false
+          ..GetNewBubbles=null
+        );
+
+        final date = await _repository.GetUpcomingBubbles();
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= false
+          ..GetUpcomingBubbles.replace(date)
+        );
+        state.BUBBLElistS5!.clear();
+        for(int i=0;i<state.GetUpcomingBubbles!.data!.length;i++){
+
+
+          BubbleData Bubbledata = BubbleData();
+          String Value = state.GetUpcomingBubbles!.data![i].color.toString();
+          if (Value.contains("#", 0)) {
+            Value = Value.substring(1);
+            Value = "0xff$Value";
+          }
+          var myInt = int.parse(Value);
+          var BackgroundColor = myInt;
+
+          if (state.GetUpcomingBubbles!.data![i].type.toString()!="Prime"){
+            Bubbledata.isAvailable =
+            state.GetUpcomingBubbles!.data![i].is_available.toString()=="available"
+                ? true
+                :false;
+          Bubbledata.StartDate = state.GetUpcomingBubbles!.data![i].start_event_date.toString();
+          Bubbledata.endDate =state.GetUpcomingBubbles!.data![i].end_event_date.toString();
+          Bubbledata.dates = state.GetUpcomingBubbles!.data![i].dates!;
+          Bubbledata.Category = state.GetUpcomingBubbles!.data![i].category!.name!;
+          Bubbledata.Title = state.GetUpcomingBubbles!.data![i].title.toString();
+          Bubbledata.location = state.GetUpcomingBubbles!.data![i].location.toString();
+          Bubbledata.image = state.GetUpcomingBubbles!.data![i].images![0].image.toString();
+          Bubbledata.id = state.GetUpcomingBubbles!.data![i].id!.toInt();
+          Bubbledata.type = state.GetUpcomingBubbles!.data![i].type.toString();
+          Bubbledata.Creator_Alias = state.GetUpcomingBubbles!.data![i].created_by!.user!.alias??"";
+          Bubbledata.Creator_Avatar = state.GetUpcomingBubbles!.data![i].created_by!.user!.avatar;
+          Bubbledata.Creator_Color = state.GetUpcomingBubbles!.data![i].created_by!.user!.background_color;
+          Bubbledata.User_type = state.GetUpcomingBubbles!.data![i].created_by!.type;
+          Bubbledata.Description = state.GetUpcomingBubbles!.data![i].description.toString();
+          Bubbledata.Organizers = state.GetUpcomingBubbles!.data![i].organizers!;
+          Bubbledata.users_in_bubble = state.GetUpcomingBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetUpcomingBubbles!.data![i].saved_users!;
+          Bubbledata.is_Saved = state.GetUpcomingBubbles!.data![i].is_save;
+          Bubbledata.Cateogory_Icon =  state.GetUpcomingBubbles!.data![i].category!.image!;
+          Bubbledata.Color = BackgroundColor;
+
+          state.BUBBLElistS5!.add(Bubbledata);
+          state.Used_From_All_Lists!.add(Bubbledata);
+          state.FilteredBubbleList!.add(Bubbledata);
+                }
+        }
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = false
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= true
+        );
+
+    } catch (e) {
+    print('get Error $e GetUpcomingBubbles');
+    yield state.rebuild((b) => b
+    ..GetAllBubblesIsloading = false
+
+    ..GetAllBubblesSuccess = false
+
+
+    );
+    }
+
+
+    }
+    if (event is GetActiveBubbles) {
+try{
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= false
+          ..GetActiveBubbles=null
+        );
+
+        final date = await _repository.GetActiveBubbles();
+        print(date);
+
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = true
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= false
+          ..GetActiveBubbles.replace(date)
+        );
+        state.BUBBLElistS6!.clear();
+        for(int i=0;i<state.GetActiveBubbles!.data!.length;i++){
+
+
+          BubbleData Bubbledata = BubbleData();
+          String Value = state.GetActiveBubbles!.data![i].color.toString();
+          if (Value.contains("#", 0)) {
+            Value = Value.substring(1);
+            Value = "0xff$Value";
+          }
+          var myInt = int.parse(Value);
+            var BackgroundColor = myInt;
+        if (state.GetActiveBubbles!.data![i].type.toString()!="Prime"){
+          Bubbledata.isAvailable =
+          state.GetActiveBubbles!.data![i].is_available.toString()=="available"
+              ? true
+              :false;
+          Bubbledata.StartDate = state.GetActiveBubbles!.data![i].start_event_date.toString();
+          Bubbledata.endDate =state.GetActiveBubbles!.data![i].end_event_date.toString();
+          Bubbledata.dates = state.GetActiveBubbles!.data![i].dates!;
+          Bubbledata.Category = state.GetActiveBubbles!.data![i].category!.name!;
+          Bubbledata.Title = state.GetActiveBubbles!.data![i].title.toString();
+          Bubbledata.location = state.GetActiveBubbles!.data![i].location.toString();
+          Bubbledata.image = state.GetActiveBubbles!.data![i].images![0].image.toString();
+          Bubbledata.id = state.GetActiveBubbles!.data![i].id!.toInt();
+          Bubbledata.type = state.GetActiveBubbles!.data![i].type.toString();
+          Bubbledata.Creator_Alias = state.GetActiveBubbles!.data![i].created_by!.user!.alias??"";
+          Bubbledata.Creator_Avatar = state.GetActiveBubbles!.data![i].created_by!.user!.avatar;
+          Bubbledata.Creator_Color = state.GetActiveBubbles!.data![i].created_by!.user!.background_color;
+          Bubbledata.User_type = state.GetActiveBubbles!.data![i].created_by!.type;
+          Bubbledata.Description = state.GetActiveBubbles!.data![i].description.toString();
+          Bubbledata.Organizers = state.GetActiveBubbles!.data![i].organizers!;
+          Bubbledata.users_in_bubble = state.GetActiveBubbles!.data![i].users_in_bubble!;
+          Bubbledata.saved_users = state.GetActiveBubbles!.data![i].saved_users!;
+          Bubbledata.is_Saved = state.GetActiveBubbles!.data![i].is_save;
+          Bubbledata.Cateogory_Icon =  state.GetActiveBubbles!.data![i].category!.image!;
+
+          Bubbledata.Color = BackgroundColor;
+
+          state.BUBBLElistS6!.add(Bubbledata);
+          state.Used_From_All_Lists!.add(Bubbledata);
+          state.FilteredBubbleList!.add(Bubbledata);
+}
+        }
+        yield state.rebuild((b) => b
+          ..GetNewBubblesIsloading = false
+          ..GetNewBubblesError = ""
+          ..GetNewBubblesSuccess= true
+        );
+
+    } catch (e) {
+    print('get Error $e GetActiveBubbles');
+    yield state.rebuild((b) => b
+    ..GetAllBubblesIsloading = false
+
+    ..GetAllBubblesSuccess = false
+
+
+    );
+    }
 
 
     }
@@ -838,7 +1136,12 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
 
 
           BubbleData Bubbledata = BubbleData();
-          Bubbledata.Category = state.GetSavedBubbles!.data![i].category!;
+          Bubbledata.isAvailable =
+          state.GetSavedBubbles!.data![i].is_available.toString()=="available"
+              ? true
+              :false;
+          Bubbledata.Category =  state.GetSavedBubbles!.data![i].category!.name!;
+          Bubbledata.Cateogory_Icon =  state.GetSavedBubbles!.data![i].category!.image!;
           Bubbledata.Title = state.GetSavedBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetSavedBubbles!.data![i].location.toString();
           Bubbledata.StartDate = state.GetSavedBubbles!.data![i].start_event_date.toString();
@@ -872,7 +1175,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
           ..success = true
         );
       } catch (e) {
-        print('get Error $e');
+        print('get Error $e GetSavedBubbles');
         yield state.rebuild((b) =>
         b
           ..isLoading = false
@@ -883,7 +1186,7 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
       }
     }
     if (event is ToggleSaveBubble) {
-
+try{
         yield state.rebuild((b) =>
         b..isLoading = true
         );
@@ -894,79 +1197,49 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
 
         if (event.List_type=='New Bubbles'){
           state.BUBBLElistS1![event.index!].is_Saved = !event.Saved_Status!;
-
         }else if (event.List_type=='Nearby'){
-
           state.BUBBLElistS2![event.index!].is_Saved = !event.Saved_Status!;
-
-
         }else if (event.List_type=='Popular Now'){
           state.BUBBLElistS3![event.index!].is_Saved = !event.Saved_Status!;
-        }else if (event.List_type== "Search"){
+        }else if (event.List_type=='Upcoming Bubbles'){
+          state.BUBBLElistS5![event.index!].is_Saved = !event.Saved_Status!;
+        }   else if (event.List_type== "Search"){
           state.FilteredBubbleList![event.index!].is_Saved = !event.Saved_Status!;
+        }else if (event.List_type=='Active Bubbles'){
+          state.BUBBLElistS6![event.index!].is_Saved = !event.Saved_Status!;
+        }else if (event.List_type=='PRIME'){
+          state.BUBBLElistS4![event.index!].is_Saved = !event.Saved_Status!;
         }
+
+
 
 
         yield state.rebuild((b) =>
         b ..isLoading = false
         );
 
-
-
+      if (event.Want_Request!) {
         final date = await _repository.SaveBubble(event.Bubble_id!);
-
 
 
         yield state.rebuild((b) =>
         b..SaveBubble.replace(date)
         );
-
-
-    }
-
-    if (event is ToggleSaveBubbleEventScreen) {
-
-      yield state.rebuild((b) =>
-      b
-        ..isLoading = true
-      );
-      state.Saved_Status![event.index!] = !event.Saved_Status!;
-      print("im not  inside");
-
-      yield state.rebuild((b) =>
-      b
-        ..isLoading = false
-      );
-
-      print(event.Bubble_id!);
-
-      final date = await _repository.SaveBubble(event.Bubble_id!);
-      print(date);
-
-      yield state.rebuild((b) =>
-      b
-      //..ToggleSaveIsloading = false
-        ..SaveBubble.replace(date)
-      );
-
-
-    }
-
-
-    if (event is GiveHimListOfBoolean) {
-      try {
-
-        yield state.rebuild((b) =>
-        b
-
-            ..Saved_Status = event.List_Saved_Status
-          ..success = true
-        );
-
-      } catch (e) {
-
       }
+    } catch (e) {
+    print('get Error $e ToggleSaveBubble');
+    // yield state.rebuild((b) => b
+    // ..GetAllBubblesIsloading = false
+    //
+    // ..GetAllBubblesSuccess = false
+    //
+    //
+    // );
     }
+
+    }
+
+
     if (event is ChangeToDetailUiState) {
       try {
 
@@ -995,224 +1268,23 @@ if (      state.GetNewBubbles!.data![i].type.toString()!="Prime"){
     }
     if (event is AddMarker) {
       try {
-        // Circle Circle22 = Circle(
-        //     circleId: const CircleId("New bubble"),
-        //     radius: event.Radius!,
-        //     zIndex: 2,
-        //     strokeColor: Colors.transparent,
-        //     center: LatLng(event.lat! ,event.lng!),
-        //     fillColor: Colors.red.withAlpha(100));
-        //
-        // Marker Marker22 = Marker(
-        //   draggable: false,
-        //   markerId:  const MarkerId("New Marker"),
-        //   position: LatLng(event.lat! ,event.lng!),
-        //   //  icon: BitmapDescriptor.fromBytes(markerIcon),
-        // );
-        state.circle!.add(event.circle);
-        state.marker2!.add(event.marker);
-
-
-
-
-      } catch (e) {
-
-      }
-    }
-    if (event is ClearError) {
-
-    }
-
-    if (event is ChangeDone1) {
-      yield state.rebuild((b) => b
-        ..DoneChoose1 = event.DoneColor1
-      );
-    }
-
-    if (event is ChangeDone2) {
-      yield state.rebuild((b) => b
-        ..DoneChoose2 = event.DoneColor2
-      );
-    }
-    if (event is ChangeDone3) {
-      yield state.rebuild((b) => b
-        ..ChangeDone33 = event.ChangeDone33
-      );
-    }
-    if (event is GetFreinds) {
-      try {
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = true
-          ..error = ""
-          ..success = false
-          ..GetFriends = null
-        );
-
-        final date = await _repository.GetFreinds();
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = true
-          ..error = ""
-          ..success = false
-          ..GetFriends.replace(date)
-        );
-
-        state.FilteredFriendlist!.clear();
-        state.Friendlist!.clear();
-
-        for(int i=0;i<state.GetFriends!.friends!.length;i++){
-          FriendlistData FreindData = FriendlistData();
-
-          FreindData.Avatar = state.GetFriends!.friends![i].avatar.toString();
-          FreindData.alias = state.GetFriends!.friends![i].alias.toString();
-          String value =  state.GetFriends!.friends![i].background_color.toString();
-          var myInt = int.parse(value);
-          var BackgroundColor = myInt;
-          FreindData.backgroundColor =BackgroundColor;
-
-          FreindData.id = state.GetFriends!.friends![i].id!.toInt();
-          FreindData.MY_id = state.GetFriends!.friends![i].me_id!.toInt();
-
-          state.FilteredFriendlist!.add(FreindData);
-          state.Friendlist!.add(FreindData);
-        }
-
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = ""
-          ..success = true
-        );
-
-
-
-
-
-
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..GetFriends = null
-        );
-      }
-    }
-    if (event is GetEventCateogories) {
-      try {
-        yield state.rebuild((b) =>
-        b
-          ..EventCateogoryIsLoading = true
-          ..EventCateogorySuccess = false
-          ..EventCateogory = null
-        );
-
-        final date = await _repository.GetEventCateogories();
-        yield state.rebuild((b) =>
-        b
-          ..EventCateogoryIsLoading = false
-          ..EventCateogorySuccess = true
-          ..EventCateogory.replace(date)
-        );
-
-
-      } catch (e) {
-        print('get Error $e');
-
-      }
-    }
-
-    if (event is CreateBubble) {
-      try {
-        yield state.rebuild((b) =>
-        b
-          ..CreateBubbleISloading = true
-          ..CreateBubbleError = ""
-          ..CreateBUbbleSuccess = false
-          ..CreateBubble = null
-        );
-
-        final date = await _repository.CreateBubble(event.Title!, event.LOcation!, event.Base64Images!, event.ColorS!, event.Description!, event.OrganizersId!, event.Start_Date!, event.End_Date!, event.Dates!, event.lng!, event.lat!, event.raduis!);
-
-
-        print('get Success data $date');
-        yield state.rebuild((b) =>
-        b
-          ..CreateBubbleISloading = false
-          ..CreateBubbleError = ""
-          ..CreateBUbbleSuccess = true
-          ..CreateBubble.replace(date)
-
-        );
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..CreateBubbleISloading = false
-          ..CreateBubbleError = "Something Went Wrong"
-          ..CreateBUbbleSuccess = false
-          ..CreateBubble = null
-        );
-      }
-    }
-
-    if (event is SearchFreinds) {
-      try {
-        yield state.rebuild((b) => b
-          ..isLoading = true
-          ..error = ""
-          ..success = false
-        );
-
-        state.FilteredFriendlist!.clear();
-        print("Cleared");
-
-        state.Friendlist!.forEach((FriendObject) {
-          if (FriendObject.alias!.toLowerCase().contains(event.Keyword!.toLowerCase())) {
-            state.FilteredFriendlist!.add(FriendObject);
-          }
-        });
-
 
         yield state.rebuild((b) => b
-          ..isLoading = false
-          ..error = ""
-          ..success = true
+          ..circle!.add(event.circle)
+          ..marker2!.add(event.marker)
         );
 
-      } catch (e) {
-        print('get Error $e');
-        yield state.rebuild((b) =>
-        b
-          ..isLoading = false
-          ..error = "Something went wrong"
-          ..success = false
-          ..SearchFrinedsResult = null
-        );
-      }
-    }
-    if (event is AddStartandEndTime) {
-      try {
-        yield state.rebuild((b) => b
-            ..Start_Time = event.StartTime
-            ..End_Time = event.EndTime
-        );
+
+
+
 
 
       } catch (e) {
-        print('get Error $e');
 
       }
     }
-    if (event is ChangePickedColor) {
-      yield state.rebuild((b) =>
-      b
-        ..PickedColor = event.PickedColor
-      );
-    }
+
+
 
 
   }

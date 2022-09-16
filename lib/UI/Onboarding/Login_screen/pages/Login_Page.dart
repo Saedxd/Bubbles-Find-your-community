@@ -4,6 +4,7 @@ import 'package:bubbles/App/app.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:firebase_messaging/firebase_messaging.dart' as fire;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
@@ -42,7 +43,7 @@ import '../../SignUp_Screen/pages/signup.dart';
 import '../bloc/login_bloc.dart';
 import 'Login_page2.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 class Login extends StatefulWidget {
 
   @override
@@ -54,92 +55,101 @@ class Login extends StatefulWidget {
 final RegExp regExpEmail = RegExp(
 
     r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$');
+// final snackBar = SnackBar(
+//
+//   duration: Duration(seconds: 2),
+//   content: const Text("No internet connection, Try again"),
+//   action: SnackBarAction(
+//     label: 'Close',
+//     snackPosition: SnackPosition.BOTTOM,
+//     snackStyle: SnackStyle.FLOATING,
+//     onPressed: () {
+//
+//     },
+//   ),
+// );
 
+
+//
+// @override
+// void didChangeAppLifecycleState(AppLifecycleState state) {
+//
+//   switch (state) {
+//     case AppLifecycleState.resumed:
+//       BackGroundCounter = 0;
+//       break;
+//     case AppLifecycleState.inactive:
+//
+//       break;
+//     case AppLifecycleState.paused:
+//
+//       break;
+//     case AppLifecycleState.detached:
+//
+//       break;
+//   }
+//
+// }
+// Future<void> getislogin() async {
+//   isLOgedin = await pref.getIsLogin();
+//   print("IS User logedin ??! : $isLOgedin ");
+//   // Navigate();
+// }
+//
+// Future<void> setislogin() async {
+//   await pref.setIsLogin();
+// }
+//
 // final RegExp regExpPhone = RegExp(
 //     r'(^\+[0-9]{2}|^\+[0-9]{2}\(0\)|^\(\+[0-9]{2}\)\(0\)|^00[0-9]{2}|^0)([0-9]{9}$|[0-9\-\s]{10}$)');
 class _LoginState extends State<Login> with TickerProviderStateMixin{
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  final pref = sl<IPrefsHelper>();
-  final _Loginbloc = sl<loginBloc>();
-
-  bool Selected = false;
   final TextEditingController _EmailController = TextEditingController();
-  final _formkey1 = GlobalKey<FormState>(); //password
+  final _formkey1 = GlobalKey<FormState>();
+  final pref = sl<IPrefsHelper>();
+  GoogleSignInAccount? googleSignInAccount;
+  final _Loginbloc = sl<loginBloc>();
+  late FocusNode _EmailFocusNode;
+  AnimationController? _controller;
+  GoogleSignIn? googleSignIn;
+  bool Changed3 = false;
+  bool islogedin = false;
+  bool First_Time_Login = true;
+  Animation<double>? ba;
+  AnimationController? _bc;
+  Listenable? listenable;
+  bool Selected = false;
   bool DiDitOnce = false;
   String? token;
   var Fcmtoken;
-  GoogleSignInAccount? googleSignInAccount;
-  bool Changed3 = false;
-  late FocusNode _EmailFocusNode;
-  final snackBar = SnackBar(
-    content: const Text('Oppreation is Done Successfuly'),
-    action: SnackBarAction(
-      label: 'Undo',
-      onPressed: () {
-        // Some code to undo the change.
-      },
-    ),
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+void Verify()async{
+  await FirebaseAuth.instance.verifyPhoneNumber(
+    phoneNumber: '+972568969945',
+    verificationCompleted: (PhoneAuthCredential credential) async {
+      await auth.signInWithCredential(credential);
+    },
+    verificationFailed: (FirebaseAuthException e) {
+      if (e.code == 'invalid-phone-number') {
+        print('The provided phone number is not valid.');
+      }
+
+      // Handle other errors
+    },
+    timeout: const Duration(seconds: 60),
+    codeSent: (String verificationId, int? resendToken) async {
+      String smsCode = 'xxxx';
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+      await auth.signInWithCredential(credential);
+    },
+    codeAutoRetrievalTimeout: (String verificationId) {},
   );
+}
 
-  //
-  // @override
-  // void didChangeAppLifecycleState(AppLifecycleState state) {
-  //
-  //   switch (state) {
-  //     case AppLifecycleState.resumed:
-  //       BackGroundCounter = 0;
-  //       break;
-  //     case AppLifecycleState.inactive:
-  //
-  //       break;
-  //     case AppLifecycleState.paused:
-  //
-  //       break;
-  //     case AppLifecycleState.detached:
-  //
-  //       break;
-  //   }
-  //
-  // }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-
-    switch (state) {
-      case AppLifecycleState.resumed:
-        //BackGroundCounter = 0;
-        break;
-      case AppLifecycleState.inactive:
-
-        break;
-      case AppLifecycleState.paused:
-
-        break;
-      case AppLifecycleState.detached:
-
-        break;
-    }
-
-  }
   void SignOutGOogle() {
     googleSignIn!.signOut();
   }
-
-  GoogleSignIn? googleSignIn;
-
-  // Future<void> getislogin() async {
-  //   isLOgedin = await pref.getIsLogin();
-  //   print("IS User logedin ??! : $isLOgedin ");
-  //   // Navigate();
-  // }
-  //
-  // Future<void> setislogin() async {
-  //   await pref.setIsLogin();
-  // }
-  //
-
-
 
   Future<void> SetToken(String Token) async {
     await pref.SetToken(Token);
@@ -155,18 +165,26 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
       return Fcmtoken = FcmTOken;
     });
   }
-  bool islogedin = false;
-  bool First_Time_Login = true;
+
   Future<void> GetISloggedIN() async {
     islogedin = await pref.getIsLogin();
     First_Time_Login = await pref.GetisFirstTimeLogin();
+    String tokenn =  await pref.getToken();
     print("islogedin1 : ${islogedin}");
     print("islogedin2 : ${islogedin}");
     if (!First_Time_Login) {
-      if (islogedin) {
+      if (islogedin && tokenn.isNotEmpty) {
         SetNotFirstTime();
+        AnimatedSnackBar.material(
+             "Welcome Back!",
+          type: AnimatedSnackBarType.info,
+          duration: Duration(seconds: 2),
+          // mobileSnackBarPosition: MobileSnackBarPosition.bottom, // Position of snackbar on mobile devices
+          // desktopSnackBarPosition: DesktopSnackBarPosition.topRight, // Position of snackbar on desktop devices
+
+        ).show(context);
         print("islogedin3 : ${islogedin}");
-        WidgetsBinding.instance!
+        WidgetsBinding.instance
             .addPostFrameCallback((_) =>
             Navigator.push(
               context,
@@ -199,137 +217,21 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
             ..fcmToken = Fcmtoken));
         }
       } else {
-        print('No internet :( Reason:');
-        CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
+        AnimatedSnackBar.material(
+          'Check your internet connection',
+          duration: Duration(seconds: 2),
+          type: AnimatedSnackBarType.error,
+        ).show(
+          context,
+        );
+        // print('No internet :( Reason:');
+        // CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
       }
     } catch (e) {
       print(e);
     }
   }
-  CommingSoonPopup(
-      BuildContext Context,
-      double h,
-      double w,
-      String Value,
-      String buttonValue,
-      int FontSize
-      ) async {
-    return showDialog(
-        context: Context,
-        barrierDismissible: false,
-        builder: (Context) {
-          return AlertDialog(
-              backgroundColor: Colors.transparent,
-              insetPadding: EdgeInsets.all(h/100),
-              content:Container(
-                width: w/1.4,
-                height: h/3,
-                decoration: BoxDecoration(
-                  borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
-                  ),
-                  color: Colors.transparent,
-                ),
 
-
-                child: Stack(
-                  children: [
-
-                    Positioned(
-                      top: h/12.5,
-                      child: Container(
-                        width: w/1.4,
-                        height: h/4.2,
-                        decoration: BoxDecoration(
-                          borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
-                          ),
-                          color : Color.fromRGBO(47, 47, 47, 1),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(""),
-
-
-                            Center(
-                              child: Text(Value,
-                                textAlign: TextAlign.center, style: TextStyle(
-                                    color: Color.fromRGBO(234, 234, 234, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1
-                                ),),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.pop(context);
-                                    },
-                                    child: Container(
-                                      height: h/15.5,
-                                      width: w/2,
-                                      decoration: BoxDecoration(
-                                        borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
-                                        ),
-                                        boxShadow : [BoxShadow(
-                                            color: Color.fromRGBO(0, 0, 0, 0.25),
-                                            offset: Offset(0,0),
-                                            blurRadius: 6.628571510314941
-                                        )],
-                                        color : Color.fromRGBO(168, 48, 99, 1),
-                                      ),
-                                      child: Center(
-                                        child:
-                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
-                                            color: Color.fromRGBO(234, 234, 234, 1),
-                                            fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                            fontWeight: FontWeight.w400,
-                                            height: 1
-                                        ),),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: h/8,
-                      bottom: h/5,
-                      child: SvgPicture.asset(
-                        "Assets/images/widget.svg",
-                        width: 90,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-
-          );
-        });
-  }
   Future<void> signInWithGoogle({required BuildContext context}) async {
     try {
       var h = MediaQuery.of(context).size.height;
@@ -362,8 +264,18 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
           DiDitOnce = true;
         }
       } else {
-        print('No internet :( Reason:');
-   CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
+        AnimatedSnackBar.material(
+          'Check your internet connection',
+          duration: Duration(seconds: 2),
+          type: AnimatedSnackBarType.error,
+        ).show(
+          context,
+        );
+
+        // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+       // _scaffoldKey.showSnackBar(snackBar);
+   //      print('No internet :( Reason:');
+   // CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'account-exists-with-different-credential') {
@@ -419,59 +331,22 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
   // ),
   // );
   // });
-  Animation<double>? ba;
-  AnimationController? _bc;
-
-  AlignmentTween aT =
-  AlignmentTween(begin: Alignment.topRight, end: Alignment.topLeft);
-  AlignmentTween aB =
-  AlignmentTween(begin: Alignment.bottomRight, end: Alignment.bottomLeft);
-  Listenable? listenable;
-  AnimationController? _controller;
-  @override
-  void initState() {
-    super.initState();
-    GetISloggedIN();
-    _EmailFocusNode = FocusNode();
-    getFcmToken();
-    _controller = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 250), value: 1);
-    _controller!.repeat(reverse: true);
-    // listenable = AnimationController(
-    //   duration: const Duration(seconds: 5),
-    //   vsync: this,
-    // )..repeat();
-
-    _bc = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this,
-    )..repeat();
-    // googleSignIn = GoogleSignIn();
-    // googleSignIn!.isSignedIn().then((value) =>     SignOutGOogle());
-    // _controller = AnimationController(
-    //   duration: const Duration(seconds: 10),
-    //   vsync: this,
-    // )..repeat();
-    //
-    // ba = CurvedAnimation(parent: ba!, curve: Curves.easeIn);
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    SizeConfig().init(context);
-  }
-  Color smalt = Color(0xff932557);
-  Color oldRose =  Color(0xffA93064);
-  Color lol =  Color(0xffB9484C);
-  // Color lol2 =  Color(0xffCF6D38);
-  @override
-  void dispose() {
-    _controller!.dispose();
-    _EmailController.dispose();
-    _bc!.dispose();
-    super.dispose();
-  }
+  // Animatable<Color?> animColorPend = TweenSequence([
+  //   TweenSequenceItem(
+  //     weight: 1.0,
+  //     tween: ColorTween(
+  //       begin: smalt.withOpacity(.8),
+  //       end: Color(0xffD23756).withOpacity(.8),
+  //     ) as Animatable<Color?>,
+  //   ),
+  //   TweenSequenceItem(
+  //     weight: 1.0,
+  //     tween: ColorTween(
+  //       begin: Colors.pink[200],
+  //       end: Colors.purple,
+  //     ) as Animatable<Color?>,
+  //   ),
+  // ]);
   Animatable<Color?> darkBackground =  TweenSequence<Color?>(
     [
       TweenSequenceItem(
@@ -529,22 +404,81 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
       ),
     ],
   );
-  // Animatable<Color?> animColorPend = TweenSequence([
-  //   TweenSequenceItem(
-  //     weight: 1.0,
-  //     tween: ColorTween(
-  //       begin: smalt.withOpacity(.8),
-  //       end: Color(0xffD23756).withOpacity(.8),
-  //     ) as Animatable<Color?>,
-  //   ),
-  //   TweenSequenceItem(
-  //     weight: 1.0,
-  //     tween: ColorTween(
-  //       begin: Colors.pink[200],
-  //       end: Colors.purple,
-  //     ) as Animatable<Color?>,
-  //   ),
-  // ]);
+  AlignmentTween aT =
+  AlignmentTween(begin: Alignment.topRight, end: Alignment.topLeft);
+  AlignmentTween aB =
+  AlignmentTween(begin: Alignment.bottomRight, end: Alignment.bottomLeft);
+
+  @override
+  void initState() {
+    super.initState();
+    // Verify();
+    GetISloggedIN();
+    _EmailFocusNode = FocusNode();
+    getFcmToken();
+    _controller = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 250), value: 1);
+    _controller!.repeat(reverse: true);
+    // listenable = AnimationController(
+    //   duration: const Duration(seconds: 5),
+    //   vsync: this,
+    // )..repeat();
+
+    _bc = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    )..repeat();
+    // googleSignIn = GoogleSignIn();
+    // googleSignIn!.isSignedIn().then((value) =>     SignOutGOogle());
+    // _controller = AnimationController(
+    //   duration: const Duration(seconds: 10),
+    //   vsync: this,
+    // )..repeat();
+    //
+    // ba = CurvedAnimation(parent: ba!, curve: Curves.easeIn);
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+          statusBarColor: Color(0xff932557),
+          systemNavigationBarColor: Color(0xff303030)
+      ),
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    SizeConfig().init(context);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+      //BackGroundCounter = 0;
+        break;
+      case AppLifecycleState.inactive:
+
+        break;
+      case AppLifecycleState.paused:
+
+        break;
+      case AppLifecycleState.detached:
+
+        break;
+    }
+
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    _EmailController.dispose();
+    _bc!.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext Context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -554,442 +488,479 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
 
 
 
-    return  AnimatedBuilder(
-        animation:  _bc!,
-        builder: (context, child)
-    {
-      return
+    return  BlocBuilder(
+        bloc: _Loginbloc,
+        builder: (BuildContext context, loginState state) {
+          if (state.success == true && DiDitOnce == true) {
 
-        BlocBuilder(
-            bloc: _Loginbloc,
-            builder: (BuildContext context, loginState state) {
-              if (state.success == true && DiDitOnce == true) {
-                SetNotFirstTime();
-                pref.saveUser(
-                  state.data as UserData,
-                  state.data!.user!.token!,
-                  true,
-                );
-
-                if (state.data!.user!.data!.gender == null) {
-                  UsersData Users = UsersData();
-
-                  WidgetsBinding.instance!
-                      .addPostFrameCallback((_) =>
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              SignUp2(
-                                Users: Users,
-                              ),
-                        ),
-                      ));
-                } else {
-                  WidgetsBinding.instance!
-                      .addPostFrameCallback((_) =>
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NavigatorTopBar(GotToHomeAndOpenPanel: false,),
-                        ),
-                      ));
-                }
-                DiDitOnce = false;
-              }
-
-              return
-                WillPopScope(
-                    onWillPop: () async => true,
-                    child: GestureDetector(
-                        onTap: () async {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                        },
-                        child:
+            SetNotFirstTime();
 
 
-                        Scaffold(
-                            resizeToAvoidBottomInset: false,
-                            key: _scaffoldKey,
-                            // backgroundColor: animColorPend
-                            //     .evaluate(AlwaysStoppedAnimation(_controller!.value)),
+            if (state.data!.user!.data!.birth_date == null) {
+              SetToken(state.data!.user!.token!);
+              UsersData Users = UsersData();
 
-                            body: SafeArea(
-                              child: Stack(
-                                children: [
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          SignUp2(
+                            Users: Users,
+                          ),
+                    ),
+                  ));
+            } else {
+              pref.saveUser(
+                state.data!.user!,
+                state.data!.user!.token!,
+                true,
+              );
+              AnimatedSnackBar.material(
+                'Logged in Successfully',
+                duration: Duration(seconds: 2),
+                type: AnimatedSnackBarType.success,
+              ).show(
+                context,
+              );
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NavigatorTopBar(GotToHomeAndOpenPanel: false,),
+                    ),
+                  ));
+            }
+            DiDitOnce = false;
+          }
+
+          return
+            WillPopScope(
+                onWillPop: () async => true,
+                child: GestureDetector(
+                    onTap: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                    },
+                    child:
 
 
-                                  Container(
-                                      width: w,
-                                      height: h,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          begin: aT.evaluate(_bc!),
-                                          end: aB.evaluate(_bc!),
-                                          colors: [
-                                            darkBackground.evaluate(_bc!)!,
-                                            normalBackground.evaluate(_bc!)!,
-                                            lightBackground.evaluate(_bc!)!,
-                                          ],
-                                        ),
-                                      ),
-                                      child: ConstrainedBox(
-                                          constraints: BoxConstraints(
-                                            minWidth: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .width,
-                                            minHeight: MediaQuery
-                                                .of(context)
-                                                .size
-                                                .height,
-                                          ),
-                                          child: IntrinsicHeight(
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  const Text(""),
-                                                  Container(
-                                                    width: w / 1.39,
-                                                    height: h / 13,
-                                                    child: SvgPicture.asset(
-                                                        "Assets/images/Logo.svg",
-                                                        fit: BoxFit.fill),
-                                                  ),
-                                                  const Text(""),
-                                                  Column(
-                                                    mainAxisAlignment: MainAxisAlignment
-                                                        .spaceAround,
-                                                    children: [
-                                                      Container(
-                                                          width: w / 1.30,
-                                                          height: h / 10,
-                                                          child: Form(
-                                                            autovalidateMode:
-                                                            AutovalidateMode
-                                                                .onUserInteraction,
-                                                            key: _formkey1,
-                                                            child: TextFormField(
-                                                              keyboardAppearance:
-                                                              Brightness.dark,
-                                                              textInputAction:
-                                                              TextInputAction
-                                                                  .next,
-                                                              controller:
-                                                              _EmailController,
-                                                              cursorHeight: 20,
-                                                              onChanged: (
-                                                                  value) {},
-                                                              onFieldSubmitted:
-                                                                  (value) {},
-                                                              validator: MultiValidator(
-                                                                  [
-                                                                    RequiredValidator(
-                                                                        errorText:
-                                                                        "Required"),
-                                                                    EmailValidator(
-                                                                        errorText:
-                                                                        "Thats not an email")
-                                                                  ]),
+                    Scaffold(
+                        resizeToAvoidBottomInset: false,
+                        key: _scaffoldKey,
+                        backgroundColor: Color(0xff942657),
+                        body: SafeArea(
+                          child: Stack(
+                            children: [
 
-                                                              cursorColor: Colors
-                                                                  .black,
-                                                              style: TextStyle(
-                                                                  fontSize: 19,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                                  height: 1.3,
-                                                                  color: Colors
-                                                                      .brown),
-                                                              decoration: InputDecoration(
-                                                                  errorStyle: TextStyle(
-                                                                    color: Colors
-                                                                        .red,
-                                                                  ),
-                                                                  errorBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        width: 0.0),
-                                                                  ),
-                                                                  focusedErrorBorder:
-                                                                  OutlineInputBorder(
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        width: 0.0),
-                                                                  ),
-                                                                  border:
-                                                                  OutlineInputBorder(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                          5)),
-                                                                  enabledBorder:
-                                                                  UnderlineInputBorder(
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .white),
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        5),
-                                                                  ),
-                                                                  focusedBorder:
-                                                                  UnderlineInputBorder(
-                                                                    borderSide:
-                                                                    BorderSide(
-                                                                        color: Colors
-                                                                            .white),
-                                                                    borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                        5),
-                                                                  ),
-                                                                  filled: true,
-                                                                  fillColor: Colors
-                                                                      .white,
-                                                                  contentPadding: EdgeInsets
-                                                                      .only(
-                                                                      left: h /
-                                                                          70),
-                                                                  hintText: "Email",
-                                                                  hintStyle: _TextTheme
-                                                                      .headline6!
-                                                                      .copyWith(
-                                                                    fontSize: 3.6 *
-                                                                        SizeConfig
-                                                                            .blockSizeVertical!
-                                                                            .toDouble(),
-                                                                  )),
-                                                              keyboardType:
-                                                              TextInputType
-                                                                  .text,
-                                                              // obscureText: SecureInput_pass,
-                                                            ),
-                                                          )),
-                                                      InkWell(
-                                                        onTap: () async{
-                                                          Changed3 = true;
-                                                          setState(() {});
-              bool result = await InternetConnectionChecker().hasConnection;
-              if (result == true) {
-                if (_formkey1
-                    .currentState!
-                    .validate()) {
-                  WidgetsBinding
-                      .instance!
-                      .addPostFrameCallback(
-                          (_) =>
-                          Navigator
-                              .push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                  Login2(
-                                    Email:
-                                    _EmailController
-                                        .text,
+                              ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minWidth: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width,
+                                    minHeight: MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height,
                                   ),
-                            ),
-                          ));
-                }
-              }else{
-                CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
-              }
-                                                        },
-                                                        child: Container(
-                                                            width: w / 1.30,
-                                                            height: h / 13.9,
-                                                            decoration:
-                                                            const BoxDecoration(
+                                  child: IntrinsicHeight(
+                                      child: Container(
+                                        padding: EdgeInsets.only(top: 51.h),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+
+                                            Container(
+                                              width: w/1.32,
+                                              child :
+                                              AspectRatio(
+                                          aspectRatio: 50/10, //aspect ratio for Image
+                                            child: SvgPicture.asset(
+                                                "Assets/images/Logo.svg",
+                                                fit: BoxFit.fill),
+                                          ),
+                                        ),
+
+
+
+                                            Container(
+                                              width: w/1.3,
+                                              margin: EdgeInsets.only(top: 45.h),
+                                              child: Text('   Be around,            Find your bubble!'
+                                                 ,textAlign: TextAlign.center, style: TextStyle(
+                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                      fontFamily: 'Red Hat Display',
+                                                      fontSize: 30.sp,
+                                                      letterSpacing: 0.2,
+                                                      fontStyle: FontStyle.italic,
+                                                      fontWeight: FontWeight.w800,
+                                                      height: 1.1785714285714286
+                                                  ),
+                                                ),
+                                            ),
+                                                Container(
+                                                    width: w / 1.32,
+                                                    height: h / 10.5,
+                                                    margin: EdgeInsets.only(top: 25.h),
+                                                    child: Form(
+                                                      autovalidateMode:
+                                                      AutovalidateMode
+                                                          .onUserInteraction,
+                                                      key: _formkey1,
+                                                      child: TextFormField(
+                                                        keyboardAppearance:
+                                                        Brightness.dark,
+                                                        textInputAction:
+                                                        TextInputAction
+                                                            .next,
+                                                        controller:
+                                                        _EmailController,
+                                                        cursorHeight: 20.h,
+                                                        // inputFormatters: [
+                                                        //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                                        // ],
+                                                        onChanged: (
+                                                            value) {},
+                                                        onFieldSubmitted:
+                                                            (value) {},
+                                                        validator: MultiValidator(
+                                                            [
+                                                              RequiredValidator(
+                                                                  errorText:
+                                                                  "Required"),
+                                                              EmailValidator(
+                                                                  errorText:
+                                                                  "Thats not an email")
+                                                            ]),
+
+                                                        cursorColor: Colors.black,
+                                                        style: TextStyle(
+                                                            fontSize: 15.sp,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500,
+                                                            height: 1.h,
+                                                            color: Colors
+                                                                .brown),
+                                                        decoration: InputDecoration(
+                                                            errorStyle: TextStyle(
+                                                              color: Colors
+                                                                  .red,
+                                                            ),
+                                                            errorBorder:
+                                                            OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 0.0),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.r)
+                                                            ),
+                                                            focusedErrorBorder:
+                                                            OutlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    width: 0.0),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.r)
+                                                            ),
+                                                            border:
+                                                            OutlineInputBorder(
                                                               borderRadius:
-                                                              BorderRadius.only(
-                                                                topLeft:
-                                                                Radius.circular(
-                                                                    5),
-                                                                topRight:
-                                                                Radius.circular(
-                                                                    5),
-                                                                bottomLeft:
-                                                                Radius.circular(
-                                                                    5),
-                                                                bottomRight:
-                                                                Radius.circular(
-                                                                    5),
-                                                              ),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                    color: Color
-                                                                        .fromRGBO(
-                                                                        0,
-                                                                        0,
-                                                                        0,
-                                                                        0.15000000596046448),
-                                                                    offset: Offset(
-                                                                        0, 0),
-                                                                    blurRadius: 6)
-                                                              ],
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  5.r),
+
+                                                            ),
+                                                            counterText: ' ',
+                                                            enabledBorder:
+                                                            UnderlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .white),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.r)
+                                                            ),
+                                                            focusedBorder:
+                                                            UnderlineInputBorder(
+                                                                borderSide:
+                                                                BorderSide(
+                                                                    color: Colors
+                                                                        .white),
+                                                                borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    5.r)
+                                                            ),
+                                                            filled: true,
+                                                            fillColor: Colors
+                                                                .white,
+                                                            contentPadding: EdgeInsets
+                                                                .only(
+                                                                left: h /
+                                                                    70),
+                                                            hintText: "Email",
+                                                            hintStyle: _TextTheme
+                                                                .headline6!
+                                                                .copyWith(
+                                                              fontSize: 22.sp,
+                                                            )),
+
+                                                        keyboardType:
+                                                        TextInputType
+                                                            .text,
+                                                        // obscureText: SecureInput_pass,
+                                                      ),
+                                                    )),
+                                                InkWell(
+                                                  onTap: () async{
+                                                    Changed3 = true;
+                                                    setState(() {});
+                                                    bool result = await InternetConnectionChecker().hasConnection;
+                                                    if (result == true) {
+                                                      if (_formkey1
+                                                          .currentState!
+                                                          .validate()) {
+                                                        WidgetsBinding
+                                                            .instance
+                                                            .addPostFrameCallback(
+                                                                (_) =>
+                                                                Navigator
+                                                                    .push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                        Login2(
+                                                                          Email:
+                                                                          _EmailController
+                                                                              .text,
+                                                                        ),
+                                                                  ),
+                                                                ));
+                                                      }
+                                                    }else{
+                                                      AnimatedSnackBar.material(
+                                                        'Check your internet connection',
+                                                        duration: Duration(seconds: 2),
+                                                        type: AnimatedSnackBarType.error,
+                                                      ).show(
+                                                        context,
+                                                      );       }
+                                                  },
+                                                  child: Container(
+                                                      width: w / 1.32,
+                                                      height: h / 13.9,
+                                                      decoration:
+                                                       BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.only(
+                                                          topLeft: Radius.circular( 7.r),
+                                                          topRight:Radius.circular( 7.r),
+                                                          bottomLeft: Radius.circular( 7.r),
+                                                          bottomRight:Radius.circular( 7.r),
+                                                        ),
+                                                        boxShadow: [
+                                                          BoxShadow(
                                                               color: Color
                                                                   .fromRGBO(
-                                                                  207, 109, 56,
-                                                                  1),
-                                                            ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                'Log in',
-                                                                textAlign:
-                                                                TextAlign
-                                                                    .center,
-                                                                style: _TextTheme
-                                                                    .headline1!
-                                                                    .copyWith(
-                                                                    fontSize: 6.2 *
-                                                                        SizeConfig
-                                                                            .blockSizeHorizontal!
-                                                                            .toDouble(),
-                                                                    fontWeight:
-                                                                    FontWeight
-                                                                        .w600),
-                                                              ),
-                                                            )),
+                                                                  0,
+                                                                  0,
+                                                                  0,
+                                                                  0.15000000596046448),
+                                                              offset: Offset(
+                                                                  0, 0),
+                                                              blurRadius: 6)
+                                                        ],
+                                                        color: Color
+                                                            .fromRGBO(
+                                                            207, 109, 56,
+                                                            1),
                                                       ),
-                                                      Container(
-                                                        width: w,
-                                                        margin: EdgeInsets.only(
-                                                            top: h / 28),
+                                                      child: Center(
+                                                        child: Text(
+                                                          'Continue',
+                                                          textAlign:
+                                                          TextAlign
+                                                              .center,
+                                                          style: _TextTheme
+                                                              .headline1!
+                                                              .copyWith(
+                                                              fontSize: 18.sp,
+                                                              fontWeight:  FontWeight.w600
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ),
+                                                Container(
+                                                  width: w,
+                                                  margin: EdgeInsets.only( top:8.h,bottom: 8.h ),
+
+                                                  child: Center(
+                                                      child: Text(
+                                                        'or',
+                                                        textAlign: TextAlign
+                                                            .center,
+                                                        style: TextStyle(   color: Color .fromRGBO(  234, 234,234, 1),
+                                                            fontFamily: 'Red Hat Text',
+                                                            fontSize: 16.sp,
+                                                            letterSpacing:0 ,
+                                                            fontWeight: FontWeight
+                                                                .w600,
+                                                            height: 1.1875),
+                                                      )),
+                                                ),
+
+                                                Container(
+                                                  width: w / 1.32,
+                                                  height: h / 13.9,
+                                                  margin: EdgeInsets.only(bottom: 8.7.h),
+                                                  child: Container(
+                                                      decoration:
+                                                       BoxDecoration(
+                                                        borderRadius:
+                                                        BorderRadius.only(
+                                                          topLeft: Radius.circular( 7.r),
+                                                          topRight:Radius.circular( 7.r),
+                                                          bottomLeft: Radius.circular( 7.r),
+                                                          bottomRight:Radius.circular( 7.r),
+                                                        ),
+                                                        color: Color
+                                                            .fromRGBO(
+                                                            24, 119, 242,
+                                                            1),
+                                                      ),
+                                                      child: InkWell(
+                                                        onTap: () async => signInWithFacebook(),
                                                         child: Center(
-                                                            child: Text(
-                                                              'or',
-                                                              textAlign: TextAlign
-                                                                  .center,
-                                                              style: TextStyle(
-                                                                  color: Color
-                                                                      .fromRGBO(
-                                                                      234, 234,
-                                                                      234, 1),
-                                                                  fontFamily: 'Red Hat Text',
-                                                                  fontSize: 6.1 *
-                                                                      SizeConfig
-                                                                          .blockSizeHorizontal!
-                                                                          .toDouble(),
-                                                                  letterSpacing:
-                                                                  0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                  fontWeight: FontWeight
-                                                                      .w600,
-                                                                  height: 1.1875),
-                                                            )),
+                                                          child: Row(
+                                                            mainAxisAlignment: MainAxisAlignment  .center,
+                                                            children: [
+                                                              SvgPicture.asset(
+                                                                "Assets/images/path14.svg",
+                                                                width: 20.w,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(left: 11.w,top: 2.h),
+                                                                child: Text(
+                                                                  'Continue with Facebook',
+                                                                  textAlign:TextAlign.left,
+                                                                  style: TextStyle(
+                                                                      color:
+                                                                      Color
+                                                                          .fromRGBO(
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          1),
+                                                                      fontFamily:
+                                                                      'Helvetica',
+                                                                      fontSize: 14.sp,
+                                                                      letterSpacing:  0.5,
+                                                                      fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                      height: 1),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      )),
+                                                ),
+
+                                                Container(
+                                                  width: w / 1.32,
+                                                  height: h / 13.9,
+                                                  margin: EdgeInsets.only( bottom: 8.7.h),
+                                                  decoration:  BoxDecoration(
+                                                    borderRadius:
+                                                    BorderRadius.only(
+                                                      topLeft: Radius.circular( 7.r),
+                                                      topRight:Radius.circular( 7.r),
+                                                      bottomLeft: Radius.circular( 7.r),
+                                                      bottomRight:Radius.circular( 7.r),
+                                                    ),
+                                                    color: Color.fromRGBO(
+                                                        255, 255, 255, 1),
+                                                  ),
+                                                  padding:
+                                                   EdgeInsets.symmetric( horizontal:10.391304016113281.w,
+                                                      vertical: 10.391304016113281.h),
+
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      signInWithGoogle(
+                                                          context: context);
+                                                      //  _handleSignIn();
+                                                    },
+                                                    child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                    .center,
+                                                    children: [
+                                                      SvgPicture .asset(
+                                                      "Assets/images/Google Logo.svg",
+                                                      width: 20.sp,
+                                                    ),
+
+                                                      Container(
+                                                        margin: EdgeInsets.only(left: 10.4.w),
+                                                        child: Text(
+                                                          'Log In with Google',
+                                                          textAlign:
+                                                          TextAlign
+                                                              .left,
+                                                          style: TextStyle(
+                                                              color: const Color
+                                                                  .fromRGBO(
+                                                                  0,
+                                                                  0,
+                                                                  0,
+                                                                  0.5400000214576721),
+                                                              fontFamily:
+                                                              'Roboto Medium',
+                                                              fontSize: 14.sp,
+                                                              letterSpacing: 0.2 ,
+                                                              fontWeight:  FontWeight.w500,
+                                                              height: 1),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
-                                                  Column(
-                                                    children: [
-                                                      Container(
-                                                        width: w / 1.30,
-                                                        height: h / 13.9,
-                                                        margin: EdgeInsets.only(
-                                                            bottom: h / 50),
-                                                        child: Container(
-                                                            decoration:
-                                                            const BoxDecoration(
-                                                              borderRadius:
-                                                              BorderRadius.only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                    6.9275360107421875),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                    6.9275360107421875),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                    6.9275360107421875),
-                                                                bottomRight:
-                                                                Radius.circular(
-                                                                    6.9275360107421875),
-                                                              ),
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                  24, 119, 242,
-                                                                  1),
-                                                            ),
-                                                            padding: const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                10.391304016113281,
-                                                                vertical:
-                                                                10.391304016113281),
-                                                            child: InkWell(
-                                                              onTap: () async {
-                                                                signInWithFacebook();
-                                                              },
-                                                              child: Center(
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                                  children: [
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                      "Assets/images/path14.svg",
-                                                                      width: 20,
-                                                                    ),
-                                                                    Container(
-                                                                      margin:
-                                                                      EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                          h /
-                                                                              60),
-                                                                      child: Text(
-                                                                        'Log In with Facebook',
-                                                                        textAlign:
-                                                                        TextAlign
-                                                                            .left,
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                            Color
-                                                                                .fromRGBO(
-                                                                                255,
-                                                                                255,
-                                                                                255,
-                                                                                1),
+                                                  ),
+                                                ),
 
-                                                                            fontFamily:
-                                                                            'Helvetica',
-                                                                            fontSize: 5 *
-                                                                                SizeConfig
-                                                                                    .blockSizeHorizontal!
-                                                                                    .toDouble(),
-                                                                            letterSpacing:
-                                                                            0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                            fontWeight:
-                                                                            FontWeight
-                                                                                .w700,
-                                                                            height: 1),
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            )),
-                                                      ),
 
-                                                      Container(
-                                                        width: w / 1.30,
-                                                        height: h / 13.9,
-                                                        margin: EdgeInsets.only(
-                                                            bottom: h / 50),
-                                                        decoration: const BoxDecoration(
+                                                (Platform.isIOS)
+                                                    ? InkWell(
+                                                  onTap: () async {
+                                                    signinApple();
+                                                  },
+                                                  child: Container(
+                                                      width: w / 1.32,
+                                                      height: h / 13.9,
+                                                      margin: EdgeInsets
+                                                          .only(
+                                                          bottom: h / 50),
+                                                      child: Container(
+                                                        decoration:
+                                                        const BoxDecoration(
                                                           borderRadius:
-                                                          BorderRadius.only(
+                                                          BorderRadius
+                                                              .only(
                                                             topLeft: Radius
                                                                 .circular(
                                                                 6.9275360107421875),
@@ -999,293 +970,955 @@ class _LoginState extends State<Login> with TickerProviderStateMixin{
                                                             bottomLeft: Radius
                                                                 .circular(
                                                                 6.9275360107421875),
-                                                            bottomRight:
-                                                            Radius.circular(
+                                                            bottomRight: Radius
+                                                                .circular(
                                                                 6.9275360107421875),
                                                           ),
-                                                          color: Color.fromRGBO(
-                                                              255, 255, 255, 1),
+                                                          color: const Color
+                                                              .fromRGBO(
+                                                              0, 0, 0, 1),
                                                         ),
-                                                        padding:
-                                                        const EdgeInsets
+                                                        padding: const EdgeInsets
                                                             .symmetric(
                                                             horizontal:
                                                             10.391304016113281,
                                                             vertical:
                                                             10.391304016113281),
-                                                        child: InkWell(
-                                                          onTap: () {
-                                                            signInWithGoogle(
-                                                                context: context);
-                                                            //  _handleSignIn();
-                                                          },
-                                                          child: Container(
-                                                            width: 16.626087188720703,
-                                                            height: 16.626087188720703,
-                                                            decoration:
-                                                            const BoxDecoration(
-                                                              color: Color
-                                                                  .fromRGBO(
-                                                                  255, 255, 255,
-                                                                  1),
-                                                            ),
-                                                            child: Center(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                                children: [
-                                                                  SvgPicture
-                                                                      .asset(
-                                                                    "Assets/images/Google Logo.svg",
-                                                                    width: 20,
-                                                                  ),
-                                                                  Container(
-                                                                    margin:
-                                                                    EdgeInsets
-                                                                        .only(
-                                                                        left: h /
-                                                                            60),
-                                                                    child: Text(
-                                                                      'Log In with Google',
-                                                                      textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                      style: TextStyle(
-                                                                          color: const Color
-                                                                              .fromRGBO(
-                                                                              0,
-                                                                              0,
-                                                                              0,
-                                                                              0.5400000214576721),
-                                                                          fontFamily:
-                                                                          'Roboto Medium',
-                                                                          fontSize: 5 *
-                                                                              SizeConfig
-                                                                                  .blockSizeHorizontal!
-                                                                                  .toDouble(),
-                                                                          letterSpacing:
-                                                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                          height: 1),
-                                                                    ),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-
-                                                      (Platform.isIOS)
-                                                          ? InkWell(
-                                                        onTap: () async {
-                                                          signinApple();
-                                                        },
-                                                        child: Container(
-                                                            width: w / 1.30,
-                                                            height: h / 13.9,
-                                                            margin: EdgeInsets
-                                                                .only(
-                                                                bottom: h / 50),
-                                                            child: Container(
-                                                              decoration:
-                                                              const BoxDecoration(
-                                                                borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                      6.9275360107421875),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                      6.9275360107421875),
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                      6.9275360107421875),
-                                                                  bottomRight: Radius
-                                                                      .circular(
-                                                                      6.9275360107421875),
-                                                                ),
-                                                                color: const Color
-                                                                    .fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                              ),
-                                                              padding: const EdgeInsets
-                                                                  .symmetric(
-                                                                  horizontal:
-                                                                  10.391304016113281,
-                                                                  vertical:
-                                                                  10.391304016113281),
-                                                              child: Center(
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                                  children: [
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    SvgPicture
-                                                                        .asset(
-                                                                      "Assets/images/path4.svg",
-                                                                      width: 20,
-                                                                    ),
-                                                                    const Text(
-                                                                      'Log In with Apple',
-                                                                      textAlign:
-                                                                      TextAlign
-                                                                          .left,
-                                                                      style: TextStyle(
-                                                                          color: const Color
-                                                                              .fromRGBO(
-                                                                              255,
-                                                                              255,
-                                                                              255,
-                                                                              1),
-                                                                          fontFamily:
-                                                                          'Roboto',
-                                                                          fontSize:
-                                                                          13.855072021484375,
-                                                                          letterSpacing:
-                                                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                                                          fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                          height:
-                                                                          1),
-                                                                    ),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                    const Text(
-                                                                        ""),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            )),
-                                                      )
-                                                          : Container(),
-
-                                                      Container(
-                                                        margin: EdgeInsets.only(
-                                                            top: h / 50),
-                                                        child: InkWell(
-                                                          onTap: () async{
-              bool result = await InternetConnectionChecker().hasConnection;
-              if (result == true) {
-
-              WidgetsBinding
-                  .instance!
-                  .addPostFrameCallback(
-              (_) =>
-              Navigator
-                  .push(
-              context,
-              MaterialPageRoute(
-              builder:
-              (
-              context) =>
-              SignUp(),
-              ),
-              ));
-
-              }else {
-                CommingSoonPopup(context, h, w,
-                    "Check your internet connection then try again", "Ok", 17);
-              }
-                                                          },
-                                                          child: Column(
+                                                        child: Center(
+                                                          child: Row(
                                                             mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .start,
+                                                                .spaceAround,
                                                             children: [
-                                                              Text(
-                                                                  'Don’t have an account?',
-                                                                  textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                                  style: _TextTheme
-                                                                      .headline1!
-                                                                      .copyWith(
-                                                                      fontSize: 2 *
-                                                                          SizeConfig
-                                                                              .blockSizeVertical!
-                                                                              .toDouble(),
-                                                                      letterSpacing:
-                                                                      0.3,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w300,
-                                                                      height: 1)),
-                                                              Text("Sign up",
-                                                                  textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                                  style: _TextTheme
-                                                                      .headline1!
-                                                                      .copyWith(
-                                                                      decoration:
-                                                                      TextDecoration
-                                                                          .underline,
-                                                                      fontSize: 2.6 *
-                                                                          SizeConfig
-                                                                              .blockSizeVertical!
-                                                                              .toDouble(),
-                                                                      letterSpacing:
-                                                                      0.3,
-                                                                      fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                      height: 1)),
+
+                                                              SvgPicture
+                                                                  .asset(
+                                                                "Assets/images/path4.svg",
+                                                                width: 20,
+                                                              ),
+                                                               Text(
+                                                                'Log In with Apple',
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .left,
+                                                                style: TextStyle(
+                                                                    color: const Color
+                                                                        .fromRGBO(
+                                                                        255,
+                                                                        255,
+                                                                        255,
+                                                                        1),
+                                                                    fontFamily:
+                                                                    'Roboto',
+                                                                    fontSize: 0.25.sp,
+                                                                    letterSpacing:
+                                                                    0 ,
+                                                                    fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                    height:
+                                                                    1),
+                                                              ),
+
                                                             ],
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const Text(""),
-                                                ],
-                                              )))),
-                                  state.isLoading == true
-                                      ? Center(
-                                      child: listLoader(context: context))
-                                      : Container(),
+                                                      )),
+                                                )
+                                                    : Container(),
 
-                                  // RotationTransition(
-                                  //   turns:_controller as Animation<double>,
-                                  //   child: SizedBox(
-                                  //     child: SvgPicture.asset('assets/app_logo.svg'),
-                                  //     height: 150,
-                                  //   ),
-                                  // ),
-                                ],
-                              ),
-                            ))));
-            });
-    }
+                                                Container(
+                                                  margin: EdgeInsets.only(
+                                                      top: h / 50),
+                                                  child: InkWell(
+                                                    onTap: () async{
+                                                      bool result = await InternetConnectionChecker().hasConnection;
+                                                      if (result == true)
+                                                      {
+
+                                                        WidgetsBinding
+                                                            .instance
+                                                            .addPostFrameCallback(
+                                                                (_) =>
+                                                                Navigator
+                                                                    .push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder:
+                                                                        (
+                                                                        context) =>
+                                                                        SignUp(),
+                                                                  ),
+                                                                ));
+
+                                                      }else {
+                                                        AnimatedSnackBar.material(
+                                                          'Check your internet connection',
+                                                          duration: Duration(seconds: 2),
+                                                          type: AnimatedSnackBarType.error,
+                                                        ).show(
+                                                          context,
+                                                        );
+                                                        // CommingSoonPopup(context, h, w,
+                                                        //     "Check your internet connection then try again", "Ok", 17);
+                                                      }
+                                                    },
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .start,
+                                                      children: [
+                                                        Text(
+                                                            'Don’t have an account?',
+                                                            textAlign:
+                                                            TextAlign
+                                                                .center,
+                                                            style: _TextTheme
+                                                                .headline1!
+                                                                .copyWith(
+                                                                fontSize: 14.sp,
+                                                                letterSpacing: 0.3,
+
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w300,
+                                                                height: 1)),
+                                                        Text("Sign up",
+                                                            textAlign:
+                                                            TextAlign
+                                                                .center,
+                                                            style: _TextTheme
+                                                                .headline1!
+                                                                .copyWith(
+                                                                decoration:
+                                                                TextDecoration
+                                                                    .underline,
+                                                                fontSize: 9.sp,
+                                                                letterSpacing:
+                                                                0.3,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w500,
+                                                                height: 1)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                            //    Container(
+                                            //      width: w/1.6,
+                                            //      child: Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quam scelerisque donec varius.',
+                                            //        textAlign: TextAlign.center, style: TextStyle(
+                                            //       color: Color.fromRGBO(234, 234, 234, 1),
+                                            //       fontFamily: 'Red Hat Text',
+                                            //       fontSize: 11.sp,
+                                            //       letterSpacing: 0.1,
+                                            //       fontWeight: FontWeight.w300,
+                                            //       height: 1.3636363636363635
+                                            // ),),
+                                            //    )
+
+                                          ],
+                                        ),
+                                      ))),
+                              state.isLoading == true
+                                  ? Center(
+                                  child: listLoader(context: context))
+                                  : Container(),
+
+                              // RotationTransition(
+                              //   turns:_controller as Animation<double>,
+                              //   child: SizedBox(
+                              //     child: SvgPicture.asset('assets/app_logo.svg'),
+                              //     height: 150,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ))));
+        });
+
+
+    //   AnimatedBuilder(
+    //     animation:  _bc!,
+    //     builder: (context, child)
+    // {
+    //   return
+    //
+    //
+    //
+    // }
+    // );
+  }
+  // Container(
+  //     width: w,
+  //     height: h,
+  //     decoration: BoxDecoration(
+  //       gradient: LinearGradient(
+  //         begin: aT.evaluate(_bc!),
+  //         end: aB.evaluate(_bc!),
+  //         colors: [
+  //           darkBackground.evaluate(_bc!)!,
+  //           normalBackground.evaluate(_bc!)!,
+  //           lightBackground.evaluate(_bc!)!,
+  //         ],
+  //       ),
+  //     ),
+  //     child: ConstrainedBox(
+  //         constraints: BoxConstraints(
+  //           minWidth: MediaQuery
+  //               .of(context)
+  //               .size
+  //               .width,
+  //           minHeight: MediaQuery
+  //               .of(context)
+  //               .size
+  //               .height,
+  //         ),
+  //         child: IntrinsicHeight(
+  //             child: Column(
+  //               mainAxisAlignment:
+  //               MainAxisAlignment.spaceAround,
+  //               mainAxisSize: MainAxisSize.max,
+  //               children: [
+  //                 const ,
+  //                 Container(
+  //                   width: w / 1.39,
+  //                   height: 55,
+  //                   child: SvgPicture.asset(
+  //                       "Assets/images/Logo.svg",
+  //                       fit: BoxFit.fill),
+  //                 ),
+  //                 const ,
+  //                 Column(
+  //                   mainAxisAlignment: MainAxisAlignment
+  //                       .spaceAround,
+  //                   children: [
+  //                     Container(
+  //                         width: w / 1.32,
+  //                         height: h / 10,
+  //                         child: Form(
+  //                           autovalidateMode:
+  //                           AutovalidateMode
+  //                               .onUserInteraction,
+  //                           key: _formkey1,
+  //                           child: TextFormField(
+  //                             keyboardAppearance:
+  //                             Brightness.dark,
+  //                             textInputAction:
+  //                             TextInputAction
+  //                                 .next,
+  //                             controller:
+  //                             _EmailController,
+  //                             cursorHeight: 20,
+  //                             onChanged: (
+  //                                 value) {},
+  //                             onFieldSubmitted:
+  //                                 (value) {},
+  //                             validator: MultiValidator(
+  //                                 [
+  //                                   RequiredValidator(
+  //                                       errorText:
+  //                                       "Required"),
+  //                                   EmailValidator(
+  //                                       errorText:
+  //                                       "Thats not an email")
+  //                                 ]),
+  //
+  //                             cursorColor: Colors
+  //                                 .black,
+  //                             style: TextStyle(
+  //                                 fontSize: 19,
+  //                                 fontWeight:
+  //                                 FontWeight
+  //                                     .w500,
+  //                                 height: 1.3,
+  //                                 color: Colors
+  //                                     .brown),
+  //                             decoration: InputDecoration(
+  //                                 errorStyle: TextStyle(
+  //                                   color: Colors
+  //                                       .red,
+  //                                 ),
+  //                                 errorBorder:
+  //                                 OutlineInputBorder(
+  //                                   borderSide:
+  //                                   BorderSide(
+  //                                       color: Colors
+  //                                           .white,
+  //                                       width: 0.0),
+  //                                 ),
+  //                                 focusedErrorBorder:
+  //                                 OutlineInputBorder(
+  //                                   borderSide:
+  //                                   BorderSide(
+  //                                       color: Colors
+  //                                           .white,
+  //                                       width: 0.0),
+  //                                 ),
+  //                                 border:
+  //                                 OutlineInputBorder(
+  //                                     borderRadius:
+  //                                     BorderRadius
+  //                                         .circular(
+  //                                         5)),
+  //                                 enabledBorder:
+  //                                 UnderlineInputBorder(
+  //                                   borderSide:
+  //                                   BorderSide(
+  //                                       color: Colors
+  //                                           .white),
+  //                                   borderRadius:
+  //                                   BorderRadius
+  //                                       .circular(
+  //                                       5),
+  //                                 ),
+  //                                 focusedBorder:
+  //                                 UnderlineInputBorder(
+  //                                   borderSide:
+  //                                   BorderSide(
+  //                                       color: Colors
+  //                                           .white),
+  //                                   borderRadius:
+  //                                   BorderRadius
+  //                                       .circular(
+  //                                       5),
+  //                                 ),
+  //                                 filled: true,
+  //                                 fillColor: Colors
+  //                                     .white,
+  //                                 contentPadding: EdgeInsets
+  //                                     .only(
+  //                                     left: h /
+  //                                         70),
+  //                                 hintText: "Email",
+  //                                 hintStyle: _TextTheme
+  //                                     .headline6!
+  //                                     .copyWith(
+  //                                   fontSize: 24,
+  //                                 )),
+  //                             keyboardType:
+  //                             TextInputType
+  //                                 .text,
+  //                             // obscureText: SecureInput_pass,
+  //                           ),
+  //                         )),
+  //                     InkWell(
+  //                       onTap: () async{
+  //                         Changed3 = true;
+  //                         setState(() {});
+  //                         bool result = await InternetConnectionChecker().hasConnection;
+  //                         if (result == true) {
+  //                           if (_formkey1
+  //                               .currentState!
+  //                               .validate()) {
+  //                             WidgetsBinding
+  //                                 .instance
+  //                                 .addPostFrameCallback(
+  //                                     (_) =>
+  //                                     Navigator
+  //                                         .push(
+  //                                       context,
+  //                                       MaterialPageRoute(
+  //                                         builder:
+  //                                             (context) =>
+  //                                             Login2(
+  //                                               Email:
+  //                                               _EmailController
+  //                                                   .text,
+  //                                             ),
+  //                                       ),
+  //                                     ));
+  //                           }
+  //                         }else{
+  //                           AnimatedSnackBar.material(
+  //                             'Check your internet connection',
+  //                             duration: Duration(seconds: 2),
+  //                             type: AnimatedSnackBarType.error,
+  //                           ).show(
+  //                             context,
+  //                           );
+  //                           // CommingSoonPopup(context, h, w, "Check your internet connection then try again", "Ok", 17);
+  //                         }
+  //                       },
+  //                       child: Container(
+  //                           width: w / 1.32,
+  //                           height: h / 13.9,
+  //                           decoration:
+  //                           const BoxDecoration(
+  //                             borderRadius:
+  //                             BorderRadius.only(
+  //                               topLeft:
+  //                               Radius.circular(
+  //                                   5),
+  //                               topRight:
+  //                               Radius.circular(
+  //                                   5),
+  //                               bottomLeft:
+  //                               Radius.circular(
+  //                                   5),
+  //                               bottomRight:
+  //                               Radius.circular(
+  //                                   5),
+  //                             ),
+  //                             boxShadow: [
+  //                               BoxShadow(
+  //                                   color: Color
+  //                                       .fromRGBO(
+  //                                       0,
+  //                                       0,
+  //                                       0,
+  //                                       0.15000000596046448),
+  //                                   offset: Offset(
+  //                                       0, 0),
+  //                                   blurRadius: 6)
+  //                             ],
+  //                             color: Color
+  //                                 .fromRGBO(
+  //                                 207, 109, 56,
+  //                                 1),
+  //                           ),
+  //                           child: Center(
+  //                             child: Text(
+  //                               'Log in',
+  //                               textAlign:
+  //                               TextAlign
+  //                                   .center,
+  //                               style: _TextTheme
+  //                                   .headline1!
+  //                                   .copyWith(
+  //                                   fontSize: 6.2 *
+  //                                       SizeConfig
+  //                                           .blockSizeHorizontal!
+  //                                           .toDouble(),
+  //                                   fontWeight:
+  //                                   FontWeight
+  //                                       .w600),
+  //                             ),
+  //                           )),
+  //                     ),
+  //                     Container(
+  //                       width: w,
+  //                       margin: EdgeInsets.only(
+  //                           top: h / 28),
+  //                       child: Center(
+  //                           child: Text(
+  //                             'or',
+  //                             textAlign: TextAlign
+  //                                 .center,
+  //                             style: TextStyle(
+  //                                 color: Color
+  //                                     .fromRGBO(
+  //                                     234, 234,
+  //                                     234, 1),
+  //                                 fontFamily: 'Red Hat Text',
+  //                                 fontSize: 6.1 *
+  //                                     SizeConfig
+  //                                         .blockSizeHorizontal!
+  //                                         .toDouble(),
+  //                                 letterSpacing:
+  //                                 0 ,
+  //                                 fontWeight: FontWeight
+  //                                     .w600,
+  //                                 height: 1.1875),
+  //                           )),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Column(
+  //                   children: [
+  //                     Container(
+  //                       width: w / 1.32,
+  //                       height: h / 13.9,
+  //                       margin: EdgeInsets.only(
+  //                           bottom: h / 50),
+  //                       child: Container(
+  //                           decoration:
+  //                           const BoxDecoration(
+  //                             borderRadius:
+  //                             BorderRadius.only(
+  //                               topLeft: Radius
+  //                                   .circular(
+  //                                   6.9275360107421875),
+  //                               topRight: Radius
+  //                                   .circular(
+  //                                   6.9275360107421875),
+  //                               bottomLeft: Radius
+  //                                   .circular(
+  //                                   6.9275360107421875),
+  //                               bottomRight:
+  //                               Radius.circular(
+  //                                   6.9275360107421875),
+  //                             ),
+  //                             color: Color
+  //                                 .fromRGBO(
+  //                                 24, 119, 242,
+  //                                 1),
+  //                           ),
+  //                           padding: const EdgeInsets
+  //                               .symmetric(
+  //                               horizontal:
+  //                               10.391304016113281,
+  //                               vertical:
+  //                               10.391304016113281),
+  //                           child: InkWell(
+  //                             onTap: () async {
+  //                               signInWithFacebook();
+  //                             },
+  //                             child: Center(
+  //                               child: Row(
+  //                                 mainAxisAlignment:
+  //                                 MainAxisAlignment
+  //                                     .center,
+  //                                 children: [
+  //                                   SvgPicture
+  //                                       .asset(
+  //                                     "Assets/images/path14.svg",
+  //                                     width: 20,
+  //                                   ),
+  //                                   Container(
+  //                                     margin:
+  //                                     EdgeInsets
+  //                                         .only(
+  //                                         left:
+  //                                         h /
+  //                                             60),
+  //                                     child: Text(
+  //                                       'Log In with Facebook',
+  //                                       textAlign:
+  //                                       TextAlign
+  //                                           .left,
+  //                                       style: TextStyle(
+  //                                           color:
+  //                                           Color
+  //                                               .fromRGBO(
+  //                                               255,
+  //                                               255,
+  //                                               255,
+  //                                               1),
+  //                                           fontFamily:
+  //                                           'Helvetica',
+  //                                           fontSize: 18,
+  //                                           letterSpacing:
+  //                                           0.5,
+  //                                           fontWeight:
+  //                                           FontWeight
+  //                                               .w700,
+  //                                           height: 1),
+  //                                     ),
+  //                                   ),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                           )),
+  //                     ),
+  //
+  //                     Container(
+  //                       width: w / 1.32,
+  //                       height: h / 13.9,
+  //                       margin: EdgeInsets.only(
+  //                           bottom: h / 50),
+  //                       decoration: const BoxDecoration(
+  //                         borderRadius:
+  //                         BorderRadius.only(
+  //                           topLeft: Radius
+  //                               .circular(
+  //                               6.9275360107421875),
+  //                           topRight: Radius
+  //                               .circular(
+  //                               6.9275360107421875),
+  //                           bottomLeft: Radius
+  //                               .circular(
+  //                               6.9275360107421875),
+  //                           bottomRight:
+  //                           Radius.circular(
+  //                               6.9275360107421875),
+  //                         ),
+  //                         color: Color.fromRGBO(
+  //                             255, 255, 255, 1),
+  //                       ),
+  //                       padding:
+  //                       const EdgeInsets
+  //                           .symmetric(
+  //                           horizontal:
+  //                           10.391304016113281,
+  //                           vertical:
+  //                           10.391304016113281),
+  //                       child: InkWell(
+  //                         onTap: () {
+  //                           signInWithGoogle(
+  //                               context: context);
+  //                           //  _handleSignIn();
+  //                         },
+  //                         child: Container(
+  //                           width: 16.626087188720703,
+  //                           height: 16.626087188720703,
+  //                           decoration:
+  //                           const BoxDecoration(
+  //                             color: Color
+  //                                 .fromRGBO(
+  //                                 255, 255, 255,
+  //                                 1),
+  //                           ),
+  //                           child: Center(
+  //                             child: Row(
+  //                               mainAxisAlignment:
+  //                               MainAxisAlignment
+  //                                   .center,
+  //                               children: [
+  //                                 SvgPicture
+  //                                     .asset(
+  //                                   "Assets/images/Google Logo.svg",
+  //                                   width: 20,
+  //                                 ),
+  //                                 Container(
+  //                                   margin:
+  //                                   EdgeInsets
+  //                                       .only(
+  //                                       left: h /
+  //                                           60),
+  //                                   child: Text(
+  //                                     'Log In with Google',
+  //                                     textAlign:
+  //                                     TextAlign
+  //                                         .left,
+  //                                     style: TextStyle(
+  //                                         color: const Color
+  //                                             .fromRGBO(
+  //                                             0,
+  //                                             0,
+  //                                             0,
+  //                                             0.5400000214576721),
+  //                                         fontFamily:
+  //                                         'Roboto Medium',
+  //                                         fontSize: 18,
+  //                                         letterSpacing:
+  //                                         0 ,
+  //                                         fontWeight:
+  //                                         FontWeight
+  //                                             .w500,
+  //                                         height: 1),
+  //                                   ),
+  //                                 ),
+  //                               ],
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //
+  //                     (Platform.isIOS)
+  //                         ? InkWell(
+  //                       onTap: () async {
+  //                         signinApple();
+  //                       },
+  //                       child: Container(
+  //                           width: w / 1.32,
+  //                           height: h / 13.9,
+  //                           margin: EdgeInsets
+  //                               .only(
+  //                               bottom: h / 50),
+  //                           child: Container(
+  //                             decoration:
+  //                             const BoxDecoration(
+  //                               borderRadius:
+  //                               BorderRadius
+  //                                   .only(
+  //                                 topLeft: Radius
+  //                                     .circular(
+  //                                     6.9275360107421875),
+  //                                 topRight: Radius
+  //                                     .circular(
+  //                                     6.9275360107421875),
+  //                                 bottomLeft: Radius
+  //                                     .circular(
+  //                                     6.9275360107421875),
+  //                                 bottomRight: Radius
+  //                                     .circular(
+  //                                     6.9275360107421875),
+  //                               ),
+  //                               color: const Color
+  //                                   .fromRGBO(
+  //                                   0, 0, 0, 1),
+  //                             ),
+  //                             padding: const EdgeInsets
+  //                                 .symmetric(
+  //                                 horizontal:
+  //                                 10.391304016113281,
+  //                                 vertical:
+  //                                 10.391304016113281),
+  //                             child: Center(
+  //                               child: Row(
+  //                                 mainAxisAlignment:
+  //                                 MainAxisAlignment
+  //                                     .spaceAround,
+  //                                 children: [
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   SvgPicture
+  //                                       .asset(
+  //                                     "Assets/images/path4.svg",
+  //                                     width: 20,
+  //                                   ),
+  //                                   const Text(
+  //                                     'Log In with Apple',
+  //                                     textAlign:
+  //                                     TextAlign
+  //                                         .left,
+  //                                     style: TextStyle(
+  //                                         color: const Color
+  //                                             .fromRGBO(
+  //                                             255,
+  //                                             255,
+  //                                             255,
+  //                                             1),
+  //                                         fontFamily:
+  //                                         'Roboto',
+  //                                         fontSize: 18,
+  //                                         letterSpacing:
+  //                                         0 ,
+  //                                         fontWeight:
+  //                                         FontWeight
+  //                                             .normal,
+  //                                         height:
+  //                                         1),
+  //                                   ),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                   const Text(
+  //                                       ""),
+  //                                 ],
+  //                               ),
+  //                             ),
+  //                           )),
+  //                     )
+  //                         : Container(),
+  //
+  //                     Container(
+  //                       margin: EdgeInsets.only(
+  //                           top: h / 50),
+  //                       child: InkWell(
+  //                         onTap: () async{
+  //                           bool result = await InternetConnectionChecker().hasConnection;
+  //                           if (result == true)
+  //                           {
+  //
+  //                             WidgetsBinding
+  //                                 .instance
+  //                                 .addPostFrameCallback(
+  //                                     (_) =>
+  //                                     Navigator
+  //                                         .push(
+  //                                       context,
+  //                                       MaterialPageRoute(
+  //                                         builder:
+  //                                             (
+  //                                             context) =>
+  //                                             SignUp(),
+  //                                       ),
+  //                                     ));
+  //
+  //                           }else {
+  //                             AnimatedSnackBar.material(
+  //                               'Check your internet connection',
+  //                               duration: Duration(seconds: 2),
+  //                               type: AnimatedSnackBarType.error,
+  //                             ).show(
+  //                               context,
+  //                             );
+  //                             // CommingSoonPopup(context, h, w,
+  //                             //     "Check your internet connection then try again", "Ok", 17);
+  //                           }
+  //                         },
+  //                         child: Column(
+  //                           mainAxisAlignment:
+  //                           MainAxisAlignment
+  //                               .start,
+  //                           children: [
+  //                             Text(
+  //                                 'Don’t have an account?',
+  //                                 textAlign:
+  //                                 TextAlign
+  //                                     .center,
+  //                                 style: _TextTheme
+  //                                     .headline1!
+  //                                     .copyWith(
+  //                                     fontSize: 15,
+  //                                     letterSpacing:
+  //                                     0.3,
+  //                                     fontWeight:
+  //                                     FontWeight
+  //                                         .w300,
+  //                                     height: 1)),
+  //                             Text("Sign up",
+  //                                 textAlign:
+  //                                 TextAlign
+  //                                     .center,
+  //                                 style: _TextTheme
+  //                                     .headline1!
+  //                                     .copyWith(
+  //                                     decoration:
+  //                                     TextDecoration
+  //                                         .underline,
+  //                                     fontSize: 12,
+  //                                     letterSpacing:
+  //                                     0.3,
+  //                                     fontWeight:
+  //                                     FontWeight
+  //                                         .w500,
+  //                                     height: 1)),
+  //                           ],
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 const ,
+  //               ],
+  //             )))),
+  Widget listLoader({context}) {
+    return  SpinKitThreeBounce(
+      color: Colors.blue,
+      size: 30.0.w,
     );
   }
 
-  Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
-      color: Colors.blue,
-      size: 30.0,
-    );
+  CommingSoonPopup(
+      BuildContext Context,
+      double h,
+      double w,
+      String Value,
+      String buttonValue,
+      int FontSize
+      ) async {
+    return showDialog(
+        context: Context,
+           barrierDismissible: true,
+        builder: (Context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              insetPadding: EdgeInsets.all(h/100),
+              content:Container(
+                width: w/1.4,
+                height: h/3,
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(8.285714149475098),
+                    topRight: Radius.circular(8.285714149475098),
+                    bottomLeft: Radius.circular(8.285714149475098),
+                    bottomRight: Radius.circular(8.285714149475098),
+                  ),
+                  color: Colors.transparent,
+                ),
+
+
+                child: Stack(
+                  children: [
+
+                    Positioned(
+                      top: h/12.5,
+                      child: Container(
+                        width: w/1.4,
+                        height: h/4.2,
+                        decoration: BoxDecoration(
+                          borderRadius : BorderRadius.only(
+                            topLeft: Radius.circular(8.285714149475098),
+                            topRight: Radius.circular(8.285714149475098),
+                            bottomLeft: Radius.circular(8.285714149475098),
+                            bottomRight: Radius.circular(8.285714149475098),
+                          ),
+                          color : Color.fromRGBO(47, 47, 47, 1),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+
+
+
+                            Center(
+                              child: Text(Value,
+                                textAlign: TextAlign.center, style: TextStyle(
+                                    color: Color.fromRGBO(234, 234, 234, 1),
+                                    fontFamily: 'Red Hat Display',
+                                    fontSize: 0.24.sp,
+                                    letterSpacing: 0 ,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1
+                                ),),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Container(
+                                      height: h/15.5,
+                                      width: w/2,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular(4.142857074737549),
+                                          topRight: Radius.circular(4.142857074737549),
+                                          bottomLeft: Radius.circular(4.142857074737549),
+                                          bottomRight: Radius.circular(4.142857074737549),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.25),
+                                            offset: Offset(0,0),
+                                            blurRadius: 6.628571510314941
+                                        )],
+                                        color : Color.fromRGBO(168, 48, 99, 1),
+                                      ),
+                                      child: Center(
+                                        child:
+                                        Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontFamily: 'Red Hat Text',
+                                            fontSize: 0.25.sp,
+                                            letterSpacing: 0 ,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1
+                                        ),),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: h/8,
+                      bottom: h/5.5,
+                      child: SvgPicture.asset(
+                        "Assets/images/widget.svg",
+                        width: 90,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+
+          );
+        });
   }
 //           Container(
 //                                         width: w / 1.1,

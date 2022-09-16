@@ -2,15 +2,18 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
+import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_bloc.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
-import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Spash_Screen/pages/Splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 // import 'package:flutter/scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:theme_manager/change_theme_widget.dart';
 import 'package:bubbles/App/bloc/App_State.dart';
@@ -29,7 +32,7 @@ import '../core/theme/theme_constants.dart';
 import 'package:sizer/sizer.dart';
 
 // import 'package:flutter_fgbg/flutter_fgbg.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MyApp extends StatefulWidget {
   MyApp({
@@ -43,7 +46,7 @@ class MyApp extends StatefulWidget {
 bool ISNewNotifications= false;
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
-
+  final _TopBarBloc = sl<TopBarBloc>();
   bool? serviceEnabled;
   LocationPermission? permission;
   final pref = sl<IPrefsHelper>();
@@ -69,6 +72,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //     );
   //   }
   // }
+  void _addBadge(int count) {
+    FlutterAppBadger.updateBadgeCount(count);
+  }
+
+
   void initMessaging() async{
     ISNewNotifications = true;
     await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -106,7 +114,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         android: androidNotificationsDetails,
         iOS: iosDetails);
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-
+      _TopBarBloc.add(GetBadge());
+      _addBadge(1);
       print(message);
       RemoteNotification? notification=message.notification;
       AndroidNotification? android=message.notification?.android;
@@ -145,6 +154,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
 
         }
+
   // handleClickNotification(String? payload) {
   //   print(payload);
   //   print("IN HANDDLE");
@@ -254,33 +264,35 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         },
         loadBrightnessOnStart: true,
         themedWidgetBuilder: (BuildContext context, ThemeData theme) {
-          return ResponsiveSizer(
-              builder: (context, orientation, deviceType) {
-                return  MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  home:
-                 // DirectChat(),
-                  SecondClass(),
-                  navigatorKey: navigatorKey,
-                  title: 'Bubbles',
-                  theme: theme,
-                  localizationsDelegates: const [
-                    DemoLocalization.delegate,
-                    GlobalMaterialLocalizations.delegate,
-                    GlobalWidgetsLocalizations.delegate,
-                    GlobalCupertinoLocalizations.delegate
-                  ],
-                  localeResolutionCallback: (locale, supportedLocales) {
-                    for (var supportedLocale in supportedLocales) {
-                      if (supportedLocale.languageCode == locale?.languageCode &&
-                          supportedLocale.countryCode == locale?.countryCode) {
-                        return supportedLocale;
-                      }
+          return  ScreenUtilInit(
+            builder: (BuildContext context, Widget? child) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home:
+                // DirectChat(),
+                // CameraScreen(),
+                SecondClass(),
+                navigatorKey: navigatorKey,
+                title: 'Bubbles',
+                theme: theme,
+                localizationsDelegates: const [
+                  DemoLocalization.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate
+                ],
+                localeResolutionCallback: (locale, supportedLocales) {
+                  for (var supportedLocale in supportedLocales) {
+                    if (supportedLocale.languageCode == locale?.languageCode &&
+                        supportedLocale.countryCode == locale?.countryCode) {
+                      return supportedLocale;
                     }
-                    return supportedLocales.first;
-                  },
-                );
-              }
+                  }
+                  return supportedLocales.first;
+                },
+              );
+            },
+            designSize: Size(320,568),
           );
         });
 

@@ -1,24 +1,31 @@
 import 'dart:async';
 
 import 'package:bubbles/App/app.dart';
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
+import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/pages/SprintChat.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_Bloc.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_State.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/bloc/DirectMessages_event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
+import 'package:bubbles/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:showcaseview/showcaseview.dart';
+import '../../../Home/Home_Screen/pages/HomeScreen.dart';
 import '../../ChatDirect_Screen/pages/ChatUi_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -71,7 +78,7 @@ class _DirectMessagesState extends State<DirectMessages> {
       }
     }
   }
-
+  final pref = sl<IPrefsHelper>();
   @override
   void initState() {
     super.initState();
@@ -82,7 +89,9 @@ class _DirectMessagesState extends State<DirectMessages> {
         0);
     ListenForONlineFriends();
     socket!.io..disconnect()..connect();
-    _DirectMessages_Bloc.add(GetLastMessageWithAllUsers());
+    _DirectMessages_Bloc.add(GetLastMessageWithAllUsers(
+
+    ));
     timer1212 = Timer.periodic(const Duration(seconds: 20), (Timer t)async{
     return LoopONfrinedsId();
     });
@@ -93,10 +102,13 @@ class _DirectMessagesState extends State<DirectMessages> {
     super.dispose();
     _SearchController.dispose();
   }
-
+  Future<void> setlogout() async {
+    await pref.logout();
+  }
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
+    TextTheme _TextTheme = Theme.of(context).textTheme;
     ColorScheme COLOR = Theme.of(context).colorScheme;
     // COLOR.copyWith(
     //   onBackground: Colors.black
@@ -112,6 +124,405 @@ class _DirectMessagesState extends State<DirectMessages> {
         bloc: _DirectMessages_Bloc,
         builder: (BuildContext Context, DirectMessagesState state) {
 
+          alreatDialogBuilder2(
+              BuildContext Context,
+              double h,
+              double w,
+              int Frined_id,
+              int index,
+              ) async {
+            return showDialog(
+                context: Context,
+                   barrierDismissible: true,
+                builder: (Context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.transparent,
+                    insetPadding: EdgeInsets.all(h/50),
+                    content:
+                    Container(
+                      width: w/1.1,
+                      height: h/4.2,
+                      decoration: BoxDecoration(
+                        borderRadius : BorderRadius.only(
+                          topLeft: Radius.circular(8.285714149475098.r),
+                          topRight:  Radius.circular(8.285714149475098.r),
+                          bottomLeft:  Radius.circular(8.285714149475098.r),
+                          bottomRight:  Radius.circular(8.285714149475098.r),
+                        ),
+                        color : Color.fromRGBO(47, 47, 47, 1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: h/50,top: h/50),
+                            child: Text('Are you sure you want to remove this user from your friendlist?',
+                              textAlign: TextAlign.left, style: TextStyle(
+                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                  fontFamily: 'Sofia Pro',
+                                  fontSize: 20.sp,
+                                  letterSpacing: 0.5 ,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1
+                              ),),
+                          ),
+                          Text(""),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                    width: w/3,
+                                    height: h/15,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(4.142857074737549.r),
+                                        topRight:  Radius.circular(4.142857074737549.r),
+                                        bottomLeft:  Radius.circular(4.142857074737549.r),
+                                        bottomRight:  Radius.circular(4.142857074737549.r),
+                                      ),
+                                      boxShadow : [BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: Offset(0,0),
+                                          blurRadius: 6.628571510314941
+                                      )],
+                                      color : Color.fromRGBO(207, 109, 56, 1),
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Text('No', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          fontFamily: 'Sofia Pro',
+                                          fontSize: 19.571428298950195.sp,
+                                          letterSpacing: 0.5 ,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1
+                                      ),),
+                                    )
+                                ),
+                              ),
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  // _GroupChatBloc.add(RemoveFriend((b) => b
+                                  //   ..friend_id = Frined_id
+                                  //   ..index = index
+                                  // ));
+                                },
+                                child: Container(
+                                  width: w/3,
+                                  height: h/15,
+                                  decoration: BoxDecoration(
+                                    borderRadius : BorderRadius.only(
+                                      topLeft:  Radius.circular(4.142857074737549.r),
+                                      topRight:  Radius.circular(4.142857074737549.r),
+                                      bottomLeft:  Radius.circular(4.142857074737549.r),
+                                      bottomRight: Radius.circular(4.142857074737549.r),
+                                    ),
+                                    boxShadow : [BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                                        offset: Offset(0,0),
+                                        blurRadius: 6.628571510314941
+                                    )],
+                                    color : Color.fromRGBO(168, 48, 99, 1),
+                                  ),
+                                  child: Center(
+                                    child:
+                                    Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        fontFamily: 'Sofia Pro',
+                                        fontSize: 19.571428298950195.sp,
+                                        letterSpacing: 0.5 ,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1
+                                    ),),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          }
+
+
+          alreatDialogBuilder(
+              BuildContext Context,
+              double h,
+              double w,
+              bool is_frined,
+              bool is_me,
+              int frined_id,
+              int myINdex,
+              FrinedsData UserData
+              ) async {
+            return showDialog(
+                context: Context,
+                   barrierDismissible: true,
+                builder: (Context) {
+
+
+
+                  var myInt = int.parse(UserData.Background_Color.toString());
+                  var BackgroundColor= myInt;
+
+
+                  return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      insetPadding: EdgeInsets.all(h/50),
+                      content:GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context,true);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width: w,
+                          height: h,
+                          child :
+                          Stack(
+                              children:[
+
+                                Center(
+                                  child: Container(
+                                    width: w/1.1,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(8.285714149475098.r),
+                                        topRight:Radius.circular(8.285714149475098.r),
+                                        bottomLeft: Radius.circular(8.285714149475098.r),
+                                        bottomRight: Radius.circular(8.285714149475098.r),
+                                      ),
+                                      color : Color.fromRGBO(47, 47, 47, 1),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5.h),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                            children:  [
+
+
+                                              Container(
+                                                margin: EdgeInsets.only(left: h/60),
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(UserData.Avatar.toString()),
+                                                  radius:35.w,
+
+                                                  backgroundColor:Color(BackgroundColor),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(left: h/60),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      child: Text(
+                                                          UserData.Alias
+                                                              .toString(),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: _TextTheme.headline6!.copyWith(
+                                                              color: Color(
+                                                                  0xffEAEAEA),
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              fontSize:
+                                                              20.sp)),
+                                                    ),
+                                                    Row(
+                                                      children: [
+
+                                                        Text(
+                                                            UserData.Serial!,
+                                                            textAlign: TextAlign.left,
+                                                            style: _TextTheme
+                                                                .headline6!
+                                                                .copyWith(
+                                                                color: Color(
+                                                                    0xffEAEAEA),
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w300,
+                                                                fontSize:
+                                                                13.sp)),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                height: h/6,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      //  color: Colors.pink,
+                                                      child: IconButton(
+                                                        onPressed: (){
+                                                          Navigator.pop(context,true);
+                                                        },
+                                                        icon: Icon(Icons.clear),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                margin: EdgeInsets.only(left: 20.w),
+                                                child:
+                                                Text(UserData.boi.toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                    fontFamily: 'Red Hat Text',
+                                                    fontSize: 12.sp,
+                                                    letterSpacing: 0 ,
+                                                    fontWeight: FontWeight.w300,
+                                                    height: 1.4166666666666667
+                                                ),)
+                                            ),
+                                          ],
+                                        ),
+                                        Text(""),
+                                        Row(
+                                          mainAxisAlignment:
+                                          is_me?    MainAxisAlignment.center:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            is_me
+                                                ?Text("")
+                                                :InkWell(
+                                              onTap: (){
+                                                //DirectChat
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) =>     Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
+                                              },
+
+                                              child: Container(
+                                                  width: w/3,
+                                                  height: h/15,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius : BorderRadius.only(
+                                                      topLeft: Radius.circular(4.142857074737549.r),
+                                                      topRight: Radius.circular(4.142857074737549.r),
+                                                      bottomLeft: Radius.circular(4.142857074737549.r),
+                                                      bottomRight: Radius.circular(4.142857074737549.r),
+                                                    ),
+                                                    boxShadow:[
+                                                      BoxShadow(
+                                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                          offset: Offset(0,0),
+                                                          blurRadius: 6.628571510314941
+                                                      )
+                                                    ],
+                                                    color : Color.fromRGBO(207, 109, 56, 1),
+                                                  ),
+                                                  child: Center(
+                                                      child:
+                                                      SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+
+                                                  )
+                                              ),
+                                            ),
+                                            is_me
+                                                ?Text("")
+                                                :
+                                            InkWell(
+                                              onTap: (){
+                                                if (id== UserData.ID!) {
+                                                  if (!is_frined) {
+                                                    Navigator.pop(context);
+                                                    // _GroupChatBloc.add(
+                                                    //     AddFrined((b) =>
+                                                    //     b
+                                                    //       ..serial =UserData
+                                                    //           .Serial.toString()
+                                                    //       ..index = myINdex
+                                                    //     ));
+                                                  } else {
+                                                    alreatDialogBuilder2(
+                                                        context, h, w,
+                                                        frined_id, myINdex);
+                                                  }
+                                                }
+
+                                              },
+                                              child: Container(
+                                                width: w/3,
+                                                height: h/15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius : BorderRadius.only(
+                                                    topLeft: Radius.circular(4.142857074737549.r),
+                                                    topRight: Radius.circular(4.142857074737549.r),
+                                                    bottomLeft:Radius.circular(4.142857074737549.r),
+                                                    bottomRight: Radius.circular(4.142857074737549.r),
+                                                  ),
+                                                  boxShadow : [BoxShadow(
+                                                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                      offset: Offset(0,0),
+                                                      blurRadius: 6.628571510314941
+                                                  )],
+                                                  color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                                ),
+                                                child: Center(
+                                                    child:
+                                                    //
+                                                    //   SvgPicture.asset(
+                                                    // "Assets/images/Add_friend.svg",
+                                                    // color: Colors.white,
+                                                    // width: h / 26,
+                                                    // )
+
+                                                    is_frined
+                                                        ? SvgPicture.asset(
+                                                      "Assets/images/True_Mark.svg",
+                                                      color: Colors.white,
+                                                      width: h / 26,
+                                                    )
+                                                        :SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+
+
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 7.h,),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ]
+                          ),
+
+                        ),
+                      )
+
+                  );
+                });
+          }
+
 
           if (state.success! && Diditonce ){
             for(int i=0;i<state.OldMessages!.messages!.length;i++){
@@ -125,7 +536,22 @@ class _DirectMessagesState extends State<DirectMessages> {
             Diditonce = false;
 
           }
-
+          // else if (state.error=="Something Went Wrong"){
+          //   if (state.OldMessages==null){
+          //     AllBubblesStatus = List.filled(100000,0);
+          //     AllBubblesJoinStatusTry = List.filled(10000,false);
+          //     AllBubblesLeftStatusTry = List.filled(10000,true);
+          //     AllNearBubblesStatusTry = List.filled(10000,true);
+          //     AllBubblesIDS = List.filled(10000,0);
+          //     setlogout();
+          //     WidgetsBinding.instance
+          //         .addPostFrameCallback((_) =>
+          //         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          //             Login()), (Route<dynamic> route) => false));
+          //
+          //   }
+          // }
+          //
 
 
           return Scaffold(
@@ -135,7 +561,7 @@ class _DirectMessagesState extends State<DirectMessages> {
              Column(
                       children: [
                         SizedBox(
-                          height: h / 11,
+                          height: h / 10.99,
                         ),
                         // Container(
                         //     decoration: const BoxDecoration(
@@ -215,13 +641,14 @@ class _DirectMessagesState extends State<DirectMessages> {
                                 '       Direct Messages',
                                 textAlign: TextAlign.left,
                                 style: _textthem.headlineLarge!.copyWith(
-                                    fontWeight: FontWeight.w600, fontSize: 23),
+                                    fontWeight: FontWeight.w600,   fontSize: 20.sp
+                                ),
                               ),
                             ),
                             Row(
-                              children: const [
+                              children:  [
                                 SizedBox(
-                                  width: 10,
+                                  width: 10.w,
                                 ),
                               ],
                             ),
@@ -245,7 +672,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               ),
                                               onPressed: () {
 
-                                                WidgetsBinding.instance!
+                                                WidgetsBinding.instance
                                                     .addPostFrameCallback((_) => Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
@@ -277,7 +704,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                               Selected = List.filled(3, 0);
                                               Selected[1] = 1;
                                               setState(() {});
-                                              WidgetsBinding.instance!
+                                              WidgetsBinding.instance
                                                   .addPostFrameCallback(
                                                       (_) => Navigator.push(
                                                             context,
@@ -305,72 +732,84 @@ class _DirectMessagesState extends State<DirectMessages> {
                         const Text(""),
                         (state.success!)
                             ?   state.FilteredDmlist!.length==0
-                        ?Container(
-                          width: w,
-                          height: h /1.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset("Assets/images/DirectEmpty.png"),
-                              SizedBox(height: h/40,),
-                              InkWell(
-                                onTap: (){
-                                  WidgetsBinding.instance!
-                                      .addPostFrameCallback((_) => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Friendlist(is_WithoutTopBar: true,)
-                                      )));
-                                },
-                                child: Container(
-                                    width: w/1.4,
-                                    height: h/13,
-                                    decoration: BoxDecoration(
-                                      borderRadius : BorderRadius.only(
-                                        topLeft: Radius.circular(20.5),
-                                        topRight: Radius.circular(20.5),
-                                        bottomLeft: Radius.circular(20.5),
-                                        bottomRight: Radius.circular(20.5),
-                                      ),
-                                      boxShadow : [BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
-                                          offset: Offset(0,0),
-                                          blurRadius: 10
-                                      )],
-                                      color : Color.fromRGBO(207, 109, 56, 1),
-                                    ),
-                                  child: Center(
-                                    child:
-                                    Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
-                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                        fontFamily: 'Red Hat Text',
-                                        fontSize: 21.5,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1
-                                    ),),
+                        ?Expanded(
+                          child: Container(
+                            width: w,
+                            height: h /1.3,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: w/1.32,
+                                  child :
+                                  AspectRatio(
+                                    aspectRatio: 2/2.1,
+                                    child:  Image.asset("Assets/images/DirectEmpty.png",fit: BoxFit.fill,),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: h/40,),
-                              Container(
-                                width: w/1.6,
-                                child: Text('There are no messages. Find friends and start a chat with them!', textAlign: TextAlign.center, style: TextStyle(
-                                    color: Color.fromRGBO(96, 96, 96, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 20.105409622192383,
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1
-                                ),),
-                              ),
-                              SizedBox(height: h/8,),
 
-                            ],
+
+
+                                SizedBox(height: h/40,),
+                                InkWell(
+                                  onTap: (){
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Friendlist(is_WithoutTopBar: true,)
+                                        )));
+                                  },
+                                  child: Container(
+                                      width: w/1.4,
+                                      height: h/13,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular( h/20.5),
+                                          topRight:Radius.circular( h/20.5),
+                                          bottomLeft: Radius.circular( h/20.5),
+                                          bottomRight:Radius.circular( h/20.5),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
+                                            offset: Offset(0,0),
+                                            blurRadius: 10.r
+                                        )],
+                                        color : Color.fromRGBO(207, 109, 56, 1),
+                                      ),
+                                    child: Center(
+                                      child:
+                                      Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                          fontFamily: 'Red Hat Text',
+                                          fontSize: 20.sp,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.h
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: h/40,),
+                                Container(
+                                  width: w/1.6,
+                                  child: Text('There are no messages. Find friends and start a chat with them!', textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(96, 96, 96, 1),
+                                      fontFamily: 'Red Hat Display',
+                                      fontSize: 18.11.sp,
+                                      letterSpacing: 0.3 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.h
+                                  ),),
+                                ),
+
+
+                              ],
+                            ),
                           ),
                         )
-                            :
+                            :!state.isLoading!?
 
                         Expanded(
                                 child: Container(
@@ -391,7 +830,7 @@ class _DirectMessagesState extends State<DirectMessages> {
 
                                       Slidable(
                                           closeOnScroll: true,
-                                          key:  ValueKey(state.FilteredDmlist![index].id!),
+                                          key:  ValueKey(state.FilteredDmlist![index].receiver_id!),
                                           endActionPane: ActionPane(
                                             motion:   const ScrollMotion(),
                                             dismissible:
@@ -403,7 +842,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                       0);
                                                   _DirectMessages_Bloc.add(DeleteFromList((b) =>
                                                   b..index = index
-                                                      ..receiver_id =state.FilteredDmlist![index].id
+                                                      ..receiver_id =state.FilteredDmlist![index].receiver_id
                                                   ));
                                                 }),
                                             children: [
@@ -416,7 +855,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         0);
                                                     _DirectMessages_Bloc.add(DeleteFromList((b) =>
                                                     b..index = index
-                                                      ..receiver_id =state.FilteredDmlist![index].id
+                                                      ..receiver_id =state.FilteredDmlist![index].receiver_id
                                                     ));
                                                   },
                                                   child: Container(
@@ -427,18 +866,16 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                         bottom: h / 750,
                                                         top: h / 120),
                                                     decoration:
-                                                    const BoxDecoration(
-                                                      color: const Color(
+                                                     BoxDecoration(
+                                                      color:  Color(
                                                           0xff942657),
                                                       borderRadius:
                                                       BorderRadius
                                                           .only(
-                                                        bottomRight:
-                                                        const Radius
-                                                            .circular(5),
-                                                        topRight: Radius
-                                                            .circular(
-                                                            5),
+                                                     //   topLeft: Radius.circular( h/20.5),
+                                                        topRight:Radius.circular( h/162.5),
+                                                      //  bottomLeft: Radius.circular( h/20.5),
+                                                        bottomRight:Radius.circular( h/162.5),
                                                       ),
                                                     ),
                                                     child: Row(
@@ -462,15 +899,39 @@ class _DirectMessagesState extends State<DirectMessages> {
                                           child:
                                           InkWell(
                                             onTap: () {
-                                              WidgetsBinding.instance!
-                                                  .addPostFrameCallback(
-                                                      (_) => Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder:(context) =>
-                                                          Sprints(my_ID: state.FilteredDmlist![index].MY_id!, receiver_id: state.FilteredDmlist![index].id!, IS_sprints: false,His_Alias: state.FilteredDmlist![index].alias.toString(),)
-                                                    ),
-                                                  ));
+          var test =Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder:(context) =>
+                    Sprints(
+                      my_ID: state.FilteredDmlist![index].MY_id!,
+                      receiver_id: state.FilteredDmlist![index].receiver_id!,
+                      IS_sprints: false,
+                      His_Alias: state.FilteredDmlist![index].alias.toString(),
+                      Send_by: state.FilteredDmlist![index].send_by.toString(),
+                    )
+            ),
+          ).then((value) {
+            if (value == "Yes") {
+              FrinedsID.removeAt(index);
+              FrinedsStatus = List.filled(
+                  1000,
+                  0);
+              _DirectMessages_Bloc.add(DeleteFromList((b) =>
+              b..index = index
+                ..receiver_id =state.FilteredDmlist![index].receiver_id
+              ));
+              _DirectMessages_Bloc.add(
+                  DeleteChat((b) => b
+                    ..send_by = "sprint"
+                    ..Reciver_id = state.FilteredDmlist![index].receiver_id
+                  )
+              );
+            }
+          }
+          );
+
+
                                             },
                                             child: Column(children: [
                                               Container(
@@ -483,16 +944,11 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                   decoration: BoxDecoration(
                                                     color: COLOR.background,
                                                     borderRadius:
-                                                    const BorderRadius.only(
-                                                      bottomLeft:
-                                                      Radius.circular(40),
-                                                      bottomRight:
-                                                      const Radius.circular(5),
-                                                      topLeft:
-                                                      Radius.circular(
-                                                          40),
-                                                      topRight:
-                                                      Radius.circular(5),
+                                                     BorderRadius.only(
+                                                      bottomLeft:  Radius.circular( h/8),
+                                                      topLeft: Radius.circular(h/8),
+                                                      topRight:Radius.circular( h/70.5),
+                                                      bottomRight:Radius.circular( h/70.5),
                                                     ),
                                                     boxShadow: const [
                                                       BoxShadow(
@@ -506,7 +962,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                   child: Row(children: [
                                                     SizedBox(width: w/50,),
                                                     
-                                                Stack(
+                                                  Stack(
                                                           children: [
                                                   Hero(
                                                   tag:"Image${state.OldMessages!.messages![index].id}",
@@ -518,7 +974,11 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                           Navigator.push(
                                                             context,
                                                             MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                              builder: (context) => HeroImage(path:  state.FilteredDmlist![index].Avatar.toString(),color:    state.FilteredDmlist![index].backgroundColor!,id:state.OldMessages!.messages![index].id ,),),
+                                                              builder: (context) => HeroImage(path:
+                                                              state.FilteredDmlist![index].Avatar.toString(),
+                                                                color:    state.FilteredDmlist![index].backgroundColor!,
+                                                                id:state.OldMessages!.messages![index].id
+                                                                ,),),
                                                           );
                                                         },
                                                         child:
@@ -526,12 +986,23 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                               margin: EdgeInsets.only(
                                                                   left: h / 109),
                                                               child: CircleAvatar(
-                                                                backgroundColor: Color(
-                                                                    state.FilteredDmlist![index].backgroundColor!),
-                                                                backgroundImage:
-                                                                NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
-                                                                radius: h / 25.5,
-                                                              ),
+                                                                backgroundColor: state.FilteredDmlist![index].send_by=="sprint"? Colors.green:Colors.transparent,
+                                                                radius: h / 20.5,
+                                                                child:CircleAvatar(
+                                                                  backgroundColor: Color(0xff606060),
+                                                                  radius: h / 22.5,
+                                                                  child:CircleAvatar(
+                                                                    backgroundColor: Color(
+                                                                        state.FilteredDmlist![index].backgroundColor!),
+                                                                    backgroundImage:
+                                                                    NetworkImage(   state.FilteredDmlist![index].Avatar.toString()),
+                                                                    radius: h / 25.5,
+                                                                  ),
+                                                                )
+
+                                                              )
+
+
                                                             ),
                                                       )
                                                       )
@@ -576,10 +1047,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                           fontWeight:
                                                                           FontWeight
                                                                               .w400,
-                                                                          fontSize: 3.4 *
-                                                                              SizeConfig
-                                                                                  .blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                          fontSize: 16.sp,
                                                                         )),
                                                                   ),
 
@@ -610,12 +1078,10 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                       textAlign:
                                                                       TextAlign
                                                                           .left,
-                                                                      style: _textthem.headline5!.copyWith(
+                                                                      style : GoogleFonts.roboto().copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize: 2.6 *
-                                                                              SizeConfig.blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                          fontSize: 11.sp,
                                                                           color:
                                                                           const Color(0xffC4C4C4))),
                                                                 ),
@@ -637,9 +1103,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                                                             .copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize: 2.6 *
-                                                                              SizeConfig.blockSizeVertical!
-                                                                                  .toDouble(),
+                                                                            fontSize: 14.sp,
                                                                             color:
                                                                             const Color(0xffC4C4C4)
 
@@ -674,6 +1138,7 @@ class _DirectMessagesState extends State<DirectMessages> {
                                       ),
                                     )),
                               )
+                        :Container()
                             : state.isLoading == true
                                 ? Container(
                                     width: w,
@@ -708,31 +1173,20 @@ class _DirectMessagesState extends State<DirectMessages> {
                                   )
                       ],
                     ),
-
           );
         });
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }
 
 
-class DmlistData{
-  String? alias;
-  String? time;
-  String? lastMessage;
-  String? Avatar;
-  int? backgroundColor;
-  int? id;
-  int? MY_id;
-  String? Replies;
-  String? Msg_Type;
-}
+
 class HeroImage extends StatefulWidget {
   HeroImage({Key? key, this.path,this.color,this.id}) : super(key: key);
   int? color;

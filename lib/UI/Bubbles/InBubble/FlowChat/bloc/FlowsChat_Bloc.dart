@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_state.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:http/http.dart' as http;
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
@@ -282,7 +282,7 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
             InstanceMessages.background_Color = int.parse(Value);
             InstanceMessages.message = state.FlowOldMessages!.messages![i].message.toString();
             DateTime datee = DateTime.parse( state.FlowOldMessages!.messages![i].CreatAt.toString());
-            InstanceMessages.time = DateFormat.jm().format(datee);
+            InstanceMessages.time =  DateFormat.jm().format(datee.toLocal());
 
 
 
@@ -310,9 +310,9 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
             InstanceMessages.ReplierAlias = state.FlowOldMessages!.messages![i].replies![0].alias.toString();
             InstanceMessages.ReplierMessage = state.FlowOldMessages!.messages![i].replies![0].comment.toString();
             InstanceMessages.ReplierAvatar =  state.FlowOldMessages!.messages![i].replies![0].avatar.toString();
-            InstanceMessages.Replierbackground_Color =int.parse(Value2);
+            InstanceMessages.Replier_background_Color =int.parse(Value2);
             DateTime datee2 = DateTime.parse( state.FlowOldMessages!.messages![i].replies![0].CreatAt.toString());
-            InstanceMessages.Repliertime =DateFormat.jm().format(datee2);
+            InstanceMessages.time =  DateFormat.jm().format(datee2.toLocal());
 
 
 
@@ -383,6 +383,7 @@ class FlowsBloc extends Bloc<FlowsChatEvent, FlowsChatState> {
         );
 
        state.messages![0].ID = state.SendBubbleMessage!.message_id!.toInt();
+      state.messages![0].MessageSettledWIthID = true;
         // print( state.messages![0].ID);
         // print( state.messages![0].Avatar);
         // print( state.messages![0].message);

@@ -18,6 +18,8 @@ class _$SignUpState extends SignUpState {
   @override
   final bool? ChangeSelectedd;
   @override
+  final bool? iSHideSpaceOnSignUP;
+  @override
   final String? PickedColor;
   @override
   final int? UserDataINDEX;
@@ -47,6 +49,7 @@ class _$SignUpState extends SignUpState {
       this.success,
       this.UpdateSocialProfileSuccess,
       this.ChangeSelectedd,
+      this.iSHideSpaceOnSignUP,
       this.PickedColor,
       this.UserDataINDEX,
       this.UpdateProfileINDEX,
@@ -75,6 +78,7 @@ class _$SignUpState extends SignUpState {
         success == other.success &&
         UpdateSocialProfileSuccess == other.UpdateSocialProfileSuccess &&
         ChangeSelectedd == other.ChangeSelectedd &&
+        iSHideSpaceOnSignUP == other.iSHideSpaceOnSignUP &&
         PickedColor == other.PickedColor &&
         UserDataINDEX == other.UserDataINDEX &&
         UpdateProfileINDEX == other.UpdateProfileINDEX &&
@@ -103,13 +107,18 @@ class _$SignUpState extends SignUpState {
                                                 $jc(
                                                     $jc(
                                                         $jc(
-                                                            $jc(0,
-                                                                error.hashCode),
-                                                            isLoading.hashCode),
-                                                        success.hashCode),
-                                                    UpdateSocialProfileSuccess
-                                                        .hashCode),
-                                                ChangeSelectedd.hashCode),
+                                                            $jc(
+                                                                $jc(
+                                                                    0,
+                                                                    error
+                                                                        .hashCode),
+                                                                isLoading
+                                                                    .hashCode),
+                                                            success.hashCode),
+                                                        UpdateSocialProfileSuccess
+                                                            .hashCode),
+                                                    ChangeSelectedd.hashCode),
+                                                iSHideSpaceOnSignUP.hashCode),
                                             PickedColor.hashCode),
                                         UserDataINDEX.hashCode),
                                     UpdateProfileINDEX.hashCode),
@@ -124,12 +133,13 @@ class _$SignUpState extends SignUpState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SignUpState')
+    return (newBuiltValueToStringHelper(r'SignUpState')
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
           ..add('UpdateSocialProfileSuccess', UpdateSocialProfileSuccess)
           ..add('ChangeSelectedd', ChangeSelectedd)
+          ..add('iSHideSpaceOnSignUP', iSHideSpaceOnSignUP)
           ..add('PickedColor', PickedColor)
           ..add('UserDataINDEX', UserDataINDEX)
           ..add('UpdateProfileINDEX', UpdateProfileINDEX)
@@ -168,6 +178,11 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
   bool? get ChangeSelectedd => _$this._ChangeSelectedd;
   set ChangeSelectedd(bool? ChangeSelectedd) =>
       _$this._ChangeSelectedd = ChangeSelectedd;
+
+  bool? _iSHideSpaceOnSignUP;
+  bool? get iSHideSpaceOnSignUP => _$this._iSHideSpaceOnSignUP;
+  set iSHideSpaceOnSignUP(bool? iSHideSpaceOnSignUP) =>
+      _$this._iSHideSpaceOnSignUP = iSHideSpaceOnSignUP;
 
   String? _PickedColor;
   String? get PickedColor => _$this._PickedColor;
@@ -233,6 +248,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
       _success = $v.success;
       _UpdateSocialProfileSuccess = $v.UpdateSocialProfileSuccess;
       _ChangeSelectedd = $v.ChangeSelectedd;
+      _iSHideSpaceOnSignUP = $v.iSHideSpaceOnSignUP;
       _PickedColor = $v.PickedColor;
       _UserDataINDEX = $v.UserDataINDEX;
       _UpdateProfileINDEX = $v.UpdateProfileINDEX;
@@ -272,6 +288,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
               success: success,
               UpdateSocialProfileSuccess: UpdateSocialProfileSuccess,
               ChangeSelectedd: ChangeSelectedd,
+              iSHideSpaceOnSignUP: iSHideSpaceOnSignUP,
               PickedColor: PickedColor,
               UserDataINDEX: UserDataINDEX,
               UpdateProfileINDEX: UpdateProfileINDEX,
@@ -301,7 +318,7 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
         _Checkemail?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'SignUpState', _$failedField, e.toString());
+            r'SignUpState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -310,4 +327,4 @@ class SignUpStateBuilder implements Builder<SignUpState, SignUpStateBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

@@ -1,28 +1,37 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
+import 'package:bubbles/UI/Profile/Profile_Screen/pages/Porfile_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gleap_sdk/gleap_sdk.dart';
 import 'App/app.dart';
 import 'Injection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lat_lng_to_timezone/lat_lng_to_timezone.dart' as tzmap;
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
 void main() async {
 try {
  //HttpOverrides.global =  MyHttpOverrides();
-
+//SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//     statusBarColor: Colors.transparent,
+//  ));
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await iniGetIt();
-
+  await Gleap.initialize(
+    token: '93AmJho7YPNoLs3F5Oe3jPZHlxF7wjZ5',
+  );
+  await ScreenUtil.ensureScreenSize();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
         statusBarColor: Colors.black,
@@ -36,12 +45,20 @@ try {
   AllBubblesStatus = List.filled(100000,0);
   AllBubblesJoinStatusTry = List.filled(10000,false);
   AllBubblesLeftStatusTry = List.filled(10000,true);
-  AllNearBubblesStatusTry = List.filled(10000,true);
+  AllNearBubblesStatusTry = List.filled(10000,false);
   AllBubblesIDS = List.filled(10000,0);
+  // double latitude = 45.5017;
+  // double longitude = -73.5673;
+  //
+  // String tz = tzmap.latLngToTimezoneString(latitude, longitude);
+  // print('Montreal is in the $tz time zone.');
 }catch(e){
   print(e);
 }
-    runApp(ProviderScope(child:MyApp()));
+    runApp(
+      //  Profile()
+      ProviderScope(child:MyApp())
+    );
 }
 
 List<int>? AllBubblesIDS=[];
@@ -52,7 +69,9 @@ List<bool>? AllNearBubblesStatusTry=[];
 Timer? timer;
 bool CalledLoopingfucntion = false;
 
-
+//todo: in the next few days
+//1 : fix the notifications counter in app
+//6 : validation on textfields
 
 //// flutter pub get && flutter pub run build_runner build --delete-conflicting-outputs
 //// flutter pub get && flutter pub run build_runner watch
@@ -60,46 +79,20 @@ bool CalledLoopingfucntion = false;
 //// flutter build apk --split-per-abi
 //// flutter build appbundle
 
-//todo : fix all font sizes with the new standerd
-//todo : night mode button fix
+
 //todo : add the lines for socket for ios go to there package page
-//todo : handdle the screen of camera when access denyied
-//todo : check why the verify request takes time to proceed
-//todo : Display a message when verify profile when its done done
-//todo : import socket for ios and same for all packages
+//flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --obfuscate --split-debug-info=Bubbles\build\app\outputs\flutter-apk
+
 
 //Priority
 //todo: upload to googleplay (fix the bug on image shown on the image andreas sent)
 
-//Avatar Colors
-// CD6356
-// EB9B5D
-// 80BFC5
-// BA477A
-// 7B78F5
-// D588B1
-// 77C08A
-// DEDDBF
-// 303030
-// 4ECEB6
-// E0A41E
-// 31576D
-// 8D4624
-// EAEAEA
-// 606060
-//Bubble Colors
-// 1. D1B964
-// 2. E0A41E
-// 3. EB9B5D
-// 4. CF6D38
-// 5. E06859
-// 6. D96799
-// 7. 7B78F5
-// 8. 80BFC5
-// 9. 4ECEB6
-// 10. 6FA191
-// 11. 77C08A
-// 12. 34A853
+// todo : today Todo'es
+// 1 : Check if all the Direct messages/ Event chat / nested chat is Live chat
+// 2 : fix to display the message on the reply widget on all chats
+// 3 : try to fix the lag that andreas told you about on the splash screen on the last second
+// 4 : make a file and send to andreas contains. Done
+
 
 
 
@@ -110,7 +103,8 @@ bool CalledLoopingfucntion = false;
 //git add README.md
 //git commit -m "first commit"
 //git branch -M main
-//git remote add origin https://github.com/Saedxd/Bubbles.git
+//https://github.com/Saedxd/Bubbles/tree/sub_main
+//git remote add origin https://github.com/Saedxd/Bubbles/tree/sub_main https://github.com/Saedxd/Bubbles.git
 //git push -u origin main
 //…or push an existing repository from the command line
 
@@ -147,3 +141,18 @@ bool CalledLoopingfucntion = false;
 // E/flutter (30893): #15     _Timer._handleMessage (dart:isolate-patch/timer_impl.dart:426:5)
 // E/flutter (30893): #16     _RawReceivePortImpl._handleMessage (dart:isolate-patch/isolate_patch.dart:192:12)
 //todo :  make scroll controller then pass it in constuctor
+class AdaptiveTextSize {
+  const AdaptiveTextSize();
+
+  getadaptiveTextSize(BuildContext context, dynamic value) {
+    // 720 is medium screen height
+    return (value / 720) * MediaQuery.of(context).size.height;
+  }
+}
+class ScaleSize {
+  static double textScaleFactor(BuildContext context, {double maxTextScaleFactor = 2}) {
+    final width = MediaQuery.of(context).size.width;
+    double val = (width / 1400) * maxTextScaleFactor;
+    return max(1, min(val, maxTextScaleFactor));
+  }
+}

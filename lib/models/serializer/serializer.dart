@@ -4,12 +4,15 @@ import 'package:bubbles/models/AceeptRequestModel/AceeptRequestModel.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ChoosePollAnswerModel/ChoosePollAnswerModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventMessagesListModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventdetialMessageModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/NewPollAnswersModel.dart';
+import 'package:bubbles/models/EventOldMessagesModel/PollParticipantsModel.dart';
 import 'package:bubbles/models/Event_CateogoryModel/CateogoryList.dart';
 import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';
@@ -25,13 +28,13 @@ import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
 import 'package:bubbles/models/GetBubblesModel/CreatedByModel.dart';
 import 'package:bubbles/models/GetBubblesModel/DataPrimeBubbles.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/EventCategoryModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/GetBubblesModel/ImagesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/UserMadeBubbleModel.dart';
 import 'package:bubbles/models/GetChallengesModel/ChallengesListModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
-import 'package:bubbles/models/GetDetailedEvent/DataEventDetailModel.dart';
 import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetFriendsModel/FriendsListModel.dart';
 import 'package:bubbles/models/GetFriendsModel/GetFriendsModel.dart';
@@ -46,8 +49,8 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/QuestionsListModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
@@ -65,6 +68,8 @@ import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/SearchFrinedsModel.dart';
 import 'package:bubbles/models/SearchFrinedsModel/UserModell.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
+import 'package:bubbles/models/SprintsJoinLeaveModel/SprintsJoinLeaveModel.dart';
+import 'package:bubbles/models/SprintsLobbyUsersModel/SprintsLobbyUsersModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestedListModel.dart';
@@ -93,15 +98,18 @@ part 'serializer.g.dart';
  //model class name
   EventCateogoryModel,
   CateogoryList,
+  GetUsersInsideBubbleModel,
   SaveBubbleModel,
   NotifyMeCloseToBubbleModel,
-  GetUsersInsideBubbleModel,
+  FriendData,
   InOutUserStatusModel,
   SendBubbleMessageModel,
   FriendListSearchModel,
   FreindsFilteredListModel,
-  DataEventDetailModel,
+  // DataEventDetailModel,
   GetDetailedEvent,
+  ChoosePollAnswerModel,
+  SprintsJoinLeaveModel,
   SearchFrinedsModel,
   UserModell,
   ReplieslISTModel,
@@ -130,7 +138,6 @@ part 'serializer.g.dart';
   ChangeAvatarModel,
   AvatarListModel,
   GetAvatarsModel,
-  FriendsListModel,
   GetFriendsModel,
   GendersListModel,
   GetGenderModel,
@@ -153,7 +160,7 @@ part 'serializer.g.dart';
   CreateBubbleModel,
   CreatedByModel,
   DataPrimeBubbles,
-  GetPrimeBubblesModel,
+  GetBubblesModel,
   ImagesEventListModel,
   OrganizersListModel,
   UserMadeBubbleModel,
@@ -170,6 +177,9 @@ part 'serializer.g.dart';
   FlowChatModel,
   FlowMessagesModel,
   GetWhoSavedBubblesModel,
+  EventCategoryModel,
+  DeleteOldmessagesModel,
+  SprintsLobbyUsersModel
 ])
 final Serializers serializers = (_$serializers.toBuilder()
       ..addPlugin(StandardJsonPlugin())
@@ -181,6 +191,58 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<RemoveFromDirectModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(FriendData),
+        ],
+      )),
+          () => ListBuilder<FriendData>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(SprintsLobbyUsersModel),
+        ],
+      )),
+          () => ListBuilder<SprintsLobbyUsersModel>())
+
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(DeleteOldmessagesModel),
+        ],
+      )),
+          () => ListBuilder<DeleteOldmessagesModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(SprintsJoinLeaveModel),
+        ],
+      )),
+          () => ListBuilder<SprintsJoinLeaveModel>())
+
+
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(ChoosePollAnswerModel),
+        ],
+      )),
+          () => ListBuilder<ChoosePollAnswerModel>())
+  ..addBuilderFactory(
+      (const FullType(
+        BuiltList,
+        [
+          FullType(EventCategoryModel),
+        ],
+      )),
+          () => ListBuilder<EventCategoryModel>())
+  //
   ..addBuilderFactory(
       (const FullType(
         BuiltList,
@@ -357,14 +419,14 @@ final Serializers serializers = (_$serializers.toBuilder()
         ],
       )),
           () => ListBuilder<GetDetailedEvent>())
-  ..addBuilderFactory(
-      (const FullType(
-        BuiltList,
-        [
-          FullType(DataEventDetailModel),
-        ],
-      )),
-          () => ListBuilder<DataEventDetailModel>())
+  // ..addBuilderFactory(
+  //     (const FullType(
+  //       BuiltList,
+  //       [
+  //         FullType(DataEventDetailModel),
+  //       ],
+  //     )),
+  //         () => ListBuilder<DataEventDetailModel>())
   //  ,
 //   ,
 //   ,
@@ -474,10 +536,10 @@ final Serializers serializers = (_$serializers.toBuilder()
       (const FullType(
         BuiltList,
         [
-          FullType(GetPrimeBubblesModel),
+          FullType(GetBubblesModel),
         ],
       )),
-          () => ListBuilder<GetPrimeBubblesModel>())
+          () => ListBuilder<GetBubblesModel>())
   ..addBuilderFactory(
       (const FullType(
         BuiltList,
@@ -835,14 +897,7 @@ final Serializers serializers = (_$serializers.toBuilder()
       )),
           () => ListBuilder<GetAvatarsModel>())
 
-  ..addBuilderFactory(
-      (const FullType(
-        BuiltList,
-        [
-          FullType(FriendsListModel),
-        ],
-      )),
-          () => ListBuilder<FriendsListModel>())
+
   ..addBuilderFactory(
       (const FullType(
         BuiltList,

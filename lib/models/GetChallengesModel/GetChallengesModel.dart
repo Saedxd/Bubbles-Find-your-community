@@ -21,7 +21,7 @@ part 'GetChallengesModel.g.dart';
 
 abstract class GetChallengesModel
     implements Built<GetChallengesModel,GetChallengesModelBuilder> {
-
+  String? get error;
   String? get msg;
   int? get statuscode;
   BuiltList<ChallengesListModel>? get challenges;

@@ -21,7 +21,7 @@ abstract class GetAvatarsModel
   String? get msg;
   int? get statuscode;
   BuiltList<AvatarListModel>? get avatars;
-
+  String? get error;
 
 
   GetAvatarsModel._();

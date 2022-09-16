@@ -7,10 +7,11 @@ import 'dart:convert';
 
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/LogoutModel/LogoutModel.dart';
 import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
@@ -34,7 +35,7 @@ abstract class SavedBubblesState implements Built<SavedBubblesState, SavedBubble
 
   bool? get UnSaveIsloading;
 
-  GetPrimeBubblesModel? get GetSavedBubbles;
+  GetBubblesModel? get GetSavedBubbles;
   SaveBubbleModel? get SaveBubble;
   List<BubbleData>? get SavedBubbleList;
 

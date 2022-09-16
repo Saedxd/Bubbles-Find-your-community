@@ -23,7 +23,7 @@ abstract class GetGenderModel
   String? get msg;
   int? get statuscode;
   BuiltList<GendersListModel>? get genders;
-
+  String? get error;
 
 
   GetGenderModel._();

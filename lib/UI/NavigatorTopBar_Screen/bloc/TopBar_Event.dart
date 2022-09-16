@@ -48,6 +48,12 @@ abstract class ChangeIndex4 extends TopBarEvent
   ChangeIndex4._();
   factory ChangeIndex4([updates(ChangeIndex4Builder b)]) = _$ChangeIndex4;
 }
+abstract class ChangeIndex5 extends TopBarEvent
+    implements Built<ChangeIndex5, ChangeIndex5Builder> {
+  ChangeIndex5._();
+  factory ChangeIndex5([updates(ChangeIndex5Builder b)]) = _$ChangeIndex5;
+}
+
 
 
 abstract class ChangePAGEINDEX extends TopBarEvent
@@ -84,4 +90,9 @@ abstract class GetBadge extends TopBarEvent
   factory GetBadge([updates(GetBadgeBuilder b)]) = _$GetBadge;
 }
 
-
+abstract class Change_Is_Creator extends TopBarEvent
+    implements Built<Change_Is_Creator,Change_Is_CreatorBuilder> {
+bool? get ChangeISCreator;
+  Change_Is_Creator._();
+  factory Change_Is_Creator([updates(Change_Is_CreatorBuilder b)]) = _$Change_Is_Creator;
+}

@@ -18,7 +18,7 @@ abstract class ProfileDateModel
   String? get msg;
   int? get statuscode;
   UserProfileData? get user;
-
+  String? get error;
 
 
   ProfileDateModel._();

@@ -20,7 +20,7 @@ abstract class EventOldMessagesModel
   String? get msg;
   int? get statuscode;
   BuiltList<EventMessagesListModel>? get messages;
-
+  String? get error;
 
   EventOldMessagesModel._();
   factory EventOldMessagesModel([void Function(EventOldMessagesModelBuilder b)? updates]) =  _$EventOldMessagesModel;

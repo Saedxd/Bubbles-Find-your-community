@@ -2,10 +2,9 @@
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
-import 'package:bubbles/UI/Profile/FreindRequests_screen/pages/FreindRequests_screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_bloc.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/bloc/Settings_event.dart';
@@ -14,6 +13,7 @@ import 'package:bubbles/UI/Profile/SuggestedFrineds_Screen/pages/SuggestedFrined
 import 'package:bubbles/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -62,14 +62,7 @@ class _SettingsState extends State<Settings> {
         builder: (BuildContext Context, SettingsState state)
     {
 
-      if (state.LOgedOUT! && diditonce) {
-        setlogout();
-        WidgetsBinding.instance!
-            .addPostFrameCallback((_) =>
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                Login()), (Route<dynamic> route) => false));
 
-      }
 
 
       return
@@ -92,7 +85,7 @@ class _SettingsState extends State<Settings> {
                             child: IconButton(
                               icon: SvgPicture.asset(
                                   "Assets/images/Frame 11.svg",
-                                  width: 30,
+                                  width: 30.w,
                                   color: ColorS.surface),
                               onPressed: () {
                                 Navigator.pop(context);
@@ -101,7 +94,7 @@ class _SettingsState extends State<Settings> {
                         Text('Settings', textAlign: TextAlign.left,
                           style: _TextTheme.headlineLarge!.copyWith(
                               fontWeight: FontWeight.w600,
-                              fontSize: 23
+                              fontSize:  020.sp,
                           ),),
                         Text(""),
                         Text(""),
@@ -155,7 +148,7 @@ class _SettingsState extends State<Settings> {
                   //     ],
                   //   ),
                   // ),
-                  SizedBox(height: 10,),
+                  SizedBox(height: 10.h,),
                   // Container(
                   //     width: w / 1.4,
                   //     child: Row(
@@ -206,9 +199,9 @@ class _SettingsState extends State<Settings> {
 
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        InkWell(
+                        GestureDetector(
                           onTap: ()async {
-                            diditonce = true;
+
                             for(int i =0;i<AllBubblesStatus!.length;i++){
                               if (AllBubblesStatus![i]==1){
                                 int Bubble_ID = AllBubblesIDS![i];
@@ -233,6 +226,11 @@ class _SettingsState extends State<Settings> {
                             AllNearBubblesStatusTry = List.filled(10000,true);
                             AllBubblesIDS = List.filled(10000,0);
                             _SettingsBloc.add(Logout());
+                            setlogout();
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((_) =>
+                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                    Login()), (Route<dynamic> route) => false));
                           },
                           child: Container(
                             width: w / 1.2,
@@ -240,18 +238,10 @@ class _SettingsState extends State<Settings> {
                             decoration: BoxDecoration(
                                 borderRadius:
                                 BorderRadius.only(
-                                  topLeft:
-                                  Radius.circular(
-                                      21.5),
-                                  topRight:
-                                  Radius.circular(
-                                      21.5),
-                                  bottomLeft:
-                                  Radius.circular(
-                                      21.5),
-                                  bottomRight:
-                                  Radius.circular(
-                                      21.5),
+                                  topLeft: Radius.circular( h/20.5),
+                                  topRight:Radius.circular( h/20.5),
+                                  bottomLeft: Radius.circular( h/20.5),
+                                  bottomRight:Radius.circular( h/20.5),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -275,7 +265,7 @@ class _SettingsState extends State<Settings> {
                                       fontWeight:
                                       FontWeight
                                           .w400,
-                                      fontSize: 25,
+                                      fontSize:  20.sp,
                                       color: Color
                                           .fromRGBO(0,
                                           0, 0, 1),
@@ -303,9 +293,9 @@ class _SettingsState extends State<Settings> {
     );
   }
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

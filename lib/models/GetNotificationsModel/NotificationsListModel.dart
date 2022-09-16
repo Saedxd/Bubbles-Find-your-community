@@ -58,6 +58,7 @@ abstract class NotificationsListModel
   String? get background_color;
   String? get avatar;
   int? get user_id;
+  int? get id;
 
 
 

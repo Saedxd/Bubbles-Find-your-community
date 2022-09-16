@@ -5,7 +5,9 @@ library GetWhoSavedBubblesModel;
 import 'dart:convert';
 
 
-import 'package:bubbles/models/GetUsersInsideBubbleModel/UsersInsideBubbleListModel.dart';
+
+
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
@@ -18,8 +20,8 @@ abstract class GetWhoSavedBubblesModel
     implements Built<GetWhoSavedBubblesModel,GetWhoSavedBubblesModelBuilder> {
 
   int? get status;
-  BuiltList<UsersInsideBubbleListModel>? get data;
-
+  BuiltList<FriendData>? get data;
+  String? get error;
 
   GetWhoSavedBubblesModel._();
   factory GetWhoSavedBubblesModel([void Function(GetWhoSavedBubblesModelBuilder b)? updates]) =  _$GetWhoSavedBubblesModel;

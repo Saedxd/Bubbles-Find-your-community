@@ -18,7 +18,7 @@ abstract class SubmitCreatorAnwersModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   SubmitCreatorAnwersModel._();

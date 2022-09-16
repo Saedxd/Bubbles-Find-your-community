@@ -44,10 +44,10 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
           ..isLoading = false
           ..error = "Something went wrong"
           ..success = false
-          ..Getnotifcations = null
         );
       }
     }
+
 
     if (event is ClearError) {
       yield state.rebuild((b) => b

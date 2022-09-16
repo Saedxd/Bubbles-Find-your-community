@@ -19,7 +19,7 @@ abstract class FreindRequestsModel
   String? get msg;
   int? get statuscode;
   BuiltList<UsersRequestsModel>? get users;
-
+  String? get error;
 
 
   FreindRequestsModel._();

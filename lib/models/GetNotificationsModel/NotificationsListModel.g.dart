@@ -73,6 +73,12 @@ class _$NotificationsListModelSerializer
         ..add('user_id')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -116,6 +122,10 @@ class _$NotificationsListModelSerializer
           result.user_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
       }
     }
 
@@ -138,6 +148,8 @@ class _$NotificationsListModel extends NotificationsListModel {
   final String? avatar;
   @override
   final int? user_id;
+  @override
+  final int? id;
 
   factory _$NotificationsListModel(
           [void Function(NotificationsListModelBuilder)? updates]) =>
@@ -150,7 +162,8 @@ class _$NotificationsListModel extends NotificationsListModel {
       this.created_at,
       this.background_color,
       this.avatar,
-      this.user_id})
+      this.user_id,
+      this.id})
       : super._();
 
   @override
@@ -172,7 +185,8 @@ class _$NotificationsListModel extends NotificationsListModel {
         created_at == other.created_at &&
         background_color == other.background_color &&
         avatar == other.avatar &&
-        user_id == other.user_id;
+        user_id == other.user_id &&
+        id == other.id;
   }
 
   @override
@@ -181,24 +195,27 @@ class _$NotificationsListModel extends NotificationsListModel {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, title.hashCode), body.hashCode),
-                        type.hashCode),
-                    created_at.hashCode),
-                background_color.hashCode),
-            avatar.hashCode),
-        user_id.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, title.hashCode), body.hashCode),
+                            type.hashCode),
+                        created_at.hashCode),
+                    background_color.hashCode),
+                avatar.hashCode),
+            user_id.hashCode),
+        id.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('NotificationsListModel')
+    return (newBuiltValueToStringHelper(r'NotificationsListModel')
           ..add('title', title)
           ..add('body', body)
           ..add('type', type)
           ..add('created_at', created_at)
           ..add('background_color', background_color)
           ..add('avatar', avatar)
-          ..add('user_id', user_id))
+          ..add('user_id', user_id)
+          ..add('id', id))
         .toString();
   }
 }
@@ -236,6 +253,10 @@ class NotificationsListModelBuilder
   int? get user_id => _$this._user_id;
   set user_id(int? user_id) => _$this._user_id = user_id;
 
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
   NotificationsListModelBuilder();
 
   NotificationsListModelBuilder get _$this {
@@ -248,6 +269,7 @@ class NotificationsListModelBuilder
       _background_color = $v.background_color;
       _avatar = $v.avatar;
       _user_id = $v.user_id;
+      _id = $v.id;
       _$v = null;
     }
     return this;
@@ -276,10 +298,11 @@ class NotificationsListModelBuilder
             created_at: created_at,
             background_color: background_color,
             avatar: avatar,
-            user_id: user_id);
+            user_id: user_id,
+            id: id);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

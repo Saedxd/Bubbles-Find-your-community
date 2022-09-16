@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
@@ -12,14 +13,19 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/models/UserDataModel/UserData.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+//
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+import 'package:google_fonts/google_fonts.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 //todo: fix solution for textfield getting covered by the keyboard.
 class NameAndBoi extends StatefulWidget {
 
@@ -74,7 +80,7 @@ String? Pass;
       ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -84,10 +90,10 @@ String? Pass;
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -103,10 +109,10 @@ String? Pass;
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -121,7 +127,7 @@ String? Pass;
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
+                                    fontSize: 12.sp,
                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                     fontWeight: FontWeight.w600,
                                     height: 1
@@ -141,10 +147,10 @@ String? Pass;
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -158,7 +164,7 @@ String? Pass;
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
+                                            fontSize: 12.sp,
                                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                             fontWeight: FontWeight.w400,
                                             height: 1
@@ -175,10 +181,10 @@ String? Pass;
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
-                        width: 90,
+                        width: 90.w,
                       ),
                     ),
                   ],
@@ -241,7 +247,7 @@ print("---------------------------");
   ) async {
     return showDialog(
         context: Context,
-        barrierDismissible: false,
+           barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
             title: Text(Title),
@@ -275,14 +281,20 @@ print("---------------------------");
               diditonece == true &&
               state.UserDataINDEX == 5) {
             if (state.data!.msg=="success") {
+              // AnimatedSnackBar.material(
+              //   'Account customization Succeeded',
+              //   duration: Duration(seconds: 2),
+              //   type: AnimatedSnackBarType.success,
+              // ).show(
+              //   context,
+              // );
               pref.saveUser(
-                state.data as UserData,
+                state.data!.user!,
                 state.data!.user!.token!,
                 true,
               );
 
-              print(state.data!.user!.data!.gender!);
-              WidgetsBinding.instance!
+              WidgetsBinding.instance
                   .addPostFrameCallback((_) =>
                   Navigator.pushReplacement(
                     context,
@@ -309,14 +321,29 @@ print("---------------------------");
           //   }
           // }
 
-          if (state.UpdateSocialProfileSuccess! && diditonece &&  state.UpdateProfileINDEX == 6){
-            if (state.UpdateSocialProfile!.msg=="updated success")
-            WidgetsBinding.instance!
-                .addPostFrameCallback((_) => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => Permission1_Screen()),
-            ));
+          if (state.UpdateSocialProfileSuccess! && diditonece &&  state.UpdateProfileINDEX == 6) {
+            if (state.UpdateSocialProfile!.msg == "updated success") {
+              pref.saveUser(
+                state.UpdateSocialProfile!.user!,
+                "",
+                true,
+              );
+              //
+              // AnimatedSnackBar.material(
+              //   'Account customization Succeeded',
+              //   duration: Duration(seconds: 2),
+              //   type: AnimatedSnackBarType.success,
+              // ).show(
+              //   context,
+              // );
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) =>
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Permission1_Screen()),
+                  ));
+            }
           }
 
           return  GestureDetector(
@@ -332,35 +359,31 @@ print("---------------------------");
                         Container(
                           width: w,
                           height: h,
+                          margin: EdgeInsets.only(top: 90.h),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(""),
-                              Column(
-                                children: [
+
+
 
                                 Container(
                                width: w/1.3,
+                                  margin: EdgeInsets.only(bottom: 14.h),
                                   child:Text(
                                       'Choose an Alias!',
                                       textAlign: TextAlign.left,
                                       style:_TextTheme.headlineLarge!.copyWith(
-                                          fontSize: 3.5 *
-                                              SizeConfig
-                                                  .blockSizeVertical!
-                                                  .toDouble(),
+                                          fontSize: 20.sp,
                                           fontWeight: FontWeight.w600,
                                           color: Colors.white
                                       )
                                   ),
                                 ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(""),
+
                                   Container(
                                       width: w / 1.30,
                                       height: h/10,
+                                      margin: EdgeInsets.only(bottom: 27.h),
                                       child: Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -370,7 +393,9 @@ print("---------------------------");
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
                                           controller: _UsernameController,
-                                          onChanged: (value) {},
+                                          onChanged: (value) {
+
+                                          },
                                           onFieldSubmitted: (value) {
                                             FoucesNodeBoi.requestFocus();
                                           },
@@ -379,13 +404,13 @@ print("---------------------------");
                                           .hasMatch(
                                       value!)) {
                                       return "Only Letters and numbers allowed for Alias";
-                                      }else if (value.isEmpty){
-                                      return "Required";
-                                      }else if (value.length<3) {
-                                      return "Minimum Alias length is 3 Characters";
+                                      }else if (value.length<1) {
+                                      return "Minimum Alias length is 1 Characters";
                                       }else if (value.length>25){
-                                      return "Maximum Alias length is 3 Characters";
-                                      }//todo fix
+                                      return "Maximum Alias length is 30 Characters";
+                                      }else if(value.contains(RegExp(r'[!@#$%^&*(),?":{}|<>]'))){
+                                        return "Special characters not allowed";
+                                      }
 
 
                                           },
@@ -400,10 +425,13 @@ print("---------------------------");
 
                                           cursorColor: Colors.black,
                                           style: TextStyle(
-                                              fontSize: 19,
+                                              fontSize: 14.sp,
                                               fontWeight: FontWeight.w500,
-                                              height: 1.3,
+                                              height: 1.h,
                                               color: Colors.brown),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z0-9_]+$'))
+                                          ],
                                           decoration: InputDecoration(
                                               errorStyle:TextStyle(color: Colors.red,),
                                               errorBorder:  OutlineInputBorder(
@@ -413,67 +441,64 @@ print("---------------------------");
                                                 borderSide:  BorderSide(color: Colors.white, width: 0.0),
                                               ),
                                               border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(5)
+                                                  borderRadius:BorderRadius.circular(5.r)
                                               ),
                                               enabledBorder: UnderlineInputBorder(
                                                 borderSide:
                                                 BorderSide(color: Colors.white),
-                                                borderRadius: BorderRadius.circular(5),
+                                                borderRadius:BorderRadius.circular(5.r)
+
+
                                               ),
                                               focusedBorder: UnderlineInputBorder(
                                                 borderSide:
                                                 BorderSide(color: Colors.white),
-                                                borderRadius: BorderRadius.circular(5),
+                                                borderRadius: BorderRadius.circular(5.r)
                                               ),
                                               filled: true,
                                               fillColor: Colors.white,
                                               contentPadding:
-                                              EdgeInsets.symmetric(horizontal: 12,),
+                                              EdgeInsets.symmetric(horizontal: 12.w,),
                                               hintText: "Alias",
-                                              hintStyle: _TextTheme.headline6!.copyWith(
-                                                fontSize: 6.2 *
-                                                    SizeConfig
-                                                        .blockSizeHorizontal!
-                                                        .toDouble(),
-                                              )
+                                            hintStyle: GoogleFonts.roboto().copyWith(
+                                                fontSize: 20.sp,
+                                                letterSpacing: 0.5,
+                                                fontWeight: FontWeight.w300,
+                                                height: 1,
+                                              color: Color(0xff939393)
+                                            ),
                                           ),
                                           keyboardType: TextInputType.text,
                                           // obscureText: SecureInput_pass,
                                         ),
                                       )),
-                                ],
-                              ),
-                              Column(
-                                children: [
+
+
                                   Container(
                                     width: w/1.3,
+                                    margin: EdgeInsets.only(bottom: 14.h),
                                     child:
                                     Text(
                                         'Write a short bio!',
                                         textAlign: TextAlign.left,
                                         style: _TextTheme.headlineLarge!.copyWith(
-                                            fontSize: 3.5 *
-                                                SizeConfig
-                                                    .blockSizeVertical!
-                                                    .toDouble(),
+                                            fontSize: 20.sp,
                                             fontWeight: FontWeight.w600,
                                             color: Colors.white
                                         )
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(""),
+
                                   Container(
                                       width: w / 1.30,
+                                      height: h/2.8,
+                                      margin: EdgeInsets.only(bottom: 31.h),
                                       child: Form(
                                         autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                         key: _formkey2,
                                         child: TextFormField(
                                           maxLines: 11,
-
                                           focusNode: FoucesNodeBoi,
                                           keyboardAppearance: Brightness.dark,
                                           textInputAction: TextInputAction.next,
@@ -485,65 +510,57 @@ print("---------------------------");
                                           ]),
                                           cursorColor: Colors.black,
                                           style: TextStyle(
-                                              fontSize: 19,
-                                              height: 1.3,
+                                              fontSize: 14.sp,
+                                              height: 1.h,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.brown),
                                           decoration: InputDecoration(
                                             errorStyle:TextStyle(color: Colors.red,),
                                             errorBorder:  OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(5.r),
                                               borderSide:  BorderSide(color: Colors.white, width: 0.0),
                                             ),
                                             focusedErrorBorder:  OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(5.r),
                                               borderSide:  BorderSide(color: Colors.white, width: 0.0),
                                             ),
                                             border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5)
+                                                borderRadius: BorderRadius.circular(5.r)
                                             ),
                                             enabledBorder: UnderlineInputBorder(
                                               borderSide:
                                               BorderSide(color: Colors.white),
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius: BorderRadius.circular(5.r)
                                             ),
                                             focusedBorder: UnderlineInputBorder(
                                               borderSide:
                                               BorderSide(color: Colors.white),
-                                              borderRadius: BorderRadius.circular(5),
+                                              borderRadius:BorderRadius.circular(5.r)
                                             ),
                                             // labelText: "Bio",
                                             hintText:  "Bio",
-                                            hintStyle: _TextTheme.headline6!.copyWith(
-                                              fontSize: 6.2 *
-                                                  SizeConfig
-                                                      .blockSizeHorizontal!
-                                                      .toDouble(),
+                                            hintStyle: GoogleFonts.roboto().copyWith(
+                                                fontSize: 20.sp,
+                                                letterSpacing: 0.5,
+                                                fontWeight: FontWeight.w300,
+                                                height: 1.h,
+                                                color: Color(0xff939393)
                                             ),
                                             filled: true,
                                             fillColor: Colors.white,
-                                            contentPadding: const EdgeInsets.only(
-                                                top: 20, left: 10),
+                                            contentPadding:  EdgeInsets.only(
+                                                top: 10.h, left: 10.w),
                                           ),
                                           keyboardType: TextInputType.text,
                                         ),
                                       )),
 
-                                ],
-                              ),
+
                               Container(
                                 width: w / 1.3,
                                 height: h / 15,
-                                margin: EdgeInsets.only(bottom: h/50),
                                 child: InkWell(
                                   onTap: () async{
-                                    // print(widget.Email);
-                                    // print(widget.Pass);
-                                    // print(widget.ConfirmPass);
-                                    // print(widget.Color2);
-                                    // print(widget.Interset);
-                                    // print(widget.GenderID);
-                                    // print(widget.FirstName);
-                                    // print(widget.LastName);
-                                    // print(widget.BirthDay);
                                     print(_BoiController.text);
                                     print(_UsernameController.text);
                                     print(FcmToken);
@@ -599,12 +616,12 @@ print("---------------------------");
                                   child: Container(
                                     width: w / 1.3,
                                     height: h / 15,
-                                    decoration: const BoxDecoration(
+                                    decoration:  BoxDecoration(
                                       borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(5),
-                                        topRight: Radius.circular(5),
-                                        bottomLeft: Radius.circular(5),
-                                        bottomRight: Radius.circular(5),
+                                        topLeft: Radius.circular(5.r),
+                                        topRight: Radius.circular(5.r),
+                                        bottomLeft: Radius.circular(5.r),
+                                        bottomRight: Radius.circular(5.r),
                                       ),
                                       boxShadow: [
                                         BoxShadow(
@@ -622,10 +639,7 @@ print("---------------------------");
                                         style:
                                         _TextTheme.headline1!.copyWith(
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 6.2 *
-                                              SizeConfig
-                                                  .blockSizeHorizontal!
-                                                  .toDouble(),
+                                          fontSize: 20.sp,
                                         ),
                                       ),
                                     ),
@@ -650,9 +664,9 @@ print("---------------------------");
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

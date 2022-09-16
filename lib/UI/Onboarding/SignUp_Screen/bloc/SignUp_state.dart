@@ -22,6 +22,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
   bool? get success;
   bool? get UpdateSocialProfileSuccess;
   bool? get ChangeSelectedd;
+  bool? get iSHideSpaceOnSignUP;
   String? get PickedColor;
   int? get UserDataINDEX;
   int? get UpdateProfileINDEX;
@@ -54,6 +55,7 @@ abstract class SignUpState implements Built<SignUpState, SignUpStateBuilder> {
     return SignUpState((b) => b
       ..error = ""
       ..isLoading = false
+      ..iSHideSpaceOnSignUP = false
       ..success = false
       ..ChangeSelectedd = false
       ..UpdateSocialProfileSuccess = false

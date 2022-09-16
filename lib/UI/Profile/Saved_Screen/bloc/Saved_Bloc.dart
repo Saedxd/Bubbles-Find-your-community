@@ -2,7 +2,8 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:bubbles/Data/repository/irepository.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 
 import '../Pages/SavedBubbles_Screen.dart';
 import 'Saved_event.dart';
@@ -49,7 +50,12 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
 
 
           BubbleData Bubbledata = BubbleData();
+          Bubbledata.isAvailable =
+          state.GetSavedBubbles!.data![i].is_available.toString()=="available"
+              ? true
+              :false;
           Bubbledata.users_in_bubble = state.GetSavedBubbles!.data![i].users_in_bubble!;
+          Bubbledata.Cateogory_Icon = state.GetSavedBubbles!.data![i].category!.image!;
           Bubbledata.saved_users = state.GetSavedBubbles!.data![i].saved_users!;
           Bubbledata.Title = state.GetSavedBubbles!.data![i].title.toString();
           Bubbledata.location = state.GetSavedBubbles!.data![i].location.toString();
@@ -64,7 +70,7 @@ class SavedBubblesBloc extends Bloc<SavedEvent, SavedBubblesState> {
           Bubbledata.User_type = state.GetSavedBubbles!.data![i].created_by!.type;
           Bubbledata.Description = state.GetSavedBubbles!.data![i].description.toString();
           Bubbledata.Organizers = state.GetSavedBubbles!.data![i].organizers!;
-          Bubbledata.Category = state.GetSavedBubbles!.data![i].category!;
+          Bubbledata.Category = state.GetSavedBubbles!.data![i].category!.name!;
           state.GetSavedBubbles!.data![i].type.toString()!="Prime"?
           Bubbledata.dates = state.GetSavedBubbles!.data![i].dates!:print("prime");
           String Value = state.GetSavedBubbles!.data![i].color.toString();

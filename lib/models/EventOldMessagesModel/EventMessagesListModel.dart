@@ -4,6 +4,7 @@ import 'dart:convert';
 
 
 import 'package:bubbles/models/EventOldMessagesModel/EventdetialMessageModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
 import 'package:bubbles/models/OldMessagesModel/ReplieslISTModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
@@ -21,6 +22,7 @@ abstract class EventMessagesListModel
 //audio image text
   EventdetialMessageModel? get message;
   BuiltList<ReplieslISTModel>? get replies;
+  BuiltList<FriendData>? get flow_users;
 
 
 

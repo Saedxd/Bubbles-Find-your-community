@@ -40,6 +40,13 @@ class _$GetAliasModelSerializer implements StructuredSerializer<GetAliasModel> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(FreindModel)));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -67,6 +74,10 @@ class _$GetAliasModelSerializer implements StructuredSerializer<GetAliasModel> {
           result.friend.replace(serializers.deserialize(value,
               specifiedType: const FullType(FreindModel))! as FreindModel);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -81,11 +92,14 @@ class _$GetAliasModel extends GetAliasModel {
   final int? statuscode;
   @override
   final FreindModel? friend;
+  @override
+  final String? error;
 
   factory _$GetAliasModel([void Function(GetAliasModelBuilder)? updates]) =>
       (new GetAliasModelBuilder()..update(updates))._build();
 
-  _$GetAliasModel._({this.msg, this.statuscode, this.friend}) : super._();
+  _$GetAliasModel._({this.msg, this.statuscode, this.friend, this.error})
+      : super._();
 
   @override
   GetAliasModel rebuild(void Function(GetAliasModelBuilder) updates) =>
@@ -100,21 +114,24 @@ class _$GetAliasModel extends GetAliasModel {
     return other is GetAliasModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        friend == other.friend;
+        friend == other.friend &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), friend.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), friend.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetAliasModel')
+    return (newBuiltValueToStringHelper(r'GetAliasModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('friend', friend))
+          ..add('friend', friend)
+          ..add('error', error))
         .toString();
   }
 }
@@ -135,6 +152,10 @@ class GetAliasModelBuilder
   FreindModelBuilder get friend => _$this._friend ??= new FreindModelBuilder();
   set friend(FreindModelBuilder? friend) => _$this._friend = friend;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   GetAliasModelBuilder();
 
   GetAliasModelBuilder get _$this {
@@ -143,6 +164,7 @@ class GetAliasModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _friend = $v.friend?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -167,7 +189,10 @@ class GetAliasModelBuilder
     try {
       _$result = _$v ??
           new _$GetAliasModel._(
-              msg: msg, statuscode: statuscode, friend: _friend?.build());
+              msg: msg,
+              statuscode: statuscode,
+              friend: _friend?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -175,7 +200,7 @@ class GetAliasModelBuilder
         _friend?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetAliasModel', _$failedField, e.toString());
+            r'GetAliasModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -184,4 +209,4 @@ class GetAliasModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

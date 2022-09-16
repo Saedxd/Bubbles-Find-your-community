@@ -10,6 +10,7 @@ import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:collection/collection.dart';
@@ -105,16 +106,13 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                       margin: EdgeInsets.only(top: h/40),
                       child: InkWell(
                         onTap: (){
-                          WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                          WidgetsBinding.instance.addPostFrameCallback((_) =>
                               Navigator.of(context).pop()
                           );
                         },
                         child: Text('< Back',
                             textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
-                                fontSize: 3.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
+                                fontSize: 20.sp,
                                 letterSpacing: 0.3,
                                 fontWeight: FontWeight.w300,
                                 height: 1
@@ -128,10 +126,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                         textAlign: TextAlign.left,
                           style:_TextTheme.headlineLarge!.copyWith(
                               letterSpacing: 1,
-                              fontSize: 3.5 *
-                                  SizeConfig
-                                      .blockSizeVertical!
-                                      .toDouble(),
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w600,
                               color: Colors.white
                           )
@@ -178,7 +173,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                             print(SelectedGenderId);
 
                                             if (state.GetGender!.genders![index].title=="Others"){
-                                              WidgetsBinding.instance!.addPostFrameCallback(
+                                              WidgetsBinding.instance.addPostFrameCallback(
                                                       (_) => Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -191,13 +186,13 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                           child: Container(
                                             width: w / 2.7,
                                             height: h / 5,
-                                            margin: EdgeInsets.all(6),
+                                            margin: EdgeInsets.all(6.r),
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(5),
-                                                topRight: Radius.circular(5),
-                                                bottomLeft: Radius.circular(5),
-                                                bottomRight: Radius.circular(5),
+                                                topLeft: Radius.circular(5.r),
+                                                topRight: Radius.circular(5.r),
+                                                bottomLeft: Radius.circular(5.r),
+                                                bottomRight: Radius.circular(5.r),
                                               ),
                                               color: array2![index] == 1
                                                   ? Colors.white
@@ -218,23 +213,19 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                                       return CircularProgressIndicator();
                                                     },
                                                   ),),
-                                                Flexible(
-                                                  child: Text(
+                                                 Text(
                                                     state.GetGender!.genders![index].title!,
                                                     textAlign: TextAlign.left,
-                                                    overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Red Hat Text',
-                                                        fontSize: 6.6 *
-                                                            SizeConfig
-                                                                .blockSizeHorizontal!
-                                                                .toDouble(),
+                                                        fontSize: 20.sp,
                                                         letterSpacing: 0,
                                                         fontWeight: FontWeight.w400,
-                                                        height: 1),
+                                                        height: 1.h),
                                                   ),
-                                                )
+
+                                              
                                               ],
                                             ),
                                           ),
@@ -322,10 +313,7 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                   style:
                                   _TextTheme.headline1!.copyWith(
                                       fontWeight: FontWeight.w600,
-                                    fontSize: 3 *
-                                        SizeConfig
-                                            .blockSizeVertical!
-                                            .toDouble(),
+                                    fontSize: 18.sp
                                   ),
                                 ),
                               )),
@@ -344,9 +332,9 @@ class _Gender_ScreenState extends State<Gender_Screen> {
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

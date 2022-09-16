@@ -5,7 +5,7 @@ library PlanPage_Event;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bubbles/UI/DirectMessages/MessageModel/MessageModel.dart';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
@@ -43,5 +43,12 @@ abstract class GetWhoSavedBubble extends PlanPageEvent
   bool? get is_saved;
   GetWhoSavedBubble._();
   factory GetWhoSavedBubble([updates(GetWhoSavedBubbleBuilder b)]) = _$GetWhoSavedBubble;
+}
+
+abstract class GiveMeifItsSaved extends PlanPageEvent
+    implements Built<GiveMeifItsSaved,GiveMeifItsSavedBuilder> {
+  bool? get is_saved;
+  GiveMeifItsSaved._();
+  factory GiveMeifItsSaved([updates(GiveMeifItsSavedBuilder b)]) = _$GiveMeifItsSaved;
 }
 

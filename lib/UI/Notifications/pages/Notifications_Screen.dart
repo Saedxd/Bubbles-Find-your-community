@@ -1,12 +1,20 @@
+import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
+import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/pages/SprintChat.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_Bloc.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_State.dart';
 import 'package:bubbles/UI/Notifications/bloc/Notifications_event.dart';
+import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
+import 'package:bubbles/main.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bubbles/App/app.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../core/Colors/constants.dart';
@@ -22,426 +30,456 @@ class _NotificationsState extends State<Notifications> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late FocusNode FocuseNODE;
   final _NotificationBloc = sl<NotificationsBloc>();
-
+  final pref = sl<IPrefsHelper>();
+  Future<void> setlogout() async {
+    await pref.logout();
+  }
   @override
   void initState() {
     super.initState();
     FocuseNODE = FocusNode();
     _NotificationBloc.add(GetNotifications());
-
-
-     _NotificationBloc.add(ClearBadge());
-    // _NotificationBloc.add(GetBadge());
-    ISNewNotifications = false;
-
-
+    Diditonce2 = true;
+    _removeBadge();
   }
 
+  void _removeBadge() {
+    FlutterAppBadger.removeBadge();
+  }
   Future<void> OnRefresh() async {
     return Future.delayed(const Duration(milliseconds: 2000), () {});
   }
 bool diditonce = false;
+bool Diditonce2 = true;
+
   @override
   Widget build(BuildContext context) {
     TextTheme _textthem = Theme.of(context).textTheme;
+    TextTheme _TextTheme = Theme.of(context).textTheme;
     ColorScheme COLOR = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return BlocBuilder(
         bloc: _NotificationBloc,
         builder: (BuildContext Context, NotificationsState state) {
+          alreatDialogBuilder2(
+              BuildContext Context,
+              double h,
+              double w,
+              int Frined_id,
+              int index,
+              ) async {
+            return showDialog(
+                context: Context,
+                   barrierDismissible: true,
+                builder: (Context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.transparent,
+                    insetPadding: EdgeInsets.all(h/50),
+                    content:
+                    Container(
+                      width: w/1.1,
+                      height: h/4.2,
+                      decoration: BoxDecoration(
+                        borderRadius : BorderRadius.only(
+                          topLeft: Radius.circular(8.285714149475098.r),
+                          topRight:  Radius.circular(8.285714149475098.r),
+                          bottomLeft:  Radius.circular(8.285714149475098.r),
+                          bottomRight:  Radius.circular(8.285714149475098.r),
+                        ),
+                        color : Color.fromRGBO(47, 47, 47, 1),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left: h/50,top: h/50),
+                            child: Text('Are you sure you want to remove this user from your friendlist?',
+                              textAlign: TextAlign.left, style: TextStyle(
+                                  color: Color.fromRGBO(234, 234, 234, 1),
+                                  fontFamily: 'Sofia Pro',
+                                  fontSize: 20.sp,
+                                  letterSpacing: 0.5 ,
+                                  fontWeight: FontWeight.normal,
+                                  height: 1
+                              ),),
+                          ),
+                          Text(""),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                    width: w/3,
+                                    height: h/15,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(4.142857074737549.r),
+                                        topRight:  Radius.circular(4.142857074737549.r),
+                                        bottomLeft:  Radius.circular(4.142857074737549.r),
+                                        bottomRight:  Radius.circular(4.142857074737549.r),
+                                      ),
+                                      boxShadow : [BoxShadow(
+                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                          offset: Offset(0,0),
+                                          blurRadius: 6.628571510314941
+                                      )],
+                                      color : Color.fromRGBO(207, 109, 56, 1),
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Text('No', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                          fontFamily: 'Sofia Pro',
+                                          fontSize: 19.571428298950195.sp,
+                                          letterSpacing: 0.5 ,
+                                          fontWeight: FontWeight.w500,
+                                          height: 1
+                                      ),),
+                                    )
+                                ),
+                              ),
+
+                              InkWell(
+                                onTap: (){
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                  // _GroupChatBloc.add(RemoveFriend((b) => b
+                                  //   ..friend_id = Frined_id
+                                  //   ..index = index
+                                  // ));
+                                },
+                                child: Container(
+                                  width: w/3,
+                                  height: h/15,
+                                  decoration: BoxDecoration(
+                                    borderRadius : BorderRadius.only(
+                                      topLeft:  Radius.circular(4.142857074737549.r),
+                                      topRight:  Radius.circular(4.142857074737549.r),
+                                      bottomLeft:  Radius.circular(4.142857074737549.r),
+                                      bottomRight: Radius.circular(4.142857074737549.r),
+                                    ),
+                                    boxShadow : [BoxShadow(
+                                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                                        offset: Offset(0,0),
+                                        blurRadius: 6.628571510314941
+                                    )],
+                                    color : Color.fromRGBO(168, 48, 99, 1),
+                                  ),
+                                  child: Center(
+                                    child:
+                                    Text('Yes', textAlign: TextAlign.center, style: TextStyle(
+                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                        fontFamily: 'Sofia Pro',
+                                        fontSize: 19.571428298950195.sp,
+                                        letterSpacing: 0.5 ,
+                                        fontWeight: FontWeight.w500,
+                                        height: 1
+                                    ),),
+                                  ),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                });
+          }
 
 
-          // alreatDialogBuilder2(
-          //     BuildContext Context,
-          //     double h,
-          //     double w,
-          //     int Frined_id,
-          //     ) async {
-          //   return showDialog(
-          //       context: Context,
-          //       barrierDismissible: false,
-          //       builder: (Context) {
-          //         return AlertDialog(
-          //           backgroundColor: Colors.transparent,
-          //           insetPadding: EdgeInsets.all(h/50),
-          //           content:
-          //           Container(
-          //             width: w/1.1,
-          //             height: h/4.2,
-          //             decoration: BoxDecoration(
-          //               borderRadius : BorderRadius.only(
-          //                 topLeft: Radius.circular(8.285714149475098),
-          //                 topRight: Radius.circular(8.285714149475098),
-          //                 bottomLeft: Radius.circular(8.285714149475098),
-          //                 bottomRight: Radius.circular(8.285714149475098),
-          //               ),
-          //               color : Color.fromRGBO(47, 47, 47, 1),
-          //             ),
-          //             child: Column(
-          //               crossAxisAlignment: CrossAxisAlignment.center,
-          //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //               children: [
-          //                 Container(
-          //                   padding: EdgeInsets.only(left: h/50,top: h/50),
-          //                   child: Text('Are you sure you want to remove this user from your friendlist?',
-          //                     textAlign: TextAlign.left, style: TextStyle(
-          //                         color: Color.fromRGBO(234, 234, 234, 1),
-          //                         fontFamily: 'Sofia Pro',
-          //                         fontSize: 20.571428298950195,
-          //                         letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
-          //                         fontWeight: FontWeight.normal,
-          //                         height: 1
-          //                     ),),
-          //                 ),
-          //                 Text(""),
-          //                 Row(
-          //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //                   children: [
-          //
-          //                     InkWell(
-          //                       onTap: (){
-          //                         Navigator.pop(context);
-          //                       },
-          //                       child: Container(
-          //                           width: w/3,
-          //                           height: h/15,
-          //                           decoration: BoxDecoration(
-          //                             borderRadius : BorderRadius.only(
-          //                               topLeft: Radius.circular(4.142857074737549),
-          //                               topRight: Radius.circular(4.142857074737549),
-          //                               bottomLeft: Radius.circular(4.142857074737549),
-          //                               bottomRight: Radius.circular(4.142857074737549),
-          //                             ),
-          //                             boxShadow : [BoxShadow(
-          //                                 color: Color.fromRGBO(0, 0, 0, 0.25),
-          //                                 offset: Offset(0,0),
-          //                                 blurRadius: 6.628571510314941
-          //                             )],
-          //                             color : Color.fromRGBO(207, 109, 56, 1),
-          //                           ),
-          //                           child: Center(
-          //                             child:
-          //                             Text('No', textAlign: TextAlign.center, style: TextStyle(
-          //                                 color: Color.fromRGBO(234, 234, 234, 1),
-          //                                 fontFamily: 'Sofia Pro',
-          //                                 fontSize: 19.571428298950195,
-          //                                 letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
-          //                                 fontWeight: FontWeight.w500,
-          //                                 height: 1
-          //                             ),),
-          //                           )
-          //                       ),
-          //                     ),
-          //
-          //                     InkWell(
-          //                       onTap: (){
-          //                         Navigator.pop(context);
-          //                         _GroupChatBloc.add(RemoveFriend((b) => b
-          //                           ..friend_id = Frined_id
-          //                         ));
-          //                       },
-          //                       child: Container(
-          //                         width: w/3,
-          //                         height: h/15,
-          //                         decoration: BoxDecoration(
-          //                           borderRadius : BorderRadius.only(
-          //                             topLeft: Radius.circular(4.142857074737549),
-          //                             topRight: Radius.circular(4.142857074737549),
-          //                             bottomLeft: Radius.circular(4.142857074737549),
-          //                             bottomRight: Radius.circular(4.142857074737549),
-          //                           ),
-          //                           boxShadow : [BoxShadow(
-          //                               color: Color.fromRGBO(0, 0, 0, 0.25),
-          //                               offset: Offset(0,0),
-          //                               blurRadius: 6.628571510314941
-          //                           )],
-          //                           color : Color.fromRGBO(168, 48, 99, 1),
-          //                         ),
-          //                         child: Center(
-          //                           child:
-          //                           Text('Yes', textAlign: TextAlign.center, style: TextStyle(
-          //                               color: Color.fromRGBO(234, 234, 234, 1),
-          //                               fontFamily: 'Sofia Pro',
-          //                               fontSize: 19.571428298950195,
-          //                               letterSpacing: 0.5 /*percentages not used in flutter. defaulting to zero*/,
-          //                               fontWeight: FontWeight.w500,
-          //                               height: 1
-          //                           ),),
-          //                         ),
-          //                       ),
-          //                     )
-          //                   ],
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //         );
-          //       });
-          // }
-          //
-          //
-          // alreatDialogBuilder(
-          //     BuildContext Context,
-          //     double h,
-          //     double w,
-          //     int myINdex,
-          //     bool is_frined,
-          //     bool is_me,
-          //     int frined_id,
-          //     ) async {
-          //   return showDialog(
-          //       context: Context,
-          //       barrierDismissible: false,
-          //       builder: (Context) {
-          //
-          //
-          //
-          //         var myInt = int.parse(state.FilteredInsideBubbleUsers![myINdex].Background_Color.toString());
-          //         var BackgroundColor= myInt;
-          //
-          //
-          //         return AlertDialog(
-          //             backgroundColor: Colors.transparent,
-          //             insetPadding: EdgeInsets.all(h/50),
-          //             content:GestureDetector(
-          //               onTap: (){
-          //                 Navigator.pop(context,true);
-          //               },
-          //               child: Container(
-          //                 color: Colors.transparent,
-          //                 width: w,
-          //                 height: h,
-          //                 child :
-          //                 Stack(
-          //                     children:[
-          //
-          //                       Center(
-          //                         child: Container(
-          //                           width: w/1.1,
-          //                           height: h/2.3,
-          //                           decoration: BoxDecoration(
-          //                             borderRadius : BorderRadius.only(
-          //                               topLeft: Radius.circular(8.285714149475098),
-          //                               topRight: Radius.circular(8.285714149475098),
-          //                               bottomLeft: Radius.circular(8.285714149475098),
-          //                               bottomRight: Radius.circular(8.285714149475098),
-          //                             ),
-          //                             color : Color.fromRGBO(47, 47, 47, 1),
-          //                           ),
-          //                           child: Column(
-          //                             crossAxisAlignment: CrossAxisAlignment.center,
-          //                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-          //                             children: [
-          //                               Row(
-          //                                 mainAxisAlignment:
-          //                                 MainAxisAlignment.spaceAround,
-          //                                 children:  [
-          //
-          //
-          //                                   Container(
-          //                                     margin: EdgeInsets.only(left: h/60),
-          //                                     child: CircleAvatar(
-          //
-          //                                       backgroundImage: NetworkImage(state.FilteredInsideBubbleUsers![myINdex].Avatar.toString()),
-          //                                       radius:40,
-          //                                       backgroundColor:Color(BackgroundColor),
-          //                                     ),
-          //                                   ),
-          //                                   Container(
-          //                                     margin: EdgeInsets.only(left: h/60),
-          //                                     child: Column(
-          //                                       children: [
-          //                                         Container(
-          //                                           child: Text(
-          //                                               state.FilteredInsideBubbleUsers![myINdex].Alias
-          //                                                   .toString(),
-          //                                               overflow: TextOverflow.ellipsis,
-          //                                               style: _TextTheme.headline6!.copyWith(
-          //                                                   color: Color(
-          //                                                       0xffEAEAEA),
-          //                                                   fontWeight:
-          //                                                   FontWeight
-          //                                                       .w400,
-          //                                                   fontSize:
-          //                                                   20)),
-          //                                         ),
-          //                                         Row(
-          //                                           children: [
-          //
-          //                                             Text(
-          //                                                 state.FilteredInsideBubbleUsers![myINdex].Serial_number!,
-          //                                                 textAlign: TextAlign.left,
-          //                                                 style: _TextTheme
-          //                                                     .headline6!
-          //                                                     .copyWith(
-          //                                                     color: Color(
-          //                                                         0xffEAEAEA),
-          //                                                     fontWeight:
-          //                                                     FontWeight
-          //                                                         .w300,
-          //                                                     fontSize:
-          //                                                     13)),
-          //                                           ],
-          //                                         ),
-          //                                       ],
-          //                                     ),
-          //                                   ),
-          //                                   Container(
-          //                                     height: h/6,
-          //                                     child: Column(
-          //                                       children: [
-          //                                         Container(
-          //                                           //  color: Colors.pink,
-          //                                           child: IconButton(
-          //                                             onPressed: (){
-          //                                               Navigator.pop(context,true);
-          //                                             },
-          //                                             icon: Icon(Icons.clear),
-          //                                           ),
-          //                                         ),
-          //                                       ],
-          //                                     ),
-          //                                   )
-          //                                 ],
-          //                               ),
-          //                               Container(
-          //                                   padding: EdgeInsets.only(left: h/50,top: h/50),
-          //                                   child:
-          //                                   Text(   state.FilteredInsideBubbleUsers![myINdex].boi.toString(), textAlign: TextAlign.left, style: TextStyle(
-          //                                       color: Color.fromRGBO(255, 255, 255, 1),
-          //                                       fontFamily: 'Red Hat Text',
-          //                                       fontSize: 12,
-          //                                       letterSpacing: 0 ,
-          //                                       fontWeight: FontWeight.w300,
-          //                                       height: 1.4166666666666667
-          //                                   ),)
-          //                               ),
-          //                               Text(""),
-          //                               Row(
-          //                                 mainAxisAlignment:
-          //                                 is_me?    MainAxisAlignment.center:
-          //                                 MainAxisAlignment.spaceAround,
-          //                                 children: [
-          //                                   is_me
-          //                                       ?Text("")
-          //                                       :InkWell(
-          //                                     onTap: (){
-          //                                       //DirectChat
-          //                                       WidgetsBinding.instance!
-          //                                           .addPostFrameCallback((_) =>     Navigator.push(
-          //                                         context,
-          //                                         MaterialPageRoute(//receiver_id: ,my_ID: ,
-          //                                           builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].id!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,),),   ));
-          //                                     },
-          //                                     child: Container(
-          //                                         width: w/3,
-          //                                         height: h/15,
-          //                                         decoration: BoxDecoration(
-          //                                           borderRadius : BorderRadius.only(
-          //                                             topLeft: Radius.circular(4.142857074737549),
-          //                                             topRight: Radius.circular(4.142857074737549),
-          //                                             bottomLeft: Radius.circular(4.142857074737549),
-          //                                             bottomRight: Radius.circular(4.142857074737549),
-          //                                           ),
-          //                                           boxShadow:[
-          //                                             BoxShadow(
-          //                                                 color: Color.fromRGBO(0, 0, 0, 0.25),
-          //                                                 offset: Offset(0,0),
-          //                                                 blurRadius: 6.628571510314941
-          //                                             )
-          //                                           ],
-          //                                           color : Color.fromRGBO(207, 109, 56, 1),
-          //                                         ),
-          //                                         child: Center(
-          //                                             child:
-          //                                             SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
-          //
-          //                                         )
-          //                                     ),
-          //                                   ),
-          //                                   InkWell(
-          //                                     onTap: (){
-          //                                       if ( !is_frined) {
-          //                                         Navigator.pop(context);
-          //                                         _GroupChatBloc.add(AddFrined((b) =>
-          //                                         b ..serial = state.FilteredInsideBubbleUsers![myINdex].Serial.toString()
-          //                                         ));
-          //                                       }else{
-          //                                         alreatDialogBuilder2(context,h,w,frined_id);
-          //                                       }
-          //                                     },
-          //                                     child: Container(
-          //                                       width: w/3,
-          //                                       height: h/15,
-          //                                       decoration: BoxDecoration(
-          //                                         borderRadius : BorderRadius.only(
-          //                                           topLeft: Radius.circular(4.142857074737549),
-          //                                           topRight: Radius.circular(4.142857074737549),
-          //                                           bottomLeft: Radius.circular(4.142857074737549),
-          //                                           bottomRight: Radius.circular(4.142857074737549),
-          //                                         ),
-          //                                         boxShadow : [BoxShadow(
-          //                                             color: Color.fromRGBO(0, 0, 0, 0.25),
-          //                                             offset: Offset(0,0),
-          //                                             blurRadius: 6.628571510314941
-          //                                         )],
-          //                                         color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
-          //                                       ),
-          //                                       child: Center(
-          //                                           child:
-          //                                           //
-          //                                           //   SvgPicture.asset(
-          //                                           // "Assets/images/Add_friend.svg",
-          //                                           // color: Colors.white,
-          //                                           // width: h / 26,
-          //                                           // )
-          //                                           is_me
-          //                                               ? Icon(Icons.person)
-          //                                               :  is_frined
-          //                                               ? SvgPicture.asset(
-          //                                             "Assets/images/True_Mark.svg",
-          //                                             color: Colors.white,
-          //                                             width: h / 26,
-          //                                           )
-          //                                               :SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
-          //
-          //
-          //                                       ),
-          //                                     ),
-          //                                   )
-          //                                 ],
-          //                               ),
-          //                               SizedBox(height: 7,),
-          //                             ],
-          //                           ),
-          //                         ),
-          //                       ),
-          //
-          //                     ]
-          //                 ),
-          //
-          //               ),
-          //             )
-          //
-          //         );
-          //       });
-          // }
+          alreatDialogBuilder(
+              BuildContext Context,
+              double h,
+              double w,
+              bool is_frined,
+              bool is_me,
+              int frined_id,
+              int myINdex,
+              FrinedsData UserData
+              ) async {
+            return showDialog(
+                context: Context,
+                   barrierDismissible: true,
+                builder: (Context) {
 
 
-          // List<String> StringBackGroundColor =[];
-          // List<int> intBackGroundColor =[];
-          // if (state.success! &&
-          // diditonce == true) {
-          //   for (int i =0;i<state.Getnotifcations!.notifications!.length;i++){
-          //     StringBackGroundColor.add(state.Getnotifcations!.notifications![i].background_color.toString())  ;
+
+                  var myInt = int.parse(UserData.Background_Color.toString());
+                  var BackgroundColor= myInt;
+
+
+                  return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      insetPadding: EdgeInsets.all(h/50),
+                      content:GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context,true);
+                        },
+                        child: Container(
+                          color: Colors.transparent,
+                          width: w,
+                          height: h,
+                          child :
+                          Stack(
+                              children:[
+
+                                Center(
+                                  child: Container(
+                                    width: w/1.1,
+                                    decoration: BoxDecoration(
+                                      borderRadius : BorderRadius.only(
+                                        topLeft: Radius.circular(8.285714149475098.r),
+                                        topRight:Radius.circular(8.285714149475098.r),
+                                        bottomLeft: Radius.circular(8.285714149475098.r),
+                                        bottomRight: Radius.circular(8.285714149475098.r),
+                                      ),
+                                      color : Color.fromRGBO(47, 47, 47, 1),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 5.h),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                            children:  [
+
+
+                                              Container(
+                                                margin: EdgeInsets.only(left: h/60),
+                                                child: CircleAvatar(
+                                                  backgroundImage: NetworkImage(UserData.Avatar.toString()),
+                                                  radius:35.w,
+
+                                                  backgroundColor:Color(BackgroundColor),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(left: h/60),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      child: Text(
+                                                          UserData.Alias
+                                                              .toString(),
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: _TextTheme.headline6!.copyWith(
+                                                              color: Color(
+                                                                  0xffEAEAEA),
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              fontSize:
+                                                              20.sp)),
+                                                    ),
+                                                    Row(
+                                                      children: [
+
+                                                        Text(
+                                                            UserData.Serial!,
+                                                            textAlign: TextAlign.left,
+                                                            style: _TextTheme
+                                                                .headline6!
+                                                                .copyWith(
+                                                                color: Color(
+                                                                    0xffEAEAEA),
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w300,
+                                                                fontSize:
+                                                                13.sp)),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                height: h/6,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      //  color: Colors.pink,
+                                                      child: IconButton(
+                                                        onPressed: (){
+                                                          Navigator.pop(context,true);
+                                                        },
+                                                        icon: Icon(Icons.clear),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                                margin: EdgeInsets.only(left: 20.w),
+                                                child:
+                                                Text(UserData.boi.toString(), textAlign: TextAlign.left, style: TextStyle(
+                                                    color: Color.fromRGBO(255, 255, 255, 1),
+                                                    fontFamily: 'Red Hat Text',
+                                                    fontSize: 12.sp,
+                                                    letterSpacing: 0 ,
+                                                    fontWeight: FontWeight.w300,
+                                                    height: 1.4166666666666667
+                                                ),)
+                                            ),
+                                          ],
+                                        ),
+                                        Text(""),
+                                        Row(
+                                          mainAxisAlignment:
+                                          is_me?    MainAxisAlignment.center:
+                                          MainAxisAlignment.spaceAround,
+                                          children: [
+                                            is_me
+                                                ?Text("")
+                                                :InkWell(
+                                              onTap: (){
+                                                //DirectChat
+                                                WidgetsBinding.instance
+                                                    .addPostFrameCallback((_) =>     Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                    builder: (context) => Sprints(my_ID: id, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
+                                              },
+
+                                              child: Container(
+                                                  width: w/3,
+                                                  height: h/15,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius : BorderRadius.only(
+                                                      topLeft: Radius.circular(4.142857074737549.r),
+                                                      topRight: Radius.circular(4.142857074737549.r),
+                                                      bottomLeft: Radius.circular(4.142857074737549.r),
+                                                      bottomRight: Radius.circular(4.142857074737549.r),
+                                                    ),
+                                                    boxShadow:[
+                                                      BoxShadow(
+                                                          color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                          offset: Offset(0,0),
+                                                          blurRadius: 6.628571510314941
+                                                      )
+                                                    ],
+                                                    color : Color.fromRGBO(207, 109, 56, 1),
+                                                  ),
+                                                  child: Center(
+                                                      child:
+                                                      SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+
+                                                  )
+                                              ),
+                                            ),
+                                            is_me
+                                                ?Text("")
+                                                :
+                                            InkWell(
+                                              onTap: (){
+                                                if (id== UserData.ID!) {
+                                                  if (!is_frined) {
+                                                    Navigator.pop(context);
+                                                    // _GroupChatBloc.add(
+                                                    //     AddFrined((b) =>
+                                                    //     b
+                                                    //       ..serial =UserData
+                                                    //           .Serial.toString()
+                                                    //       ..index = myINdex
+                                                    //     ));
+                                                  } else {
+                                                    alreatDialogBuilder2(
+                                                        context, h, w,
+                                                        frined_id, myINdex);
+                                                  }
+                                                }
+
+                                              },
+                                              child: Container(
+                                                width: w/3,
+                                                height: h/15,
+                                                decoration: BoxDecoration(
+                                                  borderRadius : BorderRadius.only(
+                                                    topLeft: Radius.circular(4.142857074737549.r),
+                                                    topRight: Radius.circular(4.142857074737549.r),
+                                                    bottomLeft:Radius.circular(4.142857074737549.r),
+                                                    bottomRight: Radius.circular(4.142857074737549.r),
+                                                  ),
+                                                  boxShadow : [BoxShadow(
+                                                      color: Color.fromRGBO(0, 0, 0, 0.25),
+                                                      offset: Offset(0,0),
+                                                      blurRadius: 6.628571510314941
+                                                  )],
+                                                  color : is_frined?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                                ),
+                                                child: Center(
+                                                    child:
+                                                    //
+                                                    //   SvgPicture.asset(
+                                                    // "Assets/images/Add_friend.svg",
+                                                    // color: Colors.white,
+                                                    // width: h / 26,
+                                                    // )
+
+                                                    is_frined
+                                                        ? SvgPicture.asset(
+                                                      "Assets/images/True_Mark.svg",
+                                                      color: Colors.white,
+                                                      width: h / 26,
+                                                    )
+                                                        :SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+
+
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(height: 7.h,),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ]
+                          ),
+
+                        ),
+                      )
+
+                  );
+                });
+          }
+          if (state.success! && Diditonce2){
+
+            _NotificationBloc.add(ClearBadge());
+            Diditonce2 = false;
+          }
+          // else if (state.error=="Something went wrong" ) {
+          //   if (state.Getbadge == null) {
+          //     AllBubblesStatus = List.filled(100000,0);
+          //     AllBubblesJoinStatusTry = List.filled(10000,false);
+          //     AllBubblesLeftStatusTry = List.filled(10000,true);
+          //     AllNearBubblesStatusTry = List.filled(10000,true);
+          //     AllBubblesIDS = List.filled(10000,0);
+          //     setlogout();
+          //     WidgetsBinding.instance
+          //         .addPostFrameCallback((_) =>
+          //         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          //             Login()), (Route<dynamic> route) => false));
           //   }
-          //
-          //   var myInt = int.parse(value);
-          //   BackgroundColor = myInt;
-          //   Done = true;
-          //   diditonce = false;
           // }
+
           return Scaffold(
             resizeToAvoidBottomInset: false,
             key: _scaffoldKey,
@@ -449,8 +487,8 @@ bool diditonce = false;
 
               Column(
                     children: [
-                      const SizedBox(
-                        height: 70,
+                       SizedBox(
+                        height: h/9.7,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -459,7 +497,9 @@ bool diditonce = false;
                             'Notifications',
                             textAlign: TextAlign.left,
                             style: _textthem.headlineLarge!.copyWith(
-                                fontWeight: FontWeight.w600, fontSize: 23),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20.sp
+                            ),
                           ),
                           const Text(""),
                           const Text(""),
@@ -481,10 +521,10 @@ bool diditonce = false;
                             Text('I’m so sorry..you don’t have any notifications yet', textAlign: TextAlign.center, style: TextStyle(
                                 color: Color.fromRGBO(255, 255, 255, 1),
                                 fontFamily: 'Red Hat Display',
-                                fontSize: 17,
+                                fontSize:  16.sp,
                                 letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                 fontWeight: FontWeight.w600,
-                                height: 1
+                                height: 1.h
                             ),),
                             SizedBox(height: h/6,)
 
@@ -509,7 +549,7 @@ bool diditonce = false;
                                     state.Getnotifcations!.notifications!.length,
                                 separatorBuilder:
                                     (BuildContext context, int index) {
-                                  return const SizedBox(height: 7);
+                                  return  SizedBox(height: 7.h);
                                 },
                                 itemBuilder: (BuildContext context, int index) {
                                   var BackgroundColor;
@@ -528,14 +568,14 @@ bool diditonce = false;
                                     onTap: () {
 
                                       if(state.Getnotifcations!.notifications![index].title=="Friend Request")
-                                        WidgetsBinding.instance!
+                                        WidgetsBinding.instance
                                             .addPostFrameCallback((_) =>     Navigator.push(
                                           context,
                                           MaterialPageRoute(//receiver_id: ,my_ID: ,
                                             builder: (context) => Friendlist(is_WithoutTopBar: true,),),
                                         ));
                                       else if (state .Getnotifcations!.notifications![index] .title=="Accepted Friend")
-                                        WidgetsBinding.instance!
+                                        WidgetsBinding.instance
                                             .addPostFrameCallback((_) =>     Navigator.push(
                                           context,
                                           MaterialPageRoute(//receiver_id: ,my_ID: ,
@@ -552,10 +592,10 @@ bool diditonce = false;
                                           decoration: BoxDecoration(
                                             color: COLOR.onError,
                                             borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(5),
-                                              bottomRight: Radius.circular(5),
-                                              topLeft: Radius.circular(5),
-                                              topRight: Radius.circular(5),
+                                              bottomLeft: Radius.circular(5.r),
+                                              bottomRight: Radius.circular(5.r),
+                                              topLeft: Radius.circular(5.r),
+                                              topRight: Radius.circular(5.r),
                                             ),
                                             boxShadow: [
                                               BoxShadow(
@@ -595,7 +635,8 @@ bool diditonce = false;
                                                                   .copyWith(
                                                                       fontWeight:
                                                                           FontWeight.w600,
-                                                                      fontSize: 20),
+                                                                      fontSize: 20.sp
+                                                              ),
                                                             ),
                                                           ),
                                                           Hero(
@@ -606,7 +647,7 @@ bool diditonce = false;
                                                         child :
                                                           InkWell(
                                                             onTap: (){
-                                                              WidgetsBinding.instance!
+                                                              WidgetsBinding.instance
                                                                   .addPostFrameCallback((_) =>     Navigator.push(
                                                                 context,
                                                                 MaterialPageRoute(//receiver_id: ,my_ID: ,
@@ -619,7 +660,7 @@ bool diditonce = false;
                                                               state.Getnotifcations!.notifications![index].avatar.toString(),
                                                                 errorWidget: (context, url, error) => Center(child: Text("Error")),
                                                                 imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                  radius: 30,
+                                                                  radius: 30.w,
                                                                   backgroundImage: imageProvider,
                                                                   backgroundColor:   Color(BackgroundColor??0),
                                                                 ),
@@ -650,33 +691,27 @@ bool diditonce = false;
                                                                         index]
                                                                     .body
                                                                     .toString(),
-                                                                overflow: TextOverflow
-                                                                    .ellipsis,
                                                                 style: _textthem
                                                                     .headlineLarge!
                                                                     .copyWith(
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w300,
-                                                                        fontSize: 20),
+                                                                    fontSize: 15.sp
+                                                                ),
                                                                 maxLines: 10,
                                                               ),
                                                             ),
-                                                          Flexible(
-                                                            child: Text(
+                                                         Text(
                                                               timeago.format(datee),
-                                                              overflow: TextOverflow
-                                                                  .ellipsis,
                                                               style: _textthem
                                                                   .headlineLarge!
                                                                   .copyWith(
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .normal,
-
-                                                                  fontSize: 13),
+                                                                  fontWeight:FontWeight .w300,
+                                                                    fontSize: 12.sp
+                                                              ),
                                                             ),
-                                                          ),
+
                                                         ],
                                                       ),
                                                     ),
@@ -733,9 +768,9 @@ bool diditonce = false;
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }
