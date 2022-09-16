@@ -79,6 +79,7 @@ bool CalledLoopingfucntion = false;
 //// flutter build apk --split-per-abi
 //// flutter build appbundle
 
+
 //todo : add the lines for socket for ios go to there package page
 //flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi --obfuscate --split-debug-info=Bubbles\build\app\outputs\flutter-apk
 

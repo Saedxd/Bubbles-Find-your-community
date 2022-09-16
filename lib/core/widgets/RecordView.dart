@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_audio_recorder2/flutter_audio_recorder2.dart';
 
+
 class RecorderView extends StatefulWidget {
   final Function onSaved;
   int? bubble_id;
@@ -61,7 +62,9 @@ class _RecorderViewState extends State<RecorderView> with TickerProviderStateMix
 
   Future OutsideBubbleAlreat()async
   {
+
     return       showDialog(
+        barrierColor: Colors.white.withOpacity(0),
         builder: (BuildContext context) {
           var h = MediaQuery.of(context).size.height;
           var w = MediaQuery.of(context).size.width;

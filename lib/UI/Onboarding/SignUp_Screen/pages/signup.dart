@@ -232,7 +232,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -383,7 +383,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                                                     cursorColor: Colors.black,
                                                     cursorHeight: h / 30,
                                                     style: TextStyle(
-                                                        fontSize: 19.sp,
+                                                        fontSize: 15.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                         height: 0.9.h,
@@ -456,7 +456,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                                                         EdgeInsets
                                                             .symmetric(
                                                             horizontal:
-                                                            12),
+                                                            12.w),
                                                         hintText: "Email",
                                                         hintStyle: _TextTheme
                                                             .headline6!
@@ -548,7 +548,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                                                     cursorColor: Colors.black,
                                                     cursorHeight: h / 30,
                                                     style: TextStyle(
-                                                        fontSize: 19.sp,
+                                                        fontSize: 15.sp,
                                                         fontWeight:
                                                         FontWeight.w500,
                                                         height: 1.3,
@@ -691,7 +691,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                                                         Colors.black,
                                                         cursorHeight: h / 30,
                                                         style: TextStyle(
-                                                            fontSize: 19.sp,
+                                                            fontSize: 15.sp,
                                                             height: 0.9.h,
                                                             fontWeight:
                                                             FontWeight.w500,
@@ -774,7 +774,7 @@ class _SignUpState extends State<SignUp> with WidgetsBindingObserver {
                                                             hintStyle: _TextTheme
                                                                 .headline6!
                                                                 .copyWith(
-                                                              fontSize: 19.sp,
+                                                              fontSize: 20.sp,
                                                             )),
                                                         keyboardType:
                                                         TextInputType.text,

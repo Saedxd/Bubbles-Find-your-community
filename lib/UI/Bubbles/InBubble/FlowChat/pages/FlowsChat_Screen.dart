@@ -2332,7 +2332,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                         ),
                                       ),
                                     ],
-                                  ):Column(
+                                  ):
+                                  Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
@@ -2500,10 +2501,10 @@ class _FlowsChatState extends State<FlowsChat>{
                                   overflow: TextOverflow.ellipsis,
                                     style: GoogleFonts.roboto().copyWith(
                                         color: Color.fromRGBO(255, 255, 255, 1),
-                                        fontSize: 22,
+                                        fontSize: 18.sp,
                                         letterSpacing: 0.2,
                                         fontWeight: FontWeight.w600,
-                                        height: 1
+                                        height: 1.h
 
                                     )
                                 ),
@@ -2544,6 +2545,7 @@ class _FlowsChatState extends State<FlowsChat>{
   Future OutsideBubbleAlreat()async{
 
     return showDialog(
+        barrierColor: Colors.white.withOpacity(0),
       builder: (BuildContext context) {
         var h = MediaQuery.of(context).size.height;
         var w = MediaQuery.of(context).size.width;

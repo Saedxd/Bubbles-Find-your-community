@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:bubbles/models/GetInterestsModel/InterestsListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
+
 import 'package:built_value/built_value.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+
 import 'package:built_collection/built_collection.dart';
 
 class FrinedsData{
@@ -19,6 +20,7 @@ class FrinedsData{
   int? His_id;
   bool? is_Frined;
   String? Serial;
+  String? Serial_Number;
 
 }
 
@@ -30,7 +32,6 @@ class FlowData{
   String? Content="";
   String? Image;
   bool? ISMediaDump;
-  List<String> Answers=[];
 
 
   FrinedsData?  Who_Made_it_data;
@@ -38,6 +39,10 @@ class FlowData{
   int? Who_Made_it_Color;
   String? Who_Made_it_Alias;
   int? Who_Made_it_ID;
+  List<PollFlowAnswers>? PollAnswers= [];
+  bool? is_chosen= false;
+  int Total_Rate = 0;
+
 
 
   String? Flow_Icon;
@@ -189,6 +194,8 @@ class GroupChatMessage {
   bool? Multible_Answers;
   bool? Show_participants;
   List<PollFlowAnswers>? PollAnswers= [];
+bool? is_Chosen = false;
+int Total_Rate = 0;
 
 
 
@@ -211,8 +218,9 @@ class PollFlowAnswers{
   String? Answer;
   int? id;
   BuiltList<FriendData>? users_Choose_it;
-  int? rate;
-  bool? is_checked;
+  int? rate = 0;
+  bool? is_checked = false;
+  int Presentage = 0;
 }
 
 

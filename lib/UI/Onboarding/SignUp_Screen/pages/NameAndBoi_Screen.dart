@@ -181,7 +181,7 @@ String? Pass;
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90.w,
@@ -425,13 +425,13 @@ print("---------------------------");
 
                                           cursorColor: Colors.black,
                                           style: TextStyle(
-                                              fontSize: 17.sp,
+                                              fontSize: 14.sp,
                                               fontWeight: FontWeight.w500,
-                                              height: 1.3,
+                                              height: 1.h,
                                               color: Colors.brown),
-                                          // inputFormatters: [
-                                          //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
-                                          // ],
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(RegExp(r'^[a-zA-Z0-9_]+$'))
+                                          ],
                                           decoration: InputDecoration(
                                               errorStyle:TextStyle(color: Colors.red,),
                                               errorBorder:  OutlineInputBorder(
@@ -510,8 +510,8 @@ print("---------------------------");
                                           ]),
                                           cursorColor: Colors.black,
                                           style: TextStyle(
-                                              fontSize: 17.sp,
-                                              height: 1.3,
+                                              fontSize: 14.sp,
+                                              height: 1.h,
                                               fontWeight: FontWeight.w500,
                                               color: Colors.brown),
                                           decoration: InputDecoration(
@@ -543,13 +543,13 @@ print("---------------------------");
                                                 fontSize: 20.sp,
                                                 letterSpacing: 0.5,
                                                 fontWeight: FontWeight.w300,
-                                                height: 1,
+                                                height: 1.h,
                                                 color: Color(0xff939393)
                                             ),
                                             filled: true,
                                             fillColor: Colors.white,
                                             contentPadding:  EdgeInsets.only(
-                                                top: 20.h, left: 10.w),
+                                                top: 10.h, left: 10.w),
                                           ),
                                           keyboardType: TextInputType.text,
                                         ),
@@ -639,7 +639,7 @@ print("---------------------------");
                                         style:
                                         _TextTheme.headline1!.copyWith(
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 24.sp,
+                                          fontSize: 20.sp,
                                         ),
                                       ),
                                     ),

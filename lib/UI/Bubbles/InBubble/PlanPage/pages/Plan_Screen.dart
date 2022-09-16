@@ -41,9 +41,11 @@ class _Plan_ScreenState extends State<Plan_Screen> {
 bool selected = false;
 final _PlanPage_Bloc = sl<PlanPageBloc>();
 bool is_Saved= false;
+String Date = "";
 @override
   void initState() {
     super.initState();
+    Date = widget.Bubble!.StartDate!.replaceAll('-', '/');
     _PlanPage_Bloc.add(GiveMeifItsSaved((b) => b..is_saved =widget.is_saved! ));
     SystemChrome.setSystemUIOverlayStyle(
        SystemUiOverlayStyle(
@@ -61,8 +63,9 @@ final PanelController PanelControllerr = PanelController();
 @override
   void dispose() {
     super.dispose();
-
+    is_savedd = widget.is_saved;
 }
+bool?  is_savedd = false;
   @override
   Widget build(BuildContext context) {
     TextTheme _TextTheme = Theme.of(context).textTheme;
@@ -77,7 +80,9 @@ final PanelController PanelControllerr = PanelController();
                 systemNavigationBarColor: Color(0xff303030)
             ),
           );
-          return true;
+          Navigator.pop(context,"${is_savedd}");
+          print(is_savedd);
+          return false;
         },
     child:
 
@@ -614,9 +619,11 @@ final PanelController PanelControllerr = PanelController();
                                             width: w/5,
                                             child: InkWell(
                                               onTap: (){
+                                                is_savedd = !state.is_Saved!;
                                                 _PlanPage_Bloc.add(ToggleSaveBubble((b) =>
                                                 b..Bubble_id = widget.Bubble!.id
                                                 ));
+
                                               },
                                               child: SvgPicture.asset(
                                                 state.is_Saved!
@@ -1082,7 +1089,8 @@ final PanelController PanelControllerr = PanelController();
               ),
 
               !widget.Bubble!.isAvailable!
-             ?  Container(
+             ?  Expanded(
+                child: Container(
                 decoration: BoxDecoration(
                   color: Color(0xff303030),
                   // boxShadow: [BoxShadow(
@@ -1093,38 +1101,32 @@ final PanelController PanelControllerr = PanelController();
                   // ],
                 ),
                child: Column(children: [
-                      Text("UTC",
-                        textAlign: TextAlign.center, style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontFamily: 'Red Hat Text',
-                            fontSize: 20.sp,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w500,
-                            height: 1.h
-                        ),),
-                      SizedBox(height: 2.h,),
-                      Text('Bubble will be activated in ${DateTime.parse(widget.Bubble!.StartDate!).difference(DateTime.now()).inDays} days - ${DateTime.parse(widget.Bubble!.StartDate!)}',
-                        textAlign: TextAlign.center, style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontFamily: 'Red Hat Text',
-                            fontSize: 15.sp,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w500,
-                            height: 1.h
-                        ),),
-                      SizedBox(height: 2.h,),
-                      Text('Save the bubble to keep up with all bubble news',
-                        textAlign: TextAlign.center, style: TextStyle(
-                            color: Color.fromRGBO(147, 147, 147, 1),
-                            fontFamily: 'Red Hat Text',
-                            fontSize: 13.5.sp,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w300,
-                            height: 1.h
-                        ),),
-                      SizedBox(height: 2.h,),
 
-                    ],),
+                        SizedBox(height: 10.h,),
+                        Text('Bubble will be activated in ${DateTime.parse(widget.Bubble!.StartDate!).difference(DateTime.now()).inDays} days - ${Date.substring(2)} UTC',
+                          textAlign: TextAlign.center, style: TextStyle(
+                              color: Color.fromRGBO(255, 255, 255, 1),
+                              fontFamily: 'Red Hat Text',
+                              fontSize: 11.sp,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w500,
+                              height: 1.h
+                          ),),
+
+                        SizedBox(height: 1.h,),
+                        Text('Save the bubble to keep up with all bubble news',
+                          textAlign: TextAlign.center, style: TextStyle(
+                              color: Color.fromRGBO(147, 147, 147, 1),
+                              fontFamily: 'Red Hat Text',
+                              fontSize: 11.sp,
+                              letterSpacing: 0,
+                              fontWeight: FontWeight.w300,
+                              height: 1.h
+                          ),),
+                        SizedBox(height: 2.h,),
+
+                      ],),
+               ),
              )
               : Container(
                 decoration: BoxDecoration(
@@ -1199,7 +1201,9 @@ final PanelController PanelControllerr = PanelController();
                                               bubble_id: widget.Bubble!.id!,
                                               Plan_Description: widget.Bubble!.Description!,
                                               Bubble_Color: BackgroundColor,
-                                              Want_LOcation_cHECK : true
+                                              Want_LOcation_cHECK : true,
+                                            is_prime: widget.Bubble!.type=="prime",
+                                              Bubble : widget.Bubble
                                           ),),
                                   ));
                         },

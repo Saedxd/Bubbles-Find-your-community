@@ -464,20 +464,21 @@ bool Diditonce2 = true;
 
             _NotificationBloc.add(ClearBadge());
             Diditonce2 = false;
-          }else if (state.error=="Something went wrong" ) {
-            if (state.Getbadge == null) {
-              AllBubblesStatus = List.filled(100000,0);
-              AllBubblesJoinStatusTry = List.filled(10000,false);
-              AllBubblesLeftStatusTry = List.filled(10000,true);
-              AllNearBubblesStatusTry = List.filled(10000,true);
-              AllBubblesIDS = List.filled(10000,0);
-              setlogout();
-              WidgetsBinding.instance
-                  .addPostFrameCallback((_) =>
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      Login()), (Route<dynamic> route) => false));
-            }
           }
+          // else if (state.error=="Something went wrong" ) {
+          //   if (state.Getbadge == null) {
+          //     AllBubblesStatus = List.filled(100000,0);
+          //     AllBubblesJoinStatusTry = List.filled(10000,false);
+          //     AllBubblesLeftStatusTry = List.filled(10000,true);
+          //     AllNearBubblesStatusTry = List.filled(10000,true);
+          //     AllBubblesIDS = List.filled(10000,0);
+          //     setlogout();
+          //     WidgetsBinding.instance
+          //         .addPostFrameCallback((_) =>
+          //         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          //             Login()), (Route<dynamic> route) => false));
+          //   }
+          // }
 
           return Scaffold(
             resizeToAvoidBottomInset: false,

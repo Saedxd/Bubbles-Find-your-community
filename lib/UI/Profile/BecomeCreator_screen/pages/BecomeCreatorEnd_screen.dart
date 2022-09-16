@@ -132,7 +132,7 @@ class _CreatorScreenEndState extends State<CreatorScreenEnd> {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90.w,

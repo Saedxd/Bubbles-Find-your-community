@@ -2733,15 +2733,30 @@ class AddFlowModelBuilder
 
 class _$ChoosePollFlowAnswer extends ChoosePollFlowAnswer {
   @override
-  final int? index;
+  final int? ANswers_index;
+  @override
+  final int? Flow_Index;
+  @override
+  final int? Chat_index;
   @override
   final int? Answer_id;
+  @override
+  final int? bubble_id;
+  @override
+  final bool? Want_Request;
 
   factory _$ChoosePollFlowAnswer(
           [void Function(ChoosePollFlowAnswerBuilder)? updates]) =>
       (new ChoosePollFlowAnswerBuilder()..update(updates))._build();
 
-  _$ChoosePollFlowAnswer._({this.index, this.Answer_id}) : super._();
+  _$ChoosePollFlowAnswer._(
+      {this.ANswers_index,
+      this.Flow_Index,
+      this.Chat_index,
+      this.Answer_id,
+      this.bubble_id,
+      this.Want_Request})
+      : super._();
 
   @override
   ChoosePollFlowAnswer rebuild(
@@ -2756,20 +2771,35 @@ class _$ChoosePollFlowAnswer extends ChoosePollFlowAnswer {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is ChoosePollFlowAnswer &&
-        index == other.index &&
-        Answer_id == other.Answer_id;
+        ANswers_index == other.ANswers_index &&
+        Flow_Index == other.Flow_Index &&
+        Chat_index == other.Chat_index &&
+        Answer_id == other.Answer_id &&
+        bubble_id == other.bubble_id &&
+        Want_Request == other.Want_Request;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, index.hashCode), Answer_id.hashCode));
+    return $jf($jc(
+        $jc(
+            $jc(
+                $jc($jc($jc(0, ANswers_index.hashCode), Flow_Index.hashCode),
+                    Chat_index.hashCode),
+                Answer_id.hashCode),
+            bubble_id.hashCode),
+        Want_Request.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'ChoosePollFlowAnswer')
-          ..add('index', index)
-          ..add('Answer_id', Answer_id))
+          ..add('ANswers_index', ANswers_index)
+          ..add('Flow_Index', Flow_Index)
+          ..add('Chat_index', Chat_index)
+          ..add('Answer_id', Answer_id)
+          ..add('bubble_id', bubble_id)
+          ..add('Want_Request', Want_Request))
         .toString();
   }
 }
@@ -2778,21 +2808,42 @@ class ChoosePollFlowAnswerBuilder
     implements Builder<ChoosePollFlowAnswer, ChoosePollFlowAnswerBuilder> {
   _$ChoosePollFlowAnswer? _$v;
 
-  int? _index;
-  int? get index => _$this._index;
-  set index(int? index) => _$this._index = index;
+  int? _ANswers_index;
+  int? get ANswers_index => _$this._ANswers_index;
+  set ANswers_index(int? ANswers_index) =>
+      _$this._ANswers_index = ANswers_index;
+
+  int? _Flow_Index;
+  int? get Flow_Index => _$this._Flow_Index;
+  set Flow_Index(int? Flow_Index) => _$this._Flow_Index = Flow_Index;
+
+  int? _Chat_index;
+  int? get Chat_index => _$this._Chat_index;
+  set Chat_index(int? Chat_index) => _$this._Chat_index = Chat_index;
 
   int? _Answer_id;
   int? get Answer_id => _$this._Answer_id;
   set Answer_id(int? Answer_id) => _$this._Answer_id = Answer_id;
+
+  int? _bubble_id;
+  int? get bubble_id => _$this._bubble_id;
+  set bubble_id(int? bubble_id) => _$this._bubble_id = bubble_id;
+
+  bool? _Want_Request;
+  bool? get Want_Request => _$this._Want_Request;
+  set Want_Request(bool? Want_Request) => _$this._Want_Request = Want_Request;
 
   ChoosePollFlowAnswerBuilder();
 
   ChoosePollFlowAnswerBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _index = $v.index;
+      _ANswers_index = $v.ANswers_index;
+      _Flow_Index = $v.Flow_Index;
+      _Chat_index = $v.Chat_index;
       _Answer_id = $v.Answer_id;
+      _bubble_id = $v.bubble_id;
+      _Want_Request = $v.Want_Request;
       _$v = null;
     }
     return this;
@@ -2813,8 +2864,14 @@ class ChoosePollFlowAnswerBuilder
   ChoosePollFlowAnswer build() => _build();
 
   _$ChoosePollFlowAnswer _build() {
-    final _$result =
-        _$v ?? new _$ChoosePollFlowAnswer._(index: index, Answer_id: Answer_id);
+    final _$result = _$v ??
+        new _$ChoosePollFlowAnswer._(
+            ANswers_index: ANswers_index,
+            Flow_Index: Flow_Index,
+            Chat_index: Chat_index,
+            Answer_id: Answer_id,
+            bubble_id: bubble_id,
+            Want_Request: Want_Request);
     replace(_$result);
     return _$result;
   }

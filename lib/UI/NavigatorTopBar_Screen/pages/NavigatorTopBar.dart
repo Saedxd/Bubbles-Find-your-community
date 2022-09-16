@@ -182,7 +182,9 @@ bool DidItOnce = false;
                     Container(
                       width: w,
                       height: h,
-                      child: PageView.builder(
+                      child:ScrollConfiguration(
+                        behavior: MyBehavior(),
+                        child:  PageView.builder(
                           allowImplicitScrolling: true,
                           controller: controller,
                           onPageChanged: (int index) {
@@ -298,7 +300,7 @@ bool DidItOnce = false;
                           itemCount: buildScreens.length,
                           itemBuilder: (context, index) {
                             return buildScreens[index];
-                          }),
+                          })),
                     ),
 
                     Container(
@@ -669,10 +671,10 @@ bool DidItOnce = false;
     //'https://chat.bubbles.app',
     await GetUserData();
     socket =io(
-    //  "http://134.122.50.245:3000/",
+  "http://134.122.50.245:3000/",
       //  "http://0.0.0.0:3000",
      //  "http://192.168.1.10:3000",
-      "http://50.60.40.106:3000",
+     // "http://50.60.40.106:3000",
       OptionBuilder()
           .setTransports(['websocket'])
           .disableAutoConnect()
@@ -704,6 +706,7 @@ bool DidItOnce = false;
     });
 
   }
+
 
 
   void Disconnect(){

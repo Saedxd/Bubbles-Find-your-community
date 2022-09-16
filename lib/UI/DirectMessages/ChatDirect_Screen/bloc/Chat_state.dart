@@ -7,7 +7,7 @@
 // import 'package:bubbles/UI/Bubbles/InBubble/Sprints/MessageModel/MessageModel.dart';
 // import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 // import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
-// import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+// import 'package:bubbles/models/GetUsersInsideBubbleModell/GetUsersInsideBubbleModell.dart';
 // import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 // import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 // import 'package:built_value/built_value.dart';
@@ -32,7 +32,7 @@
 //   PostMessagesModel? get PostMessages;
 //   AddreplyModel? get Addreply;
 //
-//   GetUsersInsideBubbleModel? get GetUsersInsideBubble;
+//   GetUsersInsideBubbleModell? get GetUsersInsideBubble;
 //   List<UserDATA>? get InsideBubbleUsers;
 //
 //   bool? get RefreshLoading;

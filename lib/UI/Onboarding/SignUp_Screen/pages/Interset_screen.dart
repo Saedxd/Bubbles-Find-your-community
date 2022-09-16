@@ -157,20 +157,21 @@ bloc2.add(GetInterests());
                                           child:
 
                                           Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.start,
                                             children: [
                                              Column(
+
                                                 children: [
-                                                  1 < (state.GetInterests!.interests![index].title!.split(" ").length - 1)
-                                                      ?  SizedBox(height: h/60,)
-                                                  :SizedBox(height: h/150,),
+                                                  1 < (state.GetInterests!.interests![index].title!.split(" ").length)
+                                                      ?  SizedBox(height: h/150,)
+                                                  :SizedBox(height: h/60,),
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
 
                                                       Container(
-                                                        width: w/8,
-                                                        height: h/16.8,
+                                                        width: w/9,
+                                                        height: h/20.8,
                                                         child: CachedNetworkImage(
                                                           imageUrl:  state.GetInterests!.interests![index].image!,
                                                           color: array2![index]==1? Color(0xffBA474D): null,
@@ -185,23 +186,43 @@ bloc2.add(GetInterests());
                                                       ),
                                                     ],
                                                   ),
-                                                  SizedBox(height: 5.h,),
+                                                  1 < (state.GetInterests!.interests![index].title!.split(" ").length)
+                                                  ?
+                                                  SizedBox(height: 10.h,): SizedBox(height: 17.h,),
                                                 ],
                                               ),
-
-                                              Container(
-                                                width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length - 1)? w/8:w/5,
-                                                child: Text(state.GetInterests!.interests![index].title.toString(),
+                                              1 < (state.GetInterests!.interests![index].title!.split(" ").length)
+                                              ?  FittedBox(
+                                                child: Container(
+                                                height: h/20,
+                                                  width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length)? w/6:w/5,
+                                                  child: Text(state.GetInterests!.interests![index].title.toString(),
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                                        fontFamily: 'Sofia Pro',
-                                                        fontSize: 15.sp,
-                                                        letterSpacing: 0.3 ,
-                                                        fontWeight: FontWeight.w500,
-                                                        height: 1.h
-                                                    ),),
-                                              ) ,
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(0, 0, 0, 1),
+                                                          fontFamily: 'Sofia Pro',
+                                                          fontSize: 13.sp,
+                                                          letterSpacing: 0,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 0.8.h
+                                                      ),),
+                                                  ),
+                                                  )
+                                                  :  Container(
+                                    width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length)? w/6:w/4.5,
+                                    child: Text(state.GetInterests!.interests![index].title.toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                    color: Color.fromRGBO(0, 0, 0, 1),
+                                    fontFamily: 'Sofia Pro',
+                                    fontSize: 12.sp,
+                                    letterSpacing: 0,
+                                    fontWeight: FontWeight.w500,
+                                    height: 0.5.h
+                                    ),),
+                                    ) ,
+                                            
+
 
 
                                             ],

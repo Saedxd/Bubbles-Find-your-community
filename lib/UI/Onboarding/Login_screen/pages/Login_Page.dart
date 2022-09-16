@@ -412,7 +412,7 @@ void Verify()async{
   @override
   void initState() {
     super.initState();
-    Verify();
+    // Verify();
     GetISloggedIN();
     _EmailFocusNode = FocusNode();
     getFcmToken();
@@ -637,11 +637,11 @@ void Verify()async{
 
                                                         cursorColor: Colors.black,
                                                         style: TextStyle(
-                                                            fontSize: 20.sp,
+                                                            fontSize: 15.sp,
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500,
-                                                            height: 0.9.h,
+                                                            height: 1.h,
                                                             color: Colors
                                                                 .brown),
                                                         decoration: InputDecoration(
@@ -1907,7 +1907,7 @@ void Verify()async{
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,

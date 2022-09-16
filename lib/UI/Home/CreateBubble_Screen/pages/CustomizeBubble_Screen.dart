@@ -201,7 +201,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -723,7 +723,12 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                          ),
                                        ],
                                      )
-                                         :  Container(
+                                         :   Theme(
+                                       data: ThemeData(
+                                         splashColor: Colors.transparent,
+                                         highlightColor: Colors.transparent,
+                                       ),
+                                       child : Container(
                                        width: w/4,
                                        height:  h/16,
                                        decoration: BoxDecoration(
@@ -772,7 +777,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                            ),
                                          ),
                                        ),
-                                     ),
+                                     ),)
                                    ],
                                  ),
                                ),
@@ -820,7 +825,13 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                   }
                                 }
                               },
-                              child: Container(
+                              child:    Theme(
+                                data: ThemeData(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                ),
+                                child :
+                              Container(
                                 width: w / 2.4,
                                 height: h / 14,
                                 decoration: BoxDecoration(
@@ -847,7 +858,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                         height: 1
                                     ),),
                                 ),
-                              ),
+                              ),)
                             )
                   ]
                 )

@@ -49,9 +49,8 @@ import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/QuestionsListModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
 import 'package:bubbles/models/GetSubGenders/SubgendersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
@@ -99,6 +98,7 @@ part 'serializer.g.dart';
  //model class name
   EventCateogoryModel,
   CateogoryList,
+  GetUsersInsideBubbleModel,
   SaveBubbleModel,
   NotifyMeCloseToBubbleModel,
   FriendData,

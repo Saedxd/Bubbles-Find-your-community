@@ -2430,7 +2430,7 @@ class _SprintsState extends State<Sprints> {
                                                     },
                                                     cursorColor: Colors.black,
                                                     style : GoogleFonts.roboto().copyWith(
-                                                        fontSize: 19.sp,
+                                                        fontSize: 14.sp,
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.brown),
                                                     decoration: InputDecoration(
@@ -2747,7 +2747,8 @@ class _SprintsState extends State<Sprints> {
                 ),
                   floatingActionButton: state.ShowFloatingActionButtonn!?Container(
 
-                      margin: EdgeInsets.only(bottom: h/10),
+                      margin: EdgeInsets.only(
+                          bottom: state.Isreply!? h/7:h/10),
                       child: FloatingActionButton(onPressed: () {
                         _controller.animateTo(
                           _controller.position

@@ -535,22 +535,23 @@ class _DirectMessagesState extends State<DirectMessages> {
 
             Diditonce = false;
 
-          }else if (state.error=="Something Went Wrong"){
-            if (state.OldMessages==null){
-              AllBubblesStatus = List.filled(100000,0);
-              AllBubblesJoinStatusTry = List.filled(10000,false);
-              AllBubblesLeftStatusTry = List.filled(10000,true);
-              AllNearBubblesStatusTry = List.filled(10000,true);
-              AllBubblesIDS = List.filled(10000,0);
-              setlogout();
-              WidgetsBinding.instance
-                  .addPostFrameCallback((_) =>
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-                      Login()), (Route<dynamic> route) => false));
-
-            }
           }
-
+          // else if (state.error=="Something Went Wrong"){
+          //   if (state.OldMessages==null){
+          //     AllBubblesStatus = List.filled(100000,0);
+          //     AllBubblesJoinStatusTry = List.filled(10000,false);
+          //     AllBubblesLeftStatusTry = List.filled(10000,true);
+          //     AllNearBubblesStatusTry = List.filled(10000,true);
+          //     AllBubblesIDS = List.filled(10000,0);
+          //     setlogout();
+          //     WidgetsBinding.instance
+          //         .addPostFrameCallback((_) =>
+          //         Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          //             Login()), (Route<dynamic> route) => false));
+          //
+          //   }
+          // }
+          //
 
 
           return Scaffold(
@@ -731,69 +732,81 @@ class _DirectMessagesState extends State<DirectMessages> {
                         const Text(""),
                         (state.success!)
                             ?   state.FilteredDmlist!.length==0
-                        ?Container(
-                          width: w,
-                          height: h /1.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset("Assets/images/DirectEmpty.png"),
-                              SizedBox(height: h/40,),
-                              InkWell(
-                                onTap: (){
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Friendlist(is_WithoutTopBar: true,)
-                                      )));
-                                },
-                                child: Container(
-                                    width: w/1.4,
-                                    height: h/13,
-                                    decoration: BoxDecoration(
-                                      borderRadius : BorderRadius.only(
-                                        topLeft: Radius.circular( h/20.5),
-                                        topRight:Radius.circular( h/20.5),
-                                        bottomLeft: Radius.circular( h/20.5),
-                                        bottomRight:Radius.circular( h/20.5),
-                                      ),
-                                      boxShadow : [BoxShadow(
-                                          color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
-                                          offset: Offset(0,0),
-                                          blurRadius: 10
-                                      )],
-                                      color : Color.fromRGBO(207, 109, 56, 1),
-                                    ),
-                                  child: Center(
-                                    child:
-                                    Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
-                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                        fontFamily: 'Red Hat Text',
-                                        fontSize: 20.sp,
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1
-                                    ),),
+                        ?Expanded(
+                          child: Container(
+                            width: w,
+                            height: h /1.3,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: w/1.32,
+                                  child :
+                                  AspectRatio(
+                                    aspectRatio: 2/2.1,
+                                    child:  Image.asset("Assets/images/DirectEmpty.png",fit: BoxFit.fill,),
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: h/40,),
-                              Container(
-                                width: w/1.6,
-                                child: Text('There are no messages. Find friends and start a chat with them!', textAlign: TextAlign.center, style: TextStyle(
-                                    color: Color.fromRGBO(96, 96, 96, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 18.11.sp,
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1
-                                ),),
-                              ),
-                              SizedBox(height: h/8,),
 
-                            ],
+
+
+                                SizedBox(height: h/40,),
+                                InkWell(
+                                  onTap: (){
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Friendlist(is_WithoutTopBar: true,)
+                                        )));
+                                  },
+                                  child: Container(
+                                      width: w/1.4,
+                                      height: h/13,
+                                      decoration: BoxDecoration(
+                                        borderRadius : BorderRadius.only(
+                                          topLeft: Radius.circular( h/20.5),
+                                          topRight:Radius.circular( h/20.5),
+                                          bottomLeft: Radius.circular( h/20.5),
+                                          bottomRight:Radius.circular( h/20.5),
+                                        ),
+                                        boxShadow : [BoxShadow(
+                                            color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
+                                            offset: Offset(0,0),
+                                            blurRadius: 10.r
+                                        )],
+                                        color : Color.fromRGBO(207, 109, 56, 1),
+                                      ),
+                                    child: Center(
+                                      child:
+                                      Text('Create Message', textAlign: TextAlign.center, style: TextStyle(
+                                          color: Color.fromRGBO(255, 255, 255, 1),
+                                          fontFamily: 'Red Hat Text',
+                                          fontSize: 20.sp,
+                                          letterSpacing: 0,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.h
+                                      ),),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: h/40,),
+                                Container(
+                                  width: w/1.6,
+                                  child: Text('There are no messages. Find friends and start a chat with them!', textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(96, 96, 96, 1),
+                                      fontFamily: 'Red Hat Display',
+                                      fontSize: 18.11.sp,
+                                      letterSpacing: 0.3 /*percentages not used in flutter. defaulting to zero*/,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.h
+                                  ),),
+                                ),
+
+
+                              ],
+                            ),
                           ),
                         )
                             :!state.isLoading!?

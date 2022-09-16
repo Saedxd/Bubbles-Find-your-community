@@ -181,7 +181,7 @@ bool Selected = false;
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -299,9 +299,6 @@ bool Selected = false;
                                                       textInputAction: TextInputAction
                                                           .next,
                                                       controller: _FirstNameController,
-                                                      inputFormatters: [
-                                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
-                                                      ],
                                                       onChanged: (value) {
                                                         Selected = true;
                                                         setState(() {
@@ -323,16 +320,18 @@ bool Selected = false;
                                                           return "Minimum name length is 3 Characters";
                                                         }else if (value.length>25){
                                                           return "Maximum name length is 25 Characters";
-                                                        }
+                                                        }else if (RegExp(r'^[*&^%$#@!\|+=<>?/~0-9]+$').hasMatch(value.toString())){
+                                                      return "Can't use Other Languages!";
+                                                    }
                                                       }
 
                                                       ,
                                                       cursorColor: Colors.black,
                                                       style: TextStyle(
-                                                          fontSize: 17.sp,
+                                                          fontSize: 15.sp,
                                                           fontWeight: FontWeight
                                                               .w500,
-                                                          height: 1.3,
+                                                          height: 1.h,
                                                           color: Colors.brown),
 
                                                       decoration: InputDecoration(
@@ -398,7 +397,7 @@ bool Selected = false;
                                                               .white,
                                                           contentPadding: EdgeInsets
                                                               .symmetric(
-                                                              horizontal: 12,
+                                                              horizontal: 12.w,
                                                               vertical: h /
                                                                   100),
                                                           hintText: "First Name",
@@ -461,11 +460,11 @@ bool Selected = false;
                                                         FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
                                                       ],
                                                       style: TextStyle(
-                                                          fontSize: 17.sp,
+                                                          fontSize: 15.sp,
                                                           fontWeight: FontWeight
                                                               .w500,
 
-                                                          height: 1.3,
+                                                          height: 1.h,
 
                                                           color: Colors.brown),
 
@@ -509,7 +508,7 @@ bool Selected = false;
                                                               .white,
                                                           contentPadding: EdgeInsets
                                                               .symmetric(
-                                                              horizontal: 12,
+                                                              horizontal: 12.w,
                                                               vertical: h / 100
                                                           ),
                                                           hintText: "Last Name",

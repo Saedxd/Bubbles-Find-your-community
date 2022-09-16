@@ -30,8 +30,8 @@ import 'package:bubbles/models/GetNotificationsModel/GetnotifcationsModel.dart';
 import 'package:bubbles/models/GetPointsModel/GetPointsModel.dart';
 import 'package:bubbles/models/GetQuestionsModel/GetQuestionsModel.dart';
 import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
-import 'package:bubbles/models/GetSubGenders/GetSubGenderss.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/GetUsersInsideBubbleModel.dart';
+
 import 'package:bubbles/models/GetWhoSavedBubblesModel/GetWhoSavedBubblesModel.dart';
 import 'package:bubbles/models/GetbadgeModel/GetbadgeModel.dart';
 import 'package:bubbles/models/InOutUserStatusModel/InOutUserStatusModel.dart';
@@ -2245,9 +2245,10 @@ Future<GetBubblesModel> GetPrimeBubblees(
         "Authorization" :"Bearer  $Auth",
       }));
 
-      if (response.statusCode == 200 || response.data["error"]=="Unauthenticated.") {
+      if (response.statusCode == 200){
 
         final baseResponse = serializers.deserialize(json.decode(response.data),
+
             specifiedType: const FullType(
               GetUsersInsideBubbleModel,
               [
@@ -2265,10 +2266,10 @@ Future<GetBubblesModel> GetPrimeBubblees(
         throw NetworkException();
       }
     } on SocketException catch (e) {
-      print(e);
+      print("$e NetworkException NetworkException");
       throw NetworkException();
     } catch (e) {
-      print(e);
+      print("$e NetworkException NetworkException2");
       throw NetworkException();
     }
   }

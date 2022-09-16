@@ -9,7 +9,7 @@ import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/GetUsersInsideBubbleModel.dart';
 import 'package:bubbles/models/OldMessagesModel/OldMessagesModel.dart';
 import 'package:bubbles/models/PostMessagesModel/PostMessagesModel.dart';
 import 'package:built_value/built_value.dart';

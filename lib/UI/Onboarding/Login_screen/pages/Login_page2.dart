@@ -222,7 +222,7 @@ class _Login2State extends State<Login2> {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -342,10 +342,10 @@ class _Login2State extends State<Login2> {
                                                   ]),
                                                   cursorHeight: 15.h,
                                                   style:  TextStyle(
-                                                      fontSize: 20.sp,
+                                                      fontSize: 15.sp,
                                                       fontWeight:
                                                           FontWeight.w500,
-                                                      height: 0.9.h //Add this
+                                                      height: 1.h //Add this
                                                       ,
                                                       color: Colors.brown),
                                                   decoration: InputDecoration(

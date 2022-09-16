@@ -375,7 +375,9 @@ final _PlanPage_Bloc = sl<PlanPageBloc>();
                                               bubble_id: widget.Bubble!.id!,
                                               Plan_Description: widget.Bubble!.Description!,
                                               Bubble_Color: BackgroundColor,
-                                              Want_LOcation_cHECK : true
+                                              Want_LOcation_cHECK : true,
+                                            is_prime: widget.Bubble!.type=="prime",
+                                            Bubble: widget.Bubble,
                                           ),),
                                   ));
                         },

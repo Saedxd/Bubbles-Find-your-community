@@ -24,6 +24,7 @@ abstract class EventdetialMessageModel
   String? get message;
   String? get type;
   String? get sender_name;
+  String? get sender_serial;
   int? get sender_id;
   bool? get is_friend;
   String? get sender_bio;

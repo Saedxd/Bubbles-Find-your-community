@@ -115,7 +115,14 @@ class _Options_screenState extends State<Options_screen> {
     return BlocBuilder(
         bloc: _CreateBubbleBloc,
         builder: (BuildContext Context, CreateBubbleState state) {
-          return WillPopScope(
+          return GestureDetector(
+              onTap: () async {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child:
+
+
+            WillPopScope(
               onWillPop: () async {
                 return true;
               },
@@ -291,7 +298,7 @@ class _Options_screenState extends State<Options_screen> {
                                                 .black,
                                             style : GoogleFonts.roboto().copyWith(
                                                 fontSize: 14.sp,
-                                                height: 1.4.h,
+                                                height: 1.h,
                                                 fontWeight:
                                                 FontWeight.w300,
                                                 color: Color(0xffC4C4C4)),
@@ -342,7 +349,7 @@ class _Options_screenState extends State<Options_screen> {
                                                 fillColor: ColorS.primaryContainer,
                                                 contentPadding:
                                                 EdgeInsets.symmetric(
-                                                  horizontal: 14,vertical: 10),
+                                                  horizontal: 10.w,vertical: 10.h),
                                                 // helperText: "HELLO",
                                                 hintText: 'Add Bubble Name',
                                                 hintStyle: _TextTheme.headline6!.copyWith(
@@ -367,7 +374,7 @@ class _Options_screenState extends State<Options_screen> {
                                             maxLines: 17,
                                             style : GoogleFonts.roboto().copyWith(
                                                 fontSize: 14.sp,
-                                                height: 0.9.h,
+                                                height: 1.h,
                                                 fontWeight:
                                                 FontWeight.w300,
                                                 color: Color(0xffC4C4C4)),
@@ -442,7 +449,7 @@ class _Options_screenState extends State<Options_screen> {
                                             TextInputAction.done,
                                             style : GoogleFonts.roboto().copyWith(
                                                 fontSize: 14.sp,
-                                                height: 0.9.h,
+                                                height: 1.h,
                                                 fontWeight:
                                                 FontWeight.w300,
                                                 color: Color(0xffC4C4C4)),
@@ -510,7 +517,7 @@ class _Options_screenState extends State<Options_screen> {
                                                 fillColor: ColorS.primaryContainer,
                                                 contentPadding:
                                                 EdgeInsets.symmetric(
-                                                  horizontal: 12,),
+                                                  horizontal: 12.w,),
                                                 hintText: 'Location Name',
                                                 hintStyle: _TextTheme.headline6!.copyWith(
                                                   fontSize: 14.sp,
@@ -606,7 +613,7 @@ class _Options_screenState extends State<Options_screen> {
 
                           ],
                         ),
-                      )));
+                      ))));
         });
   }
 
@@ -998,22 +1005,22 @@ class _Options_screenState extends State<Options_screen> {
                                             decoration: InputDecoration(
                                                 border: OutlineInputBorder(
                                                   borderRadius:
-                                                  BorderRadius.circular(30.0),
-                                                  borderSide: const BorderSide(
+                                                  BorderRadius.circular(30.0.r),
+                                                  borderSide:  BorderSide(
                                                       color: Color(0xff939393),
-                                                      width: 10),
+                                                      width: 10.w),
                                                 ),
-                                                focusedBorder: const OutlineInputBorder(
+                                                focusedBorder:  OutlineInputBorder(
                                                   borderRadius: BorderRadius.all(
-                                                      Radius.circular(30.0)),
+                                                      Radius.circular(30.0.r)),
                                                   borderSide: BorderSide(
-                                                      color: Color(0xff939393), width: 2),
+                                                      color: Color(0xff939393), width: 2.w),
                                                 ),
-                                                enabledBorder: const OutlineInputBorder(
+                                                enabledBorder:  OutlineInputBorder(
                                                   borderRadius: BorderRadius.all(
-                                                      Radius.circular(30.0)),
+                                                      Radius.circular(30.0.r)),
                                                   borderSide: BorderSide(
-                                                      color: Color(0xff939393), width: 2),
+                                                      color: Color(0xff939393), width: 2.w),
                                                 ),
                                                 prefixIcon: IconButton(
                                                     icon: SvgPicture.asset(
@@ -1025,11 +1032,11 @@ class _Options_screenState extends State<Options_screen> {
                                                 filled: true,
                                                 fillColor: Colors.transparent,
                                                 contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 12, vertical: 20),
+                                                 EdgeInsets.symmetric(
+                                                    horizontal: 10.w, vertical: 10.h),
                                                 hintText: "Search User",
                                                 hintStyle: _textthem.headline6!
-                                                    .copyWith(fontSize: 15)),
+                                                    .copyWith(fontSize: 15.sp)),
                                             keyboardType: TextInputType.text,
                                           ),
                                         )),
@@ -1041,7 +1048,7 @@ class _Options_screenState extends State<Options_screen> {
                                         textAlign: TextAlign.left,
                                         style: _textthem.headlineLarge!.copyWith(
                                             fontWeight: FontWeight.w400,
-                                            fontSize: 22,
+                                            fontSize: 20.sp,
                                             letterSpacing: .5),
                                       ),
                                     ),
@@ -1108,31 +1115,30 @@ class _Options_screenState extends State<Options_screen> {
                                                       BoxDecoration(
                                                         color: Array2[index]==1?Colors.greenAccent:
                                                         COLOR.secondaryContainer,
-
                                                         borderRadius:
-                                                        const BorderRadius
+                                                         BorderRadius
                                                             .only(
                                                           bottomLeft:
                                                           Radius.circular(
-                                                              40),
+                                                              40.r),
                                                           bottomRight:
                                                           Radius.circular(
-                                                              5),
+                                                              5.r),
                                                           topLeft:
                                                           Radius.circular(
-                                                              40),
+                                                              40.r),
                                                           topRight:
                                                           Radius.circular(
-                                                              5),
+                                                              5.r),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
                                                               color: COLOR
                                                                   .primaryContainer,
                                                               offset:
-                                                              const Offset(
+                                                               Offset(
                                                                   0, 0),
-                                                              blurRadius: 1)
+                                                              blurRadius: 1.r)
                                                         ],
                                                       ),
                                                       child: Row(
@@ -1151,7 +1157,7 @@ class _Options_screenState extends State<Options_screen> {
                                                                   CircleAvatar(
                                                                     backgroundColor: Color(int.parse(state.FilteredFriendlist![index].Background_Color!)),
                                                                     radius:
-                                                                    28.w,
+                                                                    20.w,
                                                                     backgroundImage: NetworkImage(
                                                                         state
                                                                             .FilteredFriendlist!
@@ -1185,7 +1191,7 @@ class _Options_screenState extends State<Options_screen> {
                                                                       textAlign: TextAlign.left,
                                                                       style: _textthem.headline3!.copyWith(
                                                                           fontWeight: FontWeight.w400
-                                                                          ,fontSize: 20
+                                                                          ,fontSize: 15.35.sp
                                                                       )
                                                                   ),
                                                                 ],

@@ -59,8 +59,8 @@ bool DiditOnce = false;
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        width: w/7,
-                        margin: EdgeInsets.only(top: h/40),
+                        width: w/10,
+                        margin: EdgeInsets.only(top: h/40,left: 10.w),
                         child: InkWell(
                           onTap: (){
                             WidgetsBinding.instance.addPostFrameCallback((_) =>
@@ -82,10 +82,10 @@ bool DiditOnce = false;
                         child: Text('How do you identify?', textAlign: TextAlign.center, style: TextStyle(
                             color: Color.fromRGBO(148, 38, 87, 1),
                             fontFamily: 'Red Hat Text',
-                            fontSize: 23.sp,
-                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                            fontSize: 20.sp,
+                            letterSpacing: 0,
                             fontWeight: FontWeight.w600,
-                            height: 1
+                            height: 1.h
                         ),),
                       ),
                       Text(""),
@@ -142,7 +142,7 @@ bool DiditOnce = false;
                                                 fontSize: 20.sp,
                                                 letterSpacing: 0.2,
                                                 fontWeight: FontWeight.w400,
-                                                height: 1
+                                                height: 1.h
                                             )
                                         ),
                                       ],
@@ -201,7 +201,7 @@ bool DiditOnce = false;
                         child:  Text('Confirm', textAlign: TextAlign.center,     style:
                         _TextTheme.headline1!.copyWith(
                             fontWeight: FontWeight.w600,
-                          fontSize: 19.sp
+                          fontSize: 20.sp
                         ),),
                       ),
                     ),

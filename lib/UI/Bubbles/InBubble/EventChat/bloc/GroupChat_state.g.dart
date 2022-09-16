@@ -131,6 +131,8 @@ class _$GroupChatState extends GroupChatState {
   final bool? CheckboxStatuss2;
   @override
   final int? TextfieldSum;
+  @override
+  final bool? PollFlow_AnsweredSuccess;
 
   factory _$GroupChatState([void Function(GroupChatStateBuilder)? updates]) =>
       (new GroupChatStateBuilder()..update(updates))._build();
@@ -197,7 +199,8 @@ class _$GroupChatState extends GroupChatState {
       this.DescriptionLength,
       this.CheckboxStatuss1,
       this.CheckboxStatuss2,
-      this.TextfieldSum})
+      this.TextfieldSum,
+      this.PollFlow_AnsweredSuccess})
       : super._();
 
   @override
@@ -273,7 +276,8 @@ class _$GroupChatState extends GroupChatState {
         DescriptionLength == other.DescriptionLength &&
         CheckboxStatuss1 == other.CheckboxStatuss1 &&
         CheckboxStatuss2 == other.CheckboxStatuss2 &&
-        TextfieldSum == other.TextfieldSum;
+        TextfieldSum == other.TextfieldSum &&
+        PollFlow_AnsweredSuccess == other.PollFlow_AnsweredSuccess;
   }
 
   @override
@@ -296,26 +300,26 @@ class _$GroupChatState extends GroupChatState {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), Message_Uploading.hashCode), ChangeSearchStatus.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), FlowList.hashCode), AddNewFriend.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), ShowFloatingActionButtonn.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode),
-                                                                                AddModelISloading.hashCode),
-                                                                            AddModelSUccess.hashCode),
-                                                                        index_For_Message_List.hashCode),
-                                                                    AvatarPathForRepliedTo.hashCode),
-                                                                ColorForRepliedTo.hashCode),
-                                                            AliasForRepliedTo.hashCode),
-                                                        Isreply.hashCode),
-                                                    Status.hashCode),
-                                                type.hashCode),
-                                            RepliedToMessage.hashCode),
-                                        Image1.hashCode),
-                                    File_image.hashCode),
-                                Image_type.hashCode),
-                            DescriptionLengthISloading.hashCode),
-                        DescriptionLengthSuccess.hashCode),
-                    DescriptionLength.hashCode),
-                CheckboxStatuss1.hashCode),
-            CheckboxStatuss2.hashCode),
-        TextfieldSum.hashCode));
+                                                                            $jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc($jc(0, error.hashCode), isLoading.hashCode), success.hashCode), MediaImageTaken.hashCode), Message_Uploading.hashCode), ChangeSearchStatus.hashCode), KetbaordStatuss.hashCode), FlowOptionsOpened.hashCode), Done.hashCode), AliasISLoading.hashCode), AliasISsuccess.hashCode), GetAlias.hashCode), RefreshLoading.hashCode), RefreshSuccess.hashCode), Turnss.hashCode), UserINbubbleAliasISLoading.hashCode), UserINbubbleAliasISsuccess.hashCode), typingStatusISloading.hashCode), TypingStatusSuccess.hashCode), TypingStatus.hashCode), SendMessageISloading.hashCode), SendMessageSuccess.hashCode), GetAliasMinee.hashCode), EventOldMessages.hashCode), GetAliasForInsideBubbleUser.hashCode), SendBubbleTopicFlow.hashCode), SendBubblePollFow.hashCode), SendBubbleMediaDump.hashCode), SendBubbleFootPrint.hashCode), SendBubbleMessage.hashCode), SendBubbleReply.hashCode), GetUsersInsideBubble.hashCode), messages.hashCode), User.hashCode), InsideBubbleUsers.hashCode), FilteredInsideBubbleUsers.hashCode), FlowList.hashCode), AddNewFriend.hashCode), GetInsideUsersISloading.hashCode), GetInsideUsersSuccess.hashCode), ShowFloatingActionButtonn.hashCode), AddFreindSuccess.hashCode), FreindAddlOADING.hashCode), AddModelISloading.hashCode),
+                                                                                AddModelSUccess.hashCode),
+                                                                            index_For_Message_List.hashCode),
+                                                                        AvatarPathForRepliedTo.hashCode),
+                                                                    ColorForRepliedTo.hashCode),
+                                                                AliasForRepliedTo.hashCode),
+                                                            Isreply.hashCode),
+                                                        Status.hashCode),
+                                                    type.hashCode),
+                                                RepliedToMessage.hashCode),
+                                            Image1.hashCode),
+                                        File_image.hashCode),
+                                    Image_type.hashCode),
+                                DescriptionLengthISloading.hashCode),
+                            DescriptionLengthSuccess.hashCode),
+                        DescriptionLength.hashCode),
+                    CheckboxStatuss1.hashCode),
+                CheckboxStatuss2.hashCode),
+            TextfieldSum.hashCode),
+        PollFlow_AnsweredSuccess.hashCode));
   }
 
   @override
@@ -382,7 +386,8 @@ class _$GroupChatState extends GroupChatState {
           ..add('DescriptionLength', DescriptionLength)
           ..add('CheckboxStatuss1', CheckboxStatuss1)
           ..add('CheckboxStatuss2', CheckboxStatuss2)
-          ..add('TextfieldSum', TextfieldSum))
+          ..add('TextfieldSum', TextfieldSum)
+          ..add('PollFlow_AnsweredSuccess', PollFlow_AnsweredSuccess))
         .toString();
   }
 }
@@ -699,6 +704,11 @@ class GroupChatStateBuilder
   int? get TextfieldSum => _$this._TextfieldSum;
   set TextfieldSum(int? TextfieldSum) => _$this._TextfieldSum = TextfieldSum;
 
+  bool? _PollFlow_AnsweredSuccess;
+  bool? get PollFlow_AnsweredSuccess => _$this._PollFlow_AnsweredSuccess;
+  set PollFlow_AnsweredSuccess(bool? PollFlow_AnsweredSuccess) =>
+      _$this._PollFlow_AnsweredSuccess = PollFlow_AnsweredSuccess;
+
   GroupChatStateBuilder();
 
   GroupChatStateBuilder get _$this {
@@ -767,6 +777,7 @@ class GroupChatStateBuilder
       _CheckboxStatuss1 = $v.CheckboxStatuss1;
       _CheckboxStatuss2 = $v.CheckboxStatuss2;
       _TextfieldSum = $v.TextfieldSum;
+      _PollFlow_AnsweredSuccess = $v.PollFlow_AnsweredSuccess;
       _$v = null;
     }
     return this;
@@ -853,7 +864,8 @@ class GroupChatStateBuilder
               DescriptionLength: DescriptionLength,
               CheckboxStatuss1: CheckboxStatuss1,
               CheckboxStatuss2: CheckboxStatuss2,
-              TextfieldSum: TextfieldSum);
+              TextfieldSum: TextfieldSum,
+              PollFlow_AnsweredSuccess: PollFlow_AnsweredSuccess);
     } catch (_) {
       late String _$failedField;
       try {

@@ -73,6 +73,12 @@ class _$NotificationsListModelSerializer
         ..add('user_id')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.id;
+    if (value != null) {
+      result
+        ..add('id')
+        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+    }
     return result;
   }
 
@@ -116,6 +122,10 @@ class _$NotificationsListModelSerializer
           result.user_id = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'id':
+          result.id = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int?;
+          break;
       }
     }
 
@@ -138,6 +148,8 @@ class _$NotificationsListModel extends NotificationsListModel {
   final String? avatar;
   @override
   final int? user_id;
+  @override
+  final int? id;
 
   factory _$NotificationsListModel(
           [void Function(NotificationsListModelBuilder)? updates]) =>
@@ -150,7 +162,8 @@ class _$NotificationsListModel extends NotificationsListModel {
       this.created_at,
       this.background_color,
       this.avatar,
-      this.user_id})
+      this.user_id,
+      this.id})
       : super._();
 
   @override
@@ -172,7 +185,8 @@ class _$NotificationsListModel extends NotificationsListModel {
         created_at == other.created_at &&
         background_color == other.background_color &&
         avatar == other.avatar &&
-        user_id == other.user_id;
+        user_id == other.user_id &&
+        id == other.id;
   }
 
   @override
@@ -181,12 +195,14 @@ class _$NotificationsListModel extends NotificationsListModel {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, title.hashCode), body.hashCode),
-                        type.hashCode),
-                    created_at.hashCode),
-                background_color.hashCode),
-            avatar.hashCode),
-        user_id.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, title.hashCode), body.hashCode),
+                            type.hashCode),
+                        created_at.hashCode),
+                    background_color.hashCode),
+                avatar.hashCode),
+            user_id.hashCode),
+        id.hashCode));
   }
 
   @override
@@ -198,7 +214,8 @@ class _$NotificationsListModel extends NotificationsListModel {
           ..add('created_at', created_at)
           ..add('background_color', background_color)
           ..add('avatar', avatar)
-          ..add('user_id', user_id))
+          ..add('user_id', user_id)
+          ..add('id', id))
         .toString();
   }
 }
@@ -236,6 +253,10 @@ class NotificationsListModelBuilder
   int? get user_id => _$this._user_id;
   set user_id(int? user_id) => _$this._user_id = user_id;
 
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
+
   NotificationsListModelBuilder();
 
   NotificationsListModelBuilder get _$this {
@@ -248,6 +269,7 @@ class NotificationsListModelBuilder
       _background_color = $v.background_color;
       _avatar = $v.avatar;
       _user_id = $v.user_id;
+      _id = $v.id;
       _$v = null;
     }
     return this;
@@ -276,7 +298,8 @@ class NotificationsListModelBuilder
             created_at: created_at,
             background_color: background_color,
             avatar: avatar,
-            user_id: user_id);
+            user_id: user_id,
+            id: id);
     replace(_$result);
     return _$result;
   }

@@ -122,7 +122,7 @@ access them""",
             letterSpacing: .9,
             wordSpacing: 2,
             fontWeight: FontWeight.w300,
-            fontSize: 24.sp,
+            fontSize: 20.sp,
           ),),
       ),
     ),
@@ -168,7 +168,7 @@ access them""",
                         child: Center(
                           child: Text('Enable', textAlign: TextAlign.center,       style:
                           _TextTheme.headline1!.copyWith(
-                            fontSize: 22.sp,
+                             fontSize:  20.sp
                           ),),
                         ),
                       ),
@@ -195,7 +195,7 @@ access them""",
                     child: Text('Not Now', textAlign: TextAlign.center, style: TextStyle(
                         color: Color.fromRGBO(47, 47, 47, 1),
                         fontFamily: 'Red Hat Text',
-                        fontSize: 17.sp,
+                        fontSize: 18.sp,
                         letterSpacing: 0.1,
                         fontWeight: FontWeight.w300,
                         height: 1

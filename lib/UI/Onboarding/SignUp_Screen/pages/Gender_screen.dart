@@ -213,20 +213,18 @@ class _Gender_ScreenState extends State<Gender_Screen> {
                                                       return CircularProgressIndicator();
                                                     },
                                                   ),),
-                                                FittedBox(
-                                                  fit: BoxFit.contain,
-                                                  child:  Text(
+                                                 Text(
                                                     state.GetGender!.genders![index].title!,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                         color: Colors.black,
                                                         fontFamily: 'Red Hat Text',
-                                                        fontSize: 22.sp,
+                                                        fontSize: 20.sp,
                                                         letterSpacing: 0,
                                                         fontWeight: FontWeight.w400,
-                                                        height: 1),
+                                                        height: 1.h),
                                                   ),
-                                                ),
+
                                               
                                               ],
                                             ),

@@ -284,10 +284,15 @@ abstract class AddFlowModel extends GroupChatevent
   AddFlowModel._();
   factory AddFlowModel([updates(AddFlowModelBuilder b)]) = _$AddFlowModel;
 }
+
 abstract class ChoosePollFlowAnswer extends GroupChatevent
     implements Built<ChoosePollFlowAnswer, ChoosePollFlowAnswerBuilder> {
-int? get index;
+int? get ANswers_index;
+int? get Flow_Index;
+int? get Chat_index;
 int? get Answer_id;
+int? get bubble_id;
+bool? get Want_Request;
   ChoosePollFlowAnswer._();
   factory ChoosePollFlowAnswer([Function(ChoosePollFlowAnswerBuilder b) updates]) = _$ChoosePollFlowAnswer;
 }

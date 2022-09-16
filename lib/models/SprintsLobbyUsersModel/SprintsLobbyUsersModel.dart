@@ -6,9 +6,7 @@ library SprintsLobbyUsersModel;
 import 'dart:convert';
 
 
-import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+import 'package:bubbles/models/GetUsersInsideBubbleModell/FriendDataModel.dart';
 import 'package:bubbles/models/serializer/serializer.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
