@@ -19,7 +19,7 @@ abstract class GetbadgeModel
   String? get msg;
   int? get statuscode;
   int? get count;
-
+  String? get error;
 
 
   GetbadgeModel._();

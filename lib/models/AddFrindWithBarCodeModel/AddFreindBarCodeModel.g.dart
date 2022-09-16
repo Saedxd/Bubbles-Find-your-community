@@ -38,6 +38,13 @@ class _$AddFreindBarCodeModelSerializer
         ..add('statuscode')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -61,6 +68,10 @@ class _$AddFreindBarCodeModelSerializer
           result.statuscode = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -73,12 +84,15 @@ class _$AddFreindBarCodeModel extends AddFreindBarCodeModel {
   final String? msg;
   @override
   final int? statuscode;
+  @override
+  final String? error;
 
   factory _$AddFreindBarCodeModel(
           [void Function(AddFreindBarCodeModelBuilder)? updates]) =>
       (new AddFreindBarCodeModelBuilder()..update(updates))._build();
 
-  _$AddFreindBarCodeModel._({this.msg, this.statuscode}) : super._();
+  _$AddFreindBarCodeModel._({this.msg, this.statuscode, this.error})
+      : super._();
 
   @override
   AddFreindBarCodeModel rebuild(
@@ -94,19 +108,22 @@ class _$AddFreindBarCodeModel extends AddFreindBarCodeModel {
     if (identical(other, this)) return true;
     return other is AddFreindBarCodeModel &&
         msg == other.msg &&
-        statuscode == other.statuscode;
+        statuscode == other.statuscode &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, msg.hashCode), statuscode.hashCode));
+    return $jf(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('AddFreindBarCodeModel')
+    return (newBuiltValueToStringHelper(r'AddFreindBarCodeModel')
           ..add('msg', msg)
-          ..add('statuscode', statuscode))
+          ..add('statuscode', statuscode)
+          ..add('error', error))
         .toString();
   }
 }
@@ -123,6 +140,10 @@ class AddFreindBarCodeModelBuilder
   int? get statuscode => _$this._statuscode;
   set statuscode(int? statuscode) => _$this._statuscode = statuscode;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   AddFreindBarCodeModelBuilder();
 
   AddFreindBarCodeModelBuilder get _$this {
@@ -130,6 +151,7 @@ class AddFreindBarCodeModelBuilder
     if ($v != null) {
       _msg = $v.msg;
       _statuscode = $v.statuscode;
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -150,11 +172,12 @@ class AddFreindBarCodeModelBuilder
   AddFreindBarCodeModel build() => _build();
 
   _$AddFreindBarCodeModel _build() {
-    final _$result =
-        _$v ?? new _$AddFreindBarCodeModel._(msg: msg, statuscode: statuscode);
+    final _$result = _$v ??
+        new _$AddFreindBarCodeModel._(
+            msg: msg, statuscode: statuscode, error: error);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

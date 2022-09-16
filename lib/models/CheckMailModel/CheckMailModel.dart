@@ -18,7 +18,7 @@ abstract class CheckMailModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   CheckMailModel._();

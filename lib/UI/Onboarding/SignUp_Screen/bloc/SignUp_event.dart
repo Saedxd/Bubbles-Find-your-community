@@ -114,6 +114,14 @@ String? get Email;
 abstract class ChangeSelected extends SignUpEvent
     implements Built<ChangeSelected, ChangeSelectedBuilder> {
 
+  bool? get status;
+
   ChangeSelected._();
   factory ChangeSelected([updates(ChangeSelectedBuilder b)]) = _$ChangeSelected;
+}
+abstract class HideSpaceOnSignUP extends SignUpEvent
+    implements Built<HideSpaceOnSignUP, HideSpaceOnSignUPBuilder> {
+
+  HideSpaceOnSignUP._();
+  factory HideSpaceOnSignUP([updates(HideSpaceOnSignUPBuilder b)]) = _$HideSpaceOnSignUP;
 }

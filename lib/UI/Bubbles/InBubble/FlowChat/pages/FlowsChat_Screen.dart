@@ -3,22 +3,20 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_Bloc.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_event.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/bloc/FlowsChat_state.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/main.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:bubbles/App/app.dart';
 import 'package:bubbles/Injection.dart';
-
-import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintChat.dart';
-import 'package:bubbles/UI/Bubbles/InBubble/Sprints/Pages/SprintLobby.dart';
 import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
-import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/core/widgets/OwnMessgaeCrad.dart';
 import 'package:bubbles/core/widgets/RecordView.dart';
@@ -35,7 +33,6 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:sizer/sizer.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:swipe_to/swipe_to.dart';
@@ -395,8 +392,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                                 'TextInput.show');
                                             if (state.messages![index]
                                                 .ISreply == false) {
-                                              Message_id =
-                                              state.messages![index].ID!;
+                                              Message_id =  state.messages![index].ID!;
+
 
 
                                               type = state.messages![index]
@@ -462,113 +459,127 @@ class _FlowsChatState extends State<FlowsChat>{
                                         margin: EdgeInsets.only(top:index==state.messages!.length-1? h/13:0),
                                         padding: EdgeInsets.only(
                                             left: h / 50),
-                                        child: state.success!
+                                        child:    state.success!
                                             ? state.messages![index].ModelType == "Message"
                                             ? Container(
                                           width:
                                           w / 1.3,
                                           child: Stack(
                                             children: [
-
                                               Container(
                                                 child: Column(
                                                   children: [
-                                                    Row(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            InkWell(
-                                                              onTap: (){
-                                                                //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                    Stack(
+                                                        children :[
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                            children: [
+                                                              Row(
+                                                                children: [
+                                                                  InkWell(
+                                                                    onTap: (){
+                                                                      //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                    },
+                                                                    child: CircleAvatar(
+                                                                      backgroundColor: Color(state
+                                                                          .messages![index]
+                                                                          .background_Color!),
+                                                                      backgroundImage: NetworkImage(state
+                                                                          .messages![index]
+                                                                          .Avatar
+                                                                          .toString()),
+                                                                      radius: 20.w,
 
-                                                              },
-                                                              child: CircleAvatar(
-                                                                backgroundColor: Color(state
-                                                                    .messages![index]
-                                                                    .background_Color!),
-                                                                backgroundImage: NetworkImage(state
-                                                                    .messages![index]
-                                                                    .Avatar
-                                                                    .toString()),
-                                                                radius:
-                                                                23,
+                                                                    ),
+                                                                  ),
+                                                                  SizedBox(width: 10,),
+                                                                  Container(
+                                                                    margin: EdgeInsets.only(bottom: h/50),
+                                                                    child: Text(
+                                                                      state.messages![index].Alias.toString(),
+                                                                      textAlign:
+                                                                      TextAlign.left,
+                                                                      style:
+                                                                      _textthem.headline3!.copyWith(
+                                                                        color: COLOR.errorContainer,
+                                                                        fontWeight: FontWeight.w400,
+                                                                        fontSize: 13.sp,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ),
-                                                            SizedBox(width: 5,),
-                                                            Container(
-                                                              margin: EdgeInsets.only(bottom: h/50),
-                                                              child: Text(
-                                                                state.messages![index].Alias.toString(),
+                                                              Row(
+                                                                children: [
+                                                                  Text(
+                                                                      state.messages![index].time!,
+                                                                      textAlign: TextAlign.right,
+                                                                      style: _textthem.headline2!.copyWith(
+                                                                          fontWeight: FontWeight.w300,
+                                                                          color:  Color(0xffEAEAEA),
+                                                                          fontSize: 9.sp
+                                                                      )),
+                                                                  SizedBox(width: 10,),
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                          Container(
+                                                            width: w /  1.4,
+                                                            margin: EdgeInsets.only(right: w/100),
+                                                            child: Text(
+                                                                state.messages![index].message
+                                                                    .toString(),
                                                                 textAlign:
                                                                 TextAlign.left,
-                                                                style:
-                                                                _textthem.headline3!.copyWith(
-                                                                  color: COLOR.errorContainer,
-                                                                  fontWeight: FontWeight.w400,
-                                                                  fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        Row(
-                                                          children: [
-                                                            Text(
-                                                                state.messages![index].time!,
-                                                                textAlign: TextAlign.right,
-                                                                style: _textthem.headline2!.copyWith(
-                                                                  fontWeight: FontWeight.w300,
-                                                                  color: const Color(0xffEAEAEA),
-                                                                  fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                style: GoogleFonts.roboto().copyWith(
+                                                                    color: Colors.transparent,
+                                                                    fontWeight: FontWeight.w300,
+                                                                    fontSize: 11.sp
                                                                 )),
-                                                            SizedBox(width: 10,),
-                                                          ],
-                                                        )
-                                                      ],
+                                                          ),
+                                                        ]
                                                     ),
+                                                    SizedBox(height: 5,),
 
 
-
-                                                    Container(
-                                                      width: w /  1.4,
-                                                      margin: EdgeInsets.only(left: h/100),
-                                                      child: Text(
-                                                          state.messages![index].message
-                                                              .toString(),
-                                                          textAlign:
-                                                          TextAlign.left,
-                                                          style: _textthem.headline2!.copyWith(
-                                                            color: Colors.transparent,
-                                                            fontWeight: FontWeight.w300,
-
-                                                            fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                          )),
-                                                    ),
 
                                                   ],
                                                 ),
                                               ),
+
                                               Positioned(
-                                                left: h/14,
-                                                top: h/20,
-                                                child:
-                                                Container(
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: Container(
                                                   width: w /  1.4,
                                                   color: Colors.transparent,
-                                                  margin: EdgeInsets.only(left: h/80),
-                                                  child: Text(
+                                                  margin: EdgeInsets.only(bottom: 0,right: 0,top:h/20,left: w/7),
+                                                  child:Text(
                                                       state.messages![index].message
                                                           .toString(),
                                                       textAlign:
                                                       TextAlign.left,
-                                                      style: _textthem.headline2!.copyWith(
-                                                        color: const Color(0xffEAEAEA),
-                                                        fontWeight: FontWeight.w300,
-                                                        fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                      style: GoogleFonts.roboto().copyWith(
+                                                          color:  Color(0xffEAEAEA),
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 11.sp
                                                       )),
+
+                                                  // Text(
+                                                  // state.messages![index].message
+                                                  //     .toString(),
+                                                  // textAlign:
+                                                  // TextAlign.left,
+                                                  // style: _textthem.headline2!.copyWith(
+                                                  //
+                                                  //   fontWeight: FontWeight.w300,
+                                                  //    fontSize: 0.23.sp
+                                                  // )),
                                                 ),
-                                              )
+                                              ),
+
                                             ],
                                           ),
                                         )
@@ -598,11 +609,10 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   .messages![index]
                                                                   .Avatar
                                                                   .toString()),
-                                                              radius:
-                                                              23,
+                                                              radius: 20.w,
                                                             ),
                                                           ),
-                                                          SizedBox(width: 5,),
+                                                          SizedBox(width: 10,),
                                                           Container(
                                                             margin: EdgeInsets.only(bottom: h/50),
                                                             child: Text(
@@ -613,7 +623,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               _textthem.headline3!.copyWith(
                                                                 color: COLOR.errorContainer,
                                                                 fontWeight: FontWeight.w400,
-                                                                fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                fontSize: 13.sp,
                                                               ),
                                                             ),
                                                           ),
@@ -625,9 +635,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               state.messages![index].time!,
                                                               textAlign: TextAlign.right,
                                                               style: _textthem.headline2!.copyWith(
-                                                                fontWeight: FontWeight.w300,
-                                                                color: const Color(0xffEAEAEA),
-                                                                fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                  fontWeight: FontWeight.w300,
+                                                                  color:  Color(0xffEAEAEA),
+                                                                  fontSize: 9.sp
                                                               )),
                                                           SizedBox(width: 10,),
                                                         ],
@@ -650,18 +660,17 @@ class _FlowsChatState extends State<FlowsChat>{
                                                     child: Row(
                                                       children: [
 
-
                                                         state.messages![index].Image_type.toString()=="Uint8List"
                                                             ? Row(
                                                           children: [
                                                             InkWell(
                                                               onTap: (){
-                                                                //DirectChat
-                                                                WidgetsBinding.instance!
+                                                                WidgetsBinding.instance
                                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                                   context,
                                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                                    builder: (context) => HeroImage(Uint8List2: state.messages![index].Image1!, Image_Type: 'Uint8List',id: state.messages![index].ID,),),
+                                                                    builder: (context) =>
+                                                                        HeroImage( Uint8List2 : state.messages![index].Image1!, Image_Type: 'Uint8List',id: state.messages![index].ID, Message_Time: state.messages![index].time!, Sender_Avatar: state.messages![index].Avatar, Sender_Color: state.messages![index].background_Color, Sender_Alias: state.messages![index].Alias,),),
                                                                 ));
 
                                                               },
@@ -682,15 +691,14 @@ class _FlowsChatState extends State<FlowsChat>{
 
                                                         InkWell(
                                                             onTap: (){
-                                                              WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                                                                  Navigator.push(context,
-                                                                    MaterialPageRoute(builder: (context) =>
-                                                                        HeroImage(
-                                                                          path: state.messages![index].message!,
-                                                                          Image_Type: 'Backend',
-                                                                          id: state.messages![index].ID,
-                                                                        ),),
-                                                                  ));
+                                                              WidgetsBinding.instance
+                                                                  .addPostFrameCallback((_) =>     Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(//receiver_id: ,my_ID: ,
+                                                                  builder: (context) =>
+                                                                      HeroImage( path : state.messages![index].message!, Image_Type: 'Backend',id: state.messages![index].ID, Message_Time: state.messages![index].time!, Sender_Avatar: state.messages![index].Avatar, Sender_Color: state.messages![index].background_Color, Sender_Alias: state.messages![index].Alias,),),
+                                                              ));
+
                                                             },
                                                             child: Hero(
                                                               tag: "Image${state.messages![index].ID}",
@@ -732,13 +740,14 @@ class _FlowsChatState extends State<FlowsChat>{
                                                           children: [
                                                             InkWell(
                                                                 onTap: (){
-                                                                  //DirectChat
-                                                                  WidgetsBinding.instance!
+                                                                  WidgetsBinding.instance
                                                                       .addPostFrameCallback((_) =>     Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                                      builder: (context) => HeroImage(Image: state.messages![index].Image2!, Image_Type: 'File',id: state.messages![index].ID,),),
+                                                                      builder: (context) =>
+                                                                          HeroImage( Image : state.messages![index].Image2!, Image_Type: 'File',id: state.messages![index].ID, Message_Time: state.messages![index].time!, Sender_Avatar: state.messages![index].Avatar, Sender_Color: state.messages![index].background_Color, Sender_Alias: state.messages![index].Alias,),),
                                                                   ));
+
                                                                 },
                                                                 child: Hero(
                                                                     tag: "Image${state.messages![index].ID}",
@@ -786,11 +795,10 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   .messages![index]
                                                                   .Avatar
                                                                   .toString()),
-                                                              radius:
-                                                              23,
+                                                              radius: 20.w,
                                                             ),
                                                           ),
-                                                          SizedBox(width: 5,),
+                                                          SizedBox(width: 10,),
                                                           Container(
                                                             margin: EdgeInsets.only(bottom: h/50),
                                                             child: Text(
@@ -801,7 +809,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               _textthem.headline3!.copyWith(
                                                                 color: COLOR.errorContainer,
                                                                 fontWeight: FontWeight.w400,
-                                                                fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                fontSize: 13.sp,
                                                               ),
                                                             ),
                                                           ),
@@ -813,9 +821,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               state.messages![index].time!,
                                                               textAlign: TextAlign.right,
                                                               style: _textthem.headline2!.copyWith(
-                                                                fontWeight: FontWeight.w300,
-                                                                color: const Color(0xffEAEAEA),
-                                                                fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                  fontWeight: FontWeight.w300,
+                                                                  color:  Color(0xffEAEAEA),
+                                                                  fontSize: 9.sp
                                                               )),
                                                           SizedBox(width: 10,),
                                                         ],
@@ -836,8 +844,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                                       played: false,
                                                       me: false,
                                                     ),
-                                                    const Text(""),
-                                                    const Text(""),
+                                                    Text(""),
+                                                    Text(""),
                                                   ],
                                                 ),
                                               )
@@ -845,7 +853,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                           ),
                                         )
                                             : state .messages![index].ModelType == "ReplyMessage"
-                                            ?  Container(
+                                            ? Container(
                                             width: w / 1.3,
                                             child: Stack(
                                                 children: [
@@ -860,13 +868,13 @@ class _FlowsChatState extends State<FlowsChat>{
                                                               width: h / 34,
                                                             ),
                                                             Container(
-                                                              color: const Color(0xffEAEAEA),
+                                                              color:  Color(0xffEAEAEA),
                                                               width: w / 400,
                                                               height: h / 50,
                                                               margin: EdgeInsets.only(top: h/105,bottom: h/105),
                                                             ),
                                                             Container(
-                                                              color: const Color(0xffEAEAEA),
+                                                              color:  Color(0xffEAEAEA),
                                                               height: w / 400,
                                                               width: h / 34,
                                                               margin: EdgeInsets.only(bottom: h/55),
@@ -889,11 +897,11 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                           child: Row(
                                                                             children: [
                                                                               CircleAvatar(
-                                                                                radius: 11,
+                                                                                radius: 10.w,
                                                                                 backgroundImage: NetworkImage(state.messages![index].RepliedTOAvatar.toString()),
                                                                                 backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                               ),
-                                                                              const SizedBox(
+                                                                              SizedBox(
                                                                                 width: 3,
                                                                               ),
                                                                               Text(
@@ -901,21 +909,32 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                                 // state.AliasForRepliedTo.toString()
                                                                                 ,
                                                                                 textAlign: TextAlign.left,
-                                                                                style: TextStyle(color: const Color.fromRGBO(147, 147, 147, 1), fontFamily: 'Red Hat Text', fontSize: 1.7 * SizeConfig.blockSizeVertical!.toDouble(), letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w500, height: 1),
+                                                                                style: TextStyle(
+                                                                                    color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                    fontFamily: 'Red Hat Text',
+                                                                                    fontSize: 9.sp,letterSpacing: 0
+                                                                                    ,
+                                                                                    fontWeight: FontWeight.w500, height: 1),
                                                                               ),
-                                                                              const SizedBox(
+                                                                              SizedBox(
                                                                                 width: 5,
                                                                               ),
+
                                                                               Container(
                                                                                 width: w / 8,
                                                                                 height: h / 79,
                                                                                 child: Text(
-                                                                                  state.messages![index].RepliedTOMessage.toString()
-                                                                                  // state.RepliedToMessage.toString()
-                                                                                  ,
-                                                                                  textAlign: TextAlign.left,
-                                                                                  overflow: TextOverflow.ellipsis,
-                                                                                  style: const TextStyle(color: Color.fromRGBO(196, 196, 196, 1), fontFamily: 'Red Hat Text', fontSize: 10.539999961853027, letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w300, height: 1),
+                                                                                    state.messages![index].RepliedTOMessage.toString()
+                                                                                    // state.RepliedToMessage.toString()
+                                                                                    ,
+                                                                                    textAlign: TextAlign.left,
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    style: GoogleFonts.roboto().copyWith(
+                                                                                        color:  Color(0xffEAEAEA),
+                                                                                        fontWeight: FontWeight.w300,
+                                                                                        fontSize: 7.54.sp
+                                                                                    )
+
                                                                                 ),
                                                                               ),
                                                                             ],
@@ -944,10 +963,10 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                 child:    CircleAvatar(
                                                                   backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                   backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
-                                                                  radius: 23,
+                                                                  radius: 20.w,
                                                                 ),
                                                               ),
-                                                              SizedBox(width: 5,),
+                                                              SizedBox(width: 10,),
                                                               Container(
                                                                 margin: EdgeInsets.only(bottom: h/50),
                                                                 child: Text(
@@ -958,7 +977,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   _textthem.headline3!.copyWith(
                                                                     color: COLOR.errorContainer,
                                                                     fontWeight: FontWeight.w400,
-                                                                    fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                    fontSize: 13.sp,
                                                                   ),
                                                                 ),
                                                               ),
@@ -970,9 +989,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   state.messages![index].Repliertime!,
                                                                   textAlign: TextAlign.right,
                                                                   style: _textthem.headline2!.copyWith(
-                                                                    fontWeight: FontWeight.w300,
-                                                                    color: const Color(0xffEAEAEA),
-                                                                    fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                      fontWeight: FontWeight.w300,
+                                                                      color:  Color(0xffEAEAEA),
+                                                                      fontSize: 9.sp
                                                                   )),
                                                               SizedBox(width: 10,),
                                                             ],
@@ -987,32 +1006,29 @@ class _FlowsChatState extends State<FlowsChat>{
                                                             state.messages![index].ReplierMessage.toString(),
                                                             textAlign:
                                                             TextAlign.left,
-                                                            style: _textthem.headline2!.copyWith(
-                                                              color: Colors.transparent,
-                                                              fontWeight: FontWeight.w300,
-                                                              fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                            style: GoogleFonts.roboto().copyWith(
+                                                                color: Colors.transparent,
+                                                                fontWeight: FontWeight.w300,
+                                                                fontSize: 11.sp
                                                             )),
                                                       )
                                                     ],
                                                   ),
-
-                                                  Positioned(
-                                                    left: h/14,
-                                                    top: h/11.7,
-                                                    child: Container(
-                                                      width: w /  1.4,
-                                                      margin: EdgeInsets.only(left: h/100),
-                                                      child: Text(
-                                                          state.messages![index].ReplierMessage.toString(),
-                                                          textAlign:
-                                                          TextAlign.left,
-                                                          style: _textthem.headline2!.copyWith(
+                                                  Container(
+                                                    width: w/1.3,
+                                                    color: Colors.transparent,
+                                                    margin: EdgeInsets.only(bottom: 0,right: 0,top:h/12,left: w/7),
+                                                    child:Text(
+                                                        state.messages![index].ReplierMessage.toString(),
+                                                        textAlign:
+                                                        TextAlign.left,
+                                                        style: GoogleFonts.roboto().copyWith(
+                                                            color:  Color(0xffEAEAEA),
                                                             fontWeight: FontWeight.w300,
-                                                            color: const Color(0xffEAEAEA),
-                                                            fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                          )),
-                                                    ),
+                                                            fontSize: 11.sp
+                                                        )),
                                                   ),
+
                                                 ]
                                             )
                                         )
@@ -1035,12 +1051,12 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   width: h / 34,
                                                                 ),
                                                                 Container(
-                                                                  color: const Color(0xffEAEAEA),
+                                                                  color:  Color(0xffEAEAEA),
                                                                   width: w / 400,
                                                                   height: h / 50,
                                                                 ),
                                                                 Container(
-                                                                  color: const Color(0xffEAEAEA),
+                                                                  color:  Color(0xffEAEAEA),
                                                                   height: w / 400,
                                                                   width: h / 34,
                                                                   margin: EdgeInsets.only(bottom: h/55),
@@ -1065,11 +1081,11 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                               child: Row(
                                                                                 children: [
                                                                                   CircleAvatar(
-                                                                                    radius: 10,
+                                                                                    radius: 10.w,
                                                                                     backgroundImage: NetworkImage(state.messages![index].RepliedTOAvatar.toString()),
                                                                                     backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                                   ),
-                                                                                  const SizedBox(
+                                                                                  SizedBox(
                                                                                     width: 3,
                                                                                   ),
                                                                                   Text(
@@ -1077,9 +1093,12 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                                     // state.AliasForRepliedTo.toString()
                                                                                     ,
                                                                                     textAlign: TextAlign.left,
-                                                                                    style: TextStyle(color: const Color.fromRGBO(147, 147, 147, 1), fontFamily: 'Red Hat Text', fontSize: 1.7 * SizeConfig.blockSizeVertical!.toDouble(), letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w500, height: 1),
+                                                                                    style: TextStyle(
+                                                                                        color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                        fontFamily: 'Red Hat Text',  fontSize: 9.sp,
+                                                                                        letterSpacing: 0 , fontWeight: FontWeight.w500, height: 1),
                                                                                   ),
-                                                                                  const SizedBox(
+                                                                                  SizedBox(
                                                                                     width: 5,
                                                                                   ),
                                                                                   Container(
@@ -1090,8 +1109,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                                       Text('Sticker...', textAlign: TextAlign.left, style: TextStyle(
                                                                                           color: Color.fromRGBO(196, 196, 196, 1),
                                                                                           fontFamily: 'Sofia Pro',
-                                                                                          fontSize: 7.539999961853027,
-                                                                                          letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                          fontSize: 7.539999961853027.sp,
+                                                                                          letterSpacing: 0 ,
                                                                                           fontWeight: FontWeight.w400,
                                                                                           height: 1
                                                                                       ),)),
@@ -1121,7 +1140,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                     child:    CircleAvatar(
                                                                       backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                       backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
-                                                                      radius: 23,
+                                                                      radius: 20.w,
                                                                     ),
                                                                   ),
                                                                   SizedBox(width: 5,),
@@ -1135,7 +1154,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                       _textthem.headline3!.copyWith(
                                                                         color: COLOR.errorContainer,
                                                                         fontWeight: FontWeight.w400,
-                                                                        fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                        fontSize: 13.sp,
                                                                       ),
                                                                     ),
                                                                   ),
@@ -1147,9 +1166,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                       state.messages![index].Repliertime!,
                                                                       textAlign: TextAlign.right,
                                                                       style: _textthem.headline2!.copyWith(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        color: const Color(0xffEAEAEA),
-                                                                        fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                          fontWeight: FontWeight.w300,
+                                                                          color:  Color(0xffEAEAEA),
+                                                                          fontSize: 9.sp
                                                                       )),
                                                                   SizedBox(width: 10,),
                                                                 ],
@@ -1166,34 +1185,31 @@ class _FlowsChatState extends State<FlowsChat>{
                                                             state.messages![index].ReplierMessage.toString(),
                                                             textAlign:
                                                             TextAlign.left,
-                                                            style: _textthem.headline2!.copyWith(
-                                                              fontWeight: FontWeight.w300,
-                                                              color: Colors.transparent,
-                                                              fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                            style: GoogleFonts.roboto().copyWith(
+                                                                color: Colors.transparent,
+                                                                fontWeight: FontWeight.w300,
+                                                                fontSize: 11.sp
                                                             )),
                                                       ),
                                                     ]
                                                 ),
 
-                                                Positioned(
-                                                    left: h/14,
-                                                    top: h/11.8,
-                                                    child:
-                                                    Container(
-                                                      width: w /  1.4,
-                                                      color: Colors.transparent,
-                                                      margin: EdgeInsets.only(left: h/50),
-                                                      child: Text(
-                                                          state.messages![index].ReplierMessage.toString(),
-                                                          textAlign:
-                                                          TextAlign.left,
-                                                          style: _textthem.headline2!.copyWith(
-                                                            color: const Color(0xffEAEAEA),
-                                                            fontWeight: FontWeight.w300,
-                                                            fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                          )),
-                                                    )
+
+                                                Container(
+                                                  width: w/1.3,
+                                                  color: Colors.transparent,
+                                                  margin: EdgeInsets.only(bottom: 0,right: 0,top:h/12,left: w/7.5),
+                                                  child: Text(
+                                                      state.messages![index].ReplierMessage.toString(),
+                                                      textAlign:
+                                                      TextAlign.left,
+                                                      style: GoogleFonts.roboto().copyWith(
+                                                          color:  Color(0xffEAEAEA),
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 11.sp
+                                                      )),
                                                 )
+
                                               ],
                                             )
                                         )
@@ -1215,12 +1231,12 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                   width: h / 34,
                                                                 ),
                                                                 Container(
-                                                                  color: const Color(0xffEAEAEA),
+                                                                  color:  Color(0xffEAEAEA),
                                                                   width: w / 400,
                                                                   height: h / 50,
                                                                 ),
                                                                 Container(
-                                                                  color: const Color(0xffEAEAEA),
+                                                                  color:  Color(0xffEAEAEA),
                                                                   height: w / 400,
                                                                   width: h / 34,
                                                                   margin: EdgeInsets.only(bottom: h/55),
@@ -1245,11 +1261,11 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                               child: Row(
                                                                                 children: [
                                                                                   CircleAvatar(
-                                                                                    radius: 10,
+                                                                                    radius: 10.w,
                                                                                     backgroundImage: NetworkImage(state.messages![index].RepliedTOAvatar.toString()),
                                                                                     backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                                   ),
-                                                                                  const SizedBox(
+                                                                                  SizedBox(
                                                                                     width: 3,
                                                                                   ),
                                                                                   Text(
@@ -1257,9 +1273,12 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                                     // state.AliasForRepliedTo.toString()
                                                                                     ,
                                                                                     textAlign: TextAlign.left,
-                                                                                    style: TextStyle(color: const Color.fromRGBO(147, 147, 147, 1), fontFamily: 'Red Hat Text', fontSize: 1.7 * SizeConfig.blockSizeVertical!.toDouble(), letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/, fontWeight: FontWeight.w500, height: 1),
+                                                                                    style: TextStyle(
+                                                                                        color:  Color.fromRGBO(147, 147, 147, 1),
+                                                                                        fontFamily: 'Red Hat Text', fontSize: 9.sp,
+                                                                                        letterSpacing: 0 , fontWeight: FontWeight.w500, height: 1),
                                                                                   ),
-                                                                                  const SizedBox(
+                                                                                  SizedBox(
                                                                                     width: 5,
                                                                                   ),
                                                                                   Container(
@@ -1337,7 +1356,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                     child:    CircleAvatar(
                                                                       backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                       backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
-                                                                      radius: 23,
+                                                                      radius: 20.w,
                                                                     ),
                                                                   ),
                                                                   SizedBox(width: 5,),
@@ -1349,9 +1368,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                       TextAlign.left,
                                                                       style:
                                                                       _textthem.headline3!.copyWith(
-                                                                        color: COLOR.errorContainer,
-                                                                        fontWeight: FontWeight.w400,
-                                                                        fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                          color: COLOR.errorContainer,
+                                                                          fontWeight: FontWeight.w400,
+                                                                          fontSize: 13.sp
                                                                       ),
                                                                     ),
                                                                   ),
@@ -1363,9 +1382,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                                       state.messages![index].Repliertime!,
                                                                       textAlign: TextAlign.right,
                                                                       style: _textthem.headline2!.copyWith(
-                                                                        fontWeight: FontWeight.w300,
-                                                                        color: const Color(0xffEAEAEA),
-                                                                        fontSize: 1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                                                          fontWeight: FontWeight.w300,
+                                                                          color:  Color(0xffEAEAEA),
+                                                                          fontSize: 9.sp
                                                                       )),
                                                                   SizedBox(width: 10,),
                                                                 ],
@@ -1382,39 +1401,35 @@ class _FlowsChatState extends State<FlowsChat>{
                                                             state.messages![index].ReplierMessage.toString(),
                                                             textAlign:
                                                             TextAlign.left,
-                                                            style: _textthem.headline2!.copyWith(
-                                                              color: Colors.transparent,
-                                                              fontWeight: FontWeight.w300,
-                                                              fontSize: 3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
+                                                            style: GoogleFonts.roboto().copyWith(
+                                                                color: Colors.transparent,
+                                                                fontWeight: FontWeight.w300,
+                                                                fontSize: 11.sp
                                                             )),
 
                                                       ),
                                                     ]
                                                 ),
-                                                Positioned(
-                                                    left: h/14,
-                                                    top: h/11.7,
-                                                    child:
-                                                    Container(
-                                                      width: w /  1.4,
-                                                      color: Colors.transparent,
-                                                      margin: EdgeInsets.only(left: h/50),
-                                                      child: Text(
-                                                          state.messages![index].ReplierMessage.toString(),
-                                                          textAlign:
-                                                          TextAlign.left,
-                                                          style: _textthem.headline2!.copyWith(
-                                                            color: const Color(0xffEAEAEA),
-                                                            fontWeight: FontWeight.w300,
-                                                            fontSize:  3.9 * SizeConfig.blockSizeHorizontal!.toDouble(),
-                                                          )),
-                                                    )
+                                                Container(
+                                                  width: w/1.3,
+                                                  color: Colors.transparent,
+                                                  margin: EdgeInsets.only(bottom: 0,right: 0,top:h/12,left: w/7.5),
+                                                  child: Text(
+                                                      state.messages![index].ReplierMessage.toString(),
+                                                      textAlign:
+                                                      TextAlign.left,
+                                                      style: GoogleFonts.roboto().copyWith(
+                                                          color:  Color(0xffEAEAEA),
+                                                          fontWeight: FontWeight.w300,
+                                                          fontSize: 11.sp
+                                                      )),
                                                 )
+
                                               ],
                                             )
                                         )
-                                            : const Text("")
-                                            : const Text("empty"),
+                                            :  Text("")
+                                            :  Text("empty"),
                                       ));
                                 },
                                 separatorBuilder:
@@ -1456,7 +1471,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                 Container(
                                   height:state.Isreply!?h/7: h / 10,
                                   decoration: BoxDecoration(
-                                      boxShadow: const [
+                                      boxShadow:  [
                                         BoxShadow(
                                           color: Color.fromRGBO(
                                               0, 0, 0, 0.25),
@@ -1515,7 +1530,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                 )
                                               ],
                                             )
-                                                : const Text(""),
+                                                :  Text(""),
                                             Container(
                                                 padding: EdgeInsets.only(
                                                     left: h / 100,top: h/100,bottom: h/100),
@@ -1531,6 +1546,12 @@ class _FlowsChatState extends State<FlowsChat>{
                                                       textInputAction:
                                                       TextInputAction.done,
                                                       focusNode: _focus,
+                                                      style : GoogleFonts.roboto().copyWith(
+                                                          color: Colors.brown,
+                                                          fontSize: 19.sp,
+                                                          fontWeight: FontWeight.w500,
+                                                          height: 1
+                                                      ),
                                                       onChanged: (value) {
                                                         if (_SendMessageController.text.isNotEmpty) {
                                                           _FlowsChat_Bloc.add(
@@ -1697,28 +1718,24 @@ class _FlowsChatState extends State<FlowsChat>{
 
                                                       },
                                                       cursorColor: Colors.black,
-                                                      style: const TextStyle(
-                                                          fontSize: 19,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.brown),
                                                       decoration: InputDecoration(
                                                         border: OutlineInputBorder(
                                                             borderRadius:
                                                             BorderRadius.circular(
-                                                                30)),
+                                                                30.r)),
                                                         filled: true,
                                                         fillColor:
-                                                        const Color(0xffEAEAEA),
+                                                         Color(0xffEAEAEA),
                                                         contentPadding:
                                                         EdgeInsets.symmetric(
-                                                            horizontal: 12,
+                                                            horizontal: 12.w,
                                                             vertical: h / 100),
                                                         hintText: 'Sup?..',
-                                                        hintStyle: const TextStyle(
+                                                        hintStyle:  TextStyle(
                                                             color: Color.fromRGBO(
                                                                 96, 96, 96, 1),
                                                             fontFamily: 'Red Hat Text',
-                                                            fontSize: 13,
+                                                            fontSize: 13.sp,
                                                             letterSpacing:
                                                             0 /*percentages not used in flutter. defaulting to zero*/,
                                                             fontWeight: FontWeight.w300,
@@ -1736,9 +1753,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                                       Expanded(
                                                         child: Container(
                                                           child: IconButton(
-                                                            icon: const Icon(
+                                                            icon:  Icon(
                                                               Icons.send,
-                                                              size: 30,
+                                                              size: 30.w,
                                                             ),
                                                             onPressed: ()async{
 
@@ -1904,7 +1921,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                                     ],
                                                   ),
                                                 ),
-                                                const SizedBox(
+                                                 SizedBox(
                                                   width: 10,
                                                 )
                                               ],
@@ -1977,17 +1994,17 @@ class _FlowsChatState extends State<FlowsChat>{
                           onPanelOpened: () {
 
                           },
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                          borderRadius:  BorderRadius.only(
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
                           ),
                           panel: Container(
-                              decoration: const BoxDecoration(
+                              decoration:  BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20.r),
+                                  topRight: Radius.circular(20.r),
+                                  bottomLeft: Radius.circular(20.r),
+                                  bottomRight: Radius.circular(20.r),
                                 ),
                               ),
                               width: w,
@@ -2000,9 +2017,9 @@ class _FlowsChatState extends State<FlowsChat>{
                                 Container(
                                 width: w/1.2,
                                 child:
-                                Text(widget.flow.Title!, textAlign: TextAlign.left, style: TextStyle(
+                                Text(widget.flow.Title!, textAlign: TextAlign.left,
+                                  style: GoogleFonts.roboto().copyWith(
                                       color: Color.fromRGBO(234, 234, 234, 1),
-                                      fontFamily: 'Red Hat Text',
                                       fontSize: 16,
                                       letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                       fontWeight: FontWeight.w600,
@@ -2013,25 +2030,25 @@ class _FlowsChatState extends State<FlowsChat>{
                                   widget.flow.Flow_type=="TopicFlow"?
                                   Container(
                                     width: w/1.2,
-                                    child: Text(widget.flow.Content!, textAlign: TextAlign.left, style: TextStyle(
-                                        color: Color.fromRGBO(234, 234, 234, 1),
-                                        fontFamily: 'Red Hat Text',
-                                        fontSize: 14,
-                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
-                                        fontWeight: FontWeight.w300,
-                                        height: 1
-                                    ),),
-                                  ):Text(""),
+                                    child: Text(widget.flow.Content!, textAlign: TextAlign.left,
+                                      style: GoogleFonts.roboto().copyWith(
+                                            color: Color.fromRGBO(234, 234, 234, 1),
+                                            fontSize: 14,
+                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontWeight: FontWeight.w300,
+                                            height: 1
+
+                                  ))):Text(""),
                                   SizedBox(height: h/18,),
                                   Container(
                                     width: w / 3.9,
                                     height: h / 130,
                                     decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                        bottomLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
+                                      borderRadius:  BorderRadius.only(
+                                        topLeft: Radius.circular(20.r),
+                                        topRight: Radius.circular(20.r),
+                                        bottomLeft: Radius.circular(20.r),
+                                        bottomRight: Radius.circular(20.r),
                                       ),
                                       color: ColorS.onTertiary,
                                     ),
@@ -2049,8 +2066,8 @@ class _FlowsChatState extends State<FlowsChat>{
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(0),
                             topRight: Radius.circular(0),
-                            bottomLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(20.r),
+                            bottomRight: Radius.circular(20.r),
                           ),
                           color: Color(widget.flow.Color!),
                         ),
@@ -2066,10 +2083,10 @@ class _FlowsChatState extends State<FlowsChat>{
                                   height: h / 30,
                                   child: Row(
                                     children: [
-                                      const Text("       "),
+                                       Text("       "),
                                       SvgPicture.asset(
                                           "Assets/images/Frame 11.svg",
-                                          width: 30,
+                                          width: 30.w,
                                           color: ColorS.surface),
                                     ],
                                   )),
@@ -2080,13 +2097,14 @@ class _FlowsChatState extends State<FlowsChat>{
                                   widget.plan_Title!,
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Color.fromRGBO(255, 255, 255, 1),
-                                      fontFamily: 'Red Hat Display',
-                                      fontSize: 22,
-                                      letterSpacing: 0.2,
-                                      fontWeight: FontWeight.w600,
-                                      height: 1),
+                                    style: GoogleFonts.roboto().copyWith(
+                                        color: Color.fromRGBO(255, 255, 255, 1),
+                                        fontSize: 22,
+                                        letterSpacing: 0.2,
+                                        fontWeight: FontWeight.w600,
+                                        height: 1
+
+                                    )
                                 ),
                               ),
                             ),
@@ -2272,7 +2290,7 @@ class _FlowsChatState extends State<FlowsChat>{
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
-                          color: const Color(0xffEAEAEA),
+                          color:  Color(0xffEAEAEA),
                           width: w / 400,
                           height: h / 50,
                         ),
@@ -2291,7 +2309,7 @@ class _FlowsChatState extends State<FlowsChat>{
                           Row(
                             children: [
                               Container(
-                                color: const Color(0xffEAEAEA),
+                                color:  Color(0xffEAEAEA),
                                 height: w / 400,
                                 width: h / 34,
                               ),
@@ -2302,15 +2320,16 @@ class _FlowsChatState extends State<FlowsChat>{
                                 backgroundColor:
                                 Color(int.parse(state.ColorForRepliedTo!)),
                               ),
-                              const SizedBox(
+                               SizedBox(
                                 width: 3,
                               ),
+
                               Text(
                                 state.AliasForRepliedTo.toString(),
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color:
-                                    const Color.fromRGBO(147, 147, 147, 1),
+                                     Color.fromRGBO(147, 147, 147, 1),
                                     fontFamily: 'Red Hat Text',
                                     fontSize: 1.7 *
                                         SizeConfig.blockSizeVertical!
@@ -2320,7 +2339,7 @@ class _FlowsChatState extends State<FlowsChat>{
                                     fontWeight: FontWeight.w500,
                                     height: 1),
                               ),
-                              const SizedBox(
+                               SizedBox(
                                 width: 5,
                               ),
 
@@ -2333,8 +2352,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                   height: h/5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20.r),
+                                      topRight: Radius.circular(20.r),
                                       bottomLeft: Radius.circular(0),
                                       bottomRight: Radius.circular(0),
                                     ),
@@ -2352,8 +2371,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                   height: h/5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20.r),
+                                      topRight: Radius.circular(20.r),
                                       bottomLeft: Radius.circular(0),
                                       bottomRight: Radius.circular(0),
                                     ),
@@ -2370,8 +2389,8 @@ class _FlowsChatState extends State<FlowsChat>{
                                   height: h/5,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(20.r),
+                                      topRight: Radius.circular(20.r),
                                       bottomLeft: Radius.circular(0),
                                       bottomRight: Radius.circular(0),
                                     ),
@@ -2394,14 +2413,13 @@ class _FlowsChatState extends State<FlowsChat>{
                                   state.RepliedToMessage.toString(),
                                   textAlign: TextAlign.left,
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Color.fromRGBO(196, 196, 196, 1),
-                                      fontFamily: 'Red Hat Text',
-                                      fontSize: 10.539999961853027,
-                                      letterSpacing:
-                                      0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.w300,
-                                      height: 1),
+                                  style: GoogleFonts.roboto().copyWith(
+                                    color: Color.fromRGBO(196, 196, 196, 1),
+                                    fontSize: 10.539999961853027,
+                                    letterSpacing:
+                                    0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontWeight: FontWeight.w300,
+                                )
                                 ),
                               )
                                   : state.type=="Voice"
@@ -2434,7 +2452,7 @@ class _FlowsChatState extends State<FlowsChat>{
                   _FlowsChat_Bloc.add(
                       ShowReplyWidget((b) => b..Isreply = false));
                 },
-                icon: const Icon(
+                icon:  Icon(
                   Icons.clear,
                   size: 25,
                 ),
@@ -2471,9 +2489,9 @@ class _FlowsChatState extends State<FlowsChat>{
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 
@@ -2494,7 +2512,7 @@ class _FlowsChatState extends State<FlowsChat>{
     return showModalBottomSheet<void>(
         isDismissible: true,
         context: context,
-        shape: const RoundedRectangleBorder(
+        shape:  RoundedRectangleBorder(
           // <-- SEE HERE
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(10.0),
@@ -2504,7 +2522,7 @@ class _FlowsChatState extends State<FlowsChat>{
           return Container(
             width: w,
             height: h / 3.4,
-            decoration: const BoxDecoration(
+            decoration:  BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -3102,16 +3120,21 @@ class _FlowsChatState extends State<FlowsChat>{
 //   bool? is_frined;
 // }
 class HeroImage extends StatefulWidget {
-  HeroImage({Key? key, this.path, this.Image,required this.Image_Type, this.Uint8List2,this.id}) : super(key: key);
+  HeroImage({Key? key, this.path, this.Image,required this.Image_Type, this.Uint8List2,this.id,required this.Sender_Alias,required this.Sender_Avatar,required this.Sender_Color,required this.Message_Time}) : super(key: key);
   File? Image;
   String? path;
   String Image_Type;
   Uint8List? Uint8List2;
   int? id;
+  String? Sender_Avatar;
+  String? Sender_Alias;
+  int? Sender_Color;
+  String Message_Time;
+
+
   @override
   State<HeroImage> createState() => _HeroImageState();
 }
-
 
 class _HeroImageState extends State<HeroImage> {
   @override
@@ -3121,58 +3144,116 @@ class _HeroImageState extends State<HeroImage> {
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return  Scaffold(
-      body: Hero(
-        tag: "Image${widget.id}",
-        child:Material(
+      body: SafeArea(
+        child: Hero(
+          tag: "Image${widget.id}",
+          child:Material(
             type: MaterialType.transparency,
-            child :InkWell(
-              onTap: (){
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: w,
-                height: h,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Container(
-                        width: w/1.1,
-                        height: h/2.5,
-                        child:widget.Image_Type=="Uint8List"
-                            ?Image.memory(widget.Uint8List2!)
-                            :widget.Image_Type=="Backend"
-                            ?                 CachedNetworkImage(
-                          imageUrl: widget.path!,
-                          imageBuilder: (context, imageProvider) => Container(
-                              height: h / 4,
-                              width: w/3,
-
-                              decoration: BoxDecoration(
-                                image:DecorationImage(image: imageProvider,
-                                    fit: BoxFit.fitHeight
-                                ),
-                              ))
-                          ,
-                          placeholder: (context, url) => Container(
-                              height: h / 4,child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              CircularProgressIndicator(),
-                            ],
+            child :Container(
+              color: Colors.black,
+              width: w,
+              height: h,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(
+                              left: w / 50),
+                          child: IconButton(
+                            icon: SvgPicture.asset(
+                                "Assets/images/Frame 11.svg",
+                                width: 30.w,
+                                color: ColorS.surface),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
                           )),
-                          errorWidget: (context, url, error) => Container(
-                              height: h / 4,child: Icon(Icons.error)),
-                        )
+                      Text(""),
+                      Text(""),
+                    ],
+                  ),
 
-                            :Image.file(widget.Image!),
+                  widget.Image_Type=="Uint8List"
+                      ?Container(
+                      width: w,
+                      height: h/2,
+                      child :
+                      PhotoView(
+                        imageProvider: MemoryImage(widget.Uint8List2!,),
+                      ))
+                      :widget.Image_Type=="Backend"
+                      ?      Container(
+                      width: w,
+                      height: h/2,
+                      child : PhotoView(
+                        imageProvider: NetworkImage(widget.path!),
+                      ))
 
+                      : Container(
+                      width: w,
+                      height: h/2,
+                      child :  PhotoView(
+                        imageProvider: FileImage(widget.Image!),
+
+                      )),
+
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+
+
+                          Row(
+
+                            children: [
+                              SizedBox(width: 5,),
+                              CircleAvatar(
+                                backgroundColor:
+                                Color(widget.Sender_Color!),
+                                backgroundImage:
+                                NetworkImage(widget.Sender_Avatar!),
+                                radius: 17,
+                              ),
+                              SizedBox(width: 5,),
+                              Text(
+                                widget.Sender_Alias!,
+                                textAlign: TextAlign.left,
+                                style: _TextTheme.headline3!.copyWith(
+                                  color: ColorS.errorContainer,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 3.2 * SizeConfig.blockSizeVertical!.toDouble(),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                  widget.Message_Time,
+                                  textAlign: TextAlign.right,
+                                  style: _TextTheme.headline2!.copyWith(
+                                    fontWeight: FontWeight.w300,
+                                    color:  Color(0xffEAEAEA),
+                                    fontSize:
+                                    1.5 * SizeConfig.blockSizeVertical!.toDouble(),
+                                  )),
+                              SizedBox(width: 5,),
+                            ],
+                          )
+                        ],
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(height: 10,),
+                    ],
+                  ),
+
+                ],
               ),
-            )
+            ),
+          ),
         ),
       ),
     );

@@ -42,6 +42,13 @@ class _$GetAvatarsModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(AvatarListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -71,6 +78,10 @@ class _$GetAvatarsModelSerializer
                       BuiltList, const [const FullType(AvatarListModel)]))!
               as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -85,11 +96,14 @@ class _$GetAvatarsModel extends GetAvatarsModel {
   final int? statuscode;
   @override
   final BuiltList<AvatarListModel>? avatars;
+  @override
+  final String? error;
 
   factory _$GetAvatarsModel([void Function(GetAvatarsModelBuilder)? updates]) =>
       (new GetAvatarsModelBuilder()..update(updates))._build();
 
-  _$GetAvatarsModel._({this.msg, this.statuscode, this.avatars}) : super._();
+  _$GetAvatarsModel._({this.msg, this.statuscode, this.avatars, this.error})
+      : super._();
 
   @override
   GetAvatarsModel rebuild(void Function(GetAvatarsModelBuilder) updates) =>
@@ -105,21 +119,24 @@ class _$GetAvatarsModel extends GetAvatarsModel {
     return other is GetAvatarsModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        avatars == other.avatars;
+        avatars == other.avatars &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), avatars.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), avatars.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetAvatarsModel')
+    return (newBuiltValueToStringHelper(r'GetAvatarsModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('avatars', avatars))
+          ..add('avatars', avatars)
+          ..add('error', error))
         .toString();
   }
 }
@@ -142,6 +159,10 @@ class GetAvatarsModelBuilder
   set avatars(ListBuilder<AvatarListModel>? avatars) =>
       _$this._avatars = avatars;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   GetAvatarsModelBuilder();
 
   GetAvatarsModelBuilder get _$this {
@@ -150,6 +171,7 @@ class GetAvatarsModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _avatars = $v.avatars?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -174,7 +196,10 @@ class GetAvatarsModelBuilder
     try {
       _$result = _$v ??
           new _$GetAvatarsModel._(
-              msg: msg, statuscode: statuscode, avatars: _avatars?.build());
+              msg: msg,
+              statuscode: statuscode,
+              avatars: _avatars?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -182,7 +207,7 @@ class GetAvatarsModelBuilder
         _avatars?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetAvatarsModel', _$failedField, e.toString());
+            r'GetAvatarsModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -191,4 +216,4 @@ class GetAvatarsModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

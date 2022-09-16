@@ -20,7 +20,7 @@ abstract class SendBubbleMessageModel
   int? get statuscode;
   int? get message_id;
   int? get sub_message_id;
-
+  String? get error;
 
   SendBubbleMessageModel._();
   factory SendBubbleMessageModel([void Function(SendBubbleMessageModelBuilder b)? updates]) =  _$SendBubbleMessageModel;

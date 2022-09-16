@@ -74,11 +74,11 @@ class _$GroupChatState extends GroupChatState {
   @override
   final List<GroupChatMessage>? messages;
   @override
-  final List<UserDATA>? User;
+  final List<FrinedsData>? User;
   @override
-  final List<UserDATA>? InsideBubbleUsers;
+  final List<FrinedsData>? InsideBubbleUsers;
   @override
-  final List<UserDATA>? FilteredInsideBubbleUsers;
+  final List<FrinedsData>? FilteredInsideBubbleUsers;
   @override
   final List<FlowData>? FlowList;
   @override
@@ -320,7 +320,7 @@ class _$GroupChatState extends GroupChatState {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GroupChatState')
+    return (newBuiltValueToStringHelper(r'GroupChatState')
           ..add('error', error)
           ..add('isLoading', isLoading)
           ..add('success', success)
@@ -561,19 +561,19 @@ class GroupChatStateBuilder
   List<GroupChatMessage>? get messages => _$this._messages;
   set messages(List<GroupChatMessage>? messages) => _$this._messages = messages;
 
-  List<UserDATA>? _User;
-  List<UserDATA>? get User => _$this._User;
-  set User(List<UserDATA>? User) => _$this._User = User;
+  List<FrinedsData>? _User;
+  List<FrinedsData>? get User => _$this._User;
+  set User(List<FrinedsData>? User) => _$this._User = User;
 
-  List<UserDATA>? _InsideBubbleUsers;
-  List<UserDATA>? get InsideBubbleUsers => _$this._InsideBubbleUsers;
-  set InsideBubbleUsers(List<UserDATA>? InsideBubbleUsers) =>
+  List<FrinedsData>? _InsideBubbleUsers;
+  List<FrinedsData>? get InsideBubbleUsers => _$this._InsideBubbleUsers;
+  set InsideBubbleUsers(List<FrinedsData>? InsideBubbleUsers) =>
       _$this._InsideBubbleUsers = InsideBubbleUsers;
 
-  List<UserDATA>? _FilteredInsideBubbleUsers;
-  List<UserDATA>? get FilteredInsideBubbleUsers =>
+  List<FrinedsData>? _FilteredInsideBubbleUsers;
+  List<FrinedsData>? get FilteredInsideBubbleUsers =>
       _$this._FilteredInsideBubbleUsers;
-  set FilteredInsideBubbleUsers(List<UserDATA>? FilteredInsideBubbleUsers) =>
+  set FilteredInsideBubbleUsers(List<FrinedsData>? FilteredInsideBubbleUsers) =>
       _$this._FilteredInsideBubbleUsers = FilteredInsideBubbleUsers;
 
   List<FlowData>? _FlowList;
@@ -885,7 +885,7 @@ class GroupChatStateBuilder
         _AddNewFriend?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GroupChatState', _$failedField, e.toString());
+            r'GroupChatState', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -894,4 +894,4 @@ class GroupChatStateBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

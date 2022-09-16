@@ -6,7 +6,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:built_value/built_value.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -76,7 +77,8 @@ abstract class GetAllBubbles extends HomeEvent
 
 abstract class GetPrimeBubbles extends HomeEvent
     implements Built<GetPrimeBubbles, GetPrimeBubblesBuilder> {
-
+double? get lat;
+double? get lng;
   GetPrimeBubbles._();
   factory GetPrimeBubbles([updates(GetPrimeBubblesBuilder b)]) = _$GetPrimeBubbles;
 }
@@ -101,14 +103,14 @@ Uint8List? get Uint8;
 }
 
 
-abstract class CreateBubbless extends HomeEvent
-    implements Built<CreateBubbless,CreateBubblessBuilder> {
+abstract class SetNewBubble extends HomeEvent
+    implements Built<SetNewBubble,SetNewBubbleBuilder> {
   double? get lat;
   double? get lng;
   double? get Radius;
 
-  CreateBubbless._();
-  factory CreateBubbless([updates(CreateBubblessBuilder b)]) = _$CreateBubbless;
+  SetNewBubble._();
+  factory SetNewBubble([updates(SetNewBubbleBuilder b)]) = _$SetNewBubble;
 }
 
 
@@ -231,28 +233,11 @@ abstract class ToggleSaveBubble extends HomeEvent
   int? get index;
   String? get List_type;
   bool? get Saved_Status;
+  bool? get Want_Request;
   ToggleSaveBubble._();
   factory ToggleSaveBubble([updates(ToggleSaveBubbleBuilder b)]) = _$ToggleSaveBubble;
 }
-abstract class ToggleSaveBubbleEventScreen extends HomeEvent
-    implements Built<ToggleSaveBubbleEventScreen,ToggleSaveBubbleEventScreenBuilder> {
-  int? get Bubble_id;
-  int? get index;
-  String? get List_type;
-  bool? get Saved_Status;
-  ToggleSaveBubbleEventScreen._();
-  factory ToggleSaveBubbleEventScreen([updates(ToggleSaveBubbleEventScreenBuilder b)]) = _$ToggleSaveBubbleEventScreen;
-}
 
-
-
-abstract class GiveHimListOfBoolean extends HomeEvent
-    implements Built<GiveHimListOfBoolean,GiveHimListOfBooleanBuilder> {
-  List<bool>? get List_Saved_Status;
-
-  GiveHimListOfBoolean._();
-  factory GiveHimListOfBoolean([updates(GiveHimListOfBooleanBuilder b)]) = _$GiveHimListOfBoolean;
-}
 abstract class ChangeToDetailUiState extends HomeEvent
     implements Built<ChangeToDetailUiState, ChangeToDetailUiStateBuilder> {
   BubbleData? get Bubbledata;
@@ -281,82 +266,42 @@ abstract class ClearMarkers extends HomeEvent
 }
 
 
-abstract class ChangeDone1 extends HomeEvent
-    implements Built<ChangeDone1, ChangeDone1Builder> {
-  // fields go here
-  bool? get DoneColor1;
-  ChangeDone1._();
-  factory ChangeDone1([Function(ChangeDone1Builder b) updates]) = _$ChangeDone1;
+abstract class GetUpcomingBubbles extends HomeEvent
+    implements Built<GetUpcomingBubbles, GetUpcomingBubblesBuilder> {
+
+  GetUpcomingBubbles._();
+  factory GetUpcomingBubbles([Function(GetUpcomingBubblesBuilder b) updates]) = _$GetUpcomingBubbles;
 }
 
-abstract class ChangeDone2 extends HomeEvent
-    implements Built<ChangeDone2, ChangeDone2Builder> {
-  // fields go here
-  bool? get DoneColor2;
-  ChangeDone2._();
-  factory ChangeDone2([Function(ChangeDone2Builder b) updates]) = _$ChangeDone2;
+abstract class GetActiveBubbles extends HomeEvent
+    implements Built<GetActiveBubbles, GetActiveBubblesBuilder> {
+
+  GetActiveBubbles._();
+  factory GetActiveBubbles([Function(GetActiveBubblesBuilder b) updates]) = _$GetActiveBubbles;
 }
 
-abstract class GetFreinds extends HomeEvent
-    implements Built<GetFreinds,GetFreindsBuilder> {
 
-  GetFreinds._();
-  factory GetFreinds([Function(GetFreindsBuilder b) updates]) = _$GetFreinds;
+abstract class Change_Is_Creator extends HomeEvent
+    implements Built<Change_Is_Creator,Change_Is_CreatorBuilder> {
+  bool? get ChangeISCreator;
+  Change_Is_Creator._();
+  factory Change_Is_Creator([updates(Change_Is_CreatorBuilder b)]) = _$Change_Is_Creator;
 }
 
-abstract class CreateBubble extends HomeEvent
-    implements Built<CreateBubble, CreateBubbleBuilder> {
-
-  double? get lng;
-  double? get lat;
-  int? get raduis;
-  List<String>? get Dates;
-  List<int>? get OrganizersId;
-  String? get Start_Date;
-  String? get End_Date;
-  List<String>? get Base64Images;
-  String? get ColorS;
-  String? get LOcation;
-  String? get Title;
-  String? get Description;
-
-  CreateBubble._();
-  factory CreateBubble([updates(CreateBubbleBuilder b)]) = _$CreateBubble;
+abstract class SaveStatusInDetailUi extends HomeEvent
+    implements Built<SaveStatusInDetailUi,SaveStatusInDetailUiBuilder> {
+  List<bool>? get status;
+  List<int>? get Bubble_IDS;
+  SaveStatusInDetailUi._();
+  factory SaveStatusInDetailUi([updates(SaveStatusInDetailUiBuilder b)]) = _$SaveStatusInDetailUi;
 }
+abstract class ChangeSaveStatusInDetailUi extends HomeEvent
+    implements Built<ChangeSaveStatusInDetailUi,ChangeSaveStatusInDetailUiBuilder> {
+  bool? get status;
+  int? get index;
+  int? get bubble_id;
+  bool? get Want_Request;
 
-abstract class SearchFreinds extends HomeEvent
-    implements Built<SearchFreinds, SearchFreindsBuilder> {
-  String? get Keyword;
-  SearchFreinds._();
-  factory SearchFreinds([updates(SearchFreindsBuilder b)]) = _$SearchFreinds;
+  ChangeSaveStatusInDetailUi._();
+  factory ChangeSaveStatusInDetailUi([updates(ChangeSaveStatusInDetailUiBuilder b)]) = _$ChangeSaveStatusInDetailUi;
 }
-
-abstract class ChangeDone3 extends HomeEvent
-    implements Built<ChangeDone3, ChangeDone3Builder> {
-
-  bool? get ChangeDone33;
-  ChangeDone3._();
-  factory ChangeDone3([Function(ChangeDone3Builder b) updates]) = _$ChangeDone3;
-}
-
-abstract class AddStartandEndTime extends HomeEvent
-    implements Built<AddStartandEndTime, AddStartandEndTimeBuilder> {
-
-  String? get StartTime;
-  String? get EndTime;
-  AddStartandEndTime._();
-  factory AddStartandEndTime([Function(AddStartandEndTimeBuilder b) updates]) = _$AddStartandEndTime;
-}
-abstract class ChangePickedColor extends HomeEvent
-    implements Built<ChangePickedColor, ChangePickedColorBuilder> {
-  ChangePickedColor._();
-  String? get PickedColor;
-  factory ChangePickedColor([updates(ChangePickedColorBuilder b)]) = _$ChangePickedColor;
-}
-abstract class GetEventCateogories extends HomeEvent
-    implements Built<GetEventCateogories,GetEventCateogoriesBuilder> {
-
-  GetEventCateogories._();
-  factory GetEventCateogories([updates(GetEventCateogoriesBuilder b)]) = _$GetEventCateogories;
-}
-

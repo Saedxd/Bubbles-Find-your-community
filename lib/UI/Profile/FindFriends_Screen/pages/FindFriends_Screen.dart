@@ -7,7 +7,8 @@ import 'package:bubbles/UI/Profile/FindFriends_Screen/bloc/FindFriends_event.dar
 import 'package:bubbles/UI/Profile/FindFriends_Screen/bloc/FindFriends_state.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_state.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sms/flutter_sms.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+//import 'package:flutter_sms/flutter_sms.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bubbles/core/Colors/constants.dart';
@@ -15,14 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:showcaseview/showcaseview.dart';
 import '../../QrScanner_Screen/pages/QrScanner_screen.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 import 'dart:io';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+//import 'package:flutter_email_sender/flutter_email_sender.dart';
 
 class FindFriends_screen extends StatefulWidget {
   const FindFriends_screen({Key? key}) : super(key: key);
@@ -49,7 +48,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   String subject = ' Bubbles is a socialMedia Application';
   List<String> recipents = [];
   ScrollController _controller = ScrollController();
-  late final Email? email;
+  //late final Email? email;
   bool diditOnce22 = false;
 
   @override
@@ -67,11 +66,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   }
 
   void _sendSMS(String message, List<String> recipents) async {
-    String _result = await sendSMS(message: message, recipients: recipents)
-        .catchError((onError) {
-      print(onError);
-    });
-    print(_result);
+    // String _result = await sendSMS(message: message, recipients: recipents)
+    //     .catchError((onError) {
+    //   print(onError);
+    // });
+    // print(_result);
   }
 
   void _onShareWithResult(BuildContext context, String UserHashID) async {
@@ -105,10 +104,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight:Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight:Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -124,10 +123,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight:Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -142,8 +141,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
-                                    letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                    fontSize:  13.sp,
+                                    letterSpacing: 0,
                                     fontWeight: FontWeight.w600,
                                     height: 1
                                 ),),
@@ -162,10 +161,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft:Radius.circular(4.142857074737549.r),
+                                          bottomRight:Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -179,8 +178,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontSize:  12.sp,
+                                            letterSpacing: 0,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -199,7 +198,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                       bottom: h/5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
-                        width: 90,
+                        width: 90.w,
                       ),
                     ),
                   ],
@@ -314,12 +313,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
           }
 
           if (state.success! && diditOnce22) {
-            email = Email(
-              body:
-                  "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username ${state.ProfileDate!.user!.serial.toString()} Spread the news! Early sign up rewards available now.",
-              subject: 'Bubbles',
-              recipients: [''],
-            );
+            // email = Email(
+            //   body:
+            //       "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username ${state.ProfileDate!.user!.serial.toString()} Spread the news! Early sign up rewards available now.",
+            //   subject: 'Bubbles',
+            //   recipients: [''],
+            // );
             diditOnce22 = false;
           }
 
@@ -355,13 +354,13 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                       children: [
                                         Container(
                                           width: w / 1.2,
-                                          height: h / 2,
+                                          height: h / 2.6,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10),
-                                              bottomLeft: Radius.circular(10),
-                                              bottomRight: Radius.circular(10),
+                                              topLeft: Radius.circular(10.r),
+                                              topRight: Radius.circular(10.r),
+                                              bottomLeft: Radius.circular(10.r),
+                                              bottomRight: Radius.circular(10.r),
                                             ),
                                             color: Colors.white,
                                           ),
@@ -381,7 +380,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                         .user!.serial
                                                         .toString(),
                                                     version: QrVersions.auto,
-                                                    size: 200,
+                                                    size: 200.w,
                                                     gapless: false,
                                                     // embeddedImage: AssetImage('Assets/images/bubbly design neu legacy-35.png',),
                                                     // embeddedImageStyle: QrEmbeddedImageStyle(
@@ -415,53 +414,54 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                   child:Column(
                         children: [
                           Container(
+                            width: w/1.1,
                             margin: EdgeInsets.only(top: h / 50),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(
-                                        left: h / 100, right: h / 15),
                                     child: IconButton(
                                       icon: SvgPicture.asset(
                                           "Assets/images/Frame 11.svg",
-                                          width: 30,
+                                          width: 30.w,
                                           color: ColorS.surface),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
                                     )),
                                 Container(
-                                  margin: EdgeInsets.only(
-                                      left: h / 50, right: h / 9),
                                   child: Text(
                                     'Find Friends',
                                     textAlign: TextAlign.center,
                                     style: _TextTheme.headlineLarge!.copyWith(
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 23),
+                                      fontSize:  20.sp,
+                                    ),
                                   ),
                                 ),
-                             Container(
-                               width: w/8.5,
-                                      height: h/17,
-                                      child:  IconButton(
+                             Container(child:  IconButton(
                                         icon: SvgPicture.asset(
                                             "Assets/images/Frame(22).svg",
-                                            width: h/5,
                                             color: ColorS.surface),
-                                        onPressed: () {
-                                          WidgetsBinding.instance!
-                                              .addPostFrameCallback(
-                                                  (_) => Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                    const QR_Scanner()),
-                                              ));
+                                        onPressed: ()async {
+                                          var result = await
+                                          Navigator
+                                              .push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) => QR_Scanner( ),
+                                            ),
+                                          ).then((value)async {
+                                            if (value == "Yep!") {
+                                              Future.delayed(Duration.zero, () {
+                                                CommingSoonPopup(context, h, w,"User was added successfully", "Ok", 24);
+                                              });
+                                            }
+                                          }
+                                            );
                                         },
-                                      )
-                                ),
+                                      )),
                               ],
                             ),
                           ),
@@ -474,25 +474,32 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                   height: h / 4,
                                   child: Column(
                                     children: [
-                                     Container(
-                                          width: w / 3.3,
-                                          height: h / 6.3,
+                                    Container(
+                                    width: w/3.3,
                                     decoration:
-                                    const BoxDecoration(
+                                    BoxDecoration(
                                         color: Colors.white60,
-                                      borderRadius:
-                                      BorderRadius.only(
-                                        topLeft:
-                                        Radius.circular(5),
-                                        topRight:
-                                        Radius.circular(5),
-                                        bottomLeft:
-                                        Radius.circular(5),
-                                        bottomRight:
-                                        Radius.circular(5),
-                                      )
-                                      ),
-                                          child:  InkWell(
+                                        borderRadius:
+                                        BorderRadius.only(
+                                          topLeft:
+                                          Radius.circular(h/100),
+                                          topRight:
+                                          Radius.circular(h/100),
+                                          bottomLeft:
+                                          Radius.circular(h/100),
+                                          bottomRight:
+                                          Radius.circular(h/100),
+
+                                        )
+                                    ),
+                                    child :
+                                    // AspectRatio(
+                                    // aspectRatio: 50/10, //aspect ratio for Image
+                                    // child:
+                                        AspectRatio(
+                                    aspectRatio: 10/10, //aspect ratio for Image
+                                    child:
+                              InkWell(
                                             onTap: () {
                                               alreatDialogBuilder(
                                                   context, h, w, state);
@@ -507,7 +514,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                       .user!.serial
                                                       .toString(),
                                                   version: QrVersions.auto,
-                                                  size: 200,
+                                                  size: 200.w,
                                                   gapless: true,
                                                   // embeddedImage: AssetImage('Assets/images/bubbly design neu legacy-35.png',),
                                                   // embeddedImageStyle: QrEmbeddedImageStyle(
@@ -517,7 +524,9 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                               ),
                                           ),
                                         ),
-                                      ),
+                               //       ),
+                                    ),
+                                    ),
                                       Container(
                                         margin: EdgeInsets.only(
                                             left: h / 100, bottom: h / 50),
@@ -535,7 +544,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                 textAlign: TextAlign.left,
                                                 style: _TextTheme.headlineLarge!
                                                     .copyWith(
-                                                  fontSize: 16,
+                                                  fontSize:  14.sp,
                                                   fontWeight: FontWeight.w300,
                                                 )),
                                           ],
@@ -622,7 +631,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w300,
-                                                                  fontSize: 15,
+                                                              fontSize:  14.sp,
                                                                   fontStyle:
                                                                       FontStyle
                                                                           .italic)),
@@ -650,17 +659,13 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                     width: w / 1.3,
                                                     height: h / 13.8,
                                                     decoration:
-                                                        const BoxDecoration(
+                                                         BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(5),
-                                                        topRight:
-                                                            Radius.circular(5),
-                                                        bottomLeft:
-                                                            Radius.circular(5),
-                                                        bottomRight:
-                                                            Radius.circular(5),
+                                                            topLeft: Radius.circular( h/90.5),
+                                                            topRight:Radius.circular( h/90.5),
+                                                            bottomLeft: Radius.circular( h/90.5),
+                                                            bottomRight:Radius.circular( h/90.5),
                                                       ),
                                                       boxShadow: [
                                                         BoxShadow(
@@ -678,7 +683,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
-                                                            _TextTheme.headline1,
+                                                            _TextTheme.headline1!.copyWith(
+                                                              fontWeight:
+                                                              FontWeight.w600,
+                                                           fontSize:  16.sp,
+                                                              letterSpacing: 0.5
+                                                            ),
                                                       ),
                                                     ),
                                                   ),
@@ -691,22 +701,20 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                           ),
                                           InkWell(
                                             onTap: () async {
-                                              state.success!
-                                                  ? await FlutterEmailSender.send(
-                                                      email!)
-                                                  : print("Success");
+                                              // state.success!
+                                              //     ? await FlutterEmailSender.send(
+                                              //         email!)
+                                              //     : print("Success");
                                             },
                                             child: Container(
                                               width: w / 1.3,
                                               height: h / 13.8,
-                                              decoration: const BoxDecoration(
+                                              decoration:  BoxDecoration(
                                                   borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(5),
-                                                    topRight: Radius.circular(5),
-                                                    bottomLeft:
-                                                        Radius.circular(5),
-                                                    bottomRight:
-                                                        Radius.circular(5),
+                                                    topLeft: Radius.circular( h/90.5),
+                                                    topRight:Radius.circular( h/90.5),
+                                                    bottomLeft: Radius.circular( h/90.5),
+                                                    bottomRight:Radius.circular( h/90.5),
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
@@ -735,7 +743,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
-                                                            _TextTheme.headline1,
+                                                        _TextTheme.headline1!.copyWith(
+                                                          fontWeight:
+                                                          FontWeight.w600,
+                                                          fontSize:  16.sp,
+                                                            letterSpacing: 0.5
+                                                        ),
                                                       ),
                                                     ),
                                                     Text(""),
@@ -760,14 +773,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                             child: Container(
                                               width: w / 1.3,
                                               height: h / 13.8,
-                                              decoration: const BoxDecoration(
+                                              decoration:  BoxDecoration(
                                                   borderRadius: BorderRadius.only(
-                                                    topLeft: Radius.circular(5),
-                                                    topRight: Radius.circular(5),
-                                                    bottomLeft:
-                                                        Radius.circular(5),
-                                                    bottomRight:
-                                                        Radius.circular(5),
+                                                    topLeft: Radius.circular( h/90.5),
+                                                    topRight:Radius.circular( h/90.5),
+                                                    bottomLeft: Radius.circular( h/90.5),
+                                                    bottomRight:Radius.circular( h/90.5),
                                                   ),
                                                   boxShadow: [
                                                     BoxShadow(
@@ -797,7 +808,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                         textAlign:
                                                             TextAlign.center,
                                                         style:
-                                                            _TextTheme.headline1,
+                                                        _TextTheme.headline1!.copyWith(
+                                                          fontWeight:
+                                                          FontWeight.w600,
+                                                          fontSize:  16.sp,
+                                                          letterSpacing: 0.5,
+                                                        ),
                                                       ),
                                                     ),
                                                     Text(""),
@@ -824,7 +840,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                           .copyWith(
                                                               fontWeight:
                                                                   FontWeight.w300,
-                                                              fontSize: 15,
+                                                          fontSize:  14.sp,
                                                               fontStyle: FontStyle
                                                                   .italic)),
                                                   Column(
@@ -840,11 +856,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                 milliseconds: 2),
                                                             curve: Curves.easeIn,
                                                           );
-                                                          WidgetsBinding.instance!
+                                                          WidgetsBinding.instance
                                                               .addPostFrameCallback(
                                                             (_) => ShowCaseWidget
-                                                                    .of(context)!
-                                                                .startShowCase(
+                                                                    .of(context)
+                                                                !.startShowCase(
                                                               [
                                                                 _key1,
                                                               ],
@@ -893,6 +909,9 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   textInputAction:
                                                       TextInputAction.next,
                                                   controller: _SearchController,
+                                                  // inputFormatters: [
+                                                  //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                                  // ],
                                                   onChanged: (value) {},
                                                   onFieldSubmitted: (value) {
                                                     if (value != null) {
@@ -907,9 +926,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   },
                                                   cursorColor: Colors.black,
                                                   style: TextStyle(
-                                                      fontSize: 20,
+                                                      fontSize:  19.sp,
                                                       fontWeight: FontWeight.w500,
-                                                      color: Colors.black),
+                                                      color: Colors.black
+                                                  ,height: 0.9.h
+                                                  ),
                                                   decoration: InputDecoration(
                                                       enabledBorder:
                                                           UnderlineInputBorder(
@@ -917,7 +938,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                             color: Colors.white),
                                                         borderRadius:
                                                             BorderRadius.circular(
-                                                                5),
+                                                                h/200.5)
                                                       ),
                                                       focusedBorder:
                                                           UnderlineInputBorder(
@@ -925,7 +946,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                             color: Colors.white),
                                                         borderRadius:
                                                             BorderRadius.circular(
-                                                                5),
+                                                                h/200.5)
                                                       ),
                                                       filled: true,
                                                       fillColor: Colors.white,
@@ -936,6 +957,8 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                       hintStyle: _TextTheme
                                                           .headline6!
                                                           .copyWith(
+                                                          fontSize:  22.sp,
+
                                                               color: Color(
                                                                   0xff606060))),
                                                   keyboardType:
@@ -1014,19 +1037,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .only(
-                                                                  bottomLeft: Radius
-                                                                      .circular(
-                                                                          40),
-                                                                  bottomRight:
-                                                                      Radius
-                                                                          .circular(
-                                                                              5),
-                                                                  topLeft: Radius
-                                                                      .circular(
-                                                                          40),
-                                                                  topRight: Radius
-                                                                      .circular(
-                                                                          5),
+                                                                      topLeft: Radius.circular( h/90.5),
+                                                                      topRight:Radius.circular( h/90.5),
+                                                                      bottomLeft: Radius.circular( h/90.5),
+                                                                      bottomRight:Radius.circular( h/90.5),
                                                                 ),
                                                                 boxShadow: [
                                                                   BoxShadow(
@@ -1089,12 +1103,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                                   .inverseSurface,
                                                                               fontFamily:
                                                                                   'Sofia Pro',
-                                                                              fontSize:
-                                                                                  19,
+                                                                              fontSize:  20.sp,
                                                                               letterSpacing:
-                                                                                  1 /*percentages not used in flutter. defaulting to zero*/,
+                                                                                  1,
                                                                               fontWeight:
-                                                                                  FontWeight.w500,
+                                                                              FontWeight.w600,
                                                                               height: 1),
                                                                         ),
                                                                         Text(
@@ -1184,8 +1197,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                       style: TextStyle(
                                                                           color: Colors
                                                                               .blue,
-                                                                          fontSize:
-                                                                              17,
+                                                                          fontSize:  0.22.sp,
                                                                           fontWeight:
                                                                               FontWeight.w700),
                                                                     ),
@@ -1227,19 +1239,20 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w300,
-                                                                        fontSize:
-                                                                            15,
-                                                                        fontStyle:
-                                                                            FontStyle
-                                                                                .italic)),
+                                                                        fontSize:  14.sp,
+                                                                        fontStyle:FontStyle.italic,
+
+
+
+                                                                    )),
                                                                 InkWell(
                                                                   onTap: () {
                                                                     WidgetsBinding
-                                                                        .instance!
+                                                                        .instance
                                                                         .addPostFrameCallback(
                                                                       (_) => ShowCaseWidget.of(
-                                                                              context)!
-                                                                          .startShowCase(
+                                                                              context)
+                                                                          !.startShowCase(
                                                                         [
                                                                           _key2,
                                                                         ],
@@ -1253,7 +1266,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                         h / 50,
                                                                     child: SvgPicture.asset(
                                                                         "Assets/images/Vector22.svg",
-                                                                        width: 10,
+                                                                        width: 10.w,
                                                                         color: ColorS
                                                                             .onTertiary),
                                                                   ),
@@ -1279,20 +1292,14 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                             width: w / 1.3,
                                                             height: h / 13.8,
                                                             decoration:
-                                                                const BoxDecoration(
+                                                                 BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .only(
-                                                                topLeft: Radius
-                                                                    .circular(5),
-                                                                topRight: Radius
-                                                                    .circular(5),
-                                                                bottomLeft: Radius
-                                                                    .circular(5),
-                                                                bottomRight:
-                                                                    Radius
-                                                                        .circular(
-                                                                            5),
+                                                                    topLeft: Radius.circular( h/90.5),
+                                                                    topRight:Radius.circular( h/90.5),
+                                                                    bottomLeft: Radius.circular( h/90.5),
+                                                                    bottomRight:Radius.circular( h/90.5),
                                                               ),
                                                               boxShadow: [
                                                                 BoxShadow(
@@ -1323,8 +1330,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                     textAlign:
                                                                         TextAlign
                                                                             .center,
-                                                                    style: _TextTheme
-                                                                        .headline1,
+                                                                    style:
+                                                                    _TextTheme.headline1!.copyWith(
+                                                                      fontSize:  16.sp,
+                                                                      fontWeight: FontWeight.w600,
+                                                                      letterSpacing: 0.5
+                                                                    ),
                                                                   ),
                                                                 ),
                                                                 Text("")
@@ -1336,95 +1347,90 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                     ),
                                                   ),
                                                 ),
-                                          Column(
-                                            children: const [
-                                              Text(""),
-                                              Text(""),
-                                            ],
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Text(
-                                                  '   Invite Friends to bubbles!',
-                                                  textAlign: TextAlign.left,
-                                                  style: _TextTheme.headlineLarge!
-                                                      .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.w300,
-                                                          fontSize: 15,
-                                                          fontStyle:
-                                                              FontStyle.italic)),
-                                              const Text(""),
-                                              const Text(""),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              if (recipents.isNotEmpty) {
-                                                String message =
-                                                    "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username {alias} Spread the news! Early sign up rewards available now.";
-                                                _sendSMS(message, recipents);
-                                              } else {
-                                                Future.delayed(Duration.zero, () {
-                                                  CommingSoonPopup(
-                                                      context, h, w, "Sync Contacts First so you could send them sms",
-                                                      "Sounds good!", 18);
-                                                  //   // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
-                                                  //   //     state.AddNewFriend!.msg!, "Back");
-                                                });
-                                                // Future.delayed(Duration.zero, () {
-                                                //   Page2().method(
-                                                //       _scaffoldKey
-                                                //           .currentContext!,
-                                                //       "Error",
-                                                //       "Sync Contacts First so you could send them sms",
-                                                //       "Back");
-                                                // });
-                                              }
-                                            },
-                                            child: Container(
-                                              width: w / 1.3,
-                                              height: h / 13.8,
-                                              decoration: const BoxDecoration(
-                                                borderRadius: BorderRadius.only(
-                                                  topLeft: Radius.circular(5),
-                                                  topRight: Radius.circular(5),
-                                                  bottomLeft: Radius.circular(5),
-                                                  bottomRight: Radius.circular(5),
-                                                ),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                      color: Color.fromRGBO(
-                                                          0, 0, 0, 0.25),
-                                                      offset: Offset(0, 0),
-                                                      blurRadius: 9)
-                                                ],
-                                                color: Color.fromRGBO(
-                                                    207, 109, 56, 1),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.spaceAround,
-                                                children: [
-                                                  SvgPicture.asset(
-                                                      "Assets/images/Group 92.svg"),
-                                                  Center(
-                                                    child: Text(
-                                                      'Send Invite Link',
-                                                      textAlign: TextAlign.center,
-                                                      style: _TextTheme.headline1,
-                                                    ),
-                                                  ),
-                                                  Text("")
-                                                ],
-                                              ),
-                                            ),
-                                          ),
+
+                                          // Row(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.spaceAround,
+                                          //   children: [
+                                          //     Text(
+                                          //         '   Invite Friends to bubbles!',
+                                          //         textAlign: TextAlign.left,
+                                          //         style: _TextTheme.headlineLarge!
+                                          //             .copyWith(
+                                          //                 fontWeight:
+                                          //                     FontWeight.w300,
+                                          //                 fontSize: 15,
+                                          //                 fontStyle:
+                                          //                     FontStyle.italic)),
+                                          //     const Text(""),
+                                          //     const Text(""),
+                                          //   ],
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 5,
+                                          // ),
+                                          // InkWell(
+                                          //   onTap: () {
+                                          //     // if (recipents.isNotEmpty) {
+                                          //     //   String message =
+                                          //     //       "Hey! 👋  Wondering what's happening around you right now? Download the app and get into the bubble!  https://bit.ly/bubbles.app You can find me with username {alias} Spread the news! Early sign up rewards available now.";
+                                          //     //   _sendSMS(message, recipents);
+                                          //     // } else {
+                                          //     //   Future.delayed(Duration.zero, () {
+                                          //     //     CommingSoonPopup(
+                                          //     //         context, h, w, "Sync Contacts First so you could send them sms",
+                                          //     //         "Sounds good!", 18);
+                                          //     //     //   // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
+                                          //     //     //   //     state.AddNewFriend!.msg!, "Back");
+                                          //     //   });
+                                          //       // Future.delayed(Duration.zero, () {
+                                          //       //   Page2().method(
+                                          //       //       _scaffoldKey
+                                          //       //           .currentContext!,
+                                          //       //       "Error",
+                                          //       //       "Sync Contacts First so you could send them sms",
+                                          //       //       "Back");
+                                          //       // });
+                                          //    // }
+                                          //   },
+                                          //   child: Container(
+                                          //     width: w / 1.3,
+                                          //     height: h / 13.8,
+                                          //     decoration: const BoxDecoration(
+                                          //       borderRadius: BorderRadius.only(
+                                          //         topLeft: Radius.circular(5),
+                                          //         topRight: Radius.circular(5),
+                                          //         bottomLeft: Radius.circular(5),
+                                          //         bottomRight: Radius.circular(5),
+                                          //       ),
+                                          //       boxShadow: [
+                                          //         BoxShadow(
+                                          //             color: Color.fromRGBO(
+                                          //                 0, 0, 0, 0.25),
+                                          //             offset: Offset(0, 0),
+                                          //             blurRadius: 9)
+                                          //       ],
+                                          //       color: Color.fromRGBO(
+                                          //           207, 109, 56, 1),
+                                          //     ),
+                                          //     child: Row(
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment.spaceAround,
+                                          //       children: [
+                                          //         SvgPicture.asset(
+                                          //             "Assets/images/Group 92.svg"),
+                                          //         Center(
+                                          //           child: Text(
+                                          //             'Send Invite Link',
+                                          //             textAlign: TextAlign.center,
+                                          //             style: _TextTheme.headline1,
+                                          //           ),
+                                          //         ),
+                                          //         Text("")
+                                          //       ],
+                                          //     ),
+                                          //   ),
+                                          // ),
                                         ],
                                       )),
                                 )),
@@ -1444,10 +1450,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                           height: h / 6,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.285714149475098),
-                              topRight: Radius.circular(8.285714149475098),
-                              bottomLeft: Radius.circular(8.285714149475098),
-                              bottomRight: Radius.circular(8.285714149475098),
+                              topLeft: Radius.circular(8.285714149475098.r),
+                              topRight: Radius.circular(8.285714149475098.r),
+                              bottomLeft: Radius.circular(8.285714149475098.r),
+                              bottomRight: Radius.circular(8.285714149475098.r),
                             ),
                             color: Color.fromRGBO(147, 147, 147, 1),
                           ),
@@ -1462,10 +1468,11 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                   style: TextStyle(
                                       color: Color.fromRGBO(234, 234, 234, 1),
                                       fontFamily: 'Sofia Pro',
-                                      fontSize: 25,
+                                      fontSize:  25.sp,
+
                                       letterSpacing:
-                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
+                                          0,
+                                      fontWeight: FontWeight.w400,
                                       height: 1),
                                 ),
                                 SizedBox(
@@ -1487,10 +1494,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                           height: h / 6,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8.285714149475098),
-                              topRight: Radius.circular(8.285714149475098),
-                              bottomLeft: Radius.circular(8.285714149475098),
-                              bottomRight: Radius.circular(8.285714149475098),
+                              topLeft: Radius.circular(8.285714149475098.r),
+                              topRight: Radius.circular(8.285714149475098.r),
+                              bottomLeft: Radius.circular(8.285714149475098.r),
+                              bottomRight: Radius.circular(8.285714149475098.r),
                             ),
                             color: Color.fromRGBO(147, 147, 147, 1),
                           ),
@@ -1505,10 +1512,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                   style: TextStyle(
                                       color: Color.fromRGBO(234, 234, 234, 1),
                                       fontFamily: 'Sofia Pro',
-                                      fontSize: 25,
+                                      fontSize:  25.sp,
                                       letterSpacing:
-                                          0 /*percentages not used in flutter. defaulting to zero*/,
-                                      fontWeight: FontWeight.normal,
+                                          0,
+                                      fontWeight: FontWeight.w400,
                                       height: 1),
                                 ),
                                 SizedBox(
@@ -1530,12 +1537,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                               height: h / 6,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(8.285714149475098),
-                                  topRight: Radius.circular(8.285714149475098),
+                                  topLeft: Radius.circular(8.285714149475098.r),
+                                  topRight: Radius.circular(8.285714149475098.r),
                                   bottomLeft:
-                                      Radius.circular(8.285714149475098),
+                                      Radius.circular(8.285714149475098.r),
                                   bottomRight:
-                                      Radius.circular(8.285714149475098),
+                                      Radius.circular(8.285714149475098.r),
                                 ),
                                 color: Color.fromRGBO(147, 147, 147, 1),
                               ),
@@ -1558,10 +1565,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                           color:
                                               Color.fromRGBO(234, 234, 234, 1),
                                           fontFamily: 'Sofia Pro',
-                                          fontSize: 27,
+                                          fontSize:  25.sp,
                                           letterSpacing:
-                                              0.7 /*percentages not used in flutter. defaulting to zero*/,
-                                          fontWeight: FontWeight.normal,
+                                              0.7,
+                                          fontWeight: FontWeight.w400,
                                           height: 1),
                                     ),
                                     SizedBox(
@@ -1596,14 +1603,14 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
   Widget listLoader({context}) {
     return SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 
   Widget listLoader2({context}) {
     return SpinKitThreeBounce(
       color: Colors.white,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 
@@ -1637,10 +1644,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                 style: TextStyle(
                     color: Color.fromRGBO(234, 234, 234, 1),
                     fontFamily: 'Sofia Pro',
-                    fontSize: 25,
+                    fontSize:  25.sp,
                     letterSpacing:
-                        0 /*percentages not used in flutter. defaulting to zero*/,
-                    fontWeight: FontWeight.normal,
+                        0,
+                    fontWeight: FontWeight.w500,
                     height: 1),
               ),
               SizedBox(

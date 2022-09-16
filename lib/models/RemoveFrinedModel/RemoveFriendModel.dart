@@ -16,7 +16,7 @@ abstract class RemoveFriendModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
 

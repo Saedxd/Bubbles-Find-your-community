@@ -25,7 +25,7 @@ abstract class GetPointsModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   GetPointsModel._();

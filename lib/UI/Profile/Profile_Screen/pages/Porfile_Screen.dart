@@ -6,33 +6,36 @@ import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
-import 'package:bubbles/UI/Home/Home_Screen/pages/Home_Screen/HomeScreen.dart';
+import 'package:bubbles/UI/Home/Home_Screen/pages/HomeScreen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 
 import 'package:bubbles/UI/Profile/BecomeCreator_screen/pages/BecomeCreator_screen.dart';
 import 'package:bubbles/UI/Profile/Challenges_Screen/pages/Challenges_Screen.dart';
 import 'package:bubbles/UI/Profile/FindFriends_Screen/pages/FindFriends_Screen.dart';
-import 'package:bubbles/UI/Profile/Followed_Screen/pages/Followed_Screen.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_bloc.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_event.dart';
 import 'package:bubbles/UI/Profile/Profile_Screen/bloc/profile_state.dart';
-import 'package:bubbles/UI/Profile/Profile_Screen/pages/VerifyProfile.dart';
 import 'package:bubbles/UI/Profile/Saved_Screen/Pages/SavedBubbles_Screen.dart';
 import 'package:bubbles/UI/Profile/Settings_screen/pages/Settings_screen.dart';
+import 'package:bubbles/UI/Profile/Subscribed_Screen/pages/Subscribed_Screen.dart';
 import 'package:bubbles/core/Colors/constants.dart';
-
 import 'package:bubbles/core/theme/theme_constants.dart';
+import 'package:bubbles/models/UserDataModel/User.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:gleap_sdk/gleap_sdk.dart';
+import 'package:gleap_sdk/models/gleap_user_property_model/gleap_user_property_model.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:theme_manager/theme_manager.dart';
@@ -55,7 +58,6 @@ class _ProfileState extends State<Profile> {
   final _formkey2 = GlobalKey<FormState>();
   final _ProfileBloc = sl<ProfileBloc>();
   final pref = sl<IPrefsHelper>();
-
 
   HomeScreen Instance = HomeScreen();
   MyTheme theme = MyTheme();
@@ -82,6 +84,10 @@ class _ProfileState extends State<Profile> {
   Future<void> SetThemeOn() async {
     await pref.SetThemeON();
   }
+  Future<void> SetIScreator(int is_Creator) async {
+    await pref.SetIsCreator(is_Creator);
+  }
+
 
   Future<void> GetTHEME() async {
     theme2 = await pref.GetThemeON();
@@ -185,6 +191,7 @@ class _ProfileState extends State<Profile> {
                 diditonce == true) {
               String value =
                   state.ProfileDate!.user!.background_color.toString();
+              SetIScreator(   state.ProfileDate!.user!.is_creator!);
               var myInt = int.parse(value);
               BackgroundColor = myInt;
               Done = true;
@@ -270,8 +277,8 @@ class _ProfileState extends State<Profile> {
                                                                         fontWeight:
                                                                             FontWeight
                                                                                 .w600,
-                                                                        fontSize:
-                                                                            23),
+                                                                        fontSize: 19.sp
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ],
@@ -279,6 +286,7 @@ class _ProfileState extends State<Profile> {
                                                           ),
                                                           Row(
                                                             children: [
+                                                              
                                                               Text(
                                                                   state
                                                                       .ProfileDate!
@@ -290,10 +298,11 @@ class _ProfileState extends State<Profile> {
                                                                       .copyWith(
                                                                           fontWeight: FontWeight
                                                                               .w400,
-                                                                          fontSize:
-                                                                              16)),
+                                                                      fontSize: 12.sp
+                                                                  )),
                                                             ],
                                                           ),
+
                                                         ],
                                                       ),
                                                     ),
@@ -501,7 +510,7 @@ class _ProfileState extends State<Profile> {
             //      // //        color: Color.fromRGBO(47, 47, 47, 1),
             //      // //        fontFamily: 'Red Hat Display',
             //      // //        fontSize: 25,
-            //      // //        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+            //      // //        letterSpacing: 0 ,
             //      // //        fontWeight: FontWeight.w900,
             //      // //        height: 1
             //      // //    ),)
@@ -583,7 +592,7 @@ class _ProfileState extends State<Profile> {
                                                     //                   fontSize:
                                                     //                       20,
                                                     //                   letterSpacing:
-                                                    //                       0 /*percentages not used in flutter. defaulting to zero*/,
+                                                    //                       0 ,
                                                     //                   fontWeight:
                                                     //                       FontWeight
                                                     //                           .normal,
@@ -721,7 +730,7 @@ class _ProfileState extends State<Profile> {
                                                         state.ProfileDate!.user!
                                                                 .is_creator ==
                                                             3) {
-                                                      WidgetsBinding.instance!
+                                                      WidgetsBinding.instance
                                                           .addPostFrameCallback(
                                                               (_) => Navigator
                                                                       .push(
@@ -737,7 +746,7 @@ class _ProfileState extends State<Profile> {
                                                             .user!
                                                             .is_creator ==
                                                         1) {
-                                                      CommingSoonPopup(context,h,w,"Your Already Creator!","Yep",24);
+                                                      CommingSoonPopup(context,h,w,"Your Already CreatorPage!","Yep",24);
                                                       // Page2().method(
                                                       //     _scaffoldKey
                                                       //         .currentContext!,
@@ -763,23 +772,13 @@ class _ProfileState extends State<Profile> {
                                                     width: w / 1.2,
                                                     height: h / 13,
                                                     decoration:
-                                                        const BoxDecoration(
+                                                         BoxDecoration(
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .only(
-                                                              topLeft: Radius
-                                                                  .circular(
-                                                                      21.5),
-                                                              topRight: Radius
-                                                                  .circular(
-                                                                      21.5),
-                                                              bottomLeft: Radius
-                                                                  .circular(
-                                                                      21.5),
-                                                              bottomRight:
-                                                                  Radius
-                                                                      .circular(
-                                                                          21.5),
+                                                                BorderRadius.only(
+                                                                  topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                             ),
                                                             boxShadow: [
                                                               BoxShadow(
@@ -802,27 +801,75 @@ class _ProfileState extends State<Profile> {
                                                               .spaceAround,
                                                       children: [
                                                         Text(
-                                                            '  Become a Creator',
+                                                            ' Become a Creator',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
                                                                 .headline1!
                                                                 .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 25,
+                                                              fontWeight: FontWeight.w400,
+                                                                fontSize: 20.sp
                                                             )),
                                                         Text(""),
                                                         Text(""),
                                                       ],
                                                     ),
                                                   ),
-                                                ):Container():Container(),
-                                                SizedBox(height: h/20,),
+                                                )
+                                              //  ,
+                                                    :Container():Container(),
+                                                SizedBox(height:   !state.isLoading!?
+                                                state.ProfileDate! .user! .is_creator !=  1?
+                                                h/20:h/100 :0),
+
+
+
+
+
                                                 InkWell(
-                                                  onTap: () {
-                                                    CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
+                                                  onTap: () async{
+                                                    print("Clicked");
+                                                  UserModel user = await pref.getUser();
+                                                 int id = user.data!.id!;
+                                                 String token = user.token!;
+                                                 String Avatar = user.data!.avatar!;
+                                                 String email = user.data!.email!;
+                                                 String first_name = user.data!.first_name!;
+                                                 String last_name = user.data!.last_name!;
+                                                 String Alias = user.data!.alias!;
+                                                 String Background_Color = user.data!.background_color!;
+                                                 int IS_Creator = user.data!.is_creator!;
+                                                    await Gleap.identify(
+                                                      userId: id.toString(),
+                                                      userProperties: GleapUserProperty(
+                                                        name: "${first_name} ${last_name}",
+                                                        email: '${email}',
+                                                      ),
+                                                      userHash:
+                                                      "${token}",
+
+                                                    );
+                                                  Gleap.attachCustomData(customData: {
+                                                    "Avatar":"$Avatar",
+                                                    "Background_Color":"$Background_Color",
+                                                    "IS_Creator":"${(IS_Creator==1)}",
+                                                    "Alias":"$Alias",
+                                                  });
+                                                    Gleap.open();
+                                                    print("Clicked");
+                                                    //
+                                                    // WidgetsBinding.instance
+                                                    //     .addPostFrameCallback(
+                                                    //         (_) => Navigator
+                                                    //         .push(
+                                                    //       context,
+                                                    //       MaterialPageRoute(
+                                                    //         builder:
+                                                    //             (context) =>
+                                                    //                 Feedback_Screen(),
+                                                    //       ),
+                                                    //     ));
+                                                  //  CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
                                             },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -830,18 +877,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                         BorderRadius.only(
-                                                          topLeft:
-                                                          Radius.circular(
-                                                              21.5),
-                                                          topRight:
-                                                          Radius.circular(
-                                                              21.5),
-                                                          bottomLeft:
-                                                          Radius.circular(
-                                                              21.5),
-                                                          bottomRight:
-                                                          Radius.circular(
-                                                              21.5),
+                                                          topLeft: Radius.circular( h/20.5),
+                                                          topRight:Radius.circular( h/20.5),
+                                                          bottomLeft: Radius.circular( h/20.5),
+                                                          bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -851,25 +890,33 @@ class _ProfileState extends State<Profile> {
                                                               blurRadius: 12)
                                                         ],
                                                         color: COLOR.onPrimary),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceAround,
+                                                    child:
+                                                    Row(
                                                       children: [
-                                                        Text('     Send us your feedback', textAlign: TextAlign.left,
-                                                        style: _textthem
-                                                        .headline1!
-                                                        .copyWith(
-                                                    fontWeight:
-                                                    FontWeight.w400,
-                                                      fontSize: 24,
-                                                      color:
-                                                      Color.fromRGBO(
-                                                          0, 0, 0, 1),
-                                                    )),
-                                                        Text(""),
-                                                        SvgPicture.asset("Assets/images/sendFeedBack.svg"),
-                                                        Text(""),
+
+                                                          Container(
+                                                           margin: EdgeInsets.only(left: 19.w,),
+                                                            child: Text('Send us your feedback',
+                                                                  textAlign: TextAlign.left,
+                                                                  style: _textthem
+                                                                      .headline1!
+                                                                      .copyWith(
+                                                                    fontWeight:  FontWeight.w400,
+                                                                      fontSize: 20.sp,
+                                                                    color:
+                                                                    Color.fromRGBO(
+                                                                        0, 0, 0, 1),
+                                                                  )),
+                                                          ),
+
+
+                                                    Expanded(
+                                                      child: Container(
+
+                                                                child: Center(child: SvgPicture.asset("Assets/images/sendFeedBack.svg"))
+
+                                                            ),
+                                                    ),
                                                       ],
                                                     ),
                                                   ),
@@ -884,18 +931,10 @@ class _ProfileState extends State<Profile> {
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        topRight:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                21.5),
-                                                        bottomRight:
-                                                            Radius.circular(
-                                                                21.5),
+                                                            topLeft: Radius.circular( h/20.5),
+                                                            topRight:Radius.circular( h/20.5),
+                                                            bottomLeft: Radius.circular( h/20.5),
+                                                            bottomRight:Radius.circular( h/20.5),
                                                       ),
                                                       boxShadow: [
                                                         BoxShadow(
@@ -910,19 +949,20 @@ class _ProfileState extends State<Profile> {
                                                         MainAxisAlignment
                                                             .spaceAround,
                                                     children: [
-                                                      Text('    Night Mode',
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          style: _textthem
-                                                              .headline1!
-                                                              .copyWith(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 25,
-                                                            color:
-                                                                Color.fromRGBO(
-                                                                    0, 0, 0, 1),
-                                                          )),
+                                                   Text('  Night Mode',
+                                                              textAlign:
+                                                                  TextAlign.left,
+                                                              style: _textthem
+                                                                  .headline1!
+                                                                  .copyWith(
+                                                                fontWeight:
+                                                                    FontWeight.w400,
+                                                                  fontSize: 20.sp,
+                                                                color:
+                                                                    Color.fromRGBO(
+                                                                        0, 0, 0, 1),
+                                                              )),
+
                                                       const Text(""),
                                                       done
                                                           ? Center(
@@ -956,7 +996,7 @@ class _ProfileState extends State<Profile> {
                                                                   value: state
                                                                       .ToggleStatus!,
                                                                   borderRadius:
-                                                                      20.0,
+                                                                      20.0.w,
                                                                   padding: 0.0,
                                                                   showOnOff:
                                                                       false,
@@ -1000,7 +1040,7 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
+                                                    WidgetsBinding.instance
                                                         .addPostFrameCallback(
                                                             (_) =>
                                                                 Navigator.push(
@@ -1020,18 +1060,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
+                                                              topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1046,8 +1078,9 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
+
                                                         Text(
-                                                            '   Add/Find Friends',
+                                                            ' Add/Find Friends',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1056,11 +1089,12 @@ class _ProfileState extends State<Profile> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              fontSize: 25,
+            fontSize: 20.sp,
                                                               color: Color
                                                                   .fromRGBO(0,
                                                                       0, 0, 1),
                                                             )),
+
                                                         Text(""),
                                                         Text(""),
                                                       ],
@@ -1072,7 +1106,7 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
+                                                    WidgetsBinding.instance
                                                         .addPostFrameCallback(
                                                             (_) =>
                                                                 Navigator.push(
@@ -1089,18 +1123,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
+                                                              topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1112,9 +1138,10 @@ class _ProfileState extends State<Profile> {
                                                         color: COLOR.onPrimary),
                                                     child: Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
+                                                          MainAxisAlignment.spaceAround,
+
                                                       children: [
+
                                                         Text('Settings',
                                                             textAlign:
                                                                 TextAlign.left,
@@ -1124,13 +1151,16 @@ class _ProfileState extends State<Profile> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              fontSize: 25,
+            fontSize: 20.sp,
                                                               color: Color
                                                                   .fromRGBO(0,
                                                                       0, 0, 1),
                                                             )),
+
                                                         Text(""),
                                                         Text(""),
+                                                        Text(""),
+
                                                       ],
                                                     ),
                                                   ),
@@ -1150,7 +1180,7 @@ class _ProfileState extends State<Profile> {
 
                                                 InkWell(
                                                   onTap: () {
-                                                    WidgetsBinding.instance!
+                                                    WidgetsBinding.instance
                                                         .addPostFrameCallback((_) => Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
@@ -1164,18 +1194,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
+                                                              topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1190,7 +1212,7 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-                                                        Text('Friend list',
+                                                        Text(' Friend list',
                                                             textAlign:
                                                                 TextAlign.left,
                                                             style: _textthem
@@ -1199,11 +1221,13 @@ class _ProfileState extends State<Profile> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              fontSize: 25,
+            fontSize: 20.sp,
                                                               color: Color
                                                                   .fromRGBO(0,
                                                                       0, 0, 1),
                                                             )),
+
+                                                        Text(""),
                                                         Text(""),
                                                         Text(""),
                                                       ],
@@ -1216,7 +1240,7 @@ class _ProfileState extends State<Profile> {
                                                 InkWell(
                                                   onTap: () {
                                                     if (state.success!) {
-                                                      WidgetsBinding.instance!
+                                                      WidgetsBinding.instance
                                                           .addPostFrameCallback(
                                                             (_) =>
                                                             Navigator.push(
@@ -1240,18 +1264,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
+                                                              topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1266,26 +1282,22 @@ class _ProfileState extends State<Profile> {
                                                           MainAxisAlignment
                                                               .spaceAround,
                                                       children: [
-
-                                                        Text('  Saved Bubbles',
-                                                            textAlign:
-                                                                TextAlign.left,
-                                                            style: _textthem
-                                                                .headline1!
-                                                                .copyWith(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 25,
-                                                              color: Color
-                                                                  .fromRGBO(0,
-                                                                      0, 0, 1),
-                                                            )),
+                                                    Text(' Saved Bubbles',
+                                                    textAlign:
+                                                    TextAlign.left,
+                                                    style: _textthem
+                                                        .headline1!
+                                                        .copyWith(
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .w400,
+            fontSize: 20.sp,
+                                                    color: Color
+                                                        .fromRGBO(0,
+                                                    0, 0, 1),
+                                                    )),
                                                         Text(""),
-                                                        Text("",style: TextStyle(
-                                                            color: Colors.black
-                                                            ,fontSize: 12
-                                                        ),)
+                                                        Text("",)
                                                       ],
                                                     ),
                                                   ),
@@ -1295,7 +1307,17 @@ class _ProfileState extends State<Profile> {
                                                 ),
                                                 InkWell(
                                                   onTap: () {
-                                                    CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
+                                                    // CommingSoonPopup(context,h,w,"Coming Soon!","Can't wait",24);
+                                                    //
+                                                    WidgetsBinding.instance
+                                                        .addPostFrameCallback(
+                                                          (_) =>
+                                                          Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:(context) =>Subscribed()),
+                                                          ),
+                                                    );
                                                   },
                                                   child: Container(
                                                     width: w / 1.2,
@@ -1303,18 +1325,10 @@ class _ProfileState extends State<Profile> {
                                                     decoration: BoxDecoration(
                                                         borderRadius:
                                                             BorderRadius.only(
-                                                          topLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomLeft:
-                                                              Radius.circular(
-                                                                  21.5),
-                                                          bottomRight:
-                                                              Radius.circular(
-                                                                  21.5),
+                                                              topLeft: Radius.circular( h/20.5),
+                                                              topRight:Radius.circular( h/20.5),
+                                                              bottomLeft: Radius.circular( h/20.5),
+                                                              bottomRight:Radius.circular( h/20.5),
                                                         ),
                                                         boxShadow: [
                                                           BoxShadow(
@@ -1338,16 +1352,13 @@ class _ProfileState extends State<Profile> {
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w400,
-                                                              fontSize: 25,
+            fontSize: 20.sp,
                                                               color: Color
                                                                   .fromRGBO(0,
                                                                       0, 0, 1),
                                                             )),
                                                         Text(""),
-                                                        Text("",style: TextStyle(
-                                                            color: Colors.black
-                                                            ,fontSize: 12
-                                                        ),)
+                                                        Text("")
                                                       ],
                                                     ),
                                                   ),
@@ -1390,6 +1401,7 @@ class _ProfileState extends State<Profile> {
     return showDialog(
         context: Context,
         barrierDismissible: false,
+
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -1399,10 +1411,10 @@ class _ProfileState extends State<Profile> {
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -1418,10 +1430,10 @@ class _ProfileState extends State<Profile> {
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
@@ -1436,13 +1448,12 @@ class _ProfileState extends State<Profile> {
                                     textAlign: TextAlign.center, style: TextStyle(
                                         color: Color.fromRGBO(234, 234, 234, 1),
                                         fontFamily: 'Red Hat Display',
-                                        fontSize: FontSize.toDouble(),
-                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                        fontSize: 14.sp,
+                                        letterSpacing: 0 ,
                                         fontWeight: FontWeight.w600,
                                         height: 1
                                     ),),
                                 ),
-
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -1456,10 +1467,10 @@ class _ProfileState extends State<Profile> {
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -1473,8 +1484,8 @@ class _ProfileState extends State<Profile> {
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
-                                            letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                            fontSize: 14.sp,
+                                            letterSpacing: 0 ,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -1504,56 +1515,75 @@ class _ProfileState extends State<Profile> {
         });
   }
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 
   Future<void> dIALOG() {
+
     var w = MediaQuery.of(context).size.width;
     var h = MediaQuery.of(context).size.height;
-
+    TextTheme _TextTheme = Theme.of(context).textTheme;
+    ColorScheme ColorS = Theme.of(context).colorScheme;
     return showModalBottomSheet<void>(
         isScrollControlled: true,
         context: context,
+        shape:  RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(h/90.0),
+          ),
+        ),
         builder: (BuildContext context) {
 
-
-
-          TextTheme _TextTheme = Theme.of(context).textTheme;
-          ColorScheme ColorS = Theme.of(context).colorScheme;
           return Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Wrap(children: [
+            child:
               Container(
-                color: const Color(0xff942657),
+                decoration: BoxDecoration(
+                  borderRadius : BorderRadius.only(
+                    topLeft: Radius.circular(h/90.0),
+                    topRight: Radius.circular(h/90.0),
+                  ),
+                  // boxShadow : [BoxShadow(
+                  //     color: Color.fromRGBO(0, 0, 0, 0.25),
+                  //     offset: Offset(0,0),
+                  //     blurRadius: 6.628571510314941
+                  // )],
+                  color: const Color(0xff942657),
+                ),
+
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Text(""),
                       Column(
                         children: [
+                          SizedBox(height: h/50,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               Text('Edit Username',
                                   textAlign: TextAlign.left,
                                   style: _TextTheme.subtitle1!.copyWith(
-                                      letterSpacing: .5,
-                                      fontWeight: FontWeight.w300)),
+                                      fontFamily: 'Red Hat Text',
+                                      fontSize: 20.sp,
+                                      letterSpacing: .3,
+                                      fontWeight: FontWeight.w300
+                                  )
+                              ),
                               Text(""),
                               Text(""),
                             ],
                           ),
-                          const SizedBox(
-                            height: 5,
+                           SizedBox(
+                            height: h/50,
                           ),
-                          const Text(""),
                           Container(
                               width: w / 1.2,
+                              height: h/10.2,
                               child: Form(
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
@@ -1564,6 +1594,9 @@ class _ProfileState extends State<Profile> {
                                   textInputAction: TextInputAction.next,
                                   controller: _UsernameController,
                                   onChanged: (value) {},
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                  // ],
                                   onFieldSubmitted: (value) {
                                     FoucesNodeBoi.requestFocus();
                                   },
@@ -1608,19 +1641,23 @@ class _ProfileState extends State<Profile> {
                                           const EdgeInsets.symmetric(
                                               horizontal: 12),
                                       hintText: "Alias",
-                                      hintStyle: _TextTheme.headline6),
+                                    hintStyle:GoogleFonts.roboto().copyWith(
+                                        fontSize: 0.25,
+                                        letterSpacing: 0 ,
+                                        fontWeight: FontWeight.w300,
+                                        height: 1
+                                    ),
+                                  ),
                                   keyboardType: TextInputType.text,
                                   // obscureText: SecureInput_pass,
                                 ),
                               )),
+                          SizedBox(
+                            height: h/40,
+                          ),
                         ],
                       ),
-                      Column(
-                        children: const [
-                          Text(""),
-                          Text(""),
-                        ],
-                      ),
+
                       Column(
                         children: [
                           Row(
@@ -1629,6 +1666,7 @@ class _ProfileState extends State<Profile> {
                               Text('Edit Bio',
                                   textAlign: TextAlign.left,
                                   style: _TextTheme.subtitle1!.copyWith(
+                                      fontSize: 20.sp,
                                       letterSpacing: .5,
                                       fontWeight: FontWeight.w300)),
                               Text(""),
@@ -1636,7 +1674,9 @@ class _ProfileState extends State<Profile> {
                               Text(""),
                             ],
                           ),
-                          const Text(""),
+                          SizedBox(
+                            height: h/40,
+                          ),
                           Container(
                               width: w / 1.2,
                               height: h / 2.5,
@@ -1645,6 +1685,7 @@ class _ProfileState extends State<Profile> {
                                     AutovalidateMode.onUserInteraction,
                                 key: _formkey2,
                                 child: TextFormField(
+
                                   maxLines: 18,
                                   focusNode: FoucesNodeBoi,
                                   keyboardAppearance: Brightness.dark,
@@ -1652,6 +1693,9 @@ class _ProfileState extends State<Profile> {
                                   controller: _BoiController,
                                   onChanged: (value) {},
                                   onFieldSubmitted: (value) {},
+                                  // inputFormatters: [
+                                  //   FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                  // ],
                                   validator: MultiValidator([
                                     RequiredValidator(errorText: "Required"),
                                   ]),
@@ -1685,7 +1729,12 @@ class _ProfileState extends State<Profile> {
                                       borderRadius: BorderRadius.circular(5),
                                     ),
                                     hintText: "Boi",
-                                    hintStyle: _TextTheme.headline6,
+                                    hintStyle:GoogleFonts.roboto().copyWith(
+                                        fontSize: 0.25,
+                                        letterSpacing: 0 ,
+                                        fontWeight: FontWeight.w300,
+                                        height: 1
+                                    ),
                                     filled: true,
                                     fillColor: Color(0xff303030),
                                     contentPadding: const EdgeInsets.only(
@@ -1697,9 +1746,8 @@ class _ProfileState extends State<Profile> {
                               )),
                         ],
                       ),
-                      const Text(""),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: h/50,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1716,6 +1764,7 @@ class _ProfileState extends State<Profile> {
                                     textAlign: TextAlign.left,
                                     style: _TextTheme.subtitle1!.copyWith(
                                         letterSpacing: .5,
+                                        fontSize: 20.sp,
                                         fontWeight: FontWeight.w400)),
                               ),
                             ),
@@ -1742,6 +1791,7 @@ class _ProfileState extends State<Profile> {
                                     textAlign: TextAlign.left,
                                     style: _TextTheme.subtitle1!.copyWith(
                                         letterSpacing: .5,
+                                        fontSize: 20.sp,
                                         fontWeight: FontWeight.w400)),
                               ),
                             ),
@@ -1755,7 +1805,6 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
               ),
-            ]),
           );
         });
   }
@@ -1768,9 +1817,9 @@ class _ProfileState extends State<Profile> {
     return showModalBottomSheet<void>(
         isDismissible: true,
         context: context,
-        shape: const RoundedRectangleBorder(
+        shape:  RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            top: Radius.circular(10.0),
+            top: Radius.circular(h/90.0),
           ),
         ),
         builder: (BuildContext context) {
@@ -1803,7 +1852,7 @@ class _ProfileState extends State<Profile> {
                           'View Avatar',
                           textAlign: TextAlign.center,
                           style: _TextTheme.headline2!.copyWith(
-                              fontWeight: FontWeight.w600, fontSize: 30),
+                              fontWeight: FontWeight.w600,  fontSize: 30.sp),
                         ),
                       ),
                     ),
@@ -1818,7 +1867,7 @@ class _ProfileState extends State<Profile> {
                   child: InkWell(
                     onTap: () {
                       Navigator.pop(context);
-                      WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                      WidgetsBinding.instance.addPostFrameCallback((_) =>
                           Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -1836,7 +1885,9 @@ class _ProfileState extends State<Profile> {
                           'Change Avatar',
                           textAlign: TextAlign.center,
                           style: _TextTheme.headline2!.copyWith(
-                              fontWeight: FontWeight.w600, fontSize: 30),
+                              fontWeight: FontWeight.w600, fontSize: 30.sp
+
+                          ),
                         ),
                       ),
                     ),

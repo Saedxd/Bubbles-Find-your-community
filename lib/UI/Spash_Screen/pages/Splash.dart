@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:animations/animations.dart';
 import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MyCustomWidget extends StatefulWidget {
@@ -10,6 +11,7 @@ class MyCustomWidget extends StatefulWidget {
 }
 
 class _MyCustomWidgetState extends State<MyCustomWidget> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +65,18 @@ class SecondClass extends StatefulWidget {
 
 class _SecondClassState extends State<SecondClass>
     with TickerProviderStateMixin {
+
+  Future showStatusBar() =>
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+
+  Future hideStatusBar() =>    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: []
+  );
+
+
+
+
   AnimationController? scaleController;
   Animation<double>? scaleAnimation;
 
@@ -72,40 +86,44 @@ class _SecondClassState extends State<SecondClass>
   @override
   void initState() {
     super.initState();
-
+    hideStatusBar();
     scaleController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 1000),
+      duration: Duration(milliseconds: 200),
     )..addStatusListener(
           (status) {
             print("done3");
             if (scaleController!.isCompleted){
-          WidgetsBinding
-              .instance!
-              .addPostFrameCallback((_) =>
+              print("Completed");
+             // scaleController!.stop();
               Navigator
-                  .push(
+                  .pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
                       Login( ),
                 ),
-              ));
-          // Timer(
-          //   Duration(milliseconds: 300),
-          //       () {
-          //     scaleController!.reset();
-          //   },
-          // );
+              );
+
+        //   WidgetsBinding
+        //       .instance
+        //       .addPostFrameCallback((_) =>
+        // ;
+        //   Timer(
+        //     Duration(milliseconds: 300),
+        //         () {
+        //       scaleController!.reset();
+        //     },
+        //   );
         }
       },
     );
 
 
-    scaleAnimation =
-        Tween<double>(begin: 2, end: 20).animate(scaleController!);
+    scaleAnimation = Tween<double>(begin: 2, end: 15).animate(scaleController!);
 
-    Timer(Duration(milliseconds: 600), () {
+
+    Timer(Duration(milliseconds: 400), () {
       setState(() {
         _opacity = 1.0;
         _value = false;
@@ -113,7 +131,7 @@ class _SecondClassState extends State<SecondClass>
       });
     });
 
-    Timer(Duration(milliseconds: 4000), () {
+    Timer(Duration(milliseconds: 3000), () {
       setState(() {
         scaleController!.forward();
         print("done1");
@@ -124,8 +142,10 @@ class _SecondClassState extends State<SecondClass>
   @override
   void dispose() {
     // TODO: implement dispose
+    showStatusBar();
     scaleController!.dispose();
     super.dispose();
+
   }
 
 

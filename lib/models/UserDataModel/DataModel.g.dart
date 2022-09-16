@@ -41,7 +41,8 @@ class _$DateModelSerializer implements StructuredSerializer<DateModel> {
     if (value != null) {
       result
         ..add('gender')
-        ..add(serializers.serialize(value, specifiedType: const FullType(int)));
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
     }
     value = object.email;
     if (value != null) {
@@ -181,7 +182,7 @@ class _$DateModelSerializer implements StructuredSerializer<DateModel> {
           break;
         case 'gender':
           result.gender = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int?;
+              specifiedType: const FullType(String)) as String?;
           break;
         case 'email':
           result.email = serializers.deserialize(value,
@@ -262,7 +263,7 @@ class _$DateModel extends DateModel {
   @override
   final int? is_creator;
   @override
-  final int? gender;
+  final String? gender;
   @override
   final String? email;
   @override
@@ -399,7 +400,7 @@ class _$DateModel extends DateModel {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DateModel')
+    return (newBuiltValueToStringHelper(r'DateModel')
           ..add('id', id)
           ..add('is_verify', is_verify)
           ..add('is_creator', is_creator)
@@ -439,9 +440,9 @@ class DateModelBuilder implements Builder<DateModel, DateModelBuilder> {
   int? get is_creator => _$this._is_creator;
   set is_creator(int? is_creator) => _$this._is_creator = is_creator;
 
-  int? _gender;
-  int? get gender => _$this._gender;
-  set gender(int? gender) => _$this._gender = gender;
+  String? _gender;
+  String? get gender => _$this._gender;
+  set gender(String? gender) => _$this._gender = gender;
 
   String? _email;
   String? get email => _$this._email;
@@ -580,4 +581,4 @@ class DateModelBuilder implements Builder<DateModel, DateModelBuilder> {
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

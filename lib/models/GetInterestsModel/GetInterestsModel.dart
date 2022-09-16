@@ -36,7 +36,7 @@ abstract class GetInterestsModel
   String? get msg;
   int? get StatusCode;
   BuiltList<InterestsListModel>? get interests;
-
+  String? get error;
 
   GetInterestsModel._();
   factory GetInterestsModel([void Function(GetInterestsModelBuilder b)? updates]) =  _$GetInterestsModel;

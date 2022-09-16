@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     package="com.arc.bubbles">
 
@@ -26,7 +27,7 @@
         </intent>
     </queries>
     <application
-
+        tools:overrideLibrary="io.gleap.gleap_sdk"
         android:label="Bubbles"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher"

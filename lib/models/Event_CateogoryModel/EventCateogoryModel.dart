@@ -19,7 +19,7 @@ abstract class EventCateogoryModel
   String? get msg;
   int? get statuscode;
   BuiltList<CateogoryList>? get event_category;
-
+  String? get error;
 
   EventCateogoryModel._();
   factory EventCateogoryModel([void Function(EventCateogoryModelBuilder b)? updates]) =  _$EventCateogoryModel;

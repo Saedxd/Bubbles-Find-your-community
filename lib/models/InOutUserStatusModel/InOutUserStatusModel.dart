@@ -18,7 +18,7 @@ abstract class InOutUserStatusModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   InOutUserStatusModel._();

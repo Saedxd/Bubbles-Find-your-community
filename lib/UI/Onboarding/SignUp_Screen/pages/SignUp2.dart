@@ -10,7 +10,9 @@ import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/signup.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
@@ -125,7 +127,7 @@ bool Selected = false;
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
+                                    fontSize: 0.24.sp,
                                     letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                     fontWeight: FontWeight.w600,
                                     height: 1
@@ -162,7 +164,7 @@ bool Selected = false;
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 14,
+                                            fontSize: 0.24.sp,
                                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                                             fontWeight: FontWeight.w400,
                                             height: 1
@@ -255,7 +257,7 @@ bool Selected = false;
                                                 top: h / 40),
                                             child: InkWell(
                                               onTap: () {
-                                                WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                                                WidgetsBinding.instance.addPostFrameCallback((_) =>
                                                     Navigator.of(context).pop()
                                                 );
                                               },
@@ -263,11 +265,8 @@ bool Selected = false;
                                                   textAlign: TextAlign.left,
                                                   style: _TextTheme.headline1!
                                                       .copyWith(
-                                                      fontSize: 3.5 *
-                                                          SizeConfig
-                                                              .blockSizeVertical!
-                                                              .toDouble(),
-                                                      letterSpacing: 0.3,
+                                                      fontSize: 20.sp,
+                                                      letterSpacing: 0.1,
                                                       fontWeight: FontWeight
                                                           .w300,
                                                       height: 1
@@ -280,10 +279,7 @@ bool Selected = false;
                                               style: _TextTheme.headlineLarge!
                                                   .copyWith(
                                                 letterSpacing: 0.6,
-                                                  fontSize: 3.5 *
-                                                      SizeConfig
-                                                          .blockSizeVertical!
-                                                          .toDouble(),
+                                                  fontSize: 25.sp,
                                                   fontWeight: FontWeight.w600,
                                                   color: Colors.white
                                               )),
@@ -303,8 +299,14 @@ bool Selected = false;
                                                       textInputAction: TextInputAction
                                                           .next,
                                                       controller: _FirstNameController,
+                                                      inputFormatters: [
+                                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                                      ],
                                                       onChanged: (value) {
                                                         Selected = true;
+                                                        setState(() {
+
+                                                        });
                                                       },
                                                       onFieldSubmitted: (
                                                           value) {
@@ -315,23 +317,19 @@ bool Selected = false;
 
                                                       validator:(value){
 
-                                                        // if (!nameValidation4
-                                                        //     .hasMatch(
-                                                        //     value!)) {
-                                                        //   return "Only Letters and numbers allowed for name";
-                                                        // }else if (value.isEmpty){
-                                                        //   return "Required";
-                                                        // }else if (value.length<3) {
-                                                        //   return "Minimum name length is 3 Characters";
-                                                        // }else if (value.length>25){
-                                                        //   return "Maximum name length is 25 Characters";
-                                                        // }
+                                                    if (value!.isEmpty){
+                                                          return "Required";
+                                                        }else if (value.length<2) {
+                                                          return "Minimum name length is 3 Characters";
+                                                        }else if (value.length>25){
+                                                          return "Maximum name length is 25 Characters";
+                                                        }
                                                       }
 
                                                       ,
                                                       cursorColor: Colors.black,
                                                       style: TextStyle(
-                                                          fontSize: 19,
+                                                          fontSize: 17.sp,
                                                           fontWeight: FontWeight
                                                               .w500,
                                                           height: 1.3,
@@ -340,37 +338,60 @@ bool Selected = false;
                                                       decoration: InputDecoration(
                                                           errorStyle: TextStyle(
                                                             color: Colors.red,),
-                                                          errorBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color: Colors
-                                                                    .white,
-                                                                width: 0.0),
+                                                          errorBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  width: 0.0),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  h/200.5)
                                                           ),
-                                                          focusedErrorBorder: OutlineInputBorder(
-                                                            borderSide: BorderSide(
-                                                                color: Colors
-                                                                    .white,
-                                                                width: 0.0),
+                                                          focusedErrorBorder:
+                                                          OutlineInputBorder(
+                                                              borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  width: 0.0),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  h/200.5)
                                                           ),
-                                                          border: OutlineInputBorder(
-                                                              borderRadius: BorderRadius
-                                                                  .circular(5)
+                                                          border:
+                                                          OutlineInputBorder(
+                                                            borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                h/200.5),
+
                                                           ),
-                                                          enabledBorder: UnderlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(
-                                                                color: Colors
-                                                                    .white),
-                                                            borderRadius: BorderRadius
-                                                                .circular(5),
+                                                          counterText: ' ',
+                                                          enabledBorder:
+                                                          UnderlineInputBorder(
+                                                              borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  h/200.5)
                                                           ),
-                                                          focusedBorder: UnderlineInputBorder(
-                                                            borderSide:
-                                                            BorderSide(
-                                                                color: Colors
-                                                                    .white),
-                                                            borderRadius: BorderRadius
-                                                                .circular(5),
+                                                          focusedBorder:
+                                                          UnderlineInputBorder(
+                                                              borderSide:
+                                                              BorderSide(
+                                                                  color: Colors
+                                                                      .white),
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  h/200.5)
                                                           ),
                                                           filled: true,
                                                           fillColor: Colors
@@ -384,10 +405,7 @@ bool Selected = false;
                                                           hintStyle: _TextTheme
                                                               .headline6!
                                                               .copyWith(
-                                                            fontSize: 6.2 *
-                                                                SizeConfig
-                                                                    .blockSizeHorizontal!
-                                                                    .toDouble(),
+                                                            fontSize: 20.sp,
                                                           )
                                                       ),
                                                       keyboardType: TextInputType
@@ -409,26 +427,41 @@ bool Selected = false;
                                                       textInputAction: TextInputAction
                                                           .next,
                                                       controller: _LastNameController,
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        Selected = true;
+                                                        setState(() {
+
+                                                        });
+                                                      },
                                                       onFieldSubmitted: (
                                                           value) {},
                                                       validator:(value){
-                                                      if (nameValidation4
-                                                        .hasMatch(
-                                                      value!)) {
-                                                      return "Only Letters and numbers allowed for Lastname";
-                                                      }else if (value.isEmpty){
-                                                      return "Required";
-                                                      }else if (value.length<3) {
-                                                      return "Minimum Lastname length is 3 Characters";
-                                                      }else if (value.length>25){
-                                                      return "Maximum Lastname length is 3 Characters";
-                                                      }
+                                            if (value!.isEmpty){
+                                            return "Required";
+                                            }else if (value.length<2) {
+                                            return "Minimum name length is 3 Characters";
+                                            }else if (value.length>25){
+                                            return "Maximum name length is 25 Characters";
+                                            }
+                                                      // if (nameValidation4
+                                                      //   .hasMatch(
+                                                      // value!)) {
+                                                      // return "Only Letters and numbers allowed for Lastname";
+                                                      // }else if (value.isEmpty){
+                                                      // return "Required";
+                                                      // }else if (value.length<3) {
+                                                      // return "Minimum Lastname length is 3 Characters";
+                                                      // }else if (value.length>25){
+                                                      // return "Maximum Lastname length is 3 Characters";
+                                                      // }
                                                       },
 
                                                       cursorColor: Colors.black,
+                                                      inputFormatters: [
+                                                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z]"))
+                                                      ],
                                                       style: TextStyle(
-                                                          fontSize: 19,
+                                                          fontSize: 17.sp,
                                                           fontWeight: FontWeight
                                                               .w500,
 
@@ -483,10 +516,7 @@ bool Selected = false;
                                                           hintStyle: _TextTheme
                                                               .headline6!
                                                               .copyWith(
-                                                            fontSize: 6.2 *
-                                                                SizeConfig
-                                                                    .blockSizeHorizontal!
-                                                                    .toDouble(),
+                                                            fontSize: 20.sp,
                                                           )
                                                       ),
                                                       keyboardType: TextInputType
@@ -514,7 +544,7 @@ bool Selected = false;
                                                 bool result = await InternetConnectionChecker()
                                                     .hasConnection;
                                                 if (result == true) {
-                                                  WidgetsBinding.instance!
+                                                  WidgetsBinding.instance
                                                       .addPostFrameCallback((
                                                       _) =>
                                                       Navigator.push(
@@ -577,10 +607,8 @@ bool Selected = false;
                                                         .copyWith(
                                                       fontWeight: FontWeight
                                                           .w600,
-                                                      fontSize: 3 *
-                                                          SizeConfig
-                                                              .blockSizeVertical!
-                                                              .toDouble(),
+                                                      fontSize: 18.sp,
+
                                                     ),),
                                                 )
 
@@ -613,7 +641,7 @@ bool Selected = false;
   Widget listLoader({context}) {
     return SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
     //       Container(
     //                               child: Column(

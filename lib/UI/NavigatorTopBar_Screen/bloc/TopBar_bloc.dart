@@ -37,7 +37,6 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
 
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..error = "Something went wrong"
         );
 
       }
@@ -53,7 +52,6 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
 
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..error = "Something went wrong"
         );
 
       }
@@ -69,7 +67,6 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
 
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..error = "Something went wrong"
         );
 
       }
@@ -84,7 +81,19 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..error = "Something went wrong"
+        );
+      }
+    }
+    if (event is ChangeIndex5) {
+      try {
+
+        yield state.rebuild((b) => b
+          ..Index5 = !b.Index5!
+        );
+
+      } catch (e) {
+        print('get Error $e');
+        yield state.rebuild((b) => b
         );
       }
     }
@@ -99,40 +108,55 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
 
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..error = "Something went wrong"
         );
 
       }
     }
 
-    if (event is GetProfile){
+    if (event is Change_Is_Creator) {
       try {
 
         yield state.rebuild((b) => b
-          ..GetprofileLoading = true
-          ..error = ""
-          ..GetprofileSuccess = false
-          ..ProfileDate = null
+          ..is_Creator = event.ChangeISCreator
         );
 
-        final date = await _repository.GetProfile();
-        print('get Success data $date');
-        yield state.rebuild((b) => b
-          ..GetprofileLoading = false
-          ..error = ""
-          ..GetprofileSuccess = true
-          ..ProfileDate.replace(date)
-        );
       } catch (e) {
+
         print('get Error $e');
         yield state.rebuild((b) => b
-          ..GetprofileLoading = false
-          ..error = "Something went wrong"
-          ..GetprofileSuccess = false
-          ..ProfileDate = null
         );
+
       }
     }
+
+    // if (event is GetProfile){
+    //   try {
+    //
+    //     yield state.rebuild((b) => b
+    //       ..GetprofileLoading = true
+    //       ..error = ""
+    //       ..GetprofileSuccess = false
+    //       ..ProfileDate = null
+    //     );
+    //
+    //     final date = await _repository.GetProfile();
+    //     print('get Success data $date');
+    //     yield state.rebuild((b) => b
+    //       ..GetprofileLoading = false
+    //       ..error = ""
+    //       ..GetprofileSuccess = true
+    //       ..ProfileDate.replace(date)
+    //     );
+    //   } catch (e) {
+    //     print('get Error $e');
+    //     yield state.rebuild((b) => b
+    //       ..GetprofileLoading = false
+    //
+    //       ..GetprofileSuccess = false
+    //       ..ProfileDate = null
+    //     );
+    //   }
+    // }
 
     if (event is GetFreinds) {
       try {
@@ -161,14 +185,17 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
         yield state.rebuild((b) =>
         b
           ..isLoading = false
-          ..error = "Something went wrong"
           ..success = false
-          ..GetFriends = null
+          ..error = "Something went wrong"
         );
       }
     }
     if (event is ClearBadge) {
       try {
+        yield state.rebuild((b) =>
+        b
+          ..BadgeCounter = 0
+        );
 
         final date = await _repository.ClearBadge();
 
@@ -193,20 +220,23 @@ class TopBarBloc extends Bloc<TopBarEvent, TopBarState> {
 
      //   print('get Success data ${date}');
         yield state.rebuild((b) =>
-        b
-          ..isLoading = false
+        b..isLoading = false
           ..error = ""
           ..success = true
           ..GetbadgeSucess = true
           ..Getbadge.replace(date)
 
        );
+        yield state.rebuild((b) =>
+        b
+          ..BadgeCounter = state.Getbadge!.count!.toInt()
+        );
+        print(state.BadgeCounter);
       } catch (e) {
         print('get Error $e');
         yield state.rebuild((b) =>
         b
           ..isLoading = false
-          ..error = "Something went wrong"
           ..success = false
           ..Getbadge = null
         );

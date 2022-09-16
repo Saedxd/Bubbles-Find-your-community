@@ -8,7 +8,9 @@ import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/AddReplyModel/AddreplyModel.dart';
 import 'package:bubbles/models/ChangeAvatarModel/ChangeAvatarModel.dart';
 import 'package:bubbles/models/CheckMailModel/CheckMailModel.dart';
+import 'package:bubbles/models/ChoosePollAnswerModel/ChoosePollAnswerModel.dart';
 import 'package:bubbles/models/CreateBubbleModel/CreateBubbleModel.dart';
+import 'package:bubbles/models/DeleteOldmessagesModel/DeleteOldmessagesModel.dart';
 import 'package:bubbles/models/DenyFriendRequestModel/DenyFriendRequestModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/Event_CateogoryModel/EventCateogoryModel.dart';
@@ -17,7 +19,7 @@ import 'package:bubbles/models/FreindListSearchModel/FriendListSearchModel.dart'
 import 'package:bubbles/models/FreindRequestsModel/FreindRequestsModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
 import 'package:bubbles/models/GetAvatarsModel/GetAvatarsModel.dart';
-import 'package:bubbles/models/GetBubblesModel/GetPrimeBubblesModel.dart';
+import 'package:bubbles/models/GetBubblesModel/GetBubblesModel.dart';
 import 'package:bubbles/models/GetChallengesModel/GetChallengesModel.dart';
 import 'package:bubbles/models/GetDetailedEvent/GetDetailedEvent.dart';
 import 'package:bubbles/models/GetGenderModel/GetGender.dart';
@@ -37,6 +39,8 @@ import 'package:bubbles/models/ProfileDataModel/ProfileDateModel.dart';
 import 'package:bubbles/models/RemoveFrinedModel/RemoveFriendModel.dart';
 import 'package:bubbles/models/SaveBubbleModel/SaveBubbleModel.dart';
 import 'package:bubbles/models/SendBubbleMessageModel/SendBubbleMessageModel.dart';
+import 'package:bubbles/models/SprintsJoinLeaveModel/SprintsJoinLeaveModel.dart';
+import 'package:bubbles/models/SprintsLobbyUsersModel/SprintsLobbyUsersModel.dart';
 import 'package:bubbles/models/SubmitCreatorAnwersModel/SubmitCreatorAnwersModel.dart';
 import 'package:bubbles/models/SuggestFrinedsModel/SuggestFriendsModel.dart';
 import 'package:bubbles/models/UpdateBoiModel/UpdateBoiModel.dart';
@@ -58,12 +62,7 @@ abstract class IHttpHelper {
 
 
 
-  Future<UserData> GoogleLogin(
-      String Email,
-      String password,
-      String fcmToken,
-      String avatar,
-      );
+  Future<UserData> GoogleLogin(String Email, String password,String fcmToken,String avatar);
 
   Future<UserData> login(
       String Email,
@@ -85,6 +84,7 @@ abstract class IHttpHelper {
       int avatarid,
       String alias,
   );
+
   Future<UserData> LoginSocial(
       String Token,
       String fcmToken,
@@ -160,7 +160,7 @@ abstract class IHttpHelper {
       String Auth,
       );
 
-  Future<GetPrimeBubblesModel> GetPrimeBubblees(
+  Future<GetBubblesModel> GetPrimeBubblees(
       String Auth,
       );
 
@@ -178,12 +178,13 @@ abstract class IHttpHelper {
       double lng,
       double lat,
       int radius,
+      int Cateogory_id,
       );
 
-  Future<GetPrimeBubblesModel> GetAllBubbles(
+  Future<GetBubblesModel> GetAllBubbles(
       String Auth,
       );
-  Future<GetPrimeBubblesModel> GetNewBubbles(
+  Future<GetBubblesModel> GetNewBubbles(
       String Auth,
       );
   Future<OldMessagesModel> GetLastMessageBetweenMeAndAllUsers(
@@ -226,7 +227,7 @@ abstract class IHttpHelper {
       String Keyword,
       String Auth,
       );
-  Future<GetPrimeBubblesModel> NearByEventList(
+  Future<GetBubblesModel> NearByEventList(
       double lat,
       double lng,
       String Auth,
@@ -269,7 +270,8 @@ abstract class IHttpHelper {
       );
   Future<EventOldMessagesModel> GetEventMessages(
       String Auth,
-      int bubble_id
+      int bubble_id,
+
       );
   Future<GetUsersInsideBubbleModel> GetUsersInsideBubble(
       String Auth,
@@ -278,7 +280,7 @@ abstract class IHttpHelper {
   Future<GetbadgeModel> Getbadge(
       String Auth,
       );
-  Future<GetPrimeBubblesModel> PopularNowBubbles(
+  Future<GetBubblesModel> PopularNowBubbles(
       String Auth,
       );
   Future<NotifyMeCloseToBubbleModel> NotifyMeImCloseToBubble(
@@ -290,6 +292,7 @@ abstract class IHttpHelper {
   Future<FlowChatModel> GetFlowOldMessages(
       String Auth,
       int message_id,
+
       );
   Future<SendBubbleMessageModel> SendMessageInFlows(
       String Auth,
@@ -313,7 +316,9 @@ abstract class IHttpHelper {
       String Auth,
       String Question,
       int bubble_id,
-      List<String> answers
+      List<String> answers,
+      bool multi_choice,
+      bool show_participants,
       );
 
 
@@ -342,7 +347,7 @@ abstract class IHttpHelper {
       );
 
 
-  Future<GetPrimeBubblesModel> GetSavedBubbles(
+  Future<GetBubblesModel> GetSavedBubbles(
       String Auth,
       int User_id,
       );
@@ -352,6 +357,47 @@ abstract class IHttpHelper {
       int Bubble_id,
       );
   Future<EventCateogoryModel> GetEventCateogories(
+      String Auth,
+      );
+  Future<GetBubblesModel> GetActiveBubbles(
+      String Auth,
+      );
+  Future<GetBubblesModel> GetUpcomingBubbles(
+      String Auth,
+      );
+  Future<GetBubblesModel> NearByPrimes(
+      double lat,
+      double lng,
+      String Auth,
+      );
+
+  Future<ChoosePollAnswerModel> ChoosePollFlowAnswer(
+      int answer_poll_id,
+      String Auth,
+      ) ;
+
+
+  Future<SprintsJoinLeaveModel> LeaveSprintsLobby(
+      int event_id,
+      String Auth,
+      ) ;
+
+
+  Future<SprintsJoinLeaveModel> JoinSprintsLobby(
+      int event_id,
+      String Auth,
+      );
+
+
+  Future<SprintsLobbyUsersModel> GetAllUsersInLobby(
+      int event_id,
+      String Auth,
+      ) ;
+
+
+  Future<DeleteOldmessagesModel> DeleteOldMessages(
+      int receiver_id,
+      String send_by,
       String Auth,
       );
 }

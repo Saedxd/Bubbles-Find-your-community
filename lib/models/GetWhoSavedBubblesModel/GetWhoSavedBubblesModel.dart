@@ -19,7 +19,7 @@ abstract class GetWhoSavedBubblesModel
 
   int? get status;
   BuiltList<UsersInsideBubbleListModel>? get data;
-
+  String? get error;
 
   GetWhoSavedBubblesModel._();
   factory GetWhoSavedBubblesModel([void Function(GetWhoSavedBubblesModelBuilder b)? updates]) =  _$GetWhoSavedBubblesModel;

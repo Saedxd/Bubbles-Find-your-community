@@ -9,8 +9,8 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'DetailedAvatar_Screen.dart';
 
 class ChooseAvatar extends StatefulWidget {
@@ -46,41 +46,6 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
     return BlocBuilder(
         bloc: _SignUpBloc,
         builder: (BuildContext context, SignUpState state) {
-          // if (state.success == true &&
-          //     _formkey1.currentState!.validate() &&
-          //     DiDitOnce == true) {
-          //   if (state.data!.msg == "success") {
-          //
-          //     pref.saveUser(
-          //       state.data as UserData,
-          //       state.data!.user!.token!,
-          //       true,
-          //     );
-          //
-          //     WidgetsBinding.instance!.addPostFrameCallback(
-          //             (_) { Navigator.of(context).push(
-          //           CupertinoPageRoute(
-          //             builder: (BuildContext context) {
-          //               return NavigatorTopBar();
-          //             },
-          //           ),
-          //         );
-          //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          //         }
-          //     );
-          //     DiDitOnce = false;
-          //
-          //   }
-          //   else if (state.data!.msg == "Email or password incorrect") {
-          //
-          //
-          //     Future.delayed(Duration.zero, () {
-          //       Page2().method(_scaffoldKey.currentContext!, "Error",
-          //           state.data!.msg!, "Back");
-          //     });
-          //     DiDitOnce = false;
-          //   }
-          // }
           return Scaffold(
             resizeToAvoidBottomInset : false,
             backgroundColor: ChooseAvatarBack,
@@ -94,15 +59,12 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                           child: Text(
                             'Choose your avatar',
                             textAlign: TextAlign.left,
-                            style:_TextTheme.headlineLarge!.copyWith(
-                              letterSpacing: 1,
-                                fontSize: 3.5 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white
-                            )
+                              style:_TextTheme.headlineLarge!.copyWith(
+                                  letterSpacing: 0.5,
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white
+                              )
 
                           ),
                         ),
@@ -139,7 +101,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                                                     print(AvatarID);
                                                     widget.Users!.SetAvatar(AvatarID);
                                                     Selected
-                                                        ? WidgetsBinding.instance!
+                                                        ? WidgetsBinding.instance
                                                         .addPostFrameCallback((_) => Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
@@ -206,7 +168,7 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                           onTap: () {
                           if ( Selected) {
                             widget.Users!.SetAvatar(AvatarID);
-                            WidgetsBinding.instance!
+                            WidgetsBinding.instance
                                 .addPostFrameCallback((_) =>
                                 Navigator.push(
                                   context,
@@ -226,12 +188,12 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                           child: Container(
                             width: w / 1.45,
                             height: h / 15,
-                            decoration: const BoxDecoration(
+                            decoration:  BoxDecoration(
                               borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                                bottomLeft: Radius.circular(5),
-                                bottomRight: Radius.circular(5),
+                                topLeft: Radius.circular( h/90.5),
+                                topRight:Radius.circular( h/90.5),
+                                bottomLeft: Radius.circular( h/90.5),
+                                bottomRight:Radius.circular( h/90.5),
                               ),
                               boxShadow: [
                                 BoxShadow(
@@ -243,16 +205,14 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
                               color: Color.fromRGBO(148, 38, 87, 1),
                             ),
                             child: Center(
+
                               child: Text(
                                 'Next',
                                 textAlign: TextAlign.center,
                                 style:
                                 _TextTheme.headline1!.copyWith(
                                     fontWeight: FontWeight.w600,
-                                  fontSize: 3 *
-                                      SizeConfig
-                                          .blockSizeVertical!
-                                          .toDouble(),
+                                  fontSize: 17.sp,
                                 ),
                               ),
                             ),
@@ -267,9 +227,9 @@ class _ChooseAvatarState extends State<ChooseAvatar> {
   }
 
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }

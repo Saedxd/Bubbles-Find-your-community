@@ -12,7 +12,11 @@ import 'package:built_value/serializer.dart';
 part 'Saved_event.g.dart';
 
 abstract class SavedEvent {}
-
+//copy the lines and comment them here so i could use them. flutter get line?
+//please copy them here ok
+//flutter pub get
+//flutter pub run build_runner build --delete-outputs
+//flutter
 
 abstract class GetSavedBubbles extends SavedEvent
     implements Built<GetSavedBubbles,GetSavedBubblesBuilder> {

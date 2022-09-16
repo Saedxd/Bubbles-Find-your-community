@@ -15,7 +15,7 @@ abstract class UpdateBoiModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   UpdateBoiModel._();

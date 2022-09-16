@@ -25,6 +25,12 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         ..error = ""
       );
     }
+    if (event is HideSpaceOnSignUP) {
+      yield state.rebuild((b) =>
+      b
+        ..iSHideSpaceOnSignUP = true
+      );
+    }
     if (event is ChangePickedColor) {
       yield state.rebuild((b) =>
       b
@@ -286,7 +292,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     if (event is ChangeSelected){
       yield state.rebuild((b) =>
       b
-        ..ChangeSelectedd = true
+        ..ChangeSelectedd = event.status!
       );
     }
 

@@ -14,7 +14,7 @@ part 'GetQuestionsModel.g.dart';
 
 abstract class GetQuestionsModel
     implements Built<GetQuestionsModel, GetQuestionsModelBuilder> {
-
+  String? get error;
   String? get msg;
   int? get statuscode;
   BuiltList<QuestionsListModel>? get questions;

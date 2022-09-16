@@ -9,9 +9,9 @@ import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:geolocator/geolocator.dart';
-
 
 class Permission2_Screen extends StatefulWidget {
   const Permission2_Screen({Key? key}) : super(key: key);
@@ -65,12 +65,12 @@ class _Permission2_ScreenState extends State<Permission2_Screen> {
                                     child: SvgPicture.asset("Assets/images/Vector.svg",width: w/12.5,))
                               ]
                               ),
-                              SizedBox(width: 13,),
+                              SizedBox(width: 13.w,),
 
 
                               SvgPicture.asset("Assets/images/Allow Notifications.svg",width: w/2.8),
 
-                              SizedBox(width: h/25,),
+                              SizedBox(width: w/25,),
                             ],),
                         ),
                       ),
@@ -87,10 +87,7 @@ at your location!""",
                                 letterSpacing: .9,
                                 wordSpacing: 2,
                                 fontWeight: FontWeight.w300,
-                                fontSize:  3.4 *
-                                    SizeConfig
-                                        .blockSizeVertical!
-                                        .toDouble(),
+                                fontSize: 24.sp,
                               ),),
 
 
@@ -102,12 +99,13 @@ at your location!""",
             Column(
 
               children: [
+
                       InkWell(
                         onTap: (){
                           _loginBloc.add(SetPermission((b) =>b
                             ..is_notify=1
                           ));
-                          WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                          WidgetsBinding.instance.addPostFrameCallback((_) =>
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -118,14 +116,14 @@ at your location!""",
                           );
                         },
                         child: Container(
-                          width: w/1.2,
+                          width: w/1.32,
                           height: h/15,
-                          decoration: const BoxDecoration(
+                          decoration:  BoxDecoration(
                             borderRadius : BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              topRight: Radius.circular(5),
-                              bottomLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(5),
+                              topLeft: Radius.circular(5.r),
+                              topRight: Radius.circular(5.r),
+                              bottomLeft: Radius.circular(5.r),
+                              bottomRight: Radius.circular(5.r),
                             ),
                             boxShadow : [BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
@@ -136,11 +134,14 @@ at your location!""",
                           ),
                           child: Center(
                             child: Text('Allow', textAlign: TextAlign.center,       style:
-                            _TextTheme.headline1,),
+                            _TextTheme.headline1!.copyWith(
+                              fontSize: 22.sp,
+                            ),),
                           ),
                         ),
                       ),
                       Text(""),
+
                       Container(
                         margin: EdgeInsets.only(bottom: h/60),
                         child:
@@ -149,23 +150,17 @@ at your location!""",
                             _loginBloc.add(SetPermission((b) =>b
                               ..is_notify=0
                             ));
-                            WidgetsBinding.instance!.addPostFrameCallback((_) =>
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    fullscreenDialog: true,
-                                    builder: (context) =>
-                                        NavigatorTopBar( GotToHomeAndOpenPanel: false,),
 
+                            WidgetsBinding.instance
+                                .addPostFrameCallback((_) =>
+                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                                    NavigatorTopBar(GotToHomeAndOpenPanel: false,)), (Route<dynamic> route) => false));
 
-                                  ),
-                                )
-                            );
                           },
                           child:     Text('Not Now', textAlign: TextAlign.center, style: TextStyle(
                               color: Color.fromRGBO(47, 47, 47, 1),
                               fontFamily: 'Red Hat Text',
-                              fontSize: 18,
+                              fontSize: 17.sp,
                               letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                               fontWeight: FontWeight.w300,
                               height: 1

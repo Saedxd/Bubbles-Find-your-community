@@ -41,6 +41,13 @@ class _$GetSubGenderSerializer implements StructuredSerializer<GetSubGender> {
             specifiedType: const FullType(
                 BuiltList, const [const FullType(SubgendersListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -70,6 +77,10 @@ class _$GetSubGenderSerializer implements StructuredSerializer<GetSubGender> {
                       BuiltList, const [const FullType(SubgendersListModel)]))!
               as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -84,11 +95,14 @@ class _$GetSubGender extends GetSubGender {
   final int? statuscode;
   @override
   final BuiltList<SubgendersListModel>? genders;
+  @override
+  final String? error;
 
   factory _$GetSubGender([void Function(GetSubGenderBuilder)? updates]) =>
       (new GetSubGenderBuilder()..update(updates))._build();
 
-  _$GetSubGender._({this.msg, this.statuscode, this.genders}) : super._();
+  _$GetSubGender._({this.msg, this.statuscode, this.genders, this.error})
+      : super._();
 
   @override
   GetSubGender rebuild(void Function(GetSubGenderBuilder) updates) =>
@@ -103,21 +117,24 @@ class _$GetSubGender extends GetSubGender {
     return other is GetSubGender &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        genders == other.genders;
+        genders == other.genders &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), genders.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), genders.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetSubGender')
+    return (newBuiltValueToStringHelper(r'GetSubGender')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('genders', genders))
+          ..add('genders', genders)
+          ..add('error', error))
         .toString();
   }
 }
@@ -140,6 +157,10 @@ class GetSubGenderBuilder
   set genders(ListBuilder<SubgendersListModel>? genders) =>
       _$this._genders = genders;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   GetSubGenderBuilder();
 
   GetSubGenderBuilder get _$this {
@@ -148,6 +169,7 @@ class GetSubGenderBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _genders = $v.genders?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -172,7 +194,10 @@ class GetSubGenderBuilder
     try {
       _$result = _$v ??
           new _$GetSubGender._(
-              msg: msg, statuscode: statuscode, genders: _genders?.build());
+              msg: msg,
+              statuscode: statuscode,
+              genders: _genders?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -180,7 +205,7 @@ class GetSubGenderBuilder
         _genders?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetSubGender', _$failedField, e.toString());
+            r'GetSubGender', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -189,4 +214,4 @@ class GetSubGenderBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

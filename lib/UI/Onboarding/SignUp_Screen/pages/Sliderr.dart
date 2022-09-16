@@ -3,8 +3,8 @@ import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/Interset_screen.dart';
 import 'package:bubbles/UI/Onboarding/SignUp_Screen/pages/UserData.dart';
 import 'package:bubbles/core/Colors/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
 import '../../../../core/theme/ResponsiveText.dart';
 
 class slider extends StatefulWidget {
@@ -72,7 +72,7 @@ class _sliderState extends State<slider> {
                                                       text: "Be ",
                                                       style: _TextTheme.headline1!.copyWith(
                                                           fontWeight: FontWeight.w400,
-                                                          fontSize: 22,
+                                                          fontSize: 20.sp,
                                                           color: Color(0xff606060)),
                                                     children: [
                                                       TextSpan(
@@ -81,7 +81,7 @@ class _sliderState extends State<slider> {
                                                               .copyWith(
                                                               fontWeight: FontWeight
                                                                   .w700,
-                                                              fontSize: 22,
+                                                              fontSize: 20.sp,
                                                               color:
                                                               Color(0xff606060))
                                                       )
@@ -95,7 +95,7 @@ class _sliderState extends State<slider> {
                                                           .copyWith(
                                                           fontWeight:
                                                           FontWeight.w700,
-                                                          fontSize: 22,
+                                                        fontSize: 20.sp,
                                                           color: Color(
                                                               0xff606060),
 
@@ -105,7 +105,7 @@ class _sliderState extends State<slider> {
                                                     text: "Be ",
                                                     style: _TextTheme.headline1!.copyWith(
                                                         fontWeight: FontWeight.w400,
-                                                        fontSize: 22,
+                                                        fontSize: 0.275.sp,
                                                         color: Color(0xff606060)),
                                                     children: [
                                                       TextSpan(
@@ -114,7 +114,7 @@ class _sliderState extends State<slider> {
                                                               .copyWith(
                                                               fontWeight:
                                                               FontWeight.w700,
-                                                              fontSize: 22,
+                                                              fontSize: 20.sp,
                                                               color: Color(
                                                                   0xff606060))
                                                       )
@@ -149,10 +149,10 @@ class _sliderState extends State<slider> {
                                            ? "Meet with people on the spot, and babble."
                                            : "And if you’re shy, don’t sweat it! Use your avatar and #bemore",
                                        textAlign: TextAlign.left,
-                                       style: const TextStyle(
+                                       style:  TextStyle(
                                            color: Color.fromRGBO(96, 96, 96, 1),
                                            fontFamily: 'Red Hat Text',
-                                           fontSize: 18,
+                                           fontSize: 16.5.sp,
                                            letterSpacing: 0,
                                            fontWeight: FontWeight.w400,
                                            height: 1),
@@ -163,12 +163,12 @@ class _sliderState extends State<slider> {
                                        width: w / 1.5,
                                        height: h / 17,
                                        margin: EdgeInsets.only(top: h/20),
-                                       decoration: const BoxDecoration(
+                                       decoration:  BoxDecoration(
                                          borderRadius: BorderRadius.only(
-                                           topLeft: Radius.circular(5),
-                                           topRight: Radius.circular(5),
-                                           bottomLeft: Radius.circular(5),
-                                           bottomRight: Radius.circular(5),
+                                           topLeft: Radius.circular(5.r),
+                                           topRight:Radius.circular(5.r),
+                                           bottomLeft: Radius.circular(5.r),
+                                           bottomRight:Radius.circular(5.r),
                                          ),
                                          boxShadow: [
                                            BoxShadow(
@@ -197,10 +197,7 @@ class _sliderState extends State<slider> {
                                            style :
                                            _TextTheme.headline1!.copyWith(
                                              fontWeight: FontWeight.w600,
-                                             fontSize: 3 *
-                                                 SizeConfig
-                                                     .blockSizeVertical!
-                                                     .toDouble(),
+                                             fontSize: 18.sp,
                                            ),
                                          ),
                                        ),
@@ -209,12 +206,12 @@ class _sliderState extends State<slider> {
                                        width: w / 1.5,
                                        height: h / 17,
                                        margin: EdgeInsets.only(top: h/20),
-                                       decoration: const BoxDecoration(
+                                       decoration:  BoxDecoration(
                                          borderRadius: BorderRadius.only(
-                                           topLeft: Radius.circular(5),
-                                           topRight: Radius.circular(5),
-                                           bottomLeft: Radius.circular(5),
-                                           bottomRight: Radius.circular(5),
+                                           topLeft: Radius.circular(5.r),
+                                           topRight:Radius.circular(5.r),
+                                           bottomLeft: Radius.circular(5.r),
+                                           bottomRight:Radius.circular(5.r),
                                          ),
                                          boxShadow: [
                                            BoxShadow(
@@ -227,7 +224,7 @@ class _sliderState extends State<slider> {
                                        ),
                                        child: InkWell(
                                          onTap: () {
-                                           WidgetsBinding.instance!.addPostFrameCallback(
+                                           WidgetsBinding.instance.addPostFrameCallback(
                                                    (_) => Navigator.pushReplacement(
                                                  context,
                                                  MaterialPageRoute(
@@ -242,11 +239,7 @@ class _sliderState extends State<slider> {
                                            textAlign: TextAlign.center,
                                            style:      _TextTheme.headline1!.copyWith(
                                              fontWeight: FontWeight.w600,
-                                             fontSize: 3 *
-
-                                                 SizeConfig
-                                                     .blockSizeVertical!
-                                                     .toDouble(),
+                                             fontSize: 18.sp,
                                            ),
                                          ),
                                        ),

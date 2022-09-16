@@ -16,25 +16,11 @@ part 'FlowChatModel.g.dart';
 
 abstract class FlowChatModel
     implements Built<FlowChatModel,FlowChatModelBuilder> {
-
+  String? get error;
   String? get msg;
   int? get statuscode;
   BuiltList<FlowMessagesModel>? get messages;
-//{
-//     "statuscode": 200,
-//     "msg": "success",
-//     "messages": [
-//         {
-//             "id": 8,
-//             "type": "text",
-//             "is_sender": false,
-//             "message": "good morning",
-//             "sender_name": "Saed",
-//             "CreatAt": "2022-07-14T17:44:07.000000Z",
-//             "sender_background_color": "0xffff9800",
-//             "sender_image": "https://admin.bubbles.app/public/storage/avatar/5L0NBaw6dcN51MI2hCmtzNnEoH0LAdTyqB5Wa0va.png",
-//             "replies": []
-//         },
+
 
 
   FlowChatModel._();

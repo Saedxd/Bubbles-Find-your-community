@@ -19,7 +19,7 @@ abstract class GetAliasModel
   String? get msg;
   int? get statuscode;
   FreindModel? get friend;
-
+  String? get error;
 
   GetAliasModel._();
   factory GetAliasModel([void Function(GetAliasModelBuilder b)? updates]) =  _$GetAliasModel;

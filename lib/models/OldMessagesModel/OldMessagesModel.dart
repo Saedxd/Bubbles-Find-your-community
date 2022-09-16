@@ -18,7 +18,7 @@ abstract class OldMessagesModel
   String? get msg;
   int? get statuscode;
   BuiltList<MessagesListModel>? get messages;
-
+  String? get error;
   OldMessagesModel._();
   factory OldMessagesModel([void Function(OldMessagesModelBuilder b)? updates]) =  _$OldMessagesModel;
   String toJson() {

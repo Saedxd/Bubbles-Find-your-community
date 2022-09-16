@@ -5,10 +5,8 @@ library GroupChat_state;
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
-
-import 'package:bubbles/UI/Bubbles/InBubble/EventChat/Data/Data.dart';
 import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/GroupChat_Screen.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/GetAliasModel/GetAliasModel.dart';
@@ -66,9 +64,9 @@ abstract class GroupChatState implements Built<GroupChatState,GroupChatStateBuil
   SendBubbleMessageModel? get SendBubbleReply;
   GetUsersInsideBubbleModel? get GetUsersInsideBubble;
   List<GroupChatMessage>? get messages;
-  List<UserDATA>? get User;
-  List<UserDATA>? get InsideBubbleUsers;
-  List<UserDATA>? get FilteredInsideBubbleUsers;
+  List<FrinedsData>? get User;
+  List<FrinedsData>? get InsideBubbleUsers;
+  List<FrinedsData>? get FilteredInsideBubbleUsers;
   List<FlowData>? get FlowList;
   AddNewFriendModel? get AddNewFriend;
 

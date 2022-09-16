@@ -34,6 +34,13 @@ class _$CheckMailModelSerializer
         ..add('statuscode')
         ..add(serializers.serialize(value, specifiedType: const FullType(int)));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -57,6 +64,10 @@ class _$CheckMailModelSerializer
           result.statuscode = serializers.deserialize(value,
               specifiedType: const FullType(int)) as int?;
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -69,11 +80,13 @@ class _$CheckMailModel extends CheckMailModel {
   final String? msg;
   @override
   final int? statuscode;
+  @override
+  final String? error;
 
   factory _$CheckMailModel([void Function(CheckMailModelBuilder)? updates]) =>
       (new CheckMailModelBuilder()..update(updates))._build();
 
-  _$CheckMailModel._({this.msg, this.statuscode}) : super._();
+  _$CheckMailModel._({this.msg, this.statuscode, this.error}) : super._();
 
   @override
   CheckMailModel rebuild(void Function(CheckMailModelBuilder) updates) =>
@@ -88,19 +101,22 @@ class _$CheckMailModel extends CheckMailModel {
     if (identical(other, this)) return true;
     return other is CheckMailModel &&
         msg == other.msg &&
-        statuscode == other.statuscode;
+        statuscode == other.statuscode &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, msg.hashCode), statuscode.hashCode));
+    return $jf(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CheckMailModel')
+    return (newBuiltValueToStringHelper(r'CheckMailModel')
           ..add('msg', msg)
-          ..add('statuscode', statuscode))
+          ..add('statuscode', statuscode)
+          ..add('error', error))
         .toString();
   }
 }
@@ -117,6 +133,10 @@ class CheckMailModelBuilder
   int? get statuscode => _$this._statuscode;
   set statuscode(int? statuscode) => _$this._statuscode = statuscode;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   CheckMailModelBuilder();
 
   CheckMailModelBuilder get _$this {
@@ -124,6 +144,7 @@ class CheckMailModelBuilder
     if ($v != null) {
       _msg = $v.msg;
       _statuscode = $v.statuscode;
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -144,11 +165,11 @@ class CheckMailModelBuilder
   CheckMailModel build() => _build();
 
   _$CheckMailModel _build() {
-    final _$result =
-        _$v ?? new _$CheckMailModel._(msg: msg, statuscode: statuscode);
+    final _$result = _$v ??
+        new _$CheckMailModel._(msg: msg, statuscode: statuscode, error: error);
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

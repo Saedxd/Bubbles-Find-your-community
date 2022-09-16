@@ -5,10 +5,7 @@ library FlowsChat_state;
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
-
-
-import 'package:bubbles/UI/Bubbles/InBubble/FlowChat/Data/Data.dart';
+import 'package:bubbles/core/Classes/Classes.dart';
 import 'package:bubbles/models/AddNewFriendModel/AddNewFriendModel.dart';
 import 'package:bubbles/models/EventOldMessagesModel/EventOldMessagesModel.dart';
 import 'package:bubbles/models/FlowChatModel/FlowChatModel.dart';

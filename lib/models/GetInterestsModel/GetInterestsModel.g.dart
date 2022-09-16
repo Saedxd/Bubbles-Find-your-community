@@ -42,6 +42,13 @@ class _$GetInterestsModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(InterestsListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -71,6 +78,10 @@ class _$GetInterestsModelSerializer
                       BuiltList, const [const FullType(InterestsListModel)]))!
               as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -85,12 +96,14 @@ class _$GetInterestsModel extends GetInterestsModel {
   final int? StatusCode;
   @override
   final BuiltList<InterestsListModel>? interests;
+  @override
+  final String? error;
 
   factory _$GetInterestsModel(
           [void Function(GetInterestsModelBuilder)? updates]) =>
       (new GetInterestsModelBuilder()..update(updates))._build();
 
-  _$GetInterestsModel._({this.msg, this.StatusCode, this.interests})
+  _$GetInterestsModel._({this.msg, this.StatusCode, this.interests, this.error})
       : super._();
 
   @override
@@ -107,21 +120,24 @@ class _$GetInterestsModel extends GetInterestsModel {
     return other is GetInterestsModel &&
         msg == other.msg &&
         StatusCode == other.StatusCode &&
-        interests == other.interests;
+        interests == other.interests &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc(0, msg.hashCode), StatusCode.hashCode), interests.hashCode));
+        $jc($jc($jc(0, msg.hashCode), StatusCode.hashCode), interests.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('GetInterestsModel')
+    return (newBuiltValueToStringHelper(r'GetInterestsModel')
           ..add('msg', msg)
           ..add('StatusCode', StatusCode)
-          ..add('interests', interests))
+          ..add('interests', interests)
+          ..add('error', error))
         .toString();
   }
 }
@@ -144,6 +160,10 @@ class GetInterestsModelBuilder
   set interests(ListBuilder<InterestsListModel>? interests) =>
       _$this._interests = interests;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   GetInterestsModelBuilder();
 
   GetInterestsModelBuilder get _$this {
@@ -152,6 +172,7 @@ class GetInterestsModelBuilder
       _msg = $v.msg;
       _StatusCode = $v.StatusCode;
       _interests = $v.interests?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -176,7 +197,10 @@ class GetInterestsModelBuilder
     try {
       _$result = _$v ??
           new _$GetInterestsModel._(
-              msg: msg, StatusCode: StatusCode, interests: _interests?.build());
+              msg: msg,
+              StatusCode: StatusCode,
+              interests: _interests?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -184,7 +208,7 @@ class GetInterestsModelBuilder
         _interests?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'GetInterestsModel', _$failedField, e.toString());
+            r'GetInterestsModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -193,4 +217,4 @@ class GetInterestsModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

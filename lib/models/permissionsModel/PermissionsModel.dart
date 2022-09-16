@@ -17,7 +17,7 @@ abstract class PermissionsModel
 
   String? get msg;
   int? get statuscode;
-
+  String? get error;
 
 
   PermissionsModel._();

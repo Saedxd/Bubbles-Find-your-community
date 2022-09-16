@@ -129,6 +129,11 @@ ThemeData darkTheme = ThemeData(
   appBarTheme:  const AppBarTheme(
       color: Colors.black
   ),
+  dialogTheme: const DialogTheme(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)))
+  ),
+
   textTheme:  const TextTheme(
       headline2:  TextStyle(//uSED FOR Headlines like Top onces like choose Avatar Headline
           color: Color.fromRGBO(234, 234, 234, 1),

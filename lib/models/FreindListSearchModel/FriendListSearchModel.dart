@@ -18,7 +18,7 @@ abstract class FriendListSearchModel
     implements Built<FriendListSearchModel,FriendListSearchModelBuilder> {
 
  BuiltList<FreindsFilteredListModel>? get user;
-
+ String? get error;
 
   FriendListSearchModel._();
   factory FriendListSearchModel([void Function(FriendListSearchModelBuilder b)? updates]) =  _$FriendListSearchModel;

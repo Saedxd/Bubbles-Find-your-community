@@ -98,17 +98,18 @@ class _$DataPrimeBubblesSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.category;
-    if (value != null) {
-      result
-        ..add('category')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     value = object.organizers;
     if (value != null) {
       result
         ..add('organizers')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(
+                BuiltList, const [const FullType(OrganizersListModel)])));
+    }
+    value = object.moderators;
+    if (value != null) {
+      result
+        ..add('moderators')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(
                 BuiltList, const [const FullType(OrganizersListModel)])));
@@ -144,6 +145,13 @@ class _$DataPrimeBubblesSerializer
         ..add(serializers.serialize(value,
             specifiedType: const FullType(BuiltList,
                 const [const FullType(UsersInsideBubbleListModel)])));
+    }
+    value = object.category;
+    if (value != null) {
+      result
+        ..add('category')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(EventCategoryModel)));
     }
     value = object.id;
     if (value != null) {
@@ -231,12 +239,14 @@ class _$DataPrimeBubblesSerializer
           result.end_event_date = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'category':
-          result.category = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
         case 'organizers':
           result.organizers.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(OrganizersListModel)]))!
+              as BuiltList<Object?>);
+          break;
+        case 'moderators':
+          result.moderators.replace(serializers.deserialize(value,
                   specifiedType: const FullType(
                       BuiltList, const [const FullType(OrganizersListModel)]))!
               as BuiltList<Object?>);
@@ -264,6 +274,11 @@ class _$DataPrimeBubblesSerializer
               specifiedType: const FullType(BuiltList, const [
                 const FullType(UsersInsideBubbleListModel)
               ]))! as BuiltList<Object?>);
+          break;
+        case 'category':
+          result.category.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(EventCategoryModel))!
+              as EventCategoryModel);
           break;
         case 'id':
           result.id = serializers.deserialize(value,
@@ -313,9 +328,9 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
   @override
   final String? end_event_date;
   @override
-  final String? category;
-  @override
   final BuiltList<OrganizersListModel>? organizers;
+  @override
+  final BuiltList<OrganizersListModel>? moderators;
   @override
   final BuiltList<ImagesEventListModel>? images;
   @override
@@ -324,6 +339,8 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
   final BuiltList<UsersInsideBubbleListModel>? users_in_bubble;
   @override
   final BuiltList<UsersInsideBubbleListModel>? saved_users;
+  @override
+  final EventCategoryModel? category;
   @override
   final int? id;
   @override
@@ -349,12 +366,13 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
       this.is_available,
       this.start_event_date,
       this.end_event_date,
-      this.category,
       this.organizers,
+      this.moderators,
       this.images,
       this.dates,
       this.users_in_bubble,
       this.saved_users,
+      this.category,
       this.id,
       this.radius,
       this.created_by,
@@ -384,12 +402,13 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
         is_available == other.is_available &&
         start_event_date == other.start_event_date &&
         end_event_date == other.end_event_date &&
-        category == other.category &&
         organizers == other.organizers &&
+        moderators == other.moderators &&
         images == other.images &&
         dates == other.dates &&
         users_in_bubble == other.users_in_bubble &&
         saved_users == other.saved_users &&
+        category == other.category &&
         id == other.id &&
         radius == other.radius &&
         created_by == other.created_by &&
@@ -416,22 +435,22 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
                                                                 $jc(
                                                                     $jc(
                                                                         $jc(
-                                                                            $jc($jc($jc(0, title.hashCode), color.hashCode),
-                                                                                location.hashCode),
-                                                                            description.hashCode),
-                                                                        draw_type.hashCode),
-                                                                    type.hashCode),
-                                                                lat.hashCode),
-                                                            lng.hashCode),
-                                                        is_available.hashCode),
-                                                    start_event_date.hashCode),
-                                                end_event_date.hashCode),
-                                            category.hashCode),
-                                        organizers.hashCode),
-                                    images.hashCode),
-                                dates.hashCode),
-                            users_in_bubble.hashCode),
-                        saved_users.hashCode),
+                                                                            $jc($jc($jc($jc(0, title.hashCode), color.hashCode), location.hashCode),
+                                                                                description.hashCode),
+                                                                            draw_type.hashCode),
+                                                                        type.hashCode),
+                                                                    lat.hashCode),
+                                                                lng.hashCode),
+                                                            is_available.hashCode),
+                                                        start_event_date.hashCode),
+                                                    end_event_date.hashCode),
+                                                organizers.hashCode),
+                                            moderators.hashCode),
+                                        images.hashCode),
+                                    dates.hashCode),
+                                users_in_bubble.hashCode),
+                            saved_users.hashCode),
+                        category.hashCode),
                     id.hashCode),
                 radius.hashCode),
             created_by.hashCode),
@@ -440,7 +459,7 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('DataPrimeBubbles')
+    return (newBuiltValueToStringHelper(r'DataPrimeBubbles')
           ..add('title', title)
           ..add('color', color)
           ..add('location', location)
@@ -452,12 +471,13 @@ class _$DataPrimeBubbles extends DataPrimeBubbles {
           ..add('is_available', is_available)
           ..add('start_event_date', start_event_date)
           ..add('end_event_date', end_event_date)
-          ..add('category', category)
           ..add('organizers', organizers)
+          ..add('moderators', moderators)
           ..add('images', images)
           ..add('dates', dates)
           ..add('users_in_bubble', users_in_bubble)
           ..add('saved_users', saved_users)
+          ..add('category', category)
           ..add('id', id)
           ..add('radius', radius)
           ..add('created_by', created_by)
@@ -516,15 +536,17 @@ class DataPrimeBubblesBuilder
   set end_event_date(String? end_event_date) =>
       _$this._end_event_date = end_event_date;
 
-  String? _category;
-  String? get category => _$this._category;
-  set category(String? category) => _$this._category = category;
-
   ListBuilder<OrganizersListModel>? _organizers;
   ListBuilder<OrganizersListModel> get organizers =>
       _$this._organizers ??= new ListBuilder<OrganizersListModel>();
   set organizers(ListBuilder<OrganizersListModel>? organizers) =>
       _$this._organizers = organizers;
+
+  ListBuilder<OrganizersListModel>? _moderators;
+  ListBuilder<OrganizersListModel> get moderators =>
+      _$this._moderators ??= new ListBuilder<OrganizersListModel>();
+  set moderators(ListBuilder<OrganizersListModel>? moderators) =>
+      _$this._moderators = moderators;
 
   ListBuilder<ImagesEventListModel>? _images;
   ListBuilder<ImagesEventListModel> get images =>
@@ -549,6 +571,12 @@ class DataPrimeBubblesBuilder
       _$this._saved_users ??= new ListBuilder<UsersInsideBubbleListModel>();
   set saved_users(ListBuilder<UsersInsideBubbleListModel>? saved_users) =>
       _$this._saved_users = saved_users;
+
+  EventCategoryModelBuilder? _category;
+  EventCategoryModelBuilder get category =>
+      _$this._category ??= new EventCategoryModelBuilder();
+  set category(EventCategoryModelBuilder? category) =>
+      _$this._category = category;
 
   int? _id;
   int? get id => _$this._id;
@@ -584,12 +612,13 @@ class DataPrimeBubblesBuilder
       _is_available = $v.is_available;
       _start_event_date = $v.start_event_date;
       _end_event_date = $v.end_event_date;
-      _category = $v.category;
       _organizers = $v.organizers?.toBuilder();
+      _moderators = $v.moderators?.toBuilder();
       _images = $v.images?.toBuilder();
       _dates = $v.dates?.toBuilder();
       _users_in_bubble = $v.users_in_bubble?.toBuilder();
       _saved_users = $v.saved_users?.toBuilder();
+      _category = $v.category?.toBuilder();
       _id = $v.id;
       _radius = $v.radius;
       _created_by = $v.created_by?.toBuilder();
@@ -629,12 +658,13 @@ class DataPrimeBubblesBuilder
               is_available: is_available,
               start_event_date: start_event_date,
               end_event_date: end_event_date,
-              category: category,
               organizers: _organizers?.build(),
+              moderators: _moderators?.build(),
               images: _images?.build(),
               dates: _dates?.build(),
               users_in_bubble: _users_in_bubble?.build(),
               saved_users: _saved_users?.build(),
+              category: _category?.build(),
               id: id,
               radius: radius,
               created_by: _created_by?.build(),
@@ -644,6 +674,8 @@ class DataPrimeBubblesBuilder
       try {
         _$failedField = 'organizers';
         _organizers?.build();
+        _$failedField = 'moderators';
+        _moderators?.build();
         _$failedField = 'images';
         _images?.build();
         _$failedField = 'dates';
@@ -652,12 +684,14 @@ class DataPrimeBubblesBuilder
         _users_in_bubble?.build();
         _$failedField = 'saved_users';
         _saved_users?.build();
+        _$failedField = 'category';
+        _category?.build();
 
         _$failedField = 'created_by';
         _created_by?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'DataPrimeBubbles', _$failedField, e.toString());
+            r'DataPrimeBubbles', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -666,4 +700,4 @@ class DataPrimeBubblesBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

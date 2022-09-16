@@ -46,6 +46,13 @@ class _$SuggestFriendsModelSerializer
             specifiedType: const FullType(
                 BuiltList, const [const FullType(SuggestedListModel)])));
     }
+    value = object.error;
+    if (value != null) {
+      result
+        ..add('error')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
     return result;
   }
 
@@ -75,6 +82,10 @@ class _$SuggestFriendsModelSerializer
                       BuiltList, const [const FullType(SuggestedListModel)]))!
               as BuiltList<Object?>);
           break;
+        case 'error':
+          result.error = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
       }
     }
 
@@ -89,12 +100,15 @@ class _$SuggestFriendsModel extends SuggestFriendsModel {
   final int? statuscode;
   @override
   final BuiltList<SuggestedListModel>? users;
+  @override
+  final String? error;
 
   factory _$SuggestFriendsModel(
           [void Function(SuggestFriendsModelBuilder)? updates]) =>
       (new SuggestFriendsModelBuilder()..update(updates))._build();
 
-  _$SuggestFriendsModel._({this.msg, this.statuscode, this.users}) : super._();
+  _$SuggestFriendsModel._({this.msg, this.statuscode, this.users, this.error})
+      : super._();
 
   @override
   SuggestFriendsModel rebuild(
@@ -111,21 +125,24 @@ class _$SuggestFriendsModel extends SuggestFriendsModel {
     return other is SuggestFriendsModel &&
         msg == other.msg &&
         statuscode == other.statuscode &&
-        users == other.users;
+        users == other.users &&
+        error == other.error;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), users.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, msg.hashCode), statuscode.hashCode), users.hashCode),
+        error.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('SuggestFriendsModel')
+    return (newBuiltValueToStringHelper(r'SuggestFriendsModel')
           ..add('msg', msg)
           ..add('statuscode', statuscode)
-          ..add('users', users))
+          ..add('users', users)
+          ..add('error', error))
         .toString();
   }
 }
@@ -147,6 +164,10 @@ class SuggestFriendsModelBuilder
       _$this._users ??= new ListBuilder<SuggestedListModel>();
   set users(ListBuilder<SuggestedListModel>? users) => _$this._users = users;
 
+  String? _error;
+  String? get error => _$this._error;
+  set error(String? error) => _$this._error = error;
+
   SuggestFriendsModelBuilder();
 
   SuggestFriendsModelBuilder get _$this {
@@ -155,6 +176,7 @@ class SuggestFriendsModelBuilder
       _msg = $v.msg;
       _statuscode = $v.statuscode;
       _users = $v.users?.toBuilder();
+      _error = $v.error;
       _$v = null;
     }
     return this;
@@ -179,7 +201,10 @@ class SuggestFriendsModelBuilder
     try {
       _$result = _$v ??
           new _$SuggestFriendsModel._(
-              msg: msg, statuscode: statuscode, users: _users?.build());
+              msg: msg,
+              statuscode: statuscode,
+              users: _users?.build(),
+              error: error);
     } catch (_) {
       late String _$failedField;
       try {
@@ -187,7 +212,7 @@ class SuggestFriendsModelBuilder
         _users?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
-            'SuggestFriendsModel', _$failedField, e.toString());
+            r'SuggestFriendsModel', _$failedField, e.toString());
       }
       rethrow;
     }
@@ -196,4 +221,4 @@ class SuggestFriendsModelBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

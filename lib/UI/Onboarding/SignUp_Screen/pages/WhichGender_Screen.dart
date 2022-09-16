@@ -9,6 +9,7 @@ import 'package:bubbles/core/Colors/constants.dart';
 import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
@@ -62,17 +63,14 @@ bool DiditOnce = false;
                         margin: EdgeInsets.only(top: h/40),
                         child: InkWell(
                           onTap: (){
-                            WidgetsBinding.instance!.addPostFrameCallback((_) =>
+                            WidgetsBinding.instance.addPostFrameCallback((_) =>
                                 Navigator.of(context).pop()
                             );
                           },
                           child: Text('<',
                               textAlign: TextAlign.left,style: _TextTheme.headline1!.copyWith(
                                   color: Color.fromRGBO(148, 38, 87, 1),
-                                  fontSize: 5 *
-                                      SizeConfig
-                                          .blockSizeVertical!
-                                          .toDouble(),
+                                  fontSize: 20.sp,
                                   letterSpacing: 0.3,
                                   fontWeight: FontWeight.w300,
                                   height: 1
@@ -84,7 +82,7 @@ bool DiditOnce = false;
                         child: Text('How do you identify?', textAlign: TextAlign.center, style: TextStyle(
                             color: Color.fromRGBO(148, 38, 87, 1),
                             fontFamily: 'Red Hat Text',
-                            fontSize: 23,
+                            fontSize: 23.sp,
                             letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
                             fontWeight: FontWeight.w600,
                             height: 1
@@ -121,13 +119,13 @@ bool DiditOnce = false;
                               },
                               child: Container(
                                 width: w/1.1,
-                                height: h/7,
+                                height: h/9,
                                 decoration: BoxDecoration(
                                   borderRadius : BorderRadius.only(
-                                    topLeft: Radius.circular(5),
-                                    topRight: Radius.circular(5),
-                                    bottomLeft: Radius.circular(5),
-                                    bottomRight: Radius.circular(5),
+                                    topLeft: Radius.circular(5.r),
+                                    topRight: Radius.circular(5.r),
+                                    bottomLeft: Radius.circular(5.r),
+                                    bottomRight: Radius.circular(5.r),
                                   ),
                                   color : Color.fromRGBO(207, 109, 56, 1),
                                 )
@@ -141,10 +139,7 @@ bool DiditOnce = false;
                                             textAlign: TextAlign.left, style :_TextTheme.headline1!.copyWith(
                                                 color:  Selected[index] == 1 ?Colors.black :Color.fromRGBO(255, 255, 255, 1),
                                                 fontFamily: 'Red Hat Text',
-                                                fontSize: 3.5 *
-                                                    SizeConfig
-                                                        .blockSizeVertical!
-                                                        .toDouble(),
+                                                fontSize: 20.sp,
                                                 letterSpacing: 0.2,
                                                 fontWeight: FontWeight.w400,
                                                 height: 1
@@ -194,10 +189,10 @@ bool DiditOnce = false;
                       margin: EdgeInsets.only(top: h/30),
                       decoration: BoxDecoration(
                         borderRadius : BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                          bottomLeft: Radius.circular(5),
-                          bottomRight: Radius.circular(5),
+                          topLeft: Radius.circular(5.r),
+                          topRight: Radius.circular(5.r),
+                          bottomLeft: Radius.circular(5.r),
+                          bottomRight: Radius.circular(5.r),
                         ),
                         color : Color.fromRGBO(148, 38, 87, 1),
                       ),
@@ -205,10 +200,7 @@ bool DiditOnce = false;
                         child:  Text('Confirm', textAlign: TextAlign.center,     style:
                         _TextTheme.headline1!.copyWith(
                             fontWeight: FontWeight.w600,
-                          fontSize: 3 *
-                              SizeConfig
-                                  .blockSizeVertical!
-                                  .toDouble(),
+                          fontSize: 19.sp
                         ),),
                       ),
                     ),
@@ -223,9 +215,9 @@ bool DiditOnce = false;
 
   }
   Widget listLoader({context}) {
-    return const SpinKitThreeBounce(
+    return  SpinKitThreeBounce(
       color: Colors.blue,
-      size: 30.0,
+      size: 30.0.w,
     );
   }
 }
