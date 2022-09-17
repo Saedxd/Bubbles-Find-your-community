@@ -9,6 +9,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:conditional_questions/conditional_questions.dart';
+
+import 'package:google_fonts/google_fonts.dart';
 class TakeQuiz_Screen extends StatefulWidget {
   const TakeQuiz_Screen({Key? key}) : super(key: key);
 

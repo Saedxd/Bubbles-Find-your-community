@@ -113,6 +113,11 @@ bool DidItOnce = false;
     DiditONCE =true;
     WidgetsBinding.instance.addObserver(this);
     _TopBarBloc.add(GetFreinds());
+
+    timer2112 = Timer.periodic(Duration(seconds: 10), (Timer t)async{
+      return
+        _TopBarBloc.add(GetBadge());
+    });
   }
 
   @override
@@ -445,7 +450,7 @@ bool DidItOnce = false;
                                               ChangePAGEINDEX((b) =>  b
                                                 ..num = 1
                                               ));
-                                          //  _TopBarBloc.add(ClearBadge());
+                                          _TopBarBloc.add(ClearBadge());
                                           state.Index2==true
                                               ? _TopBarBloc.add(ChangeIndex2())
                                               :null;
@@ -480,13 +485,32 @@ bool DidItOnce = false;
                                               Stack(
                                                 children: [
 
-                                                  SvgPicture.asset(
-                                                      "Assets/images/Vector.svg",
-                                                      width: h / 30,
-                                                      color: state.Index3!
-                                                          ? const Color(0xffCF6D38)
-                                                          :ColorS.tertiary
+
+                                                  Center(
+                                                    child: SvgPicture.asset(
+                                                        "Assets/images/Vector.svg",
+                                                        width: h / 30,
+                                                        color: state.Index3!
+                                                            ? const Color(0xffCF6D38)
+                                                            :ColorS.tertiary
+                                                    ),
                                                   ),
+
+
+                                                  state.BadgeCounter!.toString()!="0"?
+                                                  Positioned(
+                                                    left: 6.w,
+                                                    top: 12.h,
+                                                    child: Center(
+                                                      child: CircleAvatar(
+                                                        radius: 8.r,
+                                                        backgroundColor: Colors.red,
+                                                        child: Text(state.BadgeCounter!.toString(),style: TextStyle(
+                                                            fontSize: 12.sp
+                                                        ),),
+                                                      ),
+                                                    ),
+                                                  ):Container(),
 
 
 
@@ -614,23 +638,23 @@ bool DidItOnce = false;
                                   )
                                 ],
                               ),
-                              !state.isLoading!
-                                  ?state.BadgeCounter!.toString()!="0"?
-                              Positioned(
-                                top: h/50,
-                                left: w/5.9,
-                                child: CircleAvatar(
-                                  radius: 7,
-                                  backgroundColor: Colors.red,
-                                  child: Center(
-                                    child: Text(state.BadgeCounter.toString(),style: TextStyle(
-                                      fontSize: 0.18.sp,
-                                      color: Colors.white,
-                                    ),),
-                                  ),
-                                ),
-                              ):Text("")
-                                  :Text("")
+                              // !state.isLoading!
+                              //     ?state.BadgeCounter!.toString()!="0"?
+                              // Positioned(
+                              //   top: h/50,
+                              //   left: w/5.9,
+                              //   child: CircleAvatar(
+                              //     radius: 7,
+                              //     backgroundColor: Colors.red,
+                              //     child: Center(
+                              //       child: Text(state.BadgeCounter.toString(),style: TextStyle(
+                              //         fontSize: 0.18.sp,
+                              //         color: Colors.white,
+                              //       ),),
+                              //     ),
+                              //   ),
+                              // ):Text("")
+                              //     :Text("")
                             ],
                             ),
                           )

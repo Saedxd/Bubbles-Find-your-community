@@ -216,9 +216,9 @@ class _QR_ScannerState extends State<QR_Scanner> {
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
                   borderColor: Colors.white,
-                  borderRadius: 10,
+                  borderRadius: 10.r,
                   borderLength: 100,
-                  borderWidth: 10,
+                  borderWidth: 10.w,
                   cutOutSize: MediaQuery.of(context).size.width * 0.5
               ),
               onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
@@ -229,8 +229,9 @@ class _QR_ScannerState extends State<QR_Scanner> {
             if (state.AddFreindBarCode!.statuscode==200){
               WidgetsBinding.instance.addPostFrameCallback((_){
                 Navigator.pop(context, 'Yep!');
+                Diditonce = true;
               });
-              Diditonce = true;
+
             }
           }
 

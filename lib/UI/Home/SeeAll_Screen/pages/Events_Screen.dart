@@ -39,20 +39,21 @@ class _Events_ScreenState extends State<Events_Screen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<bool>? Saved_Status=[];
   final _SeeAllBloc = sl<SeeAllBloc>();
-
+  var BubblesInReverse;
 @override
   void initState() {
     super.initState();
 
-
+    Iterable inReverseBubbles = widget.Bubble.reversed;
+    BubblesInReverse  = inReverseBubbles.toList();
     Type  = widget.Type;
     if (widget.Type!='Nearby Primes') {
-      Event_Statuses = List.filled(widget.Bubble.length,false);
-      Event_IDS = List.filled(widget.Bubble.length,0);
-      for (int i = 0; i < widget.Bubble.length; i++) {
-        Saved_Status!.add(widget.Bubble[i].is_Saved!);
-        Event_IDS![i] = widget.Bubble[i].id!;
-       Event_Statuses![i] = widget.Bubble[i].is_Saved!;
+      Event_Statuses = List.filled(BubblesInReverse.length,false);
+      Event_IDS = List.filled(BubblesInReverse.length,0);
+      for (int i = 0; i < BubblesInReverse.length; i++) {
+        Saved_Status!.add(BubblesInReverse[i].is_Saved!);
+        Event_IDS![i] = BubblesInReverse[i].id!;
+       Event_Statuses![i] = BubblesInReverse[i].is_Saved!;
       }
 
 
@@ -69,7 +70,8 @@ class _Events_ScreenState extends State<Events_Screen> {
   }
 
 
-
+// Navigator.of(context).pop();
+//           return false;
   bool Diditonce = false;
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,14 @@ class _Events_ScreenState extends State<Events_Screen> {
     ColorScheme ColorS = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
-    return BlocBuilder(
+    return  WillPopScope(
+        onWillPop: () async {
+
+          Navigator.pop(context,"Yes!");
+      return false;
+    },
+    child:
+    BlocBuilder(
         bloc: _SeeAllBloc,
         builder: (BuildContext Context, SeeAllState state)
     {
@@ -538,7 +547,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                               behavior: MyBehavior(),
                               child:
                               GridView.builder(
-                                  itemCount: widget.Bubble.length,
+                                  itemCount: BubblesInReverse.length,
                                   scrollDirection: Axis.vertical,
                                   physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:
@@ -561,9 +570,9 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                               context) =>
 
                                                               Plan_Screen(
-                                                                Bubble:widget.Bubble[index],
+                                                                Bubble:BubblesInReverse[index],
                                                                 my_id: widget.my_id,
-                                                                is_saved:widget.Bubble[index].is_Saved,
+                                                                is_saved:BubblesInReverse[index].is_Saved,
                                                               ),
                                                         ),
                                                       ));
@@ -595,7 +604,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                               child:CachedNetworkImage(
                                                                 fit: BoxFit.fitWidth,
                                                                 imageUrl:
-                                                                widget.Bubble[index].image.toString(),
+                                                                BubblesInReverse[index].image.toString(),
 
                                                                 placeholder: (context, url) => Row(
                                                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -619,7 +628,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 ),
                                                                 color: Colors.transparent,
                                                                 boxShadow : [BoxShadow(
-                                                                    color: Color(widget.Bubble[index].Color!).withOpacity(.5),
+                                                                    color: Color(BubblesInReverse[index].Color!).withOpacity(.5),
                                                                     offset: Offset(0,2),
                                                                     blurRadius: 8.628571510314941.r
                                                                 )],
@@ -634,16 +643,16 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                             child: Row(
                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
-                                                                widget.Bubble[index].User_type=="user"
+                                                                BubblesInReverse[index].User_type=="user"
                                                                     ? Row(
                                                                   children: [
                                                                     CircleAvatar(
                                                                       radius: 8.r,
-                                                                      backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
-                                                                      backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
+                                                                      backgroundColor: Color(int.parse(BubblesInReverse[index].Creator_Color!)),
+                                                                      backgroundImage: NetworkImage(BubblesInReverse[index].Creator_Avatar!),
                                                                     ),
                                                                      SizedBox(width: 10.w,),
-                                                                    Text(widget.Bubble[index].Creator_Alias!, textAlign: TextAlign.left, style:  TextStyle(
+                                                                    Text(BubblesInReverse[index].Creator_Alias!, textAlign: TextAlign.left, style:  TextStyle(
                                                                         color: Color.fromRGBO(255, 255, 255, 1),
                                                                         fontFamily: 'Red Hat Display',
                                                                         fontSize: 5.48.sp,
@@ -681,7 +690,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                     }
                                                                     _SeeAllBloc.add(
                                                                         ToggleSaveBubbleEventScreen((b) => b
-                                                                          ..Bubble_id = widget.Bubble[index].id
+                                                                          ..Bubble_id = BubblesInReverse[index].id
                                                                           ..index = index
                                                                           ..List_type = widget.Type
                                                                           ..Saved_Status =state.Saved_Status![index]
@@ -719,11 +728,11 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                         Container(
                                                                           width: w/2.8,
                                                                           child:      Text(
-                                                                            widget.Bubble[index].Title.toString(),
+                                                                            BubblesInReverse[index].Title.toString(),
                                                                             textAlign: TextAlign.left,
                                                                             overflow: TextOverflow.ellipsis,
                                                                             style : GoogleFonts.roboto().copyWith(
-                                                                              color: Color(widget.Bubble[index].Color!),
+                                                                              color: Color(BubblesInReverse[index].Color!),
                                                                               fontSize: 9.sp,
                                                                               letterSpacing: 0,
                                                                               fontWeight: FontWeight.w600,
@@ -735,7 +744,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                     Container(
                                                                       width: w/2.8,
                                                                       child:  Text(
-                                                                        "At ${ widget.Bubble[index].location.toString()}",
+                                                                        "At ${ BubblesInReverse[index].location.toString()}",
                                                                         textAlign: TextAlign.left,
                                                                         overflow: TextOverflow.ellipsis,
                                                                         style : GoogleFonts.roboto().copyWith(
@@ -753,13 +762,13 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                         Container(
                                                                           width: w/55,
                                                                           child:
-                                                                          Image.network(widget.Bubble[index].Cateogory_Icon!),
+                                                                          Image.network(BubblesInReverse[index].Cateogory_Icon!),
                                                                         ),
                                                                         SizedBox(width: 3.w,),
                                                                 Container(
                                                                     width: w/4,
                                                                     child:Text(
-                                                                       "${widget.Bubble[index].Category!} Event", textAlign: TextAlign.left, style: TextStyle(
+                                                                       "${BubblesInReverse[index].Category!} Event", textAlign: TextAlign.left, style: TextStyle(
                                                                               color: Color.fromRGBO(255, 255, 255, 1),
                                                                               fontFamily: 'Red Hat Text',
                                                                               fontSize: 5.5.sp,
@@ -781,7 +790,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 SvgPicture.asset(
                                                                   "Assets/images/Exclude.svg",
                                                                   width: w/12,
-                                                                  color : Color(widget.Bubble[index].Color!),
+                                                                  color : Color(BubblesInReverse[index].Color!),
                                                                 ),
                                                               ],
                                                             ),
@@ -807,7 +816,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                   builder: (
                                                       context) =>
                                                       PrimePlan_page(
-                                                        Bubble:widget.Bubble[index],   my_id:widget.my_id ,     List_Type: "PRIME",is_saved: widget.Bubble[index].is_Saved,  ),
+                                                        Bubble:BubblesInReverse[index],   my_id:widget.my_id ,     List_Type: "PRIME",is_saved: BubblesInReverse[index].is_Saved,  ),
                                                 ),
                                               ));
 
@@ -834,7 +843,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                               Stack(
                                                 children: [
                                                   CachedNetworkImage(
-                                                    imageUrl:widget.Bubble[index].image!,
+                                                    imageUrl:BubblesInReverse[index].image!,
                                                     imageBuilder: (context, imageProvider) => Container(
                                                       width: w/2.2,
                                                       height: h / 6,
@@ -891,16 +900,16 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                     child:
                                                     Container(
                                                       width: w/3.7,height: h/15,
-                                                      margin: EdgeInsets.only(left:widget.Bubble[index].users_in_bubble!.length==1
+                                                      margin: EdgeInsets.only(left:BubblesInReverse[index].users_in_bubble!.length==1
                                                           ?  w/20
-                                                          :widget.Bubble[index].users_in_bubble!.length==2
+                                                          :BubblesInReverse[index].users_in_bubble!.length==2
                                                           ?w/50
                                                           :    w/130
                                                           ,bottom: h/10),   child: ListView.builder(
-                                                        itemCount: widget.Bubble[index].users_in_bubble!.length<3?  widget.Bubble[index].users_in_bubble!.length:3,
+                                                        itemCount: BubblesInReverse[index].users_in_bubble!.length<3?  BubblesInReverse[index].users_in_bubble!.length:3,
                                                         scrollDirection: Axis.horizontal,
                                                         itemBuilder: (BuildContext context, int index2) {
-                                                          String Value =   widget.Bubble[index].users_in_bubble![index2].background_color.toString();
+                                                          String Value =   BubblesInReverse[index].users_in_bubble![index2].background_color.toString();
                                                           if (Value.contains("#",0)){
                                                             Value = Value.substring(1);
                                                             Value = "0xff$Value";
@@ -922,9 +931,9 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                         Wrap(
                                                                           children: [
                                                                             CircleAvatar(
-                                                                              radius: 6.w,
+                                                                              radius: 6.r,
                                                                               backgroundColor: Color(BackgroundColor),
-                                                                              backgroundImage: NetworkImage( widget.Bubble[index].users_in_bubble![index2].avatar.toString()),
+                                                                              backgroundImage: NetworkImage( BubblesInReverse[index].users_in_bubble![index2].avatar.toString()),
                                                                             )
                                                                           ],
 
@@ -942,7 +951,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                   Positioned(
                                                     left: w/2.8,
                                                     top: h/6.8,
-                                                    child: Text("+${ widget.Bubble[index].users_in_bubble!.length.toString()}", textAlign: TextAlign.left, style: TextStyle(
+                                                    child: Text("+${ BubblesInReverse[index].users_in_bubble!.length.toString()}", textAlign: TextAlign.left, style: TextStyle(
                                                         color: Color.fromRGBO(255, 255, 255, 1),
                                                         fontFamily: 'Red Hat Text',
                                                         fontSize: 0.184.sp,
@@ -971,13 +980,13 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                       SizedBox(height: 2.h,),
                                                       Column(
                                                         children: [
-                                                          SizedBox(height: 3.h,),
                                                           Stack(
                                                             children:[
+                                                              
                                                               SvgPicture.asset(
                                                                 "Assets/images/Exclude.svg",
-                                                                color : Color(widget.Bubble[index].Color!),
-                                                                width: w/9.5,
+                                                                color : Color(BubblesInReverse[index].Color!),
+                                                                width: w/12.9,
                                                               ),
                                                               Positioned(
                                                                   left: 0,
@@ -990,7 +999,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                       Container(
                                                                         width: w/45,
                                                                         child:
-                                                                        Image.network(widget.Bubble[index].Cateogory_Icon!,  fit: BoxFit.fill,),
+                                                                        Image.network(BubblesInReverse[index].Cateogory_Icon!,  fit: BoxFit.fill,),
                                                                       )
                                                                     ],
                                                                   ))
@@ -1006,7 +1015,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                             child: Container(
                                                               width: w/4.2,
                                                               color: Colors.transparent,
-                                                              child: Text( widget.Bubble[index].Title.toString(),
+                                                              child: Text( BubblesInReverse[index].Title.toString(),
                                                                 overflow: TextOverflow.ellipsis,
                                                                 textAlign: TextAlign.left,
                                                                 style : GoogleFonts.roboto().copyWith(
@@ -1021,7 +1030,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           SizedBox(height: 2.h,),
                                                           Container(
                                                             width: w/4.2,
-                                                            child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
+                                                            child: Text( BubblesInReverse[index].Category!, textAlign: TextAlign.left, style: TextStyle(
                                                                 color: Color.fromRGBO(255, 255, 255, 1),
                                                                 fontFamily: 'Red Hat Text',
                                                                 fontSize: 6.5.sp,
@@ -1059,7 +1068,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                               builder: (
                                                   context) =>
                                                   Plan_Screen(
-                                                    Bubble:widget.Bubble[index],my_id: widget.my_id,                is_saved:widget.Bubble[index].is_Saved, ),
+                                                    Bubble:BubblesInReverse[index],my_id: widget.my_id,                is_saved:BubblesInReverse[index].is_Saved, ),
                                             ),
                                           ));
 
@@ -1089,7 +1098,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           borderRadius:  BorderRadius.only(topRight:Radius.circular(h/90.5),topLeft:Radius.circular(h/90.5), ),
                                                           child:CachedNetworkImage(
                                                             fit: BoxFit.fill,
-                                                            imageUrl:  widget.Bubble[index].image.toString(),
+                                                            imageUrl:  BubblesInReverse[index].image.toString(),
                                                             placeholder: (context, url) => Row(
                                                               mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
@@ -1112,7 +1121,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                             ),
                                                             color: Colors.transparent,
                                                             boxShadow : [BoxShadow(
-                                                                color: Color(widget.Bubble[index].Color!).withOpacity(.5),
+                                                                color: Color(BubblesInReverse[index].Color!).withOpacity(.5),
                                                                 offset: Offset(0,2),
                                                                 blurRadius: 8.628571510314941.r
                                                             )],
@@ -1126,16 +1135,16 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                           child:Row(
                                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                             children: [
-                                                              widget.Bubble[index].User_type=="user"
+                                                              BubblesInReverse[index].User_type=="user"
                                                                   ?Row(
                                                                 children: [
                                                                   CircleAvatar(
                                                                     radius: 13.5.w,
-                                                                    backgroundColor: Color(int.parse(widget.Bubble[index].Creator_Color!)),
-                                                                    backgroundImage: NetworkImage(widget.Bubble[index].Creator_Avatar!),
+                                                                    backgroundColor: Color(int.parse(BubblesInReverse[index].Creator_Color!)),
+                                                                    backgroundImage: NetworkImage(BubblesInReverse[index].Creator_Avatar!),
                                                                   ),
                                                                    SizedBox(width: 10.w,),
-                                                                  Text(widget.Bubble[index].Creator_Alias!, textAlign: TextAlign.left,
+                                                                  Text(BubblesInReverse[index].Creator_Alias!, textAlign: TextAlign.left,
                                                                     style:  TextStyle(
                                                                       color: Color.fromRGBO(255, 255, 255, 1),
                                                                       fontFamily: 'Red Hat Display',
@@ -1170,7 +1179,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 onPressed: (){
                                                                   _SeeAllBloc.add(
                                                                       ToggleSaveBubbleEventScreen((b) => b
-                                                                        ..Bubble_id = widget.Bubble[index].id
+                                                                        ..Bubble_id = BubblesInReverse[index].id
                                                                         ..index = index
                                                                         ..List_type = widget.Type
                                                                         ..Saved_Status =state.Saved_Status![index]
@@ -1206,11 +1215,11 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 Container(
                                                                   width:w/1.15,
                                                                   child: Text(
-                                                                    widget.Bubble[index].Title.toString(),
+                                                                    BubblesInReverse[index].Title.toString(),
                                                                     textAlign: TextAlign.left,
                                                                     overflow: TextOverflow.ellipsis,
                                                                     style : GoogleFonts.roboto().copyWith(
-                                                                      color: Color(widget.Bubble[index].Color!),
+                                                                      color: Color(BubblesInReverse[index].Color!),
                                                                       fontSize: 12.22.sp,
                                                                       letterSpacing: 0,
                                                                       fontWeight: FontWeight.w600,
@@ -1223,7 +1232,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                             Container(
                                                               width:w/1.5,
                                                               child:  Text(
-                                                                "At ${ widget.Bubble[index].location.toString()}",
+                                                                "At ${ BubblesInReverse[index].location.toString()}",
                                                                 textAlign: TextAlign.left,
                                                                 overflow: TextOverflow.ellipsis,
                                                                 style : GoogleFonts.roboto().copyWith(
@@ -1241,12 +1250,12 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                                 Container(
                                                                   width: w/25,
                                                                   child:
-                                                                  Image.network(widget.Bubble[index].Cateogory_Icon!),
+                                                                  Image.network(BubblesInReverse[index].Cateogory_Icon!),
                                                                 ),
                                                                 SizedBox(width: 3.w,),
                                                                 Container(
                                                                   width:w/2,
-                                                                  child: Text( widget.Bubble[index].Category!, textAlign: TextAlign.left, style: TextStyle(
+                                                                  child: Text( BubblesInReverse[index].Category!, textAlign: TextAlign.left, style: TextStyle(
                                                                       color: Color.fromRGBO(255, 255, 255, 1),
                                                                       fontFamily: 'Red Hat Text',
                                                                       fontSize: 7.22.sp,
@@ -1270,7 +1279,7 @@ class _Events_ScreenState extends State<Events_Screen> {
                                                         SvgPicture.asset(
                                                           "Assets/images/Exclude.svg",
                                                           width: w/8,
-                                                          color : Color(widget.Bubble[index].Color!),
+                                                          color : Color(BubblesInReverse[index].Color!),
                                                         ),
                                                       ],
                                                     ),
@@ -1297,7 +1306,7 @@ class _Events_ScreenState extends State<Events_Screen> {
         ),
       );
     }
-    );
+    ));
   }
 
 

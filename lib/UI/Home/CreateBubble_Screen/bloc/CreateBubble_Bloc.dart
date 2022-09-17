@@ -34,6 +34,11 @@ class CreateBubbleBloc extends Bloc<CreateBubbleEvent, CreateBubbleState> {
         ..DoneChoose1 = event.DoneColor1
       );
     }
+    if (event is AddedImage) {
+      yield state.rebuild((b) => b
+        ..AddedImageIS_Success = event.Status!
+      );
+    }
 
     if (event is ChangeDone2) {
       yield state.rebuild((b) => b

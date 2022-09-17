@@ -25,7 +25,7 @@ import 'package:bubbles/core/theme/ResponsiveText.dart';
 import 'package:bubbles/main.dart';
 import 'package:bubbles/models/GetBubblesModel/DatesEventListModel.dart';
 import 'package:bubbles/models/GetBubblesModel/OrganizersListModel.dart';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/GetUsersInsideBubbleModel.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -65,6 +65,8 @@ String Background_Color = "";
 int IS_Creator = 0;
 int indexx =0;
 String boi ="";
+String serial="";
+String serial_number="";
 List<String>? Interests = [];
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final ScrollController _Primecontroller = ScrollController();
@@ -245,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         fontFamily: 'Sofia Pro',
                                         fontSize: 20.sp,
                                         letterSpacing: 0.5 ,
-                                        fontWeight: FontWeight.normal,
+                                        fontWeight: FontWeight.w300,
                                         height: 1
                                     ),),
                                 ),
@@ -960,7 +962,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           myLocationEnabled: false,
                           zoomGesturesEnabled: true,
                         ),
-                        state.ShowBubbleDetailsUI!
+                            Container(
+                                child: IconButton(
+                                  icon: SvgPicture.asset(
+                                      "Assets/images/Frame 11.svg",
+                                      width: 30.w,
+                                      color: ColorS.surface),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                )),
+
+                            state.ShowBubbleDetailsUI!
                             ?Positioned(
                           bottom: h/17,
                           left: 0,
@@ -1219,18 +1232,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
-                                  Row(
+                                               Row(
                                                 children: [
-
                                                   Container(
                                                     width:
                                                     state.DetailBubbledata!.Title!.length<=5
-                                                        ?w/10
+                                                        ?w/8
                                                         :  state.DetailBubbledata!.Title!.length<=12
-                                                        ? w/8
+                                                        ? w/6
                                                         : state.DetailBubbledata!.Title!.length<=19
                                                         ? w/ 4
-                                                        : w/2.68,
+                                                        : w/2,
 
 
 
@@ -1555,9 +1567,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                              :Text("")
                                 : Text(""),
                        
-                            // state.BUBBLElistS3!.length== 0&& state.BUBBLElistS2!.length == 0 && state.BUBBLElistS1!.length== 0 && state.BUBBLElistS6!.length== 0 && state.BUBBLElistS5!.length== 0&& state.BUBBLElistS4!.length== 0
-                            //     ?  Text("")
-                            //     :
+
                             ShowCaseWidget(
                                 builder: wid.Builder(
                                   builder: (context) => SlidingUpPanel(
@@ -1571,12 +1581,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                     minHeight: h/20,
                                     onPanelOpened:(){
-                                      print("BUBBLElistS3!.length : ${state.BUBBLElistS3!.length}");
-                                      print("BUBBLElistS2!.length : ${state.BUBBLElistS2!.length}");
-                                      print("BUBBLElistS1!.length : ${state.BUBBLElistS1!.length}");
-                                      print("BUBBLElistS5!.length : ${state.BUBBLElistS5!.length}");
-                                      print("BUBBLElistS6!.length : ${state.BUBBLElistS6!.length}");
-                                      print("BUBBLElistS4!.length : ${state.BUBBLElistS4!.length}");
+                                      // print("BUBBLElistS3!.length : ${state.BUBBLElistS3!.length}");
+                                      // print("BUBBLElistS2!.length : ${state.BUBBLElistS2!.length}");
+                                      // print("BUBBLElistS1!.length : ${state.BUBBLElistS1!.length}");
+                                      // print("BUBBLElistS5!.length : ${state.BUBBLElistS5!.length}");
+                                      // print("BUBBLElistS6!.length : ${state.BUBBLElistS6!.length}");
+                                      // print("BUBBLElistS4!.length : ${state.BUBBLElistS4!.length}");
 
                                     },
                                     borderRadius:  BorderRadius.only(
@@ -2300,7 +2310,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   :state.BUBBLElistS4![index2].users_in_bubble!.length==2
                                                                                   ?w/50
                                                                                   :    w/130
-                                                                                  ,bottom: h/10),    child: ListView.builder(
+                                                                                  ,bottom: h/10),
+                                                                              child: ListView.builder(
                                                                               itemCount: state.BUBBLElistS4![index2].users_in_bubble!.length<3? state.BUBBLElistS4![index2].users_in_bubble!.length:3,
                                                                               scrollDirection: Axis.horizontal,
                                                                               itemBuilder: (BuildContext context, int index) {
@@ -3369,7 +3380,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      SizedBox(width: 10.w,),
+                                                                      SizedBox(width: 7.w,),
                                                                       InkWell(
                                                                         onTap: (){
                                                                           var test =       Navigator
@@ -4647,7 +4658,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                     children: [
                                                                       Container(
-                                                                        width: w/2,
+                                                                        width: w/2.45,
                                                                         child: Text(
                                                                           'Upcoming Bubbles',
                                                                           textAlign: TextAlign.left,
@@ -4661,7 +4672,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      SizedBox(width: 10.w,),
+                                                                      SizedBox(width: 0.5.w,),
 
                                                                       InkWell(
                                                                         onTap: (){
@@ -7077,16 +7088,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             Text(""),
 
 
-                            Center(
-                              child: Text(Value,
-                                textAlign: TextAlign.center, style: TextStyle(
-                                    color: Color.fromRGBO(234, 234, 234, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 17.sp,
-                                    letterSpacing: 0 ,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.h
-                                ),),
+                            Container(
+                              margin: EdgeInsets.only(left: 10.w,right: 10.w),
+                              child: Center(
+                                child: Text(Value,
+                                  textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Red Hat Display',
+                                      fontSize: 17.sp,
+                                      letterSpacing: 0 ,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1.h
+                                  ),),
+                              ),
                             ),
 
                             Row(
@@ -7136,7 +7150,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90.w,

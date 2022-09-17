@@ -1,37 +1,21 @@
 import 'dart:async';
-import 'dart:developer';
-import 'package:bubbles/UI/DirectMessages/ChatDirect_Screen/pages/ChatUi_screen.dart';
-import 'package:bubbles/UI/DirectMessages/DirectMessages_Screen/pages/DirectMessages_screen.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_Event.dart';
 import 'package:bubbles/UI/NavigatorTopBar_Screen/bloc/TopBar_bloc.dart';
-import 'package:bubbles/UI/NavigatorTopBar_Screen/pages/NavigatorTopBar.dart';
-import 'package:bubbles/UI/Onboarding/Login_screen/pages/Login_Page.dart';
 import 'package:bubbles/UI/Profile/Friendlist_Screen/pages/Friendlist_screen.dart';
 import 'package:bubbles/UI/Spash_Screen/pages/Splash.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
-// import 'package:flutter/scheduler.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:theme_manager/change_theme_widget.dart';
-import 'package:bubbles/App/bloc/App_State.dart';
-import 'package:bubbles/App/bloc/App_bloc.dart';
-import 'package:bubbles/App/bloc/appbloc.dart';
 import 'package:bubbles/Data/prefs_helper/iprefs_helper.dart';
 import 'package:bubbles/Injection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:theme_manager/theme_manager.dart';
 import '../core/Language/localization/demo_localization.dart';
 import '../core/theme/theme_constants.dart';
-import 'package:sizer/sizer.dart';
-
-// import 'package:flutter_fgbg/flutter_fgbg.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 class MyApp extends StatefulWidget {
@@ -45,7 +29,7 @@ class MyApp extends StatefulWidget {
 }
 bool ISNewNotifications= false;
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+  static final navigatorKey = new GlobalKey<NavigatorState>();
   final _TopBarBloc = sl<TopBarBloc>();
   bool? serviceEnabled;
   LocationPermission? permission;
@@ -86,28 +70,40 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
     var androiInit = AndroidInitializationSettings("@mipmap/ic_launcher");
     var iosInit = IOSInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
     );
 
 
    var  initSetting = InitializationSettings(android: androiInit, iOS: iosInit);
     fltNotification = FlutterLocalNotificationsPlugin();
-    fltNotification.initialize(
-        initSetting,
-    //  onSelectNotification: handleClickNotification,
-    );
+    // fltNotification.initialize(
+    //     initSetting,
+    // //  onSelectNotification: handleClickNotification,
+    // );
+    fltNotification.initialize(initSetting,
+        onSelectNotification:(String? payload){
+      try{
+        print("payload : $payload");
+        //todo : handle on notification click
+       // if(payload != null && payload.isNotEmpty) {
+          navigatorKey.currentState!.push(     MaterialPageRoute(  builder: (context) => Friendlist(is_WithoutTopBar: true)));
+     //   }
+      }catch (e) {}
+      return;
+    });
+
 
     AndroidNotificationDetails androidNotificationsDetails =  AndroidNotificationDetails(
         'Channel 5',
         'Notification',
       channelDescription: "channel Description",
-        importance: Importance.low,
-        playSound: false,
+        importance: Importance.max,
+        playSound: true,
       enableLights: false ,
     );
-
+//To redirect me at least to friend requests??
     var iosDetails = IOSNotificationDetails();
 
     var generalNotificationDetails =NotificationDetails(
@@ -127,7 +123,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         //   notification.body,
         //   generalNotificationDetails,
         // );
-       // handleMessage(message);
+
         fltNotification.show(
             notification.hashCode,
             notification.title,
@@ -139,15 +135,21 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
-      print("onMessageOpenedApp: $message");
-
+      print("onMessageOpenedApp: ${message.notification!}");
+      print(message.notification!.title.toString());
       if (message.notification!.title.toString() == "Friend Request") {
-        navigatorKey.currentState!.push(
-            MaterialPageRoute(builder: (_) =>Friendlist(is_WithoutTopBar: true))
-        );
-        ISNewNotifications = true;
+        if (message.notification!.titleLocKey != null &&
+            message.notification!.titleLocKey!.isNotEmpty) {
+          navigatorKey.currentState!.push(MaterialPageRoute(builder:(_) => Friendlist(is_WithoutTopBar: true))
+          );
+          ISNewNotifications = true;
+        }
       }
     }  );
+    //
+    // FirebaseMessaging.onBackgroundMessage((message) {
+    //
+    // });
 
 //    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
@@ -188,11 +190,15 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // }
 
 
+  void listenOrganizerNotification(context) {
+
+  }
 // MaterialPageRoute(builder: (_) => NavigatorTopBar(GOtoDirect: 5,))
   void handleMessage(RemoteMessage message) {
-    print(message);
-    print(message.notification!.title.toString());
-    if (message.notification!.title.toString() == "#Friend Request") {
+
+    print("onMessage: ${message.notification!}");
+
+    if (message.notification!.title.toString() == "Friend Request") {
       navigatorKey.currentState!.push(
           MaterialPageRoute(builder: (_) =>Friendlist(is_WithoutTopBar: true))
       );
@@ -221,8 +227,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+
     Future.wait([
       precachePicture(
         ExactAssetPicture(SvgPicture.svgStringDecoderBuilder, 'Assets/images/Vector(1).svg'),
@@ -267,12 +275,12 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           return  ScreenUtilInit(
             builder: (BuildContext context, Widget? child) {
               return MaterialApp(
+                navigatorKey: navigatorKey,
                 debugShowCheckedModeBanner: false,
                 home:
                 // DirectChat(),
                 // CameraScreen(),
                 SecondClass(),
-                navigatorKey: navigatorKey,
                 title: 'Bubbles',
                 theme: theme,
                 localizationsDelegates: const [

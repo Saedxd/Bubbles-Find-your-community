@@ -104,4 +104,10 @@ String? get PickedColor;
   SelectColor._();
   factory SelectColor([updates(SelectColorBuilder b)]) = _$SelectColor;
 }
-
+abstract class AddedImage extends CreateBubbleEvent
+    implements Built<AddedImage, AddedImageBuilder> {
+  // fields go here
+  bool? get Status;
+  AddedImage._();
+  factory AddedImage([Function(AddedImageBuilder b) updates]) = _$AddedImage;
+}

@@ -111,10 +111,19 @@ class FriendListBloc extends Bloc<FriendListEvent, FriendListState> {
 
     if (event is RemoveFriend) {
       try {
+        yield state.rebuild((b) =>
+        b
+          ..success = false
+        );
 
 
 
         state.FrinedList!.removeAt(event.index!);
+        yield state.rebuild((b) =>
+        b
+          ..success = true
+        );
+
         final date = await _repository.RemoveFriend(event.friend_id!);
 
 

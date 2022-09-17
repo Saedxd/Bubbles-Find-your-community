@@ -169,21 +169,17 @@ bloc2.add(GetInterests());
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
 
-                                                      Container(
-                                                        width: w/9,
-                                                        height: h/20.8,
-                                                        child: CachedNetworkImage(
-                                                          imageUrl:  state.GetInterests!.interests![index].image!,
-                                                          color: array2![index]==1? Color(0xffBA474D): null,
-                                                          fit: BoxFit.fill,
-                                                          progressIndicatorBuilder: (context, url, downloadProgress) =>
-                                                              CircularProgressIndicator(value: downloadProgress.progress),
-                                                          errorWidget: (context, url, error) => Icon(Icons.error),
+                                                       Container(
+                                                         width: w/10,
+                                                          child :
+                                                          AspectRatio(
+                                                            aspectRatio: 2/1.9,
+                                                            child:  Image.network("${state.GetInterests!.interests![index].image!}",
+                                                              fit: BoxFit.fill,
+                                                              color: array2![index]==1? Color(0xffBA474D): null,
+                                                            ),
+                                                          ),
                                                         ),
-
-
-
-                                                      ),
                                                     ],
                                                   ),
                                                   1 < (state.GetInterests!.interests![index].title!.split(" ").length)
@@ -192,22 +188,24 @@ bloc2.add(GetInterests());
                                                 ],
                                               ),
                                               1 < (state.GetInterests!.interests![index].title!.split(" ").length)
-                                              ?  FittedBox(
-                                                child: Container(
-                                                height: h/20,
-                                                  width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length)? w/6:w/5,
-                                                  child: Text(state.GetInterests!.interests![index].title.toString(),
-                                                    textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                          color: Color.fromRGBO(0, 0, 0, 1),
-                                                          fontFamily: 'Sofia Pro',
-                                                          fontSize: 13.sp,
-                                                          letterSpacing: 0,
-                                                          fontWeight: FontWeight.w500,
-                                                          height: 0.8.h
-                                                      ),),
-                                                  ),
-                                                  )
+                                              ?  Expanded(
+                                                child: FittedBox(
+                                                  child: Container(
+                                                  height: h/20,
+                                                    width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length)? w/6:w/5,
+                                                    child: Text(state.GetInterests!.interests![index].title.toString(),
+                                                      textAlign: TextAlign.center,
+                                                        style: TextStyle(
+                                                            color: Color.fromRGBO(0, 0, 0, 1),
+                                                            fontFamily: 'Sofia Pro',
+                                                            fontSize: 13.sp,
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.w500,
+                                                            height: 0.8.h
+                                                        ),),
+                                                    ),
+                                                    ),
+                                              )
                                                   :  Container(
                                     width: 1 < (state.GetInterests!.interests![index].title!.split(" ").length)? w/6:w/4.5,
                                     child: Text(state.GetInterests!.interests![index].title.toString(),

@@ -67,6 +67,7 @@ List<bool>? AllBubblesJoinStatusTry=[];
 List<bool>? AllBubblesLeftStatusTry=[];
 List<bool>? AllNearBubblesStatusTry=[];
 Timer? timer;
+Timer? timer2112;
 bool CalledLoopingfucntion = false;
 
 //todo: in the next few days

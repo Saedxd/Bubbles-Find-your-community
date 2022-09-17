@@ -26,6 +26,7 @@ abstract class CreateBubbleState implements Built<CreateBubbleState, CreateBubbl
   bool? get showDialogg;
   bool? get done;
   bool? get ToggleSaveIsloading;
+  bool? get AddedImageIS_Success;
 
 
  String? get Start_Time;
@@ -70,6 +71,7 @@ abstract class CreateBubbleState implements Built<CreateBubbleState, CreateBubbl
       ..PickedColor= ""
       ..End_Time = ""
         ..ChooseColorIsLoading = false
+        ..AddedImageIS_Success = false
         ..EventCateogorySuccess = false
         ..EventCateogoryIsLoading = false
         ..IsChosen_Colors =List.filled(20,false)

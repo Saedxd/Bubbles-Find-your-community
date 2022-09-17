@@ -196,8 +196,9 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                       ),
                     ),
                     Positioned(
-                      left: h/8,
-                      bottom: h/5,
+                      left: 0,
+                      right: 0,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90.w,
@@ -292,23 +293,37 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                       "Good!", 18);
                 });
               }
-              else if (state.AddNewFriend!.msg=="Wrong Serial name please try again"){
+              else if (state.AddNewFriend!.msg=="Wrong Username, please try again"){
                 Future.delayed(Duration.zero, () {
                   CommingSoonPopup(
-                      context, h, w, "Serial is not found please try again with correct info",
+                      context, h, w, "Username is not found please try again with correct info",
                       "Good!", 18);
                   // Page2().method(_scaffoldKey.currentContext!, "Friend request is successfully sent",
                   //     state.AddNewFriend!.msg!, "Back");
                 });
               }
               else if (state.AddNewFriend!.msg==" Friend Code Cant be Empty"){
+
              print("im in three");
              Future.delayed(Duration.zero, () {
                   CommingSoonPopup(
-                      context, h, w, "Serial code can't be empty",
+                      context, h, w, "Username code can't be empty",
                       "ok!", 18);
              });
 
+              }  else if (state.AddNewFriend!.msg=="friend Request already sent"){
+
+                Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "Friend Request already sent",
+                      "ok!", 18);
+                });
+              }else if (state.AddNewFriend!.msg=="This user is Already your friend"){
+                Future.delayed(Duration.zero, () {
+                  CommingSoonPopup(
+                      context, h, w, "This user is Already your friend",
+                      "ok!", 18);
+                });
               }
             }
             diditonce2 = false;
@@ -931,10 +946,10 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                   },
                                                   cursorColor: Colors.black,
                                                   style: TextStyle(
-                                                      fontSize:  19.sp,
-                                                      fontWeight: FontWeight.w500,
+                                                      fontSize:  15.sp,
+                                                      fontWeight: FontWeight.w300,
                                                       color: Colors.black
-                                                  ,height: 0.9.h
+                                                  ,height: 1.h
                                                   ),
                                                   decoration: InputDecoration(
                                                       enabledBorder:
@@ -958,11 +973,12 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                       contentPadding:
                                                           EdgeInsets.symmetric(
                                                               horizontal: 12),
-                                                      hintText: "#Friend Code",
+                                                      hintText: "#Friend Code or Username",
                                                       hintStyle: _TextTheme
                                                           .headline6!
                                                           .copyWith(
-                                                          fontSize:  22.sp,
+                                                          fontSize:  16.sp,
+                                                              fontWeight: FontWeight.w300,
 
                                                               color: Color(
                                                                   0xff606060))),
@@ -989,7 +1005,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                         (BuildContext context,
                                                             int index) {
                                                       return SizedBox(
-                                                        height: 10,
+                                                        height: 10.h,
                                                       );
                                                     },
                                                     itemBuilder:
@@ -1028,9 +1044,9 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                               margin:
                                                                   EdgeInsets.only(
                                                                       right:
-                                                                          h / 40,
+                                                                          w / 40,
                                                                       left:
-                                                                          h / 40),
+                                                                          w / 40),
                                                               width: w / 1.3,
                                                               height: h / 14,
                                                               decoration:
@@ -1076,7 +1092,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                               "  "),
                                                                           CircleAvatar(
                                                                             radius:
-                                                                                20,
+                                                                                20.r,
                                                                           ),
                                                                           Text(
                                                                               "    "),
@@ -1111,7 +1127,7 @@ class _FindFriends_screenState extends State<FindFriends_screen>{
                                                                                   1,
                                                                               fontWeight:
                                                                               FontWeight.w600,
-                                                                              height: 1),
+                                                                              height: 1.h),
                                                                         ),
                                                                         Text(
                                                                           "",

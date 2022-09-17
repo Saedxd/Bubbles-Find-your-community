@@ -1806,7 +1806,7 @@ void Verify()async{
       ) async {
     return showDialog(
         context: Context,
-           barrierDismissible: true,
+        barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -1816,10 +1816,10 @@ void Verify()async{
                 height: h/3,
                 decoration: BoxDecoration(
                   borderRadius : BorderRadius.only(
-                    topLeft: Radius.circular(8.285714149475098),
-                    topRight: Radius.circular(8.285714149475098),
-                    bottomLeft: Radius.circular(8.285714149475098),
-                    bottomRight: Radius.circular(8.285714149475098),
+                    topLeft: Radius.circular(8.285714149475098.r),
+                    topRight: Radius.circular(8.285714149475098.r),
+                    bottomLeft: Radius.circular(8.285714149475098.r),
+                    bottomRight: Radius.circular(8.285714149475098.r),
                   ),
                   color: Colors.transparent,
                 ),
@@ -1835,17 +1835,17 @@ void Verify()async{
                         height: h/4.2,
                         decoration: BoxDecoration(
                           borderRadius : BorderRadius.only(
-                            topLeft: Radius.circular(8.285714149475098),
-                            topRight: Radius.circular(8.285714149475098),
-                            bottomLeft: Radius.circular(8.285714149475098),
-                            bottomRight: Radius.circular(8.285714149475098),
+                            topLeft: Radius.circular(8.285714149475098.r),
+                            topRight: Radius.circular(8.285714149475098.r),
+                            bottomLeft: Radius.circular(8.285714149475098.r),
+                            bottomRight: Radius.circular(8.285714149475098.r),
                           ),
                           color : Color.fromRGBO(47, 47, 47, 1),
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-
+                            Text(""),
 
 
                             Center(
@@ -1853,8 +1853,8 @@ void Verify()async{
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: 0.24.sp,
-                                    letterSpacing: 0 ,
+                                    fontSize: 16.sp,
+                                    letterSpacing: 0,
                                     fontWeight: FontWeight.w600,
                                     height: 1
                                 ),),
@@ -1873,10 +1873,10 @@ void Verify()async{
                                       width: w/2,
                                       decoration: BoxDecoration(
                                         borderRadius : BorderRadius.only(
-                                          topLeft: Radius.circular(4.142857074737549),
-                                          topRight: Radius.circular(4.142857074737549),
-                                          bottomLeft: Radius.circular(4.142857074737549),
-                                          bottomRight: Radius.circular(4.142857074737549),
+                                          topLeft: Radius.circular(4.142857074737549.r),
+                                          topRight: Radius.circular(4.142857074737549.r),
+                                          bottomLeft: Radius.circular(4.142857074737549.r),
+                                          bottomRight: Radius.circular(4.142857074737549.r),
                                         ),
                                         boxShadow : [BoxShadow(
                                             color: Color.fromRGBO(0, 0, 0, 0.25),
@@ -1890,8 +1890,8 @@ void Verify()async{
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 0.25.sp,
-                                            letterSpacing: 0 ,
+                                            fontSize: 20.sp,
+                                            letterSpacing: 0,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),

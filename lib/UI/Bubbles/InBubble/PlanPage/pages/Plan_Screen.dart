@@ -1091,15 +1091,7 @@ bool?  is_savedd = false;
               !widget.Bubble!.isAvailable!
              ?  Expanded(
                 child: Container(
-                decoration: BoxDecoration(
-                  color: Color(0xff303030),
-                  // boxShadow: [BoxShadow(
-                  //     color: Color.fromRGBO(0, 0, 0, 0.25),
-                  //     offset: Offset(0, -20),
-                  //     blurRadius: 10
-                  // )
-                  // ],
-                ),
+
                child: Column(children: [
 
                         SizedBox(height: 10.h,),

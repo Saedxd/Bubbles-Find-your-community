@@ -149,7 +149,7 @@ class _FriendlistState extends State<Friendlist> {
                                   fontFamily: 'Sofia Pro',
                                   fontSize: 20.sp,
                                   letterSpacing: 0.5 ,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w300,
                                   height: 1
                               ),),
                           ),
@@ -196,11 +196,10 @@ class _FriendlistState extends State<Friendlist> {
                               InkWell(
                                 onTap: (){
                                   Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  // _GroupChatBloc.add(RemoveFriend((b) => b
-                                  //   ..friend_id = Frined_id
-                                  //   ..index = index
-                                  // ));
+                                  _FriendlistBloc.add(RemoveFriend((b) => b
+                                    ..friend_id = Frined_id
+                                    ..index = index
+                                  ));
                                 },
                                 child: Container(
                                   width: w/3,
@@ -1190,7 +1189,7 @@ class _FriendlistState extends State<Friendlist> {
                                 itemCount:state.FrinedRequestsList!.length,
                                 separatorBuilder: (BuildContext context, int index) {
                                   return SizedBox(
-                                    height: 5,
+                                    height: 5.h,
                                   );
                                 },
                                 itemBuilder: (BuildContext context, int index) {
@@ -1423,7 +1422,8 @@ class _FriendlistState extends State<Friendlist> {
 
                       ( Checknow?(state.success!): false)
                           ?state.FrinedList!.length==0
-                          ?Container(
+                          ?
+                      Container(
                         width: w,
                         height: h/(state.FrinedRequestsList!.length!=0?1.6:1.266),
                         child: Column(
@@ -1548,7 +1548,7 @@ class _FriendlistState extends State<Friendlist> {
                                                 Index = index;
                                                 Freindid = state.FrinedList![index].ID!;
                                                 print("Dissmissed");
-                                                alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
+                                                alreatDialogBuilder2(context,h,w,state.FrinedList![index].ID!,Index);
                                               }),
                                           children: [
                                             Expanded(
@@ -1584,7 +1584,7 @@ class _FriendlistState extends State<Friendlist> {
                                               child: InkWell(
                                                 onTap: () {
                                                   Freindid = state.FrinedList![index].ID!;
-                                                  alreatDialogBuilder(context,"lol1","lol2","lol3",h,w,Index);
+                                                  alreatDialogBuilder2(context,h,w,state.FrinedList![index].ID!,Index);
                                                 },
                                                 child: Container(
                                                   width: w / 5,
@@ -1630,7 +1630,7 @@ class _FriendlistState extends State<Friendlist> {
                                               boxShadow : [BoxShadow(
                                                   color: Color.fromRGBO(0, 0, 0, 0.4000000059604645),
                                                   offset: Offset(0,0),
-                                                  blurRadius: 12.19047737121582
+                                                  blurRadius: 12.19047737121582.r
                                               )],
                                             ),
                                             child: Row(
@@ -1674,11 +1674,11 @@ class _FriendlistState extends State<Friendlist> {
 
                                                     Positioned(
                                                       bottom: 0,
-                                                      right: 2,
+                                                      right: 2.w,
                                                       child:
                                                       CircleAvatar(
                                                           backgroundColor:ColorS.secondaryContainer,
-                                                          radius: 8,
+                                                          radius: 8.w,
                                                           child:  const CircleAvatar(backgroundColor: const Color(0xff34A853),radius: 5.5,)),
                                                     )
                                                         :const Text("")

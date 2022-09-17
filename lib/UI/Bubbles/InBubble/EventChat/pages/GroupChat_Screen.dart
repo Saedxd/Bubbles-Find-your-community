@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:bubbles/models/GetUsersInsideBubbleModel/FriendDataModel.dart';
+import 'package:bubbles/UI/Bubbles/InBubble/EventChat/pages/BubbleInformation.dart';
 import 'package:built_collection/built_collection.dart';
 import 'dart:typed_data';
 import 'package:bubbles/UI/Bubbles/Sprints/DirectChat/pages/SprintChat.dart';
@@ -52,14 +52,18 @@ class GroupChat extends StatefulWidget {
     this.bubble_id,
     this.Plan_Description,
     required  this.Bubble_Color,
+    required  this.Bubble,
+    required  this.is_prime,
     this.Want_LOcation_cHECK
   }) : super(key: key);
+  bool? is_prime = false;
   String? plan_Title = "";
   String? Plan_Description = "";
   int? MY_ID;
   int bubble_id;
   int Bubble_Color;
   bool? Want_LOcation_cHECK=true;
+  BubbleData? Bubble;
   // FlowData?  flow;
   // bool IsNested;
 
@@ -97,8 +101,8 @@ class _GroupChatState extends State<GroupChat>{
   final _formkey3 = GlobalKey<FormState>();
   FocusNode _focus = FocusNode();
   Dio dio = Dio();
-bool isShow_participants = false;
-bool isMultible_answers = true;
+  bool isShow_participants = false;
+  bool isMultible_answers = false;
   late FocusNode FoucesNodeFlowTitle;
   late FocusNode FoucesNodeFlowDescription;
   late FocusNode FoucesNodePollQuestion;
@@ -167,6 +171,7 @@ bool isMultible_answers = true;
     ListenForTopicFlows();
     ListenForMediaDumpFlows();
     ListenForPollFlows();
+
   sendIJoinedBubble(widget.bubble_id);
   DIditonce2 = false;
   Diditonces = true;
@@ -266,6 +271,34 @@ bool isMultible_answers = true;
         bloc: _GroupChatBloc,
         builder: (BuildContext Context, GroupChatState state) {
 
+
+          void listenChosenAnswer() async {
+            socket!.on("choose_PollFlow_Answer", (msg) {
+
+
+
+              print(msg);
+              // if (widget.MY_ID!.toString()!=msg["user_id"]) {
+
+                int Flow_Index = 0;
+                for(int i=0;i<state.FlowList!.length;i++){
+                  if (state.FlowList![i].FlowMessage_id==state.messages![index].ID){
+                    Flow_Index = i;
+                  }
+                }
+
+                _GroupChatBloc.add(
+                    ChoosePollFlowAnswer((b) =>
+                    b
+                      ..Flow_Index = Flow_Index
+                      ..Chat_index = index
+                      ..ANswers_index = msg["index"]
+                      ..Answer_id = msg["Answer_id"]
+                      ..bubble_id =widget.bubble_id
+                        ..Want_Request = false
+                    ));
+            });
+          }
           void ListenForMessages() async {
             socket!.on("receive_dm_message_bubble", (msg) {
               print("Listenting");
@@ -366,6 +399,7 @@ bool isMultible_answers = true;
             return showDialog(
                 context: Context,
                 barrierDismissible: true,
+                barrierColor: Colors.white.withOpacity(0),
                 builder: (Context) {
                   return AlertDialog(
                     backgroundColor: Colors.transparent,
@@ -501,6 +535,7 @@ bool isMultible_answers = true;
             return showDialog(
                 context: Context,
                 barrierDismissible: true,
+                barrierColor: Colors.white.withOpacity(0),
                 builder: (Context) {
 
 
@@ -583,9 +618,8 @@ bool isMultible_answers = true;
                                                     ),
                                                     Row(
                                                       children: [
-
                                                         Text(
-                                                            "UserData.Serial!",
+                                                            UserData.Serial!,
                                                             textAlign: TextAlign.left,
                                                             style: _TextTheme
                                                                 .headline6!
@@ -652,7 +686,7 @@ bool isMultible_answers = true;
                                                     .addPostFrameCallback((_) =>     Navigator.push(
                                                   context,
                                                   MaterialPageRoute(//receiver_id: ,my_ID: ,
-                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: UserData.His_id!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
+                                                    builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: UserData.ID!,His_Alias:UserData.Alias!,Send_by: "dm",),),   ));
                                               },
 
                                               child: Container(
@@ -686,7 +720,7 @@ bool isMultible_answers = true;
                                                 :
                                             InkWell(
                                               onTap: (){
-                                                if (widget.MY_ID!= UserData.His_id!) {
+                                                if (widget.MY_ID!= UserData.ID!) {
                                                   if (!is_frined) {
                                                     Navigator.pop(context);
                                                     _GroupChatBloc.add(
@@ -765,6 +799,7 @@ bool isMultible_answers = true;
           if (state.AliasISsuccess! && !DIditonce2) {
             ListenForMessages();
             ListenForReplyMessage();
+            listenChosenAnswer();
 
             print("Listeninggggggg");
             MyAlias = state.GetAliasMinee!.friend!.alias.toString();
@@ -776,7 +811,12 @@ bool isMultible_answers = true;
             DIditonce2 = true;
           }
 
-          return WillPopScope(
+          return GestureDetector(
+              onTap: () async {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child:
+            WillPopScope(
               onWillPop: () async {
                 print("hi");
                 if (state.KetbaordStatuss == true) {
@@ -939,9 +979,39 @@ bool isMultible_answers = true;
                                                                     children: [
                                                                       InkWell(
                                                                         onTap: (){
-                                                                          alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
+                                                                          try {
+                                                                            alreatDialogBuilder(
+                                                                                context,
+                                                                                h,
+                                                                                w,
+                                                                                state
+                                                                                    .messages![index]
+                                                                                    .Sender_data!
+                                                                                    .is_Frined!,
+                                                                                state
+                                                                                    .messages![index]
+                                                                                    .Sender_data!
+                                                                                    .His_id ==
+                                                                                    widget
+                                                                                        .MY_ID,
+                                                                                state
+                                                                                    .messages![index]
+                                                                                    .Sender_data!
+                                                                                    .His_id!,
+                                                                                index,
+                                                                                state
+                                                                                    .messages![index]
+                                                                                    .Sender_data!);
+                                                                          }catch(e){
+                                                                            print(e);
+                                                                          }
                                                                         },
-                                                                        child: CircleAvatar(
+                                                                        child:  Theme(
+                                                                          data: ThemeData(
+                                                                            splashColor: Colors.transparent,
+                                                                            highlightColor: Colors.transparent,
+                                                                          ),
+                                                                          child :CircleAvatar(
                                                                           backgroundColor: Color(state
                                                                               .messages![index]
                                                                               .background_Color!),
@@ -951,7 +1021,7 @@ bool isMultible_answers = true;
                                                                               .toString()),
                                                                           radius: 20.w,
 
-                                                                        ),
+                                                                        ),)
                                                                       ),
                                                                       SizedBox(width: 10,),
                                                                       Container(
@@ -1059,10 +1129,15 @@ bool isMultible_answers = true;
                                                             children: [
                                                               InkWell(
                                                                 onTap: (){
-                                                                  //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                  alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
 
                                                                 },
-                                                                child: CircleAvatar(
+                                                                child:  Theme(
+                                                                  data: ThemeData(
+                                                                    splashColor: Colors.transparent,
+                                                                    highlightColor: Colors.transparent,
+                                                                  ),
+                                                                  child :CircleAvatar(
                                                                   backgroundColor: Color(state
                                                                       .messages![index]
                                                                       .background_Color!),
@@ -1071,7 +1146,7 @@ bool isMultible_answers = true;
                                                                       .Avatar
                                                                       .toString()),
                                                                   radius: 20.w,
-                                                                ),
+                                                                ),)
                                                               ),
                                                               SizedBox(width: 10,),
                                                               Container(
@@ -1245,10 +1320,15 @@ bool isMultible_answers = true;
                                                             children: [
                                                               InkWell(
                                                                 onTap: (){
-                                                                  //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                  alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
 
                                                                 },
-                                                                child: CircleAvatar(
+                                                                child:  Theme(
+                                                                  data: ThemeData(
+                                                                    splashColor: Colors.transparent,
+                                                                    highlightColor: Colors.transparent,
+                                                                  ),
+                                                                  child :CircleAvatar(
                                                                   backgroundColor: Color(state
                                                                       .messages![index]
                                                                       .background_Color!),
@@ -1257,7 +1337,7 @@ bool isMultible_answers = true;
                                                                       .Avatar
                                                                       .toString()),
                                                                   radius: 20.w,
-                                                                ),
+                                                                ),)
                                                               ),
                                                               SizedBox(width: 10,),
                                                               Container(
@@ -1378,7 +1458,7 @@ bool isMultible_answers = true;
                                                                                         fontWeight: FontWeight.w500, height: 1),
                                                                                   ),
                                                                                    SizedBox(
-                                                                                    width: 5,
+                                                                                    width: 5.w,
                                                                                   ),
 
                                                                                   Container(
@@ -1418,14 +1498,19 @@ bool isMultible_answers = true;
                                                                 children: [
                                                                   InkWell(
                                                                     onTap: (){
-                                                                      //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                      alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
 
                                                                     },
-                                                                    child:    CircleAvatar(
+                                                                    child:   Theme(
+                                                                      data: ThemeData(
+                                                                        splashColor: Colors.transparent,
+                                                                        highlightColor: Colors.transparent,
+                                                                      ),
+                                                                      child :  CircleAvatar(
                                                                       backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                       backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
                                                                       radius: 20.w,
-                                                                    ),
+                                                                    ),)
                                                                   ),
                                                                   SizedBox(width: 10,),
                                                                   Container(
@@ -1595,16 +1680,21 @@ bool isMultible_answers = true;
                                                                     children: [
                                                                       InkWell(
                                                                         onTap: (){
-                                                                          //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                          alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
 
                                                                         },
-                                                                        child:    CircleAvatar(
+                                                                        child:   Theme(
+                                                                          data: ThemeData(
+                                                                            splashColor: Colors.transparent,
+                                                                            highlightColor: Colors.transparent,
+                                                                          ),
+                                                                          child :  CircleAvatar(
                                                                           backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                           backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
                                                                           radius: 20.w,
-                                                                        ),
+                                                                        ),)
                                                                       ),
-                                                                      SizedBox(width: 5,),
+                                                                      SizedBox(width: 5.w,),
                                                                       Container(
                                                                         margin: EdgeInsets.only(bottom: h/50),
                                                                         child: Text(
@@ -1631,7 +1721,7 @@ bool isMultible_answers = true;
                                                                             color:  Color(0xffEAEAEA),
                                                                               fontSize: 9.sp
                                                                           )),
-                                                                      SizedBox(width: 10,),
+                                                                      SizedBox(width: 10.w,),
                                                                     ],
                                                                   )
                                                                 ],
@@ -1727,7 +1817,7 @@ bool isMultible_answers = true;
                                                                                         backgroundColor: Color(state.messages![index].ReplieDtobackground_Color!),
                                                                                       ),
                                                                                        SizedBox(
-                                                                                        width: 3,
+                                                                                        width: 3.w,
                                                                                       ),
                                                                                       Text(
                                                                                         state.messages![index].RepliedTOAlias.toString()
@@ -1740,7 +1830,7 @@ bool isMultible_answers = true;
                                                                                             letterSpacing: 0 , fontWeight: FontWeight.w500, height: 1),
                                                                                       ),
                                                                                        SizedBox(
-                                                                                        width: 5,
+                                                                                        width: 5.w,
                                                                                       ),
                                                                                       Container(
                                                                                         width: w / 5,
@@ -1811,14 +1901,19 @@ bool isMultible_answers = true;
                                                                     children: [
                                                                       InkWell(
                                                                         onTap: (){
-                                                                          //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                                                          alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
 
                                                                         },
-                                                                        child:    CircleAvatar(
+                                                                        child:   Theme(
+                                                                          data: ThemeData(
+                                                                            splashColor: Colors.transparent,
+                                                                            highlightColor: Colors.transparent,
+                                                                          ),
+                                                                          child :  CircleAvatar(
                                                                           backgroundColor: Color(state.messages![index].Replierbackground_Color!),
                                                                           backgroundImage: NetworkImage(state.messages![index].ReplierAvatar.toString()),
                                                                           radius: 20.w,
-                                                                        ),
+                                                                        ),)
                                                                       ),
                                                                       SizedBox(width: 5,),
                                                                       Container(
@@ -1941,7 +2036,7 @@ bool isMultible_answers = true;
                                   decoration: BoxDecoration(
                                       boxShadow:  [
                                         BoxShadow(
-                                          color: Color.fromRGBO(
+                                     color: Color.fromRGBO(
                                               0, 0, 0, 0.25),
                                           offset: Offset(0, 0),
                                           blurRadius: 2.0,
@@ -1963,7 +2058,7 @@ bool isMultible_answers = true;
 
                                             Container(
                                               padding: EdgeInsets.only(
-                                                  left: h / 100,
+                                                  left: w / 20,
                                         ),
                                               child: CircleAvatar(
                                                 radius: 20.w,
@@ -1979,20 +2074,41 @@ bool isMultible_answers = true;
                                                           }
                                                         }
                                                       }
-                                                      if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                                   //   if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
                                                         dIALOG1();
                                                         _GroupChatBloc.add(ChangeFlowOptionsStatus((b) =>
                                                         b..status = true
                                                         ));
-                                                      }else{
-                                                        OutsideBubbleAlreat();
-                                                      }
+                                                      // }else{
+                                                      //   OutsideBubbleAlreat();
+                                                      // }
                                                     },
-                                                    child:  Icon(
-                                                      state.FlowOptionsOpened!?Icons.arrow_drop_down_sharp:
-                                                      Icons.add,
-                                                      size: 30,
-                                                      color: Colors.white,
+                                                    child: IconButton(
+                                                      icon: SvgPicture.asset(
+                                                        !state.FlowOptionsOpened!?
+                                                        "Assets/images/Vector(4).svg":"Assets/images/downn.svg"
+                                                        ,
+                                                        width: 20.w,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () {
+                                                        bool GetInStatus = false;
+                                                        for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                          if (widget.bubble_id==AllBubblesIDS![j]){
+                                                            if (AllBubblesStatus![j]==1) {
+                                                              GetInStatus = true;
+                                                            }
+                                                          }
+                                                        }
+                                                        //   if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                                        dIALOG1();
+                                                        _GroupChatBloc.add(ChangeFlowOptionsStatus((b) =>
+                                                        b..status = true
+                                                        ));
+                                                        // }else{
+                                                        //   OutsideBubbleAlreat();
+                                                        // }
+                                                      },
                                                     ),
                                                   ),
                                                 ),
@@ -2049,6 +2165,22 @@ bool isMultible_answers = true;
                                                       textInputAction:
                                                       TextInputAction.done,
                                                       focusNode: _focus,
+                                                      onTap: (){
+                                                        bool GetInStatus = false;
+                                                        for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                          if (widget.bubble_id==AllBubblesIDS![j]){
+                                                            if (AllBubblesStatus![j]==1) {
+                                                              GetInStatus = true;
+                                                            }
+                                                          }
+                                                        }
+                                                        if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+
+                                                        }else{
+                                                          OutsideBubbleAlreat();
+                                                          SystemChannels.textInput.invokeMethod('TextInput.hide');
+                                                        }
+                                                      },
                                                       style : GoogleFonts.roboto().copyWith(
                                                           color: Colors.brown,
                                                           fontSize: 19.sp,
@@ -2472,10 +2604,10 @@ bool isMultible_answers = true;
                           panel: Container(
                               decoration:  BoxDecoration(
                                 borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
+                                  topLeft: Radius.circular(20.r),
+                                  topRight: Radius.circular(20.r),
+                                  bottomLeft: Radius.circular(20.r),
+                                  bottomRight: Radius.circular(20.r),
                                 ),
                               ),
                               width: w,
@@ -2500,6 +2632,80 @@ bool isMultible_answers = true;
                                         return
                                           Row(
                                             children: [
+
+                                              index==0?
+                                              Row(
+                                                children: [
+                                                  SizedBox(width: 10.w,),
+                                                  Stack(
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: (){
+
+                                                          WidgetsBinding.instance
+                                                              .addPostFrameCallback((_) => Navigator.push(
+                                                            context,
+
+                                                            MaterialPageRoute(
+                                                                builder: (context) =>
+                                                                    FlowPostsChat(
+                                                                      plan_Title:widget.plan_Title,
+                                                                      MY_ID: widget.MY_ID,
+                                                                      bubble_id: widget.bubble_id,
+                                                                      Plan_Description: widget.Plan_Description!,
+                                                                      Bubble_Color: widget.Bubble_Color,
+                                                                      data: state.FlowList!,
+
+                                                                    )),
+                                                          ));
+                                                        },
+                                                        child: Container(
+                                                          width: w/3.145,
+                                                          child: SvgPicture.asset(
+                                                            "Assets/images/widget.svg",
+                                                            fit: BoxFit.fitWidth,
+                                                          ),
+                                                        ),
+                                                      ),
+
+                            Positioned(
+                                                          top: 0,
+                                                            left: 0,
+                                                            right :0,
+                                                            bottom:0,
+                                                            child:                           InkWell(
+                                                                onTap: (){
+                                                                  WidgetsBinding.instance
+                                                                      .addPostFrameCallback((_) => Navigator.push(
+                                                                    context,
+
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) =>
+                                                                            FlowPostsChat(
+                                                                              plan_Title:widget.plan_Title,
+                                                                              MY_ID: widget.MY_ID,
+                                                                              bubble_id: widget.bubble_id,
+                                                                              Plan_Description: widget.Plan_Description!,
+                                                                              Bubble_Color: widget.Bubble_Color,
+                                                                              data: state.FlowList!,
+
+                                                                            )),
+                                                                  ));
+                                                                },
+                                                                child:
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                SvgPicture.asset("Assets/images/reshap1.svg",width: w/12,),
+                                                              ],
+                                                            )),
+                                                      ),
+                                                    ],
+                                                  ), //
+                                                  SizedBox(width: 5.w,),
+                                                ],
+                                              ):Text(""),
+
 
                                               InkWell(
 
@@ -2529,8 +2735,8 @@ bool isMultible_answers = true;
                                         ),
 
                                                   Positioned(
-                                                    top: h/11,
-                                                    left: h/12,
+                                                    top: h/12,
+                                                    left: w/7,
                                                     child:    InkWell(
                                                       onTap: (){
                                                         //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
@@ -2538,7 +2744,7 @@ bool isMultible_answers = true;
                                                       child:CircleAvatar(
                                                       backgroundImage: NetworkImage(state.FlowList![index].Who_Made_it_Avatar!),
                                                       backgroundColor: Color(state.FlowList![index].Who_Made_it_Color!),
-                                                      radius: 13,
+                                                      radius: 15.w,
                                                     ),
                                                     )
                                                   ),
@@ -2546,46 +2752,10 @@ bool isMultible_answers = true;
                                         ),
                                               ),
 
-                                              index==state.FlowList!.length-1?
-                                              Row(
-                                                children: [
-                                                  SizedBox(width: 10,),
-                                                  Stack(
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: (){
 
-                                                          WidgetsBinding.instance
-                                                              .addPostFrameCallback((_) => Navigator.push(
-                                                            context,
-
-                                                            MaterialPageRoute(
-                                                                builder: (context) =>
-                                                                    FlowPostsChat(
-                                                                      plan_Title:widget.plan_Title,
-                                                                      MY_ID: widget.MY_ID,
-                                                                      bubble_id: widget.bubble_id,
-                                                                      Plan_Description: widget.Plan_Description!,
-                                                                      Bubble_Color: widget.Bubble_Color,
-                                                                      data: state.FlowList!,
-
-                                                                    )),
-                                                          ));
-                                                        },
-                                                        child: CircleAvatar(
-                                                            radius: h/15,
-                                                            backgroundColor: Color(0xffC4C4C4),
-                                                            child: SvgPicture.asset("Assets/images/reshap1.svg",width: w/12,)
-
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              ):Text("")
                                             ],
                                           );
-                                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10,); },
+                                      }, separatorBuilder: (BuildContext context, int index) { return SizedBox(width: 10.w,); },
                                                                 ),
                                   ):
                                   state.isLoading!
@@ -2703,14 +2873,14 @@ bool isMultible_answers = true;
                                       }
                                     }
 
-                                    // if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                 //  if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
                                       _scaffoldKey.currentState!
                                           .openEndDrawer();
                                       _GroupChatBloc.add(GetUsersInsideBubble((b) => b
                                         ..Bubble_id = widget.bubble_id
                                       ));
                                     // }else{
-                                    //   OutsideBubbleAlreat();
+                                    //    OutsideBubbleAlreat();
                                     // }
                                   },
                                 )
@@ -2727,7 +2897,6 @@ bool isMultible_answers = true;
           child :
                 state.ShowFloatingActionButtonn!?
                 Container(
-
                   margin: EdgeInsets.only(bottom: state.Isreply!?h/8: h/14),
                     child: FloatingActionButton(onPressed: () {
                       _controller.animateTo(
@@ -2745,7 +2914,7 @@ bool isMultible_answers = true;
                 )
                     :Text("")
                 )
-              ));
+              )));
         });
   }
 
@@ -2765,9 +2934,7 @@ bool isMultible_answers = true;
 
                       child: SafeArea(
                         child:
-
-                        SingleChildScrollView(
-                          child: Column(
+Column(
                             children: [
 
                              Container(
@@ -2776,53 +2943,85 @@ bool isMultible_answers = true;
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
+                                      Row(
+                                           mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                      Container(
+                                        width: w/1.5,
+                                        height: h/20,
+                                        child: Row(
+                                            children:[
+                                              IconButton(
+                                                  onPressed: (){
+                                                    Navigator.pop(context);
+                                                  }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
+                                              Container(
+                                                child:
+                                                Flexible(
+                                                  child: Text(widget.plan_Title.toString(),
+                                                    textAlign: TextAlign.left,
+                                                    overflow: TextOverflow.ellipsis,
+                                                    style: GoogleFonts.roboto().copyWith(
+                                                        color: Color(0xff303030),
+                                                        fontSize: 18.sp,
+                                                        letterSpacing: 0 ,
+                                                        fontWeight: FontWeight.w800,
+                                                        height: 1.h
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]
+                                        ),
+                                      ),
 
-                                         Row(
-                                  children: [
-                                  IconButton(
-                                      onPressed: (){
-                          Navigator.pop(context);
-                          }, icon: Icon(Icons.arrow_back_ios_outlined,color: Color(0xff303030),size: 15,)),
-                          Container(
-                            child:
-                            Flexible(
-                              child: Text(widget.plan_Title.toString(),
-                                textAlign: TextAlign.left,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.roboto().copyWith(
-                                    color: Color.fromRGBO(47, 47, 47, 1),
-                                    fontSize: 18.sp,
-                                    letterSpacing: 0 ,
-                                    fontWeight: FontWeight.w800,
-                                    height: 1
-                                ),
-                              ),
-                            ),
-                          ),
+                                    InkWell(
+                                      onTap: (){
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BubbleInformation(Bubble: widget.Bubble,)),
+                                        ));
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(right: 20.w),
+                                          child: SvgPicture.asset("Assets/images/moreInfo.svg",width: 20.w,)),
+                                    ),
 
                           ],
                       ),
-
-
-
-
-                                      Container(
+                                      widget.Bubble!.type=="Prime"
+                                          ?Container(
                                         width: w/1.2,
-                                        margin: EdgeInsets.all(5.w),
+                                        margin: EdgeInsets.only(bottom: 15.h,left: 36.w,top: 5.h,right: 5.w),
                                         child: Center(
                                           child:
-                                              Text(widget.Plan_Description.toString(),
-                                                textAlign: TextAlign.left,
-                                                style: GoogleFonts.roboto().copyWith(
-                                                    color: Color.fromRGBO(47, 47, 47, 1),
-                                                    fontSize: 10.sp,
-                                                    letterSpacing: 0 ,
-                                                    fontWeight: FontWeight.w800,
-                                                    height: 1
-                                                ),
-                                          ),
+                                          Text('This is a prime bubble.Primes are public bubbles located in key locations.' ,
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.roboto().copyWith(
+                                                color: Color.fromRGBO(47, 47, 47, 1),
+                                                fontSize: 10.sp,
+                                                letterSpacing: 0 ,
+                                                fontWeight: FontWeight.w800,
+                                                height: 1.h
+                                            ),),
+                                          //     Text(
+                                          //       widget.Plan_Description.toString()
+                                          //       ,
+                                          //       textAlign: TextAlign.left,
+                                          //       style: GoogleFonts.roboto().copyWith(
+                                          //           color: Color.fromRGBO(47, 47, 47, 1),
+                                          //           fontSize: 10.sp,
+                                          //           letterSpacing: 0 ,
+                                          //           fontWeight: FontWeight.w800,
+                                          //           height: 1.h
+                                          //       ),
+                                          // ),
                                         ),
-                                      ),
+                                      )
+                                          :Container(),
                                     ],
                                   ),
                                 ),
@@ -2831,7 +3030,116 @@ bool isMultible_answers = true;
                                     height: h/1.17,
                                       child:
                                       Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
+                                          //${DateTime.parse(widget.Bubble!.StartDate!).difference(DateTime.now()).inDays}
+                                      // Text("02DAYS   22HOURS     until it pops",
+                                      // style: TextStyle(
+                                      //   fontWeight: FontWeight.w600,
+                                      //   fontSize: 18.sp,
+                                      // ),
+                                      // ),
+                                          widget.Bubble!.type!="Prime"
+                                              ?
+                                          Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children:[
+                                                Container(
+                                                  margin: EdgeInsets.only(top: 10.3.h,left: 35.w),
+                                                  child: RichText(
+                                                    text: TextSpan(
+                                                      children: <TextSpan>[
+                                                        TextSpan(
+                                                          children: [
+                                                            TextSpan(
+                                                                text: "${DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inDays}",
+                                                                style: _TextTheme.headline1!
+                                                                    .copyWith(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 15.sp,
+                                                                    color: Color(0xffCF6D38)
+                                                                )
+
+                                                            ),
+                                                            TextSpan(
+                                                                text: "DAYS  ",
+                                                                style: _TextTheme.headline1!
+                                                                    .copyWith(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 8.sp,
+                                                                    color: Color(0xffCF6D38)
+                                                                )
+
+                                                            ),
+                                                            TextSpan(
+                                                                text:
+                                                                (DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inDays*24)< DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inHours
+                                                                   ? "${DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inHours - (DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inDays*24)}"
+                                                                    :"00",
+                                                               //  DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inHours > 24
+                                                               //      ? "00"
+                                                               //      : "${DateTime.parse(widget.Bubble!.endDate!).difference(DateTime.now()).inHours}"
+                                                               // ,
+                                                                style: _TextTheme.headline1!
+                                                                    .copyWith(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 15.sp,
+                                                                    color: Color(0xffCF6D38)
+                                                                )
+
+                                                            ),
+                                                            TextSpan(
+                                                                text: "HOURS       ",
+                                                                style: _TextTheme.headline1!
+                                                                    .copyWith(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 8.sp,
+                                                                    color: Color(0xffCF6D38)
+                                                                )
+
+                                                            ),
+                                                            TextSpan(
+                                                                text: "until it pops",
+                                                                style: _TextTheme.headline1!
+                                                                    .copyWith(
+                                                                    fontWeight: FontWeight.w600,
+                                                                    fontSize: 18.sp,
+                                                                    color: Color(0xffCF6D38)
+                                                                )
+
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: EdgeInsets.only(left: 35.w,top: 26.h),
+                                                  child: Text('Sprints', textAlign: TextAlign.left, style: TextStyle(
+                                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                                      fontFamily: 'Red Hat Display',
+                                                      fontSize: 18.sp,
+                                                      letterSpacing: 0 ,
+                                                      fontWeight: FontWeight.w500,
+                                                      height: 1.h
+                                                  ),),
+                                                ),
+                                                Container(
+                                                    margin: EdgeInsets.only(left: 35.w,top: 7.h),
+                                                    child:
+                                                    Text('Enter a 1 on 1 chat with a random person  from inside this bubble!', textAlign: TextAlign.left, style: TextStyle(
+                                                        color: Color.fromRGBO(234, 234, 234, 1),
+                                                        fontFamily: 'Red Hat Text',
+                                                        fontSize: 12.sp,
+                                                        letterSpacing: 0 /*percentages not used in flutter. defaulting to zero*/,
+                                                        fontWeight: FontWeight.w400,
+                                                        height: 1.3333333333333333.sp
+                                                    ),)
+                                                ),
+                                              ]
+                                          ):Container(),
+
                                           SizedBox(height: h/100,),
                                           state.ChangeSearchStatus!?
 
@@ -2864,8 +3172,8 @@ bool isMultible_answers = true;
                                               ),
                                               boxShadow : [BoxShadow(
                                                   color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-                                                  offset: Offset(0,0),
-                                                  blurRadius: 10.645160675048828
+                                                  offset: Offset(0,5),
+                                                  blurRadius: 12.645160675048828.r
                                               )],
                                               color : Color.fromRGBO(96, 96, 96, 1),
                                             ),
@@ -2906,50 +3214,17 @@ bool isMultible_answers = true;
                                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                     children: [
 
-                                                      Container(
-                                                        margin: EdgeInsets.only(right: h/15),
-                                                        child: RichText(
-                                                          textAlign: TextAlign.left,
-                                                          text: TextSpan(
 
-                                                            children: <TextSpan>[
-                                                              TextSpan(
-                                                                text: state.GetInsideUsersSuccess!?state.GetUsersInsideBubble!.users!.length.toString():"0",
-                                                                style: TextStyle(
-                                                                    color: Color.fromRGBO(234, 234, 234, 1),
-                                                                    fontFamily: 'Red Hat Text',
-                                                                    fontSize: 16.sp,
-                                                                    letterSpacing: 0 ,
-                                                                    fontWeight: FontWeight.w900,
-                                                                    height: 1
-                                                                ),
-                                                                children: [
-                                                                  TextSpan(
-                                                                    text: " Users",
-                                                                    style: TextStyle(
-                                                                        color: Color.fromRGBO(234, 234, 234, 1),
-                                                                        fontFamily: 'Red Hat Text',
-                                                                        fontSize: 14.sp,
-                                                                        letterSpacing: 0 ,
-                                                                        fontWeight: FontWeight.w600,
-                                                                        height: 1
-                                                                    ),)
-
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
 
                                                       Text('in Sprints Lobby'
-                                                        , textAlign: TextAlign.left, style: TextStyle(
+                                                        , textAlign: TextAlign.left,
+                                                        style: GoogleFonts.roboto().copyWith(
                                                             color: Color(widget.Bubble_Color),
                                                             fontFamily: 'Red Hat Text',
                                                             fontSize: 14.sp,
-                                                            letterSpacing: 0 ,
-                                                            fontWeight: FontWeight.w700,
-                                                            height: 1
+                                                            letterSpacing: 0,
+                                                            fontWeight: FontWeight.w900,
+                                                            height: 1.h
                                                         ),)
                                                     ],
                                                   ),
@@ -2998,6 +3273,56 @@ bool isMultible_answers = true;
                                                     }
                                                   },
                                                   icon: Icon(Icons.chevron_right,size: h/20,    color: Color(widget.Bubble_Color),),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 38.7.w,top: 4.h,bottom: 30.h),
+                                          child: RichText(
+                                            textAlign: TextAlign.left,
+                                            text: TextSpan(
+
+                                              children: <TextSpan>[
+                                                TextSpan(
+                                                  text: state.GetInsideUsersSuccess!?state.GetUsersInsideBubble!.users!.length.toString():"0",
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                                      fontFamily: 'Red Hat Text',
+                                                      fontSize: 16.sp,
+                                                      letterSpacing: 0 ,
+                                                      fontWeight: FontWeight.w900,
+                                                      height: 1.h
+                                                  ),
+                                                  children: [
+                                                    TextSpan(
+                                                      text: "  Users",
+                                                      style: TextStyle(
+                                                          color: Color.fromRGBO(234, 234, 234, 1),
+                                                          fontFamily: 'Red Hat Text',
+                                                          fontSize: 14.sp,
+                                                          letterSpacing: 0 ,
+                                                          fontWeight: FontWeight.w600,
+                                                          height: 1.h
+                                                      ),),
+                                                    // Figma Flutter Generator InsprintslobbyWidget - TEXT
+
+                                                    TextSpan(
+                                                      text: ' in Sprints Lobby',
+                                                      style: TextStyle(
+                                                          color: Color(widget.Bubble_Color),
+                                                          fontFamily: 'Red Hat Text',
+                                                          fontSize: 14.sp,
+                                                          letterSpacing: 0 ,
+                                                          fontWeight: FontWeight.w600,
+                                                          height: 1.h
+                                                      ),),
+
+
+
+                                                  ],
                                                 )
                                               ],
                                             ),
@@ -3015,7 +3340,7 @@ bool isMultible_answers = true;
                                                   fontSize: 18.sp,
                                                   letterSpacing: 0 ,
                                                   fontWeight: FontWeight.w700,
-                                                  height: 1
+                                                  height: 1.h
                                               ),),
                                             ),
                                             Text(""),
@@ -3034,10 +3359,11 @@ bool isMultible_answers = true;
                                       ],
                                     ):Container(),
                                           Container(
+                                            margin: EdgeInsets.only(left: 29.w),
                                               decoration:  BoxDecoration(
                                                 borderRadius: BorderRadius.only(
                                                   bottomLeft: Radius.circular(15.r),
-                                                  bottomRight:  Radius.circular(15.r),
+                                                  bottomRight:Radius.circular(15.r),
                                                   topLeft: Radius.circular(15.r),
                                                   topRight: Radius.circular(15.r),
                                                 ),
@@ -3058,27 +3384,27 @@ bool isMultible_answers = true;
                                                   },
                                                   cursorColor: Colors.grey,
                                                   style:  TextStyle(
-                                                      color: Colors.orange,
-                                                      fontSize: 16.5.sp,
-                                                    height: 1.2.h
+                                                      color: Color(widget.Bubble_Color),
+                                                      fontSize: 14.sp,
+                                                    height: 1.h
                                                   ),
                                                   decoration: InputDecoration(
                                                     border: OutlineInputBorder(
                                                       borderRadius: BorderRadius.circular(30.0.r),
                                                       borderSide:  BorderSide(
-                                                          color: Color(0xff939393), width: 10),
+                                                          color: Color(0xff939393), width: 10.w),
                                                     ),
                                                     focusedBorder:  OutlineInputBorder(
                                                       borderRadius:
                                                       BorderRadius.all(Radius.circular(30.0.r)),
                                                       borderSide: BorderSide(
-                                                          color: Color(0xff939393), width: 3),
+                                                          color: Color(0xff939393), width: 3.w),
                                                     ),
                                                     enabledBorder:  OutlineInputBorder(
                                                       borderRadius:
                                                       BorderRadius.all(Radius.circular(30.0.r)),
                                                       borderSide: BorderSide(
-                                                          color: Color(0xff939393), width: 3),
+                                                          color: Color(0xff939393), width: 3.w),
                                                     ),
                                                     prefixIcon: IconButton(
                                                         icon: SvgPicture.asset(
@@ -3089,7 +3415,7 @@ bool isMultible_answers = true;
                                                     filled: true,
                                                     fillColor: Colors.transparent,
                                                     contentPadding:  EdgeInsets.symmetric(
-                                                        horizontal: 12.w, vertical: 20.h),
+                                                        horizontal: 10.w, vertical: 13.h),
                                                     hintText: "Search",
                                                     hintStyle:   TextStyle(
                                                         color: Color.fromRGBO(147, 147, 147, 1),
@@ -3097,7 +3423,7 @@ bool isMultible_answers = true;
                                                         fontSize: 15.sp,
                                                         letterSpacing: 0 ,
                                                         fontWeight: FontWeight.w500,
-                                                        height: 1
+                                                        height: 1.h
                                                     ),
                                                   ),
                                                   keyboardType: TextInputType.text,
@@ -3107,223 +3433,32 @@ bool isMultible_answers = true;
 
 
                                           state.GetInsideUsersSuccess!
-                                              ?  Container(
-                                                width: w,
-                                                height: h/1.8,
-                                               margin: EdgeInsets.only(right: w/14),
-                                                child: ScrollConfiguration(
-                                                  behavior: MyBehavior(),
-                                                  child: ListView.separated(
-                                                    shrinkWrap: true,
-                                                    padding: EdgeInsets.zero,
-                                                    physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                                              ?   Container(
+                                                  width: w,
+                                                  height: h/3.68,
+                                                 margin: EdgeInsets.only(right: w/14),
+                                                  child: ScrollConfiguration(
+                                                    behavior: MyBehavior(),
+                                                    child: ListView.separated(
+                                                      shrinkWrap: true,
+                                                      padding: EdgeInsets.zero,
+                                                      physics: AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
 
-                                                    scrollDirection: Axis.vertical,
-                                                    itemCount: state.FilteredInsideBubbleUsers!.length,
-                                                    separatorBuilder: (BuildContext context, int index) {
-                                                      return SizedBox(
-                                                        height: 5,
-                                                      );
-                                                    },
-                                                    itemBuilder: (BuildContext context, int index) {
+                                                      scrollDirection: Axis.vertical,
+                                                      itemCount: state.FilteredInsideBubbleUsers!.length,
+                                                      separatorBuilder: (BuildContext context, int index) {
+                                                        return SizedBox(
+                                                          height: 5.h,
+                                                        );
+                                                      },
+                                                      itemBuilder: (BuildContext context, int index) {
 
-                                                      var myInt = int.parse(state.FilteredInsideBubbleUsers![index].Background_Color.toString());
-                                                      var BackgroundColor= myInt;
+                                                        var myInt = int.parse(state.FilteredInsideBubbleUsers![index].Background_Color.toString());
+                                                        var BackgroundColor= myInt;
 
-                                                      return
-                                                      state.FilteredInsideBubbleUsers![index].ID==id?
-                                                      Column(
-                                                        children: [
-                                                          Container(
-                                                            margin: EdgeInsets.only(left: w/14),
-                                                            width: w / 1.2,
-                                                            height: h / 13,
-                                                            decoration: BoxDecoration(
-                                                              color: ColorS.secondaryContainer,
-                                                              borderRadius: BorderRadius.only(
-                                                                bottomLeft: Radius.circular(40.r),
-                                                                bottomRight: Radius.circular(5.r),
-                                                                topLeft: Radius.circular(40.r),
-                                                                topRight: Radius.circular(5.r),
-                                                              ),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                    color: ColorS.primaryVariant ,
-                                                                    offset: Offset(0, 0),
-                                                                    blurRadius: 2)
-                                                              ],
-                                                            ),
-                                                            child: Row(
-                                                              children: [
-                                                                Column(
-                                                                  mainAxisAlignment:
-                                                                  MainAxisAlignment.center,
-                                                                  children: [
-                                                                    Stack(
-                                                                        children:[
-                                                                          Row(
-                                                                            mainAxisAlignment:
-                                                                            MainAxisAlignment.center,
-                                                                            children: [
-                                                                              SizedBox(width: h/50,),
-
-                                                                              Container(
-                                                                                width: w/9,
-                                                                                height: h / 15,
-                                                                                child:InkWell(
-                                                                                  onTap: (){
-                                                                                    alreatDialogBuilder(context,h,w,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]);
-                                                                                  },
-                                                                                  child: CachedNetworkImage(
-                                                                                    imageUrl:state.FilteredInsideBubbleUsers![index].Avatar!,
-                                                                                    errorWidget: (context, url, error) => Center(child: Text("Error")),
-                                                                                    imageBuilder: (context, imageProvider) => CircleAvatar(
-                                                                                      radius: 12.w,
-                                                                                      backgroundImage: imageProvider,
-                                                                                      backgroundColor: Color(BackgroundColor),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-
-                                                                              ),
-
-                                                                            ],
-                                                                          ),
-                                                                          // state.ChangeStateSuccess!?
-                                                                          // FrinedsStatus[index]==1?
-                                                                          // Positioned(
-                                                                          //   bottom: 0,
-                                                                          //   right: 0,
-                                                                          //   child:
-                                                                          //   CircleAvatar(
-                                                                          //       backgroundColor:ColorS.secondaryContainer,
-                                                                          //       radius: 10,
-                                                                          //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
-                                                                          // )
-                                                                          //     :Text("")
-                                                                          //     :Text("")
-
-                                                                          //: Center(
-                                                                          //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
-                                                                          //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
-                                                                        ]
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                                SizedBox(width: 10,),
-
-                                                                Text(
-                                                                    state.FilteredInsideBubbleUsers![index].Alias!,
-                                                                    textAlign: TextAlign.left,
-                                                                    style: _TextTheme.headline3!.copyWith(
-                                                                      color: Color(0xffCF6D38),
-                                                                        fontFamily: 'Red Hat Display',
-                                                                        fontWeight: FontWeight.w400
-                                                                        ,fontSize: 15.35.sp
-                                                                    )
-
-                                                                ),
-
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                      : Slidable(
-                                                        closeOnScroll: true,
-                                                        key:  ValueKey(state.FilteredInsideBubbleUsers![index].ID!),
-                                                        endActionPane: ActionPane(
-                                                          motion:  ScrollMotion(),
-                                                          children: [
-                                                            Expanded(
-                                                              child: InkWell(
-                                                                onTap: () {
-                                                                    Navigator.push(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                        builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].ID!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,Send_by: "dm",),),
-                                                                    );
-                                                                },
-                                                                child: Container(
-                                                                  width: w / 6,
-                                                                  height: h / 9,
-                                                                  decoration:  BoxDecoration(
-                                                                    color:  Color(0xffCF6D38),
-                                                                    borderRadius: BorderRadius.only(
-                                                                      bottomRight:  Radius.circular(0),
-                                                                      topRight: Radius.circular(0),
-                                                                    ),
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment.center,
-                                                                    children: [
-                                                                      SvgPicture.asset(
-                                                                          "Assets/images/Vector2.svg",
-                                                                          width: h / 26,
-                                                                          color: Colors.white),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Expanded(
-                                                              child: InkWell(
-                                                                onTap: () {
-                                                                  alreatDialogBuilder(context,h,w
-                                                                      ,state.FilteredInsideBubbleUsers![index].is_Frined!
-                                                                      ,false
-                                                                      ,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  width: w / 6,
-                                                                  height: h / 9,
-                                                                  decoration:  BoxDecoration(
-                                                                    color : state.FilteredInsideBubbleUsers![index].is_Frined!?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
-                                                                    borderRadius: BorderRadius.only(
-                                                                      bottomRight:  Radius.circular(5.r),
-                                                                      topRight: Radius.circular(5.r),
-                                                                    ),
-                                                                  ),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                    MainAxisAlignment.center,
-                                                                    children: [
-                                                                      state.GetInsideUsersSuccess!?
-                                                                      state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID
-                                                                          ?Icon(Icons.person)
-                                                                          :    state.FilteredInsideBubbleUsers![index].is_Frined!
-                                                                          ?     SvgPicture.asset(
-                                                                        "Assets/images/True_Mark.svg",
-                                                                        color: Colors.white,
-                                                                        width: h / 26,
-                                                                      )
-                                                                          :   SvgPicture.asset(
-                                                                        "Assets/images/Add_friend.svg",
-                                                                        color: Colors.white,
-                                                                        width: h / 26,
-                                                                      )
-
-
-                                                                          :state.GetInsideUsersISloading!
-                                                                          ?    Center(
-                                                                          child: listLoader(
-                                                                              context: context))
-                                                                          :    Expanded(
-                                                                        child:    Center(
-                                                                          child: Container(
-                                                                            child: Text("Loading..."),
-                                                                          ),
-                                                                        ),)
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        child: Column(
+                                                        return
+                                                        state.FilteredInsideBubbleUsers![index].ID==id?
+                                                        Column(
                                                           children: [
                                                             Container(
                                                               margin: EdgeInsets.only(left: w/14),
@@ -3341,7 +3476,7 @@ bool isMultible_answers = true;
                                                                   BoxShadow(
                                                                       color: ColorS.primaryVariant ,
                                                                       offset: Offset(0, 0),
-                                                                      blurRadius: 2)
+                                                                      blurRadius: 2.r)
                                                                 ],
                                                               ),
                                                               child: Row(
@@ -3356,7 +3491,7 @@ bool isMultible_answers = true;
                                                                               mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                               children: [
-                                                                                SizedBox(width: h/50,),
+                                                                                SizedBox(width: 6.5.w,),
 
                                                                                 Container(
                                                                                   width: w/9,
@@ -3375,40 +3510,22 @@ bool isMultible_answers = true;
                                                                                       ),
                                                                                     ),
                                                                                   ),
-
                                                                                 ),
-
                                                                               ],
                                                                             ),
-                                                                            // state.ChangeStateSuccess!?
-                                                                            // FrinedsStatus[index]==1?
-                                                                            // Positioned(
-                                                                            //   bottom: 0,
-                                                                            //   right: 0,
-                                                                            //   child:
-                                                                            //   CircleAvatar(
-                                                                            //       backgroundColor:ColorS.secondaryContainer,
-                                                                            //       radius: 10,
-                                                                            //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
-                                                                            // )
-                                                                            //     :Text("")
-                                                                            //     :Text("")
-
-                                                                            //: Center(
-                                                                            //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
-                                                                            //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
                                                                           ]
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                  SizedBox(width: 10,),
+                                                                  SizedBox(width: 6.w,),
 
                                                                   Text(
                                                                       state.FilteredInsideBubbleUsers![index].Alias!,
                                                                       textAlign: TextAlign.left,
                                                                       style: _TextTheme.headline3!.copyWith(
+                                                                        color: Color(0xffCF6D38),
                                                                           fontFamily: 'Red Hat Display',
-                                                                          fontWeight: FontWeight.w400
+                                                                          fontWeight: FontWeight.w500
                                                                           ,fontSize: 15.35.sp
                                                                       )
 
@@ -3418,22 +3535,212 @@ bool isMultible_answers = true;
                                                               ),
                                                             ),
                                                           ],
-                                                        ),
+                                                        )
+                                                        : Slidable(
+                                                          closeOnScroll: true,
+                                                          key:  ValueKey(state.FilteredInsideBubbleUsers![index].ID!),
+                                                          endActionPane: ActionPane(
+                                                            motion:  ScrollMotion(),
+                                                            children: [
+                                                              Expanded(
+                                                                child: InkWell(
+                                                                  onTap: () {
+                                                                      Navigator.push(
+                                                                        context,
+                                                                        MaterialPageRoute(
+                                                                          builder: (context) => Sprints(my_ID: widget.MY_ID!, IS_sprints: false, receiver_id: state.FilteredInsideBubbleUsers![index].ID!,His_Alias: state.FilteredInsideBubbleUsers![index].Alias!,Send_by: "dm",),),
+                                                                      );
+                                                                  },
+                                                                  child: Container(
+                                                                    width: w / 6,
+                                                                    height: h / 9,
+                                                                    decoration:  BoxDecoration(
+                                                                      color:  Color(0xffCF6D38),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        bottomRight:  Radius.circular(0),
+                                                                        topRight: Radius.circular(0),
+                                                                      ),
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.center,
+                                                                      children: [
+                                                                        SvgPicture.asset(
+                                                                            "Assets/images/Vector2.svg",
+                                                                            width: h / 26,
+                                                                            color: Colors.white),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Expanded(
+                                                                child: InkWell(
+                                                                  onTap: () {
+                                                                    alreatDialogBuilder(context,h,w
+                                                                        ,state.FilteredInsideBubbleUsers![index].is_Frined!
+                                                                        ,false
+                                                                        ,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]
+                                                                    );
+                                                                  },
+                                                                  child: Container(
+                                                                    width: w / 6,
+                                                                    height: h / 9,
+                                                                    decoration:  BoxDecoration(
+                                                                      color : state.FilteredInsideBubbleUsers![index].is_Frined!?Color(0xff939393):Color.fromRGBO(168, 48, 99, 1),
+                                                                      borderRadius: BorderRadius.only(
+                                                                        bottomRight:  Radius.circular(5.r),
+                                                                        topRight: Radius.circular(5.r),
+                                                                      ),
+                                                                    ),
+                                                                    child: Row(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.center,
+                                                                      children: [
+                                                                        state.GetInsideUsersSuccess!?
+                                                                        state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID
+                                                                            ?Icon(Icons.person)
+                                                                            :    state.FilteredInsideBubbleUsers![index].is_Frined!
+                                                                            ?     SvgPicture.asset(
+                                                                          "Assets/images/True_Mark.svg",
+                                                                          color: Colors.white,
+                                                                          width: h / 26,
+                                                                        )
+                                                                            :   SvgPicture.asset(
+                                                                          "Assets/images/Add_friend.svg",
+                                                                          color: Colors.white,
+                                                                          width: h / 26,
+                                                                        )
 
-                                                      );
+
+                                                                            :state.GetInsideUsersISloading!
+                                                                            ?    Center(
+                                                                            child: listLoader(
+                                                                                context: context))
+                                                                            :    Expanded(
+                                                                          child:    Center(
+                                                                            child: Container(
+                                                                              child: Text("Loading..."),
+                                                                            ),
+                                                                          ),)
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                margin: EdgeInsets.only(left: w/14),
+                                                                width: w / 1.2,
+                                                                height: h / 13,
+                                                                decoration: BoxDecoration(
+                                                                  color: ColorS.secondaryContainer,
+                                                                  borderRadius: BorderRadius.only(
+                                                                    bottomLeft: Radius.circular(40.r),
+                                                                    bottomRight: Radius.circular(5.r),
+                                                                    topLeft: Radius.circular(40.r),
+                                                                    topRight: Radius.circular(5.r),
+                                                                  ),
+                                                                  boxShadow: [
+                                                                    BoxShadow(
+                                                                        color: ColorS.primaryVariant ,
+                                                                        offset: Offset(0, 0),
+                                                                        blurRadius: 2.r)
+                                                                  ],
+                                                                ),
+                                                                child: Row(
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisAlignment:
+                                                                      MainAxisAlignment.center,
+                                                                      children: [
+                                                                        Stack(
+                                                                            children:[
+                                                                              Row(
+                                                                                mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  SizedBox(width: h/50,),
+
+                                                                                  Container(
+                                                                                    width: w/9,
+                                                                                    height: h / 15,
+                                                                                    child:InkWell(
+                                                                                      onTap: (){
+                                                                                        alreatDialogBuilder(context,h,w,state.FilteredInsideBubbleUsers![index].is_Frined!,state.FilteredInsideBubbleUsers![index].ID==widget.MY_ID,state.FilteredInsideBubbleUsers![index].ID!,index,state.FilteredInsideBubbleUsers![index]);
+                                                                                      },
+                                                                                      child: CachedNetworkImage(
+                                                                                        imageUrl:state.FilteredInsideBubbleUsers![index].Avatar!,
+                                                                                        errorWidget: (context, url, error) => Center(child: Text("Error")),
+                                                                                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                                                                                          radius: 12.w,
+                                                                                          backgroundImage: imageProvider,
+                                                                                          backgroundColor: Color(BackgroundColor),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+
+                                                                                  ),
+
+                                                                                ],
+                                                                              ),
+                                                                              // state.ChangeStateSuccess!?
+                                                                              // FrinedsStatus[index]==1?
+                                                                              // Positioned(
+                                                                              //   bottom: 0,
+                                                                              //   right: 0,
+                                                                              //   child:
+                                                                              //   CircleAvatar(
+                                                                              //       backgroundColor:ColorS.secondaryContainer,
+                                                                              //       radius: 10,
+                                                                              //       child:  CircleAvatar(backgroundColor: Color(0xff34A853),radius: 8,)),
+                                                                              // )
+                                                                              //     :Text("")
+                                                                              //     :Text("")
+
+                                                                              //: Center(
+                                                                              //                                                   child:SvgPicture.asset("Assets/images/Add_friend.svg",color: Colors.white,width:  w/12,)
+                                                                              //                                               ),       SvgPicture.asset("Assets/images/Vector2.svg",width: w/12,)
+                                                                            ]
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                    SizedBox(width: 10.w,),
+
+                                                                    Text(
+                                                                        state.FilteredInsideBubbleUsers![index].Alias!,
+                                                                        textAlign: TextAlign.left,
+                                                                        style: _TextTheme.headline3!.copyWith(
+                                                                            fontFamily: 'Red Hat Display',
+                                                                            fontWeight: FontWeight.w400
+                                                                            ,fontSize: 15.35.sp
+                                                                        )
+
+                                                                    ),
+
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+
+                                                        );
 
 
 
 
 
-                                                    },
+                                                      },
+                                                    ),
                                                   ),
-                                                ),
-                                              )
+                                                )
                                               :   state.GetInsideUsersISloading!
                                               ?      Container(
                                               width: w,
-                                              height: h/1.8,
+                                              height: h/3.68,
                                                   child: Row(
                                                     mainAxisAlignment:
                                                     MainAxisAlignment.center,
@@ -3445,7 +3752,7 @@ bool isMultible_answers = true;
                                                   ))
                                               :   Container(
                                             width: w,
-                                            height: h/1.8,
+                                            height: h/3.68,
                                               child: Center(child: Text("Loading")),
                                             ),
 
@@ -3455,7 +3762,7 @@ bool isMultible_answers = true;
                                     ),
                             ],
                           ),
-                        ),
+
                       ),
                     ),
 
@@ -3463,8 +3770,8 @@ bool isMultible_answers = true;
   }
 
   Future OutsideBubbleAlreat()async{
-
     return       showDialog(
+            barrierColor: Colors.white.withOpacity(0),
       builder: (BuildContext context) {
         var h = MediaQuery.of(context).size.height;
         var w = MediaQuery.of(context).size.width;
@@ -3768,7 +4075,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
 
             Container(
               width: w / 2,
-              height: h / 2.23,
+              height: h / 2.1,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -3781,7 +4088,12 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           children: [
                             Container(
                                 width: w / 2,
-                                child: InkWell(
+                                child:   Theme(
+                                    data: ThemeData(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                    ),
+                                    child : InkWell(
                                   onTap: () {
                                     Navigator.of(context).pop();
                                     TopicFlowBottomSheet();
@@ -3790,7 +4102,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                     children: [
                                       Positioned(
                                         top: h / 100,
-                                        left: h / 35,
+                                        left: w / 15,
 
                                         child: Container(
                                           width: w / 2.7,
@@ -3816,7 +4128,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                       color: Color.fromRGBO(
                                                           47, 47, 47, 1),
                                                       fontFamily: 'Red Hat Display',
-                                                      fontSize: 11.sp,
+                                                      fontSize: 10.sp,
                                                       letterSpacing: 0,
                                                       fontWeight: FontWeight.w600,
                                                       height: 1.h),
@@ -3825,23 +4137,19 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         ),
                                       ),
                                       Container(
-                                        width: w / 7,
-                                        height: h / 13,
-                                        margin: EdgeInsets.only(left: h / 70),
-                                        decoration:  BoxDecoration(
-                                          color: Color(0xff942657),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.elliptical(36.r, 36.r)),
-                                        ),
-                                        child: Center(
-                                          child: SvgPicture.asset(
+                                        margin: EdgeInsets.only(left: 14.w),
+                                        child: CircleAvatar(
+                                          backgroundColor: Color(0xff942657),
+                                          radius: 25.r,
+                                          child:  SvgPicture.asset(
                                             "Assets/images/notifiy.svg",
                                             width: w / 14.5,
                                           ),
                                         ),
                                       )
+
                                     ],
-                                  ),
+                                  ),)
                                 ))
                           ],
                         ),
@@ -3855,14 +4163,19 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                 width: w / 2,
                                 child: InkWell(
                                   onTap: () {
-                                 PollFlowBottomSheet();
-                                  //  CommingSoonPopup(context, h, w, "Coming Soon!", "OK", 24);
+                              //   PollFlowBottomSheet();
+                                  CommingSoonPopup(context, h, w, "Coming Soon!", "OK", 24);
                                   },
-                                  child: Stack(
+                                  child:    Theme(
+                                    data: ThemeData(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                    ),
+                                    child :Stack(
                                     children: [
                                       Positioned(
                                         top: h / 100,
-                                        left: h / 35,
+                                        left: w / 15,
                                         child: Container(
                                           width: w / 2.7,
                                           height: h / 17,
@@ -3887,7 +4200,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                       color: Color.fromRGBO(
                                                           47, 47, 47, 1),
                                                       fontFamily: 'Red Hat Display',
-                                                      fontSize: 11.sp,
+                                                      fontSize: 10.sp,
                                                       letterSpacing: 0,
                                                       fontWeight: FontWeight.w600,
                                                       height: 1.h),
@@ -3896,23 +4209,18 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         ),
                                       ),
                                       Container(
-                                        width: w / 7,
-                                        height: h / 13,
-                                        margin: EdgeInsets.only(left: h / 70),
-                                        decoration:  BoxDecoration(
-                                          color: Color(0xffA83063),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.elliptical(36.r, 36.r)),
-                                        ),
-                                        child: Center(
-                                          child: SvgPicture.asset(
+                                        margin: EdgeInsets.only(left: 14.w),
+                                        child: CircleAvatar(
+                                          backgroundColor: Color(0xffA83063),
+                                          radius: 25.r,
+                                          child:  SvgPicture.asset(
                                             "Assets/images/123323232.svg",
                                             width: w / 14.5,
                                           ),
                                         ),
                                       )
                                     ],
-                                  ),
+                                  ),)
                                 ))
                           ],
                         ),
@@ -3924,7 +4232,12 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           children: [
                             Container(
                                 width: w / 2,
-                                child: InkWell(
+                                child:    Theme(
+                                    data: ThemeData(
+                                      splashColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                    ),
+                                    child :InkWell(
                                   onTap: () {
 
                                     PhotoFlowBottomSheet("ImageOnChat");
@@ -3933,7 +4246,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                     children: [
                                       Positioned(
                                         top: h / 100,
-                                        left: h / 35,
+                                        left: w / 15,
                                         child: Container(
                                           width: w / 2.7,
                                           height: h / 17,
@@ -3958,7 +4271,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                       color: Color.fromRGBO(
                                                           47, 47, 47, 1),
                                                       fontFamily: 'Red Hat Display',
-                                                      fontSize: 11.sp,
+                                                      fontSize: 10.sp,
                                                       letterSpacing: 0,
                                                       fontWeight: FontWeight.w600,
                                                       height: 1.h),
@@ -3967,16 +4280,11 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         ),
                                       ),
                                       Container(
-                                        width: w / 7,
-                                        height: h / 13,
-                                        margin: EdgeInsets.only(left: h / 70),
-                                        decoration:  BoxDecoration(
-                                          color: Color(0xffCA4E4E),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.elliptical(36.r, 36.r)),
-                                        ),
-                                        child: Center(
-                                          child: SvgPicture.asset(
+                                        margin: EdgeInsets.only(left: 14.w),
+                                        child: CircleAvatar(
+                                          backgroundColor: Color(0xffCA4E4E),
+                                          radius: 25.r,
+                                          child:  SvgPicture.asset(
                                             "Assets/images/12123123.svg",
                                             width: w / 14.5,
                                           ),
@@ -3984,7 +4292,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                       )
                                     ],
                                   ),
-                                ))
+                                )))
                           ],
                         ),
                          SizedBox(
@@ -3993,7 +4301,12 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                         Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                           Container(
                               width: w / 2,
-                              child: InkWell(
+                              child:   Theme(
+                                  data: ThemeData(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                  ),
+                                  child : InkWell(
                                   onTap: () {
                                    MediaDumpBottomSheet();
 
@@ -4001,7 +4314,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                   child: Stack(children: [
                                     Positioned(
                                       top: h / 100,
-                                      left: h / 35,
+                                      left: w / 15,
                                       child: Container(
                                         width: w / 2.7,
                                         height: h / 17,
@@ -4026,7 +4339,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                     color:
                                                     Color.fromRGBO(47, 47, 47, 1),
                                                     fontFamily: 'Red Hat Display',
-                                                    fontSize: 11.sp,
+                                                    fontSize: 10.sp,
                                                     letterSpacing: 0,
                                                     fontWeight: FontWeight.w600,
                                                     height: 1.h),
@@ -4035,29 +4348,22 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                       ),
                                     ),
                                     Container(
-                                      width: w / 7,
-                                      height: h / 13,
-                                      margin: EdgeInsets.only(left: h / 70),
-                                      decoration:  BoxDecoration(
-                                        color: Color(0xffCF6D38),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.elliptical(36.r, 36.r)),
-                                      ),
-                                      child: Center(
-                                        child: SvgPicture.asset(
+                                      margin: EdgeInsets.only(left: 14.w),
+                                      child: CircleAvatar(
+                                        backgroundColor: Color(0xffCF6D38),
+                                        radius: 25.r,
+                                        child:  SvgPicture.asset(
                                           "Assets/images/Layer_1-2_1_.svg",
                                           width: w / 14.5,
                                         ),
                                       ),
-                                    ),
-                                  ]))),
+                                    )
+                                  ]))),)
                         ]),
-                    SizedBox(height: 10.h,),
-                    SizedBox(height: 10.h,),
                     Theme(
                       data: ThemeData(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
+                        // splashColor: Colors.transparent,
+                        // highlightColor: Colors.transparent,
                       ),
                       child :
                             InkWell(
@@ -4068,9 +4374,8 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                             ));
                               },
                               child :  Container(
-                                margin: EdgeInsets.only(right: h/2.55),
-                                width: w/5,
-                              height: h/20,
+                                width: w/2.6,
+                              height: h/9.5,
 
                               color: Colors.transparent,
 
@@ -4117,7 +4422,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                   },
 
                   child: Container(
-                    width: w/2,
+                    width: w/2.2,
                   ),
                 ),
                 ),
@@ -4128,6 +4433,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
           _GroupChatBloc.add(ChangeFlowOptionsStatus((b) =>
           b..status = false
           ));
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
     });
   }
 
@@ -4879,6 +5185,9 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                   fontWeight: FontWeight.w300,
                                                 fontSize: 14.sp,
                                               ),
+                                              onTap: (){
+
+                                              },
                                               keyboardAppearance:
                                               Brightness.dark,
                                               textInputAction:
@@ -5684,9 +5993,14 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                 children: [
                   InkWell(
                     onTap: (){
-                      // alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
+                    //  alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
                     },
-                    child: CircleAvatar(
+                    child: Theme(
+                      data: ThemeData(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                      ),
+                      child : CircleAvatar(
                       backgroundColor: Color(state
                           .messages![index]
                           .background_Color!),
@@ -5696,7 +6010,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           .toString()),
                       radius: 20.w,
 
-                    ),
+                    ),)
                   ),
                   SizedBox(width: 10.w,),
                   Container(
@@ -5780,6 +6094,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           ),
                         ],
                       ),
+                      SizedBox(height: 20.h,),
                       Container(
                         width: w / 1.4,
                         child: Text(
@@ -5793,7 +6108,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                               height: 1.h),
                         ),
                       ),
-                      SizedBox(height: 13.h,),
+                      SizedBox(height: 16.h,),
                       Container(
                         width: w / 1.4,
                         padding: EdgeInsets.only(bottom: h / 100),
@@ -5871,199 +6186,9 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
               ],
             ),
           )
-
-
-
         ],
       ),
     );
-
-    //
-    //   Row(
-    //   children: [
-    //     Container(
-    //       height: h / 4.44,
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.start,
-    //         children: [
-    //           InkWell(
-    //           onTap: (){
-    //   //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
-    // },
-    //   child:
-    //           CircleAvatar(
-    //             backgroundColor:
-    //             Color(state.messages![index].background_Color!),
-    //             backgroundImage:
-    //             NetworkImage(state.messages![index].Avatar.toString()),
-    //             radius: 20.w,
-    //           ),
-    //           )
-    //         ],
-    //       ),
-    //     ),
-    //     SizedBox(
-    //       width: h / 100,
-    //     ),
-    //     Container(
-    //       width: w / 1.3,
-    //       child: Column(
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               Text(
-    //                 state.messages![index].Alias.toString(),
-    //                 textAlign: TextAlign.left,
-    //                 style: _TextTheme.headline3!.copyWith(
-    //                   color: ColorS.errorContainer,
-    //                   fontWeight: FontWeight.w400,
-    //                           fontSize: 13.sp,
-    //                 ),
-    //               ),
-    //               Text(state.messages![index].time!,
-    //                   textAlign: TextAlign.right,
-    //                   style: _TextTheme.headline2!.copyWith(
-    //                     fontWeight: FontWeight.w300,
-    //                     color:  Color(0xffEAEAEA),
-    //                       fontSize: 9.sp
-    //                   ))
-    //             ],
-    //           ),
-    //            SizedBox(
-    //             height: 7.h,
-    //           ),
-    //           Container(
-    //             width: w / 1.3,
-    //             decoration:  BoxDecoration(
-    //               borderRadius: BorderRadius.only(
-    //                 topLeft: Radius.circular(5.r),
-    //                 topRight: Radius.circular(5.r),
-    //                 bottomLeft: Radius.circular(5.r),
-    //                 bottomRight: Radius.circular(5.r),
-    //               ),
-    //               boxShadow: [
-    //                 BoxShadow(
-    //                     color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-    //                     offset: Offset(0, 0),
-    //                     blurRadius: 10.645160675048828.r)
-    //               ],
-    //               color: Color.fromRGBO(96, 96, 96, 1),
-    //             ),
-    //             child: Column(
-    //               mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //               children: [
-    //                 Row(
-    //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //                   children: [
-    //                     Container(
-    //                       width: w / 1.4,
-    //                       padding: EdgeInsets.only(top: h / 100),
-    //                       child: Text(
-    //                         state.messages![index].TopicFlowTitle.toString(),
-    //                         textAlign: TextAlign.left,
-    //                         style: GoogleFonts.roboto().copyWith(
-    //                             color: Color.fromRGBO(234, 234, 234, 1),
-    //                                   fontSize: 13.sp,
-    //                             letterSpacing: 0.2,
-    //                             fontWeight: FontWeight.w700,
-    //                             height: 1.h),
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 Container(
-    //                   width: w / 1.4,
-    //                   child: Text(
-    //                     state.messages![index].TopicFlowDescription.toString(),
-    //                     textAlign: TextAlign.left,
-    //                     style: GoogleFonts.roboto().copyWith(
-    //                         color: Color.fromRGBO(234, 234, 234, 1),
-    //                         fontSize: 10.sp,
-    //                         letterSpacing: 0,
-    //                         fontWeight: FontWeight.w400,
-    //                         height: 1.h),
-    //                   ),
-    //                 ),
-    //                 SizedBox(height: 13.h,),
-    //                 Container(
-    //                   width: w / 1.4,
-    //                   padding: EdgeInsets.only(bottom: h / 100),
-    //                   child: Row(
-    //                     children: [
-    //                       Container(
-    //                         width: w / 5,
-    //                         height: h / 24,
-    //                         decoration:  BoxDecoration(
-    //                           borderRadius: BorderRadius.only(
-    //                             topLeft: Radius.circular(50.r),
-    //                             topRight: Radius.circular(50.r),
-    //                             bottomLeft: Radius.circular(50.r),
-    //                             bottomRight: Radius.circular(50.r),
-    //                           ),
-    //                           color:  Color(widget.Bubble_Color),
-    //                         ),
-    //                         child: InkWell(
-    //                           onTap: (){
-    //                             bool GetInStatus = false;
-    //                             for(int j =0;j<AllBubblesIDS!.length;j++){
-    //                               if (widget.bubble_id==AllBubblesIDS![j]){
-    //                                 if (AllBubblesStatus![j]==1)
-    //                                   GetInStatus = true;
-    //                               }
-    //                             }
-    //
-    //                             if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
-    //                               FlowData data = FlowData();
-    //                               data.Title = state.messages![index].TopicFlowTitle.toString();
-    //                               data.Content = state.messages![index].TopicFlowDescription.toString();
-    //                               data.Flow_type = "TopicFlow";
-    //                               data.FlowMessage_id = state.messages![index].ID;
-    //                               data.ISMediaDump = false;
-    //                               data.Color = widget.Bubble_Color;
-    //                               WidgetsBinding.instance
-    //                                   .addPostFrameCallback((_) =>
-    //                                   Navigator.push(
-    //                                     context,
-    //                                     MaterialPageRoute( //receiver_id: ,my_ID: ,
-    //                                       builder: (context) =>
-    //                                           FlowsChat(
-    //                                             Plan_Description: widget.Plan_Description,
-    //                                             flow: data,
-    //                                             plan_Title: widget.plan_Title,
-    //                                             bubble_id: widget.bubble_id,
-    //                                             MY_ID: widget.MY_ID,
-    //                                           ),),));
-    //                             }else{
-    //                               OutsideBubbleAlreat();
-    //                             }
-    //                           },
-    //                           child:  Center(
-    //                             child: Text(
-    //                               'Join Flow',
-    //                               textAlign: TextAlign.center,
-    //                               style: TextStyle(
-    //                                   color: Color.fromRGBO(47, 47, 47, 1),
-    //                                   fontFamily: 'Red Hat Text',
-    //                                   fontSize: 11.sp,
-    //                                   letterSpacing: 0,
-    //                                   fontWeight: FontWeight.w600,
-    //                                   height: 1),
-    //                             ),
-    //                           ),
-    //                         ),
-    //                       )
-    //                     ],
-    //                   ),
-    //                 )
-    //               ],
-    //             ),
-    //           )
-    //         ],
-    //       ),
-    //     )
-    //   ],
-    // );
   }
 
   Widget PollFlowWidget(GroupChatState state, int index) {
@@ -6074,12 +6199,10 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
     return
-
         Container(
           child: Column(
             children: [
-
-                    Row(
+              Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
@@ -6088,7 +6211,12 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                               onTap: (){
                                // alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
                               },
-                              child: CircleAvatar(
+                              child: Theme(
+                                data: ThemeData(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                ),
+                                child : CircleAvatar(
                                 backgroundColor: Color(state
                                     .messages![index]
                                     .background_Color!),
@@ -6098,7 +6226,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                     .toString()),
                                 radius: 20.w,
 
-                              ),
+                              ),)
                             ),
                             SizedBox(width: 10.w,),
 
@@ -6136,10 +6264,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                         )
                       ],
                     ),
-
-
               SizedBox(height: 5.h,),
-
               Container(
                 margin: EdgeInsets.only(right: 22.w),
                 child: Row(
@@ -6162,7 +6287,6 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                         color : Color.fromRGBO(96, 96, 96, 1),
                       ),
                       child: Column(
-
                         children: [
                           SizedBox(height: 7.h,),
                           Container(
@@ -6177,10 +6301,11 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                     )
                                 ),
                               ),
+
                           SizedBox(height: h/50,),
                            Container(
                                 width: w/1.4,
-                                margin: EdgeInsets.only(left: 14.w,right: 14.w,bottom: 14.h),
+                                margin: EdgeInsets.only(left: 13.w,right: 13.w,bottom: 13.h),
                                 decoration: BoxDecoration(
                                   borderRadius : BorderRadius.only(
                                     topLeft: Radius.circular(5.191571235656738.r),
@@ -6200,377 +6325,250 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                   itemCount: state.messages![index].PollAnswers!.length,
                                   itemBuilder: (BuildContext context,
                                       int index2) {
-                                    return InkWell(
-                                      onTap: (){
-                                        if (state.messages![index].FlowSettledWithID!) {
-                                          bool GetInStatus = false;
-                                          for(int j =0;j<AllBubblesIDS!.length;j++){
-                                            if (widget.bubble_id==AllBubblesIDS![j]){
-                                              if (AllBubblesStatus![j]==1) {
-                                                GetInStatus = true;
-                                              }
-                                            }
-                                          }
 
-                                          if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                    return
 
-                                            FlowData data = FlowData();
-                                            data.Title =
-                                                state.messages![index].TopicFlowTitle.toString();
-                                            data.Content =
-                                                state.messages![index].TopicFlowDescription
-                                                    .toString();
-                                            data.Flow_type = "NewPoll";
-                                            data.FlowMessage_id = state.messages![index].ID;
-                                            data.ISMediaDump = false;
-                                            data.Color = widget.Bubble_Color;
-                                            WidgetsBinding.instance
-                                                .addPostFrameCallback((_) =>
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute( //receiver_id: ,my_ID: ,
-                                                    builder: (context) =>
-                                                        FlowsChat(
-                                                          Plan_Description: widget
-                                                              .Plan_Description,
-                                                          flow: data,
-                                                          plan_Title: widget.plan_Title,
-                                                          bubble_id: widget.bubble_id,
-                                                          MY_ID: widget.MY_ID,
-                                                        ),),));
-                                          } else {
-                                            OutsideBubbleAlreat();
-                                          }
-                                        }
-                                      },
-                                      child: Container(
-                                        width: w/2,
-                                        child: Column(
+                                        Row(
                                           children: [
-                                            SizedBox(height: 5.h,),
-                                            Row(
-                                              children: [
-                                                SizedBox(width: 5.w,),
-                                                CircleAvatar(
-                                                  backgroundColor: Color(widget.Bubble_Color),
-                                                  radius: 5.sp,
-                                                ),
-                                                SizedBox(width: 5.w,),
-                                                Container(
-                                                  width: w/1.8,
-                                                  child: Text(state.messages![index].PollAnswers![index2].Answer!,
-                                                      textAlign: TextAlign.left,
-                                                      style: GoogleFonts.roboto().copyWith(
-                                                        color: Color.fromRGBO(255, 255, 255, 1),
-                                                        fontSize: 12.28.sp,
-                                                        letterSpacing: 0 ,
-                                                        fontWeight: FontWeight.w300,
-                                                      )
+                                            InkWell(
+                                              onTap: (){
+                                                int Flow_Index = 0;
+                                                for(int i=0;i<state.FlowList!.length;i++){
+                                                  if (state.FlowList![i].FlowMessage_id==state.messages![index].ID){
+                                                    Flow_Index = i;
+                                                  }
+                                                }
+
+                                                print(state.messages![index].Total_Rate);
+                                                // if (state.messages![index].FlowSettledWithID!) {
+                                                //   bool GetInStatus = false;
+                                                //   for(int j =0;j<AllBubblesIDS!.length;j++){
+                                                //     if (widget.bubble_id==AllBubblesIDS![j]){
+                                                //       if (AllBubblesStatus![j]==1) {
+                                                //         GetInStatus = true;
+                                                //       }
+                                                //     }
+                                                //   }
+                                                //
+                                                //   if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                                //
+                                                //     FlowData data = FlowData();
+                                                //     data.Title =
+                                                //         state.messages![index].TopicFlowTitle.toString();
+                                                //     data.Content =
+                                                //         state.messages![index].TopicFlowDescription
+                                                //             .toString();
+
+                                                //     data.Flow_type = "NewPoll";
+                                                //     data.FlowMessage_id = state.messages![index].ID;
+                                                //     data.ISMediaDump = false;
+                                                //     data.Color = widget.Bubble_Color;
+                                                //     WidgetsBinding.instance
+                                                //         .addPostFrameCallback((_) =>
+                                                //         Navigator.push(
+                                                //           context,
+                                                //           MaterialPageRoute( //receiver_id: ,my_ID: ,
+                                                //             builder: (context) =>
+                                                //                 FlowsChat(
+                                                //                   Plan_Description: widget
+                                                //                       .Plan_Description,
+                                                //                   flow: data,
+                                                //                   plan_Title: widget.plan_Title,
+                                                //                   bubble_id: widget.bubble_id,
+                                                //                   MY_ID: widget.MY_ID,
+                                                //                 ),),));
+                                                //   } else {
+                                                //     OutsideBubbleAlreat();
+                                                //   }
+                                                // }
+                                               // if (!state.messages![index].is_Chosen!) {
+
+                                                  _GroupChatBloc.add(
+                                                      ChoosePollFlowAnswer((b) =>
+                                                      b
+                                                        ..Flow_Index = Flow_Index
+                                                        ..Chat_index = index
+                                                        ..ANswers_index = index2
+                                                        ..Answer_id = state.messages![index] .PollAnswers![index2].id
+                                                        ..bubble_id =widget.bubble_id
+                                                        ..Want_Request = true
+                                                      ));
+                                              //  }
+
+                                              },
+                                                child: Container(
+
+                                                  width: state.messages![index].PollAnswers![index2].Presentage==0?w/1.9.w:
+                                                  (w/2.1)*(state.messages![index].PollAnswers![index2].Presentage/100),
+                                              // color: Colors.red,
+                                                  child: Column(
+                                                    children: [
+                                                      SizedBox(height: 5.h,),
+
+                                                          Stack(
+                                                            children: [
+                                                              SizedBox(width: 5.w,),
+                                                              !state.messages![index].is_Chosen!
+                                                                  ?   Container(
+                                                                margin: EdgeInsets.only(left: 8.5.w),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        CircleAvatar(
+                                                                backgroundColor: Color(widget.Bubble_Color),
+                                                                radius: 8.sp,
+                                                              ),
+                                                                      ],
+                                                                    ),
+                                                                  )
+                                                                  :   Container(),
+                                                              SizedBox(width: 10.w,),
+
+                                                                  Container(
+                                                                    width:   state.messages![index].PollAnswers![index2].Presentage==0
+                                                                        ?w/1.9
+                                                                        :   (w/2.1)*(state.messages![index].PollAnswers![index2].Presentage/100),
+
+
+                                                                    margin: EdgeInsets.only(top: 1.h,bottom: 1.h,left: 8.w),
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius : BorderRadius.only(
+                                                                        topLeft: Radius.circular(10.383140563964844.r),
+                                                                        topRight: Radius.circular(10.383140563964844.r),
+                                                                        bottomLeft: Radius.circular(10.383140563964844.r),
+                                                                        bottomRight: Radius.circular(10.383140563964844.r),
+                                                                      ),
+                                                                      color: Color(
+                                                                          state.PollFlow_AnsweredSuccess!?
+                                                                          state.messages![index].is_Chosen!
+                                                                              ? widget.Bubble_Color
+                                                                              :00000000
+                                                                              :00000000
+                                                                      ),
+                                                                    ),
+                                                                    child:
+                                                                        Container(
+                                                                          width:state.messages![index].PollAnswers![index2].Presentage==0?w/1.9.w:
+                                                                          (w/2.1)*(state.messages![index].PollAnswers![index2].Presentage/100),
+                                                                          margin: EdgeInsets.only(left: 15.w,right: 15.w),
+                                                                          child:
+
+                                                                                  Container(
+                                                                                    margin: EdgeInsets.only(top: 5.h),
+                                                                                    child: Text(
+                                                                                      state.messages![index].PollAnswers![index2].Presentage!=0?
+                                                                                      state.messages![index].PollAnswers![index2].Answer!:"",
+                                                                                      textAlign: TextAlign.left,
+                                                                                      style: GoogleFonts.roboto().copyWith(
+                                                                                        color:Colors.transparent,
+                                                                                        fontSize: 12.28.sp,
+                                                                                        letterSpacing: 0 ,
+                                                                                        fontWeight: FontWeight.w300,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+
+
+                                                                        ),
+
+
+                                                                  ),
+
+
+
+                                                              Container(
+                                                                width: state.messages![index].PollAnswers![index2].Presentage==0?w/1.9.w:
+                                                                (w/2.1)*(state.messages![index].PollAnswers![index2].Presentage/100),
+                                                                margin: EdgeInsets.only(left: 28.w,top: 2.h),
+
+                                                                child: Text(state.messages![index].PollAnswers![index2].Answer!,
+                                                                  textAlign: TextAlign.left,
+                                                                  style: GoogleFonts.roboto().copyWith(
+                                                                    color:
+                                                                   ! state.messages![index].is_Chosen!
+                                                                      ?   Colors.white
+                                                                      :   Color(0xffFFFFFF) ,
+                                                                    fontSize: 12.28.sp,
+                                                                    letterSpacing: 0 ,
+                                                                    fontWeight: FontWeight.w300,
+                                                                  ),
+                                                                ),
+                                                              ),
+
+                                                            ],
+                                                          ),
+
+
+                                                      index2==state.messages![index].PollAnswers!.length-1?
+                                                          SizedBox(height: 5.h,):Container(),
+                                                    ],
                                                   ),
-                                                )
-                                              ],
+                                                ),
                                             ),
-                                            SizedBox(height: 5.h,),
+                                            state.messages![index].ID!=0?
+                                            Container(
+                                              width: w/10,
+                                              height: h/28,
+                                              child: ListView.builder(
+                                                itemCount:state.messages![index].PollAnswers![index2].users_Choose_it!.length<3? state.messages![index].PollAnswers![index2].users_Choose_it!.length:3,
+                                                scrollDirection: Axis.horizontal,
+                                                itemBuilder: (BuildContext context, int index3) {
+                                                  String Value = state.messages![index].PollAnswers![index2].users_Choose_it![index3].background_color.toString();
+                                                  if (Value.contains("#",0)){
+                                                    Value = Value.substring(1);
+                                                    Value = "0xff$Value";
+                                                  }
+                                                  var myInt = int.parse(Value);
+                                                  var BackgroundColor= myInt;
+                                                  return    Row(
+                                                    children: [
+                                                      index==0
+                                                          ? SizedBox(width: 5.w,)
+                                                          : Container(),
+                                                      Align(
+                                                          widthFactor: 0.75,
+                                                          alignment: Alignment.topCenter,
+                                                          child:
+                                                          Container(
+                                                            margin: EdgeInsets.only(top: 5.h),
+                                                            child: Column(
+                                                              children: [
+                                                                Wrap(
+                                                                  children: [
+                                                                    CircleAvatar(
+                                                                      radius: 6.r,
+                                                                      backgroundColor: Color(BackgroundColor),
+                                                                      backgroundImage: NetworkImage(state.messages![index].PollAnswers![index2].users_Choose_it![index3].avatar.toString()),
+                                                                    )
+                                                                  ],
+
+                                                                ),
+                                                              ],
+
+                                                            ),
+                                                          )
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ),
+                                            ):Container(),
+
                                           ],
-                                        ),
-                                      ),
-                                    );
-                                  }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 1,); },
+                                        );
+
+
+                                  }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 3.h,); },
                                 )
                             ),
-                          // SizedBox(height: h/50,),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //   children: [
-                          //     Container(
-                          //       width: w / 5,
-                          //       height: h / 24,
-                          //       margin: EdgeInsets.only(bottom: h/100,left: 10.w),
-                          //       decoration:  BoxDecoration(
-                          //         borderRadius: BorderRadius.only(
-                          //           topLeft: Radius.circular(50.r),
-                          //           topRight: Radius.circular(50.r),
-                          //           bottomLeft: Radius.circular(50.r),
-                          //           bottomRight: Radius.circular(50.r),
-                          //         ),
-                          //         color:  Color(widget.Bubble_Color),
-                          //       ),
-                          //       child:
-                          //       InkWell(
-                          //         onTap: (){
-                          //
-                          //         },
-                          //         child:  Center(
-                          //           child: Text(
-                          //             'Join Flow',
-                          //             textAlign: TextAlign.center,
-                          //             style: TextStyle(
-                          //                 color: Color.fromRGBO(47, 47, 47, 1),
-                          //                 fontFamily: 'Red Hat Text',
-                          //                 fontSize: 11.sp,
-                          //                 letterSpacing: 0,
-                          //                 fontWeight: FontWeight.w600,
-                          //                 height: 1.h),
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //     Text(""),
-                          //     !state.messages![index].FlowSettledWithID!?
-                          //     SpinKitDualRing(
-                          //       color: Colors.white,
-                          //       size: h/80.0,
-                          //     ):Text(""),
-                          //   ],
-                          // )
                         ],
                       ),
                     ),
                   ],
                 ),
               )
-
-
             ],
           ),
         );
-    // Container(
-    // height: h / 4.44,
-    //   child: Column(
-    //     mainAxisAlignment: MainAxisAlignment.start,
-    //     children: [
-    //       InkWell(
-    //       onTap: (){
-    //   //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
-    //
-    // },
-    //   child:
-    //       CircleAvatar(
-    //         backgroundColor:
-    //         Color(state.messages![index].background_Color!),
-    //         backgroundImage:
-    //         NetworkImage(state.messages![index].Avatar.toString()),
-    //         radius: 20.w,
-    //       ),
-    //       )
-    //     ],
-    //   ),
-    // ),
-    // SizedBox(
-    // width: h / 100,
-    // ),
-    // Container(
-    // width: w / 1.3,
-    // child: Column(
-    // children: [
-    //   Row(
-    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    // children: [
-    // Text(
-    // state.messages![index].Alias.toString(),
-    // textAlign: TextAlign.left,
-    // style: _TextTheme.headline3!.copyWith(
-    // color: ColorS.errorContainer,
-    // fontWeight: FontWeight.w400,
-    //   fontSize: 13.sp,
-    // ),
-    // ),
-    // Text(state.messages![index].time!,
-    // textAlign: TextAlign.right,
-    // style: _TextTheme.headline2!.copyWith(
-    // fontWeight: FontWeight.w300,
-    // color:  Color(0xffEAEAEA),
-    //     fontSize: 9.sp
-    // ))
-    //    ],
-    // ),
-    //  SizedBox(
-    // height: 7.h,
-    // ),
-    //   Container(
-    //     width: w/1.37,
-    //     decoration: BoxDecoration(
-    //       borderRadius : BorderRadius.only(
-    //         topLeft: Radius.circular(6.147541046142578.r),
-    //         topRight:  Radius.circular(6.147541046142578.r),
-    //         bottomLeft:  Radius.circular(6.147541046142578.r),
-    //         bottomRight: Radius.circular(6.147541046142578.r),
-    //       ),
-    //       boxShadow : [BoxShadow(
-    //           color: Color.fromRGBO(0, 0, 0, 0.15000000596046448),
-    //           offset: Offset(0,0),
-    //           blurRadius: 13.088312149047852.r
-    //       )],
-    //       color : Color.fromRGBO(96, 96, 96, 1),
-    //     ),
-    //     child: Column(
-    //
-    //         children: [
-    //           SizedBox(height: 7.h,),
-    //               Container(
-    //                 margin: EdgeInsets.only(left: 19.w),
-    //                 child: Text(state.messages![index].PollQuestion!,
-    //                   textAlign: TextAlign.left,
-    //                     style: GoogleFonts.roboto().copyWith(
-    //                       color: Color.fromRGBO(255, 255, 255, 1),
-    //                       fontSize: 13.16.sp,
-    //                       letterSpacing: 0 ,
-    //                       fontWeight: FontWeight.w300,
-    //                     )
-    //         ),
-    //
-    //           ),
-    //           SizedBox(height: h/50,),
-    //           Container(
-    //             width: w/1.4,
-    //             decoration: BoxDecoration(
-    //               borderRadius : BorderRadius.only(
-    //                 topLeft: Radius.circular(5.191571235656738.r),
-    //                 topRight:  Radius.circular(5.191571235656738.r),
-    //                 bottomLeft:  Radius.circular(5.191571235656738.r),
-    //                 bottomRight:  Radius.circular(5.191571235656738.r),
-    //               ),
-    //               color : Color.fromRGBO(47, 47, 47, 1),
-    //             ),
-    //             child:ListView.separated(
-    //
-    //                 cacheExtent : 500,
-    //                 shrinkWrap: true,
-    //                 reverse: false,
-    //                 physics: NeverScrollableScrollPhysics(),
-    //                 scrollDirection: Axis.vertical,
-    //                 itemCount: state.messages![index].PollAnswers.length,
-    //                 itemBuilder: (BuildContext context,
-    //                     int index2) {
-    //                   return InkWell(
-    //                       onTap: (){
-    //                   print("Hello");
-    //                   },
-    //                   child: Container(
-    //                     width: w/2,
-    //                     child: Column(
-    //                       children: [
-    //                         SizedBox(height: 5.h,),
-    //                         Row(
-    //                             children: [
-    //                               SizedBox(width: 5.w,),
-    //                               CircleAvatar(
-    //                                 backgroundColor: Color(widget.Bubble_Color),
-    //                                 radius: 5.sp,
-    //                                ),
-    //                               SizedBox(width: 5.w,),
-    //                               Container(
-    //                                 width: w/1.7,
-    //                                 child: Text(state.messages![index].PollAnswers[index2],
-    //                                   textAlign: TextAlign.left,
-    //                                     style: GoogleFonts.roboto().copyWith(
-    //                                       color: Color.fromRGBO(255, 255, 255, 1),
-    //                                       fontSize: 12.28.sp,
-    //                                       letterSpacing: 0 ,
-    //                                       fontWeight: FontWeight.w300,
-    //                                     )
-    //                              ),
-    //                               )
-    //                             ],
-    //                           ),
-    //                         SizedBox(height: 5.h,),
-    //                       ],
-    //                     ),
-    //                     ),
-    //                   );
-    //                 }, separatorBuilder: (BuildContext context, int index) { return SizedBox(height: 1,); },
-    //             )
-    //           ),
-    //           SizedBox(height: h/50,),
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //             children: [
-    //               Container(
-    //                 width: w / 5,
-    //                 height: h / 24,
-    //                 margin: EdgeInsets.only(bottom: h/100,left: 10.w),
-    //                 decoration:  BoxDecoration(
-    //                   borderRadius: BorderRadius.only(
-    //                     topLeft: Radius.circular(50.r),
-    //                     topRight: Radius.circular(50.r),
-    //                     bottomLeft: Radius.circular(50.r),
-    //                     bottomRight: Radius.circular(50.r),
-    //                   ),
-    //                   color:  Color(widget.Bubble_Color),
-    //                 ),
-    //                 child:
-    //             InkWell(
-    //                   onTap: (){
-    //                     if (state.messages![index].FlowSettledWithID!) {
-    //                     bool GetInStatus = false;
-    //                     for(int j =0;j<AllBubblesIDS!.length;j++){
-    //                       if (widget.bubble_id==AllBubblesIDS![j]){
-    //                         if (AllBubblesStatus![j]==1)
-    //                           GetInStatus = true;
-    //                       }
-    //                     }
-    //
-    //                     if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
-    //
-    //                         FlowData data = FlowData();
-    //                         data.Title =
-    //                             state.messages![index].TopicFlowTitle.toString();
-    //                         data.Content =
-    //                             state.messages![index].TopicFlowDescription
-    //                                 .toString();
-    //                         data.Flow_type = "NewPoll";
-    //                         data.FlowMessage_id = state.messages![index].ID;
-    //                         data.ISMediaDump = false;
-    //                         data.Color = widget.Bubble_Color;
-    //                         WidgetsBinding.instance
-    //                             .addPostFrameCallback((_) =>
-    //                             Navigator.push(
-    //                               context,
-    //                               MaterialPageRoute( //receiver_id: ,my_ID: ,
-    //                                 builder: (context) =>
-    //                                     FlowsChat(
-    //                                       Plan_Description: widget
-    //                                           .Plan_Description,
-    //                                       flow: data,
-    //                                       plan_Title: widget.plan_Title,
-    //                                       bubble_id: widget.bubble_id,
-    //                                       MY_ID: widget.MY_ID,
-    //                                     ),),));
-    //                       } else {
-    //                         OutsideBubbleAlreat();
-    //                       }
-    //                     }
-    //                   },
-    //                   child:  Center(
-    //                     child: Text(
-    //                       'Join Flow',
-    //                       textAlign: TextAlign.center,
-    //                       style: TextStyle(
-    //                           color: Color.fromRGBO(47, 47, 47, 1),
-    //                           fontFamily: 'Red Hat Text',
-    //                           fontSize: 11.sp,
-    //                           letterSpacing: 0,
-    //                           fontWeight: FontWeight.w600,
-    //                           height: 1.h),
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ),
-    //               Text(""),
-    //               !state.messages![index].FlowSettledWithID!?
-    //               SpinKitDualRing(
-    //                 color: Colors.white,
-    //                 size: h/80.0,
-    //               ):Text(""),
-    //             ],
-    //           )
-    //         ],
-    //       ),
-    //   )
-    // ]
-    // )
-    // )
-
   }
 
   Widget MediaDumpWidget(GroupChatState state, int index) {
@@ -6591,7 +6589,12 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                     onTap: (){
                       // alreatDialogBuilder(context,h,w,state.messages![index].Sender_data!.is_Frined!,state.messages![index].Sender_data!.His_id==widget.MY_ID,state.messages![index].Sender_data!.His_id!,index,state.messages![index].Sender_data!);
                     },
-                    child: CircleAvatar(
+                    child:  Theme(
+                      data: ThemeData(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                      ),
+                      child :CircleAvatar(
                       backgroundColor: Color(state
                           .messages![index]
                           .background_Color!),
@@ -6601,7 +6604,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                           .toString()),
                       radius: 20.w,
 
-                    ),
+                    ),)
                   ),
                   SizedBox(width: 10.w,),
                   Container(
@@ -7144,37 +7147,47 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                   children: [
                                     Row(
 
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                                       children: [
-                                        SizedBox(width: w/30,),
-                                        Row(
-                                          children: [
-                                            InkWell(
-                                              onTap: (){
-                                                //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
-                                              },
-                                              child:
-                                              CircleAvatar(
-                                                backgroundColor:
-                                                Color(data.Who_Made_it_Color!),
-                                                backgroundImage:
-                                                NetworkImage(data.Who_Made_it_Avatar!),
-                                                radius: 20.w,
+                                  Row(
+                                    children: [
+                                      SizedBox(width: w/30,),
+                                      Row(
+                                        children: [
+                                          InkWell(
+                                            onTap: (){
+                                              //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
+                                            },
+                                            child: Theme(
+                                              data: ThemeData(
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
                                               ),
+                                              child :
+                                            CircleAvatar(
+                                              backgroundColor:
+                                              Color(data.Who_Made_it_Color!),
+                                              backgroundImage:
+                                              NetworkImage(data.Who_Made_it_Avatar!),
+                                              radius: 20.w,
+                                            ),)
+                                          ),
+                                          SizedBox(width: 10.w,),
+                                          Text(
+                                            data.Who_Made_it_Alias!,
+                                            textAlign: TextAlign.left,
+                                            style: _TextTheme.headline3!.copyWith(
+                                              color: ColorS.errorContainer,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 13.sp,
                                             ),
-                                            SizedBox(width: 10.w,),
-                                            Text(
-                                              data.Who_Made_it_Alias!,
-                                              textAlign: TextAlign.left,
-                                              style: _TextTheme.headline3!.copyWith(
-                                                color: ColorS.errorContainer,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 13.sp,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(width: w/3,),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(width: w/3,),
+                                    ],
+                                  ),
+
                                         Text(data.time!,
                                             textAlign: TextAlign.right,
                                             style: _TextTheme.headline2!.copyWith(
@@ -7186,12 +7199,10 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
 
                                       ],
                                     ),
+                                        SizedBox(height: 7.h,),
 
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
+
                                         Container(
-                                          height: h / 22,
                                           width: w / 1.4,
                                           padding: EdgeInsets.only(top: h / 100),
                                           child: Text(
@@ -7205,11 +7216,10 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                 height: 1.h),
                                           ),
                                         ),
-                                      ],
-                                    ),
+
                                     SizedBox(height: 18.h,),
                                     Container(
-                                      width: w / 1.3,
+                                      width: w / 1.4,
                                       child: Text(
                                         data.Content!,
                                         textAlign: TextAlign.left,
@@ -7321,7 +7331,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
         barrierColor: Colors.white.withOpacity(0),
         builder: (Context)
         {
-          var length =    data.Answers.length;
+          var length =    data.PollAnswers!.length;
           print(length);
           return
             AlertDialog(
@@ -7389,14 +7399,19 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                             onTap: (){
                                               //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
                                             },
-                                            child:
+                                            child: Theme(
+                                              data: ThemeData(
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                              ),
+                                              child :
                                             CircleAvatar(
                                               backgroundColor:
                                               Color(data.Who_Made_it_Color!),
                                               backgroundImage:
                                               NetworkImage(data.Who_Made_it_Avatar!),
                                               radius: 10.w,
-                                            ),
+                                            ),)
                                           ),
                                           SizedBox(width: 10,),
                                           Text(
@@ -7451,39 +7466,40 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         shrinkWrap: true,
                                         reverse: false,
                                         scrollDirection: Axis.vertical,
-                                        itemCount: data.Answers.length,
+                                        itemCount: data.PollAnswers!.length,
                                         itemBuilder: (BuildContext context,
                                             int index2) {
                                           return InkWell(
                                             onTap: (){
-                                              bool GetInStatus = false;
-                                              for(int j =0;j<AllBubblesIDS!.length;j++){
-                                                if (widget.bubble_id==AllBubblesIDS![j]){
-                                                  if (AllBubblesStatus![j]==1) {
-                                                    GetInStatus = true;
-                                                  }
-                                                }
-                                              }
-
-                                              if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
-                                                print(data.FlowMessage_id);
-                                                data.ISMediaDump = false;
-                                                WidgetsBinding.instance
-                                                    .addPostFrameCallback((_) =>
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute( //receiver_id: ,my_ID: ,
-                                                        builder: (context) =>
-                                                            FlowsChat(
-                                                              Plan_Description: widget.Plan_Description,
-                                                              flow: data,
-                                                              plan_Title: widget.plan_Title,
-                                                              bubble_id: widget.bubble_id,
-                                                              MY_ID: widget.MY_ID,
-                                                            ),),));
-                                              }else{
-                                                OutsideBubbleAlreat();
-                                              }
+                                              print(data.PollAnswers![index2].id);
+                                              // bool GetInStatus = false;
+                                              // for(int j =0;j<AllBubblesIDS!.length;j++){
+                                              //   if (widget.bubble_id==AllBubblesIDS![j]){
+                                              //     if (AllBubblesStatus![j]==1) {
+                                              //       GetInStatus = true;
+                                              //     }
+                                              //   }
+                                              // }
+                                              //
+                                              // if ( GetInStatus || !widget.Want_LOcation_cHECK!) {
+                                              //   print(data.FlowMessage_id);
+                                              //   data.ISMediaDump = false;
+                                              //   WidgetsBinding.instance
+                                              //       .addPostFrameCallback((_) =>
+                                              //       Navigator.push(
+                                              //         context,
+                                              //         MaterialPageRoute( //receiver_id: ,my_ID: ,
+                                              //           builder: (context) =>
+                                              //               FlowsChat(
+                                              //                 Plan_Description: widget.Plan_Description,
+                                              //                 flow: data,
+                                              //                 plan_Title: widget.plan_Title,
+                                              //                 bubble_id: widget.bubble_id,
+                                              //                 MY_ID: widget.MY_ID,
+                                              //               ),),));
+                                              // }else{
+                                              //   OutsideBubbleAlreat();
+                                              // }
                                             },
                                             child: Container(
                                               width: w/2,
@@ -7501,7 +7517,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                                       SizedBox(width: 5.w,),
                                                       Container(
                                                         width: w/2.3,
-                                                        child: Text(data.Answers[index2],
+                                                        child: Text(data.PollAnswers![index2].Answer!,
                                                           textAlign: TextAlign.left,   style: GoogleFonts.roboto().copyWith(
                                                               fontFamily: 'Red Hat Text',
                                                               fontSize: 14.282208442687988.sp,
@@ -7622,7 +7638,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                               child:
                               Column(
                                 children: [
-                                  SizedBox(height: 5,),
+                                  SizedBox(height: 5.h,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -7633,16 +7649,21 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                             onTap: (){
                                               //      alreatDialogBuilder(context,h,w,index,state.FilteredInsideBubbleUsers![index].is_frined!,state.FilteredInsideBubbleUsers![index].id==widget.MY_ID,state.FilteredInsideBubbleUsers![index].id!);
                                             },
-                                            child:
+                                            child: Theme(
+                                              data: ThemeData(
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                              ),
+                                              child :
                                           CircleAvatar(
                                             backgroundColor:
                                             Color(data.Who_Made_it_Color!),
                                             backgroundImage:
                                             NetworkImage(data.Who_Made_it_Avatar!),
                                             radius: 20.w,
+                                          ),)
                                           ),
-                                          ),
-                                          SizedBox(width: 10,),
+                                          SizedBox(width: 10.w,),
                                           Text(
                                             data.Who_Made_it_Alias!,
                                             textAlign: TextAlign.left,
@@ -7665,7 +7686,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
 
                                     ],
                                   ),
-                                  SizedBox(height: 10,),
+                                  SizedBox(height: 10.h,),
                                   Container(
                                     width: w/1.1,
                                     height: h/5,
@@ -7719,14 +7740,14 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                   fontSize: 13.sp,
                                   letterSpacing: 0 ,
                                   fontWeight: FontWeight.w300,
-                                  height: 1
+                                  height: 1.h
                               ),),
                             ),
                             Text(""),
                             Text("")
                           ],
                         ),
-                        SizedBox(height: 5,),
+                        SizedBox(height: 5.h,),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -7786,7 +7807,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                         fontSize: 11.sp,
                                         letterSpacing: 0,
                                         fontWeight: FontWeight.w600,
-                                        height: 1),
+                                        height: 1.h),
                                   ),
                                 ),
                               ),
@@ -7845,6 +7866,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     return showDialog(
         context: Context,
         barrierDismissible: true,
+        barrierColor: Colors.white.withOpacity(0),
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -7891,7 +7913,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                 textAlign: TextAlign.center, style: TextStyle(
                                     color: Color.fromRGBO(234, 234, 234, 1),
                                     fontFamily: 'Red Hat Display',
-                                    fontSize: FontSize.toDouble(),
+                                    fontSize:14.sp,
                                     letterSpacing: 0 ,
                                     fontWeight: FontWeight.w600,
                                     height: 1
@@ -7945,7 +7967,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                     ),
                     Positioned(
                       left: h/8,
-                      bottom: h/5,
+                      bottom: h/5.5,
                       child: SvgPicture.asset(
                         "Assets/images/widget.svg",
                         width: 90,
@@ -8020,7 +8042,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
    });
   }
 
-  void ListenForPollFlows() async{
+  void ListenForPollFlows() async {
     socket!.on("receive_poll_message_send", (msg) {
 
 
@@ -8045,6 +8067,8 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
      }
     });
   }
+
+
 
 
   void ListenForWhoLeftBUbble() async{
@@ -8185,40 +8209,57 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
         ISreply: false);
     messageModel.CanReply = false;
     List<PollFlowAnswers>? PollAnswers= [];
+  //  List<FriendData>? DataA= [];
 
     for (int j=0;j<Answers.length; j++){
       PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+    //  FriendData Data = FriendData();
       PollFlowAnswer.Answer = Answers[j].toString();
+      PollFlowAnswer.Presentage = 0;
+      // PollFlowAnswer.users_Choose_it = DataA;
+      // DataA.add(Data);
+
        PollAnswers.add(PollFlowAnswer);
     }
 
     messageModel.PollAnswers = PollAnswers;
     messageModel.PollQuestion = Question;
+    messageModel.is_Chosen = false;
     messageModel.ModelType = "PollFlow";
     messageModel.background_Color = MYbackGroundColor;
     messageModel.Type = "sender";
     messageModel.FlowSettledWithID = false;
     messageModel.ID = 0;
-
+    messageModel.Total_Rate = 0;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
 
+    List<PollFlowAnswers>? PollAnswers_FLowList= [];
+
+    for (int j=0;j<Answers.length; j++){
+      PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+      PollFlowAnswer.Answer = Answers[j].toString();
+      PollFlowAnswer.Presentage = 0;
+      PollAnswers_FLowList.add(PollFlowAnswer);
+    }
     FlowData data = FlowData();
+    data.PollAnswers = PollAnswers_FLowList;
     data.Flow_Icon = "Assets/images/123323232.svg";
-    data.ISMediaDump = false;
+    data.is_chosen = false;
     int x = Random().nextInt(Colorss.length);
     String Colorr = Colorss[x];
     data.Color = int.parse(Colorr);
     data.Title = Question;
-    for(int j=0;j<Answers.length;j++) {
-      data.Answers.add(Answers[j].toString());
-    }
+    data.Total_Rate = 0;
     data.time = DateFormat.jm().format(DateTime.now());
     data.Flow_type ="PollFlow";
-    data.Who_Made_it_Alias =MyAlias;
+    FrinedsData dataa = FrinedsData();
 
+    data.Who_Made_it_Alias =MyAlias;
+   // data.Who_Made_it_data =
     data.Who_Made_it_Avatar = MyAvatar;
-    data.Who_Made_it_ID = 0;
+    data.Who_Made_it_ID = id;
     data.Who_Made_it_Color = MYbackGroundColor;
+
 
     _GroupChatBloc.add(
         SendPollFloww((b) =>
@@ -8248,8 +8289,7 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
       String boi,
       bool isMultible_answers,
       bool isShow_participants,
-      List Answers_id,
-      ){
+      List Answers_id,){
 
     GroupChatMessage messageModel = GroupChatMessage(
         time: DateFormat.jm().format(DateTime.now()),
@@ -8264,21 +8304,32 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
       PollFlowAnswer.id =Answers_id[j];
       PollFlowAnswer.is_checked = false;
       PollFlowAnswer.rate =0;
+      PollFlowAnswer.Presentage = 0;
       PollAnswers.add(PollFlowAnswer);
     }
+
     messageModel.PollAnswers = PollAnswers;
     messageModel.CanReply = false;
-    for(int i=0;i<Answers.length;i++) {
-      messageModel.PollAnswers![i].Answer = Answers[i].toString();
-    }
     messageModel.PollQuestion = Question;
     messageModel.ModelType = "PollFlow";
     messageModel.FlowSettledWithID = true;
     messageModel.background_Color = int.parse(background_Color);
     messageModel.Type = "receiver";
-
+    messageModel.Total_Rate = 0;
     messageModel.ID = Message_id;
     _GroupChatBloc.add(AddModel((b) => b..message = messageModel));
+
+
+    List<PollFlowAnswers>? PollAnswers_FlowList= [];
+    for (int j=0;j<Answers_id.length; j++){
+      PollFlowAnswers PollFlowAnswer = PollFlowAnswers();
+      PollFlowAnswer.Answer = Answers[j].toString();
+      PollFlowAnswer.id =Answers_id[j];
+      PollFlowAnswer.is_checked = false;
+      PollFlowAnswer.rate =0;
+      PollFlowAnswer.Presentage = 0;
+      PollAnswers_FlowList.add(PollFlowAnswer);
+    }
 
     FlowData data = FlowData();
     data.Flow_Icon =  "Assets/images/123323232.svg";
@@ -8287,10 +8338,8 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     String Colorr = Colorss[x];
     data.Color = int.parse(Colorr);
     data.Title = Question;
-    for(int j=0;j<Answers.length;j++) {
-      data.Answers.add(Answers[j].toString());
-    }
-
+    data.PollAnswers = PollAnswers_FlowList;
+    data.Total_Rate = 0;
     data.Flow_type ="PollFlow";
     data.Who_Made_it_Alias =Alias;
     data.Who_Made_it_Avatar = avatar;

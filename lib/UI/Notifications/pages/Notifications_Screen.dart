@@ -39,6 +39,7 @@ class _NotificationsState extends State<Notifications> {
     super.initState();
     FocuseNODE = FocusNode();
     _NotificationBloc.add(GetNotifications());
+    _NotificationBloc.add(ClearBadge());
     Diditonce2 = true;
     _removeBadge();
   }
@@ -702,13 +703,14 @@ bool Diditonce2 = true;
                                                                 maxLines: 10,
                                                               ),
                                                             ),
+
                                                          Text(
                                                               timeago.format(datee),
                                                               style: _textthem
                                                                   .headlineLarge!
                                                                   .copyWith(
                                                                   fontWeight:FontWeight .w300,
-                                                                    fontSize: 12.sp
+                                                                    fontSize: 8.sp
                                                               ),
                                                             ),
 

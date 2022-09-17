@@ -61,6 +61,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
     final  imagePath = File(image.path);
     this.image = imagePath;
     Convert(imagePath);
+    _CreateBubbleBloc.add(AddedImage((b) => b..Status=true));
     print("Picked");
     print(imagePath);
   }
@@ -99,8 +100,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
       ) async {
     return showDialog(
         context: Context,
-           barrierDismissible: true,
-        barrierColor: Colors.white.withOpacity(0),
+        barrierDismissible: true,
         builder: (Context) {
           return AlertDialog(
               backgroundColor: Colors.transparent,
@@ -142,16 +142,19 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                             Text(""),
 
 
-                            Center(
-                              child: Text(Value,
-                                textAlign: TextAlign.center, style: TextStyle(
-                                    color: Color.fromRGBO(234, 234, 234, 1),
-                                    fontFamily: 'Red Hat Display',
-                                    fontSize: 0.23.sp,
-                                    letterSpacing: 0 ,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1
-                                ),),
+                            Container(
+                              margin: EdgeInsets.only(right: 5.w,left: 5.w),
+                              child: Center(
+                                child: Text(Value,
+                                  textAlign: TextAlign.center, style: TextStyle(
+                                      color: Color.fromRGBO(234, 234, 234, 1),
+                                      fontFamily: 'Red Hat Display',
+                                      fontSize: 16.sp,
+                                      letterSpacing: 0,
+                                      fontWeight: FontWeight.w600,
+                                      height: 1
+                                  ),),
+                              ),
                             ),
 
                             Row(
@@ -184,8 +187,8 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                         Text(buttonValue, textAlign: TextAlign.center, style: TextStyle(
                                             color: Color.fromRGBO(234, 234, 234, 1),
                                             fontFamily: 'Red Hat Text',
-                                            fontSize: 18.sp,
-                                            letterSpacing: 0 ,
+                                            fontSize: 20.sp,
+                                            letterSpacing: 0,
                                             fontWeight: FontWeight.w400,
                                             height: 1
                                         ),),
@@ -419,7 +422,7 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                             ),
                             SizedBox(height: h/50,),
                             Container(
-                              width: w/1.19,
+                              width: w/1.3,
                               child: Text('Pick colour', textAlign: TextAlign.left, style: TextStyle(
                                   color: Color.fromRGBO(237, 236, 241, 1),
                                   fontFamily: 'Red Hat Text',
@@ -515,99 +518,237 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                              children: [
                                Column(
                                  children: [
+                                  Row(
+                                    children: [
+                                          Column(
+                                        children: [
+                                          Container(
+                                            width: w/2,
+                                            child: Text('Choose Category:', textAlign: TextAlign.left, style: TextStyle(
+                                                color: Color.fromRGBO(237, 236, 241, 1),
+                                                fontFamily: 'Red Hat Text',
+                                                fontSize: 14.sp,
+                                                letterSpacing: 0.11999999731779099,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.7142857142857142
+                                            ),),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.only(top: h/60,right: 35.w),
+                                            child: DropdownButtonHideUnderline(
+                                              child: DropdownButton2(
+                                                isExpanded: true,
+                                                hint: Row(
 
-                                       Container(
-                                         width: w/2.3,
-                                         margin: EdgeInsets.only(left: w/75),
-                                         child: Text('Choose Category:', textAlign: TextAlign.left, style: TextStyle(
-                                             color: Color.fromRGBO(237, 236, 241, 1),
-                                             fontFamily: 'Red Hat Text',
-                                             fontSize: 14.sp,
-                                             letterSpacing: 0.11999999731779099,
-                                             fontWeight: FontWeight.w400,
-                                             height: 1.7142857142857142
-                                         ),),
-                                       ),
+                                                  children:  [
+                                                    Expanded(
+                                                      child: Text('General', textAlign: TextAlign.left,
+                                                        style:  TextStyle(
+                                                            color: Color.fromRGBO(196, 196, 196, 1),
+                                                            fontFamily: 'Red Hat Text',
+                                                            fontSize: 14.sp,
+                                                            letterSpacing: 1 ,
+                                                            fontWeight: FontWeight.w300,
+                                                            height: 1
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
+                                                    ),
 
-                                   Container(
-                                     margin: EdgeInsets.only(top: h/60),
-                                     child: DropdownButtonHideUnderline(
-                                       child: DropdownButton2(
-                                         isExpanded: true,
-                                         hint: Row(
+                                                  ],
+                                                ),
+                                                items: Event_Cateogory_List
+                                                    .map((item) => DropdownMenuItem<String>(
+                                                    value: item,
+                                                    child:
+                                                    //state.EventCateogorySuccess! && !Diditonce2?
+                                                    Text(
+                                                      item,
+                                                      style:  TextStyle(
+                                                        fontSize: 14.sp,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                      ),
+                                                      overflow: TextOverflow.ellipsis,
+                                                    )
+                                                  //:Text("")
+                                                ))
+                                                    .toList(),
+                                                value: selectedValue,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    selectedValue = value as String;
+                                                  });
+                                                },
+                                                icon:  Icon(
+                                                  Icons.keyboard_arrow_down,
+                                                  size: 20.w,
+                                                  color: Color(0xffEAEAEA),
+                                                ),
+                                                iconSize: 20.w,
+                                                iconEnabledColor: Colors.yellow,
+                                                iconDisabledColor: Colors.grey,
+                                                buttonHeight: h/15,
+                                                buttonWidth: w/2.3,
+                                                buttonPadding:  EdgeInsets.only(left: 14.w, right: 14.w),
+                                                buttonDecoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(h/85.25),
+                                                  border: Border.all(
+                                                    color: Colors.black26,
+                                                  ),
+                                                  color: Color(0xff303030),
+                                                ),
+                                                buttonElevation: 2,
+                                                itemHeight: h/20,
+                                                dropdownMaxHeight: h/12,
+                                                dropdownWidth: w/2.3,
+                                                dropdownDecoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(h/45.25),
+                                                  color: Color(0xff303030),
+                                                ),
+                                                dropdownElevation: 8,
+                                                scrollbarRadius: const Radius.circular(40),
+                                                scrollbarThickness: 6,
+                                                scrollbarAlwaysShow: false,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: h/28,top: 13.h),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              height: h/20,
+                                              child: Center(
+                                                child: Text('Event Dates:',
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(237, 236, 241, 1),
+                                                      fontFamily: 'Red Hat Text',
+                                                      fontSize: 14.sp,
+                                                      letterSpacing: 0.11999999731779099,
+                                                      fontWeight: FontWeight.w400,
+                                                      height: 1.7142857142857142
+                                                  ),),
+                                              ),
+                                            ),
+                                            SizedBox(height: 5.h,),
+                                            state.DoneChoose2!
+                                                ?  Column(
+                                              children: [
 
-                                           children:  [
-                                             Expanded(
-                                               child: Text('General', textAlign: TextAlign.left,
-                                                 style:  TextStyle(
-                                                     color: Color.fromRGBO(196, 196, 196, 1),
-                                                     fontFamily: 'Red Hat Text',
-                                                     fontSize: 14.sp,
-                                                     letterSpacing: 1 ,
-                                                     fontWeight: FontWeight.w300,
-                                                     height: 1
-                                                 ),
-                                                 overflow: TextOverflow.ellipsis,
-                                               ),
-                                             ),
-                                           ],
-                                         ),
-                                         items: Event_Cateogory_List
-                                             .map((item) => DropdownMenuItem<String>(
-                                             value: item,
-                                             child:
-                                             //state.EventCateogorySuccess! && !Diditonce2?
-                                             Text(
-                                               item,
-                                               style:  TextStyle(
-                                                 fontSize: 14.sp,
-                                                 fontWeight: FontWeight.bold,
-                                                 color: Colors.white,
-                                               ),
-                                               overflow: TextOverflow.ellipsis,
-                                             )
-                                           //:Text("")
-                                         ))
-                                             .toList(),
-                                         value: selectedValue,
-                                         onChanged: (value) {
-                                           setState(() {
-                                             selectedValue = value as String;
-                                           });
-                                         },
-                                         icon:  Icon(
-                                           Icons.keyboard_arrow_down,
-                                           size: 20.w,
-                                           color: Color(0xffEAEAEA),
-                                         ),
-                                         iconSize: 20.w,
-                                         iconEnabledColor: Colors.yellow,
-                                         iconDisabledColor: Colors.grey,
-                                         buttonHeight: h/15,
-                                         buttonWidth: w/2.3,
-                                         buttonPadding: const EdgeInsets.only(left: 14, right: 14),
-                                         buttonDecoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(h/85.25),
-                                           border: Border.all(
-                                             color: Colors.black26,
-                                           ),
-                                           color: Color(0xff303030),
-                                         ),
-                                         buttonElevation: 2,
-                                         itemHeight: h/20,
-                                         dropdownMaxHeight: h/12,
-                                         dropdownWidth: w/2.3,
-                                         dropdownDecoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(h/45.25),
-                                           color: Color(0xff303030),
-                                         ),
-                                         dropdownElevation: 8,
-                                         scrollbarRadius: const Radius.circular(40),
-                                         scrollbarThickness: 6,
-                                         scrollbarAlwaysShow: false,
-                                       ),
-                                     ),
-                                   ),
+                                                SizedBox(height: h/75,),
+                                                Container(
+                                                  width: w/2.75,
+                                                  height: h/18,
+                                                  child: ListView.separated(
+                                                    shrinkWrap: true,
+                                                    padding: EdgeInsets.zero,
+                                                    physics:
+                                                    const BouncingScrollPhysics(),
+                                                    scrollDirection:
+                                                    Axis.vertical,
+                                                    itemCount:
+                                                    ListOfSingleDates.length,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                        int index) {
+                                                      return Row(
+                                                        children: [
+                                                          Image.asset(
+                                                              "Assets/images/Group 229.png"),
+                                                          SizedBox(
+                                                            width: 5.w,
+                                                          ),
+                                                          Flexible(
+                                                            child: Text(
+                                                                ListOfSingleDatesString[
+                                                                index].toString(),
+                                                                textAlign:
+                                                                TextAlign
+                                                                    .left,
+                                                                style: _TextTheme
+                                                                    .headline5!.copyWith(
+                                                                    fontSize: 11.sp
+                                                                )),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                    separatorBuilder:
+                                                        (BuildContext context,
+                                                        int index) {
+                                                      return  SizedBox(
+                                                        height: 3.h,
+                                                      );
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                                :   Theme(
+                                              data: ThemeData(
+                                                splashColor: Colors.transparent,
+                                                highlightColor: Colors.transparent,
+                                              ),
+                                              child : Container(
+                                                width: w/4,
+                                                height:  h/16,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .only(
+                                                    topLeft:
+                                                    Radius.circular(5.r),
+                                                    topRight:
+                                                    Radius.circular(5.r),
+                                                    bottomLeft:
+                                                    Radius.circular(5.r),
+                                                    bottomRight:
+                                                    Radius.circular(5.r),
+                                                  ),
+                                                  color: state
+                                                      .DoneChoose1!
+                                                      ? const Color
+                                                      .fromRGBO(
+                                                      168, 48, 99, 1)
+                                                      : const Color(
+                                                      0xff606060),
+                                                ),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    // print(state.Start_Time);
+                                                    // print(state.End_Time);
+                                                    // if (state.DoneChoose1!)
+                                                    dIALOG1();
+
+                                                  },
+                                                  child: Center(
+                                                    child: Text(
+                                                      'Schedule',
+                                                      textAlign:
+                                                      TextAlign.center,
+                                                      style: _TextTheme
+                                                          .headline4!
+                                                          .copyWith(
+                                                        fontWeight:
+                                                        FontWeight.w300,
+                                                        color: Colors
+                                                            .white,
+                                                        fontSize: 14.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),)
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                    SizedBox(height: h/10,),
                                    Row(
                                      children: [
@@ -644,143 +785,15 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                            ],
                                          ),
                                        ),
+                                       state.AddedImageIS_Success!?
+                                       Container(width:w/3,height: h/4,child: Image.file(image!)):Container(width:w/3,height: h/4,)
+
                                      ],
                                    ),
-                                   SizedBox(height: h/5,),
-
                                  ],
                                ),
 
-                               Container(
-                                 height: h/2,
-                                 margin: EdgeInsets.only(bottom: h/28,right: 20.w),
-                                 child: Column(
-                                   mainAxisAlignment: MainAxisAlignment.start,
-                                   children: [
-                                     Center(
-                                       child: Text('Event Dates:',
-                                         textAlign: TextAlign.left,
-                                         style: TextStyle(
-                                             color: Color.fromRGBO(237, 236, 241, 1),
-                                             fontFamily: 'Red Hat Text',
-                                             fontSize: 14.sp,
-                                             letterSpacing: 0.11999999731779099,
-                                             fontWeight: FontWeight.w400,
-                                             height: 1.7142857142857142
-                                         ),),
-                                     ),
-                                     SizedBox(height: 10.h,),
-                                     state.DoneChoose2!
-                                         ?  Column(
-                                       children: [
 
-                                         SizedBox(height: h/75,),
-                                         Container(
-                                           width: w/3,
-                                           height: h/5,
-                                           child: ListView.separated(
-                                             shrinkWrap: true,
-                                             padding: EdgeInsets.zero,
-                                             physics:
-                                             const BouncingScrollPhysics(),
-                                             scrollDirection:
-                                             Axis.vertical,
-                                             itemCount:
-                                             ListOfSingleDates.length,
-                                             itemBuilder:
-                                                 (BuildContext context,
-                                                 int index) {
-                                               return Row(
-                                                 children: [
-                                                   Image.asset(
-                                                       "Assets/images/Group 229.png"),
-                                                    SizedBox(
-                                                     width: 5.w,
-                                                   ),
-                                                   Flexible(
-                                                     child: Text(
-                                                         ListOfSingleDatesString[
-                                                         index].toString(),
-                                                         textAlign:
-                                                         TextAlign
-                                                             .left,
-                                                         style: _TextTheme
-                                                             .headline5!.copyWith(
-                                                           fontSize: 11.sp
-                                                         )),
-                                                   ),
-                                                 ],
-                                               );
-                                             },
-                                             separatorBuilder:
-                                                 (BuildContext context,
-                                                 int index) {
-                                               return  SizedBox(
-                                                 height: 3.h,
-                                               );
-                                             },
-                                           ),
-                                         ),
-                                       ],
-                                     )
-                                         :   Theme(
-                                       data: ThemeData(
-                                         splashColor: Colors.transparent,
-                                         highlightColor: Colors.transparent,
-                                       ),
-                                       child : Container(
-                                       width: w/4,
-                                       height:  h/16,
-                                       decoration: BoxDecoration(
-                                         borderRadius:
-                                          BorderRadius
-                                             .only(
-                                           topLeft:
-                                           Radius.circular(5.r),
-                                           topRight:
-                                           Radius.circular(5.r),
-                                           bottomLeft:
-                                           Radius.circular(5.r),
-                                           bottomRight:
-                                           Radius.circular(5.r),
-                                         ),
-                                         color: state
-                                             .DoneChoose1!
-                                             ? const Color
-                                             .fromRGBO(
-                                             168, 48, 99, 1)
-                                             : const Color(
-                                             0xff606060),
-                                       ),
-                                       child: InkWell(
-                                         onTap: () {
-                                           // print(state.Start_Time);
-                                           // print(state.End_Time);
-                                           // if (state.DoneChoose1!)
-                                           dIALOG1();
-
-                                         },
-                                         child: Center(
-                                           child: Text(
-                                             'Schedule',
-                                             textAlign:
-                                             TextAlign.center,
-                                             style: _TextTheme
-                                                 .headline4!
-                                                 .copyWith(
-                                               fontWeight:
-                                               FontWeight.w300,
-                                               color: Colors
-                                                   .white,
-                                               fontSize: 14.sp,
-                                             ),
-                                           ),
-                                         ),
-                                       ),
-                                     ),)
-                                   ],
-                                 ),
-                               ),
                              ],
                            ),
                          ),
@@ -820,9 +833,17 @@ class _Customize_ScreenState extends State<Customize_Screen> {
                                           ..Dates = dates
 
                                         ));
+                                      }else{
+                                        CommingSoonPopup(context,h,w,"Make sure Bubble Info has Given Correctly","ok",14);
                                       }
+                                    }else{
+                                      CommingSoonPopup(context,h,w,"Make sure Bubble Info has Given Correctly","ok",14);
                                     }
+                                  }else{
+                                    CommingSoonPopup(context,h,w,"Make sure Bubble Info has Given Correctly","ok",14);
                                   }
+                                }else{
+                                  CommingSoonPopup(context,h,w,"Make sure Bubble Info has Given Correctly","ok",14);
                                 }
                               },
                               child:    Theme(

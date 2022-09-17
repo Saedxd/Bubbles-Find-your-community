@@ -171,14 +171,13 @@ class _Options_screenState extends State<Options_screen> {
                             ),
 
                     Container(
-                      margin: EdgeInsets.only( bottom: 7.h),
                       child:
                       Row(
                               children: [
                                 Container(
                                   width: w/2.9,
                                   height: h/13,
-                                  margin: EdgeInsets.only(left: w/14.5),
+                                  margin: EdgeInsets.only(left: w/12.5),
                                   child: Center(
                                     child: Text('Bubble Duration:', textAlign: TextAlign.left, style: TextStyle(
                                         color: Color.fromRGBO(234, 234, 234, 1),
@@ -441,7 +440,6 @@ class _Options_screenState extends State<Options_screen> {
                                         Container(
                                           width: w/1.2,
                                           height: h / 10,
-                                          margin: EdgeInsets.only(bottom: 7.h),
                                           child: TextFormField(
                                             keyboardAppearance:
                                             Brightness.dark,
@@ -580,7 +578,7 @@ class _Options_screenState extends State<Options_screen> {
                               },
                               child: Container(
                                   width: w / 2.4,
-                                 height: h / 14,
+                                 height: h / 17,
                                   margin: EdgeInsets.only(top: 20.h),
                                   decoration: BoxDecoration(
                                     borderRadius : BorderRadius.only(
