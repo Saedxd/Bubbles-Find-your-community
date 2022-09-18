@@ -218,6 +218,9 @@ class _SettingsState extends State<Settings> {
                               timer12!.cancel();
                             if (timer1212 != null)
                               timer1212!.cancel();
+                            //timer2112
+                            if (timer2112 != null)
+                              timer2112!.cancel();
                             socket!.clearListeners();
                             socket!.disconnect();
                             AllBubblesStatus = List.filled(100000,0);

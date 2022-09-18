@@ -7242,6 +7242,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     try {
       bool enabled = await Location.instance.serviceEnabled();
       if (enabled) {
+
         // print(dataBytes);
         // print(Avatar);
 
@@ -7260,6 +7261,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               }
             });
 
+      }else{
+        location!.requestService();
       }
     } on PlatformException catch (e) {
       if (e.code == 'PERMISSION_DENIED') {

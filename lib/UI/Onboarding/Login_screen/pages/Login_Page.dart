@@ -586,7 +586,7 @@ void Verify()async{
 
 
                                             Container(
-                                              width: w/1.3,
+                                              width: w/1.2,
                                               margin: EdgeInsets.only(top: 45.h),
                                               child: Text('   Be around,            Find your bubble!'
                                                  ,textAlign: TextAlign.center, style: TextStyle(
@@ -596,7 +596,7 @@ void Verify()async{
                                                       letterSpacing: 0.2,
                                                       fontStyle: FontStyle.italic,
                                                       fontWeight: FontWeight.w800,
-                                                      height: 1.1785714285714286
+                                                      height: 1.1785714285714286.h
                                                   ),
                                                 ),
                                             ),
