@@ -114,7 +114,7 @@ bool DidItOnce = false;
     WidgetsBinding.instance.addObserver(this);
     _TopBarBloc.add(GetFreinds());
 
-    timer2112 = Timer.periodic(Duration(seconds: 10), (Timer t)async{
+    timer2112 = Timer.periodic(Duration(seconds: 60), (Timer t)async{
       return
         _TopBarBloc.add(GetBadge());
     });
@@ -450,7 +450,7 @@ bool DidItOnce = false;
                                               ChangePAGEINDEX((b) =>  b
                                                 ..num = 1
                                               ));
-                                          _TopBarBloc.add(ClearBadge());
+
                                           state.Index2==true
                                               ? _TopBarBloc.add(ChangeIndex2())
                                               :null;
@@ -473,6 +473,7 @@ bool DidItOnce = false;
                                               duration: const Duration(milliseconds: 300),
                                               curve: Curves.easeInOut,
                                             );
+
 
                                           });
                                         },

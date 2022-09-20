@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 
 import '../../DirectChat/bloc/Sprints_Event.dart';
@@ -553,9 +554,8 @@ bool Diditonce = true;
                                          child: Text(widget.plan_title!,
                                            textAlign: TextAlign.left,
                                            overflow: TextOverflow.ellipsis,
-                                           style: TextStyle(
+                                           style : GoogleFonts.roboto().copyWith(
                                                color: Color(0xff303030),
-                                               fontFamily: 'Red Hat Display',
                                                fontSize: 22.sp,
                                                letterSpacing: 0.2,
                                                fontWeight: FontWeight.w600,

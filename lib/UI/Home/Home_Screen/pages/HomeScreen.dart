@@ -878,7 +878,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   LoopOnAllBUbbles(state);
                   if (widget.OpenPanel!)
                     PanelControllerr.open();
-                  timer = Timer.periodic(Duration(seconds: 30), (Timer t)async{
+                  if (timer!=null)
+                  timer!.cancel();
+                  timer = Timer.periodic(Duration(seconds: 60), (Timer t)async{
                     return
                       LoopOnAllBUbbles(state);
                   });
@@ -959,8 +961,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             isMapCreated = true;
                             // changeMapMode();
                           },
-                          myLocationEnabled: false,
+                          myLocationEnabled: true,
                           zoomGesturesEnabled: true,
+                          minMaxZoomPreference:
+                          const MinMaxZoomPreference(
+                              0.0,
+                              20.0),
+                          compassEnabled:
+                          false,
+                          buildingsEnabled:
+                          false,
                         ),
                             Container(
                                 child: IconButton(
@@ -1261,8 +1271,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                             height: 1.h
                                                         ),),
                                       ),
-
-
                                                   InkWell(
                                                       onTap: (){
 
@@ -1400,7 +1408,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                         )
                                                     ),
                                                   ),
-
                                                 ],
                                               ),
 
@@ -7233,7 +7240,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           CameraUpdate.newCameraPosition(
             CameraPosition(
                 target: LatLng(location.latitude!, location.longitude!),
-                zoom: 12.151926040649414),
+                zoom: 15.151926040649414),
           ));
 
     }
@@ -7250,10 +7257,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             _locationTracker.onLocationChanged.listen((newLocalData) {
               if (_googleMapController != null) {
                 // UserLocation = LatLng(newLocalData.latitude! ,newLocalData.longitude!);
-                _HomeBloc.add(UserMoved((b) => b
-                  ..lng = newLocalData.longitude!
-                  ..lat = newLocalData.latitude!
-                ));
+                // _HomeBloc.add(UserMoved((b) => b
+                //   ..lng = newLocalData.longitude!
+                //   ..lat = newLocalData.latitude!
+                // ));
 
 
                 User_lat = newLocalData.latitude!;

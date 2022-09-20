@@ -1010,7 +1010,7 @@ void Verify()async{
                                                                         1),
                                                                     fontFamily:
                                                                     'Roboto',
-                                                                    fontSize: 0.25.sp,
+                                                                    fontSize: 14.sp,
                                                                     letterSpacing:
                                                                     0 ,
                                                                     fontWeight:

@@ -27,7 +27,7 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
           ..success= false
           ..Getnotifcations=null
         );
-
+        final date2 = await _repository.ClearBadge();
         final date = await _repository.GetNotifications();
         print(date);
 
@@ -58,7 +58,7 @@ class NotificationsBloc extends Bloc<NotificationEvent, NotificationsState> {
     if (event is ClearBadge) {
       try {
 
-        final date = await _repository.ClearBadge();
+
 
       } catch (e) {
         print('get Error $e');

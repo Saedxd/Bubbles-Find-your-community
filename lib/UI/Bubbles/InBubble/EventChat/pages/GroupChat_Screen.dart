@@ -6576,6 +6576,10 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
     ColorScheme COLOR = Theme.of(context).colorScheme;
     var h = MediaQuery.of(context).size.height;
     var w = MediaQuery.of(context).size.width;
+
+    print("weidth: ${w/1.4}");
+    print("heidght: ${h/6}");
+
     return   Container(
       child: Column(
         children: [
@@ -6678,11 +6682,15 @@ _GroupChatBloc.add(ChangeMediaImageTaken((b) => b..status = true));
                                 Container(
                                   width: w/1.4,
                                   height: h/6,
+                                  alignment: Alignment.center,
                                   child:
                                   ClipRRect(
                                     borderRadius: BorderRadius.only(topRight:Radius.circular(10),topLeft:Radius.circular(10)),
                                     child:state.messages![index].Image_type=="File"
-                                        ?Image.file(Fileee!,fit: BoxFit.fill,)
+                                        ?Container(
+                                        width: w/1.4,
+                                        height: h/6,child :
+                                        Image.file(Fileee!,fit: BoxFit.fill,))
                                         :state.messages![index].Image_type.toString() =="backend"
                                         ? CachedNetworkImage(
                                       imageUrl:state.messages![index].MediaDumpImagePath!,

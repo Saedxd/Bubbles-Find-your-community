@@ -39,7 +39,7 @@ class _NotificationsState extends State<Notifications> {
     super.initState();
     FocuseNODE = FocusNode();
     _NotificationBloc.add(GetNotifications());
-    _NotificationBloc.add(ClearBadge());
+   // _NotificationBloc.add(ClearBadge());
     Diditonce2 = true;
     _removeBadge();
   }

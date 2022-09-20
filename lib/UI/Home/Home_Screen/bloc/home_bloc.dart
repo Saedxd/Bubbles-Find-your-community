@@ -199,53 +199,55 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
     }
 
+//
+//     if (event is UserMoved){
+//     final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
+// //
+// //
+// //
+// //
+// //
+// //       // await BitmapDescriptor.(ImageConfiguration(size: Size(12, 12)),
+// //       //     'Assets/images/Map-Marker-Free-Download-PNG.png').then((d) {
+// //       //   customIcon =BitmapDescriptor.fromBytes(d);
+// //       //
+// //       // });
+// //      // await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(2, 2)),
+// //      //      'Assets/images/DefaultAvatar.png').then((d) {
+// //      //   customIMAGE = d;
+// //      // });
+// //
+// //
+// //
+// //
+// // print("usermoved");
+//       yield state.rebuild((b) => b
+//         ..GetAllBubblesIsloading = true
+//         ..GetAllBubblesSuccess= false
+//       );
+//
+//      state.marker2!.add(Marker(
+//        draggable: false,
+//          markerId:  const MarkerId("UserLocationImage"),
+//          position:  LatLng(event.lat!,event.lng!),
+//          icon: BitmapDescriptor.fromBytes(markerIcon1),
+//          onTap: (){}
+//      ));
+//
+//
+//       yield state.rebuild((b) => b
+//         ..GetAllBubblesIsloading = false
+//         ..GetAllBubblesSuccess= true
+//           ..Userlng= event.lng
+//           ..Userlat = event.lat
+//       );
+//       // print("inside bloc file : ${state.Userlat}");
+//       // print("inside bloc file : ${state.Userlng}");
+//
+//
+//     }
 
-    if (event is UserMoved){
-    final   Uint8List   markerIcon1 = await getBytesFromAsset('Assets/images/Map-Marker-Free-Download-PNG.png', 100);
-//
-//
-//
-//
-//
-//       // await BitmapDescriptor.(ImageConfiguration(size: Size(12, 12)),
-//       //     'Assets/images/Map-Marker-Free-Download-PNG.png').then((d) {
-//       //   customIcon =BitmapDescriptor.fromBytes(d);
-//       //
-//       // });
-//      // await BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(2, 2)),
-//      //      'Assets/images/DefaultAvatar.png').then((d) {
-//      //   customIMAGE = d;
-//      // });
-//
-//
-//
-//
-// print("usermoved");
-      yield state.rebuild((b) => b
-        ..GetAllBubblesIsloading = true
-        ..GetAllBubblesSuccess= false
-      );
 
-     state.marker2!.add(Marker(
-       draggable: false,
-         markerId:  const MarkerId("UserLocationImage"),
-         position:  LatLng(event.lat!,event.lng!),
-         icon: BitmapDescriptor.fromBytes(markerIcon1),
-         onTap: (){}
-     ));
-
-
-      yield state.rebuild((b) => b
-        ..GetAllBubblesIsloading = false
-        ..GetAllBubblesSuccess= true
-          ..Userlng= event.lng
-          ..Userlat = event.lat
-      );
-      // print("inside bloc file : ${state.Userlat}");
-      // print("inside bloc file : ${state.Userlng}");
-
-
-    }
     if (event is OpenDoorTObeAbleTOsetBubble){
       yield state.rebuild((b) => b
         ..MakeHimBEableTOSEtBubble = event.MakeHimBEableTOSEtBubbles!
