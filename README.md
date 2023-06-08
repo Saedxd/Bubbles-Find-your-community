@@ -8,7 +8,7 @@ Bubbles 😁📱🎉 is an exciting new social media application that offers a w
 
 Model View ViewModel Architectural Pattern(MVVM) Bloc pattern State management Getit Dependency Injection
 
-    Contains 
+Technology Features  
 
    ✔ Social Auth,Profile,Add Friend Mechanisme(Bar Code)
    ✔ External Sdk(Gleap Sdk)
